@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; El dominio de la frecuencia – Señales y Sistemas</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./cap04.html" rel="next">
+<link href="./cap02.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d3f7f8e73c8d287b30bcf59c2b563615.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cap03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Señales y Sistemas</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Señales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap03.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#sec-deuda-integral" id="toc-sec-deuda-integral" class="nav-link active" data-scroll-target="#sec-deuda-integral"><span class="header-section-number">3.1</span> Una integral que se anula</a></li>
+  <li><a href="#sec-senales-vectores" id="toc-sec-senales-vectores" class="nav-link" data-scroll-target="#sec-senales-vectores"><span class="header-section-number">3.2</span> Señales como vectores</a>
+  <ul class="collapse">
+  <li><a href="#sec-sombra" id="toc-sec-sombra" class="nav-link" data-scroll-target="#sec-sombra"><span class="header-section-number">3.2.1</span> La proyección como sombra</a></li>
+  <li><a href="#sec-producto-interno" id="toc-sec-producto-interno" class="nav-link" data-scroll-target="#sec-producto-interno"><span class="header-section-number">3.2.2</span> El salto: las funciones son vectores</a></li>
+  <li><a href="#sec-mejor-aproximacion" id="toc-sec-mejor-aproximacion" class="nav-link" data-scroll-target="#sec-mejor-aproximacion"><span class="header-section-number">3.2.3</span> Proyección = la mejor aproximación posible</a></li>
+  <li><a href="#sec-bessel-parseval" id="toc-sec-bessel-parseval" class="nav-link" data-scroll-target="#sec-bessel-parseval"><span class="header-section-number">3.2.4</span> Bessel y Parseval: la energía se reparte</a></li>
+  </ul></li>
+  <li><a href="#sec-serie-fourier" id="toc-sec-serie-fourier" class="nav-link" data-scroll-target="#sec-serie-fourier"><span class="header-section-number">3.3</span> La serie de Fourier</a>
+  <ul class="collapse">
+  <li><a href="#sec-base-estrella" id="toc-sec-base-estrella" class="nav-link" data-scroll-target="#sec-base-estrella"><span class="header-section-number">3.3.1</span> La base estrella</a></li>
+  <li><a href="#sec-forma-trigonometrica" id="toc-sec-forma-trigonometrica" class="nav-link" data-scroll-target="#sec-forma-trigonometrica"><span class="header-section-number">3.3.2</span> Forma trigonométrica</a></li>
+  <li><a href="#sec-onda-cuadrada" id="toc-sec-onda-cuadrada" class="nav-link" data-scroll-target="#sec-onda-cuadrada"><span class="header-section-number">3.3.3</span> Ejemplo mayor: la onda cuadrada</a></li>
+  </ul></li>
+  <li><a href="#sec-espectro-cualitativo" id="toc-sec-espectro-cualitativo" class="nav-link" data-scroll-target="#sec-espectro-cualitativo"><span class="header-section-number">3.4</span> El espectro se lee sin integrar</a>
+  <ul class="collapse">
+  <li><a href="#sec-propiedades-serie" id="toc-sec-propiedades-serie" class="nav-link" data-scroll-target="#sec-propiedades-serie"><span class="header-section-number">3.4.1</span> Tres propiedades que ahorran integrales</a></li>
+  <li><a href="#sec-simetrias" id="toc-sec-simetrias" class="nav-link" data-scroll-target="#sec-simetrias"><span class="header-section-number">3.4.2</span> Simetrías: la promesa del capítulo 1, pagada</a></li>
+  <li><a href="#sec-decaimiento" id="toc-sec-decaimiento" class="nav-link" data-scroll-target="#sec-decaimiento"><span class="header-section-number">3.4.3</span> Suavidad y decaimiento: el espectro delata las esquinas</a></li>
+  <li><a href="#sec-gibbs" id="toc-sec-gibbs" class="nav-link" data-scroll-target="#sec-gibbs"><span class="header-section-number">3.4.4</span> Truncar la serie: el fenómeno de Gibbs</a></li>
+  </ul></li>
+  <li><a href="#sec-tf" id="toc-sec-tf" class="nav-link" data-scroll-target="#sec-tf"><span class="header-section-number">3.5</span> La transformada de Fourier</a>
+  <ul class="collapse">
+  <li><a href="#sec-serie-a-tf" id="toc-sec-serie-a-tf" class="nav-link" data-scroll-target="#sec-serie-a-tf"><span class="header-section-number">3.5.1</span> El período se va a infinito</a></li>
+  <li><a href="#sec-rect-sinc" id="toc-sec-rect-sinc" class="nav-link" data-scroll-target="#sec-rect-sinc"><span class="header-section-number">3.5.2</span> El par estrella: rect ↔︎ sinc</a></li>
+  <li><a href="#sec-pares-canonicos" id="toc-sec-pares-canonicos" class="nav-link" data-scroll-target="#sec-pares-canonicos"><span class="header-section-number">3.5.3</span> Los pares canónicos</a></li>
+  <li><a href="#sec-propiedades-tf" id="toc-sec-propiedades-tf" class="nav-link" data-scroll-target="#sec-propiedades-tf"><span class="header-section-number">3.5.4</span> Las propiedades: el oficio</a></li>
+  </ul></li>
+  <li><a href="#sec-lti-frecuencia" id="toc-sec-lti-frecuencia" class="nav-link" data-scroll-target="#sec-lti-frecuencia"><span class="header-section-number">3.6</span> Sistemas LTI en frecuencia</a>
+  <ul class="collapse">
+  <li><a href="#sec-funcion-propia" id="toc-sec-funcion-propia" class="nav-link" data-scroll-target="#sec-funcion-propia"><span class="header-section-number">3.6.1</span> La función propia: por qué Fourier y los LTI son almas gemelas</a></li>
+  <li><a href="#sec-filtros" id="toc-sec-filtros" class="nav-link" data-scroll-target="#sec-filtros"><span class="header-section-number">3.6.2</span> Filtros: moldear el espectro</a></li>
+  <li><a href="#sec-periodicas-lti" id="toc-sec-periodicas-lti" class="nav-link" data-scroll-target="#sec-periodicas-lti"><span class="header-section-number">3.6.3</span> Señales periódicas a través de un sistema</a></li>
+  </ul></li>
+  <li><a href="#sec-teaser-muestreo" id="toc-sec-teaser-muestreo" class="nav-link" data-scroll-target="#sec-teaser-muestreo"><span class="header-section-number">3.7</span> Cierre: ¿y si multiplicamos por un tren de impulsos?</a></li>
+  <li><a href="#sec-resumen-cap03" id="toc-sec-resumen-cap03" class="nav-link" data-scroll-target="#sec-resumen-cap03"><span class="header-section-number">3.8</span> En una página</a></li>
+  <li><a href="#sec-ejercicios-cap03" id="toc-sec-ejercicios-cap03" class="nav-link" data-scroll-target="#sec-ejercicios-cap03"><span class="header-section-number">3.9</span> Ejercicios</a></li>
+  <li><a href="#sec-referencias-cap03" id="toc-sec-referencias-cap03" class="nav-link" data-scroll-target="#sec-referencias-cap03"><span class="header-section-number">3.10</span> Para profundizar</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-cap03" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U3.1–U3.5]
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al terminar este capítulo podrás: <strong>explicar</strong> la serie de Fourier como una proyección ortogonal — producto interno, mejor aproximación, Bessel y Parseval [U3.1]; <strong>calcular</strong> coeficientes de señales estándar en forma exponencial y trigonométrica, y transformadas por definición y por propiedades [U3.2, U3.4]; <strong>leer</strong> un espectro cualitativamente: simetrías, decaimiento según suavidad, Gibbs [U3.3]; <strong>manejar</strong> los pares canónicos y las propiedades de la transformada, en especial convolución ↔︎ multiplicación [U3.4]; y <strong>analizar</strong> sistemas LTI en frecuencia: <span class="math inline">H(\omega)</span>, filtrado, respuesta a señales periódicas [U3.5].</p>
+<p><strong>Prerrequisitos</strong>: las señales del capítulo 1 (en particular la exponencial compleja de la <a href="cap01.html#sec-exp-compleja" class="quarto-xref"><span>Sección 1.4.1</span></a> y el impulso de la <a href="cap01.html#sec-impulso" class="quarto-xref"><span>Sección 1.5</span></a>) y la convolución del capítulo 2. Este capítulo cobra varias promesas plantadas allá.</p>
+</div>
+</div>
+<section id="sec-deuda-integral" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-deuda-integral"><span class="header-section-number">3.1</span> Una integral que se anula</h2>
+<p>En el capítulo 1, al demostrar que la energía se reparte entre las partes par e impar de una señal (<a href="cap01.html#sec-par-impar" class="quarto-xref"><span>Sección 1.2.4</span></a>), apareció un hecho aparentemente menor: <span class="math display">\int_{-\infty}^{\infty} \underbrace{P(t)}_{\text{par}}\,\underbrace{I(t)}_{\text{impar}}\,dt = 0</span> — la integral de par por impar se anula, y por eso los términos cruzados desaparecen. Dijimos entonces que esa integral “pagaría el sueldo” más adelante. Este es el capítulo donde paga: esa integral nula significa algo <strong>geométrico</strong> — la parte par y la parte impar de una señal son <em>perpendiculares</em> — y esa geometría, tomada en serio, produce la herramienta más importante de la ingeniería eléctrica: el análisis de Fourier.</p>
+<p>Y una segunda pregunta para dejar picando, esta vez musical. Una flauta y un violín tocan el mismo La₄ (440 Hz): misma nota, misma altura — y nadie en la sala los confunde. La diferencia se llama <strong>timbre</strong>, y por ahora es una palabra de músicos. Al final de la <a href="#sec-serie-fourier" class="quarto-xref"><span>Sección 3.3</span></a> será una fórmula.</p>
+</section>
+<section id="sec-senales-vectores" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-senales-vectores"><span class="header-section-number">3.2</span> Señales como vectores</h2>
+<section id="sec-sombra" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="sec-sombra"><span class="header-section-number">3.2.1</span> La proyección como sombra</h3>
+<p>Volvamos al lugar donde “perpendicular” es obvio: las flechas. Un vector <span class="math inline">\mathbf{v}</span> y una dirección <span class="math inline">\mathbf{b}</span>. Si iluminamos perpendicular a <span class="math inline">\mathbf{b}</span>, la sombra de <span class="math inline">\mathbf{v}</span> sobre la línea de <span class="math inline">\mathbf{b}</span> es su <strong>proyección</strong>: la componente de <span class="math inline">\mathbf{v}</span> “en la dirección de” <span class="math inline">\mathbf{b}</span>. La herramienta que la calcula es el producto punto, <span class="math display">\mathbf{v}\cdot\mathbf{b} = \|\mathbf{v}\|\,\|\mathbf{b}\|\cos\theta = v_x b_x + v_y b_y,</span> cuyas dos formas son la misma (la ley de los cosenos las conecta — ejercicio de dos líneas si quieres verificarlo). La lectura importante: <span class="math inline">\cos\theta</span> es un <strong>medidor de parecido</strong>. Máximo si los vectores apuntan igual, cero si son perpendiculares. Con él, la fórmula de la sombra: <span class="math display">\operatorname{proy}_{\mathbf{b}}(\mathbf{v}) = \left(\frac{\mathbf{v}\cdot\mathbf{b}}{\|\mathbf{b}\|^2}\right)\mathbf{b}</span></p>
+</section>
+<section id="sec-producto-interno" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="sec-producto-interno"><span class="header-section-number">3.2.2</span> El salto: las funciones son vectores</h3>
+<p>Las funciones se suman y se multiplican por escalar igual que las flechas — cumplen los mismos axiomas, así que <em>son</em> vectores de un espacio vectorial. Solo les falta un producto punto. En <span class="math inline">\mathbb{R}^n</span> era “multiplicar componente a componente y sumar”; el análogo continuo de la suma es la <strong>integral</strong>:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: producto interno de señales
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para señales <span class="math inline">f, g</span> en un intervalo <span class="math inline">[T_1, T_2]</span>: <span class="math display">\langle f, g\rangle = \int_{T_1}^{T_2} f(t)\,g^*(t)\,dt</span> (el conjugado hace que funcione también con señales complejas). Dos señales son <strong>ortogonales</strong> si <span class="math inline">\langle f, g\rangle = 0</span>.</p>
+</div>
+</div>
+<p>Dos consecuencias inmediatas, y las dos importan:</p>
+<ul>
+<li><strong>Norma al cuadrado = energía</strong>: <span class="math inline">\|f\|^2 = \langle f, f\rangle = \int |f(t)|^2\,dt</span> — ¡la energía del capítulo 1! La geometría y la física acaban de darse la mano.</li>
+<li>La integral que abrió el capítulo dice ahora, con todas sus letras: <strong>toda señal par es ortogonal a toda señal impar</strong>.</li>
+</ul>
+<p>Verificación de un caso famoso, en dos líneas: <span class="math display">\langle \sin t, \cos t\rangle = \int_{-\pi}^{\pi} \sin t \cos t \,dt = \frac{1}{2}\int_{-\pi}^{\pi}\sin(2t)\,dt = 0</span> Senos y cosenos son ortogonales — otra vez par por impar. Menos obvio y más importante: <span class="math inline">\cos t</span> y <span class="math inline">\cos 2t</span> <em>también</em> son ortogonales en <span class="math inline">[-\pi,\pi]</span>, y ahí la paridad no ayuda — hay que integrar (producto a suma: <span class="math inline">\cos t\cos 2t = \tfrac12[\cos t + \cos 3t]</span>, y ambas integran cero en el período). Esa segunda ortogonalidad, la de armónicos distintos entre sí, es la que hará funcionar todo lo que sigue.</p>
+</section>
+<section id="sec-mejor-aproximacion" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="sec-mejor-aproximacion"><span class="header-section-number">3.2.3</span> Proyección = la mejor aproximación posible</h3>
+<p>Supón que quieres aproximar <span class="math inline">\mathbf{v} = (3, 4)</span> usando solo múltiplos del eje <span class="math inline">x</span>: <span class="math inline">\tilde{\mathbf{v}} = (c, 0)</span>. ¿Qué <span class="math inline">c</span> minimiza el error <span class="math inline">\|\mathbf{v}-\tilde{\mathbf{v}}\|</span>? La respuesta es <span class="math inline">c = 3</span> — la proyección — y la <em>firma</em> de esa respuesta es que el error resultante <span class="math inline">(0,4)</span> queda <strong>perpendicular</strong> al eje: cualquier otro <span class="math inline">c</span> agrega error a lo largo del eje sin quitar nada. Ese es el patrón general:</p>
+<p><strong>Teorema de la mejor aproximación.</strong> La proyección ortogonal de <span class="math inline">x</span> sobre un subespacio <span class="math inline">W</span> es el elemento de <span class="math inline">W</span> más cercano a <span class="math inline">x</span> (mínima norma del error), y se reconoce porque el error queda ortogonal a todo <span class="math inline">W</span>. Si <span class="math inline">W</span> tiene una base <strong>ortonormal</strong> <span class="math inline">\{\phi_1,\dots,\phi_N\}</span> — ejes perpendiculares de largo 1, <span class="math inline">\langle\phi_k,\phi_\ell\rangle = \delta_{k\ell}</span> —, la proyección es una suma de sombras independientes: <span class="math display">P_W\,x = \sum_{k=1}^{N} \underbrace{\langle x, \phi_k\rangle}_{\text{cuánto de } x \text{ hay en } \phi_k}\,\phi_k</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto: el prototipo de todo el capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Proyecta <span class="math inline">\mathbf{v}=(3,4,5)</span> sobre el plano <span class="math inline">xy</span>, con base ortonormal <span class="math inline">\{\hat{e}_x, \hat{e}_y\}</span>.</p>
+<p><strong>Solución.</strong> <span class="math display">P_W\mathbf{v} = \langle\mathbf{v},\hat{e}_x\rangle\,\hat{e}_x + \langle\mathbf{v},\hat{e}_y\rangle\,\hat{e}_y = 3\,\hat{e}_x + 4\,\hat{e}_y = (3,4,0)</span> El error es <span class="math inline">\mathbf{e} = (0,0,5)</span>, perpendicular al plano ✓, y <span class="math inline">\|\mathbf{e}\| = 5</span> es la distancia de <span class="math inline">\mathbf{v}</span> al plano: nadie en <span class="math inline">W</span> le gana a <span class="math inline">(3,4,0)</span>.</p>
+<p>La traducción a señales — léela despacio, es la frase del capítulo: aproximar una señal <span class="math inline">x(t)</span> con una suma de funciones base <span class="math inline">\phi_k(t)</span> es <em>exactamente esto</em>. Los coeficientes <span class="math inline">\langle x,\phi_k\rangle</span> son sombras; la aproximación es la proyección; y es la mejor posible en el sentido de mínima energía del error. En la sección siguiente las <span class="math inline">\phi_k</span> serán sinusoides — y los coeficientes se llamarán <em>de Fourier</em>.</p>
+</div>
+</div>
+</section>
+<section id="sec-bessel-parseval" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="sec-bessel-parseval"><span class="header-section-number">3.2.4</span> Bessel y Parseval: la energía se reparte</h3>
+<p>Como los ejes ortonormales no compiten entre sí (Pitágoras generalizado), la energía de la proyección es la suma de las energías por eje:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Bessel y Parseval
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para cualquier conjunto ortonormal <span class="math inline">\{\phi_k\}</span> (<strong>desigualdad de Bessel</strong>): las sombras nunca acumulan más energía que la señal, <span class="math display">\sum_k |\langle x,\phi_k\rangle|^2 \le \|x\|^2.</span> Si además la base es <strong>completa</strong> — nada no-nulo queda perpendicular a todos los ejes — la desigualdad se vuelve <strong>igualdad de Parseval</strong>: <span class="math display">\sum_k |\langle x,\phi_k\rangle|^2 = \|x\|^2.</span> La representación no pierde ni inventa energía.</p>
+</div>
+</div>
+<p>Y una relectura sorpresa: la identidad <span class="math inline">E_x = E_{x_p} + E_{x_i}</span> del capítulo 1 (<a href="cap01.html#sec-par-impar" class="quarto-xref"><span>Sección 1.2.4</span></a>) <em>es</em> Parseval, con la “base” de dos subespacios ortogonales {señales pares, señales impares}. La demostraste en la primera semana del curso sin saber que era un teorema de geometría infinito-dimensional [DB E0022 entonces; DB E0166 lo generaliza].</p>
+<p><strong>Honestidad matemática</strong> (treinta segundos y seguimos): la completitud de las bases que usaremos no la demostraremos — es un teorema serio de análisis. La usaremos con la conciencia tranquila de que es cierta.</p>
+</section>
+</section>
+<section id="sec-serie-fourier" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-serie-fourier"><span class="header-section-number">3.3</span> La serie de Fourier</h2>
+<section id="sec-base-estrella" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="sec-base-estrella"><span class="header-section-number">3.3.1</span> La base estrella</h3>
+<p>Sea <span class="math inline">x(t)</span> periódica de período <span class="math inline">T_0</span>, con frecuencia fundamental <span class="math inline">\omega_0 = 2\pi/T_0</span>. Los “ejes” que propuso Fourier: <strong>todos los armónicos de la fundamental</strong>, en versión fasor (<a href="cap01.html#sec-exp-compleja" class="quarto-xref"><span>Sección 1.4.1</span></a>), <span class="math display">\phi_n(t) = e^{jn\omega_0 t}, \qquad n \in \mathbb{Z},</span> con el producto interno de un período, normalizado: <span class="math inline">\langle f,g\rangle = \frac{1}{T_0}\int_{T_0} f(t)\,g^*(t)\,dt</span>. Son <strong>ortonormales</strong> — esta es la integral del capítulo, vale la pena mirarla dos veces: <span class="math display">\langle \phi_n, \phi_m\rangle = \frac{1}{T_0}\int_{T_0} e^{j(n-m)\omega_0 t}\,dt = \begin{cases} 1 &amp; n = m\\ 0 &amp; n \neq m\end{cases}</span> El caso <span class="math inline">n\neq m</span> es cero porque el integrando es un fasor que da <span class="math inline">|n-m|</span> vueltas <em>completas</em> al círculo en un período: su promedio es el centro, cero. Es la ortogonalidad de senos y cosenos de la <a href="#sec-producto-interno" class="quarto-xref"><span>Sección 3.2.2</span></a>, empaquetada en una sola familia compleja. Y la base es completa (lo aceptamos sin demostrar): proyectar sobre ella no pierde nada. Aplicando <em>literalmente</em> la fórmula de proyección con infinitos ejes:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>La serie de Fourier
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Síntesis</strong> (reconstruir la señal sumando sus componentes): <span class="math display">x(t) = \sum_{n=-\infty}^{\infty} c_n\, e^{jn\omega_0 t}</span> <strong>Análisis</strong> (cada coeficiente es una sombra: <span class="math inline">c_n = \langle x, \phi_n\rangle</span>): <span class="math display">c_n = \frac{1}{T_0}\int_{T_0} x(t)\, e^{-jn\omega_0 t}\,dt</span> El intervalo <span class="math inline">\int_{T_0}</span> es cualquier período completo — <span class="math inline">[0,T_0]</span> o <span class="math inline">[-T_0/2, T_0/2]</span>, el que convenga.</p>
+</div>
+</div>
+<p>No hay receta mágica: <span class="math inline">c_n</span> es la <strong>proyección de <span class="math inline">x</span> sobre el armónico <span class="math inline">n</span></strong> — cuánto de <span class="math inline">x</span> “apunta en la dirección” del fasor que gira a <span class="math inline">n\omega_0</span> rad/s. Todo lo que sabes de proyecciones (mejor aproximación, error ortogonal, Parseval) aplica automáticamente.</p>
+</section>
+<section id="sec-forma-trigonometrica" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="sec-forma-trigonometrica"><span class="header-section-number">3.3.2</span> Forma trigonométrica</h3>
+<p>Para señales <strong>reales</strong> los coeficientes vienen en pares conjugados, <span class="math inline">c_{-n} = c_n^*</span> (conjuga la fórmula de análisis para verificarlo [DB E0080]). Agrupando cada par <span class="math inline">\pm n</span> con Euler, <span class="math inline">c_n e^{jn\omega_0 t} + c_n^* e^{-jn\omega_0 t} = 2\,\Re\{c_n e^{jn\omega_0 t}\}</span>, la serie se reescribe con senos y cosenos: <span class="math display">x(t) = a_0 + \sum_{n=1}^{\infty}\big(a_n \cos(n\omega_0 t) + b_n\sin(n\omega_0 t)\big)</span> <span class="math display">a_0 = \frac{1}{T_0}\int_{T_0} x(t)\,dt \qquad a_n = \frac{2}{T_0}\int_{T_0} x(t)\cos(n\omega_0 t)\,dt \qquad b_n = \frac{2}{T_0}\int_{T_0} x(t)\sin(n\omega_0 t)\,dt</span></p>
+<p>El <strong>diccionario</strong> entre formas se usa todo el semestre: <span class="math inline">a_0 = c_0</span>, <span class="math inline">\;a_n = 2\,\Re\{c_n\}</span>, <span class="math inline">\;b_n = -2\,\Im\{c_n\}</span>. Nota que <span class="math inline">a_0</span> es simplemente el <strong>promedio</strong> de la señal (su nivel DC). La exponencial es más compacta para demostrar; la trigonométrica es más física para señales reales; conviene moverse entre ambas con soltura.</p>
+<p>Aquí se cobra otra promesa del capítulo 1: toda sinusoide real son <strong>dos fasores contrarrotantes</strong>, <span class="math inline">\cos(\omega_0 t) = \tfrac12 e^{j\omega_0 t} + \tfrac12 e^{-j\omega_0 t}</span>. En el lenguaje de hoy eso se lee directo: los coeficientes de <span class="math inline">\cos(\omega_0 t)</span> son <span class="math inline">c_{\pm 1} = \tfrac12</span> y nada más — <strong>dos líneas</strong> en el espectro, una en <span class="math inline">\omega_0</span> y otra en <span class="math inline">-\omega_0</span>. Las frecuencias negativas no son misticismo: son el fasor que gira al revés, el que hace falta para que la suma sea real.</p>
+<p>Ese mismo razonamiento es el atajo que más puntos da en la I2 — <strong>coeficientes por inspección</strong>: si la señal <em>ya es</em> una suma de sinusoides, no se integra nada. <span class="math inline">x(t) = 1 + \cos(2\pi t)</span> tiene <span class="math inline">c_0 = 1</span>, <span class="math inline">c_{\pm 1} = \tfrac12</span>, y se acabó el problema [DB E0075 entrena esto].</p>
+</section>
+<section id="sec-onda-cuadrada" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="sec-onda-cuadrada"><span class="header-section-number">3.3.3</span> Ejemplo mayor: la onda cuadrada</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I2): coeficientes de la onda cuadrada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">x(t)</span> la onda cuadrada impar de período <span class="math inline">T_0</span>: <span class="math inline">+1</span> en <span class="math inline">0&lt;t&lt;T_0/2</span>, <span class="math inline">-1</span> en <span class="math inline">-T_0/2&lt;t&lt;0</span>. Encuentra sus coeficientes y su forma trigonométrica.</p>
+<p><strong>Solución.</strong> El promedio es nulo: <span class="math inline">c_0 = 0</span>. Para <span class="math inline">n \neq 0</span>: <span class="math display">c_n = \frac{1}{T_0}\left[\int_{-T_0/2}^{0}(-1)e^{-jn\omega_0 t}\,dt + \int_{0}^{T_0/2}(+1)e^{-jn\omega_0 t}\,dt\right]</span> Integrando cada tramo y usando <span class="math inline">\omega_0 T_0 = 2\pi</span> y <span class="math inline">e^{\pm jn\pi} = (-1)^n</span>: <span class="math display">c_n = \frac{1}{jn\omega_0 T_0}\Big[2 - \big(e^{jn\pi} + e^{-jn\pi}\big)\Big] = \frac{2 - 2(-1)^n}{j2\pi n} = \frac{1-(-1)^n}{j\pi n} = \begin{cases} \dfrac{2}{j\pi n} &amp; n \text{ impar}\\[4pt] 0 &amp; n \text{ par} \end{cases}</span> Los <span class="math inline">c_n</span> son imaginarios puros (señal impar — la regla general viene en la <a href="#sec-simetrias" class="quarto-xref"><span>Sección 3.4.2</span></a>), así que <span class="math inline">a_n = 0</span> y <span class="math inline">b_n = -2\,\Im\{c_n\} = \dfrac{4}{\pi n}</span> para <span class="math inline">n</span> impar: <span class="math display">x(t) = \frac{4}{\pi}\left(\sin(\omega_0 t) + \frac{\sin(3\omega_0 t)}{3} + \frac{\sin(5\omega_0 t)}{5} + \cdots\right)</span> Chequeo de cordura: solo senos (impar ✓), solo armónicos impares, amplitudes decayendo como <span class="math inline">1/n</span>.</p>
+</div>
+</div>
+<p>Mira la reconstrucción en acción — la suma parcial con <span class="math inline">N</span> términos es la <em>proyección</em> de la cuadrada sobre los primeros <span class="math inline">N</span> armónicos, es decir, la mejor aproximación posible con ese presupuesto:</p>
+<div id="c968badf" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap03_files/figure-html/cell-2-output-1.png" width="804" height="430" class="figure-img"></p>
+<figcaption>Aproximaciones sucesivas de la onda cuadrada: la suma parcial con N armónicos es la proyección ortogonal sobre ellos — la mejor aproximación posible con N términos. Nota que la ‘oreja’ junto al salto no cede al aumentar N.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Y Parseval paga de inmediato.</strong> La potencia de la cuadrada es <span class="math inline">1</span> (vale <span class="math inline">\pm 1</span> en todas partes). La que carga el par fundamental <span class="math inline">n=\pm1</span> es <span class="math inline">2\left|\frac{2}{j\pi}\right|^2 = \frac{8}{\pi^2} \approx 0.81</span>: <strong>el 81 % de la potencia de una onda cuadrada vive en su fundamental</strong>. Por eso una cuadrada “se oye” como una nota con esa altura.</p>
+<p>Lo que responde por fin la pregunta de la flauta y el violín. Ambos tocan La₄: misma <span class="math inline">\omega_0</span>, por eso son la misma <em>nota</em>. Pero sus espectros reparten la energía distinto: la flauta concentra casi todo en los primeros armónicos (sonido “puro”, redondo); el violín reparte energía hasta armónicos altos (sonido “brillante” — la cuerda frotada tiene esquinas, como la cuadrada). <strong>El timbre es el módulo de los coeficientes de Fourier</strong>: la altura es <span class="math inline">\omega_0</span>; el color del sonido es cómo decae <span class="math inline">|c_n|</span>.</p>
+</section>
+</section>
+<section id="sec-espectro-cualitativo" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-espectro-cualitativo"><span class="header-section-number">3.4</span> El espectro se lee sin integrar</h2>
+<p>La fórmula de análisis funciona siempre — pero integrar cada vez es de peón. Esta sección es el oficio: propiedades y reglas de lectura que entregan la estructura del espectro <em>antes</em> de calcular nada. Notación: <span class="math inline">x(t) \leftrightarrow c_n</span>.</p>
+<section id="sec-propiedades-serie" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="sec-propiedades-serie"><span class="header-section-number">3.4.1</span> Tres propiedades que ahorran integrales</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Propiedad</th>
+<th>Fórmula</th>
+<th>Lectura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Linealidad</strong></td>
+<td><span class="math inline">A\,x + B\,y \leftrightarrow A\,c_n + B\,d_n</span></td>
+<td>espectros conocidos se combinan; sumar DC solo cambia <span class="math inline">c_0</span></td>
+</tr>
+<tr class="even">
+<td><strong>Desplazamiento</strong></td>
+<td><span class="math inline">x(t-t_0) \leftrightarrow c_n\,e^{-jn\omega_0 t_0}</span></td>
+<td><span class="math inline">\lvert c_n \rvert</span> <strong>no cambia</strong>; solo se agrega fase lineal en <span class="math inline">n</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Derivación</strong></td>
+<td><span class="math inline">x'(t) \leftrightarrow (jn\omega_0)\,c_n</span></td>
+<td>derivar amplifica agudos (pasa-altos); integrar los atenúa</td>
+</tr>
+</tbody>
+</table>
+<p>Las tres demostraciones son de una línea (linealidad de la integral; cambio de variable; derivar la síntesis término a término) — hazlas una vez y quédatelas. La segunda tiene una lectura musical que conviene guardar: retrasar una canción no le cambia el timbre. El oído es, en primera aproximación, sordo a la fase y sensible a <span class="math inline">|c_n|</span>.</p>
+</section>
+<section id="sec-simetrias" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="sec-simetrias"><span class="header-section-number">3.4.2</span> Simetrías: la promesa del capítulo 1, pagada</h3>
+<p>En el capítulo 1 dijimos que clasificar simetrías hoy era “leer espectros gratis mañana”. Es hoy. La tabla completa — y las tres filas salen del mismo argumento par×impar que abrió el capítulo:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Si <span class="math inline">x(t)</span> real es…</th>
+<th>entonces…</th>
+<th>la serie tiene…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>par</strong> (<span class="math inline">x(-t)=x(t)</span>)</td>
+<td><span class="math inline">c_n</span> reales</td>
+<td>solo cosenos (<span class="math inline">b_n = 0</span>)</td>
+</tr>
+<tr class="even">
+<td><strong>impar</strong> (<span class="math inline">x(-t)=-x(t)</span>)</td>
+<td><span class="math inline">c_n</span> imaginarios puros</td>
+<td>solo senos (<span class="math inline">a_n = 0</span>, incluso <span class="math inline">a_0=0</span>)</td>
+</tr>
+<tr class="odd">
+<td><strong>simétrica de media onda</strong> (<span class="math inline">x(t-\tfrac{T_0}{2}) = -x(t)</span>)</td>
+<td><span class="math inline">c_n = 0</span> para <span class="math inline">n</span> par</td>
+<td>solo <strong>armónicos impares</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Las dos primeras: en <span class="math inline">c_n = \frac{1}{T_0}\int x(t)\,[\cos(n\omega_0 t) - j\sin(n\omega_0 t)]\,dt</span>, si <span class="math inline">x</span> es par la parte con <span class="math inline">\sin</span> multiplica par×impar e integra cero (queda solo lo real); si es impar, al revés. La tercera se demuestra con la propiedad de desplazamiento — una propiedad demostrando otra, así se trabaja en esta unidad: si <span class="math inline">y(t) = x(t-\tfrac{T_0}{2})</span>, entonces <span class="math inline">d_n = c_n e^{-jn\pi} = (-1)^n c_n</span>; imponer <span class="math inline">y = -x</span> da <span class="math inline">(-1)^n c_n = -c_n</span>, que obliga <span class="math inline">c_n = 0</span> para <span class="math inline">n</span> par. La onda cuadrada es impar <em>y</em> de media onda: solo senos, solo impares — exactamente lo que calculamos.</p>
+<p>En las interrogaciones esta tabla también se usa al revés: de “la señal solo tiene armónicos impares y es par” a <em>dibujar</em> la forma de onda. Dominar ambas direcciones es calibre I2 exacto [DB E0076].</p>
+</section>
+<section id="sec-decaimiento" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="sec-decaimiento"><span class="header-section-number">3.4.3</span> Suavidad y decaimiento: el espectro delata las esquinas</h3>
+<p>Compara dos señales y sus espectros:</p>
+<ul>
+<li><strong>Onda cuadrada</strong> (discontinua — tiene <em>saltos</em>): <span class="math inline">|c_n| = \frac{2}{\pi n}</span> en los impares — decae como <span class="math inline">1/n</span>.</li>
+<li><strong>Onda triangular</strong> par de amplitud <span class="math inline">\pm 1</span> (continua, pero con <em>puntas</em>: derivada discontinua): <span class="math inline">c_n = \frac{4}{\pi^2 n^2}</span> en los impares — decae como <span class="math inline">1/n^2</span>.</li>
+</ul>
+<div id="e4433ba3" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap03_files/figure-html/cell-3-output-1.png" width="806" height="258" class="figure-img"></p>
+<figcaption>Espectros de línea: |c_n| de la onda cuadrada (decae como 1/n: tiene saltos) y de la triangular (decae como 1/n²: continua, con puntas). Mirar cómo decae el espectro es mirar cuán suave es la señal.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>No es coincidencia, y la propiedad de derivación lo explica: la derivada de la triangular <strong>es</strong> una cuadrada (pendientes constantes <span class="math inline">\pm</span>). Si <span class="math inline">c_n^{\text{tri}} \sim 1/n^2</span>, entonces <span class="math inline">(jn\omega_0)\,c_n^{\text{tri}} \sim 1/n</span> — el espectro de una cuadrada, como corresponde. Cada derivada que la señal “aguanta” antes de romperse compra un factor <span class="math inline">1/n</span> extra:</p>
+<p><strong>Regla del decaimiento</strong>: saltos ⇒ <span class="math inline">1/n</span>; continua con puntas ⇒ <span class="math inline">1/n^2</span>; derivada continua ⇒ <span class="math inline">1/n^3</span>; … cuanto más <strong>suave</strong> la señal, más rápido muere su espectro. El espectro es un detector de esquinas: reproducir esquinas afiladas <em>exige</em> armónicos altos, y un sistema que corta agudos redondea las esquinas (semilla directa de la <a href="#sec-lti-frecuencia" class="quarto-xref"><span>Sección 3.6</span></a>).</p>
+</section>
+<section id="sec-gibbs" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="sec-gibbs"><span class="header-section-number">3.4.4</span> Truncar la serie: el fenómeno de Gibbs</h3>
+<p>En la práctica nadie suma infinitos armónicos: se <strong>trunca</strong> la serie en <span class="math inline">N</span> términos. Ya viste en la figura de la cuadrada que junto al salto asoma una “oreja”. La pregunta natural — ¿desaparece al subir <span class="math inline">N</span>? — tiene una respuesta sorprendente: <strong>no</strong>.</p>
+<div id="4182ad05" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap03_files/figure-html/cell-4-output-1.png" width="804" height="278" class="figure-img"></p>
+<figcaption>Fenómeno de Gibbs: al subir N, el sobrepaso junto al salto se angosta pero NO baja — se estabiliza en ≈ 9 % del salto. A la derecha, zoom sobre la discontinuidad.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La explicación honesta en un minuto: la serie truncada converge <strong>en energía</strong> (la norma del error tiende a cero — eso garantiza Parseval), pero no uniformemente en el salto. En la discontinuidad misma converge al punto medio, y al lado sobrevive un sobrepaso de ≈ 9 % del salto que solo se <em>angosta</em>. Es el <strong>fenómeno de Gibbs</strong>, y no es una curiosidad: todo sistema real trunca espectro, así que todo sistema real “ringea” junto a los bordes — lo reencontrarás como <em>ringing</em> de filtros en este mismo capítulo y en el diseño de filtros de la unidad 6.</p>
+</section>
+</section>
+<section id="sec-tf" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-tf"><span class="header-section-number">3.5</span> La transformada de Fourier</h2>
+<section id="sec-serie-a-tf" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="sec-serie-a-tf"><span class="header-section-number">3.5.1</span> El período se va a infinito</h3>
+<p>La serie exige señales periódicas. Pero una palmada, una palabra, una nota que no se repite… no lo son. ¿Perdemos Fourier? No: lo estiramos.</p>
+<p>Toma un pulso <span class="math inline">\operatorname{rect}(t/\tau)</span> y repítelo cada <span class="math inline">T_0</span>. Sus coeficientes salen por cálculo directo (dos líneas, o recicla [DB E0077]): <span class="math display">c_n = \frac{\tau}{T_0}\,\operatorname{sinc}\!\left(\frac{n\tau}{T_0}\right)</span> — y aquí reaparece la <span class="math inline">\operatorname{sinc}</span> presentada en el capítulo 1, de la que dijimos “por ahora, solo recuerda su cara”. Ahora aleja las repeticiones: <span class="math inline">T_0 \uparrow</span> con <span class="math inline">\tau</span> fijo. Dos cosas pasan a la vez:</p>
+<ul>
+<li>Las líneas del espectro (separadas <span class="math inline">\omega_0 = 2\pi/T_0</span>) se <strong>densifican</strong>: el espectro de línea tiende a un continuo.</li>
+<li>Todos los <span class="math inline">c_n</span> se achican como <span class="math inline">1/T_0</span>… pero el producto <span class="math inline">T_0\,c_n</span> se mantiene: es una <strong>envolvente</strong> fija que las líneas van muestreando cada vez más fino.</li>
+</ul>
+<p>Esa envolvente sobreviviente merece nombre propio. Con <span class="math inline">\omega = n\omega_0</span> ahora variable continua:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>La transformada de Fourier
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Análisis</strong> (proyectar sobre un continuo de fasores): <span class="math display">X(\omega) = \int_{-\infty}^{\infty} x(t)\,e^{-j\omega t}\,dt</span> <strong>Síntesis</strong> (la suma de armónicos se vuelve integral — ojo con el <span class="math inline">\frac{1}{2\pi}</span>): <span class="math display">x(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} X(\omega)\,e^{j\omega t}\,d\omega</span> Notación de pares: <span class="math inline">x(t) \leftrightarrow X(\omega)</span>, con <span class="math inline">\omega</span> en rad/s.</p>
+</div>
+</div>
+<p>Misma película que la serie: analizar es proyectar sobre <span class="math inline">e^{j\omega t}</span>, sintetizar es sumar fasores — solo que ahora se necesitan <em>todas</em> las frecuencias, no solo los armónicos. Y queda gratis el puente que usaremos siempre: <span class="math display">c_n = \frac{1}{T_0}\,X(n\omega_0), \qquad X = \text{TF de un período}.</span></p>
+<p><span class="math inline">X(\omega)</span> es complejo y se lee en dos gráficos: <span class="math inline">|X(\omega)|</span> dice <strong>cuánto</strong> hay de cada frecuencia (la “receta” de la señal — el timbre, ahora continuo); <span class="math inline">\angle X(\omega)</span> dice cómo están alineados los fasores entre sí. Y aquí se cobra la última promesa pendiente del capítulo 1: si <span class="math inline">x(t)</span> es real, su transformada es <strong>Hermitiana</strong>, <span class="math inline">X(-\omega) = X^*(\omega)</span> — magnitud par, fase impar (conjuga la definición para demostrarlo [DB E0093]). Por eso los espectros de señales reales se dibujan a veces solo para <span class="math inline">\omega \ge 0</span>: la otra mitad es espejo.</p>
+</section>
+<section id="sec-rect-sinc" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="sec-rect-sinc"><span class="header-section-number">3.5.2</span> El par estrella: rect ↔︎ sinc</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I2): la transformada del pulso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Calcula la TF de <span class="math inline">\operatorname{rect}(t/\tau)</span>. Este par hay que saber <em>derivarlo</em>, no solo citarlo.</p>
+<p><strong>Solución.</strong> <span class="math display">X(\omega) = \int_{-\tau/2}^{\tau/2} e^{-j\omega t}\,dt
+= \left[\frac{e^{-j\omega t}}{-j\omega}\right]_{-\tau/2}^{\tau/2}
+= \frac{e^{j\omega\tau/2} - e^{-j\omega\tau/2}}{j\omega}
+= \frac{2\sin(\omega\tau/2)}{\omega}</span> Multiplicando y dividiendo por <span class="math inline">\tau/2</span> para reconocer la sinc normalizada: <span class="math display">\operatorname{rect}\!\left(\frac{t}{\tau}\right) \;\longleftrightarrow\; \tau\,\operatorname{sinc}\!\left(\frac{\omega\tau}{2\pi}\right)</span> Los tres chequeos de rigor (hábito que vale puntos en toda interrogación): (i) <span class="math inline">X(0) = \tau</span> = área del pulso ✓; (ii) primer cero en <span class="math inline">\omega = 2\pi/\tau</span> ✓; (iii) <span class="math inline">X</span> real y par, como corresponde a una señal real y par ✓.</p>
+</div>
+</div>
+<div id="98f9f56e" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap03_files/figure-html/cell-5-output-1.png" width="806" height="257" class="figure-img"></p>
+<figcaption>El par rect ↔︎ sinc para dos anchos de pulso. El pulso angosto (naranjo) tiene el primer cero de su espectro más lejos: tiempo corto ⇔ banda ancha.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La lectura que importa: los ceros están en <span class="math inline">\omega = 2\pi k/\tau</span>. Si <span class="math inline">\tau</span> baja, el primer cero se aleja: <strong>pulso angosto ⇒ espectro ancho</strong>. Es la primera aparición de una ley que gobierna todo el curso (y la mecánica cuántica, dicho al pasar): no se puede ser breve en el tiempo y angosto en frecuencia a la vez.</p>
+</section>
+<section id="sec-pares-canonicos" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="sec-pares-canonicos"><span class="header-section-number">3.5.3</span> Los pares canónicos</h3>
+<p><strong>Exponencial causal</strong> (<span class="math inline">a&gt;0</span>; el ladrillo de los circuitos): <span class="math display">e^{-at}u(t) \;\longleftrightarrow\; \int_0^{\infty} e^{-(a+j\omega)t}\,dt = \frac{1}{a + j\omega}, \qquad |X(\omega)| = \frac{1}{\sqrt{a^2+\omega^2}}</span></p>
+<p><strong>Impulso</strong> (por la propiedad de muestreo de la <a href="cap01.html#sec-sifting" class="quarto-xref"><span>Sección 1.5.2</span></a> — una línea): <span class="math display">\delta(t) \;\longleftrightarrow\; 1</span> El impulso contiene <strong>todas las frecuencias por igual</strong>: lo más breve posible es lo más ancho posible. Por eso una palmada sirve para “sonar” una sala entera — excita todas sus frecuencias de una vez.</p>
+<p><strong>Constante y fasor</strong> (leyendo la síntesis al revés; honestidad de 30 segundos: aquí las transformadas son distribuciones, y la teoría lo respalda): <span class="math display">1 \;\longleftrightarrow\; 2\pi\,\delta(\omega) \qquad\qquad e^{j\omega_0 t} \;\longleftrightarrow\; 2\pi\,\delta(\omega - \omega_0)</span> Una señal eterna de una sola frecuencia es una <strong>línea</strong> infinitamente concentrada: el caso extremo opuesto al impulso.</p>
+<p><strong>Coseno</strong> (Euler + linealidad, sin integrar — los dos fasores contrarrotantes, ahora en dibujo): <span class="math display">\cos(\omega_0 t) \;\longleftrightarrow\; \pi\big[\delta(\omega-\omega_0) + \delta(\omega+\omega_0)\big]</span></p>
+<p><strong>Gaussiana</strong> (la aristócrata de la tabla — el cálculo completa el cuadrado; vale la pena hacerlo una vez): <span class="math display">e^{-t^2/2} \;\longleftrightarrow\; \sqrt{2\pi}\,e^{-\omega^2/2}</span> La única señal que conserva su forma al transformarse: perfectamente suave, decae más rápido que cualquier <span class="math inline">1/\omega^k</span> — el caso límite de la regla del decaimiento.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">x(t)</span></th>
+<th><span class="math inline">X(\omega)</span></th>
+<th>comentario</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\operatorname{rect}(t/\tau)</span></td>
+<td><span class="math inline">\tau\operatorname{sinc}\!\big(\tfrac{\omega\tau}{2\pi}\big)</span></td>
+<td>ceros en <span class="math inline">2\pi k/\tau</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\operatorname{sinc}(t)</span></td>
+<td><span class="math inline">\operatorname{rect}\!\big(\tfrac{\omega}{2\pi}\big)</span></td>
+<td>por dualidad (ver abajo)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">e^{-at}u(t)</span>, <span class="math inline">a&gt;0</span></td>
+<td><span class="math inline">\dfrac{1}{a+j\omega}</span></td>
+<td>pasa-bajos; cae como <span class="math inline">1/\omega</span> (salto en <span class="math inline">t=0</span>)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\delta(t)</span></td>
+<td><span class="math inline">1</span></td>
+<td>todas las frecuencias</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">1</span></td>
+<td><span class="math inline">2\pi\delta(\omega)</span></td>
+<td>pura DC</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">e^{j\omega_0 t}</span></td>
+<td><span class="math inline">2\pi\delta(\omega-\omega_0)</span></td>
+<td>una línea</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\cos(\omega_0 t)</span></td>
+<td><span class="math inline">\pi[\delta(\omega-\omega_0)+\delta(\omega+\omega_0)]</span></td>
+<td>dos líneas, <span class="math inline">\pm\omega_0</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">e^{-t^2/2}</span></td>
+<td><span class="math inline">\sqrt{2\pi}\,e^{-\omega^2/2}</span></td>
+<td>conserva su forma</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sec-propiedades-tf" class="level3" data-number="3.5.4">
+<h3 data-number="3.5.4" class="anchored" data-anchor-id="sec-propiedades-tf"><span class="header-section-number">3.5.4</span> Las propiedades: el oficio</h3>
+<p><strong>Desplazamiento</strong> (cambio de variable, una línea): <span class="math inline">x(t-t_0) \leftrightarrow e^{-j\omega t_0}\,X(\omega)</span>. Igual que en series: la magnitud no cambia, se agrega fase lineal.</p>
+<p><strong>Dualidad.</strong> Análisis y síntesis son casi la misma integral — solo cambian el signo del exponente y el <span class="math inline">2\pi</span>. Consecuencia: si <span class="math inline">x(t) \leftrightarrow X(\omega)</span>, entonces <span class="math inline">X(t) \leftrightarrow 2\pi\,x(-\omega)</span>. Uso estrella: del par rect ↔︎ sinc sale <strong>gratis</strong> que una sinc en el tiempo tiene espectro rectangular, <span class="math inline">\operatorname{sinc}(t) \leftrightarrow \operatorname{rect}(\omega/2\pi)</span> — y de paso, <span class="math inline">\int \operatorname{sinc}(t)\,dt = X(0) = 1</span>, una integral que a mano es un dolor [DB E0091]. Esto convierte a la sinc en <em>el</em> filtro pasa-bajos ideal, como verás en la <a href="#sec-lti-frecuencia" class="quarto-xref"><span>Sección 3.6</span></a>.</p>
+<p><strong>Escalamiento</strong> (cambio de variable cuidando el signo — de ahí el módulo): <span class="math display">x(at) \;\longleftrightarrow\; \frac{1}{|a|}\,X\!\left(\frac{\omega}{a}\right)</span> Es la ley recíproca del rect ↔︎ sinc, ahora como teorema general: <strong>tiempo corto ↔︎ banda ancha</strong>. Una voz reproducida al doble de velocidad es <span class="math inline">x(2t)</span>: su espectro se <em>estira</em> al doble — todo sube una octava, multiplicativo, no aditivo (por eso la “voz de ardilla” suena aguda <em>y</em> con el timbre corrido). Y en comunicaciones: mandar bits más cortos cuesta más ancho de banda — no hay almuerzo gratis, es esta propiedad.</p>
+<p><strong>LA propiedad: convolución ↔︎ multiplicación.</strong> En el capítulo 2 aprendiste que la salida de un LTI es <span class="math inline">y = x * h</span> — y que calcular esa integral es trabajo. El premio de todo este capítulo: <span class="math display">\boxed{\;y(t) = (x*h)(t) \;\longleftrightarrow\; Y(\omega) = X(\omega)\,H(\omega)\;}</span> La demostración es corta y es la más importante del semestre: <span class="math display">Y(\omega) = \int\!\!\left[\int x(\tau)h(t-\tau)\,d\tau\right]\!e^{-j\omega t}\,dt
+= \int x(\tau)\underbrace{\left[\int h(t-\tau)\,e^{-j\omega t}\,dt\right]}_{=\;e^{-j\omega\tau}H(\omega)\ \text{(desplazamiento)}}d\tau = X(\omega)\,H(\omega) \;\;\blacksquare</span></p>
+<p>Vuelve a escuchar el audio con que abrió este Reader — la voz dentro de la iglesia:</p>
+<audio controls="" src="assets/audio/voz_en_iglesia.mp3">
+</audio>
+<p>Esa reverberación se fabricó convolucionando la voz seca con la respuesta al impulso de la iglesia: una integral pesada por cada instante. Pero en frecuencia es solo esto: <strong>la convolución con la iglesia es una multiplicación en frecuencia</strong>. La iglesia multiplica el espectro de la voz por su <span class="math inline">H(\omega)</span>: refuerza las frecuencias donde resuena, apaga las que absorbe. Esta frase ordena la unidad 3 y media unidad 4 — merece tu hoja resumen.</p>
+<p>Y el espejo (misma técnica de demostración): <span class="math inline">x(t)\,y(t) \leftrightarrow \frac{1}{2\pi}(X * Y)(\omega)</span>. Multiplicar en el tiempo convoluciona los espectros. Guárdala: hace funcionar lo que sigue y el final del capítulo.</p>
+<p><strong>Modulación</strong> (el desplazamiento, pero en frecuencia): <span class="math display">x(t)\,e^{j\omega_0 t} \;\longleftrightarrow\; X(\omega - \omega_0)
+\qquad\Rightarrow\qquad
+x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X(\omega+\omega_0)\big]</span> Multiplicar por un coseno <strong>traslada el espectro</strong> a <span class="math inline">\pm\omega_0</span>. Esto <em>es</em> la radio AM en una línea: tu voz (banda base, 0–4 kHz) multiplicada por una portadora se muda a vivir alrededor de la frecuencia de tu emisora; cada emisora, su <span class="math inline">\omega_0</span>; el receptor la trae de vuelta multiplicando otra vez [DB E0096 arma el sistema completo].</p>
+<p><strong>Parseval</strong> (la energía no depende del dominio en que se mire): <span class="math display">\int_{-\infty}^{\infty} |x(t)|^2\,dt = \frac{1}{2\pi}\int_{-\infty}^{\infty} |X(\omega)|^2\,d\omega</span> Uso práctico: la integral difícil se hace en el dominio fácil. Ejemplo relámpago: <span class="math inline">\int \operatorname{sinc}^2(t)\,dt = \frac{1}{2\pi}\int \big|\!\operatorname{rect}(\tfrac{\omega}{2\pi})\big|^2 d\omega = 1</span>. (Inténtalo por residuos si quieres sufrir.) A <span class="math inline">|X(\omega)|^2</span> se le llama <strong>densidad espectral de energía</strong>: dónde vive la energía de la señal.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I2): la transformada del triángulo, sin integrar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Calcula la TF de <span class="math inline">\operatorname{tri}(t)</span> (triángulo de soporte <span class="math inline">[-1,1]</span>, altura 1).</p>
+<p><strong>Solución.</strong> Por definición: integración por partes, por tramos, quince minutos de riesgo. Con propiedades: el triángulo es la convolución de dos pulsos — <span class="math inline">\operatorname{rect} * \operatorname{rect} = \operatorname{tri}</span>, como viste gráficamente en el capítulo 2. Entonces, con convolución ↔︎ multiplicación: <span class="math display">\operatorname{tri}(t) = (\operatorname{rect} * \operatorname{rect})(t) \;\longleftrightarrow\; \Big[\operatorname{sinc}\!\big(\tfrac{\omega}{2\pi}\big)\Big]^2 = \operatorname{sinc}^2\!\left(\frac{\omega}{2\pi}\right)</span> Chequeos: <span class="math inline">X(0) = 1</span> = área del triángulo ✓; real y no negativa, como corresponde a señal real y par ✓; decae como <span class="math inline">1/\omega^2</span> — el triángulo es continuo con puntas, la regla del decaimiento otra vez ✓ (el rect, con saltos, caía como <span class="math inline">1/\omega</span>).</p>
+<p>Moraleja: <strong>la definición es el último recurso; las propiedades son el oficio.</strong> En la I2, el tiempo se gana aquí. [DB E0100]</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-lti-frecuencia" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="sec-lti-frecuencia"><span class="header-section-number">3.6</span> Sistemas LTI en frecuencia</h2>
+<section id="sec-funcion-propia" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="sec-funcion-propia"><span class="header-section-number">3.6.1</span> La función propia: por qué Fourier y los LTI son almas gemelas</h3>
+<p>¿Por qué elegimos <em>sinusoides</em> como base y no otra familia? Porque los sistemas LTI las tratan como a nadie más. Mete <span class="math inline">x(t) = e^{j\omega t}</span> a un LTI con respuesta al impulso <span class="math inline">h(t)</span>: <span class="math display">y(t) = \int_{-\infty}^{\infty} h(\tau)\,e^{j\omega(t-\tau)}\,d\tau = e^{j\omega t}\underbrace{\int_{-\infty}^{\infty} h(\tau)\,e^{-j\omega\tau}\,d\tau}_{\text{¡no depende de } t\text{!}}
+\qquad\Longrightarrow\qquad y(t) = H(\omega)\,e^{j\omega t}</span> con <span class="math inline">H(\omega) = \mathcal{F}\{h(t)\}</span>. La exponencial <strong>sale igual a como entró</strong>, solo multiplicada por un número complejo: es una <strong>función propia</strong> del sistema, y <span class="math inline">H(\omega)</span> — la <strong>respuesta en frecuencia</strong> — es su valor propio. Un LTI no puede crear frecuencias nuevas: solo <em>escala y desfasa</em> las que le llegan. (Por eso la iglesia no cambia la nota que cantas — solo su color y su cola.)</p>
+<p>Para señales reales, si entra <span class="math inline">\cos(\omega_0 t)</span> sale <span class="math display">y(t) = |H(\omega_0)|\cos\big(\omega_0 t + \angle H(\omega_0)\big)</span> — la misma sinusoide, con la amplitud y fase que dicta <span class="math inline">H</span> en esa frecuencia. Y como toda señal es suma (integral) de exponenciales — eso <em>es</em> Fourier —, la linealidad remata: <span class="math inline">Y(\omega) = X(\omega)H(\omega)</span>, la propiedad estrella vista desde el otro lado. Tres caras de lo mismo: <span class="math inline">h(t)</span> y convolución (capítulo 2); <span class="math inline">H(\omega)</span> y multiplicación (este capítulo).</p>
+</section>
+<section id="sec-filtros" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="sec-filtros"><span class="header-section-number">3.6.2</span> Filtros: moldear el espectro</h3>
+<p><strong>Filtrar = multiplicar el espectro por la <span class="math inline">H(\omega)</span> que convenga.</strong> El ejemplo de carne y hueso: el circuito RC con salida en el condensador, <span class="math inline">RC\,\dot{v}_c + v_c = v_{in}</span>. La propiedad de derivación (<span class="math inline">\dot{x} \leftrightarrow j\omega X</span>) convierte la EDO en álgebra: <span class="math display">(1 + j\omega RC)\,V_c(\omega) = V_{in}(\omega) \qquad\Longrightarrow\qquad H(\omega) = \frac{1}{1 + j\omega RC}</span> <span class="math display">|H(\omega)| = \frac{1}{\sqrt{1+(\omega RC)^2}}: \quad \text{deja pasar } \omega \ll \tfrac{1}{RC},\ \text{atenúa } \omega \gg \tfrac{1}{RC}</span> Un <strong>pasa-bajos</strong>: con dos componentes ya estás <em>diseñando</em> qué frecuencias viven y cuáles mueren. (Y nota el gesto: la EDO se volvió álgebra. Ese gesto es media unidad 4.)</p>
+<div id="4a4c60a8" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap03_files/figure-html/cell-6-output-1.png" width="662" height="259" class="figure-img"></p>
+<figcaption>Respuesta en frecuencia del filtro RC (pasa-bajos real) y del pasa-bajos ideal con el mismo corte. El ideal corta en seco; el RC negocia una transición gradual — y a cambio existe.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>¿Y el <strong>filtro ideal</strong>, <span class="math inline">H(\omega) = \operatorname{rect}(\omega/2\omega_c)</span> — pasa todo hasta <span class="math inline">\omega_c</span>, mata todo lo demás, sin zona gris? Su respuesta al impulso sale por dualidad: una sinc, <span class="math inline">h(t) = \tfrac{\omega_c}{\pi}\operatorname{sinc}(\tfrac{\omega_c t}{\pi})</span>. Y aquí la honestidad ingenieril: esa sinc se extiende hasta <span class="math inline">t = -\infty</span> — el filtro ideal <strong>responde antes de que lo golpeen</strong>. No es causal, no es construible. Los filtros reales (como el RC) son versiones diplomáticas: transición gradual, algo de rizado — y el <em>ringing</em> de la sinc truncada es primo directo del Gibbs de la <a href="#sec-gibbs" class="quarto-xref"><span>Sección 3.4.4</span></a>. En la unidad 6 aprenderemos a diseñarlos de verdad.</p>
+</section>
+<section id="sec-periodicas-lti" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="sec-periodicas-lti"><span class="header-section-number">3.6.3</span> Señales periódicas a través de un sistema</h3>
+<p>Si la entrada es periódica, su espectro son líneas (<span class="math inline">c_n</span> en <span class="math inline">n\omega_0</span>), y el sistema multiplica <strong>línea por línea</strong>: <span class="math display">x(t) = \sum_n c_n e^{jn\omega_0 t} \qquad\Longrightarrow\qquad y(t) = \sum_n \underbrace{c_n\,H(n\omega_0)}_{d_n}\,e^{jn\omega_0 t}</span> La salida sigue siendo periódica con el mismo período; solo cambió la receta de armónicos.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto: esculpir una sinusoide desde una cuadrada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La onda cuadrada de la <a href="#sec-onda-cuadrada" class="quarto-xref"><span>Sección 3.3.3</span></a> (<span class="math inline">b_n = \frac{4}{\pi n}</span>, solo impares) entra a un pasa-bajos ideal que solo deja pasar <span class="math inline">|\omega| &lt; 2\omega_0</span>. ¿Qué sale?</p>
+<p><strong>Solución.</strong> Entre <span class="math inline">0</span> y <span class="math inline">2\omega_0</span> solo vive el armónico <span class="math inline">n=1</span>; todos los demás (<span class="math inline">3\omega_0, 5\omega_0, \dots</span>) mueren. Sale <span class="math display">y(t) = \frac{4}{\pi}\sin(\omega_0 t)</span> — una sinusoide <em>pura</em>, esculpida desde una cuadrada. Si el corte fuera <span class="math inline">6\omega_0</span>, saldría la cuadrada “redondeada” con <span class="math inline">N=5</span> de la figura de la <a href="#sec-onda-cuadrada" class="quarto-xref"><span>Sección 3.3.3</span></a>: <strong>truncar la serie es filtrar</strong>. Y la iglesia del audio hace lo mismo con cualquier sonido: su <span class="math inline">H(\omega)</span> privilegia graves y apaga agudos, y con la regla del decaimiento ya sabes exactamente qué significa eso — la iglesia <em>redondea las esquinas</em> de todo lo que entra.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-teaser-muestreo" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="sec-teaser-muestreo"><span class="header-section-number">3.7</span> Cierre: ¿y si multiplicamos por un tren de impulsos?</h2>
+<p>Una última jugada, para dejar el final abierto. En el capítulo 1 definimos el tren de impulsos <span class="math inline">\delta_T(t)</span> (<a href="cap01.html#sec-tren-impulsos" class="quarto-xref"><span>Sección 1.5.5</span></a>) y pedimos guardar una frase: <em>“muestrear una señal es multiplicarla por un tren de impulsos”</em>. Recién ahora tenemos las herramientas para preguntar qué le hace eso al <strong>espectro</strong>: <span class="math display">x_s(t) = x(t)\cdot\delta_T(t) = \sum_n x(nT)\,\delta(t-nT)</span> — de la señal solo sobreviven sus <em>muestras</em> cada <span class="math inline">T</span> segundos. Multiplicar en el tiempo ⇒ convolucionar los espectros (la propiedad espejo). Y la TF de un tren de impulsos es… ¡otro tren de impulsos!, espaciado <span class="math inline">\omega_s = 2\pi/T</span> (la demostración queda debiéndose para el capítulo 5). Convolucionar con un tren de impulsos <strong>copia y pega</strong>: <span class="math display">X_s(\omega) = \frac{1}{T}\sum_{k=-\infty}^{\infty} X(\omega - k\omega_s)</span></p>
+<div id="4c66c6b5" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap03_files/figure-html/cell-7-output-1.png" width="806" height="354" class="figure-img"></p>
+<figcaption>El espectro de una señal muestreada: réplicas del espectro original cada ω_s. Arriba: muestreo rápido, réplicas separadas — un pasa-bajos rescataría la copia central intacta. Abajo: muestreo lento, las réplicas se tocan… y ahí empieza otra historia (capítulo 5).</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Mira el dibujo de arriba y hazte las preguntas que quedan picando: si las réplicas quedan bien separadas, ¿podríamos recuperar <span class="math inline">x(t)</span> <em>completa</em> desde sus puras muestras — con una herramienta que ya tienes, el pasa-bajos ideal? ¿Y qué se rompe exactamente cuando muestreamos más lento y las réplicas se tocan (dibujo de abajo)? La respuesta precisa — cuándo sí, cuándo no, y el desastre audible del caso “no” — es el <strong>teorema del muestreo</strong>, la joya del capítulo 5. Este dibujo, espectro replicado y réplicas que se acercan, es el puente entre todo lo continuo que hemos hecho y todo lo digital que viene. Guárdalo.</p>
+</section>
+<section id="sec-resumen-cap03" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="sec-resumen-cap03"><span class="header-section-number">3.8</span> En una página</h2>
+<ul>
+<li>Las señales son vectores: <span class="math inline">\langle f,g\rangle = \int f g^*\,dt</span>, norma² = energía, ortogonal = producto interno cero (par ⊥ impar: la integral que se anula).</li>
+<li>Proyección sobre base ortonormal = mejor aproximación; el error queda ortogonal. Bessel: las sombras no superan la energía; Parseval (base completa): la igualan.</li>
+<li>Serie de Fourier = proyección sobre <span class="math inline">\{e^{jn\omega_0 t}\}</span>: síntesis <span class="math inline">x = \sum c_n e^{jn\omega_0 t}</span>, análisis <span class="math inline">c_n = \frac{1}{T_0}\int_{T_0} x\,e^{-jn\omega_0 t}dt</span>. Diccionario: <span class="math inline">a_0 = c_0</span>, <span class="math inline">a_n = 2\Re\{c_n\}</span>, <span class="math inline">b_n = -2\Im\{c_n\}</span>; reales ⇒ <span class="math inline">c_{-n} = c_n^*</span>.</li>
+<li>Cuadrada impar: <span class="math inline">c_n = \frac{2}{j\pi n}</span> (<span class="math inline">n</span> impar), <span class="math inline">b_n = \frac{4}{\pi n}</span>; 81 % de la potencia en la fundamental. El timbre es <span class="math inline">|c_n|</span>.</li>
+<li>Leer sin integrar: par ⇒ solo cosenos; impar ⇒ solo senos; media onda ⇒ solo armónicos impares. Saltos ⇒ <span class="math inline">1/n</span>; puntas ⇒ <span class="math inline">1/n^2</span>; más suavidad, más rápido decae. Gibbs: el sobrepaso (≈ 9 %) se angosta pero no baja.</li>
+<li>TF: <span class="math inline">X(\omega) = \int x e^{-j\omega t}dt</span>, <span class="math inline">x = \frac{1}{2\pi}\int X e^{j\omega t}d\omega</span>; puente <span class="math inline">c_n = X(n\omega_0)/T_0</span>. Real ⇒ Hermitiana (<span class="math inline">|X|</span> par, fase impar).</li>
+<li>Pares: rect ↔︎ <span class="math inline">\tau\,</span>sinc (ceros en <span class="math inline">2\pi k/\tau</span>); sinc ↔︎ rect (dualidad); <span class="math inline">e^{-at}u \leftrightarrow \frac{1}{a+j\omega}</span>; <span class="math inline">\delta \leftrightarrow 1</span>; <span class="math inline">1 \leftrightarrow 2\pi\delta</span>; coseno ↔︎ dos líneas; gaussiana ↔︎ gaussiana.</li>
+<li>Propiedades: desplazamiento (fase lineal), escalamiento (tiempo corto ↔︎ banda ancha), dualidad, <strong>convolución ↔︎ multiplicación</strong>, modulación (AM), Parseval.</li>
+<li>LTI en frecuencia: <span class="math inline">e^{j\omega t}</span> es función propia, <span class="math inline">y = H(\omega)e^{j\omega t}</span>; ante coseno: <span class="math inline">|H|</span> escala, <span class="math inline">\angle H</span> desfasa; periódicas: <span class="math inline">d_n = c_n H(n\omega_0)</span>; filtro ideal = sinc no causal.</li>
+<li>Muestrear = multiplicar por <span class="math inline">\delta_T</span> ⇒ espectro replicado cada <span class="math inline">\omega_s = 2\pi/T</span> — continuará (capítulo 5).</li>
+</ul>
+</section>
+<section id="sec-ejercicios-cap03" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="sec-ejercicios-cap03"><span class="header-section-number">3.9</span> Ejercicios</h2>
+<p>Del banco del curso, en orden sugerido (los códigos [DB E0xxx] identifican el ejercicio; aparecen repartidos en las Listas 5–7 de las semanas 5–7):</p>
+<ol type="1">
+<li><strong>[DB E0166]</strong> (intermedio) Demostrar Parseval para la serie de Fourier — la proyección paga energía exacta. <em>[U3.1]</em></li>
+<li><strong>[DB E0072]</strong> (básico) Potencia media de una señal periódica, por tiempo y por coeficientes. <em>[U3.1, U3.2]</em></li>
+<li><strong>[DB E0075]</strong> (intermedio) Coeficientes por inspección: la señal ya es suma de sinusoides. <em>[U3.2]</em></li>
+<li><strong>[DB E0077]</strong> (intermedio) Serie del pulso rectangular periódico — el mismo cálculo que después se vuelve la TF. <em>[U3.2]</em></li>
+<li><strong>[DB E0082]</strong> (básico) Serie de la señal triangular: integrar por partes una vez, o derivar y reciclar la cuadrada. <em>[U3.2]</em></li>
+<li><strong>[DB E0080]</strong> (intermedio) Demostración: <span class="math inline">c_{-n} = c_n^*</span> para señales reales. <em>[U3.3]</em></li>
+<li><strong>[DB E0076]</strong> (básico) De la simetría de la señal a la estructura de sus coeficientes, sin integrar. <em>[U3.3]</em></li>
+<li><strong>[DB E0091]</strong> (básico) La integral de la sinc en una línea — dualidad en acción. <em>[U3.4]</em></li>
+<li><strong>[DB E0093]</strong> (intermedio) Simetrías de la TF: demostrar la relación Hermitiana y sus consecuencias. <em>[U3.4]</em></li>
+<li><strong>[DB E0100]</strong> (intermedio) TF de la señal triangular — rect ∗ rect y LA propiedad. <em>[U3.4]</em></li>
+<li><strong>[DB E0096]</strong> (intermedio) Transmisión y recepción AM de una sinc: modulación de ida y vuelta. <em>[U3.4, U3.5]</em></li>
+<li><strong>[DB E0103]</strong> (intermedio) Circuito RC analizado con TF: de la EDO a <span class="math inline">H(\omega)</span> y a la salida. <em>[U3.5]</em></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Antes de seguir
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si puedes calcular la serie de la onda cuadrada de corrido (ejercicio de la <a href="#sec-onda-cuadrada" class="quarto-xref"><span>Sección 3.3.3</span></a>), obtener la TF del triángulo <em>sin integrar</em> y predecir qué sale de un pasa-bajos alimentado con una periódica, estás listo para la I2 — y para el capítulo 4, donde la frecuencia se volverá <em>compleja</em> y la espiral <span class="math inline">e^{st}</span> del capítulo 1 tendrá por fin su plano propio. Si no, este es el momento de volver.</p>
+</div>
+</div>
+</section>
+<section id="sec-referencias-cap03" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="sec-referencias-cap03"><span class="header-section-number">3.10</span> Para profundizar</h2>
+<ul>
+<li><strong>[Alvarado]</strong> §3.1 (ortogonalidad y espacios de funciones — la fuente del enfoque de este capítulo), §3.2 (series generalizadas y de Fourier, con las propiedades demostradas), §3.3 (transformada de Fourier, ejemplos y propiedades). Ojo con la notación: Alvarado escribe <span class="math inline">X(j\omega)</span> donde nosotros escribimos <span class="math inline">X(\omega)</span> — misma función, otro nombre del argumento.</li>
+<li><strong>[Oppenheim]</strong> §3.2–3.5 (series: funciones propias, convergencia, propiedades), §3.4 (Gibbs), §4.0–4.6 (TF completa: pares, propiedades, convolución, modulación, tablas 4.1–4.2), §6.1–6.3 (filtrado ideal y no ideal).</li>
+<li>En varios textos y pruebas antiguas verás la TF en hertz: <span class="math inline">X(f)</span> con núcleo <span class="math inline">e^{-j2\pi ft}</span> y sin el <span class="math inline">\frac{1}{2\pi}</span> en la inversa (el par estrella queda <span class="math inline">\operatorname{rect}(t) \leftrightarrow \operatorname{sinc}(f)</span>, limpio). Es un cambio de variable <span class="math inline">\omega = 2\pi f</span>: sabe traducir; en este curso escribimos <span class="math inline">X(\omega)</span>.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./cap02.html" class="pagination-link" aria-label="Sistemas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./cap04.html" class="pagination-link" aria-label="La transformada de Laplace">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

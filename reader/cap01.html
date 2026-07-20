@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Señales – Señales y Sistemas</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./cap02.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d3f7f8e73c8d287b30bcf59c2b563615.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cap01.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Señales</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Señales y Sistemas</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap01.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Señales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#sec-voz-iglesia" id="toc-sec-voz-iglesia" class="nav-link active" data-scroll-target="#sec-voz-iglesia"><span class="header-section-number">1.1</span> Una voz entra a una iglesia</a></li>
+  <li><a href="#sec-clasificacion" id="toc-sec-clasificacion" class="nav-link" data-scroll-target="#sec-clasificacion"><span class="header-section-number">1.2</span> Clasificación de señales</a>
+  <ul class="collapse">
+  <li><a href="#sec-ct-dt" id="toc-sec-ct-dt" class="nav-link" data-scroll-target="#sec-ct-dt"><span class="header-section-number">1.2.1</span> Continuas y discretas</a></li>
+  <li><a href="#sec-periodicidad" id="toc-sec-periodicidad" class="nav-link" data-scroll-target="#sec-periodicidad"><span class="header-section-number">1.2.2</span> Señales periódicas</a></li>
+  <li><a href="#sec-energia-potencia" id="toc-sec-energia-potencia" class="nav-link" data-scroll-target="#sec-energia-potencia"><span class="header-section-number">1.2.3</span> Señales de energía y señales de potencia</a></li>
+  <li><a href="#sec-par-impar" id="toc-sec-par-impar" class="nav-link" data-scroll-target="#sec-par-impar"><span class="header-section-number">1.2.4</span> Simetrías: par e impar</a></li>
+  </ul></li>
+  <li><a href="#sec-transformaciones" id="toc-sec-transformaciones" class="nav-link" data-scroll-target="#sec-transformaciones"><span class="header-section-number">1.3</span> Transformaciones de la variable independiente</a>
+  <ul class="collapse">
+  <li><a href="#sec-orden-transformaciones" id="toc-sec-orden-transformaciones" class="nav-link" data-scroll-target="#sec-orden-transformaciones"><span class="header-section-number">1.3.1</span> La forma combinada <span class="math inline">x(at - b)</span>: el error clásico de la U1</a></li>
+  <li><a href="#sec-por-tramos" id="toc-sec-por-tramos" class="nav-link" data-scroll-target="#sec-por-tramos"><span class="header-section-number">1.3.2</span> Construcción de señales por tramos</a></li>
+  </ul></li>
+  <li><a href="#sec-elementales" id="toc-sec-elementales" class="nav-link" data-scroll-target="#sec-elementales"><span class="header-section-number">1.4</span> El vocabulario: señales elementales</a>
+  <ul class="collapse">
+  <li><a href="#sec-exp-compleja" id="toc-sec-exp-compleja" class="nav-link" data-scroll-target="#sec-exp-compleja"><span class="header-section-number">1.4.1</span> La exponencial compleja: el fasor como señal</a></li>
+  </ul></li>
+  <li><a href="#sec-impulso" id="toc-sec-impulso" class="nav-link" data-scroll-target="#sec-impulso"><span class="header-section-number">1.5</span> El impulso de Dirac</a>
+  <ul class="collapse">
+  <li><a href="#sec-construccion-delta" id="toc-sec-construccion-delta" class="nav-link" data-scroll-target="#sec-construccion-delta"><span class="header-section-number">1.5.1</span> Construcción: el límite de pulsos</a></li>
+  <li><a href="#sec-sifting" id="toc-sec-sifting" class="nav-link" data-scroll-target="#sec-sifting"><span class="header-section-number">1.5.2</span> Lo que δ hace: la propiedad de muestreo</a></li>
+  <li><a href="#sec-propiedades-delta" id="toc-sec-propiedades-delta" class="nav-link" data-scroll-target="#sec-propiedades-delta"><span class="header-section-number">1.5.3</span> Propiedades</a></li>
+  <li><a href="#sec-impulso-real" id="toc-sec-impulso-real" class="nav-link" data-scroll-target="#sec-impulso-real"><span class="header-section-number">1.5.4</span> El impulso en el mundo real</a></li>
+  <li><a href="#sec-tren-impulsos" id="toc-sec-tren-impulsos" class="nav-link" data-scroll-target="#sec-tren-impulsos"><span class="header-section-number">1.5.5</span> El tren de impulsos</a></li>
+  <li><a href="#sec-impulso-discreto" id="toc-sec-impulso-discreto" class="nav-link" data-scroll-target="#sec-impulso-discreto"><span class="header-section-number">1.5.6</span> El impulso discreto: sin drama</a></li>
+  </ul></li>
+  <li><a href="#sec-resumen-cap01" id="toc-sec-resumen-cap01" class="nav-link" data-scroll-target="#sec-resumen-cap01"><span class="header-section-number">1.6</span> En una página</a></li>
+  <li><a href="#sec-ejercicios-cap01" id="toc-sec-ejercicios-cap01" class="nav-link" data-scroll-target="#sec-ejercicios-cap01"><span class="header-section-number">1.7</span> Ejercicios</a></li>
+  <li><a href="#sec-referencias-cap01" id="toc-sec-referencias-cap01" class="nav-link" data-scroll-target="#sec-referencias-cap01"><span class="header-section-number">1.8</span> Para profundizar</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-cap01" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Señales</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U1.1–U1.4]
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al terminar este capítulo podrás: <strong>clasificar</strong> una señal según continuidad, periodicidad (calculando el período fundamental incluso de sumas), energía/potencia y simetrías [U1.1]; <strong>descomponer</strong> cualquier señal en sus partes par e impar [U1.2]; <strong>operar</strong> con las señales elementales del curso y con las transformaciones de la variable independiente [U1.3]; y <strong>manipular</strong> el impulso de Dirac con soltura: muestreo, <span class="math inline">\delta(g(t))</span>, relación con el escalón y tren de impulsos [U1.4].</p>
+<p><strong>Prerrequisito</strong>: números complejos (<a href="apendice-a.html" class="quarto-xref"><span>Apéndice A</span></a>). No son materia del curso, pero son su idioma.</p>
+</div>
+</div>
+<section id="sec-voz-iglesia" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="sec-voz-iglesia"><span class="header-section-number">1.1</span> Una voz entra a una iglesia</h2>
+<p>Escucha esto antes de leer nada más: una voz cantando en seco, y luego la misma voz dentro de la iglesia de St.&nbsp;Patrick (Patrington, Inglaterra):</p>
+<audio controls="" src="assets/audio/voz_en_iglesia.mp3">
+</audio>
+<p>La voz es la misma. Lo que cambió es que <strong>pasó por un sistema</strong> — la iglesia — y salió transformada. Este curso trata exactamente de eso: señales que entran a sistemas y salen distintas, y de cómo <em>predecir</em> esa transformación con matemática. Al final del semestre sabrás no solo predecirla, sino diseñar el sistema que produce la transformación que tú quieras (la promesa del prefacio).</p>
+<p>Para eso, primero el vocabulario: ¿qué es exactamente una señal? Ejemplos hay de sobra: la presión sonora que llega a tu oído en función del tiempo; un electrocardiograma; un sismograma; la temperatura de Santiago hora a hora; una imagen (intensidad en función de <em>dos</em> variables espaciales); tus notas semestre a semestre. Lo común a todos: una cantidad medida que varía, y que <em>significa</em> algo.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: señal y sistema
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una <strong>señal</strong> es una función que lleva información sobre el comportamiento de un fenómeno: <span class="math inline">x(t)</span> si su variable es continua, <span class="math inline">x[n]</span> si es discreta.</p>
+<p>Un <strong>sistema</strong> es un proceso que transforma señales: recibe una entrada <span class="math inline">x</span> y produce una salida <span class="math inline">y</span>. Lo dibujamos como una caja: <span class="math display">x \longrightarrow \boxed{\;\mathcal{S}\;} \longrightarrow y</span></p>
+</div>
+</div>
+<p>La iglesia es un sistema (entrada: voz seca; salida: voz reverberante). También lo son un ecualizador, la suspensión de un auto (entrada: perfil del camino; salida: movimiento del chasis) y tu propio oído. A los sistemas les dedicaremos el capítulo 2 completo; este capítulo es de las señales.</p>
+</section>
+<section id="sec-clasificacion" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sec-clasificacion"><span class="header-section-number">1.2</span> Clasificación de señales</h2>
+<p>Clasificar no es burocracia: cada categoría de señal tiene sus propias herramientas, y la primera decisión frente a cualquier problema del curso — y de las interrogaciones — es reconocer con qué tipo de señal estás tratando.</p>
+<section id="sec-ct-dt" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="sec-ct-dt"><span class="header-section-number">1.2.1</span> Continuas y discretas</h3>
+<p>Una señal de <strong>tiempo continuo</strong> está definida para todo instante: <span class="math inline">x(t)</span>, con <span class="math inline">t \in \mathbb{R}</span>. Una señal de <strong>tiempo discreto</strong> solo existe en instantes enteros: <span class="math inline">x[n]</span>, con <span class="math inline">n \in \mathbb{Z}</span> — es una <em>secuencia</em> de números, y no tiene sentido preguntar por la “muestra 3½”.</p>
+<div id="72077c00" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap01_files/figure-html/cell-2-output-1.png" width="806" height="258" class="figure-img"></p>
+<figcaption>La misma forma de onda como señal continua x(t) y como secuencia discreta x[n]. La convención tipográfica — paréntesis y línea continua versus corchetes y bastones — se usa en todo el curso.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Convención para todo el curso</strong> (y para toda tu vida profesional): paréntesis redondos para continuo, corchetes para discreto. <span class="math inline">x(t)</span> vive en un osciloscopio; <span class="math inline">x[n]</span> vive en un computador.</p>
+<p>La distinción se cruza con otra: el <strong>valor</strong> de la señal también puede ser continuo o estar restringido a niveles (cuantizado). El cruce de ambas da el mapa de nombres que oirás por años:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>valor continuo</th>
+<th>valor cuantizado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>variable continua</strong></td>
+<td>señal <strong>analógica</strong></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><strong>variable discreta</strong></td>
+<td>señal <strong>discreta</strong></td>
+<td>señal <strong>digital</strong></td>
+</tr>
+</tbody>
+</table>
+<p>En este curso trabajamos con las dos primeras columnas de esa diagonal: señales analógicas y señales discretas de valor continuo (la cuantización — cuántos bits necesita cada muestra — queda para cursos de DSP; con suficientes niveles su error es despreciable).</p>
+<p>Casi todas las señales que procesamos hoy nacen continuas — voz, música, sensores — y se convierten en discretas para procesarlas digitalmente. <em>Cuándo</em> esa conversión pierde información y cuándo no es uno de los resultados más hermosos del curso: el teorema del muestreo, capítulo 5. Por ahora, basta con distinguir los dos mundos.</p>
+</section>
+<section id="sec-periodicidad" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="sec-periodicidad"><span class="header-section-number">1.2.2</span> Señales periódicas</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: señal periódica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">x(t)</span> es <strong>periódica</strong> con período <span class="math inline">T &gt; 0</span> si <span class="math display">x(t + T) = x(t) \quad \text{para todo } t.</span> Si vale para <span class="math inline">T</span>, vale también para <span class="math inline">2T, 3T, \dots</span>; el menor <span class="math inline">T</span> positivo que la cumple es el <strong>período fundamental</strong> <span class="math inline">T_0</span>. La <strong>frecuencia fundamental</strong> es <span class="math inline">f_0 = 1/T_0</span> (en Hz) o <span class="math inline">\omega_0 = 2\pi/T_0</span> (en rad/s).</p>
+</div>
+</div>
+<p>Para una sinusoide <span class="math inline">\cos(\omega t + \phi)</span>: <span class="math inline">T_0 = 2\pi/\omega</span>, sin importar la fase. Un caso borde que vale la pena conocer: la señal constante es periódica para <em>cualquier</em> <span class="math inline">T</span>, así que su período fundamental queda indefinido — por convención, su frecuencia fundamental es <span class="math inline">0</span>.</p>
+<p>Y un detalle que Oppenheim convierte en un bonito ejemplo: la periodicidad es una propiedad <strong>global</strong>. La señal que vale <span class="math inline">\cos(t)</span> para <span class="math inline">t &lt; 0</span> y <span class="math inline">\sin(t)</span> para <span class="math inline">t \geq 0</span> “se repite” a cada lado, pero la juntura del origen no se repite nunca — la señal completa <strong>no</strong> es periódica. Para verificar periodicidad hay que mirar toda la recta, no un tramo.</p>
+<p>Vale también la honestidad inversa: ninguna señal física es <em>exactamente</em> periódica — toda medición empieza y termina, y ningún oscilador es perfecto. “Periódica” es un <strong>modelo</strong>, como el círculo perfecto: falso al microscopio, enormemente útil a escala de trabajo. El tono sostenido de una flauta se modela periódico, y por eso <em>suena</em> con altura definida (pitch); el ruido de fondo de la sala no admite ese modelo, y por eso no tiene altura. Nuestro oído clasifica periodicidad todo el día — cuando lleguemos a Fourier (capítulo 3), esa conexión se volverá cuantitativa.</p>
+<section id="sec-suma-periodicas" class="level4" data-number="1.2.2.1">
+<h4 data-number="1.2.2.1" class="anchored" data-anchor-id="sec-suma-periodicas"><span class="header-section-number">1.2.2.1</span> ¿Es periódica una suma de periódicas?</h4>
+<p>Esta es la pregunta trampa clásica de la I1. La suma <span class="math inline">x(t) = x_1(t) + x_2(t)</span> de señales con períodos <span class="math inline">T_1, T_2</span> es periódica <strong>si y solo si</strong> la razón <span class="math inline">T_1/T_2</span> es un número <strong>racional</strong>. En ese caso, el período fundamental es el menor <span class="math inline">T</span> que es múltiplo entero de ambos períodos.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I1)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>¿Es periódica <span class="math inline">x(t) = 2\cos(10t + 1) - \sin(4t - 1)</span>? Si lo es, encuentra <span class="math inline">T_0</span>.</p>
+<p><strong>Solución.</strong> Los períodos individuales: <span class="math inline">T_1 = \frac{2\pi}{10} = \frac{\pi}{5}</span> y <span class="math inline">T_2 = \frac{2\pi}{4} = \frac{\pi}{2}</span>. La razón <span class="math inline">\frac{T_1}{T_2} = \frac{2}{5}</span> es racional ✓, así que la suma es periódica. El período fundamental es el menor <span class="math inline">T</span> con <span class="math inline">T = kT_1 = mT_2</span> (<span class="math inline">k, m</span> enteros): de la fracción irreducible <span class="math inline">\frac{2}{5}</span>, <span class="math inline">T_0 = 5T_1 = 2T_2 = \pi</span>.</p>
+<p>Comprobación rápida: en <span class="math inline">T_0 = \pi</span> el primer término avanza <span class="math inline">10\pi</span> radianes (5 vueltas ✓) y el segundo <span class="math inline">4\pi</span> (2 vueltas ✓).</p>
+</div>
+</div>
+<p>El contraejemplo para recordar: <span class="math inline">\cos(t) + \cos(\pi t)</span> <strong>no</strong> es periódica — la razón de períodos es <span class="math inline">\pi</span>, irracional. Las dos componentes nunca vuelven a alinearse exactamente:</p>
+<div id="eed096d0" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap01_files/figure-html/cell-3-output-1.png" width="806" height="240" class="figure-img"></p>
+<figcaption>cos(t) + cos(πt) parece ‘casi’ repetirse, pero nunca lo hace exactamente: la razón de períodos es irracional. El máximo x = 2 se alcanza una única vez, en t = 0.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>(¿Por qué <span class="math inline">x = 2</span> solo en <span class="math inline">t = 0</span>? Exigiría <span class="math inline">\cos t = \cos \pi t = 1</span> simultáneamente: <span class="math inline">t = 2\pi k</span> y <span class="math inline">t = 2m</span> a la vez, imposible salvo <span class="math inline">t = 0</span> porque <span class="math inline">\pi</span> es irracional. Si la señal fuera periódica, ese máximo tendría que repetirse.)</p>
+<p>En tiempo discreto la periodicidad guarda una sorpresa — no toda sinusoide <span class="math inline">\cos(\Omega_0 n)</span> es periódica, y frecuencias distintas pueden dar la misma señal — pero esa historia pertenece al capítulo 5, donde le sacaremos todo el jugo.</p>
+</section>
+</section>
+<section id="sec-energia-potencia" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="sec-energia-potencia"><span class="header-section-number">1.2.3</span> Señales de energía y señales de potencia</h3>
+<p>Los nombres vienen de la física: si <span class="math inline">x(t)</span> es el voltaje sobre una resistencia de 1 Ω, entonces <span class="math inline">|x(t)|^2</span> es la potencia instantánea disipada, y su integral es la energía total entregada. La definición generaliza esa idea a cualquier señal (por eso el módulo al cuadrado: si <span class="math inline">x</span> es compleja, <span class="math inline">|x|^2 = x\,x^*</span> es real y positivo, como corresponde a una energía; y por eso mismo, “energía” y “potencia” de una señal se usan por convención, sin unidades físicas obligadas).</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: energía y potencia media
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">E = \int_{-\infty}^{\infty} |x(t)|^2\,dt \qquad\qquad E = \sum_{n=-\infty}^{\infty} |x[n]|^2</span> <span class="math display">P = \lim_{T\to\infty} \frac{1}{2T}\int_{-T}^{T} |x(t)|^2\,dt \qquad\qquad P = \lim_{N\to\infty} \frac{1}{2N+1}\sum_{n=-N}^{N} |x[n]|^2</span></p>
+</div>
+</div>
+<p>Una buena imagen para no confundirlas: piensa en una manguera llenando un balde. La <strong>energía</strong> es la cantidad <em>total</em> de agua recogida — si la señal es un pulso que se apaga, como cerrar la llave, el agua recogida es finita. La <strong>potencia</strong> es el <em>caudal promedio</em> — una manguera abierta para siempre desborda cualquier balde (energía infinita), pero su caudal puede ser perfectamente finito. La energía mide impacto total acumulado; la potencia, intensidad sostenida.</p>
+<p>De ahí la clasificación, mutuamente excluyente:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Condición</th>
+<th>Consecuencia</th>
+<th>Ejemplos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>de energía</strong></td>
+<td><span class="math inline">0 &lt; E &lt; \infty</span></td>
+<td><span class="math inline">P = 0</span></td>
+<td>un pulso, <span class="math inline">e^{-\lvert t\rvert}</span>, toda señal acotada de duración finita</td>
+</tr>
+<tr class="even">
+<td><strong>de potencia</strong></td>
+<td><span class="math inline">0 &lt; P &lt; \infty</span></td>
+<td><span class="math inline">E = \infty</span></td>
+<td>las periódicas, la constante, <span class="math inline">u(t)</span></td>
+</tr>
+<tr class="odd">
+<td>ninguna de las dos</td>
+<td>—</td>
+<td>—</td>
+<td><span class="math inline">x(t) = t</span></td>
+</tr>
+</tbody>
+</table>
+<p>Para señales <strong>periódicas</strong> no hace falta el límite: basta promediar sobre un período, <span class="math display">P = \frac{1}{T_0}\int_{T_0} |x(t)|^2\,dt.</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Clasifica <span class="math inline">x(t) = A\cos(\omega_0 t)</span> y calcula su potencia.</p>
+<p><strong>Solución.</strong> Es periódica, así que <span class="math inline">E = \infty</span>: candidata a señal de potencia. Promediando sobre un período, con <span class="math inline">\cos^2\theta = \tfrac{1}{2}(1 + \cos 2\theta)</span>: <span class="math display">P = \frac{1}{T_0}\int_{T_0} A^2\cos^2(\omega_0 t)\,dt = \frac{A^2}{T_0}\cdot\frac{T_0}{2} = \frac{A^2}{2}</span> (el término <span class="math inline">\cos 2\omega_0 t</span> aporta cero sobre un período completo). Ese <span class="math inline">\frac{A^2}{2}</span> reaparecerá mil veces en el curso y en la vida: es el “valor RMS al cuadrado” de los circuitos, y la razón de que la red de 220 V (RMS) tenga amplitud máxima <span class="math inline">220\sqrt{2} \approx 311</span> V.</p>
+</div>
+</div>
+</section>
+<section id="sec-par-impar" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="sec-par-impar"><span class="header-section-number">1.2.4</span> Simetrías: par e impar</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: señal par, señal impar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">x</span> es <strong>par</strong> si <span class="math inline">x(-t) = x(t)</span> — espejo respecto al eje vertical. Es <strong>impar</strong> si <span class="math inline">x(-t) = -x(t)</span> — simetría respecto al origen. Toda señal impar definida en <span class="math inline">t = 0</span> cumple <span class="math inline">x(0) = 0</span>.</p>
+</div>
+</div>
+<p>El coseno es par; el seno es impar; <span class="math inline">t^2</span> y <span class="math inline">|t|</span> son pares; <span class="math inline">t^3</span> y <span class="math inline">\operatorname{sgn}(t)</span> son impares. La mayoría de las señales no es ni lo uno ni lo otro — y aquí viene lo interesante:</p>
+<p><strong>Toda señal se descompone, de manera única, en una parte par más una impar:</strong> <span class="math display">x(t) = \underbrace{\tfrac{1}{2}\big[x(t) + x(-t)\big]}_{x_p(t)\ \text{(par)}} \;+\; \underbrace{\tfrac{1}{2}\big[x(t) - x(-t)\big]}_{x_i(t)\ \text{(impar)}}</span></p>
+<p>Verifica las tres afirmaciones escondidas ahí (es un ejercicio de un minuto que las interrogaciones adoran): que <span class="math inline">x_p</span> es par, que <span class="math inline">x_i</span> es impar, y que suman <span class="math inline">x</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto: la exponencial escondía dos viejas conocidas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Descompón <span class="math inline">x(t) = e^{t}</span> en sus partes par e impar.</p>
+<p><strong>Solución.</strong> <span class="math display">x_p(t) = \frac{e^t + e^{-t}}{2} = \cosh t, \qquad x_i(t) = \frac{e^t - e^{-t}}{2} = \sinh t</span> La exponencial <em>es</em> coseno hiperbólico más seno hiperbólico — la descomposición par/impar es, literalmente, la razón de ser de esas funciones. (Y una pista de algo más profundo: la misma jugada aplicada a <span class="math inline">e^{j\theta}</span> entrega <span class="math inline">\cos\theta</span> y <span class="math inline">j\sin\theta</span>.)</p>
+</div>
+</div>
+<p>¿Por qué nos importan las simetrías? Dos pagos por adelantado. Primero, la energía se reparte limpiamente entre las partes: <span class="math inline">E_x = E_{x_p} + E_{x_i}</span> — los términos cruzados se anulan al integrar par×impar [demostrarlo es el ejercicio DB E0022]. Segundo, y más importante: en el capítulo 3 verás que <strong>las simetrías de una señal se traducen en simetrías de su espectro</strong> (una señal real y par tiene transformada real y par; una real e impar, imaginaria e impar). Clasificar simetrías hoy es leer espectros gratis mañana.</p>
+<p>Para señales <strong>complejas</strong>, el rol de la paridad lo toma la <strong>simetría Hermitiana</strong>: <span class="math inline">x(-t) = x^*(t)</span> (parte real par, parte imaginaria impar). No es una curiosidad de coleccionista: la transformada de Fourier de <em>cualquier</em> señal real del mundo físico es Hermitiana — ese es el motivo por el que los espectros que grafiques en Python saldrán con magnitud simétrica. Volveremos a ella en el momento justo.</p>
+</section>
+</section>
+<section id="sec-transformaciones" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sec-transformaciones"><span class="header-section-number">1.3</span> Transformaciones de la variable independiente</h2>
+<p>Antes de poblar el zoológico de señales del curso, necesitamos las tres operaciones que actúan sobre el <em>reloj</em> de una señal — sobre su variable, no sobre sus valores:</p>
+<ul>
+<li><strong>Desplazamiento</strong> <span class="math inline">x(t - t_0)</span>: mueve la señal hacia la <em>derecha</em> si <span class="math inline">t_0 &gt; 0</span> (todo ocurre más tarde). Un eco es la señal desplazada.</li>
+<li><strong>Escalamiento</strong> <span class="math inline">x(at)</span>: comprime si <span class="math inline">|a| &gt; 1</span>, estira si <span class="math inline">|a| &lt; 1</span>. En audio: comprimir el tiempo sube el pitch (reproducir a doble velocidad, una octava arriba).</li>
+<li><strong>Inversión</strong> <span class="math inline">x(-t)</span>: espejo temporal — la señal reproducida al revés.</li>
+</ul>
+<div id="6d1bbfdd" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap01_files/figure-html/cell-4-output-1.png" width="806" height="432" class="figure-img"></p>
+<figcaption>Las tres transformaciones aplicadas a un mismo pulso triangular x(t). Abajo a la derecha, la forma combinada x(2t−2) = x(2(t−1)): comprimida en 2 y desplazada en 1 (no en 2).</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="sec-orden-transformaciones" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="sec-orden-transformaciones"><span class="header-section-number">1.3.1</span> La forma combinada <span class="math inline">x(at - b)</span>: el error clásico de la U1</h3>
+<p>¿Qué señal es <span class="math inline">x(2t - 3)</span>? El impulso natural — desplazar en 3 y comprimir en 2 — <strong>da la respuesta equivocada</strong>. Hay dos rutas seguras; domina ambas y usa la que prefieras:</p>
+<p><strong>Ruta 1 — factorizar el argumento:</strong> <span class="math display">x(2t - 3) = x\big(2(t - \tfrac{3}{2})\big)</span> la señal comprimida en 2 y desplazada en <span class="math inline">\tfrac{3}{2}</span> — no en 3. Regla general: en <span class="math inline">x(at - b)</span> el desplazamiento verdadero es <span class="math inline">b/a</span>, porque el escalamiento también comprime al desplazamiento.</p>
+<p><strong>Ruta 2 — rastrear puntos de anclaje:</strong> el valor que <span class="math inline">x</span> tiene en <span class="math inline">t^*</span> aparece en <span class="math inline">x(2t - 3)</span> donde <span class="math inline">2t - 3 = t^*</span>, es decir en <span class="math inline">t = (t^* + 3)/2</span>. Con 2–3 puntos notables (bordes, máximos, quiebres) reconstruyes el gráfico sin ambigüedad — y de paso verificas tu factorización. Ante la duda, esta ruta no falla nunca.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Lectura rápida que ahorra minutos en interrogaciones
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\operatorname{rect}\!\Big(\frac{t - c}{w}\Big) = \text{rect de \textbf{centro} } c \text{ y \textbf{ancho} } w</span> La forma <span class="math inline">\frac{t - c}{w}</span> se lee de un vistazo: centro donde el argumento se anula, ancho igual al denominador. Así, <span class="math inline">\operatorname{rect}\big(\frac{t-1}{2}\big)</span> es un pulso centrado en <span class="math inline">t = 1</span> de ancho 2, sin dibujar nada. (La señal <span class="math inline">\operatorname{rect}</span> se define en la sección siguiente.)</p>
+</div>
+</div>
+</section>
+<section id="sec-por-tramos" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="sec-por-tramos"><span class="header-section-number">1.3.2</span> Construcción de señales por tramos</h3>
+<p>El problema inverso es igual de frecuente: dada una señal dibujada por tramos, escribirla como combinación de señales elementales. Estrategia en tres pasos:</p>
+<ol type="1">
+<li>Identificar dónde “pasan cosas”: quiebres, saltos, comienzos y finales.</li>
+<li>Traducir: saltos → escalones o rects; rampas → <span class="math inline">t \cdot (\text{rect})</span> o triángulos; recortes → multiplicar por <span class="math inline">u</span> o por rect.</li>
+<li>Verificar evaluando la expresión en 2–3 puntos del gráfico.</li>
+</ol>
+<p>Por ejemplo, la rampa que sube de 0 a 1 en <span class="math inline">[0, 1]</span> y se queda en 1: <span class="math display">x(t) = t\,\big[u(t) - u(t-1)\big] + u(t-1)</span> Y el mismo pulso rectangular de siempre admite dos escrituras — <span class="math inline">\operatorname{rect}\big(t - \tfrac{1}{2}\big)</span> o <span class="math inline">u(t) - u(t-1)</span> — dos expresiones, una señal. En las interrogaciones ambas valen; elige la que haga más fácil el paso siguiente.</p>
+</section>
+</section>
+<section id="sec-elementales" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-elementales"><span class="header-section-number">1.4</span> El vocabulario: señales elementales</h2>
+<p>Estas señales son el alfabeto del curso — todo lo demás se escribe combinándolas y transformándolas:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Señal</th>
+<th>Definición</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Escalón</strong> <span class="math inline">u(t)</span></td>
+<td><span class="math inline">0</span> si <span class="math inline">t&lt;0</span>; <span class="math inline">1</span> si <span class="math inline">t&gt;0</span></td>
+<td>encender cosas; recortar señales a <span class="math inline">t&gt;0</span></td>
+</tr>
+<tr class="even">
+<td><strong>Rect</strong> <span class="math inline">\operatorname{rect}(t)</span></td>
+<td><span class="math inline">1</span> si <span class="math inline">\lvert t\rvert&lt;\tfrac12</span>; <span class="math inline">0</span> fuera</td>
+<td>ventanas y pulsos; <span class="math inline">\operatorname{rect}(t) = u(t+\tfrac12)-u(t-\tfrac12)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Triángulo</strong> <span class="math inline">\operatorname{tri}(t)</span></td>
+<td><span class="math inline">1-\lvert t\rvert</span> si <span class="math inline">\lvert t\rvert&lt;1</span>; <span class="math inline">0</span> fuera</td>
+<td>aparecerá sola al convolucionar dos rect (cap. 2)</td>
+</tr>
+<tr class="even">
+<td><strong>Signo</strong> <span class="math inline">\operatorname{sgn}(t)</span></td>
+<td><span class="math inline">-1</span> si <span class="math inline">t&lt;0</span>; <span class="math inline">+1</span> si <span class="math inline">t&gt;0</span></td>
+<td>simetrías; <span class="math inline">\operatorname{sgn}(t) = 2u(t)-1</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Sinc</strong> <span class="math inline">\operatorname{sinc}(t) = \dfrac{\sin(\pi t)}{\pi t}</span></td>
+<td>vale <span class="math inline">1</span> en <span class="math inline">t=0</span>; ceros en cada entero <span class="math inline">\neq 0</span></td>
+<td>la protagonista silenciosa del muestreo (cap. 5)</td>
+</tr>
+<tr class="even">
+<td><strong>Exponencial real</strong> <span class="math inline">e^{at}</span></td>
+<td>crece si <span class="math inline">a&gt;0</span>, decae si <span class="math inline">a&lt;0</span></td>
+<td>la respuesta natural de los sistemas físicos</td>
+</tr>
+</tbody>
+</table>
+<div id="e14f317f" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap01_files/figure-html/cell-5-output-1.png" width="854" height="411" class="figure-img"></p>
+<figcaption>El alfabeto del curso. Aprende sus valores clave: dónde valen 1, dónde se anulan, dónde saltan.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Tres notas al margen que evitarán confusiones al leer otros textos:</p>
+<ul>
+<li>El valor de <span class="math inline">u(t)</span> <strong>en</strong> <span class="math inline">t = 0</span> es pura convención (Alvarado usa <span class="math inline">u(0) = 1</span>; Oppenheim lo deja sin definir). Nada de lo que hagamos con el escalón — integrar, derivar, recortar — depende de él.</li>
+<li>En material antiguo del curso (y en Osgood) el rect y el triángulo aparecen como <span class="math inline">\sqcap</span> y <span class="math inline">\wedge</span>; aquí escribimos siempre <span class="math inline">\operatorname{rect}</span> y <span class="math inline">\operatorname{tri}</span>.</li>
+<li>Alvarado usa el seno cardinal <em>desnormalizado</em> <span class="math inline">\operatorname{sa}(x) = \frac{\sin x}{x}</span>; nuestra <span class="math inline">\operatorname{sinc}</span> (la de Oppenheim y NumPy) es su versión normalizada: <span class="math inline">\operatorname{sinc}(t) = \operatorname{sa}(\pi t)</span>, con los ceros en los enteros en lugar de en los múltiplos de <span class="math inline">\pi</span>. De la sinc, por ahora, solo recuerda su cara — en el capítulo 5 será la heroína de la reconstrucción.</li>
+</ul>
+<section id="sec-exp-compleja" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="sec-exp-compleja"><span class="header-section-number">1.4.1</span> La exponencial compleja: el fasor como señal</h3>
+<p>Del <a href="apendice-a.html" class="quarto-xref"><span>Apéndice A</span></a>: <span class="math inline">e^{j\omega t}</span> es un punto girando en el círculo unitario. La señal más general de esta familia — y la más importante del curso — combina giro con crecimiento o decaimiento:</p>
+<p><span class="math display">x(t) = A\,e^{st} \quad \text{con } s = \sigma + j\omega \quad\Longrightarrow\quad x(t) = \underbrace{A\,e^{\sigma t}}_{\text{envolvente}}\;\underbrace{e^{j\omega t}}_{\text{giro}}</span></p>
+<p>Es una <strong>espiral</strong> en el plano complejo (si lo dibujas contra el tiempo, una hélice): decae hacia el origen si <span class="math inline">\sigma &lt; 0</span>, gira en círculo si <span class="math inline">\sigma = 0</span>, explota si <span class="math inline">\sigma &gt; 0</span>; siempre girando a <span class="math inline">\omega</span> rad/s. Su parte real es la sinusoide amortiguada <span class="math inline">A e^{\sigma t}\cos(\omega t)</span>, con la envolvente <span class="math inline">\pm A e^{\sigma t}</span> abrazando la oscilación.</p>
+<p>Guarda el nombre del parámetro: <strong>ese <span class="math inline">s = \sigma + j\omega</span> es exactamente el que dará nombre al “plano <span class="math inline">s</span>” de Laplace</strong> en el capítulo 4. Lo estamos conociendo con anticipación, y no por accidente: los sistemas lineales responden a <span class="math inline">e^{st}</span> con la misma <span class="math inline">e^{st}</span> multiplicada por una constante — por eso estas señales son la llave maestra del análisis de sistemas.</p>
+<p>Y la identidad que ya conoces del apéndice, ahora en su rol estelar: <span class="math display">\cos(\omega t) = \Re\{e^{j\omega t}\} = \frac{e^{j\omega t} + e^{-j\omega t}}{2}</span> Toda sinusoide real son <strong>dos fasores contrarrotantes</strong>. Cuando el espectro de un coseno muestre dos líneas — en <span class="math inline">\omega</span> y en <span class="math inline">-\omega</span> — será esta identidad hecha dibujo.</p>
+<p><strong>Sinusoides armónicamente relacionadas.</strong> La familia <span class="math inline">\phi_k(t) = e^{jk\omega_0 t}</span>, <span class="math inline">k = 0, \pm 1, \pm 2, \dots</span> comparte el período común <span class="math inline">T_0 = 2\pi/\omega_0</span>: la <span class="math inline">k</span>-ésima da <span class="math inline">|k|</span> vueltas por período. Es la analogía exacta de una cuerda de violín y sus armónicos — y será la base sobre la que Fourier reconstruye cualquier señal periódica (capítulo 3).</p>
+<p>En el mundo discreto, el reparto de papeles es <span class="math inline">\delta[n]</span> y <span class="math inline">u[n]</span> (al final de este capítulo), la exponencial <span class="math inline">a^n</span> y las sinusoides <span class="math inline">\cos(\Omega n)</span> — estas últimas con sorpresas (periodicidad no garantizada, frecuencias que se repiten) que justifican su tratamiento aparte en el capítulo 5.</p>
+</section>
+</section>
+<section id="sec-impulso" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="sec-impulso"><span class="header-section-number">1.5</span> El impulso de Dirac</h2>
+<p>Llegamos a la “señal” más rara y más útil del curso. La escribimos entre comillas porque, estrictamente, no es una función — y sin embargo ninguna otra trabajará tanto para ti este semestre.</p>
+<section id="sec-construccion-delta" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="sec-construccion-delta"><span class="header-section-number">1.5.1</span> Construcción: el límite de pulsos</h3>
+<p>Toma el pulso rectangular de área 1: <span class="math display">p_\epsilon(t) = \frac{1}{\epsilon}\operatorname{rect}\!\Big(\frac{t}{\epsilon}\Big) \qquad \text{(ancho } \epsilon\text{, alto } 1/\epsilon\text{)}</span></p>
+<p>Angóstalo: <span class="math inline">\epsilon \to 0</span>. La altura crece sin límite, el ancho se desvanece, pero el <strong>área se mantiene en 1</strong> durante todo el proceso.</p>
+<div id="f5c404ed" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap01_files/figure-html/cell-6-output-1.png" width="805" height="277" class="figure-img"></p>
+<figcaption>La familia de pulsos de área 1. Al angostar, la altura crece manteniendo el área: el objeto límite es el impulso δ(t), dibujado como flecha con su área (no altura) anotada.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: el impulso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\delta(t) = 0 \;\; \text{para todo } t \neq 0, \qquad \int_{-\infty}^{\infty} \delta(t)\,dt = 1</span> Gráficamente: una flecha vertical en el origen, con su <strong>área</strong> (no altura) anotada al lado. Un impulso desplazado y escalado, <span class="math inline">A\,\delta(t - t_0)</span>, es una flecha en <span class="math inline">t_0</span> con peso <span class="math inline">A</span>.</p>
+</div>
+</div>
+<p><strong>Honestidad matemática</strong> (treinta segundos y seguimos): <span class="math inline">\delta</span> no es una función — ninguna función puede ser cero en casi todas partes e integrar 1. Es una <em>distribución</em>: un objeto que solo tiene sentido pleno <strong>dentro de una integral</strong>. Para este curso, esa es exactamente la actitud correcta: <span class="math inline">\delta</span> se define por lo que <em>hace</em>, no por lo que <em>es</em>. La teoría completa existe (distribuciones de Schwartz) y no la necesitaremos.</p>
+</section>
+<section id="sec-sifting" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="sec-sifting"><span class="header-section-number">1.5.2</span> Lo que δ hace: la propiedad de muestreo</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>La propiedad más importante (muestreo / <em>sifting</em>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para <span class="math inline">f</span> continua en <span class="math inline">t_0</span>: <span class="math display">\int_{-\infty}^{\infty} f(t)\,\delta(t - t_0)\,dt = f(t_0)</span></p>
+</div>
+</div>
+<p>El impulso, dentro de una integral, es una <strong>pinza</strong>: extrae el valor de <span class="math inline">f</span> exactamente donde está parado. La intuición viene de la construcción: el pulso angosto solo “ve” a <span class="math inline">f</span> en un entorno diminuto de <span class="math inline">t_0</span>, donde <span class="math inline">f(t) \approx f(t_0)</span>; como el pulso tiene área 1, la integral entrega <span class="math inline">f(t_0)</span> limpio.</p>
+<p>La versión sin integral, para multiplicaciones: <span class="math display">f(t)\,\delta(t - t_0) = f(t_0)\,\delta(t - t_0)</span> — multiplicar una señal por un impulso deja un impulso “pesado” por el valor de la señal en ese punto. (Nota la diferencia: esto es un impulso; la integral de arriba es un número.)</p>
+<p><strong>Ejercicio relámpago</strong> (hazlo ahora, toma diez segundos): <span class="math inline">\displaystyle\int_{-\infty}^{\infty} e^{-2t}\cos(\pi t)\,\delta(t - 1)\,dt</span>. La pinza extrae el valor en <span class="math inline">t = 1</span>: <span class="math inline">e^{-2}\cos(\pi) = -e^{-2}</span>.</p>
+<p>Alvarado llega al impulso por un camino distinto que vale la pena espiar: aproxima una señal suave <span class="math inline">x(t)</span> con una escalera de pulsos de ancho <span class="math inline">\tau</span> y área ajustada, y observa que al afinar la escalera (<span class="math inline">\tau \to 0</span>) la aproximación se vuelve exacta: <span class="math display">x(t) = \int_{-\infty}^{\infty} x(t')\,\delta(t - t')\,dt'</span> Léelo con calma: <strong>toda señal es una suma continua de impulsos desplazados</strong>, cada uno pesado por el valor de la señal en su posición. Hoy es la propiedad de muestreo leída al revés; en el capítulo 2 será <em>la</em> idea que hace funcionar la convolución. Es la semilla más importante que este capítulo planta.</p>
+</section>
+<section id="sec-propiedades-delta" class="level3" data-number="1.5.3">
+<h3 data-number="1.5.3" class="anchored" data-anchor-id="sec-propiedades-delta"><span class="header-section-number">1.5.3</span> Propiedades</h3>
+<p><strong>Escalado.</strong> Comprimir el pulso reduce su área, y para seguir integrando 1 hay que renormalizar: <span class="math display">\delta(at) = \frac{1}{|a|}\,\delta(t)</span> (Verifícalo con el cambio de variable <span class="math inline">\tau = at</span> en la integral — dos líneas.) En particular <span class="math inline">\delta(-t) = \delta(t)</span>: el impulso es par.</p>
+<p><strong>Argumento función — la fórmula estrella de las I1.</strong> Si <span class="math inline">g</span> tiene solo ceros simples <span class="math inline">t_k</span>: <span class="math display">\delta\big(g(t)\big) = \sum_k \frac{\delta(t - t_k)}{|g'(t_k)|}</span></p>
+<p>La intuición: el impulso “se activa” en cada raíz de <span class="math inline">g</span>, y en cada una queda re-escalado por la rapidez <span class="math inline">|g'(t_k)|</span> con que <span class="math inline">g</span> cruza el cero — cerca de <span class="math inline">t_k</span>, <span class="math inline">g(t) \approx g'(t_k)(t - t_k)</span>, y aplica el escalado anterior. El caso <span class="math inline">\delta(at)</span> es esta fórmula con un único cero y pendiente <span class="math inline">a</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I1)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Simplifica <span class="math inline">\delta(t^2 - 9)</span>.</p>
+<p><strong>Solución.</strong> Ceros de <span class="math inline">g(t) = t^2 - 9</span>: <span class="math inline">t = \pm 3</span>, ambos simples. Derivada: <span class="math inline">g'(t) = 2t</span>, con <span class="math inline">|g'(\pm 3)| = 6</span>. Entonces: <span class="math display">\delta(t^2 - 9) = \frac{\delta(t - 3) + \delta(t + 3)}{6}</span> Dos impulsos, cada uno con peso <span class="math inline">\tfrac{1}{6}</span>. Comprobación de cordura: los pesos son positivos y la expresión es par en <span class="math inline">t</span>, igual que <span class="math inline">g</span>.</p>
+</div>
+</div>
+<p><strong>Relación con el escalón.</strong> En ambas direcciones: <span class="math display">u'(t) = \delta(t), \qquad u(t) = \int_{-\infty}^{t} \delta(\tau)\,d\tau</span></p>
+<p>La analogía es un interruptor de luz: el <em>estado</em> de la luz (0 apagada, 1 encendida) es el escalón; la <em>acción</em> de pulsar el interruptor — un evento instantáneo que causa todo el cambio — es el impulso. Regla general que usaremos sin parar al derivar señales con saltos: <strong>la derivada de un salto de altura <span class="math inline">A</span> en <span class="math inline">t_0</span> es un impulso de área <span class="math inline">A</span> en <span class="math inline">t_0</span></strong>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto: derivar (e integrar) una señal con saltos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">x(t) = 2u(t-1) - 3u(t-2) + 2u(t-4)</span> (sube a 2, baja a <span class="math inline">-1</span>, termina en 1). Su derivada generalizada es <span class="math display">\dot{x}(t) = 2\,\delta(t-1) - 3\,\delta(t-2) + 2\,\delta(t-4)</span> — un impulso por salto, con área igual al salto (signo incluido). Y el camino de vuelta funciona: integrando <span class="math inline">\dot{x}</span> desde <span class="math inline">-\infty</span> se acumulan las áreas <span class="math inline">2</span>, luego <span class="math inline">2 - 3 = -1</span>, luego <span class="math inline">-1 + 2 = 1</span>, y se recupera <span class="math inline">x(t)</span> exactamente. Derivar e integrar señales con saltos es rutina de interrogación — este par de operaciones inversas es todo lo que hay que saber.</p>
+</div>
+</div>
+<p>Una curiosidad con castigo diferido: también existe <span class="math inline">\delta'(t)</span> (el <em>doblete</em>), y muerde — <span class="math inline">\int f(t)\,\delta'(t)\,dt = -f'(0)</span>, con un signo menos que cobra víctimas [DB E0025, E0036]. Aparecerá poco; cuando aparezca, ya sabrás dónde mirar.</p>
+</section>
+<section id="sec-impulso-real" class="level3" data-number="1.5.4">
+<h3 data-number="1.5.4" class="anchored" data-anchor-id="sec-impulso-real"><span class="header-section-number">1.5.4</span> El impulso en el mundo real</h3>
+<p>Un impulso físico es cualquier excitación <em>muy corta y enérgica</em>: una palmada, un globo reventando, un golpe de baqueta. Ninguno es infinitamente corto — y no necesita serlo: basta con que sea corto comparado con lo que el sistema alcanza a resolver, y el sistema solo “sentirá” su área. Esa es la justificación física de la idealización, y la razón profunda de que <span class="math inline">\delta</span> sea tan útil siendo tan irreal.</p>
+<p>Escucha un impulso (aproximado) disparado dentro de la iglesia de St.&nbsp;Patrick — la misma del comienzo del capítulo:</p>
+<audio controls="" src="assets/audio/impulso_iglesia.mp3">
+</audio>
+<p>Lo que suena <em>después</em> del golpe no es el golpe: es <strong>la iglesia respondiendo</strong> — su <em>respuesta al impulso</em>. Y aquí se cierra el círculo del capítulo: la voz “dentro de la iglesia” de la <a href="#sec-voz-iglesia" class="quarto-xref"><span>Sección 1.1</span></a> se fabricó matemáticamente combinando la voz seca con esta respuesta. La operación que las combina se llama <strong>convolución</strong>, es el corazón del capítulo 2, y el impulso que acabas de dominar es su llave: si conoces la respuesta de un sistema al impulso, conoces su respuesta a <em>todo</em>.</p>
+</section>
+<section id="sec-tren-impulsos" class="level3" data-number="1.5.5">
+<h3 data-number="1.5.5" class="anchored" data-anchor-id="sec-tren-impulsos"><span class="header-section-number">1.5.5</span> El tren de impulsos</h3>
+<p>Una última construcción, que hoy solo presentamos: <span class="math display">\delta_T(t) = \sum_{n=-\infty}^{\infty} \delta(t - nT)</span></p>
+<p>Un impulso cada <span class="math inline">T</span> segundos, hasta el infinito por ambos lados. (En parte del material del curso y en algunos textos aparece como Ш, “shah”; Alvarado lo llama “función puente”; nosotros escribimos <span class="math inline">\delta_T</span> y decimos <em>tren de impulsos</em>.)</p>
+<p><strong>Ejercicio relámpago</strong>: <span class="math inline">\displaystyle\int_{-1}^{7} \cos(\pi t)\,\delta_2(t)\,dt</span>. Los impulsos dentro de <span class="math inline">[-1, 7]</span> están en <span class="math inline">t = 0, 2, 4, 6</span>; la pinza actúa cuatro veces: <span class="math inline">\cos 0 + \cos 2\pi + \cos 4\pi + \cos 6\pi = 4</span>.</p>
+<p>¿Para qué existe este objeto? Anota esta frase — es de las que ordenan el curso entero: <strong>muestrear una señal es multiplicarla por un tren de impulsos</strong>. Su gran momento llega en el capítulo 5; cuando llegue, el tren ya será un viejo conocido.</p>
+</section>
+<section id="sec-impulso-discreto" class="level3" data-number="1.5.6">
+<h3 data-number="1.5.6" class="anchored" data-anchor-id="sec-impulso-discreto"><span class="header-section-number">1.5.6</span> El impulso discreto: sin drama</h3>
+<p>Para cerrar, el contraste que hace ver lo esencial. En tiempo discreto el impulso no necesita límites ni distribuciones: <span class="math display">\delta[n] = \begin{cases} 1 &amp; n = 0 \\ 0 &amp; n \neq 0 \end{cases} \qquad\qquad u[n] = \begin{cases} 1 &amp; n \geq 0 \\ 0 &amp; n &lt; 0 \end{cases}</span></p>
+<p>Una secuencia perfectamente ordinaria (también llamada <em>muestra unitaria</em>). Las relaciones espejo con el escalón: <span class="math inline">\delta[n] = u[n] - u[n-1]</span> (la “derivada” discreta es la primera diferencia) y <span class="math inline">u[n] = \sum_{m=-\infty}^{n} \delta[m]</span>. La propiedad de muestreo, sin integral: <span class="math inline">x[n]\,\delta[n - n_0] = x[n_0]\,\delta[n - n_0]</span>.</p>
+<p>Todo el aparato conceptual del impulso continuo, gratis y sin letra chica. Cuando en el capítulo 5 armemos el mundo discreto, <span class="math inline">\delta[n]</span> jugará exactamente el mismo rol estelar que <span class="math inline">\delta(t)</span> en el continuo.</p>
+</section>
+</section>
+<section id="sec-resumen-cap01" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="sec-resumen-cap01"><span class="header-section-number">1.6</span> En una página</h2>
+<ul>
+<li>Señales: <span class="math inline">x(t)</span> continua, <span class="math inline">x[n]</span> discreta. Clasificarlas es elegir herramientas.</li>
+<li>Periodicidad: <span class="math inline">x(t+T) = x(t)</span> para todo <span class="math inline">t</span>; suma de periódicas es periódica ⟺ <span class="math inline">T_1/T_2</span> racional, y <span class="math inline">T_0</span> es el menor múltiplo común de los períodos.</li>
+<li>Energía <span class="math inline">E = \int |x|^2\,dt</span> vs.&nbsp;potencia <span class="math inline">P = \lim_{T\to\infty} \frac{1}{2T}\int_{-T}^{T}|x|^2\,dt</span>: total acumulado vs.&nbsp;caudal sostenido; periódicas → promediar un período; <span class="math inline">A\cos(\omega_0 t) \to P = A^2/2</span>.</li>
+<li>Par/impar: <span class="math inline">x = x_p + x_i</span> con <span class="math inline">x_{p,i}(t) = \tfrac12[x(t) \pm x(-t)]</span>; la energía se reparte; las simetrías pagarán en Fourier.</li>
+<li>Transformaciones: <span class="math inline">x(at - b) = x\big(a(t - b/a)\big)</span> — el desplazamiento verdadero es <span class="math inline">b/a</span>; y <span class="math inline">\operatorname{rect}\big(\frac{t-c}{w}\big)</span>: centro <span class="math inline">c</span>, ancho <span class="math inline">w</span>.</li>
+<li>Elementales: <span class="math inline">u</span>, rect, tri, sgn, sinc, <span class="math inline">e^{at}</span> — y la reina <span class="math inline">e^{st}</span> con <span class="math inline">s = \sigma + j\omega</span> (espiral; semilla del plano <span class="math inline">s</span>).</li>
+<li>Impulso: área 1, definido por lo que hace — <span class="math inline">\int f(t)\,\delta(t-t_0)\,dt = f(t_0)</span>; <span class="math inline">\delta(at) = \delta(t)/|a|</span>; <span class="math inline">\delta(g(t)) = \sum_k \delta(t-t_k)/|g'(t_k)|</span>; <span class="math inline">u' = \delta</span>; salto de altura <span class="math inline">A</span> → impulso de área <span class="math inline">A</span>; tren <span class="math inline">\delta_T</span> = el futuro muestreador; <span class="math inline">x(t) = \int x(t')\,\delta(t-t')\,dt'</span> = la semilla de la convolución.</li>
+</ul>
+</section>
+<section id="sec-ejercicios-cap01" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="sec-ejercicios-cap01"><span class="header-section-number">1.7</span> Ejercicios</h2>
+<p>Del banco del curso, en orden sugerido (los códigos [DB E0xxx] identifican el ejercicio; aparecen repartidos en las Listas 1 y 2 de las semanas 1–2):</p>
+<ol type="1">
+<li><strong>[DB E0010]</strong> (básico) Frecuencia en Hz, período y clasificación de sinusoides dadas en distintas formas. <em>[U1.1]</em></li>
+<li><strong>[DB E0009]</strong> (intermedio) Producto de sumas de sinusoides: ¿es periódica la salida? ¿con qué <span class="math inline">T_0</span>? <em>[U1.1, U1.3]</em></li>
+<li><strong>[DB E0021]</strong> (intermedio) Descomposición par/impar de <span class="math inline">\ln(x)</span> — con sorpresa compleja. <em>[U1.2]</em></li>
+<li><strong>[DB E0022]</strong> (intermedio) Demostración: la energía se reparte entre parte par e impar. <em>[U1.2, U1.1]</em></li>
+<li><strong>[DB E0018]</strong> (intermedio) Transformaciones de una cúbica: <span class="math inline">f(2x)</span>, <span class="math inline">f(-(x-3))</span>, <span class="math inline">3 + f(2(x-3))</span>. <em>[U1.3]</em></li>
+<li><strong>[DB E0020]</strong> (básico) Escribir un pulso rectangular graficado como expresión analítica, de dos formas. <em>[U1.3]</em></li>
+<li><strong>[DB E0019]</strong> (intermedio) Expresión analítica de una señal periódica triangular graficada. <em>[U1.3]</em></li>
+<li><strong>[DB E0023]</strong> (básico) Área de <span class="math inline">\alpha^2\operatorname{rect}(\alpha x)</span> — escalamiento y área en una línea. <em>[U1.3]</em></li>
+<li><strong>[DB E0026]</strong> (intermedio) Una propiedad de la función triángulo, demostrada desde las definiciones. <em>[U1.4]</em></li>
+<li><strong>[DB E0025]</strong> (intermedio) Aproximaciones de <span class="math inline">\delta</span> y su derivada: el doblete visto de cerca. <em>[U1.4]</em></li>
+<li><strong>[DB E0036]</strong> (intermedio) <span class="math inline">\int \delta'(t)\,dt</span> — el doblete muerde. <em>[U1.4]</em></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Antes de seguir
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si puedes resolver de corrido los ejercicios 1 y 5 y el relámpago de la <a href="#sec-sifting" class="quarto-xref"><span>Sección 1.5.2</span></a>, estás listo para el capítulo 2 — que usará todo lo de este capítulo sin pedir permiso. Si no, este es el momento de volver.</p>
+</div>
+</div>
+</section>
+<section id="sec-referencias-cap01" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="sec-referencias-cap01"><span class="header-section-number">1.8</span> Para profundizar</h2>
+<ul>
+<li><strong>[Alvarado]</strong> §1.1 (clasificación de señales, con el panorama completo de cinco criterios y el adelanto visual de muestreo y cuantización), §1.6 problemas 1.11–1.12 (transformaciones, directas e inversas); la construcción del impulso como límite de pulsos está en §3.2.1.</li>
+<li><strong>[Oppenheim]</strong> §1.1 (señales, energía y potencia), §1.2 (transformaciones, periodicidad, par/impar), §1.3 (exponenciales y sinusoides), §1.4 (impulso y escalón, continuo y discreto).</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Prefacio">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Prefacio</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./cap02.html" class="pagination-link" aria-label="Sistemas">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

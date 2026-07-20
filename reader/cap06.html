@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; La transformada Z – Señales y Sistemas</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./cap07.html" rel="next">
+<link href="./cap05.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d3f7f8e73c8d287b30bcf59c2b563615.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cap06.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Señales y Sistemas</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Señales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap06.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#sec-promesa-z" id="toc-sec-promesa-z" class="nav-link active" data-scroll-target="#sec-promesa-z"><span class="header-section-number">6.1</span> Una promesa por cumplir</a></li>
+  <li><a href="#sec-definicion-z" id="toc-sec-definicion-z" class="nav-link" data-scroll-target="#sec-definicion-z"><span class="header-section-number">6.2</span> La autofunción <span class="math inline">z^n</span> y la definición</a>
+  <ul class="collapse">
+  <li><a href="#sec-canonicas" id="toc-sec-canonicas" class="nav-link" data-scroll-target="#sec-canonicas"><span class="header-section-number">6.2.1</span> Misma fórmula, ¿misma señal?</a></li>
+  </ul></li>
+  <li><a href="#sec-enrollar" id="toc-sec-enrollar" class="nav-link" data-scroll-target="#sec-enrollar"><span class="header-section-number">6.3</span> El mapa: enrollar el plano <span class="math inline">s</span></a></li>
+  <li><a href="#sec-inversa-z" id="toc-sec-inversa-z" class="nav-link" data-scroll-target="#sec-inversa-z"><span class="header-section-number">6.4</span> La inversa: un <span class="math inline">X(z)</span>, tres señales</a>
+  <ul class="collapse">
+  <li><a href="#sec-truco-xz" id="toc-sec-truco-xz" class="nav-link" data-scroll-target="#sec-truco-xz"><span class="header-section-number">6.4.1</span> El truco <span class="math inline">X(z)/z</span></a></li>
+  </ul></li>
+  <li><a href="#sec-hz-ecuacion" id="toc-sec-hz-ecuacion" class="nav-link" data-scroll-target="#sec-hz-ecuacion"><span class="header-section-number">6.5</span> <span class="math inline">H(z)</span>, la ecuación de diferencias y la estabilidad</a>
+  <ul class="collapse">
+  <li><a href="#sec-estabilidad-z" id="toc-sec-estabilidad-z" class="nav-link" data-scroll-target="#sec-estabilidad-z"><span class="header-section-number">6.5.1</span> Estabilidad: el mapa se cierra</a></li>
+  </ul></li>
+  <li><a href="#sec-leer-circulo" id="toc-sec-leer-circulo" class="nav-link" data-scroll-target="#sec-leer-circulo"><span class="header-section-number">6.6</span> Leer el círculo</a>
+  <ul class="collapse">
+  <li><a href="#sec-metodo-geometrico" id="toc-sec-metodo-geometrico" class="nav-link" data-scroll-target="#sec-metodo-geometrico"><span class="header-section-number">6.6.1</span> El método geométrico: leer <span class="math inline">|H|</span> con una regla</a></li>
+  <li><a href="#sec-recorridos" id="toc-sec-recorridos" class="nav-link" data-scroll-target="#sec-recorridos"><span class="header-section-number">6.6.2</span> Tres recorridos guiados</a></li>
+  <li><a href="#sec-emparejar" id="toc-sec-emparejar" class="nav-link" data-scroll-target="#sec-emparejar"><span class="header-section-number">6.6.3</span> Emparejar <span class="math inline">H(z) \leftrightarrow |H|</span>: el calibre de la I4</a></li>
+  </ul></li>
+  <li><a href="#sec-diseno-z" id="toc-sec-diseno-z" class="nav-link" data-scroll-target="#sec-diseno-z"><span class="header-section-number">6.7</span> Diseñar: escribir en el plano</a>
+  <ul class="collapse">
+  <li><a href="#sec-notch" id="toc-sec-notch" class="nav-link" data-scroll-target="#sec-notch"><span class="header-section-number">6.7.1</span> El notch, paso a paso</a></li>
+  <li><a href="#sec-verificar-notch" id="toc-sec-verificar-notch" class="nav-link" data-scroll-target="#sec-verificar-notch"><span class="header-section-number">6.7.2</span> Verificar y escuchar</a></li>
+  <li><a href="#sec-otros-disenos" id="toc-sec-otros-disenos" class="nav-link" data-scroll-target="#sec-otros-disenos"><span class="header-section-number">6.7.3</span> Variaciones sobre el mismo tema</a></li>
+  </ul></li>
+  <li><a href="#sec-cierre-z" id="toc-sec-cierre-z" class="nav-link" data-scroll-target="#sec-cierre-z"><span class="header-section-number">6.8</span> Cierre: la función que vive en el círculo</a></li>
+  <li><a href="#sec-resumen-cap06" id="toc-sec-resumen-cap06" class="nav-link" data-scroll-target="#sec-resumen-cap06"><span class="header-section-number">6.9</span> En una página</a></li>
+  <li><a href="#sec-ejercicios-cap06" id="toc-sec-ejercicios-cap06" class="nav-link" data-scroll-target="#sec-ejercicios-cap06"><span class="header-section-number">6.10</span> Ejercicios</a></li>
+  <li><a href="#sec-referencias-cap06" id="toc-sec-referencias-cap06" class="nav-link" data-scroll-target="#sec-referencias-cap06"><span class="header-section-number">6.11</span> Para profundizar</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-cap06" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U6.1–U6.6]
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al terminar este capítulo podrás: <strong>calcular</strong> la transformada Z bilateral de señales derechas, izquierdas y bilaterales, determinando en cada caso la ROC y dibujando el diagrama de polos y ceros [U6.1]; <strong>explicar</strong> el mapa <span class="math inline">z = e^{sT}</span> que enrolla el plano <span class="math inline">s</span> sobre el plano <span class="math inline">z</span> [U6.1, U6.3]; <strong>invertir</strong> transformadas racionales por fracciones parciales, eligiendo la inversión según la ROC [U6.2]; <strong>conectar</strong> <span class="math inline">H(z)</span> con la ecuación de diferencias y decidir causalidad y estabilidad desde el plano [U6.4]; <strong>leer</strong> la respuesta en frecuencia directamente del diagrama de polos y ceros, con geometría y sin integrales [U6.3, U6.5]; y — el objetivo <em>Crear</em> del curso [OC7] — <strong>diseñar</strong> un filtro ubicando tú los polos y los ceros, verificarlo en Python y escucharlo funcionar [U6.6].</p>
+<p>Esta unidad se evalúa en la I4 y en el examen (la pregunta de diseño del examen sale de aquí). Prerrequisitos que se usan sin avisar: el plano <span class="math inline">s</span> como mapa (capítulo 4) y la frecuencia discreta <span class="math inline">\Omega</span> con el aliasing (capítulo 5).</p>
+</div>
+</div>
+<section id="sec-promesa-z" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sec-promesa-z"><span class="header-section-number">6.1</span> Una promesa por cumplir</h2>
+<p>El primer día del curso — y en el prefacio de este Reader — quedó escrita una promesa: <em>al final del semestre serás capaz de tomar una grabación contaminada con un zumbido, diseñar tú el filtro que lo elimina, y verificarlo con tus propios oídos.</em> Este es el capítulo donde se cumple. Escucha el problema: una melodía muestreada a <span class="math inline">F_s = 8000</span> Hz, contaminada con un tono parásito de <span class="math inline">2000</span> Hz:</p>
+<audio controls="" src="assets/audio/notch_antes.wav">
+</audio>
+<p>Al final del capítulo (<a href="#sec-diseno-z" class="quarto-xref"><span>Sección 6.7</span></a>) vas a diseñar — con cinco coeficientes que sabrás deducir completos — el filtro que borra ese tono sin dañar la música. Pero para <em>escribir</em> en un plano primero hay que saber leerlo, y para leerlo hay que construirlo. Ese es el arco de este capítulo: definir la transformada Z y su geografía, enrollar el mapa que ya conoces del mundo continuo, aprender a leer el círculo unitario… y entonces sí, escribir en él.</p>
+</section>
+<section id="sec-definicion-z" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="sec-definicion-z"><span class="header-section-number">6.2</span> La autofunción <span class="math inline">z^n</span> y la definición</h2>
+<p>En el capítulo 5 cerramos el mundo discreto “en el tiempo”: ecuaciones de diferencias, <span class="math inline">h[n]</span>, convolución. Pero recuerda cómo terminó la historia análoga en continuo: las ecuaciones <em>diferenciales</em> se volvieron álgebra cuando llegó Laplace, y el plano <span class="math inline">s</span> se volvió un <strong>mapa</strong> donde la posición de los polos decía todo — oscila, decae, explota. El mundo discreto merece exactamente la misma herramienta.</p>
+<p>La pista está donde siempre: en las <strong>autofunciones</strong>. En continuo, <span class="math inline">e^{st}</span> atravesaba los sistemas LTI sin deformarse. La señal discreta análoga es la exponencial <span class="math inline">z^n</span> con <span class="math inline">z \in \mathbb{C}</span>. Pásala por un sistema LTI con respuesta al impulso <span class="math inline">h[n]</span>:</p>
+<p><span class="math display">y[n] = \sum_{k=-\infty}^{\infty} h[k]\, z^{n-k} = z^n \underbrace{\sum_{k=-\infty}^{\infty} h[k]\, z^{-k}}_{\text{un número: } H(z)}</span></p>
+<p>La señal sale <em>igual</em>, multiplicada por una constante compleja <span class="math inline">H(z)</span>. Esa suma que apareció sola es la protagonista de todo el capítulo.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: transformada Z bilateral
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">X(z) = \sum_{n=-\infty}^{\infty} x[n]\, z^{-n}, \qquad z \in \mathbb{C}</span> El conjunto de valores de <span class="math inline">z</span> donde la suma converge (absolutamente) es la <strong>región de convergencia (ROC)</strong>. La transformada es el <em>par</em> <span class="math inline">\big(X(z), \text{ROC}\big)</span>: sin ROC, la respuesta está incompleta — exactamente como en Laplace.</p>
+</div>
+</div>
+<p>Escribimos <span class="math inline">z = r\,e^{j\Omega}</span>: módulo <span class="math inline">r</span> y ángulo <span class="math inline">\Omega</span>. Como la convergencia solo depende de <span class="math inline">|z|</span> (la condición es <span class="math inline">\sum |x[n]|\, r^{-n} &lt; \infty</span>), la ROC siempre estará delimitada por <strong>círculos centrados en el origen</strong>.</p>
+<p>Dos notas antes del primer cálculo:</p>
+<ul>
+<li><strong>Notación.</strong> El ángulo en el plano <span class="math inline">z</span> es la frecuencia discreta <span class="math inline">\Omega</span>, en rad/muestra — la misma del capítulo 5. En [Oppenheim] la verás escrita como <span class="math inline">\omega</span>: misma cosa, otra letra; nosotros reservamos <span class="math inline">\omega</span> para los rad/s del mundo continuo (reaparecerá en la <a href="#sec-enrollar" class="quarto-xref"><span>Sección 6.3</span></a>, con todo derecho).</li>
+<li><strong>Honestidad matemática</strong> (treinta segundos y seguimos): <span class="math inline">X(z)</span> es una serie de Laurent, y toda la teoría de convergencia en anillos viene gratis del análisis complejo. Para este curso basta con operar la serie geométrica y anotar dónde converge.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto: el par fundamental
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Calcula la transformada Z de <span class="math inline">x[n] = a^n u[n]</span>, la exponencial causal.</p>
+<p><strong>Solución.</strong> Serie geométrica de razón <span class="math inline">az^{-1}</span>: <span class="math display">X(z) = \sum_{n=0}^{\infty} a^n z^{-n} = \sum_{n=0}^{\infty} \left(a z^{-1}\right)^n = \frac{1}{1 - a z^{-1}} = \frac{z}{z-a}, \qquad \text{si } |a z^{-1}| &lt; 1 \iff |z| &gt; |a|</span></p>
+<p>En el diagrama: <strong>polo</strong> en <span class="math inline">z = a</span> (marca <span class="math inline">\times</span>), <strong>cero</strong> en <span class="math inline">z = 0</span> (marca <span class="math inline">\circ</span>), y la ROC es todo lo que queda <em>afuera</em> del círculo de radio <span class="math inline">|a|</span>. Caso particular querido: <span class="math inline">u[n] \leftrightarrow \frac{1}{1-z^{-1}}</span>, ROC <span class="math inline">|z| &gt; 1</span>.</p>
+</div>
+</div>
+<p><strong>Convención de trabajo</strong>: en discreto conviene escribir todo en potencias de <span class="math inline">z^{-1}</span>. No es manía — cada <span class="math inline">z^{-1}</span> es “un retardo de una muestra”, y esa lectura se cobrará en la <a href="#sec-hz-ecuacion" class="quarto-xref"><span>Sección 6.5</span></a> cuando <span class="math inline">H(z)</span> se convierta en un programa.</p>
+<section id="sec-canonicas" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="sec-canonicas"><span class="header-section-number">6.2.1</span> Misma fórmula, ¿misma señal?</h3>
+<p>Ahora la pregunta que define la geografía del plano. Considera <span class="math inline">x[n] = -a^n u[-n-1]</span>: una exponencial que vive <em>solo en el pasado</em> (<span class="math inline">n \le -1</span>). ¿Puede tener la <strong>misma fórmula</strong> <span class="math inline">\frac{1}{1-az^{-1}}</span> que la causal <span class="math inline">a^n u[n]</span>? Piénsalo antes de leer — parece imposible que dos señales tan distintas compartan transformada.</p>
+<p><span class="math display">\mathcal{Z}\left\{-a^n u[-n-1]\right\} = -\sum_{n=-\infty}^{-1} a^n z^{-n} \overset{m=-n}{=} -\sum_{m=1}^{\infty} \left(\frac{z}{a}\right)^{m} = -\frac{z/a}{1 - z/a} = \frac{1}{1-az^{-1}}, \qquad |z| &lt; |a|</span></p>
+<p>Sí puede: <strong>fórmula idéntica, ROC opuesta</strong> — la causal converge <em>afuera</em> del polo, la anticausal <em>adentro</em>. Dos señales completamente distintas comparten la expresión algebraica; solo la ROC las distingue. Es el análogo exacto de lo que viste en Laplace con <span class="math inline">e^{-at}u(t)</span> y <span class="math inline">-e^{-at}u(-t)</span>, y es la razón de que la ROC no sea un adorno: <em>es la mitad de la respuesta</em>.</p>
+<p>El tercer miembro de la familia es bilateral — el análogo discreto de <span class="math inline">e^{-a|t|}</span>. Sea <span class="math inline">x[n] = a^{|n|}</span> con <span class="math inline">0 &lt; a &lt; 1</span>; separando en presente/futuro y pasado, <span class="math inline">x[n] = a^n u[n] + a^{-n} u[-n-1]</span>:</p>
+<p><span class="math display">X(z) = \underbrace{\frac{1}{1-az^{-1}}}_{|z|&gt;a} + \underbrace{\frac{az}{1-az}}_{|z| &lt; 1/a} \qquad \text{ROC: } a &lt; |z| &lt; \frac{1}{a}</span></p>
+<p>La ROC es un <strong>anillo</strong>: la parte derecha de la señal exige estar afuera de <span class="math inline">|z| = a</span>, la parte izquierda adentro de <span class="math inline">|z| = 1/a</span>. Y nota el detalle con castigo: si <span class="math inline">a \ge 1</span>, las dos condiciones son incompatibles y la transformada <strong>no existe</strong> para ningún <span class="math inline">z</span> — no toda señal tiene transformada Z.</p>
+<div id="b2781cbe" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap06_files/figure-html/cell-2-output-1.png" width="854" height="506" class="figure-img"></p>
+<figcaption>Los tres pares canónicos con a = 0.7: la misma fórmula 1/(1−az⁻¹) describe la señal causal (ROC exterior) y la anticausal (ROC interior); la bilateral a^|n| suma ambas mitades y vive en un anillo. En cada diagrama: × polos, ○ ceros, zona sombreada = ROC, círculo unitario punteado como referencia.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Estos tres ejemplos contienen ya toda la geografía posible. Las <strong>reglas de la ROC</strong> (compáralas línea a línea con las de Laplace — son las mismas, con círculos en vez de rectas):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Señal</th>
+<th>ROC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>duración finita</td>
+<td>todo el plano (salvo quizás <span class="math inline">z=0</span> y/o <span class="math inline">z=\infty</span>)</td>
+</tr>
+<tr class="even">
+<td>derecha (causal desde algún <span class="math inline">n_0</span>)</td>
+<td><em>exterior</em>: <span class="math inline">\lvert z\rvert &gt;</span> radio del polo más externo</td>
+</tr>
+<tr class="odd">
+<td>izquierda</td>
+<td><em>interior</em>: <span class="math inline">\lvert z\rvert &lt;</span> radio del polo más interno</td>
+</tr>
+<tr class="even">
+<td>bilateral</td>
+<td>un <em>anillo</em> entre dos polos</td>
+</tr>
+<tr class="odd">
+<td>(siempre)</td>
+<td>la ROC nunca contiene polos y es un solo anillo conexo</td>
+</tr>
+</tbody>
+</table>
+<p>Y el par trivial que completa el kit de supervivencia: <span class="math inline">\delta[n-k] \leftrightarrow z^{-k}</span>, con ROC todo el plano (salvo <span class="math inline">z = 0</span> si <span class="math inline">k &gt; 0</span>).</p>
+</section>
+</section>
+<section id="sec-enrollar" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="sec-enrollar"><span class="header-section-number">6.3</span> El mapa: enrollar el plano <span class="math inline">s</span></h2>
+<p>En el capítulo 4 aprendiste a leer el plano <span class="math inline">s</span> como un mapa: polos a la izquierda decaen, sobre el eje <span class="math inline">j\omega</span> oscilan para siempre, a la derecha explotan. Ahí quedó plantada una promesa — que ese mapa te serviría de nuevo. Hoy se cobra: <strong>ya sabes leer un mapa como este; lo que vamos a hacer ahora es enrollarlo.</strong></p>
+<p>La conexión entre los dos planos no es una analogía: es física, y pasa por el muestreo (capítulo 5). Toma la señal continua <span class="math inline">e^{st}</span> y muéstrala cada <span class="math inline">T</span> segundos:</p>
+<p><span class="math display">e^{s(nT)} = \left(e^{sT}\right)^n = z^n \qquad \text{con } \boxed{z = e^{sT}}</span></p>
+<p>La exponencial continua del plano <span class="math inline">s</span> <em>se convierte en</em> la exponencial discreta del plano <span class="math inline">z</span>, y el puente entre ambas es el mapeo <span class="math inline">z = e^{sT}</span>. Veamos con calma a dónde manda cada región. Escribe <span class="math inline">s = \sigma + j\omega</span> (aquí <span class="math inline">\omega</span> es la frecuencia continua, en rad/s — su único territorio en este capítulo):</p>
+<p><span class="math display">z = e^{\sigma T}\, e^{j\omega T} \qquad \Longrightarrow \qquad |z| = e^{\sigma T}, \qquad \angle z = \omega T = \Omega</span></p>
+<p>Léelo por partes, porque aquí está todo:</p>
+<ul>
+<li><strong>El módulo de <span class="math inline">z</span> codifica el crecimiento</strong>: <span class="math inline">\sigma &lt; 0</span> (decae) da <span class="math inline">|z| &lt; 1</span>; <span class="math inline">\sigma = 0</span> (oscila) da <span class="math inline">|z| = 1</span>; <span class="math inline">\sigma &gt; 0</span> (explota) da <span class="math inline">|z| &gt; 1</span>. El <strong>eje <span class="math inline">j\omega</span> se enrolla sobre el círculo unitario</strong>, el semiplano izquierdo entero se comprime al <strong>interior</strong> del círculo, y el derecho queda afuera.</li>
+<li><strong>El ángulo de <span class="math inline">z</span> codifica la frecuencia</strong>: <span class="math inline">\Omega = \omega T</span> — exactamente la frecuencia discreta del capítulo 5, ahora con significado geométrico. En el plano <span class="math inline">s</span> la frecuencia se leía “hacia arriba”; en el plano <span class="math inline">z</span> se lee <strong>como ángulo</strong>.</li>
+<li><strong>Dos puntos de referencia</strong> que usaremos sin parar: <span class="math inline">s = 0 \to z = 1</span> (la DC vive en <span class="math inline">z = 1</span>) y <span class="math inline">\omega = \pi/T</span> — ¡la frecuencia de Nyquist! — <span class="math inline">\to z = e^{j\pi} = -1</span> (Nyquist vive en <span class="math inline">z = -1</span>).</li>
+</ul>
+<div id="622143d6" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap06_files/figure-html/cell-3-output-1.png" width="853" height="393" class="figure-img"></p>
+<figcaption>El mapeo z = e^{sT} enrolla el plano s sobre el plano z. El color marca la correspondencia: el segmento del eje jω entre −π/T y π/T (una franja) se convierte en el círculo unitario completo; el semiplano izquierdo (sombreado) se comprime al interior del círculo. Los puntos marcados: DC (s = 0 → z = 1), Nyquist (ω = π/T → z = −1) y un polo estable s = −2 + j3 (T = 1) que aterriza dentro del círculo. Las franjas siguientes del plano s (arriba y abajo, grises) se enrollan sobre el mismo círculo: aliasing.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto: ¿dónde aterriza un polo?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un sistema continuo tiene un polo en <span class="math inline">s = -2 + j3</span> y se muestrea con <span class="math inline">T = 1</span> s. ¿El polo cae dentro, sobre o fuera del círculo unitario?</p>
+<p><strong>Solución.</strong> <span class="math inline">z = e^{sT} = e^{-2}e^{j3}</span>, así que <span class="math inline">|z| = e^{-2} \approx 0.135</span>: bien <strong>adentro</strong>. El ángulo es <span class="math inline">\Omega = 3</span> rad/muestra. Moral general que vale más que el número: <span class="math inline">\sigma &lt; 0 \Rightarrow |z| = e^{\sigma T} &lt; 1</span> siempre — <strong>lo estable en <span class="math inline">s</span> aterriza dentro del círculo en <span class="math inline">z</span></strong>, con cualquier <span class="math inline">T</span>.</p>
+</div>
+</div>
+<p>Y la letra chica del mapeo — medio minuto, pero es profunda. Como <span class="math inline">\angle z</span> se mide módulo <span class="math inline">2\pi</span>, los puntos <span class="math inline">s</span> y <span class="math inline">s + j\frac{2\pi}{T}</span> caen en el <strong>mismo</strong> <span class="math inline">z</span>: el mapeo <strong>no es inyectivo</strong>. Cada franja horizontal de altura <span class="math inline">\frac{2\pi}{T}</span> del plano <span class="math inline">s</span> se enrolla sobre el plano <span class="math inline">z</span> <em>completo</em>, una y otra vez. ¿Te suena? Es el <strong>aliasing</strong> del capítulo 5, releído como geometría: frecuencias continuas distintas que se vuelven indistinguibles al muestrear son puntos distintos del plano <span class="math inline">s</span> que aterrizan en el mismo punto del plano <span class="math inline">z</span>. El teorema del muestreo, el dial que se repite cada <span class="math inline">2\pi</span>, y este enrollado son tres fotografías del mismo hecho.</p>
+<p>El diccionario completo, para la hoja resumen:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Plano <span class="math inline">s</span> (capítulo 4)</th>
+<th>Plano <span class="math inline">z</span> (hoy)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>eje <span class="math inline">j\omega</span></td>
+<td>círculo unitario <span class="math inline">\lvert z\rvert = 1</span></td>
+</tr>
+<tr class="even">
+<td>semiplano izquierdo</td>
+<td>interior del círculo</td>
+</tr>
+<tr class="odd">
+<td>semiplano derecho</td>
+<td>exterior del círculo</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">s = 0</span> (DC)</td>
+<td><span class="math inline">z = 1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\omega = \pi/T</span> (Nyquist)</td>
+<td><span class="math inline">z = -1</span></td>
+</tr>
+<tr class="even">
+<td>frecuencia = altura</td>
+<td>frecuencia = <strong>ángulo</strong> <span class="math inline">\Omega = \omega T</span></td>
+</tr>
+<tr class="odd">
+<td>franjas de altura <span class="math inline">2\pi/T</span></td>
+<td>el mismo plano, una y otra vez (aliasing)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sec-inversa-z" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="sec-inversa-z"><span class="header-section-number">6.4</span> La inversa: un <span class="math inline">X(z)</span>, tres señales</h2>
+<p>La <a href="#sec-canonicas" class="quarto-xref"><span>Sección 6.2.1</span></a> mostró que la fórmula sola no determina la señal — la ROC decide. Ahora lo convertimos en método. Para las <span class="math inline">X(z)</span> <strong>racionales</strong> (las de todos los sistemas de este curso), la herramienta es la misma de Laplace: <strong>fracciones parciales</strong>, escritas en la variable natural del mundo discreto, <span class="math inline">z^{-1}</span>. Los dos pares que hay que tener tatuados:</p>
+<p><span class="math display">a^n u[n] \;\longleftrightarrow\; \frac{1}{1-az^{-1}}, \;\; |z|&gt;|a| \qquad\qquad -a^n u[-n-1] \;\longleftrightarrow\; \frac{1}{1-az^{-1}}, \;\; |z|&lt;|a|</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I4): las tres señales escondidas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Encuentra <strong>todas</strong> las señales cuya transformada es <span class="math display">X(z) = \frac{1}{\left(1-\tfrac{1}{2}z^{-1}\right)\left(1-2z^{-1}\right)}</span></p>
+<p><strong>Solución.</strong> Polos en <span class="math inline">z = \tfrac12</span> y <span class="math inline">z = 2</span>: hay <strong>tres</strong> ROC posibles — exterior <span class="math inline">|z| &gt; 2</span>, anillo <span class="math inline">\tfrac12 &lt; |z| &lt; 2</span>, interior <span class="math inline">|z| &lt; \tfrac12</span> — y por lo tanto tres señales distintas en la misma fórmula. Fracciones parciales tratando <span class="math inline">z^{-1}</span> como la variable: <span class="math display">X(z) = \frac{A}{1-\tfrac12 z^{-1}} + \frac{B}{1-2z^{-1}}, \qquad A = \left.\frac{1}{1-2z^{-1}}\right|_{z^{-1}=2} = -\frac13, \qquad B = \left.\frac{1}{1-\tfrac12 z^{-1}}\right|_{z^{-1}=\frac12} = \frac43</span></p>
+<p>(Verificación de un segundo: en <span class="math inline">z^{-1} = 0</span> debe dar <span class="math inline">1</span>: <span class="math inline">A + B = -\tfrac13 + \tfrac43 = 1</span> ✓.) Ahora <strong>cada término se invierte según de qué lado de su polo está la ROC</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>ROC</th>
+<th>término de <span class="math inline">\tfrac12</span></th>
+<th>término de <span class="math inline">2</span></th>
+<th><span class="math inline">x[n]</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\lvert z\rvert &gt; 2</span></td>
+<td>derecha</td>
+<td>derecha</td>
+<td><span class="math inline">\left[-\tfrac13\left(\tfrac12\right)^n + \tfrac43\, 2^n\right]u[n]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\tfrac12 &lt; \lvert z\rvert &lt; 2</span></td>
+<td>derecha</td>
+<td>izquierda</td>
+<td><span class="math inline">-\tfrac13\left(\tfrac12\right)^n u[n] - \tfrac43\, 2^n u[-n-1]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\lvert z\rvert &lt; \tfrac12</span></td>
+<td>izquierda</td>
+<td>izquierda</td>
+<td><span class="math inline">\left[\tfrac13\left(\tfrac12\right)^n - \tfrac43\, 2^n\right]u[-n-1]</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="b5272033" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap06_files/figure-html/cell-4-output-1.png" width="873" height="267" class="figure-img"></p>
+<figcaption>Un X(z), tres señales: las tres inversiones del ejemplo, una por ROC. Solo la del anillo (centro) decae hacia ambos lados — es la única absolutamente sumable, y su ROC es la única que contiene el círculo unitario. Nota las escalas verticales: las otras dos explotan.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La del anillo es la única que decae hacia ambos lados — la única absolutamente sumable. Guarda esa observación: en la <a href="#sec-estabilidad-z" class="quarto-xref"><span>Sección 6.5.1</span></a> se convertirá en el criterio de estabilidad.</p>
+<section id="sec-truco-xz" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="sec-truco-xz"><span class="header-section-number">6.4.1</span> El truco <span class="math inline">X(z)/z</span></h3>
+<p>A veces <span class="math inline">X(z)</span> llega en potencias <em>positivas</em> de <span class="math inline">z</span> (es lo natural al factorizar polos y ceros). Los pares de tabla tienen la forma <span class="math inline">\frac{z}{z-a}</span> — con una <span class="math inline">z</span> arriba. El truco estándar: <strong>expandir <span class="math inline">X(z)/z</span> en fracciones parciales y multiplicar de vuelta</strong>.</p>
+<p>Mini-ejemplo: <span class="math inline">X(z) = \dfrac{z}{(z-1)\left(z-\tfrac12\right)}</span>, causal. <span class="math display">\frac{X(z)}{z} = \frac{1}{(z-1)\left(z-\tfrac12\right)} = \frac{2}{z-1} - \frac{2}{z-\tfrac12} \qquad\Rightarrow\qquad X(z) = \frac{2z}{z-1} - \frac{2z}{z-\tfrac12}</span> <span class="math display">x[n] = 2\left[1 - \left(\tfrac12\right)^n\right]u[n]</span></p>
+<p>(Chequeo: <span class="math inline">x[0] = 0</span> ✓ — coherente con que <span class="math inline">X(z) \to 0</span> cuando <span class="math inline">z \to \infty</span>.) ¿Por qué dividir por <span class="math inline">z</span>? Para que cada fracción simple quede con su <span class="math inline">z</span> “de regalo” al multiplicar de vuelta, calzando con el par <span class="math inline">\frac{z}{z-a} \leftrightarrow a^n u[n]</span>. Ambos caminos — <span class="math inline">z^{-1}</span> directo o <span class="math inline">X(z)/z</span> — son equivalentes; elige uno y sé consistente.</p>
+</section>
+</section>
+<section id="sec-hz-ecuacion" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="sec-hz-ecuacion"><span class="header-section-number">6.5</span> <span class="math inline">H(z)</span>, la ecuación de diferencias y la estabilidad</h2>
+<p>Aquí el plano <span class="math inline">z</span> se vuelve <em>operativo</em>. La propiedad clave es el <strong>desplazamiento temporal</strong> (demuéstrala: es un cambio de índice en la definición):</p>
+<p><span class="math display">x[n-k] \;\longleftrightarrow\; z^{-k}\,X(z)</span></p>
+<p>Cada <span class="math inline">z^{-1}</span> <strong>es</strong> un retardo de una muestra. Entonces una ecuación de diferencias genérica se transforma término a término, y el cociente sale solo:</p>
+<p><span class="math display">\sum_k a_k\, y[n-k] = \sum_k b_k\, x[n-k] \quad\Longrightarrow\quad H(z) = \frac{Y(z)}{X(z)} = \frac{\sum_k b_k z^{-k}}{\sum_k a_k z^{-k}}</span></p>
+<p>La ecuación de diferencias y <span class="math inline">H(z)</span> son <strong>la misma información</strong>: los coeficientes de una se leen de corrido en la otra, sin cálculo. Y la vuelta funciona igual — multiplicar cruzado y devolver cada <span class="math inline">z^{-k}</span> a su retardo. Por ejemplo, <span class="math inline">H(z) = \frac{b_0 + b_2 z^{-2}}{1 + a_2 z^{-2}}</span> se convierte en</p>
+<p><span class="math display">y[n] = b_0\, x[n] + b_2\, x[n-2] - a_2\, y[n-2]</span></p>
+<p><strong>Anótalo con estrella</strong>: esa línea es <em>literalmente un programa</em>. Es exactamente lo que ejecuta <code>scipy.signal.lfilter(b, a, x)</code> con los coeficientes <code>b</code> (numerador) y <code>a</code> (denominador) de <span class="math inline">H(z)</span>: la ecuación de diferencias corriendo muestra a muestra. En la <a href="#sec-diseno-z" class="quarto-xref"><span>Sección 6.7</span></a> vamos a <em>escribir</em> nosotros esos coeficientes… y a escuchar el resultado.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I4): el circuito completo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El sistema causal <span class="math inline">y[n] - \tfrac56\, y[n-1] + \tfrac16\, y[n-2] = x[n]</span>. Encuentra <span class="math inline">H(z)</span>, su ROC, <span class="math inline">h[n]</span> y decide estabilidad.</p>
+<p><strong>Solución.</strong></p>
+<ol type="1">
+<li><em>Transferencia</em> (lectura directa): <span class="math inline">H(z) = \dfrac{1}{1 - \tfrac56 z^{-1} + \tfrac16 z^{-2}} = \dfrac{1}{\left(1-\tfrac12 z^{-1}\right)\left(1-\tfrac13 z^{-1}\right)}</span> — polos en <span class="math inline">\tfrac12</span> y <span class="math inline">\tfrac13</span>, cero doble en <span class="math inline">z = 0</span>.</li>
+<li><em>ROC</em>: causal ⇒ exterior del polo más externo: <span class="math inline">|z| &gt; \tfrac12</span>.</li>
+<li><em>Respuesta al impulso</em> (fracciones parciales): <span class="math inline">A = \left.\frac{1}{1-\frac13 z^{-1}}\right|_{z^{-1}=2} = 3</span>, <span class="math inline">\;B = \left.\frac{1}{1-\frac12 z^{-1}}\right|_{z^{-1}=3} = -2</span>: <span class="math display">h[n] = \left[3\left(\tfrac12\right)^n - 2\left(\tfrac13\right)^n\right]u[n]</span> (Chequeo: <span class="math inline">h[0] = 3 - 2 = 1</span> ✓, que coincide con iterar la ecuación con <span class="math inline">x = \delta</span>.)</li>
+<li><em>Estabilidad</em>: la ROC <span class="math inline">|z| &gt; \tfrac12</span> contiene el círculo unitario ⇒ <strong>estable</strong> — criterio recién prometido, demostrado a continuación.</li>
+</ol>
+</div>
+</div>
+<section id="sec-estabilidad-z" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="sec-estabilidad-z"><span class="header-section-number">6.5.1</span> Estabilidad: el mapa se cierra</h3>
+<p>Un sistema LTI discreto es BIBO-estable ⇔ <span class="math inline">\sum_n |h[n]| &lt; \infty</span> (capítulo 5). Evalúa <span class="math inline">H(z)</span> sobre el círculo unitario, <span class="math inline">z = e^{j\Omega}</span> — donde <span class="math inline">|z^{-n}| = 1</span>:</p>
+<p><span class="math display">\left|H(e^{j\Omega})\right| \le \sum_n |h[n]|\,\left|e^{-j\Omega n}\right| = \sum_n |h[n]|</span></p>
+<p>Si <span class="math inline">h</span> es absolutamente sumable, la serie converge en todo el círculo — y viceversa para las racionales del curso. Conclusión, en el lugar de honor:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Estabilidad en el plano <span class="math inline">z</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\text{estable} \iff \text{la ROC contiene el círculo unitario } |z| = 1</span> Si además el sistema es <strong>causal</strong> (ROC exterior al polo más externo), entonces: <span class="math display">\text{causal y estable} \iff \text{todos los polos estrictamente dentro del círculo unitario}</span></p>
+</div>
+</div>
+<p>Es el cierre perfecto del mapa de la <a href="#sec-enrollar" class="quarto-xref"><span>Sección 6.3</span></a>: en <span class="math inline">s</span>, causal + estable era “todos los polos en el semiplano izquierdo”; el mapeo <span class="math inline">z = e^{sT}</span> manda el semiplano izquierdo al interior del círculo — <strong>la regla discreta es la regla continua, enrollada</strong>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>La trampa clásica: el polo en <span class="math inline">z = 3/2</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">H(z) = \dfrac{1}{1-\tfrac32 z^{-1}}</span>, con su polo <em>fuera</em> del círculo. (a) Si el sistema es causal, ¿es estable? (b) ¿Existe alguna ROC que lo haga estable?</p>
+<ol type="a">
+<li><strong>No</strong>: causal ⇒ ROC <span class="math inline">|z| &gt; \tfrac32</span>, que no contiene el círculo; <span class="math inline">h[n] = \left(\tfrac32\right)^n u[n]</span> crece sin freno. (b) <strong>Sí</strong> — y aquí muerde la trampa: la ROC <span class="math inline">|z| &lt; \tfrac32</span> <em>sí</em> contiene el círculo. El sistema resultante es estable pero <strong>anticausal</strong>: <span class="math inline">h[n] = -\left(\tfrac32\right)^n u[-n-1]</span>, perfectamente sumable (<span class="math inline">\sum |h| = 2</span>; verifícalo con la serie geométrica). Estabilidad y causalidad son propiedades <strong>independientes</strong>; solo se funden en “polos dentro” cuando exiges ambas a la vez. En una interrogación, “polo fuera del círculo ⇒ inestable” <em>sin mencionar causalidad</em> es respuesta incompleta.</li>
+</ol>
+</div>
+</div>
+<p>Consecuencia inmediata y valiosísima: para un sistema estable, <span class="math inline">H(z)</span> <strong>existe sobre el círculo unitario</strong>. Lo que vive ahí merece sección propia — es la respuesta en frecuencia.</p>
+</section>
+</section>
+<section id="sec-leer-circulo" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="sec-leer-circulo"><span class="header-section-number">6.6</span> Leer el círculo</h2>
+<p>Si la ROC contiene el círculo, podemos evaluar <span class="math inline">H</span> en <span class="math inline">z = e^{j\Omega}</span>. ¿Y qué significa evaluar ahí? Toma la autofunción de la <a href="#sec-definicion-z" class="quarto-xref"><span>Sección 6.2</span></a> con <span class="math inline">z</span> <em>sobre el círculo</em>: <span class="math inline">x[n] = e^{j\Omega n}</span> — ¡una sinusoide compleja pura de frecuencia <span class="math inline">\Omega</span>!</p>
+<p><span class="math display">x[n] = e^{j\Omega n} \;\longrightarrow\; y[n] = H(e^{j\Omega})\, e^{j\Omega n}</span></p>
+<p>El número complejo <span class="math inline">H(e^{j\Omega})</span> dice qué le pasa a <em>esa</em> frecuencia: <span class="math inline">|H(e^{j\Omega})|</span> la amplifica o atenúa, <span class="math inline">\angle H(e^{j\Omega})</span> la desfasa. Para entradas reales: <span class="math inline">\cos(\Omega n) \to |H(e^{j\Omega})|\cos\!\big(\Omega n + \angle H(e^{j\Omega})\big)</span>.</p>
+<p><strong>El círculo unitario es el dial de frecuencias.</strong> Recorrerlo desde <span class="math inline">z = 1</span> (ángulo <span class="math inline">0</span>) hasta <span class="math inline">z = -1</span> (ángulo <span class="math inline">\pi</span>) es barrer todas las frecuencias discretas: la <strong>DC en <span class="math inline">z = 1</span></strong>, la <strong>Nyquist en <span class="math inline">z = -1</span></strong> — los dos puntos de referencia del diccionario de la <a href="#sec-enrollar" class="quarto-xref"><span>Sección 6.3</span></a>, ahora con trabajo. Más allá de <span class="math inline">\pi</span> el ángulo se repite módulo <span class="math inline">2\pi</span>: la periodicidad del espectro discreto, ahora <em>geométrica</em> — el dial es un círculo, no una recta. Con señales reales basta la mitad superior (<span class="math inline">0 \le \Omega \le \pi</span>); la inferior es el espejo conjugado.</p>
+<p>Y la traducción a frecuencia física, que usaremos sin parar al diseñar: si la señal fue muestreada a <span class="math inline">F_s</span>, la frecuencia <span class="math inline">f</span> en Hz vive en el ángulo</p>
+<p><span class="math display">\Omega = 2\pi\,\frac{f}{F_s} \quad \text{(rad/muestra)} \qquad\qquad \text{Nyquist } \left(f = \tfrac{F_s}{2}\right) \to \Omega = \pi</span></p>
+<p><em>Nota honesta (treinta segundos)</em>: esta función <span class="math inline">H(e^{j\Omega}) = \sum_n h[n]\, e^{-j\Omega n}</span> tiene nombre propio y capítulo propio. Por ahora nos basta la lectura que la define: <strong>es <span class="math inline">H(z)</span> restringida al círculo</strong>. El nombre, al final del capítulo.</p>
+<section id="sec-metodo-geometrico" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="sec-metodo-geometrico"><span class="header-section-number">6.6.1</span> El método geométrico: leer <span class="math inline">|H|</span> con una regla</h3>
+<p>Factoriza <span class="math inline">H(z)</span> por sus polos y ceros (en potencias de <span class="math inline">z</span>):</p>
+<p><span class="math display">H(z) = K\,\frac{\prod_k (z - c_k)}{\prod_k (z - p_k)} \qquad\Longrightarrow\qquad \left|H(e^{j\Omega})\right| = |K|\,\frac{\prod_k \left|e^{j\Omega} - c_k\right|}{\prod_k \left|e^{j\Omega} - p_k\right|}</span></p>
+<p>Y aquí está el regalo: <span class="math inline">\left|e^{j\Omega} - c_k\right|</span> es, literalmente, la <strong>distancia</strong> desde el punto que recorre el círculo hasta el cero <span class="math inline">c_k</span> — y lo mismo con los polos. Entonces:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>El método de las distancias
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">|H(e^{j\Omega})| = |K| \cdot \frac{\text{producto de las distancias a los ceros}}{\text{producto de las distancias a los polos}}</span> Reglas de lectura inmediatas:</p>
+<ul>
+<li>Al pasar <strong>cerca de un cero</strong>, el numerador se achica → <span class="math inline">|H|</span> <strong>baja</strong>. Si el cero está <em>sobre</em> el círculo, <span class="math inline">|H| = 0</span> exacto en ese ángulo: la frecuencia muere.</li>
+<li>Al pasar <strong>cerca de un polo</strong>, el denominador se achica → <span class="math inline">|H|</span> <strong>sube</strong> — pico tanto más alto y angosto cuanto más pegado al círculo esté el polo.</li>
+<li>Polos o ceros <strong>en el origen</strong>: distancia constante <span class="math inline">1</span> desde todo el círculo → <strong>no afectan <span class="math inline">|H|</span></strong>, solo la fase.</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto: un pasa-bajos leído con regla
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">H(z) = \dfrac{1}{1-0.9z^{-1}} = \dfrac{z}{z-0.9}</span>: cero en el origen (ignorable para <span class="math inline">|H|</span>), polo en <span class="math inline">0.9</span>. Estima <span class="math inline">|H|</span> en DC y en Nyquist.</p>
+<p><strong>Solución.</strong> En <span class="math inline">\Omega = 0</span> (<span class="math inline">z = 1</span>): distancia al polo <span class="math inline">= 1 - 0.9 = 0.1</span>, así que <span class="math inline">|H| = \frac{1}{0.1} = 10</span>. En <span class="math inline">\Omega = \pi</span> (<span class="math inline">z = -1</span>): distancia <span class="math inline">= 1 + 0.9 = 1.9</span>, así que <span class="math inline">|H| = \frac{1}{1.9} \approx 0.53</span>. Un factor <strong>19</strong> entre graves y agudos, medido con una regla: es un pasa-bajos, y no hizo falta ni una integral.</p>
+</div>
+</div>
+<div id="2c568661" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap06_files/figure-html/cell-5-output-1.png" width="814" height="334" class="figure-img"></p>
+<figcaption>El método de las distancias para H(z) = z/(z−0.9). Izquierda: el punto e^{jΩ} recorre el círculo; |H| es el cociente entre su distancia al cero (origen, siempre 1) y su distancia al polo. Derecha: la curva completa |H(e^{jΩ})| — el pico en DC (distancia mínima al polo, 0.1) y el valle en Nyquist (distancia máxima, 1.9), tal como se leyó con la regla.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-recorridos" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="sec-recorridos"><span class="header-section-number">6.6.2</span> Tres recorridos guiados</h3>
+<p><strong>(a) Un cero en <span class="math inline">z = 1</span>: matar la DC.</strong> <span class="math inline">H(z) = 1 - z^{-1}</span> — la “derivada discreta”, <span class="math inline">y[n] = x[n] - x[n-1]</span>. El cero está <em>sobre</em> el círculo, en el ángulo de la DC → <span class="math inline">|H(e^{j0})| = 0</span>: cualquier constante muere. Vale la pena verlo una vez con álgebra (el truco de factorizar la fase a la mitad es de uso frecuente en la I4): <span class="math display">H(e^{j\Omega}) = 1 - e^{-j\Omega} = e^{-j\Omega/2}\left(e^{j\Omega/2} - e^{-j\Omega/2}\right) = 2j\,\sin\!\left(\tfrac{\Omega}{2}\right)e^{-j\Omega/2} \;\Rightarrow\; |H| = 2\left|\sin\tfrac{\Omega}{2}\right|</span> Crece de <span class="math inline">0</span> (DC) a <span class="math inline">2</span> (Nyquist): un pasa-altos elemental. Geometría y álgebra cuentan la misma historia.</p>
+<p><strong>(b) Polos gemelos cerca del círculo: resonancia.</strong> Polos en <span class="math inline">0.95\,e^{\pm j\pi/3}</span> (más ceros en el origen). Cerca de <span class="math inline">\Omega = \pi/3</span> la distancia al polo superior se hace diminuta (<span class="math inline">\approx 0.05</span>) → pico enorme y angosto. Eso <em>es</em> un modo de resonancia: la cuerda de guitarra, el modo de una sala, la campana. Un polo pegado al círculo “suena” — cuanto más cerca, más puro y más largo el timbre. En el límite (polo <em>sobre</em> el círculo) el sistema es un oscilador: marginalmente estable.</p>
+<p><strong>(c) Promedio móvil de 4</strong> [DB E0184]: <span class="math inline">h[n] = \tfrac14\{1,1,1,1\}</span>, <span class="math display">H(z) = \frac14\left(1 + z^{-1} + z^{-2} + z^{-3}\right) = \frac{1}{4}\,\frac{1-z^{-4}}{1-z^{-1}}</span> Los ceros de <span class="math inline">1 - z^{-4}</span> son las raíces cuartas de la unidad <span class="math inline">\{1, j, -1, -j\}</span>; el cero en <span class="math inline">z = 1</span> <strong>se cancela</strong> con el polo de <span class="math inline">1 - z^{-1}</span> (error clásico: no verlo y declarar un polo en el círculo). Quedan ceros en <span class="math inline">j, -1, -j</span> — ángulos <span class="math inline">\tfrac{\pi}{2}</span> y <span class="math inline">\pi</span> — y 3 polos en el origen, invisibles para <span class="math inline">|H|</span>: un pasa-bajos con nulos exactos en media banda y en Nyquist. Al oído: promediar suaviza = atenúa agudos; ahora sabes <em>exactamente</em> cuáles mata.</p>
+</section>
+<section id="sec-emparejar" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="sec-emparejar"><span class="header-section-number">6.6.3</span> Emparejar <span class="math inline">H(z) \leftrightarrow |H|</span>: el calibre de la I4</h3>
+<p>Este es el formato con que la I4 (y el examen) evalúa la lectura del círculo: se dan diagramas de polos y ceros y curvas de magnitud <em>en desorden</em>, y se pide emparejarlos <strong>justificando por posiciones de polos y ceros</strong> — no calculando. Cuatro sistemas causales y estables:</p>
+<p><span class="math display">\text{(i) } H(z) = 1 - z^{-1} \qquad \text{(ii) } \frac{1}{1-0.9z^{-1}} \qquad \text{(iii) } 0.905\,\frac{1+z^{-2}}{1+0.81z^{-2}} \qquad \text{(iv) } \frac{1}{1+0.9z^{-1}}</span></p>
+<div id="edcb9881" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap06_files/figure-html/cell-6-output-1.png" width="900" height="464" class="figure-img"></p>
+<figcaption>Arriba: los diagramas de polos y ceros de los sistemas (i)–(iv). Abajo: las cuatro magnitudes |H(e^{jΩ})|, en desorden (A–D). Empareja antes de leer la solución.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Intenta los cuatro pareos con las reglas de la <a href="#sec-metodo-geometrico" class="quarto-xref"><span>Sección 6.6.1</span></a> antes de seguir. Guía: ¿dónde hay ceros <em>sobre</em> el círculo (ahí <span class="math inline">|H| = 0</span> exacto)? ¿En qué ángulo está el polo más cercano al círculo (ahí el pico)?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Solución del emparejamiento
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(i) → B</strong>: cero en <span class="math inline">z = 1</span> (ángulo <span class="math inline">0</span>) anula la DC y <span class="math inline">|H|</span> crece hacia Nyquist — pasa-altos. <strong>(ii) → C</strong>: polo en <span class="math inline">0.9</span>, ángulo <span class="math inline">0</span>: pico en DC — pasa-bajos. <strong>(iii) → D</strong>: ceros en <span class="math inline">\pm j</span>, <em>sobre</em> el círculo en ángulo <span class="math inline">\pi/2</span>: muerte exacta en media banda, y los polos en <span class="math inline">\pm 0.9j</span> (mismo ángulo, adentro) aprietan el valle — un <em>notch</em>. <strong>(iv) → A</strong>: polo en <span class="math inline">-0.9</span>, ángulo <span class="math inline">\pi</span>: pico en Nyquist — pasa-altos resonante. En la evaluación se pide exactamente esta justificación: posiciones, ángulos y distancias — cero cálculo.</p>
+</div>
+</div>
+<p>Y guarda el caso (iii): no lo vamos a <em>analizar</em> más — lo vamos a <strong>diseñar desde cero</strong>, ahora mismo. Hasta aquí aprendiste a leer el plano; lo que sigue es escribir en él.</p>
+</section>
+</section>
+<section id="sec-diseno-z" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="sec-diseno-z"><span class="header-section-number">6.7</span> Diseñar: escribir en el plano</h2>
+<p>Volvamos a la grabación de la <a href="#sec-promesa-z" class="quarto-xref"><span>Sección 6.1</span></a>: melodía a <span class="math inline">F_s = 8000</span> Hz, tono parásito de <span class="math inline">2000</span> Hz. La especificación de ingeniería: <strong>eliminar el tono sin dañar el resto</strong> — en particular la DC y los graves, donde vive la música. Hasta aquí siempre <em>analizamos</em> filtros que otro hizo; ahora cambia la dirección de la flecha: <strong>nosotros decidimos dónde van los polos y los ceros</strong>. Todo el capítulo fue para poder hacer esto con fundamento: el plano (<a href="#sec-definicion-z" class="quarto-xref"><span>Sección 6.2</span></a>), <span class="math inline">H(z) \leftrightarrow</span> programa (<a href="#sec-hz-ecuacion" class="quarto-xref"><span>Sección 6.5</span></a>), leer el círculo (<a href="#sec-leer-circulo" class="quarto-xref"><span>Sección 6.6</span></a>).</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>La receta de diseño por polos y ceros (a la hoja resumen, tal cual)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Especificación</strong>: ¿qué frecuencias matar, qué frecuencias proteger? (en Hz, con su <span class="math inline">F_s</span>).</li>
+<li><strong>Traducir a frecuencia digital</strong>: <span class="math inline">\Omega_0 = 2\pi\,\dfrac{f_0}{F_s}</span> (rad/muestra) — el ángulo en el círculo.</li>
+<li><strong>Ceros donde hay que matar</strong>: sobre el círculo unitario, en <span class="math inline">e^{\pm j\Omega_0}</span> (par conjugado ⇒ coeficientes reales).</li>
+<li><strong>Polos cerca, para agudizar</strong>: mismo ángulo, radio <span class="math inline">r &lt; 1</span>: <span class="math inline">p = r\,e^{\pm j\Omega_0}</span>.</li>
+<li><strong>Ganancia <span class="math inline">K</span></strong> para normalizar la banda de paso (típico: <span class="math inline">|H| = 1</span> en DC, es decir en <span class="math inline">z = 1</span>).</li>
+</ol>
+<p>Y siempre: <strong>verificar</strong> (<code>freqz</code>) y, si se puede, <strong>escuchar</strong>.</p>
+</div>
+</div>
+<section id="sec-notch" class="level3" data-number="6.7.1">
+<h3 data-number="6.7.1" class="anchored" data-anchor-id="sec-notch"><span class="header-section-number">6.7.1</span> El notch, paso a paso</h3>
+<p><strong>Paso 2 — traducir.</strong> <span class="math inline">\Omega_0 = 2\pi\,\dfrac{2000}{8000} = \dfrac{\pi}{2}</span>. El zumbido vive en el ángulo <span class="math inline">90°</span> del círculo: exactamente en media banda.</p>
+<p><strong>Paso 3 — ceros.</strong> <span class="math inline">c_{1,2} = e^{\pm j\pi/2} = \pm j</span>. El filtro solo-ceros (FIR), en forma causal: <span class="math display">H_{\text{FIR}}(z) = (1 - jz^{-1})(1 + jz^{-1}) = 1 + z^{-2} \qquad\Longrightarrow\qquad y[n] = x[n] + x[n-2]</span></p>
+<p>Detente a admirarlo: <em>una suma con la muestra de hace dos instantes</em> mata <span class="math inline">2000</span> Hz <strong>exactamente</strong> — una sinusoide a <span class="math inline">\Omega = \pi/2</span> se repite invertida cada dos muestras (<span class="math inline">x[n-2] = -x[n]</span>), y la suma la cancela. Pero antes de celebrar, lee el círculo como aprendiste: <span class="math inline">\left|H_{\text{FIR}}(e^{j\Omega})\right| = \left|1 + e^{-2j\Omega}\right| = 2|\cos\Omega|</span>. Atenúa <em>media banda</em> a su alrededor — no es un bisturí, es una bofetada. Aquí entran los polos.</p>
+<p><strong>Paso 4 — polos.</strong> Van en el <strong>mismo ángulo</strong> que los ceros, adentro: <span class="math inline">p_{1,2} = r\,e^{\pm j\pi/2}</span> con <span class="math inline">r = 0.95</span>. ¿Por qué eso angosta el valle? Distancias: lejos de <span class="math inline">\Omega_0</span>, el punto del círculo ve al cero y al polo casi a la misma distancia → el cociente es <span class="math inline">\approx 1</span> y el filtro no toca esas frecuencias. Solo muy cerca de <span class="math inline">\Omega_0</span> el cero “gana” (su distancia llega a <span class="math inline">0</span>; la del polo se detiene en <span class="math inline">1 - r</span>). Cuanto más pegado el polo al cero — <span class="math inline">r \to 1</span> — mejor la cancelación lejos y más angosto el valle. Regla práctica: <strong>ancho a <span class="math inline">-3</span> dB <span class="math inline">\approx 2(1-r)</span> rad</strong> — con <span class="math inline">r = 0.95</span>, unos <span class="math inline">0.1</span> rad <span class="math inline">\approx 130</span> Hz. (¿Y por qué no <span class="math inline">r &gt; 1</span>, “para agudizar más”? <a href="#sec-estabilidad-z" class="quarto-xref"><span>Sección 6.5.1</span></a>: inestable. ¿Y <span class="math inline">r = 1</span>? Polo sobre el cero: se cancelan y el filtro desaparece.) <span class="math display">\text{denominador} = (1 - 0.95jz^{-1})(1 + 0.95jz^{-1}) = 1 + 0.9025\,z^{-2}</span></p>
+<p><strong>Paso 5 — ganancia.</strong> Pedimos <span class="math inline">|H| = 1</span> en DC (<span class="math inline">z = 1</span>): <span class="math display">H(1) = K\,\frac{1 + 1}{1 + 0.9025} = 1 \qquad\Longrightarrow\qquad K = \frac{1.9025}{2} = 0.95125</span></p>
+<p><span class="math display">\boxed{\;H(z) = 0.95125\;\frac{1 + z^{-2}}{1 + 0.9025\,z^{-2}}\;}</span></p>
+<p>Y por la <a href="#sec-hz-ecuacion" class="quarto-xref"><span>Sección 6.5</span></a>, esto ya es un programa — la ecuación de diferencias del filtro:</p>
+<p><span class="math display">y[n] = 0.95125\,x[n] + 0.95125\,x[n-2] - 0.9025\,y[n-2]</span></p>
+<p><strong>Cinco operaciones por muestra</strong> para borrar quirúrgicamente una frecuencia. (Este diseño, con <span class="math inline">r = 0.9</span>, ha sido literalmente pregunta de diseño de examen — mismo método, <span class="math inline">K = 0.905</span>.)</p>
+</section>
+<section id="sec-verificar-notch" class="level3" data-number="6.7.2">
+<h3 data-number="6.7.2" class="anchored" data-anchor-id="sec-verificar-notch"><span class="header-section-number">6.7.2</span> Verificar y escuchar</h3>
+<p>En diseño, verificar es parte de la respuesta. La plantilla completa, para llevar (es la misma de la Lista 13, del control de diseño y del concurso):</p>
+<div id="5ab3349d" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Fs <span class="op">=</span> <span class="dv">8000</span>                        <span class="co"># frecuencia de muestreo [Hz]</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>r  <span class="op">=</span> <span class="fl">0.95</span>                        <span class="co"># radio de los polos</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>K  <span class="op">=</span> (<span class="dv">1</span> <span class="op">+</span> r<span class="op">**</span><span class="dv">2</span>) <span class="op">/</span> <span class="dv">2</span>              <span class="co"># ganancia: |H| = 1 en DC (z = 1)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> K <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>])      <span class="co"># numerador:   K(1 + z^-2)  &lt;- ceros en ±j</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>, r<span class="op">**</span><span class="dv">2</span>])       <span class="co"># denominador: 1 + r² z^-2  &lt;- polos en ±jr</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>w, H <span class="op">=</span> signal.freqz(b, a, worN<span class="op">=</span><span class="dv">4096</span>, fs<span class="op">=</span>Fs)   <span class="co"># H(e^{jΩ}) sobre el círculo</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"K                : </span><span class="sc">{</span>K<span class="sc">:.5f}</span><span class="ss">"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"|H| en DC        : </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">abs</span>(H[<span class="dv">0</span>])<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"|H| en 2000 Hz   : </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">abs</span>(H[np.argmin(np.<span class="bu">abs</span>(w <span class="op">-</span> <span class="dv">2000</span>))])<span class="sc">:.2e}</span><span class="ss">"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"|H| en Nyquist   : </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">abs</span>(H[<span class="op">-</span><span class="dv">1</span>])<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># y aplicar el filtro a una grabación x es UNA línea:</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># y = signal.lfilter(b, a, x)    # la ecuación de diferencias, muestra a muestra</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>K                : 0.95125
+|H| en DC        : 1.0000
+|H| en 2000 Hz   : 1.19e-15
+|H| en Nyquist   : 1.0000</code></pre>
+</div>
+</div>
+<p>Lee el código como lo que es: <code>b</code> y <code>a</code> son los coeficientes de los polinomios de <span class="math inline">H(z)</span> — los mismos de la ecuación de diferencias; <code>freqz</code> evalúa <span class="math inline">H</span> sobre el círculo — el método de las distancias hecho función; <code>lfilter</code> ejecuta la ecuación de diferencias sobre la señal. La verificación numérica confirma el diseño: <span class="math inline">|H| = 1.0000</span> en DC, <span class="math inline">|H| \approx 10^{-15}</span> (cero, en aritmética de punto flotante) en <span class="math inline">2000</span> Hz.</p>
+<div id="421f73c7" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap06_files/figure-html/cell-8-output-1.png" width="912" height="307" class="figure-img"></p>
+<figcaption>El notch diseñado, completo. Izquierda: sus polos (×, en ±0.95j) y ceros (○, en ±j sobre el círculo). Centro: |H| medida con freqz — valle quirúrgico de ~130 Hz en 2000 Hz, plano en el resto. Derecha: espectro de la grabación antes (gris) y después (color) de lfilter: el tono parásito de 2000 Hz desaparece; la música queda intacta.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Y ahora sí — el momento de la verdad. La grabación contaminada, filtrada con <code>y = lfilter(b, a, x)</code>:</p>
+<audio controls="" src="assets/audio/notch_despues.wav">
+</audio>
+<p><strong>Silencio donde había zumbido.</strong> Este es el momento de decirlo despacio: la promesa del prefacio — <em>tomar una grabación contaminada, diseñar tú el filtro, verificarlo con tus oídos</em> — está <strong>cumplida</strong>. Y no por una caja negra: por un filtro de cinco coeficientes que sabes deducir completo. Euler puso los ceros (<span class="math inline">e^{\pm j\pi/2} = \pm j</span>), las autofunciones explican por qué <span class="math inline">H</span> actúa frecuencia a frecuencia, el mapa del capítulo 4 enrollado dice dónde pueden vivir los polos, y el círculo te dejó <em>leer</em> lo que ibas a oír antes de oírlo. El curso entero cabe en esos cinco coeficientes.</p>
+</section>
+<section id="sec-otros-disenos" class="level3" data-number="6.7.3">
+<h3 data-number="6.7.3" class="anchored" data-anchor-id="sec-otros-disenos"><span class="header-section-number">6.7.3</span> Variaciones sobre el mismo tema</h3>
+<p>La receta del notch es un caso de una idea más general: <strong>diseñar = decidir dónde poner los ceros, y cuánto acercar los polos</strong>. Tres parientes inmediatos:</p>
+<p><strong>Primer orden: el bloqueador de DC.</strong> ¿Deriva de continua en un sensor? Un solo cero en <span class="math inline">z = 1</span> (el ángulo de la DC) y su polo corrector en <span class="math inline">0.95</span>: <span class="math display">H(z) = K\,\frac{1 - z^{-1}}{1 - 0.95\,z^{-1}}</span> con <span class="math inline">K</span> normalizado en Nyquist — <span class="math inline">H(-1) = K\frac{2}{1.95} = 1 \Rightarrow K = 0.975</span> — porque normalizar en DC es imposible: ahí <span class="math inline">|H| = 0</span> <em>por diseño</em>. Regla general: la ganancia se fija donde el filtro <em>debe pasar</em>, nunca donde debe matar. Es el notch de la <a href="#sec-notch" class="quarto-xref"><span>Sección 6.7.1</span></a> con un solo cero real: la receta, en miniatura.</p>
+<p><strong>Promedio móvil, leído como diseño.</strong> El promedio de <span class="math inline">M</span> muestras pone ceros en <span class="math inline">e^{j2\pi k/M}</span>, <span class="math inline">k = 1, \dots, M-1</span> (<a href="#sec-recorridos" class="quarto-xref"><span>Sección 6.6.2</span></a>). Léelo ahora como diseñador: <em>elegir <span class="math inline">M</span> es elegir qué frecuencias morirán</em>. ¿Matar <span class="math inline">1000</span> Hz con <span class="math inline">F_s = 8000</span> Hz usando solo sumas? Necesitas un cero en <span class="math inline">\Omega = \pi/4 = 2\pi/8</span>: el promedio de <span class="math inline">M = 8</span> lo hace gratis (y de regalo mata <span class="math inline">2000</span>, <span class="math inline">3000</span> y <span class="math inline">4000</span> Hz). Es el filtro más barato del mundo — a cambio, aplasta los agudos.</p>
+<p><strong>Peine (comb): un notch por cada diente.</strong> ¿Y si el enemigo no es un tono sino un tono <em>con todos sus armónicos</em> — el zumbido de la red eléctrica en 50, 100, 150, … Hz? Reparte <span class="math inline">N</span> ceros equiespaciados sobre el círculo, con sus polos apretando cada diente: <span class="math display">H(z) = K\,\frac{1 - z^{-N}}{1 - \rho^N z^{-N}} \qquad \text{ceros en } e^{j2\pi k/N}, \quad \text{polos en } \rho\, e^{j2\pi k/N}</span> con <span class="math inline">N = F_s/f_0</span>: un valle en <span class="math inline">f_0</span> y en cada múltiplo — la versión industrial del notch. Ojo de diseñador: el diente <span class="math inline">k = 0</span> mata también la DC; a veces es un regalo (deriva de un ECG), a veces un problema (la DC es información). Decidirlo es parte del diseño — como en los ejercicios de la Lista 13.</p>
+</section>
+</section>
+<section id="sec-cierre-z" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="sec-cierre-z"><span class="header-section-number">6.8</span> Cierre: la función que vive en el círculo</h2>
+<p>Una pregunta quedó pendiente en la <a href="#sec-leer-circulo" class="quarto-xref"><span>Sección 6.6</span></a>. Toda la segunda mitad del capítulo giró en torno a la restricción de <span class="math inline">X(z)</span> al círculo unitario, <span class="math inline">X(e^{j\Omega})</span> — con ella leímos filtros, con ella diseñamos el notch. ¿Y cómo se llama esa función? Tiene nombre propio: es la <strong>transformada de Fourier de tiempo discreto</strong> — la DTFT — y es la protagonista del capítulo 7, donde traerá sus propiedades, su inversa, y su hija computable: la DFT que ejecuta tu computador cada vez que llamas a <code>fft</code>. La conoces desde antes de que te la presenten: es <span class="math inline">X(z)</span> leída sobre el dial.</p>
+</section>
+<section id="sec-resumen-cap06" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="sec-resumen-cap06"><span class="header-section-number">6.9</span> En una página</h2>
+<ul>
+<li>Definición: <span class="math inline">X(z) = \sum_n x[n]\,z^{-n}</span>; la transformada es el <strong>par</strong> <span class="math inline">(X(z), \text{ROC})</span>. <span class="math inline">z^n</span> es la autofunción de los sistemas LTI discretos.</li>
+<li>Pares canónicos: <span class="math inline">a^n u[n] \leftrightarrow \frac{1}{1-az^{-1}}</span>, <span class="math inline">|z| &gt; |a|</span>; <span class="math inline">-a^n u[-n-1] \leftrightarrow</span> <em>misma fórmula</em>, <span class="math inline">|z| &lt; |a|</span>; <span class="math inline">a^{|n|} \leftrightarrow</span> ROC anular <span class="math inline">a &lt; |z| &lt; 1/a</span> (y no existe si <span class="math inline">a \ge 1</span>); <span class="math inline">\delta[n-k] \leftrightarrow z^{-k}</span>.</li>
+<li>ROC: derecha → exterior, izquierda → interior, bilateral → anillo; nunca contiene polos.</li>
+<li>El mapa <span class="math inline">z = e^{sT}</span>: <span class="math inline">|z| = e^{\sigma T}</span>, <span class="math inline">\angle z = \omega T = \Omega</span>. Eje <span class="math inline">j\omega</span> → círculo unitario; semiplano izquierdo → interior; DC → <span class="math inline">z = 1</span>; Nyquist → <span class="math inline">z = -1</span>; franjas de altura <span class="math inline">2\pi/T</span> → el mismo plano (aliasing). <em>La regla discreta es la continua, enrollada.</em></li>
+<li>Inversa: fracciones parciales en <span class="math inline">z^{-1}</span>; <strong>cada término se invierte según de qué lado de su polo está la ROC</strong> (un <span class="math inline">X(z)</span>, tres señales). Truco <span class="math inline">X(z)/z</span> para potencias positivas.</li>
+<li><span class="math inline">x[n-k] \leftrightarrow z^{-k}X(z)</span>: cada <span class="math inline">z^{-1}</span> es un retardo; <span class="math inline">H(z) \leftrightarrow</span> ecuación de diferencias, lectura directa en ambos sentidos; esa ecuación <strong>es</strong> <code>lfilter(b, a, x)</code>.</li>
+<li>Estable ⇔ ROC ⊇ círculo unitario; causal y estable ⇔ polos estrictamente dentro. Estabilidad y causalidad son independientes (la trampa del polo en <span class="math inline">3/2</span>).</li>
+<li>Respuesta en frecuencia <span class="math inline">= H(z)</span> en <span class="math inline">z = e^{j\Omega}</span>; <span class="math inline">\Omega = 2\pi f/F_s</span>. Método de las distancias: <span class="math inline">|H| = |K|\,\frac{\prod \text{dist. a ceros}}{\prod \text{dist. a polos}}</span> — cero sobre el círculo mata su frecuencia, polo cercano la realza, origen no afecta <span class="math inline">|H|</span>.</li>
+<li>Receta de diseño: especificar → <span class="math inline">\Omega_0 = 2\pi f_0/F_s</span> → ceros en <span class="math inline">e^{\pm j\Omega_0}</span> → polos en <span class="math inline">r\,e^{\pm j\Omega_0}</span> → <span class="math inline">K</span> en la banda de paso; ancho del valle <span class="math inline">\approx 2(1-r)</span> rad; verificar con <code>freqz</code>, aplicar con <code>lfilter</code>. Notch de <span class="math inline">2</span> kHz a <span class="math inline">F_s = 8</span> kHz: <span class="math inline">H(z) = 0.95125\,\frac{1+z^{-2}}{1+0.9025 z^{-2}}</span>.</li>
+<li><span class="math inline">X(z)</span> restringida al círculo se llama DTFT → capítulo 7.</li>
+</ul>
+</section>
+<section id="sec-ejercicios-cap06" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="sec-ejercicios-cap06"><span class="header-section-number">6.10</span> Ejercicios</h2>
+<p>Del banco del curso y de la Lista 13, en orden sugerido (los códigos [DB E0xxx] identifican el ejercicio en el banco; aparecen repartidos en las Listas 12–13):</p>
+<ol type="1">
+<li><strong>[DB E0175]</strong> (intermedio) Transformada Z de secuencias comunes — <span class="math inline">a^n u[n]</span>, <span class="math inline">(a^n - b^n)u[n]</span>, <span class="math inline">n\,a^n u[n]</span> — con sus ROC. <em>[U6.1]</em></li>
+<li><strong>[DB E0181]</strong> (intermedio) Z de la secuencia alterna causal <span class="math inline">\{1, 0, -1, 0, 1, \dots\}</span> — sus polos en <span class="math inline">\pm j</span> te resultarán familiares al llegar al notch. <em>[U6.1]</em></li>
+<li><strong>[DB E0176]</strong> (básico) El teorema del valor final en la transformada Z. <em>[U6.1]</em></li>
+<li><strong>[DB E0182]</strong> (básico) Inversa de una función racional simple. <em>[U6.2]</em></li>
+<li><strong>[DB E0177]</strong> (intermedio) Inversa por métodos directo, de expansión y propiedades. <em>[U6.2]</em></li>
+<li><strong>[DB E0180]</strong> (intermedio) De la ecuación de diferencias a <span class="math inline">H(z)</span>, <span class="math inline">h[n]</span> y estabilidad — el circuito completo de la <a href="#sec-hz-ecuacion" class="quarto-xref"><span>Sección 6.5</span></a>. <em>[U6.2, U6.4]</em></li>
+<li><strong>[DB E0179]</strong> (intermedio) Estabilidad de un sistema parametrizado: seis polos en un círculo de radio <span class="math inline">e^{-p}</span>. <em>[U6.3, U6.4]</em></li>
+<li><strong>[DB E0183]</strong> (avanzado) Inversa por diferenciación en el dominio <span class="math inline">z</span>. <em>[U6.2]</em></li>
+<li><strong>[DB E0184]</strong> (intermedio) Polos y ceros del promedio móvil — con la cancelación polo-cero que no hay que perderse. <em>[U6.4, U6.5]</em></li>
+<li><strong>L13.1</strong> (nuevo — Lista 13) (guiado) Bloqueador de DC de primer orden: cero en <span class="math inline">z=1</span>, polo en <span class="math inline">0.95</span>, normalización en Nyquist — ¿y por qué no en DC? <em>[U6.6]</em></li>
+<li><strong>L13.2</strong> (nuevo — Lista 13) (calibre examen) Notch de red americana: 60 Hz con <span class="math inline">F_s = 480</span> Hz, receta completa con verificación numérica. <em>[U6.6]</em></li>
+<li><strong>L13.3</strong> (nuevo — Lista 13) El filtro más barato del mundo: matar 1000 Hz con un promedio móvil — elegir <span class="math inline">M</span> es diseñar. <em>[U6.5, U6.6]</em></li>
+<li><strong>L13.5</strong> (nuevo — Lista 13) Peine para la red y sus armónicos: <span class="math inline">N = F_s/f_0</span> ceros equiespaciados, y la discusión del diente en DC. <em>[U6.6]</em></li>
+<li><strong>L13.6</strong> (nuevo — Lista 13) (desafío) Doble notch en cascada: 1000 y 3000 Hz a la vez — con una sorpresa algebraica al multiplicar los polinomios. <em>[U6.6]</em></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Antes de seguir
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si puedes (a) invertir el ejemplo de la <a href="#sec-inversa-z" class="quarto-xref"><span>Sección 6.4</span></a> en sus tres versiones sin mirar, (b) justificar los cuatro pareos de la <a href="#sec-emparejar" class="quarto-xref"><span>Sección 6.6.3</span></a> con distancias, y (c) rehacer el notch completo de la <a href="#sec-notch" class="quarto-xref"><span>Sección 6.7.1</span></a> para un tono de 60 Hz a <span class="math inline">F_s = 480</span> Hz (ejercicio 11), estás listo para la I4 en lo que a esta unidad respecta — y para el control de diseño. Si el paso (c) te costó, la receta de 5 pasos merece otra pasada: es la que se evalúa en el examen.</p>
+</div>
+</div>
+</section>
+<section id="sec-referencias-cap06" class="level2" data-number="6.11">
+<h2 data-number="6.11" class="anchored" data-anchor-id="sec-referencias-cap06"><span class="header-section-number">6.11</span> Para profundizar</h2>
+<ul>
+<li><strong>[Oppenheim]</strong> §10.0–10.2 (definición, ejemplos y propiedades de la ROC — con más casos de ROC anular), §10.3 (la inversa, incluida la expansión en serie de potencias), §10.4 (evaluación geométrica de la respuesta en frecuencia — la fuente del método de las distancias), §10.5 (propiedades), §10.7 (análisis de sistemas LTI: causalidad en §10.7.1, estabilidad en §10.7.2).</li>
+<li><strong>[Alvarado]</strong> §5.2 (transformada z bilateral: directa, propiedades e inversa, con abundantes ejemplos resueltos de fracciones parciales), §5.3.3 (análisis de sistemas LTI en tiempo discreto).</li>
+<li>El material de C23–C26 del curso, cuya secuencia sigue este capítulo, incluye además las bases del <strong>concurso de diseño</strong> (C26): el notch de este capítulo es el punto de partida — con orden 6 se puede lograr mucho más.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./cap05.html" class="pagination-link" aria-label="Muestreo y sistemas discretos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./cap07.html" class="pagination-link" aria-label="Fourier discreto y análisis espectral">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

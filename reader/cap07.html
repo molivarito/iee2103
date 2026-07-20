@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Fourier discreto y análisis espectral – Señales y Sistemas</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./apendice-a.html" rel="next">
+<link href="./cap06.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d3f7f8e73c8d287b30bcf59c2b563615.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cap07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Señales y Sistemas</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Señales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap07.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#sec-mapa-transformadas" id="toc-sec-mapa-transformadas" class="nav-link active" data-scroll-target="#sec-mapa-transformadas"><span class="header-section-number">7.1</span> La última casilla del mapa</a></li>
+  <li><a href="#sec-dtft" id="toc-sec-dtft" class="nav-link" data-scroll-target="#sec-dtft"><span class="header-section-number">7.2</span> La DTFT: el espectro de las señales discretas</a>
+  <ul class="collapse">
+  <li><a href="#sec-dtft-periodica" id="toc-sec-dtft-periodica" class="nav-link" data-scroll-target="#sec-dtft-periodica"><span class="header-section-number">7.2.1</span> La consecuencia del mundo discreto: el espectro es periódico</a></li>
+  <li><a href="#sec-dtft-pares" id="toc-sec-dtft-pares" class="nav-link" data-scroll-target="#sec-dtft-pares"><span class="header-section-number">7.2.2</span> Pares básicos</a></li>
+  <li><a href="#sec-dtft-propiedades" id="toc-sec-dtft-propiedades" class="nav-link" data-scroll-target="#sec-dtft-propiedades"><span class="header-section-number">7.2.3</span> Propiedades</a></li>
+  </ul></li>
+  <li><a href="#sec-dft" id="toc-sec-dft" class="nav-link" data-scroll-target="#sec-dft"><span class="header-section-number">7.3</span> De la DFS a la DFT… y la FFT</a>
+  <ul class="collapse">
+  <li><a href="#sec-dfs" id="toc-sec-dfs" class="nav-link" data-scroll-target="#sec-dfs"><span class="header-section-number">7.3.1</span> DFS: a las señales periódicas discretas les bastan <span class="math inline">N</span> armónicos</a></li>
+  <li><a href="#sec-dft-def" id="toc-sec-dft-def" class="nav-link" data-scroll-target="#sec-dft-def"><span class="header-section-number">7.3.2</span> La DFT: el Fourier de un vector</a></li>
+  <li><a href="#sec-matriz-w" id="toc-sec-matriz-w" class="nav-link" data-scroll-target="#sec-matriz-w"><span class="header-section-number">7.3.3</span> La matriz <span class="math inline">\mathbf{W}</span>: las raíces de la unidad cobran su promesa</a></li>
+  <li><a href="#sec-fft" id="toc-sec-fft" class="nav-link" data-scroll-target="#sec-fft"><span class="header-section-number">7.3.4</span> La FFT: por qué <span class="math inline">N\log N</span> cambió la ingeniería</a></li>
+  </ul></li>
+  <li><a href="#sec-leer-fft" id="toc-sec-leer-fft" class="nav-link" data-scroll-target="#sec-leer-fft"><span class="header-section-number">7.4</span> Leer el vector de una FFT real</a>
+  <ul class="collapse">
+  <li><a href="#sec-zero-padding" id="toc-sec-zero-padding" class="nav-link" data-scroll-target="#sec-zero-padding"><span class="header-section-number">7.4.1</span> Zero-padding: resolución aparente y resolución real</a></li>
+  </ul></li>
+  <li><a href="#sec-leakage" id="toc-sec-leakage" class="nav-link" data-scroll-target="#sec-leakage"><span class="header-section-number">7.5</span> Artefactos: fuga espectral, ventanas y espectrograma</a>
+  <ul class="collapse">
+  <li><a href="#sec-fuga" id="toc-sec-fuga" class="nav-link" data-scroll-target="#sec-fuga"><span class="header-section-number">7.5.1</span> Por qué el espectro “se ensucia”: el Dirichlet cobra su deuda</a></li>
+  <li><a href="#sec-ventanas" id="toc-sec-ventanas" class="nav-link" data-scroll-target="#sec-ventanas"><span class="header-section-number">7.5.2</span> El remedio y su precio: las ventanas</a></li>
+  <li><a href="#sec-stft" id="toc-sec-stft" class="nav-link" data-scroll-target="#sec-stft"><span class="header-section-number">7.5.3</span> STFT y espectrograma: ponerle tiempo al espectro</a></li>
+  </ul></li>
+  <li><a href="#sec-conv-ciclica" id="toc-sec-conv-ciclica" class="nav-link" data-scroll-target="#sec-conv-ciclica"><span class="header-section-number">7.6</span> Convolución cíclica: la letra chica de multiplicar DFTs</a>
+  <ul class="collapse">
+  <li><a href="#sec-ola-ols" id="toc-sec-ola-ols" class="nav-link" data-scroll-target="#sec-ola-ols"><span class="header-section-number">7.6.1</span> Lectura avanzada (optativa, no evaluable): filtrado por bloques — OLA y OLS</a></li>
+  </ul></li>
+  <li><a href="#sec-cierre-libro" id="toc-sec-cierre-libro" class="nav-link" data-scroll-target="#sec-cierre-libro"><span class="header-section-number">7.7</span> El cierre del libro: la promesa, cumplida</a></li>
+  <li><a href="#sec-resumen-cap07" id="toc-sec-resumen-cap07" class="nav-link" data-scroll-target="#sec-resumen-cap07"><span class="header-section-number">7.8</span> En una página</a></li>
+  <li><a href="#sec-ejercicios-cap07" id="toc-sec-ejercicios-cap07" class="nav-link" data-scroll-target="#sec-ejercicios-cap07"><span class="header-section-number">7.9</span> Ejercicios</a></li>
+  <li><a href="#sec-referencias-cap07" id="toc-sec-referencias-cap07" class="nav-link" data-scroll-target="#sec-referencias-cap07"><span class="header-section-number">7.10</span> Para profundizar</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-cap07" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U7.1–U7.6]
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al terminar este capítulo podrás: <strong>calcular</strong> la DTFT de las secuencias estándar, explicar por qué todo espectro discreto es periódico en <span class="math inline">\Omega</span> y usarla como la transformada Z restringida al círculo unitario [U7.1]; <strong>recorrer</strong> la cadena DFS → DFT → FFT: el par DFT/IDFT, su lectura matricial con las raíces de la unidad, y por qué la FFT cuesta <span class="math inline">N\log_2 N</span> [U7.2]; <strong>leer</strong> el vector que entrega <code>np.fft.fft</code> de una señal real — índice ↔︎ Hz, simetría conjugada, mitad útil, y qué hace (y qué no hace) el zero-padding [U7.3]; <strong>predecir y mitigar</strong> la fuga espectral eligiendo ventana, y leer un espectrograma [U7.4]; <strong>explicar</strong> que multiplicar DFTs es convolucionar cíclicamente, y obtener la convolución lineal vía FFT con zero-padding [U7.6].</p>
+<p><strong>Evaluación</strong>: U7.1 y U7.2 entran a la <strong>I4</strong>; U7.3, U7.4 y U7.6 son materia de <strong>examen</strong> (la convolución cíclica <em>como operación</em> ya la conoces de U5.3); la sección optativa de U7.5 no se evalúa.</p>
+</div>
+</div>
+<section id="sec-mapa-transformadas" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="sec-mapa-transformadas"><span class="header-section-number">7.1</span> La última casilla del mapa</h2>
+<p>Todo el semestre cabe en un cuadro de dos por dos. En el mundo continuo aprendiste a mirar señales en un <strong>eje</strong> de frecuencias (la transformada de Fourier, capítulo 3) y luego en un <strong>plano</strong> completo (Laplace, capítulo 4). En el mundo discreto ya tienes el plano — la transformada Z del capítulo 6 —, y este capítulo llena la casilla que falta:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>tiempo continuo</th>
+<th>tiempo discreto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>espectro en un <strong>eje</strong></td>
+<td>Fourier: <span class="math inline">X(\omega)</span></td>
+<td><strong>DTFT: <span class="math inline">X(e^{j\Omega})</span></strong> ← este capítulo</td>
+</tr>
+<tr class="even">
+<td>espectro en un <strong>plano</strong></td>
+<td>Laplace: <span class="math inline">X(s)</span>, eje <span class="math inline">j\omega</span></td>
+<td>Z: <span class="math inline">X(z)</span>, círculo <span class="math inline">e^{j\Omega}</span></td>
+</tr>
+</tbody>
+</table>
+<p>Hay una simetría preciosa escondida ahí: así como el eje <span class="math inline">j\omega</span> es la frontera del plano <span class="math inline">s</span> donde Laplace se vuelve Fourier, el <strong>círculo unitario</strong> es la frontera del plano <span class="math inline">z</span> donde la transformada Z se vuelve… la transformada de este capítulo. No vamos a <em>inventar</em> una transformada nueva: vamos a ponerle nombre a una que ya usabas sin saberlo.</p>
+<p>Y hay una segunda razón, más urgente, para este capítulo: <strong>es el único Fourier que un computador puede calcular</strong>. La TF continua integra sobre toda la recta; la DTFT (ya verás) suma infinitos términos y entrega una curva continua. Un computador no puede hacer ninguna de las dos cosas — pero sí puede multiplicar un vector por una matriz. Ese Fourier finito es la <strong>DFT</strong>, el algoritmo que la calcula rápido es la <strong>FFT</strong>, y entre ambos sostienen prácticamente todo el análisis de señales del mundo real: el ecualizador de tu teléfono, la compresión de audio, el WiFi, la resonancia magnética. Al final del capítulo — y del libro — volveremos a la promesa del prefacio con estas herramientas en la mano.</p>
+</section>
+<section id="sec-dtft" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="sec-dtft"><span class="header-section-number">7.2</span> La DTFT: el espectro de las señales discretas</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: DTFT
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para una secuencia <span class="math inline">x[n]</span>, la <strong>transformada de Fourier de tiempo discreto</strong> es <span class="math display">X(e^{j\Omega}) = \sum_{n=-\infty}^{\infty} x[n]\, e^{-j\Omega n} \qquad \text{(análisis)}</span> <span class="math display">x[n] = \frac{1}{2\pi}\int_{-\pi}^{\pi} X(e^{j\Omega})\, e^{j\Omega n}\, d\Omega \qquad \text{(síntesis)}</span> con <span class="math inline">\Omega</span> en <strong>radianes por muestra</strong>.</p>
+</div>
+</div>
+<p>Tres lecturas de la misma fórmula, de la más nueva a la más vieja:</p>
+<ol type="1">
+<li><strong>Es el gemelo discreto de la TF</strong>: la integral <span class="math inline">\int x(t)e^{-j\omega t}dt</span> se volvió suma, pero el espectro sigue siendo una función <em>continua</em> de <span class="math inline">\Omega</span>.</li>
+<li><strong>Es una descomposición en sinusoides</strong>: la ecuación de síntesis dice que toda secuencia es una superposición de exponenciales <span class="math inline">e^{j\Omega n}</span>, con <span class="math inline">X(e^{j\Omega})</span> diciendo cuánto de cada una.</li>
+<li><strong>Es la transformada Z evaluada en el círculo unitario</strong>: <span class="math display">X(e^{j\Omega}) = X(z)\Big|_{z = e^{j\Omega}}</span> Esta es la lectura que cobra el capítulo 6. Allá aprendiste a estimar la respuesta en frecuencia de un filtro “caminando por el círculo” y midiendo distancias a polos y ceros — pues bien, <em>eso que calculabas era la DTFT de <span class="math inline">h[n]</span></em>. Por eso la notación es <span class="math inline">X(e^{j\Omega})</span> y no <span class="math inline">X(\Omega)</span>: el argumento recuerda de dónde viene. Polos cerca del círculo ⇒ picos; ceros cerca ⇒ valles. Toda la geometría del capítulo 6 aplica intacta.</li>
+</ol>
+<p><strong>Honestidad matemática</strong> (treinta segundos): la suma converge con seguridad si <span class="math inline">\sum_n |x[n]| &lt; \infty</span> — que es exactamente la condición de que la ROC de <span class="math inline">X(z)</span> contenga el círculo unitario, el mismo criterio de estabilidad del capítulo 6. Para señales de energía y para casos con impulsos en frecuencia se extiende, igual que hicimos con la TF continua. Seguimos.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Notación: <span class="math inline">\Omega</span>, no <span class="math inline">\omega</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En este libro la frecuencia discreta se escribe <strong><span class="math inline">\Omega</span></strong> (rad/muestra) y la continua <strong><span class="math inline">\omega</span></strong> (rad/s) — así nunca se confunden al convivir en un mismo problema de muestreo. [Oppenheim] y [Alvarado] escriben <span class="math inline">\omega</span> para ambas; cuando los leas, traduce.</p>
+</div>
+</div>
+<section id="sec-dtft-periodica" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="sec-dtft-periodica"><span class="header-section-number">7.2.1</span> La consecuencia del mundo discreto: el espectro es periódico</h3>
+<p>Evalúa la definición en <span class="math inline">\Omega + 2\pi</span>: <span class="math display">e^{-j(\Omega + 2\pi)n} = e^{-j\Omega n}\,\underbrace{e^{-j2\pi n}}_{=\,1 \text{ porque } n \in \mathbb{Z}} = e^{-j\Omega n}
+\quad\Longrightarrow\quad X(e^{j(\Omega+2\pi)}) = X(e^{j\Omega})</span></p>
+<p><strong>Todo espectro discreto es periódico con período <span class="math inline">2\pi</span></strong>, sea cual sea la señal. No es una propiedad de algunas secuencias: es <em>la</em> marca de fábrica del mundo discreto, y ya la conocías con otro disfraz — en el capítulo 5 viste que las sinusoides discretas de frecuencias <span class="math inline">\Omega</span> y <span class="math inline">\Omega + 2\pi</span> son <strong>la misma secuencia</strong>. Si las señales base son indistinguibles, el espectro no puede distinguirlas. Geométricamente es todavía más claro: <span class="math inline">\Omega</span> es un ángulo sobre el círculo unitario, y al dar la vuelta completa vuelves al mismo punto.</p>
+<p>La consecuencia práctica: <strong>todo el contenido frecuencial vive en una vuelta</strong>, <span class="math inline">\Omega \in [-\pi, \pi)</span>. Ahí, <span class="math inline">\Omega = 0</span> es la DC (punto <span class="math inline">z = 1</span>), y <span class="math inline">\Omega = \pm\pi</span> es la frecuencia <em>más alta posible</em> — la secuencia <span class="math inline">(-1)^n</span>, el punto <span class="math inline">z = -1</span>. “Más agudo que <span class="math inline">\pi</span>” no existe: pasado <span class="math inline">\pi</span> se vuelve a bajar (el aliasing del capítulo 5, contado desde el espectro).</p>
+<p>Y si <span class="math inline">x[n]</span> es <strong>real</strong>, además <span class="math inline">X(e^{-j\Omega}) = X^*(e^{j\Omega})</span> — la simetría Hermitiana que viene persiguiéndote desde el capítulo 1: magnitud par, fase impar. Basta graficar <span class="math inline">[0, \pi]</span>.</p>
+</section>
+<section id="sec-dtft-pares" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="sec-dtft-pares"><span class="header-section-number">7.2.2</span> Pares básicos</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">x[n]</span></th>
+<th><span class="math inline">X(e^{j\Omega})</span></th>
+<th>comentario</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\delta[n]</span></td>
+<td><span class="math inline">1</span></td>
+<td>espectro blanco, como <span class="math inline">\delta(t)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\delta[n - n_0]</span></td>
+<td><span class="math inline">e^{-j\Omega n_0}</span></td>
+<td>retardo = fase lineal</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">a^n u[n]</span>, <span class="math inline">\lvert a\rvert &lt; 1</span></td>
+<td><span class="math inline">\dfrac{1}{1 - a\,e^{-j\Omega}}</span></td>
+<td><span class="math inline">\frac{z}{z-a}</span> en el círculo; pasa-bajos si <span class="math inline">0&lt;a&lt;1</span></td>
+</tr>
+<tr class="even">
+<td>pulso de largo <span class="math inline">M</span></td>
+<td><span class="math inline">e^{-j\Omega\frac{M-1}{2}}\,\dfrac{\sin(\Omega M/2)}{\sin(\Omega/2)}</span></td>
+<td>el <strong>núcleo de Dirichlet</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Los dos primeros son inmediatos desde la definición (hazlos: una línea cada uno). El tercero es una serie geométrica — la misma cuenta del capítulo 6, restringida al círculo; su polo en <span class="math inline">z = a</span> produce el pico en <span class="math inline">\Omega = 0</span> (¿y si <span class="math inline">-1 &lt; a &lt; 0</span>? El polo se va al semieje negativo: pico en <span class="math inline">\Omega = \pi</span>, pasa-altos). El cuarto merece desarrollo completo, porque su resultado protagoniza media parte final del capítulo:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I4): el pulso rectangular y el núcleo de Dirichlet
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Calcula la DTFT de <span class="math inline">x[n] = 1</span> para <span class="math inline">0 \le n \le M-1</span>, cero fuera.</p>
+<p><strong>Solución.</strong> Es una suma geométrica finita: <span class="math display">X(e^{j\Omega}) = \sum_{n=0}^{M-1} e^{-j\Omega n} = \frac{1 - e^{-j\Omega M}}{1 - e^{-j\Omega}}</span> Ahora el truco estándar — factorizar la “media exponencial” arriba y abajo para armar senos: <span class="math display">\frac{e^{-j\Omega M/2}\left(e^{j\Omega M/2} - e^{-j\Omega M/2}\right)}{e^{-j\Omega/2}\left(e^{j\Omega/2} - e^{-j\Omega/2}\right)} = e^{-j\Omega\frac{M-1}{2}}\,\frac{\sin(\Omega M/2)}{\sin(\Omega/2)}</span> El cociente de senos es el <strong>núcleo de Dirichlet</strong>: vale <span class="math inline">M</span> en <span class="math inline">\Omega = 0</span> (suma de <span class="math inline">M</span> unos) y se anula en <span class="math inline">\Omega = 2\pi k/M</span>. Es el primo <em>periódico</em> de la sinc: mismo lóbulo principal, mismos lóbulos laterales — pero repitiéndose cada <span class="math inline">2\pi</span>, como todo espectro discreto debe.</p>
+</div>
+</div>
+<div id="677307bd" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap07_files/figure-html/cell-2-output-1.png" width="807" height="258" class="figure-img"></p>
+<figcaption>El módulo de la DTFT del pulso de largo M=8: el núcleo de Dirichlet. Es la sinc del mundo discreto — lóbulo principal, lóbulos laterales — pero periódico en Ω con período 2π, como todo espectro discreto. Guarda su cara: reaparece como el culpable de la fuga espectral.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Rect ↔︎ sinc, segunda temporada.</strong> En el capítulo 3, el pulso rectangular continuo tenía espectro sinc. Aquí, el pulso discreto tiene espectro Dirichlet — la “sinc periódica”. La analogía no es decorativa: es un anticipo. Cuando en la <a href="#sec-leakage" class="quarto-xref"><span>Sección 7.5</span></a> truncemos una señal para analizarla, este Dirichlet volverá a escena, y no como invitado amable.</p>
+</section>
+<section id="sec-dtft-propiedades" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="sec-dtft-propiedades"><span class="header-section-number">7.2.3</span> Propiedades</h3>
+<p>Calcan las de la TF continua (las demostraciones son las mismas sustituciones, con sumas en vez de integrales):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Propiedad</th>
+<th>Tiempo</th>
+<th>Frecuencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Linealidad</td>
+<td><span class="math inline">ax_1[n] + bx_2[n]</span></td>
+<td><span class="math inline">aX_1 + bX_2</span></td>
+</tr>
+<tr class="even">
+<td>Desplazamiento</td>
+<td><span class="math inline">x[n - n_0]</span></td>
+<td><span class="math inline">e^{-j\Omega n_0}\, X(e^{j\Omega})</span></td>
+</tr>
+<tr class="odd">
+<td>Modulación</td>
+<td><span class="math inline">e^{j\Omega_0 n}\, x[n]</span></td>
+<td><span class="math inline">X(e^{j(\Omega - \Omega_0)})</span></td>
+</tr>
+<tr class="even">
+<td><strong>Convolución</strong></td>
+<td><span class="math inline">x[n] * h[n]</span></td>
+<td><span class="math inline">X(e^{j\Omega})\, H(e^{j\Omega})</span></td>
+</tr>
+<tr class="odd">
+<td>Multiplicación</td>
+<td><span class="math inline">x[n]\, w[n]</span></td>
+<td><span class="math inline">\frac{1}{2\pi}\, X \circledast W</span> (convolución periódica)</td>
+</tr>
+<tr class="even">
+<td>Parseval</td>
+<td><span class="math inline">\sum_n \lvert x[n]\rvert^2</span></td>
+<td><span class="math inline">= \frac{1}{2\pi}\int_{-\pi}^{\pi} \lvert X(e^{j\Omega})\rvert^2\, d\Omega</span></td>
+</tr>
+</tbody>
+</table>
+<p>La que paga el curso es la de <strong>convolución</strong>: para un sistema LTI discreto, <span class="math inline">Y(e^{j\Omega}) = X(e^{j\Omega})\,H(e^{j\Omega})</span>, con <span class="math inline">H(e^{j\Omega})</span> = la respuesta en frecuencia que en el capítulo 6 leías desde polos y ceros. Filtrar = multiplicar espectros, palabra por palabra como en el mundo continuo. Y anota la de <strong>multiplicación</strong> — hoy parece la hermana rara de la tabla, pero es exactamente la que explicará la fuga espectral.</p>
+<p><strong>Ejemplo relámpago</strong> (hazlo ahora): el promedio móvil <span class="math inline">h[n] = \tfrac12(\delta[n] + \delta[n-1])</span> tiene <span class="math display">H(e^{j\Omega}) = \tfrac12\left(1 + e^{-j\Omega}\right) = e^{-j\Omega/2}\cos(\Omega/2)</span> <span class="math inline">|H| = |\cos(\Omega/2)|</span>: vale 1 en DC y 0 en <span class="math inline">\Omega = \pi</span> — el pasa-bajos más humilde del mundo, el mismo que en el capítulo 6 analizaste con su cero en <span class="math inline">z = -1</span>. Dos caminos, una respuesta.</p>
+</section>
+</section>
+<section id="sec-dft" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="sec-dft"><span class="header-section-number">7.3</span> De la DFS a la DFT… y la FFT</h2>
+<p>La DTFT es perfecta para lápiz y papel — y perfectamente incalculable para un computador: suma infinitos términos y entrega una curva continua. La versión computable se construye en dos pasos cortos, y el primero es un regalo del capítulo 5.</p>
+<section id="sec-dfs" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="sec-dfs"><span class="header-section-number">7.3.1</span> DFS: a las señales periódicas discretas les bastan <span class="math inline">N</span> armónicos</h3>
+<p>Sea <span class="math inline">x[n]</span> periódica con período <span class="math inline">N</span>. Sus armónicos naturales son <span class="math inline">e^{j\frac{2\pi k}{N}n}</span>… pero por la no-unicidad de las sinusoides discretas (capítulo 5), el armónico <span class="math inline">k + N</span> <strong>es el mismo</strong> que el armónico <span class="math inline">k</span>: <span class="math display">e^{j\frac{2\pi(k+N)}{N}n} = e^{j\frac{2\pi k}{N}n}\,\underbrace{e^{j2\pi n}}_{=1}</span></p>
+<p>Donde la serie de Fourier continua necesitaba infinitos armónicos, aquí <strong>solo existen <span class="math inline">N</span> distintos</strong>. La serie es finita — por eso el computador puede:</p>
+<p><span class="math display">x[n] = \sum_{k=0}^{N-1} c_k\, e^{j\frac{2\pi k}{N}n} \qquad\qquad c_k = \frac{1}{N}\sum_{n=0}^{N-1} x[n]\, e^{-j\frac{2\pi k}{N}n} \qquad \text{(DFS)}</span></p>
+<p>La fórmula de los <span class="math inline">c_k</span> es la proyección ortogonal de siempre — la misma del capítulo 3, ahora en dimensión finita. La demostraremos en versión matricial en un momento, y será la más limpia de todo el libro.</p>
+</section>
+<section id="sec-dft-def" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="sec-dft-def"><span class="header-section-number">7.3.2</span> La DFT: el Fourier de un vector</h3>
+<p>En la práctica el computador no tiene señales periódicas: tiene un <strong>bloque finito</strong> de <span class="math inline">N</span> muestras — un vector. La DFT es la DFS aplicada al bloque <em>como si fuera un período</em>. (Frase inocente; guárdala. Tendrá consecuencias en la <a href="#sec-conv-ciclica" class="quarto-xref"><span>Sección 7.6</span></a>.)</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: DFT e IDFT
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para <span class="math inline">x[n]</span> con <span class="math inline">n = 0, \dots, N-1</span>: <span class="math display">X[k] = \sum_{n=0}^{N-1} x[n]\, e^{-j\frac{2\pi k}{N}n}, \quad k = 0, \dots, N-1
+\qquad\qquad
+x[n] = \frac{1}{N}\sum_{k=0}^{N-1} X[k]\, e^{j\frac{2\pi k}{N}n}</span> Es la convención sin <span class="math inline">1/N</span> en el análisis (queda en la inversa) — la de NumPy: <code>np.fft.fft</code> / <code>np.fft.ifft</code>. Comparando con la DFS: <span class="math inline">X[k] = N c_k</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I4): una DFT a mano
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Calcula la DFT de <span class="math inline">x = (1, 0, -1, 0)</span> — un período de <span class="math inline">\cos\!\left(\frac{2\pi n}{4}\right)</span>.</p>
+<p><strong>Solución.</strong> Con <span class="math inline">W_4 = e^{-j2\pi/4} = -j</span>, en la suma solo sobreviven <span class="math inline">n = 0</span> y <span class="math inline">n = 2</span>: <span class="math display">X[k] = x[0] + x[2]\,W_4^{2k} = 1 + (-1)(-1)^k</span> (porque <span class="math inline">W_4^2 = (-j)^2 = -1</span>). Evaluando: <span class="math inline">X[0] = 0</span>, <span class="math inline">X[1] = 2</span>, <span class="math inline">X[2] = 0</span>, <span class="math inline">X[3] = 2</span>: <span class="math display">\boxed{X = (0,\; 2,\; 0,\; 2)}</span> Lectura, que vale más que la cuenta: un coseno real reparte su energía en <strong>dos</strong> líneas, <span class="math inline">k = 1</span> y <span class="math inline">k = N-1 = 3</span>. Son los dos fasores contrarrotantes del capítulo 1 — <span class="math inline">\cos(\Omega_0 n) = \tfrac12 e^{j\Omega_0 n} + \tfrac12 e^{-j\Omega_0 n}</span> — y el de frecuencia negativa aparece “envuelto” al final del vector. Cada línea vale <span class="math inline">N/2 = 2</span>: cada fasor de peso <span class="math inline">\tfrac12</span> calza con una columna de la base y aporta <span class="math inline">N</span> veces su peso. <strong>Memoriza el patrón</strong> (picos en <span class="math inline">k_0</span> y <span class="math inline">N - k_0</span>, altura <span class="math inline">N/2</span> por unidad de amplitud): es el corazón de la pregunta de examen de la <a href="#sec-leer-fft" class="quarto-xref"><span>Sección 7.4</span></a>.</p>
+</div>
+</div>
+<p><strong>La otra lectura — fotos de la DTFT.</strong> Si <span class="math inline">x[n]</span> vive solo en <span class="math inline">0 \le n \le N-1</span>, compara las definiciones de DTFT y DFT término a término. Son idénticas cuando <span class="math inline">\Omega = \frac{2\pi k}{N}</span>: <span class="math display">X[k] = X(e^{j\Omega})\Big|_{\Omega = \frac{2\pi k}{N}}</span></p>
+<blockquote class="blockquote">
+<p>La DTFT es la <strong>curva completa</strong> del espectro; la DFT son <strong><span class="math inline">N</span> fotos equiespaciadas</strong> de esa curva — <span class="math inline">N</span> puntos repartidos en una vuelta del círculo unitario.</p>
+</blockquote>
+<div id="c02298bb" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap07_files/figure-html/cell-3-output-1.png" width="806" height="276" class="figure-img"></p>
+<figcaption>La DFT muestrea la DTFT. Pulso de largo M=8: con N=8 (izquierda), las fotos caen casi todas en los ceros del Dirichlet y el espectro ‘parece’ vacío; rellenando con ceros hasta N=32 (derecha) las fotos se densifican y la curva aparece. La curva es la misma: el zero-padding solo agrega puntos, no información.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Consecuencia inmediata de la lectura circular: <span class="math inline">k = 0</span> es DC, <span class="math inline">k = N/2</span> es <span class="math inline">\Omega = \pi</span> (lo más agudo posible), y los <span class="math inline">k &gt; N/2</span> son las <strong>frecuencias negativas</strong> — por eso el coseno del ejemplo apareció en <span class="math inline">k = 1</span> <em>y</em> en <span class="math inline">k = 3</span>.</p>
+</section>
+<section id="sec-matriz-w" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="sec-matriz-w"><span class="header-section-number">7.3.3</span> La matriz <span class="math inline">\mathbf{W}</span>: las raíces de la unidad cobran su promesa</h3>
+<p>La DFT es lineal en <span class="math inline">x</span>, así que es una multiplicación matriz-vector: <span class="math display">\mathbf{X} = \mathbf{W}\,\mathbf{x}, \qquad [\mathbf{W}]_{k,n} = W_N^{kn}, \qquad W_N = e^{-j2\pi/N}</span></p>
+<p>En el <a href="apendice-a.html" class="quarto-xref"><span>Apéndice A</span></a> quedó plantada una promesa: “las <span class="math inline">N</span> soluciones de <span class="math inline">z^N = 1</span> son las raíces de la unidad, <span class="math inline">N</span> puntos equiespaciados en el círculo — en el capítulo 7 la DFT se construye enteramente sobre estos puntos”. Hoy se cobra: <strong>toda</strong> entrada de <span class="math inline">\mathbf{W}</span> es una potencia de <span class="math inline">W_N</span>, es decir, una raíz de la unidad; la fila <span class="math inline">k</span> recorre el círculo dando <span class="math inline">k</span> vueltas por período — es la sinusoide discreta de frecuencia <span class="math inline">\Omega_k = \frac{2\pi k}{N}</span> escrita como vector.</p>
+<div id="2f9f829c" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap07_files/figure-html/cell-4-output-1.png" width="414" height="407" class="figure-img"></p>
+<figcaption>Las ocho raíces de la unidad (N=8): los puntos del círculo donde la DFT toma sus fotos de la DTFT. k=0 es la DC (z=1), k=4 es Ω=π (z=−1, lo más agudo), y los k&gt;4 son las frecuencias negativas. Toda la matriz W está hecha de estos ocho números.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Para <span class="math inline">N = 4</span>, con <span class="math inline">W_4 = -j</span> (constrúyela tú, recordando que los exponentes van módulo 4): <span class="math display">\mathbf{W}_4 = \begin{pmatrix} 1 &amp; 1 &amp; 1 &amp; 1 \\ 1 &amp; -j &amp; -1 &amp; j \\ 1 &amp; -1 &amp; 1 &amp; -1 \\ 1 &amp; j &amp; -1 &amp; -j \end{pmatrix}</span></p>
+<p>Toma dos filas distintas y calcula su producto interno (fila <span class="math inline">\cdot</span> fila conjugada): da <span class="math inline">0</span>. Toma una fila consigo misma: da <span class="math inline">4</span>. Lo que acabas de verificar en un caso es el <strong>teorema central</strong> del capítulo: <span class="math display">\mathbf{W}^H\,\mathbf{W} = N\,\mathbf{I} \quad\Longrightarrow\quad \mathbf{W}^{-1} = \frac{1}{N}\,\mathbf{W}^H</span> (la demostración general es la suma geométrica de siempre: <span class="math inline">\sum_n e^{j\frac{2\pi(k-m)}{N}n} = N</span> si <span class="math inline">k = m</span>, y <span class="math inline">0</span> si no — el numerador <span class="math inline">1 - e^{j2\pi(k-m)}</span> se anula). Las filas de <span class="math inline">\mathbf{W}</span> son <strong>ortogonales</strong>: invertir la DFT no requiere eliminación gaussiana, basta conjugar y dividir por <span class="math inline">N</span>. <em>Eso</em> es la fórmula de la IDFT — y de paso, Parseval gratis: <span class="math inline">\sum_n |x[n]|^2 = \frac{1}{N}\sum_k |X[k]|^2</span> es Pitágoras en <span class="math inline">\mathbb{C}^N</span>.</p>
+<p>Da un paso atrás y mira lo que tienes: la serie de Fourier, la TF, la DTFT y la DFT son <strong>el mismo gesto geométrico</strong> — proyectar sobre una base ortogonal de sinusoides — en cuatro espacios distintos. La del capítulo 3 era una promesa de ordenamiento; esta es su forma final, en dimensión finita, donde todo es un producto interno honesto entre vectores.</p>
+</section>
+<section id="sec-fft" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="sec-fft"><span class="header-section-number">7.3.4</span> La FFT: por qué <span class="math inline">N\log N</span> cambió la ingeniería</h3>
+<p>Multiplicar <span class="math inline">\mathbf{W}\mathbf{x}</span> cuesta <span class="math inline">\sim N^2</span> multiplicaciones complejas: <span class="math inline">N</span> por cada uno de los <span class="math inline">N</span> coeficientes. ¿Es mucho? Un segundo de audio a <span class="math inline">44\,100</span> Hz: <span class="math inline">N^2 \approx 2\times 10^9</span> operaciones — segundos de cálculo <em>por segundo de señal</em>. Durante décadas la DFT fue una curiosidad teórica por esta razón exacta.</p>
+<p>La salida (Cooley–Tukey, 1965) es <strong>divide y vencerás</strong>. Separa la señal en sus muestras pares <span class="math inline">g[r] = x[2r]</span> e impares <span class="math inline">h[r] = x[2r+1]</span>: <span class="math display">X[k] = \sum_{r=0}^{N/2-1} g[r]\, W_{N/2}^{kr} \;+\; W_N^{k}\sum_{r=0}^{N/2-1} h[r]\, W_{N/2}^{kr} \;=\; G[k] + W_N^k\, H[k]</span> usando <span class="math inline">W_N^2 = W_{N/2}</span> (¡verifícalo!). Una DFT de <span class="math inline">N</span> puntos = <strong>dos DFTs de <span class="math inline">N/2</span></strong> + <span class="math inline">N</span> operaciones de mezcla. Y la mitad superior de los <span class="math inline">X[k]</span> sale <em>gratis</em> de las mismas dos sub-DFTs (<span class="math inline">G</span> y <span class="math inline">H</span> tienen período <span class="math inline">N/2</span>; solo cambia el signo del término <span class="math inline">W_N^k</span> — la operación se dibuja como una “mariposa”). Ahora repite la jugada con cada mitad, y con las mitades de las mitades, hasta llegar a DFTs de 1 punto: <span class="math inline">\log_2 N</span> niveles con <span class="math inline">\sim N</span> operaciones cada uno: <span class="math display">\boxed{\; N^2 \;\longrightarrow\; N\log_2 N \;}</span></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">N = 10^6</span></th>
+<th>operaciones</th>
+<th>en un chip de <span class="math inline">10^9</span> mult/s</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DFT directa</td>
+<td><span class="math inline">N^2 = 10^{12}</span></td>
+<td><span class="math inline">\sim 17</span> <strong>minutos</strong></td>
+</tr>
+<tr class="even">
+<td>FFT</td>
+<td><span class="math inline">N\log_2 N \approx 2\times 10^7</span></td>
+<td><span class="math inline">\sim 20</span> <strong>milisegundos</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Factor <span class="math inline">\sim 50\,000</span>. No es “un poco más rápido”: es la diferencia entre que el análisis espectral en tiempo real <strong>exista o no exista</strong>. Ecualizadores, MP3 y AAC, OFDM en WiFi y 5G, resonancia magnética: todo eso corre sobre estas mariposas. La FFT no es una transformada nueva — calcula <em>exactamente</em> la DFT — y por eso todo lo que aprendas sobre la DFT vale para ella.</p>
+</section>
+</section>
+<section id="sec-leer-fft" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="sec-leer-fft"><span class="header-section-number">7.4</span> Leer el vector de una FFT real</h2>
+<p><code>X = np.fft.fft(x)</code> devuelve <span class="math inline">N</span> números complejos, y ninguno trae etiqueta de “Hz”. Saber ponérsela es — literalmente — una pregunta de examen de todos los años. Esta sección es esa pregunta, resuelta con calma una vez para que puedas resolverla rápido siempre.</p>
+<p><strong>La única fórmula nueva.</strong> El bin <span class="math inline">k</span> es la foto de la DTFT en <span class="math inline">\Omega_k = \frac{2\pi k}{N}</span>; el muestreo (capítulo 5) conecta la frecuencia discreta con la física: <span class="math inline">\Omega = 2\pi f / F_s</span>. Igualando: <span class="math display">\boxed{\; f_k = k\,\frac{F_s}{N} \;} \qquad\qquad \Delta f = \frac{F_s}{N} = \frac{1}{T_{\text{obs}}}</span> El espaciado entre bins — la <strong>resolución</strong> — es el inverso de la <em>duración observada</em>. Anota esa segunda forma: ordena todo lo que sigue.</p>
+<p>Y para señales <strong>reales</strong>, la simetría Hermitiana de la <a href="#sec-dtft-periodica" class="quarto-xref"><span>Sección 7.2.1</span></a> aterriza en el vector como <strong>simetría conjugada</strong>: <span class="math display">X[N - k] = X^*[k]</span> La mitad superior del vector (<span class="math inline">k &gt; N/2</span>) es información repetida: son las frecuencias negativas, <span class="math inline">f = (k - N)\,F_s/N</span>, envueltas al final. Por eso en la práctica se grafica solo de <span class="math inline">k = 0</span> (DC) a <span class="math inline">k = N/2</span> (Nyquist, <span class="math inline">F_s/2</span>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto completo (calibre examen): el vector de un tono
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se graba durante <strong>medio segundo</strong> el tono puro <span class="math inline">x(t) = 3\cos(2\pi\cdot 1200\, t)</span> con <span class="math inline">F_s = 8000</span> Hz, y se calcula <code>np.fft.fft</code> de las <span class="math inline">N = 4000</span> muestras. Describe completamente el vector <span class="math inline">|X[k]|</span>: dónde hay picos, cuánto valen, y qué hay en el resto.</p>
+<p><strong>Solución</strong> (el desarrollo-tipo, paso a paso):</p>
+<ol type="1">
+<li><strong>Resolución</strong>: <span class="math inline">\Delta f = F_s/N = 8000/4000 = 2</span> Hz por bin (coherente: <span class="math inline">T_{\text{obs}} = 0.5</span> s ⟹ <span class="math inline">\Delta f = 1/0.5 = 2</span> Hz).</li>
+<li><strong>Pico directo</strong>: <span class="math inline">k_0 = f/\Delta f = 1200/2 = 600</span>. Entero — el tono cae <strong>exactamente</strong> en un bin (en <span class="math inline">0.5</span> s caben <span class="math inline">600</span> ciclos justos). Caso ideal.</li>
+<li><strong>Pico espejo</strong>: la señal es real ⟹ <span class="math inline">X[N-k] = X^*[k]</span>: gemelo en <span class="math inline">k = 4000 - 600 = 3400</span>, que representa <span class="math inline">-1200</span> Hz. Es la horquilla de los dos fasores contrarrotantes, envuelta en el vector.</li>
+<li><strong>Alturas</strong>: <span class="math inline">3\cos(\Omega_0 n) = \tfrac32 e^{j\Omega_0 n} + \tfrac32 e^{-j\Omega_0 n}</span>, y cada fasor que calza con la base aporta <span class="math inline">N</span> veces su peso: <span class="math display">|X[600]| = |X[3400]| = \frac{A\,N}{2} = \frac{3 \cdot 4000}{2} = 6000</span></li>
+<li><strong>El resto</strong>: ceros exactos (ortogonalidad — solo porque el tono cayó justo en un bin).</li>
+<li><strong>Zona útil</strong>: de <span class="math inline">k = 0</span> a <span class="math inline">k = N/2 = 2000</span> (<span class="math inline">= F_s/2 = 4000</span> Hz, Nyquist).</li>
+</ol>
+<p><em>(Verificado numéricamente: la FFT de esas 4000 muestras da exactamente picos de 6000.0 en <span class="math inline">k = 600</span> y <span class="math inline">3400</span>, y el resto bajo <span class="math inline">10^{-9}</span>.)</em></p>
+<p>Y la lectura <strong>inversa</strong>, que es como suele preguntarse: si te muestran un vector de <span class="math inline">N = 4000</span> bins tomado a <span class="math inline">F_s = 8000</span> Hz con <span class="math inline">|X[600]| = |X[3400]| = 6000</span> y cero en el resto, tú reconstruyes: <span class="math inline">f = 600 \cdot 2 = 1200</span> Hz, <span class="math inline">A = 2\cdot 6000/4000 = 3</span>. Señal: <span class="math inline">3\cos(2\pi\, 1200\, t)</span> (la fase requeriría mirar <span class="math inline">\angle X[600]</span>).</p>
+</div>
+</div>
+<div id="37c12d98" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap07_files/figure-html/cell-5-output-1.png" width="806" height="277" class="figure-img"></p>
+<figcaption>El vector |X[k]| del ejemplo: tono de 1200 Hz, amplitud 3, Fs=8000 Hz, N=4000. Picos de altura AN/2=6000 en k=600 y en el espejo k=N−600=3400; la zona útil llega hasta k=N/2=2000 (Nyquist); la mitad sombreada es información conjugada repetida.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="sec-zero-padding" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="sec-zero-padding"><span class="header-section-number">7.4.1</span> Zero-padding: resolución aparente y resolución real</h3>
+<p>El caso incómodo: mismo tono de <span class="math inline">1200</span> Hz, pero grabado solo <span class="math inline">0.1</span> s (<span class="math inline">N = 800</span>, <span class="math inline">\Delta f = 10</span> Hz). <span class="math inline">k_0 = 120</span>: aún exacto. Pero un tono de <span class="math inline">1205</span> Hz caería en <span class="math inline">k = 120.5</span>… que no existe: el pico se reparte entre bins vecinos (y algo más feo, que veremos enseguida). ¿La tentación? “Pego ceros al final hasta <span class="math inline">N = 8000</span> y tengo bins de <span class="math inline">1</span> Hz.”</p>
+<p>Los ceros efectivamente densifican los bins — como viste en la figura del pulso, la DFT toma más fotos. Pero fotos ¿de qué? <strong>De la misma DTFT</strong>, la que quedó fijada por las <span class="math inline">800</span> muestras que sí mediste. El zero-padding <strong>interpola</strong> la curva subyacente; la curva no cambia. Dos tonos que la curva no separa, seguirán sin separarse — solo verás la misma borrosidad con más puntos.</p>
+<blockquote class="blockquote">
+<p><strong>La resolución la compra el tiempo de observación</strong>: <span class="math inline">\Delta f = 1/T_{\text{obs}}</span>, y punto. El zero-padding es útil para <em>ubicar mejor</em> un pico ya resuelto (interpolación), no para <em>resolver</em> lo que la ventana no resolvió: los ceros no midieron nada.</p>
+</blockquote>
+<p>Para separar dos tonos a <span class="math inline">3</span> Hz de distancia necesitas observar <span class="math inline">\gtrsim 1/3</span> s. No hay algoritmo que lo evite — es el principio de incertidumbre tiempo-frecuencia, y reaparecerá como el compromiso central de la STFT.</p>
+</section>
+</section>
+<section id="sec-leakage" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="sec-leakage"><span class="header-section-number">7.5</span> Artefactos: fuga espectral, ventanas y espectrograma</h2>
+<section id="sec-fuga" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="sec-fuga"><span class="header-section-number">7.5.1</span> Por qué el espectro “se ensucia”: el Dirichlet cobra su deuda</h3>
+<p>¿Por qué el tono que cae entre bins se ve <em>feo</em>, y no solo “repartido entre dos”? Grabar <span class="math inline">N</span> muestras de una señal más larga es, matemáticamente, <strong>multiplicarla por una ventana rectangular</strong>. Y la tabla de la <a href="#sec-dtft-propiedades" class="quarto-xref"><span>Sección 7.2.3</span></a> dice qué le pasa al espectro: multiplicar en el tiempo = convolucionar en frecuencia, <span class="math display">x_w[n] = x[n]\,w[n] \quad\Longrightarrow\quad X_w = \frac{1}{2\pi}\,X \circledast W</span> ¿Y quién es <span class="math inline">W</span>, el espectro de la ventana rectangular? El <strong>núcleo de Dirichlet</strong> de la <a href="#sec-dtft-pares" class="quarto-xref"><span>Sección 7.2.2</span></a> — te dije que volvería. Cada línea espectral pura queda convolucionada con él: un lóbulo principal (ancho <span class="math inline">\approx 2F_s/N</span> entre ceros) y lóbulos laterales que caen <em>lento</em> (el primero, a solo <span class="math inline">-13</span> dB). Es rect ↔︎ sinc del capítulo 3, cobrándose en el peor momento posible.</p>
+<p>Dos escenarios:</p>
+<ul>
+<li>El tono cae <strong>justo en un bin</strong> ⟹ la DFT muestrea el Dirichlet exactamente en sus ceros ⟹ una línea limpia. (¡El caso ideal del ejemplo anterior era una carambola afortunada!)</li>
+<li>El tono cae <strong>entre bins</strong> ⟹ la DFT muestrea el Dirichlet fuera de sus ceros ⟹ energía desparramada por <em>todo</em> el vector: <strong>fuga espectral</strong> (<em>leakage</em>). Un tono débil vecino queda enterrado bajo los lóbulos del fuerte.</li>
+</ul>
+</section>
+<section id="sec-ventanas" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="sec-ventanas"><span class="header-section-number">7.5.2</span> El remedio y su precio: las ventanas</h3>
+<p>Si el problema es cortar la señal <em>a tijera</em>, el remedio es apagarla <strong>suavemente</strong> en los bordes: multiplicar por una ventana con forma. La clásica es la de <strong>Hann</strong>, <span class="math inline">w[n] = \tfrac12\left(1 - \cos\frac{2\pi n}{N-1}\right)</span>, y el mercado ofrece toda una familia:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Rectangular</th>
+<th>Hann</th>
+<th>Blackman</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lóbulo principal (entre ceros)</td>
+<td><span class="math inline">2\,F_s/N</span></td>
+<td><span class="math inline">4\,F_s/N</span></td>
+<td><span class="math inline">6\,F_s/N</span></td>
+</tr>
+<tr class="even">
+<td>Primer lóbulo lateral</td>
+<td><span class="math inline">-13</span> dB</td>
+<td><span class="math inline">-31</span> dB</td>
+<td><span class="math inline">-58</span> dB</td>
+</tr>
+<tr class="odd">
+<td>Úsala cuando…</td>
+<td>máxima resolución; tono en bin</td>
+<td>caso general con fuga</td>
+<td>tono débil junto a uno fuerte</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No hay ventana gratis.</strong> Hann compra lóbulos laterales bajos (menos fuga) pagando con un lóbulo principal del doble de ancho (menos resolución); Blackman va más lejos en la misma dirección. La rectangular es la de máxima resolución y peor fuga. Elegir ventana <strong>es</strong> una decisión de ingeniería — y el examen suele pedir justificarla en dos frases, con estos números.</p>
+<div id="42992218" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap07_files/figure-html/cell-6-output-1.png" width="806" height="277" class="figure-img"></p>
+<figcaption>Fuga espectral y su remedio (N=64, espectros interpolados con zero-padding). Izquierda: un tono que cae justo en un bin (línea limpia) versus uno que cae entre bins — el mismo Dirichlet, muestreado en sus ceros o fuera de ellos. Derecha, en dB: para el tono entre bins, la ventana de Hann baja los lóbulos laterales de −13 dB a −31 dB al precio de un lóbulo principal más ancho.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-stft" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="sec-stft"><span class="header-section-number">7.5.3</span> STFT y espectrograma: ponerle tiempo al espectro</h3>
+<p>Una FFT de una grabación completa responde <em>qué</em> frecuencias sonaron, pero no <em>cuándo</em>: el espectro de una escala musical es el mismo tocada al derecho o al revés (solo cambian las fases, ilegibles a ojo). La solución es de una honestidad brutal: si una FFT global pierde el tiempo… calculemos <strong>muchas FFTs cortas</strong>.</p>
+<p>Esa es la <strong>STFT</strong> (transformada de Fourier de tiempo corto): deslizar una ventana <span class="math inline">w[n]</span> de largo <span class="math inline">L</span> por la señal (con saltos de <span class="math inline">H</span> muestras, usualmente traslapados) y calcular la FFT de cada trozo ventaneado: <span class="math display">X[m, k] = \sum_n x[n]\, w[n - mH]\, e^{-j\frac{2\pi k}{L}n}</span> Dos índices: <span class="math inline">m</span> dice <strong>cuándo</strong>, <span class="math inline">k</span> dice <strong>qué frecuencia</strong>. El gráfico de <span class="math inline">|X[m,k]|</span> — tiempo horizontal, frecuencia vertical, energía como color — es el <strong>espectrograma</strong>, la herramienta estándar para toda señal cuyo contenido cambia (voz, música, sismos, radar).</p>
+<p>Si tocas algún instrumento, ya conoces esta representación: <strong>una partitura es un espectrograma</strong> — tiempo horizontal, altura vertical, y cada nota es una mancha que dice “esta frecuencia, durante este intervalo”. Los músicos llevan siglos usándola; nosotros solo la calculamos (y de paso el espectrograma revela los armónicos de cada nota — el timbre del capítulo 3).</p>
+<p>El precio ya lo conoces de la <a href="#sec-zero-padding" class="quarto-xref"><span>Sección 7.4.1</span></a>, aplicado trozo a trozo: cada columna del espectrograma tiene resolución <span class="math inline">\Delta f \approx 1/T_{\text{ventana}}</span>. <strong>Ventana corta = sé bien <em>cuándo</em>, mal <em>qué nota</em>; ventana larga = al revés.</strong> No existe ventana que gane en ambos frentes — elegir su largo es elegir qué pregunta le haces a la señal (para voz, 20–30 ms es el clásico punto medio):</p>
+<div id="a3300d0c" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap07_files/figure-html/cell-7-output-1.png" width="806" height="278" class="figure-img"></p>
+<figcaption>El compromiso tiempo-frecuencia en acción: espectrogramas del mismo chirp (tono que sube de 200 a 3000 Hz en 2 s, Fs=8000 Hz). Ventana larga (izquierda, 1024 muestras = 128 ms): línea delgada en frecuencia pero borrosa en tiempo. Ventana corta (derecha, 128 muestras = 16 ms): tiempo nítido, frecuencia gruesa. No hay ventana que gane en ambos ejes.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Qué se evalúa de esto</strong> (transparencia total): nivel conceptual — leer un espectrograma, predecir el efecto del largo de ventana, justificar una elección en dos frases. No se pide programar una STFT ni memorizar ventanas exóticas.</p>
+</section>
+</section>
+<section id="sec-conv-ciclica" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="sec-conv-ciclica"><span class="header-section-number">7.6</span> Convolución cíclica: la letra chica de multiplicar DFTs</h2>
+<p>En la unidad 5 conociste la convolución <strong>cíclica</strong> — esa operación donde los índices van módulo <span class="math inline">N</span> y la cola “da la vuelta” — y quedó pendiente una pregunta razonable: ¿para qué existe? Este es el momento del pago.</p>
+<p>La DFT trata al bloque como un período (la frase inocente de la <a href="#sec-dft-def" class="quarto-xref"><span>Sección 7.3.2</span></a>). Si el tiempo es circular, los desplazamientos son circulares, y la propiedad de convolución de la DFT sale <strong>cíclica</strong>, no lineal: <span class="math display">x[n] \circledast_N h[n] \;\longleftrightarrow\; X[k]\,H[k]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre examen): cíclica vs lineal, y cómo reconciliarlas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sean <span class="math inline">x = (1, 2, 3, 4)</span> y <span class="math inline">h = (1, 1, 0, 0)</span> — con este <span class="math inline">h</span>, la salida es “cada muestra más su vecina”: <span class="math inline">y[n] = x[n] + x[n-1]</span>.</p>
+<p><strong>Lineal</strong> (unidad 5): <span class="math inline">y_{\text{lin}} = (1,\; 3,\; 5,\; 7,\; 4)</span> — largo <span class="math inline">4 + 2 - 1 = 5</span>.</p>
+<p><strong>Cíclica con <span class="math inline">N = 4</span></strong>: el vecino de <span class="math inline">n = 0</span> es… <span class="math inline">n = 3</span> (¡la cola da la vuelta!): <span class="math display">y_c = (1{+}4,\; 3,\; 5,\; 7) = (5,\; 3,\; 5,\; 7)</span> que es exactamente lo que entrega <code>np.fft.ifft(np.fft.fft(x) * np.fft.fft(h))</code> (verificado: da <span class="math inline">(5, 3, 5, 7)</span>).</p>
+<p><strong>La relación exacta</strong>: la muestra de la lineal que no cabe (<span class="math inline">y_{\text{lin}}[4] = 4</span>) se <strong>enrolla</strong> y se suma al principio: <span class="math inline">y_c[0] = 1 + 4 = 5</span>; el resto coincide. Es <em>aliasing temporal</em> — el gemelo exacto del aliasing espectral del capítulo 5: representar con <span class="math inline">N</span> muestras algo que mide más de <span class="math inline">N</span>, enrolla lo que sobra.</p>
+<p><strong>La receta para obtener la lineal por FFT</strong>: impedir que el enrollado alcance a morder. Si <span class="math inline">x</span> mide <span class="math inline">L</span> y <span class="math inline">h</span> mide <span class="math inline">M</span>, la lineal mide <span class="math inline">L + M - 1</span>: basta rellenar <strong>ambas</strong> señales con ceros hasta <span class="math inline">N \ge L + M - 1</span> y entonces cíclica <span class="math inline">=</span> lineal: <span class="math display">y_{\text{lin}} = \operatorname{IFFT}\big(\operatorname{FFT}(x_{\text{pad}}) \cdot \operatorname{FFT}(h_{\text{pad}})\big)</span> En el ejemplo, con <span class="math inline">N = 8</span>: la cuenta da <span class="math inline">(1, 3, 5, 7, 4, 0, 0, 0)</span> — la lineal exacta, con ceros de sobra (verificado numéricamente).</p>
+</div>
+</div>
+<div id="3327caa3" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap07_files/figure-html/cell-8-output-1.png" width="806" height="259" class="figure-img"></p>
+<figcaption>Lineal vs cíclica para x=(1,2,3,4), h=(1,1,0,0). La convolución cíclica con N=4 enrolla la cola de la lineal (el 4 de la posición n=4 cae sobre n=0: 1+4=5). Con zero-padding hasta N≥5, la cola tiene dónde vivir y la cíclica reproduce la lineal exacta.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Por qué todo esto importa</strong>: convolucionar directamente dos señales de largo <span class="math inline">N</span> cuesta <span class="math inline">\sim N^2</span>; hacerlo vía FFT (tres FFTs más <span class="math inline">N</span> productos) cuesta <span class="math inline">\sim 3N\log_2 N</span>. Para <span class="math inline">N = 10^6</span>: minutos contra décimas de segundo. Así se aplican en la práctica los filtros largos — la reverberación de la iglesia del capítulo 1 sobre la voz se calculó <strong>exactamente así</strong>: FFT, multiplicar, IFFT, con zero-padding para que la cíclica fuera lineal.</p>
+<section id="sec-ola-ols" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="sec-ola-ols"><span class="header-section-number">7.6.1</span> Lectura avanzada (optativa, no evaluable): filtrado por bloques — OLA y OLS</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Para curiosos: ¿y si la señal no termina nunca?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La receta anterior exige tener la señal <em>entera</em> antes de la FFT — pero un stream de audio en vivo no termina nunca. La solución industrial es procesar por <strong>bloques</strong>, con la misma matemática del zero-padding, cosiendo los trozos por solapamiento. Dos variantes clásicas:</p>
+<ul>
+<li><strong>Overlap-Add (OLA)</strong>: bloques de entrada <em>sin</em> traslape, rellenos con <span class="math inline">M-1</span> ceros; cada salida de bloque termina en una “cola” de <span class="math inline">M-1</span> muestras que se <strong>suma</strong> al comienzo del bloque siguiente (la linealidad de la convolución garantiza que la suma de las salidas parciales es la salida exacta).</li>
+<li><strong>Overlap-Save (OLS)</strong>: bloques de entrada traslapados en <span class="math inline">M-1</span> muestras; se deja que el enrollado cíclico contamine el inicio de cada salida y esas <span class="math inline">M-1</span> muestras simplemente se <strong>descartan</strong>, concatenando el resto.</li>
+</ul>
+<p>Ambos entregan la convolución lineal <em>exacta</em> con costo <span class="math inline">N\log N</span> por bloque, y son el estándar de todo filtrado en tiempo real: reverberadores, ecualizadores, audífonos con cancelación de ruido. El capítulo de filtrado rápido del mini-libro <em>Análisis Espectral de Señales Discretas</em> (en Canvas) los desarrolla con diagramas, y es la lectura de transición perfecta hacia un curso de DSP. Nada de esto entra a ninguna evaluación.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-cierre-libro" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="sec-cierre-libro"><span class="header-section-number">7.7</span> El cierre del libro: la promesa, cumplida</h2>
+<p>En la primera página de este libro escuchaste una voz entrar a una iglesia (<a href="cap01.html#sec-voz-iglesia" class="quarto-xref"><span>Sección 1.1</span></a>), y el prefacio te hizo una promesa: <em>al final del semestre serás capaz de tomar una grabación contaminada con un zumbido, diseñar tú el filtro que lo elimina, y verificarlo con tus propios oídos.</em> Escúchala una vez más — es la última señal del curso:</p>
+<audio controls="" src="assets/audio/voz_en_iglesia.mp3">
+</audio>
+<p>El primer día, esto era magia. Recorre lo que sabes hoy de este mismo audio:</p>
+<ul>
+<li>La voz “dentro de la iglesia” se fabricó <strong>convolucionando</strong> la voz seca con la respuesta al impulso de la iglesia (capítulo 2) — y esa convolución se calculó con <strong>FFT y zero-padding</strong>, exactamente la receta de la <a href="#sec-conv-ciclica" class="quarto-xref"><span>Sección 7.6</span></a>.</li>
+<li>Que la convolución moldee el sonido es multiplicar espectros, <span class="math inline">Y = HX</span> — capítulo 3 en continuo, este capítulo en discreto.</li>
+<li>El audio vive en un computador sin perder nada porque el <strong>muestreo</strong> respetó Nyquist (capítulo 5).</li>
+<li>Si la grabación trajera un zumbido de 50 Hz, tú sabes <strong>diseñar el notch</strong> que lo elimina, poniendo un par de ceros sobre el círculo unitario y sus polos escoltas (capítulo 6).</li>
+<li>Y sabes <strong>verificar</strong> que funcionó: FFT antes y FFT después, leyendo el vector bin a bin como en la <a href="#sec-leer-fft" class="quarto-xref"><span>Sección 7.4</span></a> — el zumbido era un pico en <span class="math inline">k = f_{\text{zumbido}}/\Delta f</span>, y ya no está.</li>
+</ul>
+<p>Medir → analizar → diseñar → <strong>verificar</strong>. Ese ciclo completo es lo que este libro vino a enseñarte, y ninguna de sus cuatro estaciones te queda grande ya. El mapa quedó completo:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>continuo</th>
+<th>discreto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>tiempo</strong></td>
+<td><span class="math inline">x(t)</span>, convolución</td>
+<td><span class="math inline">x[n]</span>, convolución, ec. de diferencias</td>
+</tr>
+<tr class="even">
+<td><strong>frecuencia</strong></td>
+<td>series y TF</td>
+<td>DTFT y <strong>DFT/FFT</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>plano completo</strong></td>
+<td>Laplace, plano <span class="math inline">s</span></td>
+<td>Z, plano <span class="math inline">z</span></td>
+</tr>
+<tr class="even">
+<td><strong>puente</strong></td>
+<td></td>
+<td>muestreo y Nyquist: C/D → sistema → D/C</td>
+</tr>
+</tbody>
+</table>
+<p>Lo que sigue son caminos, no finales: <strong>Comunicaciones</strong> vive en el capítulo 3 y en el muestreo; <strong>Control</strong> vive en los planos <span class="math inline">s</span> y <span class="math inline">z</span>, moviendo polos con realimentación en vez de a mano; <strong>DSP</strong> empieza exactamente donde termina esta página. Los tres hablan el idioma que acabas de aprender.</p>
+<p>Una voz entró a una iglesia y salió transformada. Ahora la transformación tiene nombre, fórmula, algoritmo — y tuya es la mano que puede diseñarla.</p>
+</section>
+<section id="sec-resumen-cap07" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="sec-resumen-cap07"><span class="header-section-number">7.8</span> En una página</h2>
+<ul>
+<li><strong>DTFT</strong>: <span class="math inline">X(e^{j\Omega}) = \sum_n x[n]e^{-j\Omega n}</span> — la transformada Z en el círculo unitario; <span class="math inline">\Omega</span> en rad/muestra. <strong>Siempre</strong> periódica con período <span class="math inline">2\pi</span> (porque <span class="math inline">n</span> es entero); todo el contenido vive en <span class="math inline">[-\pi, \pi)</span>, con <span class="math inline">\Omega = \pi</span> como frecuencia máxima. Señal real ⟹ simetría Hermitiana.</li>
+<li><strong>Pares</strong>: <span class="math inline">\delta[n] \to 1</span>; <span class="math inline">a^n u[n] \to \frac{1}{1 - ae^{-j\Omega}}</span>; pulso de largo <span class="math inline">M</span> → núcleo de <strong>Dirichlet</strong> <span class="math inline">\frac{\sin(\Omega M/2)}{\sin(\Omega/2)}</span> (la sinc periódica; vale <span class="math inline">M</span> en 0, ceros en <span class="math inline">2\pi k/M</span>).</li>
+<li><strong>Convolución ↔︎ multiplicación</strong>: <span class="math inline">Y = HX</span> también en discreto; y multiplicación en el tiempo ↔︎ convolución en frecuencia (semilla del leakage).</li>
+<li><strong>DFS/DFT</strong>: solo hay <span class="math inline">N</span> armónicos discretos distintos ⟹ serie finita. <span class="math inline">X[k] = \sum_{n=0}^{N-1} x[n]e^{-j2\pi kn/N}</span>; IDFT con <span class="math inline">\frac1N</span>. La DFT = <span class="math inline">N</span> fotos de la DTFT en <span class="math inline">\Omega_k = 2\pi k/N</span>. Coseno real: picos en <span class="math inline">k_0</span> y <span class="math inline">N - k_0</span>, altura <span class="math inline">AN/2</span>.</li>
+<li><strong>Matriz</strong>: <span class="math inline">\mathbf{X} = \mathbf{W}\mathbf{x}</span>, <span class="math inline">[\mathbf{W}]_{k,n} = W_N^{kn}</span>, <span class="math inline">W_N = e^{-j2\pi/N}</span> (raíces de la unidad); <span class="math inline">\mathbf{W}^H\mathbf{W} = N\mathbf{I} \Rightarrow \mathbf{W}^{-1} = \frac1N\mathbf{W}^H</span>. Parseval = Pitágoras en <span class="math inline">\mathbb{C}^N</span>.</li>
+<li><strong>FFT</strong>: divide y vencerás par/impar, <span class="math inline">G[k] + W_N^k H[k]</span>; <span class="math inline">N^2 \to N\log_2 N</span> (para <span class="math inline">N = 10^6</span>: $$50 000× — minutos vs milisegundos).</li>
+<li><strong>Leer una FFT real</strong>: <span class="math inline">f_k = k F_s/N</span>; <span class="math inline">\Delta f = F_s/N = 1/T_{\text{obs}}</span>; simetría conjugada <span class="math inline">X[N-k] = X^*[k]</span>; zona útil hasta <span class="math inline">N/2</span> (Nyquist). <strong>Zero-padding interpola, no resuelve</strong> — la resolución la compra el tiempo de observación.</li>
+<li><strong>Leakage</strong>: truncar = multiplicar por rect = convolucionar el espectro con Dirichlet (laterales a <span class="math inline">-13</span> dB). Remedio: ventanas (Hann <span class="math inline">-31</span> dB con lóbulo doble; Blackman <span class="math inline">-58</span> dB, triple). No hay ventana gratis.</li>
+<li><strong>STFT/espectrograma</strong>: FFTs cortas deslizantes; ventana corta ↔︎ tiempo nítido, ventana larga ↔︎ frecuencia nítida. Una partitura es un espectrograma.</li>
+<li><strong>DFT·DFT = convolución cíclica</strong> (el bloque es un período; la cola se enrolla — aliasing temporal). Lineal vía FFT: zero-padding de ambas hasta <span class="math inline">N \ge L + M - 1</span>.</li>
+</ul>
+</section>
+<section id="sec-ejercicios-cap07" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="sec-ejercicios-cap07"><span class="header-section-number">7.9</span> Ejercicios</h2>
+<p>Del banco del curso y de las Listas 14–15, en orden sugerido (los marcados “Lista” son ejercicios nuevos de las listas, aún no incorporados al banco):</p>
+<ol type="1">
+<li><strong>[DB E0162]</strong> (básico) ¿La señal <span class="math inline">x[-1] = -0.5</span>, <span class="math inline">x[1] = 0.5</span> está concentrada en frecuencias bajas, medias o altas? DTFT en dos líneas. <em>[U7.1]</em></li>
+<li><strong>[DB E0160]</strong> (intermedio) Propiedad de diferenciación en frecuencia de la DTFT y su aplicación a <span class="math inline">n\,a^n u[n]</span>. <em>[U7.1]</em></li>
+<li><strong>[DB E0164]</strong> (básico) DTFT inversa de una rampa acotada: leer <span class="math inline">F(e^{j\Omega})</span> como lista de coeficientes. <em>[U7.1]</em></li>
+<li><strong>[Lista 14, L14.4]</strong> DFTs de 4 puntos a mano: <span class="math inline">(1,1,1,1)</span>, <span class="math inline">(1,-1,1,-1)</span>, <span class="math inline">(2,0,2,0)</span> — la tercera sin calcular nada, por linealidad. <em>[U7.2]</em></li>
+<li><strong>[DB E0167]</strong> (intermedio) Demostrar el desplazamiento temporal de la DFT — y descubrir que es <em>circular</em>. <em>[U7.2]</em></li>
+<li><strong>[DB E0172]</strong> (intermedio) FFT radix-2 de 8 puntos: diagrama de mariposas completo y conteo de multiplicaciones vs la DFT directa. <em>[U7.2]</em></li>
+<li><strong>[DB E0169]</strong> (intermedio) Si <span class="math inline">f = (a,b,c,d,0,0,0,0)</span> tiene DFT <span class="math inline">F[k]</span>, ¿cuál es la DFT de 4 puntos de <span class="math inline">(a,b,c,d)</span>? Dos DFTs, una misma DTFT. <em>[U7.2, U7.3]</em></li>
+<li><strong>[Lista 15, L15.1]</strong> (calibre examen) El vector FFT de un tono de 620 Hz: resolución, índices de los picos, alturas, y el experimento corto que desata la fuga. <em>[U7.3]</em></li>
+<li><strong>[DB E0168]</strong> (básico) El terremoto de Loma Prieta: frecuencia dominante y Nyquist desde una DFT real de acelerómetro. <em>[U7.3]</em></li>
+<li><strong>[DB E0173]</strong> (computacional) Dos exponenciales muy cercanas: resolución vs zero-padding con <code>np.fft.fft</code>, cuatro experimentos. <em>[U7.3, U7.4]</em></li>
+<li><strong>[Lista 15, L15.2]</strong> Ventanas y resolución: cuánto observar para separar 200 y 210 Hz (rectangular vs Hann), y qué ventana salva a un tono 100 veces más débil. <em>[U7.4]</em></li>
+<li><strong>[Lista 15, L15.3]</strong> Lineal vs cíclica para <span class="math inline">x = (1,2,3,4)</span>, <span class="math inline">h = (2,1,0,0)</span>: las dos cuentas, el enrollado término a término y la receta FFT completa. <em>[U7.6]</em></li>
+</ol>
+<p>Y como despedida integradora, <strong>[Lista 15, L15.7]</strong> — el zumbido de 50 Hz sobre una voz: Nyquist, los bins del zumbido, el diseño del notch (capítulo 6) y la verificación por FFT (este capítulo). Es la promesa del prefacio convertida en ejercicio; si puedes resolverlo de corrido, el curso ya es tuyo.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Antes del examen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si puedes hacer sin mirar: la DFT a mano del ejercicio 4, la lectura completa del vector del ejercicio 8 y el enrollado del ejercicio 12 — estás listo para la parte discreta del examen. La pregunta de interpretar un vector FFT ha aparecido <strong>todos los años</strong>.</p>
+</div>
+</div>
+</section>
+<section id="sec-referencias-cap07" class="level2" data-number="7.10">
+<h2 data-number="7.10" class="anchored" data-anchor-id="sec-referencias-cap07"><span class="header-section-number">7.10</span> Para profundizar</h2>
+<ul>
+<li><strong>Mini-libro del curso</strong>: <em>Análisis Espectral de Señales Discretas</em> (en Canvas) — este capítulo es su destilado. Capítulos DTFT, DFS/DFT, FFT y Aspectos Prácticos para el mismo material con más ejemplos y figuras; el capítulo de Filtrado Rápido (OLA/OLS) y el de Remuestreo son las lecturas de transición hacia DSP.</li>
+<li><strong>[Oppenheim]</strong> cap. 5 (la DTFT y sus propiedades, con todo el rigor; recuerda: su <span class="math inline">\omega</span> es nuestra <span class="math inline">\Omega</span>).</li>
+<li><strong>[Alvarado]</strong> cap. 5–6 (DTFT y Fourier discreto, con su notación propia).</li>
+<li><strong>Demos del curso</strong>: <code>dsp_visualizer.py</code> (espectros con y sin ventana, zero-padding en vivo), la demo web “FFT paso a paso” y <code>interactive_fourier_bases.py</code> (las columnas de <span class="math inline">\mathbf{W}</span> como sinusoides), en <code>modulos/8_fourier_discreto/demos/</code>.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./cap06.html" class="pagination-link" aria-label="La transformada Z">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./apendice-a.html" class="pagination-link" aria-label="Números complejos">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Ay11 · Integración pre-I3 + CV4 – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../curso/semana-12/c23.html" rel="next">
+<link href="../../curso/semana-11/c22.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-11/c21.html">Semana 11 · Sistemas discretos</a></li><li class="breadcrumb-item"><a href="../../curso/semana-11/ay11.html">Ay11 · Integración pre-I3 + CV4</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IEE2103 · Señales y Sistemas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 1 · Presentación y señales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C1 · Presentación: señales, sistemas y el mapa del curso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C2 · Clasificación de señales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay1 · Nivelación: números complejos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 2 · Elementales e impulso</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-02/c03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C3 · Señales elementales y transformaciones de la variable</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-02/c04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C4 · El impulso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay2 · Ejercicios U1: señales, simetrías, impulso</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 3 · Sistemas</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-03/c05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C5 · Propiedades de sistemas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-03/c06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C6 · LTI ⇒ convolución: el teorema del curso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-03/ay03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay3 · Ejercicios U2 + CV1 (primer control de validación)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 4 · Convolución y EDOs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-04/c07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C7 · La convolución en la práctica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-04/c08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-04/ay04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay4 · Integración U1–U2: rumbo a la I1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 5 · Señales como vectores</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-05/c09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C9 · Señales como vectores</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-05/c10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C10 · Series de Fourier</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-05/ay05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay5 · Interrogación 1 (I1)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 6 · Series y espectros</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-06/c11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C11 · Propiedades de la serie y espectros</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-06/c12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C12 · La transformada de Fourier</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-06/ay06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay6 · Ejercicios de series de Fourier · CV2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 7 · Propiedades de la TF</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-07/c13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C13 · Propiedades de la transformada de Fourier</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-07/c14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C14 · Sistemas en frecuencia: H(ω) y filtrado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-07/ay07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay7 · Integración pre-I2: unidad 3 completa</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 8 · El plano s</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-08/c15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C15 · Del eje jω al plano s: la transformada de Laplace</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-08/c16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C16 · La transformada inversa: fracciones parciales guiadas por la ROC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-08/ay08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay8 · Interrogación 2 (I2)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 9 · Laplace en acción</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-09/c17.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C17 · El plano s como mapa</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-09/c18.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C18 · Laplace en acción: EDOs, Fourier↔︎Laplace y H(s)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-09/ay09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay9 · Ejercicios Laplace + CV3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 10 · Muestreo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-10/c19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C19 · El teorema del muestreo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-10/c20.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C20 · Sinusoides discretas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-10/ay10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay10 · Ejercicios: muestreo y sinusoides discretas</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 11 · Sistemas discretos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-11/c21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C21 · Convolución discreta: lineal y cíclica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-11/c22.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C22 · Sistemas discretos y cadenas híbridas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-11/ay11.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Ay11 · Integración pre-I3 + CV4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 12 · Transformada Z</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-12/c23.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C23 · La transformada Z</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-12/c24.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C24 · Transformada Z inversa y función de transferencia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-12/ay12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay12 · Interrogación 3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 13 · Diseño de filtros</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-13/c25.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C25 · Leer el círculo: respuesta en frecuencia geométrica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-13/c26.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C26 · Diseño de filtros por polos y ceros</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-13/ay13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay13 · Taller de diseño de filtros + CV5</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 14 · DTFT, DFT y FFT</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-14/c27.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C27 · La DTFT: el espectro de las señales discretas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-14/c28.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C28 · De la DFS a la DFT… y la FFT</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-14/ay14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay14 · Ejercicios DTFT/DFT + CV6: control de diseño</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-15" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 15 · Análisis espectral y cierre</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-15" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-15" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-15/c29.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C29 · La FFT en la práctica: leer un espectro de verdad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-15/c30.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C30 · STFT, espectrogramas y el cierre del arco</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-15/ay15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay15 = I4 · Interrogación 4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-16" role="navigation" aria-expanded="true">
+ <span class="menu-text">Listas de ejercicios</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-16" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-16" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 2 · Señales elementales, transformaciones y el impulso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 4 · Convolución, EDOs y la respuesta al impulso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 6 · Propiedades de la serie y transformada de Fourier básica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 7 · Propiedades de la TF y sistemas en frecuencia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 8 · Transformada de Laplace directa y ROC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 9 · Laplace: inversa según ROC, plano s y EDOs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 10 · Muestreo y sinusoides discretas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 11 · Convolución discreta, ecuaciones de diferencias y cadenas híbridas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 12 · Transformada Z: directa, inversa, ROC y H(z)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 13 · Diseño de filtros por polos y ceros</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 14 · DTFT y DFT/FFT</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 15 · Preparación de examen: análisis espectral e integradores</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#plan-de-la-sesión-70-min" id="toc-plan-de-la-sesión-70-min" class="nav-link active" data-scroll-target="#plan-de-la-sesión-70-min">Plan de la sesión (70 min)</a></li>
+  <li><a href="#encuadre-05-min-cómo-viene-la-i3" id="toc-encuadre-05-min-cómo-viene-la-i3" class="nav-link" data-scroll-target="#encuadre-05-min-cómo-viene-la-i3">Encuadre (0–5 min): cómo viene la I3</a></li>
+  <li><a href="#integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones" id="toc-integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones" class="nav-link" data-scroll-target="#integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones">Integración 1 (5–20 min): inversa según ROC — el clásico de tres regiones</a></li>
+  <li><a href="#integración-2-2035-min-cadena-híbrida-exprés" id="toc-integración-2-2035-min-cadena-híbrida-exprés" class="nav-link" data-scroll-target="#integración-2-2035-min-cadena-híbrida-exprés">Integración 2 (20–35 min): cadena híbrida exprés</a></li>
+  <li><a href="#cv4-3550-min-mecánica" id="toc-cv4-3550-min-mecánica" class="nav-link" data-scroll-target="#cv4-3550-min-mecánica">CV4 (35–50 min) — mecánica</a></li>
+  <li><a href="#cierre-6070-min" id="toc-cierre-6070-min" class="nav-link" data-scroll-target="#cierre-6070-min">Cierre (60–70 min)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-11/c21.html">Semana 11 · Sistemas discretos</a></li><li class="breadcrumb-item"><a href="../../curso/semana-11/ay11.html">Ay11 · Integración pre-I3 + CV4</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Ay11 · Integración pre-I3 + CV4</h1>
+<p class="subtitle lead">Semana 11 · Viernes · 70 min · U4–U5 · CV4 (Listas 9–10)</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="plan-de-la-sesión-70-min" class="level2">
+<h2 class="anchored" data-anchor-id="plan-de-la-sesión-70-min">Plan de la sesión (70 min)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Min</th>
+<th>Actividad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0–5</td>
+<td>Encuadre: cómo viene la I3 (temario por objetivos, formato, hoja resumen)</td>
+</tr>
+<tr class="even">
+<td>5–20</td>
+<td>Integración 1 (pizarra): <strong>inversa de Laplace según ROC</strong> — el clásico de tres regiones</td>
+</tr>
+<tr class="odd">
+<td>20–35</td>
+<td>Integración 2 (pizarra): <strong>cadena híbrida exprés</strong> — el clásico del examen</td>
+</tr>
+<tr class="even">
+<td>35–50</td>
+<td><strong>CV4</strong> (10–15 min, portafolio sobre la mesa; repartir y cronometrar)</td>
+</tr>
+<tr class="odd">
+<td>50–60</td>
+<td>Revisión inmediata del CV4 con pauta relámpago</td>
+</tr>
+<tr class="even">
+<td>60–70</td>
+<td>Preguntas libres de I3 + cierre</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="encuadre-05-min-cómo-viene-la-i3" class="level2">
+<h2 class="anchored" data-anchor-id="encuadre-05-min-cómo-viene-la-i3">Encuadre (0–5 min): cómo viene la I3</h2>
+<p>Decirlo con el temario a la vista: la I3 evalúa <strong>U4 (Laplace)</strong> — transformadas con ROC, inversión por fracciones parciales <em>según la ROC</em>, plano <span class="math inline">s</span> como mapa, EDOs con condiciones iniciales, relación Fourier↔︎Laplace — y <strong>U5 (muestreo y discretos)</strong> — Nyquist/aliasing/reconstrucción, sinusoides discretas, convolución lineal y cíclica, ecuaciones de diferencias y cadenas C/D→LTI→D/C. Los dos ejercicios de hoy están elegidos porque cruzan lo que históricamente más se pregunta de cada unidad.</p>
+</section>
+<section id="integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones" class="level2">
+<h2 class="anchored" data-anchor-id="integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones">Integración 1 (5–20 min): inversa según ROC — el clásico de tres regiones</h2>
+<p><strong>Enunciado</strong> (estilo I3): Un sistema LTI tiene función de transferencia <span class="math display">H(s) = \frac{1}{(s+1)(s-2)}</span> (a) Determine <strong>todas</strong> las ROC posibles y, para cada una, la <span class="math inline">h(t)</span> correspondiente. (b) ¿Cuál elige si le dicen que el sistema es <em>estable</em>? ¿Y si le dicen que es <em>causal</em>? ¿Puede ser ambas cosas?</p>
+<p><em>Desarrollo esperado</em>: fracciones parciales <span class="math inline">H(s) = \frac{-1/3}{s+1} + \frac{1/3}{s-2}</span>; polos en <span class="math inline">-1</span> y <span class="math inline">2</span> → tres franjas:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>ROC</th>
+<th><span class="math inline">h(t)</span></th>
+<th>Carácter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\Re\{s\} &gt; 2</span></td>
+<td><span class="math inline">\big(-\tfrac13 e^{-t} + \tfrac13 e^{2t}\big)u(t)</span></td>
+<td>causal, <strong>inestable</strong></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">-1 &lt; \Re\{s\} &lt; 2</span></td>
+<td><span class="math inline">-\tfrac13 e^{-t}u(t) - \tfrac13 e^{2t}u(-t)</span></td>
+<td>bilateral, <strong>estable</strong> (la franja contiene el eje <span class="math inline">j\omega</span>)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\Re\{s\} &lt; -1</span></td>
+<td><span class="math inline">\big(\tfrac13 e^{-t} - \tfrac13 e^{2t}\big)u(-t)</span></td>
+<td>anticausal, inestable</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" type="a">
+<li>Estable → franja central; causal → semiplano derecho; <strong>ambas es imposible</strong>: con un polo en <span class="math inline">\Re\{s\} = 2 &gt; 0</span> ninguna ROC contiene al eje <span class="math inline">j\omega</span> y es a la vez un semiplano derecho.</li>
+</ol>
+<p><em>Nota didáctica</em>: la pregunta (b) es la que separa notas: obliga a <em>usar</em> la correspondencia ROC ↔︎ causalidad/estabilidad en vez de recitarla. Errores típicos: dar una sola ROC “por defecto”; equivocar el signo del término anticausal (<span class="math inline">-\frac{1}{3}e^{2t}u(-t)</span>, con el menos de la fórmula anticausal); olvidar justificar la estabilidad por “la ROC contiene el eje <span class="math inline">j\omega</span>”.</p>
+</section>
+<section id="integración-2-2035-min-cadena-híbrida-exprés" class="level2">
+<h2 class="anchored" data-anchor-id="integración-2-2035-min-cadena-híbrida-exprés">Integración 2 (20–35 min): cadena híbrida exprés</h2>
+<p><strong>Enunciado</strong> (estilo examen, versión corta): En una cadena C/D → LTI discreto → D/C ideal con <span class="math inline">f_s = 2000</span> Hz, el sistema discreto es la <strong>primera diferencia</strong> <span class="math inline">y[n] = x[n] - x[n-1]</span>. (a) Calcule <span class="math inline">H(e^{j\Omega})</span> y diga qué tipo de filtro es. (b) Determine la salida <span class="math inline">y_c(t)</span> para <span class="math inline">x_c(t) = \cos(1000\pi t)</span>.</p>
+<p><em>Desarrollo esperado</em>: (a) <span class="math inline">H(e^{j\Omega}) = 1 - e^{-j\Omega} = 2j\,e^{-j\Omega/2}\sin(\Omega/2)</span>, magnitud <span class="math inline">2|\sin(\Omega/2)|</span>: se anula en <span class="math inline">\Omega = 0</span> y es máxima en <span class="math inline">\Omega = \pi</span> → <strong>pasa-altos</strong> (la diferencia mata lo constante — el espejo exacto del promedio móvil de C22). (b) <span class="math inline">f_0 = 500</span> Hz <span class="math inline">&lt; f_s/2 = 1000</span> Hz ✓ (chequear Nyquist <strong>antes</strong> de todo); <span class="math inline">\Omega_0 = 2\pi f_0/f_s = \pi/2</span>; <span class="math inline">|H| = 2\sin(\pi/4) = \sqrt{2}</span>, fase <span class="math inline">= \frac{\pi}{2} - \frac{\Omega_0}{2} = \frac{\pi}{4}</span>: <span class="math display">y_c(t) = \sqrt{2}\,\cos\!\big(1000\pi t + \tfrac{\pi}{4}\big)</span></p>
+<p><em>Nota didáctica</em>: hacerlo con el método de los <strong>cuatro pasos</strong> de C22 escrito en la pizarra (H discreta → chequeo Nyquist → <span class="math inline">\Omega = \omega T</span> → evaluar), porque es exactamente el esqueleto de corrección de la pregunta de examen. Error típico: saltarse el chequeo de Nyquist (en la I3 puede venir una entrada que <strong>sí</strong> se pliega, y entonces el paso 3 cambia); segundo error: fase de <span class="math inline">j</span> olvidada (el <span class="math inline">+\pi/2</span>).</p>
+</section>
+<section id="cv4-3550-min-mecánica" class="level2">
+<h2 class="anchored" data-anchor-id="cv4-3550-min-mecánica">CV4 (35–50 min) — mecánica</h2>
+<ul>
+<li><strong>Cobertura</strong>: Listas 9–10 (Laplace; muestreo y sinusoides discretas). Una variante de un ejercicio de esas listas, números/contexto cambiados; 1–2 preguntas son variantes del quiz Canvas, como se anunció.</li>
+<li>Repartir boca abajo, 12–15 min cronometrados, <strong>portafolio propio sobre la mesa como único material</strong>. Ayudantes: verificar visualmente que los portafolios sean manuscritos mientras circulan.</li>
+<li>Recoger y pasar inmediatamente a la revisión con la pauta relámpago (50–60 min): el valor formativo del CV está en corregirlo <em>en caliente</em>.</li>
+</ul>
+</section>
+<section id="cierre-6070-min" class="level2">
+<h2 class="anchored" data-anchor-id="cierre-6070-min">Cierre (60–70 min)</h2>
+<ul>
+<li>Preguntas libres orientadas a I3 (priorizar: inversión según ROC, cadenas híbridas, periodicidad discreta — los tres temas donde el CV y las ayudantías muestran más caídas).</li>
+<li>Recordar: I3 el próximo viernes (U4–U5), con hoja resumen acumulativa; actualizarla <strong>este fin de semana</strong> con las sugerencias de C22. La Lista 11 al portafolio (CV5, semana 13).</li>
+<li>Reportar al profesor: distribución de desempeño del CV4 y los errores dominantes, esa misma tarde (insumo para el repaso pre-I3 del lunes).</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../curso/semana-11/c22.html" class="pagination-link" aria-label="C22 · Sistemas discretos y cadenas híbridas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C22 · Sistemas discretos y cadenas híbridas</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../curso/semana-12/c23.html" class="pagination-link" aria-label="C23 · La transformada Z">
+        <span class="nav-page-text">C23 · La transformada Z</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

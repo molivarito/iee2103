@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; La transformada de Laplace – Señales y Sistemas</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./cap05.html" rel="next">
+<link href="./cap03.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d3f7f8e73c8d287b30bcf59c2b563615.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cap04.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Señales y Sistemas</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Señales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap04.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#sec-fourier-no-ve" id="toc-sec-fourier-no-ve" class="nav-link active" data-scroll-target="#sec-fourier-no-ve"><span class="header-section-number">4.1</span> La señal que Fourier no puede ver</a></li>
+  <li><a href="#sec-roc-parte-respuesta" id="toc-sec-roc-parte-respuesta" class="nav-link" data-scroll-target="#sec-roc-parte-respuesta"><span class="header-section-number">4.2</span> La ROC es parte de la respuesta</a>
+  <ul class="collapse">
+  <li><a href="#sec-reglas-roc" id="toc-sec-reglas-roc" class="nav-link" data-scroll-target="#sec-reglas-roc"><span class="header-section-number">4.2.1</span> Las reglas de la ROC</a></li>
+  </ul></li>
+  <li><a href="#sec-inversa" id="toc-sec-inversa" class="nav-link" data-scroll-target="#sec-inversa"><span class="header-section-number">4.3</span> El camino de vuelta: la ROC elige la señal</a>
+  <ul class="collapse">
+  <li><a href="#sec-fracciones-parciales" id="toc-sec-fracciones-parciales" class="nav-link" data-scroll-target="#sec-fracciones-parciales"><span class="header-section-number">4.3.1</span> Repaso honesto de fracciones parciales</a></li>
+  <li><a href="#sec-diccionario" id="toc-sec-diccionario" class="nav-link" data-scroll-target="#sec-diccionario"><span class="header-section-number">4.3.2</span> El diccionario de inversión</a></li>
+  </ul></li>
+  <li><a href="#sec-mapa" id="toc-sec-mapa" class="nav-link" data-scroll-target="#sec-mapa"><span class="header-section-number">4.4</span> El plano s como mapa</a>
+  <ul class="collapse">
+  <li><a href="#sec-gancho-musical" id="toc-sec-gancho-musical" class="nav-link" data-scroll-target="#sec-gancho-musical"><span class="header-section-number">4.4.1</span> Llevas toda la vida escuchando diagramas de polos</a></li>
+  <li><a href="#sec-estabilidad" id="toc-sec-estabilidad" class="nav-link" data-scroll-target="#sec-estabilidad"><span class="header-section-number">4.4.2</span> Estabilidad: la frontera es el eje jω</a></li>
+  </ul></li>
+  <li><a href="#sec-unilateral" id="toc-sec-unilateral" class="nav-link" data-scroll-target="#sec-unilateral"><span class="header-section-number">4.5</span> EDOs con condiciones iniciales: la transformada unilateral</a></li>
+  <li><a href="#sec-fourier-laplace" id="toc-sec-fourier-laplace" class="nav-link" data-scroll-target="#sec-fourier-laplace"><span class="header-section-number">4.6</span> Fourier ↔︎ Laplace, y el sistema entero en una fórmula</a>
+  <ul class="collapse">
+  <li><a href="#sec-Hs" id="toc-sec-Hs" class="nav-link" data-scroll-target="#sec-Hs"><span class="header-section-number">4.6.1</span> H(s): la función de transferencia</a></li>
+  <li><a href="#sec-hacia-discreto" id="toc-sec-hacia-discreto" class="nav-link" data-scroll-target="#sec-hacia-discreto"><span class="header-section-number">4.6.2</span> La promesa discreta</a></li>
+  </ul></li>
+  <li><a href="#sec-resumen-cap04" id="toc-sec-resumen-cap04" class="nav-link" data-scroll-target="#sec-resumen-cap04"><span class="header-section-number">4.7</span> En una página</a></li>
+  <li><a href="#sec-ejercicios-cap04" id="toc-sec-ejercicios-cap04" class="nav-link" data-scroll-target="#sec-ejercicios-cap04"><span class="header-section-number">4.8</span> Ejercicios</a></li>
+  <li><a href="#sec-referencias-cap04" id="toc-sec-referencias-cap04" class="nav-link" data-scroll-target="#sec-referencias-cap04"><span class="header-section-number">4.9</span> Para profundizar</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-cap04" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U4.1–U4.5]
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al terminar este capítulo podrás: <strong>calcular</strong> transformadas de Laplace bilaterales con su ROC, y explicar por qué la fórmula sin la ROC es media respuesta [U4.1]; <strong>invertir</strong> una <span class="math inline">X(s)</span> racional por fracciones parciales, eligiendo la versión causal o anticausal de cada término según la ROC [U4.2]; <strong>leer</strong> el plano <span class="math inline">s</span> como un mapa: predecir la forma de la señal mirando solo la posición de sus polos, y decidir estabilidad y causalidad desde ahí [U4.3]; <strong>resolver</strong> EDOs lineales con condiciones iniciales usando la transformada unilateral [U4.4]; y <strong>conectar</strong> Laplace con Fourier: cuándo vale <span class="math inline">X(\omega) = X(s)\big|_{s=j\omega}</span> y cómo se analiza un sistema completo desde su <span class="math inline">H(s)</span> [U4.5].</p>
+<p><strong>Ya usaste Laplace</strong> en tu curso de ecuaciones diferenciales: la versión unilateral, con tablas y sin que nadie mencionara una “región de convergencia”. Este capítulo no repite esa receta — la <em>explica</em>. Al final vas a entender qué estabas haciendo.</p>
+</div>
+</div>
+<section id="sec-fourier-no-ve" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-fourier-no-ve"><span class="header-section-number">4.1</span> La señal que Fourier no puede ver</h2>
+<p>En el capítulo 1 (<a href="cap01.html#sec-exp-compleja" class="quarto-xref"><span>Sección 1.4.1</span></a>) te presenté la señal más importante del curso: la espiral <span class="math inline">e^{st}</span> con <span class="math inline">s = \sigma + j\omega</span>, que gira a <span class="math inline">\omega</span> rad/s mientras crece o decae según <span class="math inline">\sigma</span>. Y dejé una promesa anotada: <em>ese parámetro <span class="math inline">s</span> dará nombre al “plano <span class="math inline">s</span>” de Laplace</em>. Este capítulo paga esa promesa. Hoy le ponemos casa al número <span class="math inline">s</span>.</p>
+<p><strong>El problema.</strong> La transformada de Fourier exige, en la práctica, que la señal sea absolutamente integrable: <span class="math inline">\int |x(t)|\,dt &lt; \infty</span>. Eso deja fuera a señales completamente razonables:</p>
+<ul>
+<li><span class="math inline">u(t)</span> — encender un interruptor y dejarlo encendido;</li>
+<li><span class="math inline">t\,u(t)</span> — una rampa;</li>
+<li><span class="math inline">e^{t}u(t)</span> — la respuesta de un sistema inestable (¡justo la que más nos urge analizar!).</li>
+</ul>
+<p><strong>La idea brillante</strong> — y es <em>una sola</em> idea: si <span class="math inline">x(t)</span> crece demasiado, multiplícala por una exponencial que decae <strong>más rápido</strong>, <span class="math inline">e^{-\sigma t}</span>, y toma Fourier de eso:</p>
+<p><span class="math display">\mathcal{F}\{x(t)\,e^{-\sigma t}\} = \int_{-\infty}^{\infty} x(t)\,e^{-\sigma t}e^{-j\omega t}\,dt = \int_{-\infty}^{\infty} x(t)\,e^{-(\sigma + j\omega)t}\,dt</span></p>
+<p>El exponente que aparece solo es… <span class="math inline">s = \sigma + j\omega</span>. Amortiguar y transformar es lo mismo que <strong>transformar contra la espiral <span class="math inline">e^{st}</span> completa</strong>, no solo contra el fasor <span class="math inline">e^{j\omega t}</span>. El parámetro <span class="math inline">\sigma</span> es el <em>factor de convergencia</em>: el precio que pagamos por poder ver señales que crecen.</p>
+<div id="3ef3d5c9" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap04_files/figure-html/cell-2-output-1.png" width="806" height="238" class="figure-img"></p>
+<figcaption>El factor de convergencia en acción sobre x(t) = e^{2t}u(t): con σ = 1 el producto aún crece (no converge); con σ = 3 decae y la integral existe. La frontera es σ = 2 — y ese umbral es, exactamente, la Región de Convergencia.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: transformada bilateral de Laplace
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">X(s) = \mathcal{L}\{x(t)\} = \int_{-\infty}^{\infty} x(t)\,e^{-st}\,dt, \qquad s = \sigma + j\omega</span> La integral converge solo para algunos valores de <span class="math inline">s</span>; ese conjunto es la <strong>Región de Convergencia (ROC)</strong>, y es <strong>parte de la respuesta</strong>, no un adorno.</p>
+</div>
+</div>
+<p>Dos lecturas de la misma fórmula, ambas valiosas:</p>
+<ol type="1">
+<li><strong><span class="math inline">X(s)</span> es una familia de transformadas de Fourier.</strong> Para cada nivel de amortiguamiento <span class="math inline">\sigma</span>, la línea vertical <span class="math inline">\Re\{s\} = \sigma</span> contiene la transformada de Fourier de la versión amortiguada <span class="math inline">x(t)e^{-\sigma t}</span>. En particular, si la línea <span class="math inline">\sigma = 0</span> — el eje <span class="math inline">j\omega</span> — está dentro de la ROC, ahí vive la transformada de Fourier de <span class="math inline">x(t)</span> (los detalles finos, en la <a href="#sec-fourier-laplace" class="quarto-xref"><span>Sección 4.6</span></a>).</li>
+<li><strong><span class="math inline">X(s)</span> mide el parecido de <span class="math inline">x(t)</span> con cada espiral <span class="math inline">e^{st}</span></strong>, igual que Fourier mide el parecido con cada fasor. Por eso el plano completo: cada punto del plano <span class="math inline">s</span> es una espiral distinta.</li>
+</ol>
+<p>La imagen que ordena el capítulo entero: Fourier camina por la <strong>costa</strong> (el eje <span class="math inline">j\omega</span>) de un continente; Laplace nos da el mapa del <strong>continente completo</strong> (el plano <span class="math inline">s</span>), con sus montañas — los polos — y sus valles — los ceros. Lo que se ve desde la costa está determinado por la geografía del interior. A esa geografía dedicaremos la <a href="#sec-mapa" class="quarto-xref"><span>Sección 4.4</span></a>.</p>
+</section>
+<section id="sec-roc-parte-respuesta" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-roc-parte-respuesta"><span class="header-section-number">4.2</span> La ROC es parte de la respuesta</h2>
+<p>Tres cálculos por definición bastan para descubrir todas las reglas del juego. Son <em>los</em> tres ejemplos de la unidad; vale la pena seguirlos con lápiz.</p>
+<p><strong>Ejemplo 1 — señal derecha</strong> (vive hacia <span class="math inline">t = +\infty</span>). Sea <span class="math inline">x(t) = e^{-at}u(t)</span>:</p>
+<p><span class="math display">X(s) = \int_{0}^{\infty} e^{-at}e^{-st}\,dt = \left[\frac{e^{-(s+a)t}}{-(s+a)}\right]_{0}^{\infty} = \frac{1}{s+a}</span></p>
+<p>El límite en <span class="math inline">t \to \infty</span> se anula <strong>solo si</strong> <span class="math inline">\Re\{s+a\} &gt; 0</span>. La respuesta completa es el par:</p>
+<p><span class="math display">e^{-at}u(t) \;\longleftrightarrow\; \frac{1}{s+a}, \qquad \text{ROC: } \Re\{s\} &gt; -a</span></p>
+<p>Este par es <strong>el ancla del capítulo</strong>: casi todo lo demás se reduce a él. En el plano <span class="math inline">s</span>: un polo (×) en <span class="math inline">s = -a</span>, y la ROC es el semiplano <em>a la derecha</em> del polo. Nota que funciona para cualquier <span class="math inline">a</span>: si <span class="math inline">a = -2</span> (la señal creciente <span class="math inline">e^{2t}u(t)</span> de la figura anterior), la ROC es <span class="math inline">\Re\{s\} &gt; 2</span> — Laplace la ve sin problema; Fourier no, porque el eje <span class="math inline">j\omega</span> queda fuera de la ROC.</p>
+<p><strong>Ejemplo 2 — señal izquierda</strong> (vive hacia <span class="math inline">t = -\infty</span>). Sea <span class="math inline">x(t) = -e^{-at}u(-t)</span>:</p>
+<p><span class="math display">X(s) = -\int_{-\infty}^{0} e^{-(s+a)t}\,dt = \frac{1}{s+a}, \qquad \text{ROC: } \Re\{s\} &lt; -a</span></p>
+<p>donde ahora es el límite en <span class="math inline">t \to -\infty</span> el que impone la condición, con la desigualdad al revés.</p>
+<p>Detente aquí, porque este es el momento más importante de la unidad: dos señales que no se parecen en nada — una vive en el futuro, la otra en el pasado — tienen <strong>exactamente la misma fórmula</strong> <span class="math inline">\frac{1}{s+a}</span>. Lo único que las distingue es la ROC.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>La moraleja de la unidad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>La fórmula <span class="math inline">X(s)</span> sola no identifica a la señal. El par (fórmula, ROC) sí.</strong> Escribir una transformada de Laplace sin su ROC es dar la mitad de la respuesta — y así se corrige en la I3.</p>
+</div>
+</div>
+<p><strong>Ejemplo 3 — señal bilateral.</strong> Sea <span class="math inline">x(t) = e^{-a|t|}</span> con <span class="math inline">a &gt; 0</span> (decae hacia ambos lados). Se parte en dos mitades y se transforma cada una:</p>
+<ul>
+<li><span class="math inline">e^{-at}u(t) \longleftrightarrow \dfrac{1}{s+a}</span>, con <span class="math inline">\Re\{s\} &gt; -a</span>;</li>
+<li><span class="math inline">e^{at}u(-t) \longleftrightarrow \dfrac{-1}{s-a}</span>, con <span class="math inline">\Re\{s\} &lt; a</span>.</li>
+</ul>
+<p>La suma converge donde <strong>ambas</strong> convergen — la intersección:</p>
+<p><span class="math display">e^{-a|t|} \;\longleftrightarrow\; \frac{1}{s+a} - \frac{1}{s-a} = \frac{2a}{a^2 - s^2}, \qquad \text{ROC: } -a &lt; \Re\{s\} &lt; a</span></p>
+<p>La ROC es una <strong>franja vertical</strong> entre los polos <span class="math inline">\pm a</span>. Contiene al eje <span class="math inline">j\omega</span>, y por eso <span class="math inline">e^{-a|t|}</span> sí tiene transformada de Fourier: evaluando <span class="math inline">s = j\omega</span> sale <span class="math inline">\frac{2a}{a^2+\omega^2}</span>, un par que ya conociste en la unidad 3.</p>
+<div id="e1333371" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap04_files/figure-html/cell-3-output-1.png" width="806" height="266" class="figure-img"></p>
+<figcaption>Los tres tipos de ROC en el plano s (la zona sombreada). El eje jω (verde) puede quedar dentro o fuera: de eso depende que exista la transformada de Fourier.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="sec-reglas-roc" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="sec-reglas-roc"><span class="header-section-number">4.2.1</span> Las reglas de la ROC</h3>
+<p>Todo lo que mostraron los ejemplos, destilado (para <span class="math inline">X(s)</span> racional, el caso del curso):</p>
+<ol type="1">
+<li>La ROC son <strong>franjas verticales</strong>: la convergencia depende solo de <span class="math inline">\sigma = \Re\{s\}</span> — del amortiguamiento —, nunca de <span class="math inline">\omega</span>.</li>
+<li>La ROC <strong>no contiene polos</strong> (en un polo la integral diverge por definición).</li>
+<li>Señal <strong>derecha</strong> → ROC a la <strong>derecha del polo más a la derecha</strong>.</li>
+<li>Señal <strong>izquierda</strong> → ROC a la <strong>izquierda del polo más a la izquierda</strong>.</li>
+<li>Señal <strong>bilateral</strong> → <strong>franja</strong> entre dos polos… o <strong>conjunto vacío</strong>: ¡hay señales sin transformada de Laplace! Por ejemplo <span class="math inline">e^{t}u(t) + e^{-t}u(-t)</span> pediría <span class="math inline">\Re\{s\} &gt; 1</span> y <span class="math inline">\Re\{s\} &lt; -1</span> a la vez. También <span class="math inline">e^{t^2}</span>, que crece más rápido que toda exponencial [DB E0111].</li>
+<li>Señal de <strong>duración finita</strong> (y acotada) → la ROC es <strong>todo el plano</strong>.</li>
+<li>La transformada de <strong>Fourier existe</strong> ⟺ la ROC <strong>contiene al eje <span class="math inline">j\omega</span></strong>. (Esta regla ata la unidad 3 con la 4; le sacaremos punta en la <a href="#sec-fourier-laplace" class="quarto-xref"><span>Sección 4.6</span></a>.)</li>
+</ol>
+<p><strong>Ejercicio relámpago</strong> (diez segundos cada uno): ¿ROC de <span class="math inline">\operatorname{rect}(t)</span>? — Todo el plano: duración finita. ¿Y de <span class="math inline">u(t)</span>? — Señal derecha con polo en <span class="math inline">0</span>: <span class="math inline">X(s) = 1/s</span>, ROC <span class="math inline">\Re\{s\} &gt; 0</span>.</p>
+</section>
+</section>
+<section id="sec-inversa" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-inversa"><span class="header-section-number">4.3</span> El camino de vuelta: la ROC elige la señal</h2>
+<p><strong>Honestidad matemática</strong> (treinta segundos y seguimos): la fórmula general de inversión existe y es una integral de contorno en el plano complejo, <span class="math inline">x(t) = \frac{1}{2\pi j}\int_{\sigma - j\infty}^{\sigma + j\infty} X(s)\,e^{st}\,ds</span>. No la usaremos nunca: para <span class="math inline">X(s)</span> racional — todo este curso — la reemplazan por completo las <strong>fracciones parciales</strong> más la tabla de pares que ya empezamos a construir.</p>
+<section id="sec-fracciones-parciales" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="sec-fracciones-parciales"><span class="header-section-number">4.3.1</span> Repaso honesto de fracciones parciales</h3>
+<p>Las viste en cálculo y en EDO, y la experiencia dice que llegan oxidadas. Como esta semana las vas a usar sin red, reconstruyámoslas sin apuro. La lógica: no sabemos invertir <span class="math inline">\frac{1}{(s+1)(s+2)}</span>, pero sí sabemos invertir <span class="math inline">\frac{1}{s+a}</span> — lo hicimos por definición. Fracciones parciales = reescribir lo difícil como suma de cosas fáciles.</p>
+<p><strong>Caso 1 — polos simples</strong> (el pan de cada día). Método de la <strong>tapadita</strong> (<em>cover-up</em>): para hallar el coeficiente de <span class="math inline">\frac{1}{s+1}</span>, se “tapa” el factor <span class="math inline">(s+1)</span> y se evalúa el resto en su raíz <span class="math inline">s = -1</span>:</p>
+<p><span class="math display">\frac{1}{(s+1)(s+2)} = \frac{A}{s+1} + \frac{B}{s+2}, \qquad A = \frac{1}{s+2}\bigg|_{s=-1} = 1, \quad B = \frac{1}{s+1}\bigg|_{s=-2} = -1</span></p>
+<p><strong>Verifica siempre</strong> (dos segundos que evitan el 80 % de los errores): evalúa ambos lados en un punto cómodo, digamos <span class="math inline">s = 0</span>: <span class="math inline">\tfrac{1}{2} \stackrel{?}{=} 1 - \tfrac{1}{2}</span> ✓.</p>
+<p><strong>Caso 2 — polos repetidos</strong>: un polo doble necesita <strong>dos</strong> términos (error clásico: escribir solo el cuadrático):</p>
+<p><span class="math display">\frac{s+2}{(s+1)^2} = \frac{A}{s+1} + \frac{B}{(s+1)^2}</span></p>
+<p><span class="math inline">B</span> sale con tapadita en el orden máximo: <span class="math inline">B = (s+2)\big|_{s=-1} = 1</span>; <span class="math inline">A</span> sale igualando: <span class="math inline">A(s+1) + 1 = s + 2 \Rightarrow A = 1</span>.</p>
+<p><strong>Caso 3 — polos complejos</strong>: el camino recomendado del curso es <strong>no</strong> separar en fracciones complejas, sino <strong>completar el cuadrado</strong> y reconocer los pares seno/coseno amortiguados:</p>
+<p><span class="math display">\frac{s+3}{s^2+2s+5} = \frac{(s+1) + 2}{(s+1)^2 + 2^2} = \underbrace{\frac{s+1}{(s+1)^2+2^2}}_{\text{coseno}} + \underbrace{\frac{2}{(s+1)^2+2^2}}_{\text{seno}}</span></p>
+<p>con los pares (versión causal, ROC <span class="math inline">\Re\{s\} &gt; -a</span>):</p>
+<p><span class="math display">e^{-at}\cos(\omega_0 t)\,u(t) \longleftrightarrow \frac{s+a}{(s+a)^2+\omega_0^2}, \qquad e^{-at}\sin(\omega_0 t)\,u(t) \longleftrightarrow \frac{\omega_0}{(s+a)^2+\omega_0^2}</span></p>
+<p>de donde <span class="math inline">x(t) = e^{-t}\big[\cos(2t) + \sin(2t)\big]u(t)</span>. Guarda este resultado en la retina: las raíces del denominador eran <span class="math inline">-1 \pm j2</span>, y la señal es una oscilación de <span class="math inline">2</span> rad/s con envolvente <span class="math inline">e^{-t}</span>. No es coincidencia — es la <a href="#sec-mapa" class="quarto-xref"><span>Sección 4.4</span></a> asomándose.</p>
+</section>
+<section id="sec-diccionario" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="sec-diccionario"><span class="header-section-number">4.3.2</span> El diccionario de inversión</h3>
+<p>Cada término elemental tiene <strong>dos</strong> inversas posibles, y la ROC decide cuál:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">X(s)</span></th>
+<th>ROC a la <strong>derecha</strong> del polo</th>
+<th>ROC a la <strong>izquierda</strong> del polo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\dfrac{1}{s+a}</span></td>
+<td><span class="math inline">e^{-at}u(t)</span></td>
+<td><span class="math inline">-e^{-at}u(-t)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\dfrac{1}{(s+a)^2}</span></td>
+<td><span class="math inline">t\,e^{-at}u(t)</span></td>
+<td><span class="math inline">-t\,e^{-at}u(-t)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">1</span></td>
+<td><span class="math inline">\delta(t)</span> (ROC: todo el plano)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">e^{-st_0}X(s)</span></td>
+<td>retardo: <span class="math inline">x(t-t_0)</span></td>
+<td>(igual)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>La regla de oro, término a término</strong>: se mira dónde está la ROC global <strong>respecto de cada polo</strong>. Polo a la izquierda de la ROC → término causal. Polo a la derecha de la ROC → término anticausal. Cada polo se decide <strong>por separado</strong> — por eso una franja mezcla términos de ambos tipos. Y ojo con el <strong>signo menos</strong> de la versión anticausal: es el error de signo más frecuente de la I3, y no es un capricho — viene de la cuenta del Ejemplo 2.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I3 — fue pregunta de interrogación, tal cual)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Determina <span class="math inline">x(t)</span> si <span class="math inline">X(s) = \dfrac{1}{(s+1)(s+2)}</span>, para los tres casos: (a) <span class="math inline">x(t)</span> derecha, (b) izquierda, (c) bilateral.</p>
+<p><strong>Paso 0 — fracciones parciales</strong> (una sola vez, sirve para los tres): <span class="math display">X(s) = \frac{1}{s+1} - \frac{1}{s+2}</span></p>
+<p><strong>Paso 1 — mapa de ROCs posibles</strong>: polos en <span class="math inline">-1</span> y <span class="math inline">-2</span> ⇒ tres regiones: <span class="math inline">\Re\{s\} &gt; -1</span>, <span class="math inline">\;-2 &lt; \Re\{s\} &lt; -1</span>, <span class="math inline">\;\Re\{s\} &lt; -2</span>.</p>
+<p><strong>(a) Derecha</strong> ⇒ ROC <span class="math inline">\Re\{s\} &gt; -1</span>: está a la derecha de ambos polos, así que ambos términos van causales: <span class="math display">x(t) = \big(e^{-t} - e^{-2t}\big)u(t)</span></p>
+<p><strong>(b) Izquierda</strong> ⇒ ROC <span class="math inline">\Re\{s\} &lt; -2</span>: a la izquierda de ambos, ambos anticausales, cada uno con su signo: <span class="math display">x(t) = \big(-e^{-t} + e^{-2t}\big)u(-t)</span></p>
+<p><strong>(c) Bilateral</strong> ⇒ ROC <span class="math inline">-2 &lt; \Re\{s\} &lt; -1</span>: el polo en <span class="math inline">-1</span> queda a la <em>derecha</em> de la franja (término anticausal) y el polo en <span class="math inline">-2</span> a la <em>izquierda</em> (término causal): <span class="math display">x(t) = -e^{-t}u(-t) - e^{-2t}u(t)</span></p>
+<p><strong>Mirarlas juntas</strong> (la figura siguiente): tres señales completamente distintas, <strong>una sola fórmula</strong>. Y una pregunta más, de regalo: ¿cuál de las tres tiene transformada de Fourier? Solo (a) — su ROC es la única que contiene al eje <span class="math inline">j\omega</span>.</p>
+</div>
+</div>
+<div id="6c0b499c" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap04_files/figure-html/cell-4-output-1.png" width="798" height="431" class="figure-img"></p>
+<figcaption>Misma fórmula X(s) = 1/((s+1)(s+2)), tres ROCs, tres señales. Arriba: el plano s con los polos y la ROC de cada caso. Abajo: la señal que corresponde a cada elección.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>La receta general</strong>, para la hoja resumen — todo problema de inversión del curso son estos cuatro pasos:</p>
+<ol type="1">
+<li><strong>Factorizar</strong> el denominador y ubicar los polos en el plano <span class="math inline">s</span>.</li>
+<li><strong>Fracciones parciales</strong> (tapadita; polos repetidos: todos los órdenes; complejos: completar el cuadrado). <em>Verificar evaluando en un punto.</em></li>
+<li><strong>Ubicar la ROC</strong> — dada, o deducida de una palabra del enunciado: “causal”, “estable”, “izquierda”…</li>
+<li><strong>Invertir término a término</strong>: polo a la izquierda de la ROC → causal; a la derecha → anticausal, con su signo menos.</li>
+</ol>
+<p>(Si el grado del numerador alcanza al del denominador — raro en el curso — se dividen los polinomios primero; el cociente aporta <span class="math inline">\delta(t)</span> y sus derivadas.)</p>
+</section>
+</section>
+<section id="sec-mapa" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-mapa"><span class="header-section-number">4.4</span> El plano s como mapa</h2>
+<p>Hasta aquí, Laplace parece una máquina de calcular. Esta sección es la razón de ser de la unidad: el plano <span class="math inline">s</span> es un <strong>mapa predictivo</strong>. La clave la dio la inversión: cada polo <span class="math inline">p</span> de <span class="math inline">X(s)</span> aporta a <span class="math inline">x(t)</span> un <em>modo</em> de la forma <span class="math inline">e^{pt}</span> — cada término <span class="math inline">\frac{A}{s-p}</span> se invierte a <span class="math inline">A\,e^{pt}u(t)</span>. Entonces la posición del polo dicta la forma del modo, y los dos ejes del plano se leen así:</p>
+<ul>
+<li><strong>Eje real (<span class="math inline">\sigma</span>) = eje del amortiguamiento.</strong> Polo real en <span class="math inline">-2</span>: modo <span class="math inline">e^{-2t}</span>, decae. Más a la izquierda = muere más rápido. Polo en <span class="math inline">+0.5</span>: <span class="math inline">e^{0.5t}</span>, crece sin freno.</li>
+<li><strong>Eje imaginario (<span class="math inline">\omega</span>) = eje de la oscilación.</strong> Para señales reales, los polos complejos vienen <strong>siempre en pares conjugados</strong> <span class="math inline">\sigma_0 \pm j\omega_0</span>, y el par completo aporta <span class="math display">\frac{A}{s-(\sigma_0+j\omega_0)} + \frac{A^*}{s-(\sigma_0-j\omega_0)} \;\longrightarrow\; 2|A|\,e^{\sigma_0 t}\cos(\omega_0 t + \angle A)\,u(t)</span> una <strong>oscilación de frecuencia <span class="math inline">\omega_0</span> con envolvente <span class="math inline">e^{\sigma_0 t}</span></strong>. La altura del polo fija el tono; su posición horizontal, cuánto dura. Los dos ejes son independientes.</li>
+</ul>
+<div id="d387295d" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap04_files/figure-html/cell-5-output-1.png" width="770" height="511" class="figure-img"></p>
+<figcaption>El mapa del plano s: cada posición de polo (×) dicta la forma del modo temporal que aporta. A la izquierda del eje jω los modos mueren; sobre el eje, oscilan para siempre; a la derecha, explotan.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>El catálogo completo, en una tabla que merece un lugar en tu hoja resumen:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Polos</th>
+<th>Modo temporal</th>
+<th>Carácter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>real, izquierda (<span class="math inline">s = -2</span>)</td>
+<td><span class="math inline">e^{-2t}</span></td>
+<td>decaimiento puro (sobreamortiguado)</td>
+</tr>
+<tr class="even">
+<td>par complejo, izquierda (<span class="math inline">-1 \pm j3</span>)</td>
+<td><span class="math inline">e^{-t}\cos(3t + \phi)</span></td>
+<td>oscilación amortiguada (subamortiguado)</td>
+</tr>
+<tr class="odd">
+<td>par sobre el eje (<span class="math inline">\pm j3</span>)</td>
+<td><span class="math inline">\cos(3t + \phi)</span></td>
+<td>oscilación sostenida (marginal)</td>
+</tr>
+<tr class="even">
+<td>derecha (<span class="math inline">s = 0.5</span>, o <span class="math inline">0.2 \pm j4</span>)</td>
+<td><span class="math inline">e^{0.5t}</span>, <span class="math inline">e^{0.2t}\cos(4t+\phi)</span></td>
+<td>inestable</td>
+</tr>
+</tbody>
+</table>
+<div id="5d2d5c4d" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap04_files/figure-html/cell-6-output-1.png" width="804" height="278" class="figure-img"></p>
+<figcaption>Un par de polos complejos ES una sinusoide amortiguada: la parte real fija la envolvente (cuánto dura), la parte imaginaria fija la frecuencia (qué nota es). Los dos ejes actúan por separado.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="sec-gancho-musical" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="sec-gancho-musical"><span class="header-section-number">4.4.1</span> Llevas toda la vida escuchando diagramas de polos</h3>
+<p>Pulsa una cuerda de guitarra: lo que suena es una oscilación que decae — exactamente <span class="math inline">e^{\sigma_0 t}\cos(\omega_0 t)</span>, un modo por cada armónico. Es decir: <strong>una cuerda pulsada es una colección de pares de polos complejos</strong>, todos cerca del eje <span class="math inline">j\omega</span>, en el semiplano izquierdo.</p>
+<ul>
+<li><span class="math inline">\omega_0</span> — la altura del polo — es <strong>la nota</strong>. El La central: <span class="math inline">\omega_0 = 2\pi \cdot 440 \approx 2765</span> rad/s.</li>
+<li><span class="math inline">\sigma_0</span> — qué tan pegado está al eje — es <strong>el sustain</strong>. Una cuerda que suena un segundo: <span class="math inline">\sigma_0 \approx -3</span>. Un piano con pedal: polos casi tocando el eje. Un “plop” percusivo seco: polos bien metidos a la izquierda. Una campana que resuena diez segundos: polos casi <em>sobre</em> el eje.</li>
+</ul>
+<p>¿Y un instrumento con polos en el semiplano derecho? Una nota que crece sola sin que nadie la toque — eso es el acople micrófono–parlante de un escenario, que <em>es</em>, literalmente, un par de polos cruzando al lado derecho. Esta unidad solo le pone nombre técnico a cosas que tu oído clasifica hace años.</p>
+<p>Si quieres jugar con esto (muy recomendado): corre <code>python modulos/5_transformada_laplace/demos/Laplace-app/laplace_visualizer.py</code>, arrastra los polos y <strong>predice la forma de la señal antes de soltar</strong>.</p>
+</section>
+<section id="sec-estabilidad" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="sec-estabilidad"><span class="header-section-number">4.4.2</span> Estabilidad: la frontera es el eje jω</h3>
+<p>De la unidad 2: un sistema LTI es <strong>BIBO estable</strong> ⟺ <span class="math inline">\int |h(t)|\,dt &lt; \infty</span>. Pero esa es exactamente la condición de que <span class="math inline">h(t)</span> tenga transformada de Fourier — es decir, la regla 7 de la <a href="#sec-reglas-roc" class="quarto-xref"><span>Sección 4.2.1</span></a> aplicada a <span class="math inline">h</span>:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Criterio de estabilidad
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un sistema LTI es <strong>estable</strong> ⟺ la ROC de <span class="math inline">H(s)</span> <strong>contiene al eje <span class="math inline">j\omega</span></strong>.</p>
+<p>Corolario para <strong>sistemas causales</strong> (ROC a la derecha del último polo): estable ⟺ <strong>todos los polos en el semiplano izquierdo estricto</strong>. Este es el criterio que usarás en control toda la carrera.</p>
+</div>
+</div>
+<p>Y un cuidado fino, calibre I3: un polo en el semiplano derecho no condena al <em>sistema</em> — condena al sistema <em>causal</em>. <span class="math inline">H(s) = \frac{1}{s-2}</span> con ROC <span class="math inline">\Re\{s\} &gt; 2</span> es causal e inestable (<span class="math inline">h(t) = e^{2t}u(t)</span>); con ROC <span class="math inline">\Re\{s\} &lt; 2</span> es <strong>estable pero anticausal</strong> (<span class="math inline">h(t) = -e^{2t}u(-t)</span>, que sí es absolutamente integrable). Causalidad y estabilidad son dos preguntas distintas, y la ROC las responde por separado [DB E0133].</p>
+</section>
+</section>
+<section id="sec-unilateral" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="sec-unilateral"><span class="header-section-number">4.5</span> EDOs con condiciones iniciales: la transformada unilateral</h2>
+<p>Este es el reencuentro con tu curso de ecuaciones diferenciales. Allá aplicaste una receta; acá la receta se vuelve comprensión.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: transformada unilateral de Laplace
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\mathcal{X}(s) = \int_{0^-}^{\infty} x(t)\,e^{-st}\,dt</span></p>
+</div>
+</div>
+<p>Tres observaciones la definen:</p>
+<ul>
+<li>Para señales causales <strong>coincide con la bilateral</strong>, y su ROC es siempre un semiplano derecho: la ambigüedad fórmula/ROC desaparece. Por eso en EDO nunca te hablaron de la ROC — la unilateral la esconde debajo de la alfombra.</li>
+<li>El límite inferior es <span class="math inline">0^-</span>: si hay un impulso justo en <span class="math inline">t = 0</span>, queda <strong>adentro</strong> (detalle que paga cuando la entrada es <span class="math inline">\delta(t)</span>).</li>
+<li>Todo lo que pasó en <span class="math inline">t &lt; 0</span> se resume en un solo dato: las <strong>condiciones iniciales</strong>.</li>
+</ul>
+<p><strong>La propiedad estrella</strong> — la que resuelve EDOs. Integrando por partes:</p>
+<p><span class="math display">\mathcal{L}\{x'(t)\} = \Big[x(t)\,e^{-st}\Big]_{0^-}^{\infty} + s\int_{0^-}^{\infty} x(t)\,e^{-st}\,dt = s\,\mathcal{X}(s) - x(0^-)</span></p>
+<p><strong>Derivar en el tiempo = multiplicar por <span class="math inline">s</span>… y el pasado entra como <span class="math inline">-x(0^-)</span>.</strong> Iterando:</p>
+<p><span class="math display">\mathcal{L}\{x''(t)\} = s^2\mathcal{X}(s) - s\,x(0^-) - x'(0^-)</span></p>
+<p>Esto convierte cualquier EDO lineal con coeficientes constantes en <strong>álgebra</strong>: transformar, despejar, fracciones parciales, invertir (todo causal). Es exactamente la receta que usaste en EDO — ahora cada pieza tiene nombre y sentido.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I3): el circuito RC completo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un condensador con voltaje inicial <span class="math inline">v(0^-) = v_0</span> se conecta en <span class="math inline">t = 0</span>, a través de una resistencia, a una fuente de 1 V. El circuito RC obedece <span class="math display">\tau\,v'(t) + v(t) = u(t), \qquad \tau = RC.</span></p>
+<p><strong>Paso 1 — transformar todo</strong> (propiedad estrella + tabla): <span class="math display">\tau\big[s\,V(s) - v_0\big] + V(s) = \frac{1}{s}</span></p>
+<p><strong>Paso 2 — despejar</strong>, separando los dos orígenes de la respuesta: <span class="math display">V(s) = \underbrace{\frac{v_0}{s + 1/\tau}}_{\text{entrada cero (la mochila del pasado)}} \;+\; \underbrace{\frac{1/\tau}{s\,(s + 1/\tau)}}_{\text{estado cero (obra de la fuente)}}</span></p>
+<p><strong>Paso 3 — fracciones parciales</strong> (tapadita): <span class="math inline">\dfrac{1/\tau}{s(s+1/\tau)} = \dfrac{1}{s} - \dfrac{1}{s+1/\tau}</span>, luego <span class="math display">V(s) = \frac{1}{s} + \frac{v_0 - 1}{s + 1/\tau}</span></p>
+<p><strong>Paso 4 — invertir</strong> (todo causal, sin drama de ROC): <span class="math display">v(t) = \Big[1 + (v_0 - 1)\,e^{-t/\tau}\Big]u(t)</span></p>
+<p><strong>Verificación</strong> (hábito de la casa): <span class="math inline">v(0^+) = 1 + v_0 - 1 = v_0</span> ✓; y cuando <span class="math inline">t \to \infty</span>, <span class="math inline">v \to 1</span> — el condensador termina cargado al voltaje de la fuente ✓.</p>
+<p><strong>Leer el resultado con los ojos del mapa</strong> (esto es lo nuevo respecto de EDO): el modo <span class="math inline">e^{-t/\tau}</span> vive en el <strong>polo del sistema</strong> (<span class="math inline">s = -1/\tau</span>: su respuesta natural — más pequeño el <span class="math inline">\tau</span>, más a la izquierda el polo, más rápida la carga); el término constante vive en el <strong>polo de la entrada</strong> (<span class="math inline">s = 0</span>: el escalón). Lo que en EDO llamabas “homogénea + particular” es esto mismo, visto desde el mapa.</p>
+</div>
+</div>
+<div id="e80a601f" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap04_files/figure-html/cell-7-output-1.png" width="709" height="239" class="figure-img"></p>
+<figcaption>La carga del condensador para tres condiciones iniciales (tiempo en unidades de τ). La respuesta de entrada cero arrastra el pasado (v0); la de estado cero empuja hacia el valor final 1. El polo del sistema en s = −1/τ fija la velocidad de todas las curvas.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Un bono de la unilateral que reaparecerá en control: los <strong>teoremas del valor inicial y final</strong>. Para <span class="math inline">x</span> causal y sin impulsos en el origen,</p>
+<p><span class="math display">x(0^+) = \lim_{s\to\infty} s\,\mathcal{X}(s), \qquad \lim_{t\to\infty} x(t) = \lim_{s\to 0} s\,\mathcal{X}(s)</span></p>
+<p>El del valor final tiene letra chica que muerde: vale solo si todos los polos de <span class="math inline">s\,\mathcal{X}(s)</span> están en el semiplano izquierdo — aplicado a un sistema inestable entrega un número que no significa nada. (Chequeo con el ejemplo RC: <span class="math inline">\lim_{s\to 0} s\,V(s) = 1</span> ✓.)</p>
+</section>
+<section id="sec-fourier-laplace" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="sec-fourier-laplace"><span class="header-section-number">4.6</span> Fourier ↔︎ Laplace, y el sistema entero en una fórmula</h2>
+<p>La regla ya la tenemos (regla 7); ahora la afilamos:</p>
+<p><span class="math display">X(\omega) = X(s)\Big|_{s=j\omega} \quad \textbf{si y solo si la ROC contiene al eje } j\omega.</span></p>
+<p>Los tres escenarios, con un ejemplo cada uno:</p>
+<ol type="1">
+<li><strong>Vale</strong>: <span class="math inline">x(t) = e^{-t}u(t)</span>, ROC <span class="math inline">\Re\{s\} &gt; -1 \ni</span> eje ⇒ <span class="math inline">X(\omega) = \frac{1}{j\omega + 1}</span> — el par que conocías de la unidad 3; ahora sabes de dónde salía.</li>
+<li><strong>No vale — ambas transformadas existen, pero una NO se obtiene evaluando la otra</strong>: <span class="math inline">x(t) = u(t)</span>. Laplace: <span class="math inline">\frac{1}{s}</span> con ROC <span class="math inline">\Re\{s\} &gt; 0</span> — el eje está en el <strong>borde</strong>, no adentro. Y de hecho <span class="math inline">\mathcal{F}\{u(t)\} = \pi\delta(\omega) + \frac{1}{j\omega}</span>: aparece un impulso que la evaluación jamás daría. Con polos <em>sobre</em> el eje, evaluar es ilegal.</li>
+<li><strong>No vale — ni siquiera hay Fourier</strong>: <span class="math inline">x(t) = e^{2t}u(t)</span>, ROC <span class="math inline">\Re\{s\} &gt; 2</span>: el eje queda fuera y la TF no existe. Laplace ve más señales que Fourier — para eso lo construimos.</li>
+</ol>
+<section id="sec-Hs" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="sec-Hs"><span class="header-section-number">4.6.1</span> H(s): la función de transferencia</h3>
+<p>Para un sistema LTI descrito por una EDO con coeficientes constantes y <strong>en reposo</strong> (condiciones iniciales nulas — la condición para que sea LTI de verdad), transformar la EDO entrega directamente la <strong>función de transferencia</strong>:</p>
+<p><span class="math display">\sum_k a_k\, y^{(k)}(t) = \sum_k b_k\, x^{(k)}(t) \;\xrightarrow{\;\mathcal{L}\;}\; H(s) = \frac{Y(s)}{X(s)} = \frac{\sum_k b_k\, s^k}{\sum_k a_k\, s^k}</span></p>
+<p>Y aquí está la <strong>superpotencia de Laplace</strong> aplicada a sistemas: <span class="math inline">y = h * x \longrightarrow Y(s) = H(s)\,X(s)</span>. La convolución de la unidad 2 se volvió multiplicación. Ejemplo relámpago: <span class="math inline">y' + 2y = x \Rightarrow H(s) = \frac{1}{s+2}</span> — polo en <span class="math inline">-2</span>, causal, estable, <span class="math inline">h(t) = e^{-2t}u(t)</span>. Todo el mapa de la <a href="#sec-mapa" class="quarto-xref"><span>Sección 4.4</span></a> aplica a <span class="math inline">H(s)</span> tal cual: los polos de <span class="math inline">H</span> son el carácter del sistema.</p>
+<p>El <strong>resumen ejecutivo de la unidad</strong>, para una <span class="math inline">H(s)</span> racional:</p>
+<ul>
+<li><strong>causal</strong> ⟺ ROC a la derecha del último polo;</li>
+<li><strong>estable</strong> ⟺ ROC <span class="math inline">\ni</span> eje <span class="math inline">j\omega</span>;</li>
+<li><strong>causal y estable</strong> ⟺ todos los polos con <span class="math inline">\Re\{s\} &lt; 0</span>.</li>
+</ul>
+<p>Y el gancho hacia adelante: en un lazo realimentado, mover una ganancia <span class="math inline">k</span> <strong>mueve los polos</strong> del lazo cerrado. Estabilizar un sistema = arrastrar sus polos al semiplano izquierdo, con álgebra en vez de mouse [DB E0132]. Esa frase es la profesión de control completa.</p>
+</section>
+<section id="sec-hacia-discreto" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="sec-hacia-discreto"><span class="header-section-number">4.6.2</span> La promesa discreta</h3>
+<p>Una siembra final. En el bloque discreto del curso (capítulo 6) vamos a <strong>enrollar este mapa</strong>: el cambio de variable <span class="math inline">z = e^{sT}</span> transforma el plano <span class="math inline">s</span> en el plano <span class="math inline">z</span> — el eje <span class="math inline">j\omega</span> se enrolla en una circunferencia (el círculo unitario), y el semiplano izquierdo completo cae <em>adentro</em> del círculo. Toda la geografía que aprendiste aquí — polos que dictan modos, estabilidad como una frontera geométrica — se recicla entera; solo cambia la forma del mapa. Cuando llegues allá, ya sabrás leerlo.</p>
+</section>
+</section>
+<section id="sec-resumen-cap04" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="sec-resumen-cap04"><span class="header-section-number">4.7</span> En una página</h2>
+<ul>
+<li><strong>Definición</strong>: <span class="math inline">X(s) = \int x(t)\,e^{-st}\,dt</span>, <span class="math inline">s = \sigma + j\omega</span>; <span class="math inline">\sigma</span> es el factor de convergencia que permite ver señales que crecen.</li>
+<li><strong>La moraleja</strong>: (fórmula, ROC) identifican la señal; la fórmula sola, no. El ancla: <span class="math inline">e^{-at}u(t) \leftrightarrow \frac{1}{s+a}</span>, <span class="math inline">\Re\{s\} &gt; -a</span>; su gemela izquierda <span class="math inline">-e^{-at}u(-t)</span> tiene la misma fórmula con ROC <span class="math inline">\Re\{s\} &lt; -a</span>.</li>
+<li><strong>Reglas de la ROC</strong>: franjas verticales sin polos; derecha/izquierda/franja según el tipo de señal; duración finita → todo el plano; existe TF ⟺ ROC <span class="math inline">\ni</span> eje <span class="math inline">j\omega</span>; hay señales sin transformada (intersección vacía, <span class="math inline">e^{t^2}</span>).</li>
+<li><strong>Inversión en 4 pasos</strong>: factorizar → fracciones parciales (tapadita; polos dobles: ambos órdenes; complejos: completar el cuadrado) → ubicar la ROC → invertir polo por polo (izquierda de la ROC → causal; derecha → anticausal con signo menos).</li>
+<li><strong>El mapa</strong>: cada polo aporta un modo <span class="math inline">e^{pt}</span>; eje real = amortiguamiento, eje imaginario = oscilación; par conjugado <span class="math inline">\sigma_0 \pm j\omega_0</span> → <span class="math inline">e^{\sigma_0 t}\cos(\omega_0 t + \phi)</span> (una nota: altura = pitch, cercanía al eje = sustain).</li>
+<li><strong>Unilateral</strong>: <span class="math inline">\mathcal{L}\{x'\} = s\mathcal{X}(s) - x(0^-)</span> — EDOs con condiciones iniciales se vuelven álgebra; la respuesta se separa en entrada cero (polos del sistema) + estado cero (suma polos de la entrada). Valor inicial/final: <span class="math inline">s\mathcal{X}(s)</span> en <span class="math inline">s \to \infty</span> / <span class="math inline">s \to 0</span> (final: solo si todo es estable).</li>
+<li><strong>Sistemas</strong>: <span class="math inline">Y(s) = H(s)X(s)</span>; causal ⟺ ROC a la derecha del último polo; estable ⟺ ROC <span class="math inline">\ni</span> eje <span class="math inline">j\omega</span>; causal y estable ⟺ polos con <span class="math inline">\Re\{s\} &lt; 0</span>; <span class="math inline">X(\omega) = X(s)|_{s=j\omega}</span> solo si el eje está <em>dentro</em> de la ROC (con polos en el eje, como <span class="math inline">u(t)</span>, no vale).</li>
+<li><strong>Lo que viene</strong>: el capítulo 6 enrolla el plano <span class="math inline">s</span> en el plano <span class="math inline">z</span> (<span class="math inline">z = e^{sT}</span>); la geografía se recicla.</li>
+</ul>
+</section>
+<section id="sec-ejercicios-cap04" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="sec-ejercicios-cap04"><span class="header-section-number">4.8</span> Ejercicios</h2>
+<p>Del banco del curso, en orden sugerido (los códigos [DB E0xxx] identifican el ejercicio; aparecen repartidos en las Listas 8 y 9 de las semanas 8–9):</p>
+<ol type="1">
+<li><strong>[DB E0109]</strong> (básico) Transformada de un pulso rectangular desplazado — y su ROC de duración finita. <em>[U4.1]</em></li>
+<li><strong>[DB E0108]</strong> (intermedio) Transformadas analíticas con ROC: <span class="math inline">\cos(\omega_0 t)u(t)</span>, <span class="math inline">t\,e^{-at}u(t)</span>, impulsos desplazados. <em>[U4.1]</em></li>
+<li><strong>[DB E0115]</strong> (intermedio) <span class="math inline">3e^{2t}u(t) + 4e^{3t}u(t)</span>: qué <span class="math inline">\sigma</span> amortigua, polos, ceros y ROC. <em>[U4.1, U4.5]</em></li>
+<li><strong>[DB E0116]</strong> (intermedio) ROC de ocho sumas de exponenciales — incluidos los casos donde la intersección queda vacía. <em>[U4.1]</em></li>
+<li><strong>[DB E0111]</strong> (intermedio) Por qué <span class="math inline">e^{t^2}</span> no tiene transformada de Laplace. <em>[U4.1]</em></li>
+<li><strong>[DB E0114]</strong> (intermedio) Inversas causales: polo en el origen, retardo <span class="math inline">e^{-s}</span>, polo derecho. <em>[U4.2]</em></li>
+<li><strong>[DB E0112]</strong> (intermedio) Dos señales para <span class="math inline">\frac{s+2}{(s+1)^2}</span> — y cuál de ellas tiene transformada de Fourier. <em>[U4.2, U4.5]</em></li>
+<li><strong>[DB E0113]</strong> (intermedio) Tres señales para <span class="math inline">\frac{1}{s^2(s-1)}</span>: una por cada ROC posible. <em>[U4.2]</em></li>
+<li><strong>[DB E0134]</strong> (intermedio) Inversa con polo doble escondido: factorizar <span class="math inline">s^3 + 7s^2 + 16s + 12</span> primero. <em>[U4.2]</em></li>
+<li><strong>[DB E0125]</strong> (intermedio) Encontrar condiciones iniciales y coeficientes para que un sistema de segundo orden produzca una salida dada. <em>[U4.4]</em></li>
+<li><strong>[DB E0132]</strong> (intermedio) Lazo realimentado con planta inestable <span class="math inline">\frac{1}{s-2}</span>: qué ganancia <span class="math inline">k</span> arrastra el polo al lado estable. <em>[U4.3, U4.5]</em></li>
+<li><strong>[DB E0133]</strong> (avanzado) Respuesta al impulso de un sistema estable y <strong>no causal</strong> — la ROC decidiendo todo. <em>[U4.2, U4.3]</em></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Antes de seguir
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si puedes resolver de corrido el ejemplo de las tres ROCs (<a href="#sec-diccionario" class="quarto-xref"><span>Sección 4.3.2</span></a>) sin mirar, y del catálogo de polos predices la forma de <span class="math inline">h(t)</span> en menos de diez segundos, la unidad está madura — y la I3 (U4+U5) te encontrará con el mapa en la mano. Si las fracciones parciales todavía trastabillan, resuelve los ejercicios 6–9 antes que cualquier otro: son el cuello de botella real.</p>
+</div>
+</div>
+</section>
+<section id="sec-referencias-cap04" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="sec-referencias-cap04"><span class="header-section-number">4.9</span> Para profundizar</h2>
+<ul>
+<li><strong>[Alvarado]</strong> §4.1 (transformada bilateral: ROC, inversa por fracciones parciales, sistemas LTI — con la tabla 4.1 de propiedades y la tabla 4.2 de pares), §4.2 (unilateral: propiedades, teoremas de valor inicial y final, EDOs con condiciones iniciales).</li>
+<li><strong>[Oppenheim]</strong> §9.0–9.2 (definición y ROC), §9.3–9.4 (inversa y evaluación geométrica), §9.5–9.6 (propiedades y pares), §9.7 (análisis de sistemas: causalidad y estabilidad desde <span class="math inline">H(s)</span>), §9.9 (unilateral).</li>
+<li>Apunte propio del curso: <em>La Transformada de Laplace — una aventura en el plano complejo</em> (<code>modulos/5_transformada_laplace/apuntes/</code>), origen de la analogía costa/continente y de la visualización de <span class="math inline">|X(s)|</span> como superficie 3D con polos-carpas y ceros-anclajes.</li>
+<li>La app interactiva <code>modulos/5_transformada_laplace/demos/Laplace-app/laplace_visualizer.py</code>: arrastrar polos y predecir. La mejor forma de estudiar la <a href="#sec-mapa" class="quarto-xref"><span>Sección 4.4</span></a> es jugar con ella hasta que ninguna predicción te sorprenda.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./cap03.html" class="pagination-link" aria-label="El dominio de la frecuencia">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./cap05.html" class="pagination-link" aria-label="Muestreo y sistemas discretos">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

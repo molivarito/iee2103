@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IEE2103 · Señales y Sistemas — PUC</title>
+<style>
+  :root {
+    --blue: #2c3e50;
+    --accent: #2780e3;
+    --bg: #f7f8fa;
+    --card-bg: #ffffff;
+    --text: #2c3e50;
+    --muted: #6c757d;
+    --border: #e3e6ea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    padding: 4rem 1.5rem 2rem;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0 0 0.5rem;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--blue);
+  }
+  header p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.05rem;
+  }
+  main {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(260px, 360px));
+    gap: 1.75rem;
+    max-width: 800px;
+    width: 100%;
+  }
+  @media (max-width: 620px) {
+    .cards { grid-template-columns: 1fr; justify-items: center; }
+  }
+  a.card {
+    display: block;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2.25rem 1.75rem;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  a.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    border-color: var(--accent);
+  }
+  .card .icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+  .card h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: var(--blue);
+  }
+  .card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  footer {
+    text-align: center;
+    padding: 2rem 1.5rem 2.5rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --blue: #eaf1f8;
+      --accent: #5aa9f9;
+      --bg: #14181d;
+      --card-bg: #1c2128;
+      --text: #eaf1f8;
+      --muted: #9aa4b1;
+      --border: #2b313a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --blue: #eaf1f8;
+    --accent: #5aa9f9;
+    --bg: #14181d;
+    --card-bg: #1c2128;
+    --text: #eaf1f8;
+    --muted: #9aa4b1;
+    --border: #2b313a;
+  }
+  :root[data-theme="light"] {
+    --blue: #2c3e50;
+    --accent: #2780e3;
+    --bg: #f7f8fa;
+    --card-bg: #ffffff;
+    --text: #2c3e50;
+    --muted: #6c757d;
+    --border: #e3e6ea;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>IEE2103 · Señales y Sistemas</h1>
+  <p>Material público del curso</p>
+</header>
+<main>
+  <div class="cards">
+    <a class="card" href="reader/">
+      <span class="icon">📖</span>
+      <h2>Reader del curso</h2>
+      <p>El texto de estudio: 7 capítulos + apéndice de números complejos, con la misma notación y ejemplos que las clases.</p>
+    </a>
+    <a class="card" href="esqueleto/">
+      <span class="icon">📝</span>
+      <h2>Apuntes de clase (esqueleto)</h2>
+      <p>Las 30 sesiones y ayudantías del curso, semana a semana, para tomar apuntes en clase.</p>
+    </a>
+  </div>
+</main>
+<footer>
+  Pontificia Universidad Católica de Chile · Prof. Patricio de la Cuadra · 2026-2
+</footer>
+</body>
+</html>

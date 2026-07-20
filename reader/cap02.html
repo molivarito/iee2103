@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Sistemas – Señales y Sistemas</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./cap03.html" rel="next">
+<link href="./cap01.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d3f7f8e73c8d287b30bcf59c2b563615.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cap02.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Señales y Sistemas</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Señales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap02.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#sec-caja-interrogatorio" id="toc-sec-caja-interrogatorio" class="nav-link active" data-scroll-target="#sec-caja-interrogatorio"><span class="header-section-number">2.1</span> La caja bajo interrogatorio</a></li>
+  <li><a href="#sec-propiedades-sistemas" id="toc-sec-propiedades-sistemas" class="nav-link" data-scroll-target="#sec-propiedades-sistemas"><span class="header-section-number">2.2</span> Las cinco propiedades</a>
+  <ul class="collapse">
+  <li><a href="#sec-linealidad" id="toc-sec-linealidad" class="nav-link" data-scroll-target="#sec-linealidad"><span class="header-section-number">2.2.1</span> Linealidad</a></li>
+  <li><a href="#sec-invariancia" id="toc-sec-invariancia" class="nav-link" data-scroll-target="#sec-invariancia"><span class="header-section-number">2.2.2</span> Invariancia en el tiempo</a></li>
+  <li><a href="#sec-causalidad-estabilidad-memoria" id="toc-sec-causalidad-estabilidad-memoria" class="nav-link" data-scroll-target="#sec-causalidad-estabilidad-memoria"><span class="header-section-number">2.2.3</span> Causalidad, estabilidad y memoria</a></li>
+  </ul></li>
+  <li><a href="#sec-teorema-lti" id="toc-sec-teorema-lti" class="nav-link" data-scroll-target="#sec-teorema-lti"><span class="header-section-number">2.3</span> El teorema del curso: LTI ⇒ convolución</a>
+  <ul class="collapse">
+  <li><a href="#la-promesa-sobre-la-mesa" id="toc-la-promesa-sobre-la-mesa" class="nav-link" data-scroll-target="#la-promesa-sobre-la-mesa"><span class="header-section-number">2.3.1</span> La promesa sobre la mesa</a></li>
+  <li><a href="#sec-suma-impulsos" id="toc-sec-suma-impulsos" class="nav-link" data-scroll-target="#sec-suma-impulsos"><span class="header-section-number">2.3.2</span> Cobrando la semilla: toda señal es una suma de impulsos</a></li>
+  <li><a href="#sec-derivacion" id="toc-sec-derivacion" class="nav-link" data-scroll-target="#sec-derivacion"><span class="header-section-number">2.3.3</span> La derivación: linealidad reparte, invariancia traslada</a></li>
+  <li><a href="#sec-primeros-calculos" id="toc-sec-primeros-calculos" class="nav-link" data-scroll-target="#sec-primeros-calculos"><span class="header-section-number">2.3.4</span> Primeros cálculos</a></li>
+  </ul></li>
+  <li><a href="#sec-iglesia-resuelta" id="toc-sec-iglesia-resuelta" class="nav-link" data-scroll-target="#sec-iglesia-resuelta"><span class="header-section-number">2.4</span> El misterio de la iglesia, resuelto</a></li>
+  <li><a href="#sec-convolucion-oficio" id="toc-sec-convolucion-oficio" class="nav-link" data-scroll-target="#sec-convolucion-oficio"><span class="header-section-number">2.5</span> La convolución como oficio</a>
+  <ul class="collapse">
+  <li><a href="#sec-metodo-grafico" id="toc-sec-metodo-grafico" class="nav-link" data-scroll-target="#sec-metodo-grafico"><span class="header-section-number">2.5.1</span> El método gráfico: invertir, desplazar, multiplicar, integrar</a></li>
+  <li><a href="#sec-propiedades-convolucion" id="toc-sec-propiedades-convolucion" class="nav-link" data-scroll-target="#sec-propiedades-convolucion"><span class="header-section-number">2.5.2</span> Propiedades: la caja de herramientas</a></li>
+  <li><a href="#sec-anticipar" id="toc-sec-anticipar" class="nav-link" data-scroll-target="#sec-anticipar"><span class="header-section-number">2.5.3</span> Anticipar sin calcular</a></li>
+  </ul></li>
+  <li><a href="#sec-edos" id="toc-sec-edos" class="nav-link" data-scroll-target="#sec-edos"><span class="header-section-number">2.6</span> De dónde salen las h(t): ecuaciones diferenciales</a>
+  <ul class="collapse">
+  <li><a href="#sec-h-primer-orden" id="toc-sec-h-primer-orden" class="nav-link" data-scroll-target="#sec-h-primer-orden"><span class="header-section-number">2.6.1</span> La respuesta al impulso de un sistema de primer orden</a></li>
+  </ul></li>
+  <li><a href="#sec-causal-estable-h" id="toc-sec-causal-estable-h" class="nav-link" data-scroll-target="#sec-causal-estable-h"><span class="header-section-number">2.7</span> Causalidad y estabilidad, leídas desde h(t)</a></li>
+  <li><a href="#sec-resumen-cap02" id="toc-sec-resumen-cap02" class="nav-link" data-scroll-target="#sec-resumen-cap02"><span class="header-section-number">2.8</span> En una página</a></li>
+  <li><a href="#sec-ejercicios-cap02" id="toc-sec-ejercicios-cap02" class="nav-link" data-scroll-target="#sec-ejercicios-cap02"><span class="header-section-number">2.9</span> Ejercicios</a></li>
+  <li><a href="#sec-referencias-cap02" id="toc-sec-referencias-cap02" class="nav-link" data-scroll-target="#sec-referencias-cap02"><span class="header-section-number">2.10</span> Para profundizar</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-cap02" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U2.1–U2.5]
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al terminar este capítulo podrás: <strong>decidir</strong> si un sistema es lineal, invariante, causal, estable y/o con memoria — con demostración o contraejemplo, nunca “por inspección” [U2.1]; <strong>explicar</strong> por qué linealidad + invariancia implican que una sola función <span class="math inline">h(t)</span> caracteriza al sistema completo, reproduciendo la derivación [U2.2]; <strong>calcular</strong> convoluciones analítica y gráficamente, y anticipar soporte y forma sin calcular [U2.3]; <strong>modelar</strong> sistemas físicos con EDOs lineales y obtener su <span class="math inline">h(t)</span> [U2.4]; y <strong>leer</strong> causalidad y estabilidad directamente desde <span class="math inline">h(t)</span> [U2.5].</p>
+<p><strong>Prerrequisito</strong>: el impulso <span class="math inline">\delta(t)</span> y su propiedad de muestreo (<a href="cap01.html#sec-impulso" class="quarto-xref"><span>Sección 1.5</span></a>). Este capítulo cobra, una por una, las semillas que el capítulo 1 dejó plantadas.</p>
+</div>
+</div>
+<section id="sec-caja-interrogatorio" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sec-caja-interrogatorio"><span class="header-section-number">2.1</span> La caja bajo interrogatorio</h2>
+<p>El capítulo 1 terminó con una promesa a medio pagar. Escuchamos el impulso disparado en la iglesia de St.&nbsp;Patrick y dijimos, sin poder justificarlo todavía: <em>si conoces la respuesta de un sistema al impulso, conoces su respuesta a todo</em> (<a href="cap01.html#sec-impulso-real" class="quarto-xref"><span>Sección 1.5.4</span></a>). Este capítulo existe para convertir esa frase en un teorema — y para usarlo.</p>
+<p>Desde el comienzo dibujamos los sistemas como cajas: <span class="math inline">x \rightarrow \boxed{\;\mathcal{S}\;} \rightarrow y</span>. Hasta ahora la caja es un misterio con nombre pintoresco: la iglesia, un ecualizador, la suspensión de un auto. Hoy dejamos de mirarla con respeto y empezamos a <strong>interrogarla</strong>. Le haremos cinco preguntas:</p>
+<ol type="1">
+<li>¿Respeta las sumas y los escalados? (<strong>linealidad</strong>)</li>
+<li>¿Se comporta igual hoy que mañana? (<strong>invariancia en el tiempo</strong>)</li>
+<li>¿Puede ver el futuro? (<strong>causalidad</strong>)</li>
+<li>¿Puede explotar con una entrada inocente? (<strong>estabilidad</strong>)</li>
+<li>¿Recuerda el pasado? (<strong>memoria</strong>)</li>
+</ol>
+<p>¿Por qué justo estas cinco? Las tres últimas son las que un ingeniero necesita para saber si puede <em>construir</em> el sistema y confiar en él. Pero las dos primeras valen oro por otra razón: si un sistema responde “sí” a ambas, ocurre algo casi milagroso — <em>una sola función</em> bastará para predecir su salida ante <strong>cualquier</strong> entrada. Ese es el teorema central del capítulo (<a href="#sec-teorema-lti" class="quarto-xref"><span>Sección 2.3</span></a>), y la razón de ser de todo lo demás.</p>
+<p>Notación: escribimos <span class="math inline">y(t) = T\{x(t)\}</span> para “la salida del sistema <span class="math inline">T</span> ante la entrada <span class="math inline">x</span>”. Y una regla de disciplina que gobierna toda la unidad (y las interrogaciones): cada propiedad se decide igual que en matemática. <strong>Para afirmarla, hay que demostrarla para toda entrada; para refutarla, basta un contraejemplo concreto.</strong> “Se ve lineal” vale cero puntos, siempre.</p>
+</section>
+<section id="sec-propiedades-sistemas" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sec-propiedades-sistemas"><span class="header-section-number">2.2</span> Las cinco propiedades</h2>
+<section id="sec-linealidad" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="sec-linealidad"><span class="header-section-number">2.2.1</span> Linealidad</h3>
+<p>Un sistema lineal “divide y conquista”: procesa las partes de la entrada por separado y suma los resultados.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: sistema lineal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un sistema <span class="math inline">T</span> es <strong>lineal</strong> si cumple dos condiciones, para todas las entradas y constantes involucradas:</p>
+<ul>
+<li><strong>Homogeneidad</strong>: si <span class="math inline">x(t) \to y(t)</span>, entonces <span class="math inline">a\,x(t) \to a\,y(t)</span>.</li>
+<li><strong>Aditividad</strong>: si <span class="math inline">x_1 \to y_1</span> y <span class="math inline">x_2 \to y_2</span>, entonces <span class="math inline">x_1 + x_2 \to y_1 + y_2</span>.</li>
+</ul>
+<p>Juntas forman el <strong>principio de superposición</strong>: <span class="math display">T\{a\,x_1(t) + b\,x_2(t)\} = a\,y_1(t) + b\,y_2(t)</span></p>
+</div>
+</div>
+<p>Las intuiciones físicas: gritar el doble de fuerte a un micrófono produce el doble de voltaje (homogeneidad); dos personas hablando a la vez producen la suma de lo que produciría cada voz sola (aditividad). Los lineales de manual son el resistor (<span class="math inline">i = v/R</span>, ley de Ohm) y el resorte (<span class="math inline">x = F/k</span>, ley de Hooke): el doble de causa, el doble de efecto; causas sumadas, efectos sumados.</p>
+<p>Un chequeo rápido que descarta sin calcular: tomando <span class="math inline">a = 0</span> en la homogeneidad, todo sistema lineal cumple <strong>entrada cero <span class="math inline">\Rightarrow</span> salida cero</strong>. Si la caja produce algo “de la nada”, no es lineal — así cae de un vistazo <span class="math inline">y(t) = x(t) + 1</span> (entrada cero, salida 1), la trampa favorita de las interrogaciones: <em>sumar una constante no es lineal</em>, aunque la fórmula se “vea” recta.</p>
+<p><strong>El contraejemplo canónico — el cuadrador</strong> <span class="math inline">y(t) = x^2(t)</span> (Oppenheim, ejemplo 1.18). Fallan las dos condiciones:</p>
+<ul>
+<li>Homogeneidad: <span class="math inline">a\,x \to (a x)^2 = a^2\,x^2 = a^2\,y \neq a\,y</span>. Falla ✗ (con <span class="math inline">a = 2</span>: la salida se cuadruplica, no se duplica).</li>
+<li>Aditividad: <span class="math inline">x_1 + x_2 \to (x_1 + x_2)^2 = x_1^2 + x_2^2 + \mathbf{2\,x_1 x_2}</span>. Ese término cruzado — la <strong>intermodulación</strong> — no es <span class="math inline">y_1 + y_2</span>. Falla ✗.</li>
+</ul>
+<p>El término cruzado se <em>escucha</em>: si a un sistema cuadrático entran dos notas puras, salen además frecuencias que nadie tocó (la suma y la diferencia de las originales — lo cuantificaremos con Fourier). Eso es la distorsión. Un amplificador real es su versión cotidiana: lineal para señales pequeñas, pero al subir la ganancia la salida se <strong>recorta</strong> (<em>clipping</em>) en el nivel de saturación, y duplicar la entrada ya no duplica la salida. Con violar la homogeneidad una vez, basta. (El pedal de distorsión de un guitarrista es, literalmente, un sistema <em>diseñado para ser no lineal</em>: la gracia está en las frecuencias nuevas.)</p>
+<p>Una letra chica que Oppenheim convierte en ejemplo (1.19) y que conviene conocer: las constantes de la superposición pueden ser <strong>complejas</strong>. El sistema <span class="math inline">y = \Re\{x\}</span> es aditivo, pero falla la homogeneidad con <span class="math inline">a = j</span> — no es lineal. Como nuestras señales pueden ser complejas, la definición se toma en serio con escalares complejos.</p>
+</section>
+<section id="sec-invariancia" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="sec-invariancia"><span class="header-section-number">2.2.2</span> Invariancia en el tiempo</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: sistema invariante en el tiempo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">T</span> es <strong>invariante en el tiempo</strong> si retrasar la entrada solo retrasa la salida, sin cambiarle la forma: si <span class="math inline">x(t) \to y(t)</span>, entonces <span class="math display">x(t - t_0) \;\to\; y(t - t_0) \qquad \text{para todo } t_0.</span></p>
+</div>
+</div>
+<p>El sistema se comporta igual hoy que mañana: un diapasón golpeado ahora o en una hora suena idéntico, solo que después — el diapasón no envejece. En un circuito, invariancia significa que <span class="math inline">R</span> y <span class="math inline">C</span> no cambian con el tiempo; en un auto, que la masa y el roce son los de siempre (un día con la maleta cargada, el sistema es <em>otro</em>).</p>
+<p><strong>Cómo se verifica</strong> (la receta que hay que dominar): comparar dos caminos.</p>
+<ol type="1">
+<li><em>Retardar y luego procesar</em>: meter <span class="math inline">x(t - t_0)</span> al sistema y ver qué sale.</li>
+<li><em>Procesar y luego retardar</em>: tomar la salida <span class="math inline">y(t)</span> y reemplazar <span class="math inline">t \mapsto t - t_0</span>.</li>
+</ol>
+<p>Si ambos caminos coinciden para todo <span class="math inline">x</span> y todo <span class="math inline">t_0</span>: invariante. Si difieren para algún caso concreto: variante, y ese caso es tu contraejemplo.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I1): modulación AM
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Clasifica <span class="math inline">y(t) = x(t)\cos(\omega_0 t)</span> — así se sube una señal de audio a una portadora de radio — según linealidad e invariancia.</p>
+<p><strong>Solución.</strong> <em>¿Lineal?</em> Sí, con entradas genéricas: <span class="math display">T\{a x_1 + b x_2\} = \big(a\,x_1(t) + b\,x_2(t)\big)\cos(\omega_0 t) = a\,y_1(t) + b\,y_2(t)\ \checkmark</span></p>
+<p><em>¿Invariante?</em> Camino 1: <span class="math inline">x(t-t_0) \to x(t-t_0)\cos(\omega_0 t)</span>. Camino 2: <span class="math inline">y(t-t_0) = x(t-t_0)\cos(\omega_0(t-t_0))</span>. No coinciden. Contraejemplo concreto: con <span class="math inline">x(t) = 1</span> constante, la entrada retardada sigue siendo <span class="math inline">1</span> y produce <span class="math inline">\cos(\omega_0 t)</span>; pero la salida retardada es <span class="math inline">\cos(\omega_0(t-t_0))</span>. <strong>Variante</strong> ✗.</p>
+<p><strong>Moraleja doble</strong>: (i) linealidad e invariancia son propiedades <em>independientes</em>; (ii) el error clásico es creer que “aparece un coseno con <span class="math inline">t</span> adentro <span class="math inline">\Rightarrow</span> no lineal”. Es al revés: multiplicar por una función <em>fija</em> del tiempo preserva la linealidad y rompe la invariancia.</p>
+</div>
+</div>
+<p>Dos contraejemplos más, ambos canónicos de Oppenheim, que completan el arsenal:</p>
+<p><strong>El escalador <span class="math inline">y(t) = x(2t)</span> es variante</strong> (ejemplo 1.16) — y es el más traicionero, porque “comprimir es comprimir siempre igual, ¿no?”. No: el sistema comprime el tiempo <em>hacia el origen</em>, y eso ancla un instante privilegiado. Con un pulso como entrada, los dos caminos se separan a la vista:</p>
+<div id="ee184eaf" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap02_files/figure-html/cell-2-output-1.png" width="806" height="431" class="figure-img"></p>
+<figcaption>El contraejemplo de Oppenheim para y(t) = x(2t). Arriba: el pulso x₁ y su salida comprimida y₁. Abajo: la entrada retardada x₂ = x₁(t−2) produce y₂ en [0,2] (rojo), pero la salida retardada y₁(t−2) vive en [1,3] (naranja punteado). No coinciden: variante.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La explicación en una línea: el retardo de la salida es la <em>mitad</em> del que debería, porque la compresión también comprime al desplazamiento — exactamente el fenómeno <span class="math inline">x(at - b)</span> del capítulo 1 (<a href="cap01.html#sec-orden-transformaciones" class="quarto-xref"><span>Sección 1.3.1</span></a>), ahora mordiendo como propiedad de sistemas.</p>
+<p><strong>La ganancia variable <span class="math inline">y[n] = n\,x[n]</span> es variante</strong> (ejemplo 1.15, en tiempo discreto): es lineal — la superposición sale directa, como en <span class="math inline">y(t) = t\,x(t)</span> — pero el contraejemplo mínimo la delata: <span class="math inline">\delta[n] \to n\,\delta[n] = 0</span> (la ganancia en <span class="math inline">n=0</span> es cero), mientras que <span class="math inline">\delta[n-1] \to n\,\delta[n-1] = \delta[n-1]</span>. La entrada retardada <strong>no</strong> produce la salida retardada (que sería <span class="math inline">0</span> corrido, es decir <span class="math inline">0</span>). Un amplificador cuyo volumen depende de la hora: lineal, pero no suena igual hoy que mañana.</p>
+<p>La tabla que ordena los cuatro mundos (verifica cada casilla — es entrenamiento directo de I1):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Invariante</th>
+<th>Variante</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Lineal</strong></td>
+<td><span class="math inline">y = x(t-2)</span> (retardo)</td>
+<td><span class="math inline">y = x(t)\cos(\omega_0 t)</span>, <span class="math inline">\;y = t\,x(t)</span>, <span class="math inline">\;y = x(2t)</span></td>
+</tr>
+<tr class="even">
+<td><strong>No lineal</strong></td>
+<td><span class="math inline">y = x^2(t)</span> (cuadrador)</td>
+<td><span class="math inline">y = t\,x^2(t)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sec-causalidad-estabilidad-memoria" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="sec-causalidad-estabilidad-memoria"><span class="header-section-number">2.2.3</span> Causalidad, estabilidad y memoria</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: causalidad, estabilidad BIBO, memoria
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Causal</strong>: la salida en <span class="math inline">t</span> depende solo de la entrada en instantes <span class="math inline">\leq t</span> — el sistema no ve el futuro.</p>
+<p><strong>Estable BIBO</strong> (<em>bounded input, bounded output</em>): toda entrada acotada produce salida acotada — si existe <span class="math inline">M</span> con <span class="math inline">|x(t)| \leq M</span> para todo <span class="math inline">t</span>, existe <span class="math inline">M'</span> con <span class="math inline">|y(t)| \leq M'</span>.</p>
+<p><strong>Con memoria</strong>: <span class="math inline">y(t)</span> depende de algo más que <span class="math inline">x(t)</span> en ese mismo instante. Sin memoria: <span class="math inline">y(t)</span> es función de <span class="math inline">x(t)</span> y nada más.</p>
+</div>
+</div>
+<p><strong>Causalidad.</strong> <span class="math inline">y(t) = x(t-2)</span> es causal (usa el pasado); <span class="math inline">y(t) = x(t+1)</span> no (lee mañana); <span class="math inline">y(t) = x(-t)</span> no — para <span class="math inline">t = -5</span> necesita <span class="math inline">x(5)</span>, que aún no ocurre. Todo sistema físico <em>operando en tiempo real</em> es causal. Pero un sistema que procesa datos <strong>grabados</strong> puede no serlo: suavizar una foto usa píxeles “futuros” en ambas direcciones. No causal no significa imposible — significa <em>no en vivo</em>.</p>
+<p><strong>Estabilidad.</strong> <span class="math inline">y = x^2</span> es estable (<span class="math inline">|x| \leq M \Rightarrow |y| \leq M^2</span> — estable no exige lineal; Oppenheim muestra incluso que <span class="math inline">y = e^{x(t)}</span> es estable, acotado por <span class="math inline">e^M</span>). El contraejemplo importante es el <strong>integrador</strong> <span class="math inline">y(t) = \int_{-\infty}^{t} x(\tau)\,d\tau</span>: la entrada más inocente del curso, <span class="math inline">x = u(t)</span> (acotada por 1), produce la rampa <span class="math inline">t\,u(t)</span>, que crece sin límite. <strong>Inestable</strong> — y guarda este ejemplo, que reaparecerá leído desde <span class="math inline">h</span> en la <a href="#sec-causal-estable-h" class="quarto-xref"><span>Sección 2.7</span></a>.</p>
+<p><strong>Memoria.</strong> El resistor no tiene (<span class="math inline">i(t) = v(t)/R</span>: foto instantánea); el condensador sí (<span class="math inline">v(t) = \frac{1}{C}\int_{-\infty}^{t} i\,d\tau</span>: acumula toda su historia); el retardo <span class="math inline">x(t-2)</span> también (recuerda 2 segundos). Memoria y causalidad se confunden a menudo: memoria pregunta si el sistema mira <em>otros instantes</em>; causalidad, si alguno de esos instantes está <em>en el futuro</em>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>La regla de oro de la U2 (vale puntos en cada interrogación)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Propiedad que se cumple → <strong>demostración con entradas genéricas</strong> (<span class="math inline">x</span>, <span class="math inline">x_1</span>, <span class="math inline">x_2</span> arbitrarias, constantes <span class="math inline">a</span>, <span class="math inline">b</span> arbitrarias). Propiedad que falla → <strong>contraejemplo concreto y explícito</strong> (una entrada específica, el cálculo de ambos lados, la desigualdad a la vista). No hay tercera opción, y el orden inteligente es intentar primero el contraejemplo: si no aparece, la demostración suele salir sola.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-teorema-lti" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-teorema-lti"><span class="header-section-number">2.3</span> El teorema del curso: LTI ⇒ convolución</h2>
+<section id="la-promesa-sobre-la-mesa" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="la-promesa-sobre-la-mesa"><span class="header-section-number">2.3.1</span> La promesa sobre la mesa</h3>
+<p>Un sistema que pasa los dos primeros tests — <strong>L</strong>ineal e <strong>I</strong>nvariante en el <strong>T</strong>iempo, <strong>LTI</strong> — recibe el premio mayor del semestre. El enunciado que vamos a construir:</p>
+<blockquote class="blockquote">
+<p><strong>Teorema (caracterización de sistemas LTI).</strong> Si un sistema es LTI, su <strong>respuesta al impulso</strong> <span class="math display">h(t) = T\{\delta(t)\}</span> determina la salida ante cualquier entrada.</p>
+</blockquote>
+<p>Piensa lo que esto afirma. Un sistema es un objeto enorme — una función que come funciones. Conocerlo “completo” parecería exigir una tabla infinita: cada entrada posible con su salida. El teorema dice que basta <strong>un solo experimento</strong> — golpear la caja con un impulso y grabar lo que responde — y esa única función <span class="math inline">h(t)</span> contiene <em>todo</em>. Es la mejor oferta del semestre, y se demuestra con solo dos ingredientes: una fórmula del capítulo 1 y las dos propiedades recién definidas.</p>
+</section>
+<section id="sec-suma-impulsos" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="sec-suma-impulsos"><span class="header-section-number">2.3.2</span> Cobrando la semilla: toda señal es una suma de impulsos</h3>
+<p>En la <a href="cap01.html#sec-sifting" class="quarto-xref"><span>Sección 1.5.2</span></a> del capítulo 1 apareció esta identidad, y la llamamos — textualmente — <em>la semilla más importante que este capítulo planta</em>:</p>
+<p><span class="math display">x(t) = \int_{-\infty}^{\infty} x(\tau)\,\delta(t - \tau)\,d\tau</span></p>
+<p>Llegó la hora de cobrarla. Allá la leímos como propiedad de muestreo (“el impulso extrae el valor de <span class="math inline">x</span>”). Hoy la leemos <strong>al revés</strong>, y esa relectura es todo el punto:</p>
+<blockquote class="blockquote">
+<p>Toda señal es una <strong>superposición continua de impulsos desplazados</strong>: en cada instante <span class="math inline">\tau</span> hay un impulso <span class="math inline">\delta(t - \tau)</span>, pesado por el valor <span class="math inline">x(\tau)\,d\tau</span>.</p>
+</blockquote>
+<p>Si el cambio de lectura no convence, la construcción de Alvarado lo hace visible: aproxima <span class="math inline">x(t)</span> con una escalera de pulsos angostos <span class="math inline">p_\Delta</span> de ancho <span class="math inline">\Delta</span>, cada uno parado en <span class="math inline">k\Delta</span> con área <span class="math inline">x(k\Delta)\,\Delta</span>:</p>
+<div id="9aecd640" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap02_files/figure-html/cell-3-output-1.png" width="815" height="269" class="figure-img"></p>
+<figcaption>La escalera de pulsos que aproxima a x(t). Al afinar Δ, los pulsos se vuelven impulsos, la suma se vuelve integral, y la aproximación se vuelve identidad: toda señal es una suma continua de impulsos pesados.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math display">x(t) \;\approx\; \sum_{k=-\infty}^{\infty} x(k\Delta)\;p_\Delta(t - k\Delta)\,\Delta \qquad \xrightarrow{\;\Delta \to 0\;} \qquad x(t) = \int_{-\infty}^{\infty} x(\tau)\,\delta(t-\tau)\,d\tau</span></p>
+<p>La señal quedó escrita como combinación lineal de un solo tipo de ladrillo: impulsos desplazados. Y ahora las dos propiedades hacen su trabajo. ¿Qué sabe hacer un sistema <strong>lineal</strong> con las combinaciones lineales? ¿Y uno <strong>invariante</strong> con los desplazamientos?</p>
+</section>
+<section id="sec-derivacion" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="sec-derivacion"><span class="header-section-number">2.3.3</span> La derivación: linealidad reparte, invariancia traslada</h3>
+<p>Sea <span class="math inline">T</span> un sistema LTI con respuesta al impulso <span class="math inline">h(t)</span>. Seguimos la entrada paso a paso — cuatro líneas, y cada una usa exactamente una propiedad:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Entrada</th>
+<th>Salida</th>
+<th>Propiedad usada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><span class="math inline">\delta(t)</span></td>
+<td><span class="math inline">h(t)</span></td>
+<td>definición de <span class="math inline">h</span></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><span class="math inline">\delta(t-\tau)</span></td>
+<td><span class="math inline">h(t-\tau)</span></td>
+<td><strong>invariancia</strong> (traslada)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><span class="math inline">x(\tau)\,\delta(t-\tau)</span></td>
+<td><span class="math inline">x(\tau)\,h(t-\tau)</span></td>
+<td><strong>homogeneidad</strong> (<span class="math inline">x(\tau)</span> es un número: el peso del ladrillo)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><span class="math inline">\displaystyle\int x(\tau)\,\delta(t-\tau)\,d\tau</span></td>
+<td><span class="math inline">\displaystyle\int x(\tau)\,h(t-\tau)\,d\tau</span></td>
+<td><strong>aditividad</strong>, llevada al límite integral</td>
+</tr>
+</tbody>
+</table>
+<p>Pero la entrada de la línea 4 es, por la sección anterior, exactamente <span class="math inline">x(t)</span>. Entonces:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: la integral de convolución
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para un sistema LTI con respuesta al impulso <span class="math inline">h(t)</span>, la salida ante cualquier entrada <span class="math inline">x(t)</span> es <span class="math display">y(t) \;=\; (x * h)(t) \;=\; \int_{-\infty}^{\infty} x(\tau)\,h(t-\tau)\,d\tau</span> El operador <span class="math inline">*</span> actúa entre <strong>señales</strong>: <span class="math inline">x * h</span> es una señal nueva. Dentro de la integral la variable es <span class="math inline">\tau</span>; el instante <span class="math inline">t</span> es un parámetro — <em>para cada <span class="math inline">t</span>, una integral completa</em>.</p>
+</div>
+</div>
+<p>Léela en voz alta con la derivación en mente: <em>la salida en <span class="math inline">t</span> es la suma de los ecos de todos los impulsos que componen la entrada — el impulso que entró en <span class="math inline">\tau</span>, de peso <span class="math inline">x(\tau)\,d\tau</span>, aporta hoy su respuesta ya envejecida <span class="math inline">h(t-\tau)</span>.</em> Esta fórmula no se memoriza: se <strong>reconstruye</strong> en cuatro líneas, y las interrogaciones piden precisamente eso.</p>
+<p><strong>Honestidad matemática</strong> (treinta segundos y seguimos): pasar de sumas finitas a la integral requiere que el sistema respete límites (continuidad). Los sistemas físicos de este curso lo hacen; los patológicos que no, viven en libros de análisis funcional. Seguimos.</p>
+<p>Dos lecturas del mismo teorema, y ambas importan:</p>
+<ul>
+<li><strong>Análisis</strong>: todo sistema LTI <em>es</em> una convolución. No “se puede describir con”: es. La caja misteriosa quedó reducida a una función.</li>
+<li><strong>Síntesis</strong> (la que paga el sueldo): si quieres un sistema que haga algo — filtrar, reverberar, derivar — te basta <em>diseñar</em> la <span class="math inline">h(t)</span> correcta. En las unidades 6 y 7 diseñaremos filtros exactamente así.</li>
+</ul>
+</section>
+<section id="sec-primeros-calculos" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="sec-primeros-calculos"><span class="header-section-number">2.3.4</span> Primeros cálculos</h3>
+<p>Tres convoluciones que salen gratis con la derivación fresca:</p>
+<p><strong>1. El neutro</strong>: <span class="math inline">x(t) * \delta(t) = x(t)</span>. El sistema con <span class="math inline">h = \delta</span> es la identidad — un cable.</p>
+<p><strong>2. El retardo</strong>: <span class="math inline">x(t) * \delta(t - t_0) = x(t - t_0)</span>. Convolucionar con un impulso desplazado <strong>desplaza</strong>. (Verifícalo con la propiedad de muestreo: <span class="math inline">\int x(\tau)\,\delta(t - t_0 - \tau)\,d\tau = x(t - t_0)</span>.)</p>
+<p><strong>3. La primera de verdad</strong>, con todos sus pasos:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I1): escalón contra exponencial
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Calcula <span class="math inline">y(t) = u(t) * e^{-2t}u(t)</span>.</p>
+<p><strong>Solución.</strong> <span class="math display">y(t) = \int_{-\infty}^{\infty} u(\tau)\,e^{-2(t-\tau)}\,u(t-\tau)\,d\tau</span> Los dos escalones recortan la integral: <span class="math inline">u(\tau)</span> exige <span class="math inline">\tau &gt; 0</span>; <span class="math inline">u(t - \tau)</span> exige <span class="math inline">\tau &lt; t</span>. Si <span class="math inline">t &lt; 0</span>, no queda intervalo: <span class="math inline">y(t) = 0</span>. Si <span class="math inline">t \geq 0</span>: <span class="math display">y(t) = \int_0^t e^{-2(t-\tau)}\,d\tau = e^{-2t}\int_0^t e^{2\tau}\,d\tau = e^{-2t}\cdot\frac{e^{2t} - 1}{2} = \frac{1 - e^{-2t}}{2}</span> <span class="math display">\Rightarrow\quad y(t) = \tfrac{1}{2}\big(1 - e^{-2t}\big)\,u(t)</span> Sube desde 0 y satura en <span class="math inline">\tfrac12</span>. <strong>Chequeo de cordura</strong>: la saturación debe valer el área de <span class="math inline">h</span> (una entrada que se queda en 1 termina “cosechando” toda la respuesta): <span class="math inline">\int_0^\infty e^{-2t}\,dt = \tfrac12</span> ✓. Guarda este resultado: en la <a href="#sec-edos" class="quarto-xref"><span>Sección 2.6</span></a> descubriremos que es la carga de un condensador.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-iglesia-resuelta" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sec-iglesia-resuelta"><span class="header-section-number">2.4</span> El misterio de la iglesia, resuelto</h2>
+<p>El capítulo 1 abrió con dos audios y una pregunta que quedó flotando: ¿qué le pasó a la voz? Después escuchamos un impulso disparado dentro de la iglesia de St.&nbsp;Patrick, y dijimos — sin poder justificarlo — que lo que sonaba tras el golpe era “la iglesia respondiendo”. Ahora, por primera vez, tienes el lenguaje completo. Escucha de nuevo, con oídos nuevos:</p>
+<audio controls="" src="assets/audio/impulso_iglesia.mp3">
+</audio>
+<p>Eso es <span class="math inline">h(t)</span>: la <strong>respuesta al impulso de la iglesia</strong>. Una función. Medida con un golpe.</p>
+<audio controls="" src="assets/audio/voz_en_iglesia.mp3">
+</audio>
+<p>Y eso — dilo tú antes de seguir leyendo — es:</p>
+<p><span class="math display">\text{voz en la iglesia} \;=\; (\text{voz seca}) * h_{\text{iglesia}}</span></p>
+<p>La voz nunca estuvo en esa iglesia. Nadie viajó a Inglaterra a grabarla. Alguien midió <span class="math inline">h_{\text{iglesia}}(t)</span> una vez, con un impulso, y la voz reverberante del comienzo del curso se <strong>calculó</strong>: es la integral de convolución de la <a href="#sec-derivacion" class="quarto-xref"><span>Sección 2.3.3</span></a>, evaluada numéricamente. Cada instante de la voz seca dejó su eco <span class="math inline">h</span> desplazado y pesado; la suma de todos esos ecos es lo que oíste.</p>
+<p>Un capítulo entero tardamos en poder decir esta frase. Escríbela completa, porque es de las que ordenan una carrera: <strong>conocer la respuesta al impulso de un sistema LTI es conocer el sistema; aplicarlo es convolucionar.</strong></p>
+<p>El caso de juguete para llevar en el bolsillo — un <strong>eco simple</strong>: <span class="math inline">h(t) = \delta(t) + \alpha\,\delta(t - T)</span>, el sonido directo más una reflexión atenuada que llega <span class="math inline">T</span> segundos tarde. Por el neutro y el retardo de la <a href="#sec-primeros-calculos" class="quarto-xref"><span>Sección 2.3.4</span></a>: <span class="math inline">y(t) = x(t) + \alpha\,x(t - T)</span>, la señal más su copia retrasada. Una iglesia real es esto mismo con <em>miles</em> de ecos fundidos en una <span class="math inline">h(t)</span> continua de varios segundos. Y esto no es metáfora pedagógica: los <em>plugins</em> de “reverberación por convolución” que usan los estudios de grabación hacen literalmente esta integral, con <span class="math inline">h</span> medidas a golpe y globo en salas reales. (Cómo la calculan tan rápido es un secreto de la unidad 7 — la palabra clave es FFT.)</p>
+</section>
+<section id="sec-convolucion-oficio" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="sec-convolucion-oficio"><span class="header-section-number">2.5</span> La convolución como oficio</h2>
+<section id="sec-metodo-grafico" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="sec-metodo-grafico"><span class="header-section-number">2.5.1</span> El método gráfico: invertir, desplazar, multiplicar, integrar</h3>
+<p>La integral, ahora como oficio. En <span class="math inline">y(t) = \int x(\tau)\,h(t-\tau)\,d\tau</span> todo ocurre en el eje <span class="math inline">\tau</span>; el parámetro <span class="math inline">t</span> decide <em>dónde está parada</em> una de las señales. La receta:</p>
+<ol type="1">
+<li><strong>Invertir</strong>: dibujar <span class="math inline">h(-\tau)</span>, el espejo de <span class="math inline">h</span>.</li>
+<li><strong>Desplazar</strong>: correrla hasta <span class="math inline">h(t - \tau)</span> — parada en <span class="math inline">\tau = t</span>, mirando hacia atrás.</li>
+<li><strong>Multiplicar</strong>: superponerla con <span class="math inline">x(\tau)</span> y formar el producto.</li>
+<li><strong>Integrar</strong>: el área del producto es un número, <span class="math inline">y(t)</span>. Repetir para cada régimen de <span class="math inline">t</span>.</li>
+</ol>
+<p>El trabajo real está en el <strong>análisis de casos</strong>: identificar los rangos de <span class="math inline">t</span> donde el traslape cambia de naturaleza, y resolver una integral por rango.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (el canónico): rect ∗ rect = tri
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Calcula <span class="math inline">y(t) = \operatorname{rect}(t) * \operatorname{rect}(t)</span>.</p>
+<p><strong>Solución.</strong> <span class="math inline">\operatorname{rect}(\tau)</span> vive en <span class="math inline">[-\tfrac12, \tfrac12]</span>; la otra, invertida y desplazada, <span class="math inline">\operatorname{rect}(t - \tau)</span>, vive en <span class="math inline">[t - \tfrac12,\; t + \tfrac12]</span>. (La inversión aquí es <em>invisible</em> porque rect es par — no es que el método se salte el paso 1; es que el espejo de un rect es él mismo. Con señales asimétricas, olvidar la inversión es el error número uno.) Cuatro casos:</p>
+<ul>
+<li><strong><span class="math inline">t &lt; -1</span></strong>: las ventanas ni se tocan (<span class="math inline">t + \tfrac12 &lt; -\tfrac12</span>). Producto nulo → <span class="math inline">y(t) = 0</span>.</li>
+<li><strong><span class="math inline">-1 \leq t \leq 0</span></strong>: traslape <span class="math inline">[-\tfrac12,\; t + \tfrac12]</span>, de largo <span class="math inline">t + 1</span>. El producto vale 1 ahí → <span class="math inline">y(t) = t + 1</span>.</li>
+<li><strong><span class="math inline">0 \leq t \leq 1</span></strong>: traslape <span class="math inline">[t - \tfrac12,\; \tfrac12]</span>, de largo <span class="math inline">1 - t</span> → <span class="math inline">y(t) = 1 - t</span>.</li>
+<li><strong><span class="math inline">t &gt; 1</span></strong>: se pasaron de largo → <span class="math inline">y(t) = 0</span>.</li>
+</ul>
+<p><span class="math display">\Rightarrow\quad \operatorname{rect}(t) * \operatorname{rect}(t) = \operatorname{tri}(t)</span></p>
+</div>
+</div>
+<p><strong>El triángulo del capítulo 1 no era un capricho del catálogo</strong> (<a href="cap01.html#sec-elementales" class="quarto-xref"><span>Sección 1.4</span></a> prometió exactamente esto): <span class="math inline">\operatorname{tri}</span> es lo que pasa cuando un rect se mira en otro. Nota además dos cosas para la sección siguiente: el resultado es <em>continuo</em> aunque los rect no lo eran, y su soporte <span class="math inline">[-1, 1]</span> es la <em>suma</em> de los soportes.</p>
+<div id="76f650c2" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap02_files/figure-html/cell-4-output-1.png" width="806" height="449" class="figure-img"></p>
+<figcaption>El método gráfico en acción para rect ∗ rect. En cada instante t, la ventana invertida h(t−τ) se desplaza sobre x(τ); el área del producto (verde) es un único número, y(t). El panel final reúne todos esos números: el triángulo.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Y el mismo oficio con una señal asimétrica — este ejemplo es, textual, de calibre I1:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I1): pulso contra exponencial
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dadas <span class="math inline">h(t) = 3e^{-3t}u(t)</span> y <span class="math inline">x(t) = 2\big(u(t) - u(t-1)\big)</span>, encuentra <span class="math inline">(x * h)(t)</span>.</p>
+<p><strong>Solución.</strong> Invertimos la exponencial y dejamos el pulso quieto (por la conmutativa — tabla siguiente — da lo mismo cuál se invierte; regla práctica: la que haga más simple el análisis de casos). Entonces <span class="math inline">x(\tau)</span> vale 2 en <span class="math inline">[0, 1]</span>, y <span class="math inline">h(t - \tau) = 3e^{-3(t-\tau)}</span> vive donde <span class="math inline">\tau &lt; t</span>. Tres regímenes:</p>
+<ul>
+<li><strong><span class="math inline">t &lt; 0</span></strong>: la cola de <span class="math inline">h(t-\tau)</span> aún no alcanza al pulso → <span class="math inline">y(t) = 0</span>.</li>
+<li><strong><span class="math inline">0 \leq t &lt; 1</span></strong>: traslape <span class="math inline">[0, t]</span>: <span class="math display">y(t) = \int_0^t 2\cdot 3e^{-3(t-\tau)}\,d\tau = 6e^{-3t}\cdot\frac{e^{3t} - 1}{3} = 2\big(1 - e^{-3t}\big)</span></li>
+<li><strong><span class="math inline">t \geq 1</span></strong>: el pulso completo <span class="math inline">[0, 1]</span> queda bajo la cola: <span class="math display">y(t) = \int_0^1 6e^{-3(t-\tau)}\,d\tau = 2e^{-3t}\big(e^{3} - 1\big)</span></li>
+</ul>
+<p><strong>Chequeos que valen puntos</strong>: continuidad en <span class="math inline">t = 1</span> — ambas ramas dan <span class="math inline">2(1 - e^{-3})</span> ✓; soporte <span class="math inline">[0, \infty)</span> = suma de soportes ✓; área <span class="math inline">\int y = \big(\int x\big)\big(\int h\big) = 2 \cdot 1 = 2</span> ✓ (la ley del área, dos párrafos más abajo). La forma cuenta la historia física: <span class="math inline">y</span> crece mientras el pulso alimenta al sistema y decae como <span class="math inline">e^{-3t}</span> cuando el pulso ya pasó.</p>
+</div>
+</div>
+<p>El error típico en estas convoluciones es perder los límites de integración al desplazar. El antídoto es no negociable: <strong>dibujar el traslape para cada régimen</strong> — nunca “de memoria”.</p>
+</section>
+<section id="sec-propiedades-convolucion" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="sec-propiedades-convolucion"><span class="header-section-number">2.5.2</span> Propiedades: la caja de herramientas</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Propiedad</th>
+<th>Fórmula</th>
+<th>Lectura de sistemas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Conmutativa</td>
+<td><span class="math inline">x * h = h * x</span></td>
+<td>Da lo mismo cuál se invierte: <strong>invertir siempre la más simple</strong></td>
+</tr>
+<tr class="even">
+<td>Asociativa</td>
+<td><span class="math inline">(x * h_1) * h_2 = x * (h_1 * h_2)</span></td>
+<td>Cascada de sistemas LTI ≡ un solo sistema con <span class="math inline">h_1 * h_2</span>, en cualquier orden</td>
+</tr>
+<tr class="odd">
+<td>Distributiva</td>
+<td><span class="math inline">x * (h_1 + h_2) = x * h_1 + x * h_2</span></td>
+<td>Sistemas en paralelo suman sus <span class="math inline">h</span></td>
+</tr>
+<tr class="even">
+<td>Neutro</td>
+<td><span class="math inline">x * \delta = x</span></td>
+<td>El cable</td>
+</tr>
+<tr class="odd">
+<td>Desplazamiento</td>
+<td><span class="math inline">x(t-a) * h(t-b) = y(t-a-b)</span></td>
+<td>Los retardos se acumulan</td>
+</tr>
+<tr class="even">
+<td>Derivada</td>
+<td><span class="math inline">(x * h)' = x' * h = x * h'</span></td>
+<td>Derivar la salida ≡ derivar <em>una</em> de las dos</td>
+</tr>
+</tbody>
+</table>
+<p>(La conmutativa se demuestra en una línea con el cambio de variable <span class="math inline">\sigma = t - \tau</span> — hazlo ahora, es de las demostraciones favoritas de las interrogaciones. La ley del área es el ejercicio [DB E0044].)</p>
+<p>Y las dos “leyes de conservación” que permiten chequear — y anticipar — resultados:</p>
+<ul>
+<li><strong>Soporte</strong>: si <span class="math inline">x</span> vive en <span class="math inline">[a_1, b_1]</span> y <span class="math inline">h</span> en <span class="math inline">[a_2, b_2]</span>, entonces <span class="math inline">x * h</span> vive en <span class="math inline">[a_1 + a_2,\; b_1 + b_2]</span>. En particular, <strong>la duración de la convolución es la suma de las duraciones</strong>. (Intuición desde la derivación: el primer impulso de <span class="math inline">x</span> dispara <span class="math inline">h</span> en <span class="math inline">a_1 + a_2</span>; el último eco muere en <span class="math inline">b_1 + b_2</span>.)</li>
+<li><strong>Área</strong>: <span class="math inline">\displaystyle\int y = \Big(\int x\Big)\Big(\int h\Big)</span> — el área de la convolución es el producto de las áreas.</li>
+</ul>
+<p>Chequeo con rect ∗ rect: soporte <span class="math inline">[-\tfrac12 - \tfrac12,\; \tfrac12 + \tfrac12] = [-1, 1]</span> ✓; área <span class="math inline">1 \times 1 = 1</span> = área de tri ✓.</p>
+</section>
+<section id="sec-anticipar" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="sec-anticipar"><span class="header-section-number">2.5.3</span> Anticipar sin calcular</h3>
+<p>En la I1 hay, casi todos los años, una pregunta que muestra señales y pide <strong>emparejar</strong> cuáles se convolucionaron para producir cuáles — sin calcular nada. Se responde con cuatro reglas rápidas:</p>
+<ol type="1">
+<li><strong>Soporte</strong>: los extremos se suman. Descarta la mitad de las opciones de un plumazo.</li>
+<li><strong>Suavidad</strong>: convolucionar <em>suaviza</em>. Dos señales discontinuas dan una continua (rect ∗ rect); las esquinas se redondean.</li>
+<li><strong>Área</strong>: producto de las áreas. Si una señal tiene área 0 (una impar, por ejemplo), la convolución tiene área 0.</li>
+<li><strong>Casos extremos</strong>: la convolución de señales acotadas de soporte finito <em>nace y muere en cero</em>; y si hay impulsos a la vista, convolucionar contra <span class="math inline">\delta</span> desplazadas es copiar y pegar.</li>
+</ol>
+<p>Ejercicio relámpago (30 segundos cada uno, sin lápiz): (a) <span class="math inline">\operatorname{rect}(t) * \operatorname{tri}(t)</span>: ¿soporte y forma? [Soporte <span class="math inline">[-\tfrac32, \tfrac32]</span>; una campana suave de área 1, más lisa que el tri.] (b) <span class="math inline">\operatorname{rect}(t) * \big[\delta(t+2) - \delta(t-2)\big]</span>: ¿qué sale? [<span class="math inline">\operatorname{rect}(t+2) - \operatorname{rect}(t-2)</span>: una copia positiva y una negativa, sin cálculo alguno.]</p>
+<p>Estas reglas no son trucos de prueba: son el modo en que un ingeniero <em>lee</em> una convolución antes (y después) de calcularla. <strong>El cálculo que no pasa el chequeo de soporte y área está malo, siempre.</strong></p>
+<p>Y se <em>escuchan</em>. Aquí está la misma <span class="math inline">h_{\text{iglesia}}</span> de antes, ahora convolucionada con una batería grabada en seco. Antes de reproducir, predice con las reglas: cada golpe de bombo dura unos 50 ms y la <span class="math inline">h</span> de la iglesia unos 2 s — ¿cuánto dura cada golpe en la salida? ¿Y dos golpes separados 0.3 s, se escucharán separados?</p>
+<audio controls="" src="assets/audio/bateria_en_iglesia.mp3">
+</audio>
+<p>Lo que oíste: cada golpe — casi un impulso — sale durando ~2 s (soporte: suma de soportes), y las colas de golpes vecinos se <strong>superponen y suman</strong> (¡aditividad!), emborronando el ritmo rápido en un lavado continuo. La convolución suaviza y alarga; nuestra intuición acústica lee esa reverberación larga como “sala grande y lejana”. Tres reglas de papel, verificadas de oído.</p>
+</section>
+</section>
+<section id="sec-edos" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="sec-edos"><span class="header-section-number">2.6</span> De dónde salen las h(t): ecuaciones diferenciales</h2>
+<p>Hasta aquí los sistemas eran cajas dadas. Pregunta legítima: en la práctica, ¿de dónde salen las <span class="math inline">h(t)</span>? Respuesta: casi siempre, de una <strong>ley física escrita como ecuación diferencial</strong>.</p>
+<p><strong>Ejemplo 1 — circuito RC</strong> (entrada: voltaje de la fuente <span class="math inline">x(t)</span>; salida: voltaje del condensador <span class="math inline">y(t)</span>). Kirchhoff más la ley del condensador (<span class="math inline">i = C\,y'</span>): <span class="math display">x(t) = R\,i(t) + y(t) = RC\,\frac{dy}{dt} + y(t)</span></p>
+<p><strong>Ejemplo 2 — masa-resorte-amortiguador</strong> (entrada: fuerza <span class="math inline">x(t)</span>; salida: posición <span class="math inline">y(t)</span>). Newton, Hooke y roce viscoso: <span class="math display">m\,\frac{d^2y}{dt^2} + b\,\frac{dy}{dt} + k\,y(t) = x(t)</span></p>
+<p>Un circuito y la suspensión de un auto: física sin nada en común y, sin embargo, <strong>la misma especie matemática</strong>: <span class="math display">\sum_{k=0}^{N} a_k\,\frac{d^k y}{dt^k} \;=\; \sum_{k=0}^{M} b_k\,\frac{d^k x}{dt^k}</span> una <strong>EDO lineal de coeficientes constantes</strong>. Y las dos palabras que valen oro reaparecen solas: <em>lineal</em> — la derivada reparte sumas y escalados → superposición ✓; <em>coeficientes constantes</em> — <span class="math inline">R</span>, <span class="math inline">C</span>, <span class="math inline">m</span>, <span class="math inline">b</span>, <span class="math inline">k</span> no dependen de <span class="math inline">t</span> → el sistema es el mismo hoy y mañana ✓. Una EDO así (con el sistema <strong>en reposo inicial</strong>: sin energía guardada antes de que llegue la entrada) define un sistema <strong>LTI</strong>. Por lo tanto tiene una <span class="math inline">h(t)</span>… y por la <a href="#sec-derivacion" class="quarto-xref"><span>Sección 2.3.3</span></a>, esa <span class="math inline">h(t)</span> lo cuenta todo. Vamos a buscarla.</p>
+<p><em>Honestidad de treinta segundos</em>: si las condiciones iniciales no son nulas, el sistema “recuerda” algo que no vino de <span class="math inline">x</span>, y la homogeneidad falla (entrada cero ya no da salida cero). Reposo inicial es la letra chica del teorema. Laplace (capítulo 4) manejará condiciones iniciales con elegancia total.</p>
+<section id="sec-h-primer-orden" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="sec-h-primer-orden"><span class="header-section-number">2.6.1</span> La respuesta al impulso de un sistema de primer orden</h3>
+<p>Buscamos la <span class="math inline">h(t)</span> del RC: la solución de <span class="math display">RC\,h'(t) + h(t) = \delta(t), \qquad \text{en reposo: } h(t) = 0 \text{ para } t &lt; 0.</span></p>
+<p><strong>Paso 1 — lejos del golpe</strong> (<span class="math inline">t &gt; 0</span>): la ecuación es homogénea, <span class="math inline">RC\,h' + h = 0</span>, y su solución la conoces de cálculo: <span class="math inline">h(t) = A\,e^{-t/RC}</span>.</p>
+<p><strong>Paso 2 — el golpe fija <span class="math inline">A</span></strong>: integrar la EDO en una ventana diminuta <span class="math inline">(0^-, 0^+)</span> alrededor del impulso: <span class="math display">RC\big[h(0^+) - h(0^-)\big] + \underbrace{\int_{0^-}^{0^+} h\,dt}_{\to\,0\ (h\ \text{finita})} = \underbrace{\int_{0^-}^{0^+}\delta\,dt}_{=\,1} \;\Rightarrow\; h(0^+) = \frac{1}{RC}</span> El impulso no puede “durar”: lo único que hace es <strong>cargar el sistema de un salto</strong> y desaparecer. Entonces:</p>
+<p><span class="math display">\boxed{\;h(t) = \frac{1}{RC}\,e^{-t/RC}\,u(t)\;}</span></p>
+<p><strong>Verificación por sustitución</strong> (hazla — es pregunta tipo de la I1, [DB E0037]): con <span class="math inline">u' = \delta</span> y la regla del producto, <span class="math display">h'(t) = -\frac{1}{(RC)^2}\,e^{-t/RC}\,u(t) + \frac{1}{RC}\,\underbrace{e^{-t/RC}\,\delta(t)}_{=\ \delta(t)\ \text{(muestreo, cap. 1)}} \quad\Rightarrow\quad RC\,h'(t) + h(t) = \delta(t)\ \checkmark</span> (el término con <span class="math inline">u</span> se cancela exactamente contra <span class="math inline">h</span>, y sobrevive el impulso — la propiedad <span class="math inline">f(t)\,\delta(t) = f(0)\,\delta(t)</span> haciendo su trabajo).</p>
+<div id="1e21a6e8" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap02_files/figure-html/cell-5-output-1.png" width="806" height="268" class="figure-img"></p>
+<figcaption>El sistema RC visto desde sus dos respuestas: al impulso (izquierda, salta a 1/RC y se descarga) y al escalón (derecha, la curva de carga del condensador). Están conectadas: s′ = h.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Chequeos de cordura</strong> (el hábito de siempre):</p>
+<ul>
+<li>Área de <span class="math inline">h</span>: <span class="math inline">\int_0^\infty \frac{1}{RC}e^{-t/RC}\,dt = 1</span>. Sentido físico: ante entrada constante, el condensador termina copiando la entrada (ganancia DC igual a 1).</li>
+<li>Respuesta al escalón: <span class="math inline">s(t) = (u * h)(t) = \big(1 - e^{-t/RC}\big)u(t)</span> — <strong>es el cálculo de la <a href="#sec-primeros-calculos" class="quarto-xref"><span>Sección 2.3.4</span></a></strong> (allá con <span class="math inline">1/RC = 2</span>): la curva de carga del condensador que viste en física. Y de paso, por la propiedad de la derivada: <span class="math inline">s' = h</span>. Medir la respuesta al escalón y derivarla es la manera <em>práctica</em> de obtener <span class="math inline">h</span> sin fabricar un impulso perfecto.</li>
+</ul>
+<p>La constante <span class="math inline">\tau = RC</span> (segundos) manda el reloj: en <span class="math inline">t = \tau</span> queda <span class="math inline">e^{-1} \approx 37\%</span> del arranque. Primer orden = una sola exponencial. En el capítulo 4, Laplace entregará el mapa completo: cada polo, una exponencial.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Variables de estado: una primera cita (no evaluable)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La EDO de orden 2 del masa-resorte puede reescribirse como dos ecuaciones de orden 1 eligiendo como incógnitas lo que el sistema <em>recuerda</em> — la posición y la velocidad — y empaquetándolas en la plantilla universal <span class="math inline">\dot{\mathbf{x}} = A\mathbf{x} + B u</span>, <span class="math inline">\;y = C\mathbf{x} + D u</span>. El vector <span class="math inline">\mathbf{x}</span> es el <strong>estado</strong>: la foto mínima del presente que basta (junto con la entrada futura) para predecir todo el futuro. Para el resorte: dónde está y a qué velocidad va; para el RC: el voltaje del condensador, un solo número. Es el lenguaje nativo del control automático y de toda simulación numérica — ahí lo reencontrarás con todos los honores. <strong>En este curso es solo esta mención: no entra en ninguna evaluación.</strong> Nuestra caracterización oficial de un LTI es <span class="math inline">h(t)</span> y, pronto, sus transformadas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-causal-estable-h" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="sec-causal-estable-h"><span class="header-section-number">2.7</span> Causalidad y estabilidad, leídas desde h(t)</h2>
+<p>En la <a href="#sec-propiedades-sistemas" class="quarto-xref"><span>Sección 2.2</span></a> las propiedades se verificaban entrada por entrada. Para sistemas LTI hay un atajo definitivo, y es la última pieza del capítulo: <strong>todas las preguntas sobre el sistema se convierten en preguntas sobre la función <span class="math inline">h(t)</span>.</strong></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teoremas: causalidad y estabilidad desde h(t)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para un sistema LTI con respuesta al impulso <span class="math inline">h(t)</span>:</p>
+<ul>
+<li><strong>Causal</strong> <span class="math inline">\iff</span> <span class="math inline">h(t) = 0</span> para todo <span class="math inline">t &lt; 0</span>.</li>
+<li><strong>Estable BIBO</strong> <span class="math inline">\iff</span> <span class="math inline">h</span> es absolutamente integrable: <span class="math inline">\displaystyle\int_{-\infty}^{\infty} |h(\tau)|\,d\tau &lt; \infty</span>.</li>
+</ul>
+</div>
+</div>
+<p><em>Por qué la causalidad</em>: escribe la convolución (conmutada) como <span class="math inline">y(t) = \int h(\tau)\,x(t - \tau)\,d\tau</span>. El número <span class="math inline">h(\tau)</span> es el peso con que la entrada de hace <span class="math inline">\tau</span> segundos influye hoy. Si <span class="math inline">h(\tau) \neq 0</span> para algún <span class="math inline">\tau &lt; 0</span>, el sistema pesa entradas de un “hace negativo”: el futuro. (Y es natural desde la definición: <span class="math inline">h</span> es la respuesta a un golpe en <span class="math inline">t = 0</span>; responder antes del golpe es adivinar.)</p>
+<p><em>Por qué la estabilidad</em> — la dirección útil, en dos líneas: si <span class="math inline">|x| \leq M</span>, <span class="math display">|y(t)| \leq \int |h(\tau)|\,|x(t - \tau)|\,d\tau \leq M\int |h(\tau)|\,d\tau &lt; \infty</span> <em>Honestidad (treinta segundos)</em>: la vuelta también vale — si la integral diverge, existe una entrada acotada maligna (<span class="math inline">x(t - \tau) = \operatorname{sgn} h(\tau)</span>, que se alía con cada signo de <span class="math inline">h</span>) que hace explotar la salida. Queda de lectura.</p>
+<div id="0037caea" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap02_files/figure-html/cell-6-output-1.png" width="806" height="268" class="figure-img"></p>
+<figcaption>La estabilidad se ve en el área bajo |h|: si es finita (izquierda), ninguna entrada acotada puede hacer explotar la salida; si diverge (derecha), el sistema explota incluso solo.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>El interrogatorio completo, ahora en una tabla que se responde en segundos (cúbrela y resuélvela — es formato exacto de I1):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">h(t)</span></th>
+<th>¿Causal?</th>
+<th>¿Estable?</th>
+<th>Por qué</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">e^{-2t}\,u(t)</span></td>
+<td>sí</td>
+<td>sí</td>
+<td><span class="math inline">h = 0</span> en <span class="math inline">t&lt;0</span>; <span class="math inline">\int|h| = \tfrac12</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">u(t)</span> (el integrador)</td>
+<td>sí</td>
+<td><strong>no</strong></td>
+<td><span class="math inline">\int|u| = \infty</span> — coincide con la rampa de la <a href="#sec-causalidad-estabilidad-memoria" class="quarto-xref"><span>Sección 2.2.3</span></a></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">e^{t}\,u(t)</span></td>
+<td>sí</td>
+<td><strong>no</strong></td>
+<td>explota él solo</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\operatorname{rect}(t)</span></td>
+<td><strong>no</strong></td>
+<td>sí</td>
+<td><span class="math inline">h \neq 0</span> en <span class="math inline">t \in (-\tfrac12, 0)</span>; área 1</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\delta(t - 1)</span> (retardo puro)</td>
+<td>sí</td>
+<td>sí</td>
+<td>un impulso en <span class="math inline">t = 1</span>; “área” 1</td>
+</tr>
+</tbody>
+</table>
+<p>Ficha una conexión hacia adelante: “<span class="math inline">h</span> decae lo bastante rápido” será, en el plano <span class="math inline">s</span> de Laplace, “los polos están a la izquierda”. La condición <span class="math inline">\int |h| &lt; \infty</span> es la versión en el tiempo de esa geometría — la frase se cobra en el capítulo 4, igual que este capítulo cobró las semillas del 1.</p>
+</section>
+<section id="sec-resumen-cap02" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="sec-resumen-cap02"><span class="header-section-number">2.8</span> En una página</h2>
+<ul>
+<li>Cinco propiedades, una disciplina: demostración con entradas genéricas o contraejemplo concreto. Contraejemplos de bolsillo: <span class="math inline">x^2</span> (no lineal, intermodulación), <span class="math inline">x(t)+1</span> (entrada cero → salida no nula), <span class="math inline">x(t)\cos(\omega_0 t)</span> y <span class="math inline">t\,x(t)</span> y <span class="math inline">x(2t)</span> y <span class="math inline">n\,x[n]</span> (lineales pero variantes), el integrador con <span class="math inline">u(t)</span> (inestable: la rampa).</li>
+<li>LTI ⇒ convolución, la derivación en 4 líneas: <span class="math inline">\delta \to h</span> (definición); <span class="math inline">\delta(t-\tau) \to h(t-\tau)</span> (invariancia); pesar por <span class="math inline">x(\tau)</span> (homogeneidad); integrar (aditividad). Insumo: <span class="math inline">x(t) = \int x(\tau)\,\delta(t-\tau)\,d\tau</span> — la semilla del capítulo 1, cobrada.</li>
+<li><span class="math inline">y(t) = (x*h)(t) = \int x(\tau)\,h(t-\tau)\,d\tau</span>: conocer <span class="math inline">h</span> es conocer el sistema; aplicarlo es convolucionar. La iglesia: voz reverberante = voz seca ∗ <span class="math inline">h_{\text{iglesia}}</span>.</li>
+<li>Cálculos gratis: <span class="math inline">x * \delta = x</span>; <span class="math inline">x * \delta(t - t_0) = x(t - t_0)</span>; <span class="math inline">u * e^{-at}u = \tfrac{1}{a}(1 - e^{-at})u</span>.</li>
+<li>Método gráfico: invertir–desplazar–multiplicar–integrar, con análisis de casos dibujado. rect ∗ rect = tri.</li>
+<li>Propiedades: conmutativa (invertir la más simple), asociativa (cascada), distributiva (paralelo), retardos se acumulan, <span class="math inline">(x*h)' = x'*h = x*h'</span>. Leyes de conservación: soporte se suma, área se multiplica — <strong>todo cálculo se chequea con ellas</strong>.</li>
+<li>EDO lineal de coeficientes constantes + reposo inicial = sistema LTI. RC: <span class="math inline">h(t) = \frac{1}{RC}e^{-t/RC}u(t)</span>, área 1, <span class="math inline">s(t) = (1 - e^{-t/RC})u(t)</span>, <span class="math inline">s' = h</span>.</li>
+<li>Desde <span class="math inline">h</span>: causal ⟺ <span class="math inline">h = 0</span> en <span class="math inline">t &lt; 0</span>; estable ⟺ <span class="math inline">\int|h| &lt; \infty</span>.</li>
+</ul>
+</section>
+<section id="sec-ejercicios-cap02" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="sec-ejercicios-cap02"><span class="header-section-number">2.9</span> Ejercicios</h2>
+<p>Del banco del curso, en orden sugerido (los códigos [DB E0xxx] identifican el ejercicio; aparecen repartidos en las Listas 3 y 4 de las semanas 3–4):</p>
+<ol type="1">
+<li><strong>[DB E0185]</strong> (básico) Linealidad de tres sistemas: derivador, inversor temporal y “sumar 1” — el chequeo entrada cero en acción. <em>[U2.1]</em></li>
+<li><strong>[DB E0013]</strong> (básico) Causalidad de cuatro sistemas, incluyendo los que leen el futuro sin que se note. <em>[U2.1]</em></li>
+<li><strong>[DB E0016]</strong> (intermedio) El interrogatorio completo — las cinco propiedades — para el sistema AM <span class="math inline">y(t) = x(t)\cos(2\pi\nu t)</span>. <em>[U2.1]</em></li>
+<li><strong>[DB E0030]</strong> (básico) ¿Es LTI <span class="math inline">y(t) = m(t)\,x(t)</span> con <span class="math inline">m</span> fija? El patrón general detrás del AM. <em>[U2.1]</em></li>
+<li><strong>[DB E0056]</strong> (intermedio) Cascadas en ambos órdenes: por qué LTI conmuta y qué se rompe sin linealidad. <em>[U2.1, U2.2]</em></li>
+<li><strong>[DB E0060]</strong> (básico) La “respuesta al impulso” de un integrador de límite fijo — y por qué sin invariancia no existe <em>la</em> <span class="math inline">h</span>. <em>[U2.2, U2.3]</em></li>
+<li><strong>[DB E0035]</strong> (intermedio) Demostración: si <span class="math inline">x \to y</span> en un LTI, entonces <span class="math inline">x' \to y'</span> — una propiedad por paso. <em>[U2.2]</em></li>
+<li><strong>[DB E0054]</strong> (básico) Convolución gráfica de señales por tramos: el método de la <a href="#sec-metodo-grafico" class="quarto-xref"><span>Sección 2.5.1</span></a> en su hábitat. <em>[U2.3]</em></li>
+<li><strong>[DB E0038]</strong> (intermedio) <span class="math inline">e^{-t}\operatorname{rect}(t)</span> consigo misma: las exponenciales conspiran y reaparece rect ∗ rect. <em>[U2.3]</em></li>
+<li><strong>[DB E0044]</strong> (intermedio) Demostración de la ley del área: <span class="math inline">\int (f * g) = \int f \cdot \int g</span>. <em>[U2.3]</em></li>
+<li><strong>[DB E0037]</strong> (intermedio) De la EDO <span class="math inline">y' + 2y = x</span> a <span class="math inline">h(t)</span>, con veredicto de memoria, causalidad y estabilidad. <em>[U2.4, U2.5]</em></li>
+<li><strong>[DB E0032]</strong> (intermedio) El circuito RC ante sinusoides de frecuencia creciente: el cálculo que termina pronunciando la palabra “filtro”. <em>[U2.3, U2.4]</em></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Antes de seguir
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si puedes reconstruir la derivación de la <a href="#sec-derivacion" class="quarto-xref"><span>Sección 2.3.3</span></a> sin mirar, resolver el ejercicio 3 con la disciplina demostración/contraejemplo, y el 9 pasa tus chequeos de soporte y área a la primera, la I1 no te sorprenderá. El ejercicio 12 es además la puerta de entrada al capítulo 3: ahí descubrirás <em>por qué</em> el RC trata distinto a cada frecuencia — y qué herramienta convierte ese “por qué” en un mapa completo.</p>
+</div>
+</div>
+</section>
+<section id="sec-referencias-cap02" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="sec-referencias-cap02"><span class="header-section-number">2.10</span> Para profundizar</h2>
+<ul>
+<li><strong>[Oppenheim]</strong> §1.5 (sistemas y sus interconexiones), §1.6 (las cinco propiedades, con los ejemplos 1.14–1.20: el arsenal completo de contraejemplos), §2.2 (la derivación de la convolución continua; §2.1 hace la versión discreta con sumas — léela, es la misma idea y prepara el capítulo 5), §2.3 (propiedades de la convolución y de los sistemas LTI, incluidas causalidad y estabilidad desde <span class="math inline">h</span>: §2.3.5–2.3.7), §2.4.1 (EDOs y sistemas LTI).</li>
+<li><strong>[Alvarado]</strong> §3.4 (sistemas LTI y convolución, con la construcción de la escalera de pulsos que usamos en la <a href="#sec-suma-impulsos" class="quarto-xref"><span>Sección 2.3.2</span></a>).</li>
+<li><strong>MIT OCW, lecture notes de Oppenheim</strong> (RES.6-007): lecciones 3 (propiedades de sistemas) y 4 (convolución) — el mismo autor, en versión pizarra.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./cap01.html" class="pagination-link" aria-label="Señales">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Señales</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./cap03.html" class="pagination-link" aria-label="El dominio de la frecuencia">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

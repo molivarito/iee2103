@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Muestreo y sistemas discretos – Señales y Sistemas</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./cap06.html" rel="next">
+<link href="./cap04.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d3f7f8e73c8d287b30bcf59c2b563615.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cap05.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Señales y Sistemas</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Señales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">El dominio de la frecuencia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap05.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cap07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#sec-cobro-frase" id="toc-sec-cobro-frase" class="nav-link active" data-scroll-target="#sec-cobro-frase"><span class="header-section-number">5.1</span> Una frase se cobra</a></li>
+  <li><a href="#sec-teorema-muestreo" id="toc-sec-teorema-muestreo" class="nav-link" data-scroll-target="#sec-teorema-muestreo"><span class="header-section-number">5.2</span> El teorema del muestreo</a>
+  <ul class="collapse">
+  <li><a href="#sec-modelo-muestreo" id="toc-sec-modelo-muestreo" class="nav-link" data-scroll-target="#sec-modelo-muestreo"><span class="header-section-number">5.2.1</span> El modelo: multiplicar por el tren</a></li>
+  <li><a href="#sec-espectro-muestreada" id="toc-sec-espectro-muestreada" class="nav-link" data-scroll-target="#sec-espectro-muestreada"><span class="header-section-number">5.2.2</span> Muestrear es periodizar</a></li>
+  <li><a href="#sec-nyquist-aliasing" id="toc-sec-nyquist-aliasing" class="nav-link" data-scroll-target="#sec-nyquist-aliasing"><span class="header-section-number">5.2.3</span> Aliasing: frecuencias disfrazadas</a></li>
+  <li><a href="#sec-reconstruccion" id="toc-sec-reconstruccion" class="nav-link" data-scroll-target="#sec-reconstruccion"><span class="header-section-number">5.2.4</span> Reconstrucción: la sinc entra en escena</a></li>
+  </ul></li>
+  <li><a href="#sec-sinusoides-discretas" id="toc-sec-sinusoides-discretas" class="nav-link" data-scroll-target="#sec-sinusoides-discretas"><span class="header-section-number">5.3</span> Sinusoides discretas</a>
+  <ul class="collapse">
+  <li><a href="#sec-no-unicidad" id="toc-sec-no-unicidad" class="nav-link" data-scroll-target="#sec-no-unicidad"><span class="header-section-number">5.3.1</span> La no-unicidad: <span class="math inline">\Omega</span> y <span class="math inline">\Omega + 2\pi</span> son la misma señal</a></li>
+  <li><a href="#sec-periodicidad-discreta" id="toc-sec-periodicidad-discreta" class="nav-link" data-scroll-target="#sec-periodicidad-discreta"><span class="header-section-number">5.3.2</span> Periodicidad: la condición racional</a></li>
+  </ul></li>
+  <li><a href="#sec-convolucion-discreta" id="toc-sec-convolucion-discreta" class="nav-link" data-scroll-target="#sec-convolucion-discreta"><span class="header-section-number">5.4</span> Convolución discreta: lineal y cíclica</a>
+  <ul class="collapse">
+  <li><a href="#sec-deduccion-expres" id="toc-sec-deduccion-expres" class="nav-link" data-scroll-target="#sec-deduccion-expres"><span class="header-section-number">5.4.1</span> La deducción exprés</a></li>
+  <li><a href="#sec-calculo-convolucion" id="toc-sec-calculo-convolucion" class="nav-link" data-scroll-target="#sec-calculo-convolucion"><span class="header-section-number">5.4.2</span> Cálculo: tabla, soporte y suma geométrica</a></li>
+  <li><a href="#sec-conv-ciclica" id="toc-sec-conv-ciclica" class="nav-link" data-scroll-target="#sec-conv-ciclica"><span class="header-section-number">5.4.3</span> La convolución cíclica</a></li>
+  </ul></li>
+  <li><a href="#sec-ecuaciones-diferencias" id="toc-sec-ecuaciones-diferencias" class="nav-link" data-scroll-target="#sec-ecuaciones-diferencias"><span class="header-section-number">5.5</span> Ecuaciones de diferencias</a></li>
+  <li><a href="#sec-cadenas-hibridas" id="toc-sec-cadenas-hibridas" class="nav-link" data-scroll-target="#sec-cadenas-hibridas"><span class="header-section-number">5.6</span> Cadenas híbridas: C/D → LTI → D/C</a></li>
+  <li><a href="#sec-cierre-cap05" id="toc-sec-cierre-cap05" class="nav-link" data-scroll-target="#sec-cierre-cap05"><span class="header-section-number">5.7</span> El cierre: falta un plano</a></li>
+  <li><a href="#sec-resumen-cap05" id="toc-sec-resumen-cap05" class="nav-link" data-scroll-target="#sec-resumen-cap05"><span class="header-section-number">5.8</span> En una página</a></li>
+  <li><a href="#sec-ejercicios-cap05" id="toc-sec-ejercicios-cap05" class="nav-link" data-scroll-target="#sec-ejercicios-cap05"><span class="header-section-number">5.9</span> Ejercicios</a></li>
+  <li><a href="#sec-referencias-cap05" id="toc-sec-referencias-cap05" class="nav-link" data-scroll-target="#sec-referencias-cap05"><span class="header-section-number">5.10</span> Para profundizar</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-cap05" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Muestreo y sistemas discretos</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U5.1–U5.5]
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al terminar este capítulo podrás: <strong>derivar</strong> el espectro de una señal muestreada, <strong>decidir</strong> con el teorema del muestreo si hay aliasing y <strong>reconstruir</strong> la señal con la fórmula de interpolación [U5.1]; <strong>operar</strong> con sinusoides discretas: no-unicidad de <span class="math inline">\Omega</span>, rango fundamental y condición de periodicidad [U5.2]; <strong>calcular</strong> convoluciones discretas lineales y <strong>cíclicas</strong>, y explicar la relación entre ambas [U5.3]; <strong>modelar</strong> sistemas discretos con ecuaciones de diferencias, obtener <span class="math inline">h[n]</span> y decidir estabilidad [U5.4]; y <strong>analizar</strong> cadenas híbridas C/D → LTI → D/C calculando su respuesta efectiva continua [U5.5].</p>
+<p><strong>Prerrequisitos</strong>: la transformada de Fourier y sus propiedades (capítulo 3) — en particular la propiedad de multiplicación y la transformada del tren de impulsos — y el impulso discreto <span class="math inline">\delta[n]</span> del capítulo 1 (<a href="cap01.html#sec-impulso-discreto" class="quarto-xref"><span>Sección 1.5.6</span></a>).</p>
+</div>
+</div>
+<section id="sec-cobro-frase" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sec-cobro-frase"><span class="header-section-number">5.1</span> Una frase se cobra</h2>
+<p>En el capítulo 1, al presentar el tren de impulsos (<a href="cap01.html#sec-tren-impulsos" class="quarto-xref"><span>Sección 1.5.5</span></a>), te pedí anotar una frase: <strong>“muestrear una señal es multiplicarla por un tren de impulsos”</strong>. Y el capítulo 3 dejó una pregunta escrita en la pizarra: ¿cuándo podemos recuperar una señal continua desde sus muestras? Este capítulo existe para cobrar esa frase y responder esa pregunta — y de paso, para pagar otra deuda: la sinc, presentada en el capítulo 1 como “la protagonista silenciosa del muestreo”, hoy actúa.</p>
+<p>El asunto no es académico: casi ninguna señal que procesas en tu vida es continua cuando llega al procesador. La voz en tu teléfono, la música en streaming, el electrocardiograma en la pantalla del monitor — todas nacieron continuas y viven como <em>secuencias de números</em>. La pregunta de ingeniería es brutal en su simpleza: al quedarnos solo con muestras, ¿qué se pierde? La respuesta — <em>nada, si muestreas suficientemente rápido</em> — es de las ideas más hermosas del curso, y tiene nombre propio: el teorema del muestreo.</p>
+<p>La segunda mitad del capítulo vive <em>dentro</em> del mundo discreto: sus sinusoides (que guardan sorpresas), su convolución (que ya conoces, ahora sin integrales — y con una prima nueva: la cíclica), sus sistemas (ecuaciones de diferencias) y el plato fuerte de los exámenes: las cadenas que entran y salen del mundo continuo.</p>
+</section>
+<section id="sec-teorema-muestreo" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-teorema-muestreo"><span class="header-section-number">5.2</span> El teorema del muestreo</h2>
+<section id="sec-modelo-muestreo" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="sec-modelo-muestreo"><span class="header-section-number">5.2.1</span> El modelo: multiplicar por el tren</h3>
+<p>Tomar muestras de <span class="math inline">x(t)</span> cada <span class="math inline">T</span> segundos (el <strong>período de muestreo</strong>; <span class="math inline">f_s = 1/T</span> es la <strong>frecuencia de muestreo</strong> y <span class="math inline">\omega_s = 2\pi/T</span> su versión angular) se modela multiplicando por el tren de impulsos <span class="math inline">\delta_T(t) = \sum_n \delta(t - nT)</span>:</p>
+<p><span class="math display">x_s(t) = x(t)\,\delta_T(t) = \sum_{n=-\infty}^{\infty} x(nT)\,\delta(t - nT)</span></p>
+<p>La segunda igualdad es la propiedad de multiplicación del impulso (capítulo 1): cada impulso queda “pesado” por el valor de la señal en su instante. ¿Por qué este modelo raro — impulsos en vez de una simple lista de números? Porque <span class="math inline">x_s(t)</span> <em>sigue viviendo en tiempo continuo</em>, y entonces podemos aplicarle toda la maquinaria de Fourier del capítulo 3. Ese es el truco: la pregunta “¿se pierde información al muestrear?” se responde mirando el espectro.</p>
+</section>
+<section id="sec-espectro-muestreada" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="sec-espectro-muestreada"><span class="header-section-number">5.2.2</span> Muestrear es periodizar</h3>
+<p>Tres propiedades conocidas, una conclusión enorme.</p>
+<p><strong>Paso 1</strong> — multiplicar en el tiempo es convolucionar en frecuencia: <span class="math display">x_s(t) = x(t)\,\delta_T(t) \;\Longrightarrow\; X_s(\omega) = \frac{1}{2\pi}\,X(\omega) * \mathcal{F}\{\delta_T\}(\omega)</span></p>
+<p><strong>Paso 2</strong> — la transformada de un tren de impulsos es otro tren de impulsos (capítulo 3): <span class="math display">\mathcal{F}\{\delta_T(t)\} = \frac{2\pi}{T}\sum_{k=-\infty}^{\infty} \delta(\omega - k\,\omega_s)</span></p>
+<p><strong>Paso 3</strong> — convolucionar con un impulso desplaza: <span class="math inline">X(\omega) * \delta(\omega - \omega_0) = X(\omega - \omega_0)</span>. Juntando todo:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>El espectro de la señal muestreada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">X_s(\omega) = \frac{1}{T}\sum_{k=-\infty}^{\infty} X(\omega - k\,\omega_s)</span> El espectro original, <strong>copiado infinitas veces</strong>: una réplica centrada en cada múltiplo de <span class="math inline">\omega_s</span>, todas escaladas por <span class="math inline">1/T</span>. En una frase — anótala junto a la del capítulo 1, es su continuación exacta:</p>
+<blockquote class="blockquote">
+<p><strong>Muestrear en el tiempo es periodizar en la frecuencia.</strong></p>
+</blockquote>
+</div>
+</div>
+<p>Este es <em>el</em> dibujo del capítulo. Míralo con calma, porque contiene el teorema completo:</p>
+<div id="09cfe805" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap05_files/figure-html/cell-2-output-1.png" width="806" height="506" class="figure-img"></p>
+<figcaption>Arriba: el espectro X(ω) de una señal de banda limitada ω_M. Centro: al muestrear con ω_s &gt; 2ω_M las réplicas quedan separadas — la réplica central es X(ω) intacta. Abajo: con ω_s &lt; 2ω_M las réplicas se traslapan y se suman (curva gruesa): la réplica central ya no es X(ω). Eso es el aliasing.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Dos escenarios, dos destinos:</p>
+<ul>
+<li><strong><span class="math inline">\omega_s</span> grande</strong>: las réplicas quedan <strong>separadas</strong> — entre ellas hay aire. La réplica central <em>es</em> <span class="math inline">X(\omega)</span> (salvo el factor <span class="math inline">1/T</span>): no se perdió nada, y un filtro pasa-bajos puede recortarla limpia.</li>
+<li><strong><span class="math inline">\omega_s</span> chico</strong>: las réplicas <strong>se traslapan y se suman</strong>. La réplica central ya no es <span class="math inline">X(\omega)</span>: información destruida, sin vuelta atrás.</li>
+</ul>
+<p>La frontera entre ambos mundos: las réplicas no se tocan si y solo si <span class="math inline">\omega_s - \omega_M &gt; \omega_M</span>. De ahí, directo:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema del muestreo (Nyquist–Shannon)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si <span class="math inline">x(t)</span> es de <strong>banda limitada</strong> — <span class="math inline">X(\omega) = 0</span> para <span class="math inline">\lvert\omega\rvert \ge \omega_M</span> — y se muestrea con <span class="math display">\omega_s &gt; 2\,\omega_M \qquad \text{(equivalentemente } f_s &gt; 2 f_M\text{)}</span> entonces <span class="math inline">x(t)</span> queda <strong>completamente determinada</strong> por sus muestras <span class="math inline">x(nT)</span> y puede reconstruirse <em>exactamente</em>. A <span class="math inline">2 f_M</span> se le llama <strong>tasa de Nyquist</strong>.</p>
+</div>
+</div>
+<p>Léelo con el asombro que merece: una señal continua — un objeto con <em>infinitos</em> valores — cabe entera en una secuencia numerable de números, siempre que oscile con moderación. Por eso un CD muestrea a 44 100 Hz: el oído llega hasta unos 20 kHz, y <span class="math inline">44\,100 &gt; 2 \times 20\,000</span> con un margen de cortesía.</p>
+</section>
+<section id="sec-nyquist-aliasing" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="sec-nyquist-aliasing"><span class="header-section-number">5.2.3</span> Aliasing: frecuencias disfrazadas</h3>
+<p>¿Y si se viola la condición? Una componente con <span class="math inline">f &gt; f_s/2</span> hace que la réplica vecina invada la banda base: esa componente aparece <strong>disfrazada</strong> de una frecuencia más baja. El fenómeno se llama <strong>aliasing</strong> (de <em>alias</em>: otro nombre para la misma cosa). Para sinusoides hay una regla práctica que conviene tatuarse: la frecuencia aparente es <span class="math inline">\lvert f - k f_s\rvert</span>, con el entero <span class="math inline">k</span> que la deje en <span class="math inline">[0, f_s/2]</span>.</p>
+<div id="c585114d" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap05_files/figure-html/cell-3-output-1.png" width="806" height="258" class="figure-img"></p>
+<figcaption>Un coseno de 700 Hz y uno de 300 Hz, muestreados ambos a fs = 1000 Hz: pasan exactamente por las mismas muestras. Desde las muestras es imposible saber cuál fue — y el reconstructor ideal siempre elige el de banda base (300 Hz).</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre I3)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">x(t) = \cos(600\pi t) + \cos(1400\pi t)</span>.</p>
+<p><strong>(a)</strong> ¿Cuál es la frecuencia de muestreo mínima para reconstruir <span class="math inline">x(t)</span> exactamente? <strong>(b)</strong> La señal se muestrea a <span class="math inline">f_s = 1000</span> Hz y se reconstruye con un filtro ideal de corte <span class="math inline">f_s/2</span>. ¿Qué señal sale?</p>
+<p><strong>Solución.</strong></p>
+<p><strong>(a)</strong> Las componentes están en <span class="math inline">f_1 = 300</span> Hz y <span class="math inline">f_2 = 700</span> Hz, así que <span class="math inline">f_M = 700</span> Hz y la tasa de Nyquist es <span class="math inline">2 f_M = 1400</span> Hz: cualquier <span class="math inline">f_s &gt; 1400</span> Hz sirve.</p>
+<p><strong>(b)</strong> Con <span class="math inline">f_s = 1000</span> Hz, la componente de 300 Hz cumple <span class="math inline">300 &lt; 500 = f_s/2</span>: pasa intacta. La de 700 Hz <strong>no</strong>: su frecuencia aparente es <span class="math inline">\lvert 700 - 1000\rvert = 300</span> Hz. En el espectro: las réplicas de <span class="math inline">\pm 700</span> desplazadas en <span class="math inline">\mp 1000</span> caen en <span class="math inline">\mp 300</span>, dentro de la banda base. El filtro entrega <span class="math display">x_r(t) = \cos(600\pi t) + \cos(600\pi t) = 2\cos(600\pi t)</span> Las dos componentes colapsaron en una sola — la de 700 Hz se disfrazó de 300 Hz <em>y se sumó</em> a la que ya estaba ahí. Nota el detalle de calibre: la respuesta no es “sale un tono de 300 Hz”, es la expresión analítica completa, con la amplitud duplicada.</p>
+</div>
+</div>
+<p>El aliasing <strong>se escucha</strong>. En la demo del curso (C19) se genera un barrido que sube de 200 Hz hasta casi 4000 Hz, calculado a <span class="math inline">f_s = 4000</span> Hz: al cruzar <span class="math inline">f_s/2 = 2000</span> Hz el tono, en lugar de seguir subiendo, <strong>rebota y baja</strong> — las frecuencias se pliegan según la regla <span class="math inline">f_s - f</span>. Es el mismo fenómeno por el que las ruedas de las carretas giran al revés en el cine: la cámara muestrea a 24 cuadros por segundo, y una rueda que gira rápido se disfraza de una que gira lento — o al revés.</p>
+</section>
+<section id="sec-reconstruccion" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="sec-reconstruccion"><span class="header-section-number">5.2.4</span> Reconstrucción: la sinc entra en escena</h3>
+<p>Si se cumplió Nyquist, recuperar <span class="math inline">X(\omega)</span> es quedarse con la réplica central: un filtro pasa-bajos ideal de ganancia <span class="math inline">T</span> (para deshacer el <span class="math inline">1/T</span>) y corte <span class="math inline">\omega_s/2</span>: <span class="math display">H_r(\omega) = T\,\operatorname{rect}\!\Big(\frac{\omega}{\omega_s}\Big) \qquad\Longrightarrow\qquad h_r(t) = \operatorname{sinc}\!\Big(\frac{t}{T}\Big)</span></p>
+<p>Reconstruir es filtrar: <span class="math inline">x_r(t) = x_s(t) * h_r(t)</span>. Y como <span class="math inline">x_s</span> es una suma de impulsos pesados, la convolución sale sola — cada impulso deposita una sinc:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>La fórmula de interpolación
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">x_r(t) = \sum_{n=-\infty}^{\infty} x(nT)\,\operatorname{sinc}\!\Big(\frac{t - nT}{T}\Big)</span> Cada muestra iza su sinc; la suma de todas reconstruye la señal — no una aproximación: <strong>la señal</strong>.</p>
+</div>
+</div>
+<div id="e426bc14" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap05_files/figure-html/cell-4-output-1.png" width="806" height="277" class="figure-img"></p>
+<figcaption>La interpolación con sincs: cada muestra (bastón) iza su propia sinc (curvas delgadas); la suma (curva gruesa) pasa por todas las muestras y rellena perfectamente los espacios. En cada instante de muestreo, todas las demás sincs valen cero.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Aquí se paga la promesa del capítulo 1: la sinc, que entró al zoológico como una función curiosa con ceros en los enteros, es <em>la</em> función que interpola. Y esos ceros son exactamente su gracia — <strong>verifícalo</strong> (es una línea): en <span class="math inline">t = mT</span>, <span class="math inline">\operatorname{sinc}\big(\frac{mT - nT}{T}\big) = \operatorname{sinc}(m-n)</span>, que vale <span class="math inline">1</span> si <span class="math inline">n = m</span> y <span class="math inline">0</span> si no. Cada sinc pasa por su muestra <em>y por los ceros de todas las demás</em>: en los instantes de muestreo no hay nada que discutir, y entre medio la suma entrega la única señal de banda limitada compatible.</p>
+<p><strong>Honestidad breve</strong> (30 segundos y seguimos): el filtro ideal es irrealizable — la sinc se extiende infinitamente hacia ambos lados, y para reconstruir en <span class="math inline">t</span> necesitarías muestras del futuro. Los conversores reales usan un retenedor de orden cero (mantener la última muestra constante, [DB E0150]) más un filtro suavizador; y como el mundo físico no es de banda limitada, <em>antes</em> de muestrear se aplica un <strong>filtro anti-aliasing</strong> analógico bajo <span class="math inline">f_s/2</span> — mejor cortar a sabiendas que dejar que los agudos se disfracen de graves. La cuantización (redondear cada muestra a <span class="math inline">2^B</span> niveles) queda en este curso a nivel conceptual: pierde información, pero de forma controlada y tan pequeña como se quiera pagando bits.</p>
+</section>
+</section>
+<section id="sec-sinusoides-discretas" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-sinusoides-discretas"><span class="header-section-number">5.3</span> Sinusoides discretas</h2>
+<p>Ya sabemos entrar al mundo discreto. Ahora vivamos adentro. El átomo de este mundo es el de siempre — la exponencial compleja — pero con índice entero:</p>
+<p><span class="math display">x[n] = A\,e^{j(\Omega n + \phi)}, \qquad\qquad x[n] = A\cos(\Omega n + \phi)</span></p>
+<p>donde <span class="math inline">\Omega</span> es la <strong>frecuencia angular discreta</strong>, en <strong>radianes por muestra</strong>. La interpretación geométrica buena: <span class="math inline">e^{j\Omega n}</span> es un fasor que <strong>salta</strong> por el círculo unitario — cada muestra avanza exactamente <span class="math inline">\Omega</span> radianes respecto de la anterior. En el continuo el fasor <em>giraba</em>; aquí <em>salta</em>.</p>
+<p><strong>El puente con el muestreo</strong>: si la secuencia viene de muestrear <span class="math inline">\cos(\omega t)</span> cada <span class="math inline">T</span> segundos, entonces <span class="math inline">x[n] = \cos(\omega T n)</span>, es decir <span class="math display">\Omega = \omega\,T = \frac{2\pi f}{f_s}</span> La frecuencia discreta es la frecuencia continua <em>medida con la regla del muestreador</em>. Esta igualdad chica es la llave de las cadenas híbridas de la <a href="#sec-cadenas-hibridas" class="quarto-xref"><span>Sección 5.6</span></a> — y de los exámenes.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Convención de notación del curso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Frecuencia continua: <span class="math inline">\omega</span> en rad/s. Frecuencia discreta: <span class="math inline">\Omega</span> en rad/muestra. [Oppenheim] usa <span class="math inline">\omega</span> para ambas y distingue por contexto — nosotros no: cuando ambas convivan en una misma ecuación (y van a convivir), la mayúscula te salvará. Así aparece en todo el material y las evaluaciones del curso.</p>
+</div>
+</div>
+<section id="sec-no-unicidad" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="sec-no-unicidad"><span class="header-section-number">5.3.1</span> La no-unicidad: <span class="math inline">\Omega</span> y <span class="math inline">\Omega + 2\pi</span> son la misma señal</h3>
+<p>Aquí está <strong>la</strong> diferencia con el mundo continuo. En continuo, cada <span class="math inline">\omega</span> define una sinusoide distinta. En discreto:</p>
+<p><span class="math display">e^{j(\Omega + 2\pi)n} = e^{j\Omega n}\,\underbrace{e^{j2\pi n}}_{=\,1\;\;\forall n \in \mathbb{Z}} = e^{j\Omega n}</span></p>
+<p>Una línea — pero léela bien: no dice que las señales “se parecen”. Dice que <span class="math inline">\Omega</span> y <span class="math inline">\Omega + 2\pi k</span> producen <strong>exactamente la misma secuencia, muestra por muestra</strong>. No son dos señales parecidas: son la misma señal con dos nombres — se dicen <em>alias</em> una de la otra. Consecuencias inmediatas:</p>
+<ul>
+<li>Basta un intervalo de largo <span class="math inline">2\pi</span> para nombrar todas las sinusoides discretas. Convención del curso: <span class="math inline">\Omega \in [-\pi, \pi)</span>, el <strong>rango fundamental</strong>.</li>
+<li><span class="math inline">\cos\big(\tfrac{9\pi}{4}n\big) = \cos\big(\tfrac{\pi}{4}n\big)</span> — verifícalo en <span class="math inline">n = 0, 1, 2</span> si dudas.</li>
+<li><strong>Las frecuencias altas viven cerca de <span class="math inline">\pi</span></strong>, no en infinito. Recorre la escala: <span class="math inline">\Omega = 0</span> es la constante; <span class="math inline">\Omega</span> pequeño oscila lento; <span class="math inline">\Omega = \pi</span> es la oscilación <strong>más rápida posible</strong> — <span class="math inline">\cos(\pi n) = (-1)^n</span>, la secuencia alternante. Y pasado <span class="math inline">\pi</span>, la secuencia se ve <em>más lenta</em> (porque <span class="math inline">\pi + \epsilon</span> es alias de <span class="math inline">-(\pi - \epsilon)</span>). En el mundo discreto, “agudo” significa “cerca de <span class="math inline">\pi</span>”.</li>
+</ul>
+<p>Y ahora cierra el círculo con la sección anterior: esta no-unicidad <strong>es el aliasing visto desde adentro</strong>. Dos frecuencias continuas <span class="math inline">f</span> y <span class="math inline">f - f_s</span> caen, vía <span class="math inline">\Omega = 2\pi f/f_s</span>, en frecuencias discretas que difieren en <span class="math inline">2\pi</span>: por eso sus muestras son indistinguibles. La frontera <span class="math inline">f = f_s/2</span> es exactamente <span class="math inline">\Omega = \pi</span>. El teorema del muestreo y esta identidad de una línea son la misma verdad, contada desde los dos lados de la puerta.</p>
+</section>
+<section id="sec-periodicidad-discreta" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="sec-periodicidad-discreta"><span class="header-section-number">5.3.2</span> Periodicidad: la condición racional</h3>
+<p>Segunda sorpresa (el capítulo 1 la dejó anunciada al final de <a href="cap01.html#sec-periodicidad" class="quarto-xref"><span>Sección 1.2.2</span></a>): <strong>una sinusoide discreta puede no ser periódica</strong>. En continuo, <span class="math inline">\cos(\omega t)</span> siempre se repite. En discreto, el período debe ser un <strong>entero</strong> de muestras — y eso no siempre se puede.</p>
+<p>La demostración es corta y es materia: <span class="math inline">x[n] = \cos(\Omega n + \phi)</span> es periódica con período <span class="math inline">N \in \mathbb{Z}^+</span> si <span class="math inline">x[n+N] = x[n]</span> para todo <span class="math inline">n</span>, o sea si los argumentos difieren en un múltiplo entero de <span class="math inline">2\pi</span>: <span class="math display">\Omega(n+N) + \phi = \Omega n + \phi + 2\pi m \;\Longleftrightarrow\; \Omega N = 2\pi m, \quad m \in \mathbb{Z}</span></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Condición de periodicidad discreta
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">x[n] = \cos(\Omega n + \phi) \text{ es periódica} \iff \frac{\Omega}{2\pi} = \frac{m}{N} \in \mathbb{Q}</span> Con la fracción <strong>irreducible</strong>, <span class="math inline">N</span> es el período fundamental, y <span class="math inline">m</span> cuenta cuántas vueltas completas da el fasor en esas <span class="math inline">N</span> muestras. (La cantidad <span class="math inline">\Omega/2\pi = m/N</span> es la frecuencia en ciclos/muestra — la “<span class="math inline">f_0</span> discreta”.)</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplos resueltos (calibre I3)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(a)</strong> <span class="math inline">\cos\big(\tfrac{3\pi}{4}n\big)</span>: <span class="math inline">\frac{\Omega}{2\pi} = \frac{3}{8}</span>, irreducible → periódica con <span class="math inline">N = 8</span> (el fasor da 3 vueltas cada 8 muestras).</p>
+<p><strong>(b)</strong> <span class="math inline">\cos\big(\tfrac{3\pi}{2}n\big)</span>: <span class="math inline">\frac{\Omega}{2\pi} = \frac{3}{4}</span> → <span class="math inline">N = 4</span>. <strong>Ojo con el error clásico</strong>: la receta continua <span class="math inline">2\pi/\Omega</span> da <span class="math inline">4/3</span>, un número no entero que aquí no significa nada. En discreto, primero la fracción, después el período.</p>
+<p><strong>(c)</strong> <span class="math inline">\cos(n)</span> (o sea <span class="math inline">\Omega = 1</span> rad/muestra): <span class="math inline">\frac{\Omega}{2\pi} = \frac{1}{2\pi}</span>, irracional → <strong>no es periódica</strong>. El fasor salta 1 radián por muestra y nunca vuelve a pisar exactamente el punto de partida: pasa infinitas veces <em>cerca</em> de repetirse, jamás lo hace. (Al oído, sin embargo, suena como un tono perfectamente normal — la periodicidad exacta de la secuencia y la percepción de altura son cosas distintas; esa tensión la resolverá la DFT en el capítulo 7.)</p>
+<p><strong>(d)</strong> <span class="math inline">\cos\big(\tfrac{\pi}{3}n\big) + \sin\big(\tfrac{\pi}{4}n\big)</span>: períodos individuales <span class="math inline">N_1 = 6</span> y <span class="math inline">N_2 = 8</span>; la suma se repite en el mínimo común múltiplo: <span class="math inline">N = 24</span>.</p>
+</div>
+</div>
+<div id="e9f1e872" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap05_files/figure-html/cell-5-output-1.png" width="806" height="432" class="figure-img"></p>
+<figcaption>El bestiario de las sinusoides discretas. (a) Ω pequeño: oscilación lenta. (b) Ω = π: la secuencia más rápida posible, (−1)ⁿ. (c) No-unicidad: las muestras de cos(9π/4·n) (envolvente punteada) son idénticas a las de cos(π/4·n). (d) cos(n): oscila para siempre sin repetirse jamás.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La tabla que ordena todo — compárala fila a fila con tus reflejos del mundo continuo:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>continua <span class="math inline">\cos(\omega t)</span></th>
+<th>discreta <span class="math inline">\cos(\Omega n)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>variable</td>
+<td><span class="math inline">t \in \mathbb{R}</span></td>
+<td><span class="math inline">n \in \mathbb{Z}</span></td>
+</tr>
+<tr class="even">
+<td>frecuencias distintas</td>
+<td>señales distintas</td>
+<td><span class="math inline">\Omega</span> y <span class="math inline">\Omega + 2\pi k</span>: <strong>la misma señal</strong></td>
+</tr>
+<tr class="odd">
+<td>rango de frecuencias</td>
+<td><span class="math inline">(-\infty, \infty)</span></td>
+<td>basta <span class="math inline">[-\pi, \pi)</span></td>
+</tr>
+<tr class="even">
+<td>oscilación más rápida</td>
+<td>no existe (<span class="math inline">\omega \to \infty</span>)</td>
+<td><span class="math inline">\Omega = \pi</span>: la alternante <span class="math inline">(-1)^n</span></td>
+</tr>
+<tr class="odd">
+<td>¿periódica?</td>
+<td>siempre, <span class="math inline">T_0 = 2\pi/\omega</span></td>
+<td>solo si <span class="math inline">\Omega/2\pi</span> es racional</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="sec-convolucion-discreta" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-convolucion-discreta"><span class="header-section-number">5.4</span> Convolución discreta: lineal y cíclica</h2>
+<section id="sec-deduccion-expres" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="sec-deduccion-expres"><span class="header-section-number">5.4.1</span> La deducción exprés</h3>
+<p>En el capítulo 2, deducir la convolución costó una construcción entera: aproximar la señal con pulsos, tomar el límite. En discreto, el primer paso es una identidad <strong>evidente</strong> — una secuencia <em>es</em> una lista de valores, cada uno parado en su índice:</p>
+<p><span class="math display">x[n] = \sum_{k=-\infty}^{\infty} x[k]\,\delta[n-k]</span></p>
+<p>(con <span class="math inline">\delta[n]</span> el impulso discreto del capítulo 1: un uno humilde, sin distribuciones ni límites). La cadena LTI de siempre, ahora sin integrales: si <span class="math inline">h[n]</span> es la respuesta al impulso, la invariancia da <span class="math inline">\delta[n-k] \mapsto h[n-k]</span> y la linealidad remata:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>La suma de convolución
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">y[n] = \sum_{k=-\infty}^{\infty} x[k]\,h[n-k] = x[n] * h[n]</span> La salida en <span class="math inline">n</span> es la superposición de los ecos de todas las entradas, cada eco pesado por <span class="math inline">h</span> evaluada en “cuánto tiempo ha pasado”. Lo que en el continuo fue una clase entera con andamiaje, aquí son diez minutos: ese es el premio por haber sufrido primero la versión continua.</p>
+</div>
+</div>
+<p>Las propiedades viajan gratis (mismas demostraciones, con sumas): conmutativa (<span class="math inline">x * h = h * x</span> — en la práctica, da vuelta siempre la secuencia más corta), asociativa y distributiva (cascadas se funden en un solo <span class="math inline">h</span>, paralelos se suman), e identidad: <span class="math inline">x[n] * \delta[n] = x[n]</span>, <span class="math inline">x[n] * \delta[n - n_0] = x[n - n_0]</span>.</p>
+</section>
+<section id="sec-calculo-convolucion" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="sec-calculo-convolucion"><span class="header-section-number">5.4.2</span> Cálculo: tabla, soporte y suma geométrica</h3>
+<p>Antes de calcular cualquier convolución, <strong>anticipa el resultado</strong>: si <span class="math inline">x</span> tiene <span class="math inline">L_1</span> muestras no nulas y <span class="math inline">h</span> tiene <span class="math inline">L_2</span>, entonces <span class="math inline">x * h</span> tiene a lo más <span class="math inline">L_1 + L_2 - 1</span>; y los soportes se suman — el inicio del resultado es la suma de los inicios, el fin es la suma de los fines. Verificar el largo antes de calcular es el hábito que salva puntos en la I3.</p>
+<p><strong>El método tabular</strong> — el caballo de batalla para secuencias cortas. Ejemplo: <span class="math inline">x[n] = (1, 2, 0, -1)</span> y <span class="math inline">h[n] = (2, 1, 1)</span>, ambas partiendo en <span class="math inline">n = 0</span>. Cada fila es <span class="math inline">x[k]\,h[n-k]</span>: una copia de <span class="math inline">h</span> desplazada <span class="math inline">k</span> posiciones y escalada por <span class="math inline">x[k]</span>; la salida es la suma por columnas:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">n</span></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">x[0]\,h[n] = 1\cdot(2,1,1)</span></td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">x[1]\,h[n-1] = 2\cdot(2,1,1)</span></td>
+<td></td>
+<td>4</td>
+<td>2</td>
+<td>2</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">x[2]\,h[n-2] = 0\cdot(2,1,1)</span></td>
+<td></td>
+<td></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">x[3]\,h[n-3] = -1\cdot(2,1,1)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td><span class="math inline">-2</span></td>
+<td><span class="math inline">-1</span></td>
+<td><span class="math inline">-1</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">y[n]</span> <strong>(suma)</strong></td>
+<td><strong>2</strong></td>
+<td><strong>5</strong></td>
+<td><strong>3</strong></td>
+<td><strong>0</strong></td>
+<td><strong><span class="math inline">-1</span></strong></td>
+<td><strong><span class="math inline">-1</span></strong></td>
+</tr>
+</tbody>
+</table>
+<p>Seis muestras, como predice <span class="math inline">4 + 3 - 1</span>. La lectura física de las filas es la deducción hecha tabla: <em>cada muestra de la entrada dispara una copia de <span class="math inline">h</span>, retardada y escalada; la salida es la superposición.</em></p>
+<div id="766dfa2d" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap05_files/figure-html/cell-6-output-1.png" width="806" height="411" class="figure-img"></p>
+<figcaption>La convolución (1,2,0,−1)∗(2,1,1) vista por dentro: cada muestra de x dispara una copia de h desplazada y escalada (tres primeros paneles; la fila de x[2] = 0 no aporta); la salida y[n] es la suma columna a columna.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Para secuencias <strong>infinitas</strong> la tabla no alcanza y se trabaja la suma directamente. El ejemplo canónico (calibre I3): <span class="math inline">x[n] = a^n u[n]</span> con <span class="math inline">\lvert a\rvert &lt; 1</span>, <span class="math inline">h[n] = u[n]</span> (el acumulador): <span class="math display">y[n] = \sum_{k=-\infty}^{\infty} a^k u[k]\,u[n-k] = \sum_{k=0}^{n} a^k = \frac{1 - a^{n+1}}{1 - a}, \quad n \ge 0</span> (y <span class="math inline">0</span> para <span class="math inline">n &lt; 0</span>). La clave está en los límites: <span class="math inline">u[k]</span> obliga <span class="math inline">k \ge 0</span> y <span class="math inline">u[n-k]</span> obliga <span class="math inline">k \le n</span>. La herramienta es la <strong>suma geométrica</strong> — en el mundo discreto juega el papel que las integrales de exponenciales jugaban en el continuo; convérsala en reflejo. Nota al margen: <span class="math inline">y[n] \to \frac{1}{1-a}</span>, la respuesta estacionaria al escalón — reaparecerá con la transformada Z.</p>
+<p>(NumPy verifica en una línea: <code>np.convolve([1,2,0,-1],[2,1,1])</code>. Las máquinas convolucionan mejor que tú; lo que se evalúa es que sepas <em>qué</em> estás calculando y puedas hacerlo a mano en secuencias cortas.)</p>
+</section>
+<section id="sec-conv-ciclica" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="sec-conv-ciclica"><span class="header-section-number">5.4.3</span> La convolución cíclica</h3>
+<p>Existe una <strong>segunda</strong> convolución en el mundo discreto, y no la presento por completitud enciclopédica: en el capítulo 7 verás que el algoritmo más importante del procesamiento de señales — la FFT — multiplica espectros (DFT), y multiplicar DFTs <strong>no</strong> entrega la convolución lineal: entrega <em>esta</em>. Quien confunde las dos produce audio con clics y filtros que fallan. Hoy la definimos y la contrastamos; el capítulo 7 cobrará esta semilla.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: convolución cíclica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para dos secuencias de largo <span class="math inline">N</span> (índices <span class="math inline">0, \dots, N-1</span>): <span class="math display">y_c[n] = x[n] \circledast h[n] = \sum_{k=0}^{N-1} x[k]\,h[(n-k) \bmod N\,], \qquad n = 0, \dots, N-1</span> La única diferencia con la lineal: el índice <span class="math inline">n - k</span> se toma <strong>módulo <span class="math inline">N</span></strong> — lo que se sale por la derecha reaparece por la izquierda.</p>
+</div>
+</div>
+<p>Imagen para el bolsillo: la lineal desliza <span class="math inline">h</span> sobre una <em>recta</em>; la cíclica la hace girar sobre un <strong>reloj de <span class="math inline">N</span> horas</strong>. Y el resultado tiene largo <span class="math inline">N</span>, no <span class="math inline">2N - 1</span>: no hay dónde crecer.</p>
+<p><strong>Contraste completo en largo 4</strong> — mismo par para ambas: <span class="math inline">x[n] = (1, 2, 3, 4)</span>, <span class="math inline">h[n] = (1, 1, 0, 0)</span>.</p>
+<p><em>Lineal</em> (<span class="math inline">h</span> suma la muestra actual y la anterior): <span class="math inline">y_\ell[n] = (1, 3, 5, 7, 4)</span>, largo <span class="math inline">4 + 2 - 1 = 5</span>.</p>
+<p><em>Cíclica</em> (<span class="math inline">N = 4</span>), calculando <span class="math inline">n = 0</span> con el reloj a la vista: <span class="math display">y_c[0] = x[0]h[0] + x[1]h[3] + x[2]h[2] + x[3]h[1] = 1 + 0 + 0 + 4 = 5</span> <span class="math display">y_c[n] = (5, 3, 5, 7)</span></p>
+<p>¿De dónde salió ese 5? La quinta muestra de la lineal, <span class="math inline">y_\ell[4] = 4</span>, no tiene dónde vivir en un resultado de largo 4: <strong>se enrolla</strong> y cae sumándose en la posición <span class="math inline">4 \bmod 4 = 0</span>. Esa es la relación general — el resultado que ordena todo:</p>
+<p><span class="math display">y_c[n] = \sum_{m} y_\ell[n + mN]</span></p>
+<p><strong>la cíclica es la lineal enrollada sobre el reloj</strong>. ¿Te suena “sumar réplicas desplazadas”? Es el mismo fenómeno del aliasing de la <a href="#sec-espectro-muestreada" class="quarto-xref"><span>Sección 5.2.2</span></a>, pero en el tiempo: solapar réplicas por vivir en un mundo periódico. Muestrear periodiza la frecuencia; la cíclica periodiza el tiempo. La simetría no es casualidad — es la dualidad de Fourier trabajando, y en el capítulo 7 quedará limpia. Adelanto práctico en una frase: si quieres la lineal usando maquinaria cíclica, alarga ambas secuencias con ceros hasta <span class="math inline">N \ge L_1 + L_2 - 1</span> (<em>zero-padding</em>) — no queda nada que enrollar.</p>
+</section>
+</section>
+<section id="sec-ecuaciones-diferencias" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="sec-ecuaciones-diferencias"><span class="header-section-number">5.5</span> Ecuaciones de diferencias</h2>
+<p>En el mundo continuo, los sistemas físicos se modelaron con ecuaciones <strong>diferenciales</strong>. En el discreto, el rol lo toman las ecuaciones de <strong>diferencias</strong>: relaciones entre muestras presentes y pasadas. Y traen una ventaja enorme: no hace falta resolver nada para <em>usarlas</em> — <strong>se iteran</strong>, muestra a muestra. Así calcula un computador; así funciona todo filtro digital.</p>
+<p><strong>Ejemplo 1 — el promedio móvil</strong> (el sistema discreto más usado del planeta): <span class="math display">y[n] = \tfrac{1}{2}x[n] + \tfrac{1}{2}x[n-1]</span> Su respuesta al impulso se lee directo — con <span class="math inline">x = \delta</span> solo sobreviven dos términos: <span class="math display">h[n] = \tfrac{1}{2}\delta[n] + \tfrac{1}{2}\delta[n-1] = \big(\tfrac{1}{2}, \tfrac{1}{2}\big)</span> Finitas muestras no nulas: sistema <strong>FIR</strong> (<em>finite impulse response</em>). La intuición: suaviza — el ruido rápido se cancela al promediar, lo lento pasa. En la <a href="#sec-cadenas-hibridas" class="quarto-xref"><span>Sección 5.6</span></a> esa intuición se volverá cuantitativa.</p>
+<p><strong>Ejemplo 2 — primer orden con realimentación</strong>: <span class="math display">y[n] = a\,y[n-1] + x[n]</span> Aquí la salida se muerde la cola y <span class="math inline">h[n]</span> no se lee: se <strong>itera</strong>. Con <span class="math inline">x[n] = \delta[n]</span> y reposo inicial: <span class="math display">h[0] = a \cdot 0 + 1 = 1, \qquad h[1] = a \cdot 1 + 0 = a, \qquad h[2] = a^2, \;\dots \qquad\Longrightarrow\qquad h[n] = a^n\,u[n]</span> Infinitas muestras no nulas: sistema <strong>IIR</strong> (<em>infinite impulse response</em>) — un solo coeficiente de realimentación fabrica una cola exponencial eterna. Es el análogo discreto exacto del circuito RC del capítulo 2: memoria que se desvanece geométricamente. (¿Te suena <span class="math inline">a^n u[n]</span>? Es la secuencia del ejemplo analítico de la sección anterior — el mundo discreto tiene pocos personajes y los recicla.)</p>
+<p><strong>Estabilidad.</strong> Mismo criterio que en continuo, con suma en vez de integral: un LTI discreto es BIBO estable si y solo si <span class="math display">\sum_{n=-\infty}^{\infty} \lvert h[n]\rvert &lt; \infty</span> Los veredictos de nuestros personajes: el promedio móvil suma <span class="math inline">1 &lt; \infty</span> — estable, y <strong>todo FIR lo es</strong> (una suma finita no diverge). El primer orden suma la geométrica <span class="math inline">\sum \lvert a\rvert^n</span>, que converge <span class="math inline">\iff \lvert a\rvert &lt; 1</span>: la realimentación es estable solo si atenúa. Y el <strong>acumulador</strong> <span class="math inline">y[n] = y[n-1] + x[n]</span> (el caso <span class="math inline">a = 1</span>, la “integral” discreta) es inestable: <span class="math inline">h[n] = u[n]</span>, suma infinita — el testigo concreto es la entrada acotada <span class="math inline">x[n] = u[n]</span>, que produce <span class="math inline">y[n] = n + 1 \to \infty</span>. Guarda el resultado del primer orden: en el capítulo 6 se convertirá en “el polo dentro del círculo unitario” — la misma verdad, en otro mapa.</p>
+<p><strong>Estados, en un párrafo</strong> (mención conceptual; no se evalúa): una ecuación de diferencias de orden <span class="math inline">N</span> puede reescribirse como <span class="math inline">N</span> ecuaciones de primer orden acopladas — un vector de <strong>estado</strong> (las muestras que el sistema “recuerda”) que se actualiza con una multiplicación matricial por paso: <span class="math inline">\mathbf{v}[n+1] = A\,\mathbf{v}[n] + B\,x[n]</span>. Es el formato con que los computadores simulan sistemas y la puerta de entrada al curso de control; los curiosos pueden mirar [DB E0159].</p>
+</section>
+<section id="sec-cadenas-hibridas" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="sec-cadenas-hibridas"><span class="header-section-number">5.6</span> Cadenas híbridas: C/D → LTI → D/C</h2>
+<p>La motivación es el mundo real entero: casi todo el procesamiento de señales de hoy — audio, comunicaciones, control, biomédica — sigue esta arquitectura: la señal continua se muestrea (conversor C/D), un procesador le aplica un sistema discreto, y un conversor D/C la devuelve al mundo continuo:</p>
+<p><span class="math display">x_c(t) \longrightarrow \boxed{\text{C/D}} \xrightarrow{\;x[n]\;} \boxed{\;h[n]\;} \xrightarrow{\;y[n]\;} \boxed{\text{D/C}} \longrightarrow y_c(t)</span></p>
+<p>La pregunta de ingeniería: vista <strong>desde afuera</strong> (de <span class="math inline">x_c</span> a <span class="math inline">y_c</span>), ¿qué filtro continuo es esta caja compuesta? El examen de este curso pregunta esto todos los años — armemos la maquinaria completa.</p>
+<p><strong>Pieza 1 — la respuesta en frecuencia discreta.</strong> Igual que en el continuo con <span class="math inline">e^{j\omega t}</span>, las exponenciales <span class="math inline">e^{j\Omega n}</span> son <strong>autofunciones</strong> de los LTI discretos: <span class="math display">x[n] = e^{j\Omega n} \;\Longrightarrow\; y[n] = \sum_k h[k]\,e^{j\Omega(n-k)} = e^{j\Omega n}\,\underbrace{\sum_k h[k]\,e^{-j\Omega k}}_{H(e^{j\Omega})}</span> <span class="math inline">H(e^{j\Omega})</span> es la <strong>respuesta en frecuencia</strong> del sistema discreto. La notación parece barroca; en el capítulo 7 (DTFT) se justificará sola — hoy es solo el autovalor. Y nota: es automáticamente periódica en <span class="math inline">\Omega</span> con período <span class="math inline">2\pi</span>; la no-unicidad de la <a href="#sec-no-unicidad" class="quarto-xref"><span>Sección 5.3.1</span></a> obliga.</p>
+<p><strong>Pieza 2 — el puente de frecuencias.</strong> Si no hay aliasing, una sinusoide continua de frecuencia <span class="math inline">\omega</span> viaja por la cadena como sinusoide discreta de frecuencia <span class="math inline">\Omega = \omega T</span>, se multiplica por <span class="math inline">H(e^{j\omega T})</span>, y el D/C ideal la devuelve a su frecuencia original. Conclusión:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>La respuesta efectiva de la cadena
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">H_{\text{ef}}(\omega) = H(e^{j\Omega})\Big|_{\Omega = \omega T} \qquad \text{para } \lvert\omega\rvert &lt; \frac{\pi}{T}</span> La cadena completa <strong>es un filtro continuo</strong>: la curva del filtro discreto con el eje reescalado por <span class="math inline">T</span>. Válido solo en la banda de no-aliasing — fuera de ella el teorema del muestreo manda y no hay equivalente LTI.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejemplo resuelto (calibre examen)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cadena con conversores ideales, <span class="math inline">T = 10^{-3}</span> s (<span class="math inline">f_s = 1000</span> Hz), y el promedio móvil <span class="math inline">y[n] = \tfrac{1}{2}x[n] + \tfrac{1}{2}x[n-1]</span>. <strong>(a)</strong> <span class="math inline">H(e^{j\Omega})</span> y su magnitud. <strong>(b)</strong> <span class="math inline">H_{\text{ef}}(\omega)</span>. <strong>(c)</strong> Salida para <span class="math inline">x_c(t) = 4\cos(500\pi t)</span>.</p>
+<p><strong>Solución.</strong></p>
+<p><strong>(a)</strong> Con <span class="math inline">h[n] = (\tfrac12, \tfrac12)</span>: <span class="math display">H(e^{j\Omega}) = \tfrac{1}{2}\big(1 + e^{-j\Omega}\big) = e^{-j\Omega/2}\;\frac{e^{j\Omega/2} + e^{-j\Omega/2}}{2} = e^{-j\Omega/2}\cos\!\big(\tfrac{\Omega}{2}\big)</span> (factorizar la media fase es el mismo truco de las series de Fourier — reconócelo). Magnitud <span class="math inline">\lvert\cos(\Omega/2)\rvert</span>: vale <span class="math inline">1</span> en <span class="math inline">\Omega = 0</span> y <span class="math inline">0</span> en <span class="math inline">\Omega = \pi</span> — un pasa-bajos, como anticipaba la intuición de “promediar suaviza”. Y el cero en <span class="math inline">\Omega = \pi</span> tiene una explicación de una línea: ahí la entrada alterna signo muestra a muestra, y el promedio de dos muestras consecutivas se anula.</p>
+<p><strong>(b)</strong> Sustituir <span class="math inline">\Omega = \omega T</span>: <span class="math display">H_{\text{ef}}(\omega) = e^{-j\omega T/2}\cos\!\big(\tfrac{\omega T}{2}\big), \qquad \lvert\omega\rvert &lt; \pi/T = 1000\pi</span> Lectura fina: un pasa-bajos continuo con retardo de <span class="math inline">T/2</span> — el promedio de dos muestras “vive” entre ambas, medio período tarde; la fase lineal delata el retardo.</p>
+<p><strong>(c)</strong> <span class="math inline">\omega_0 = 500\pi</span> rad/s, o sea <span class="math inline">f_0 = 250</span> Hz. <strong>Chequeo de Nyquist primero</strong> (hábito obligatorio): <span class="math inline">250 &lt; 500 = f_s/2</span> ✓ — la fórmula aplica. Con <span class="math inline">\Omega_0 = \omega_0 T = \pi/2</span>: <span class="math display">H_{\text{ef}} = e^{-j\pi/4}\cos\big(\tfrac{\pi}{4}\big) = \tfrac{\sqrt{2}}{2}\,e^{-j\pi/4}
+\qquad\Longrightarrow\qquad
+y_c(t) = 2\sqrt{2}\,\cos\big(500\pi t - \tfrac{\pi}{4}\big)</span></p>
+</div>
+</div>
+<div id="e62613a4" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cap05_files/figure-html/cell-7-output-1.png" width="806" height="267" class="figure-img"></p>
+<figcaption>El mismo filtro, dos rectas de medir. Izquierda: |H(e^{jΩ})| del promedio móvil en el eje discreto (periódica en 2π, cero en Ω = π). Derecha: la respuesta efectiva de la cadena con fs = 1000 Hz — la misma curva con el eje reescalado a Hz; el cero cae en fs/2 = 500 Hz. El punto marca el ejemplo resuelto (250 Hz).</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>El método en cuatro pasos</strong> — apréndelo como coreografía, porque es pregunta recurrente y central de exámenes (2023, 2024 y 2025 sin excepción):</p>
+<ol type="1">
+<li>Calcular <span class="math inline">H(e^{j\Omega})</span> del sistema discreto (autofunciones o suma directa sobre <span class="math inline">h[n]</span>).</li>
+<li><strong>Verificar no-aliasing</strong>: toda frecuencia de entrada bajo <span class="math inline">f_s/2</span>. Si no se cumple, la fórmula no aplica — primero calcula la frecuencia aparente con la regla de la <a href="#sec-nyquist-aliasing" class="quarto-xref"><span>Sección 5.2.3</span></a>.</li>
+<li>Sustituir <span class="math inline">\Omega = \omega T</span> para obtener <span class="math inline">H_{\text{ef}}(\omega)</span>.</li>
+<li>Evaluar magnitud y fase en la frecuencia de entrada y escribir la salida.</li>
+</ol>
+</section>
+<section id="sec-cierre-cap05" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="sec-cierre-cap05"><span class="header-section-number">5.7</span> El cierre: falta un plano</h2>
+<p>Mira lo que este capítulo dejó armado: un mundo discreto completo, con sus señales (<span class="math inline">a^n</span>, las sinusoides con sus rarezas), su convolución, sus sistemas y hasta sus puentes con el continuo. Pero compáralo con el arsenal del mundo continuo y notarás un hueco: allá, cuando las convoluciones y las ecuaciones se pusieron pesadas, apareció Laplace con su plano <span class="math inline">s</span> — polos que cuentan la estabilidad de un vistazo, convoluciones que se vuelven productos, ecuaciones diferenciales que se vuelven álgebra.</p>
+<p>El mundo discreto necesita su propio plano <span class="math inline">s</span>. Ya viste las pistas: la estabilidad del primer orden dependía de <span class="math inline">\lvert a\rvert &lt; 1</span> — una condición sobre un <em>radio</em>, no sobre una parte real; y las frecuencias discretas viven en un círculo, no en una recta. El mapa que buscamos no será un semiplano: será un <strong>círculo</strong>. Se llama transformada Z, y es el capítulo que viene.</p>
+</section>
+<section id="sec-resumen-cap05" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="sec-resumen-cap05"><span class="header-section-number">5.8</span> En una página</h2>
+<ul>
+<li>Muestrear = multiplicar por <span class="math inline">\delta_T</span>: <span class="math inline">X_s(\omega) = \frac{1}{T}\sum_k X(\omega - k\omega_s)</span> — <strong>muestrear en el tiempo es periodizar en la frecuencia</strong>.</li>
+<li>Teorema del muestreo: banda limitada a <span class="math inline">f_M</span> + <span class="math inline">f_s &gt; 2f_M</span> ⟹ reconstrucción exacta. Bajo Nyquist: aliasing, frecuencia aparente <span class="math inline">\lvert f - kf_s\rvert</span> en <span class="math inline">[0, f_s/2]</span>.</li>
+<li>Reconstrucción: <span class="math inline">x_r(t) = \sum_n x(nT)\operatorname{sinc}\big(\frac{t-nT}{T}\big)</span> — cada muestra iza su sinc; los ceros en los enteros hacen la magia.</li>
+<li>Sinusoides discretas: <span class="math inline">\Omega</span> en rad/muestra; <span class="math inline">\Omega = \omega T = 2\pi f/f_s</span>; <span class="math inline">\Omega</span> y <span class="math inline">\Omega + 2\pi</span> son <strong>la misma señal</strong>; rango <span class="math inline">[-\pi, \pi)</span>; lo agudo vive en <span class="math inline">\pi</span> (<span class="math inline">(-1)^n</span>); periódica <span class="math inline">\iff \Omega/2\pi = m/N</span> racional (<span class="math inline">N</span> de la fracción irreducible; sumas: mcm).</li>
+<li>Convolución: <span class="math inline">y[n] = \sum_k x[k]h[n-k]</span>; largos <span class="math inline">L_1 + L_2 - 1</span>, soportes se suman; tabla para cortas, suma geométrica para infinitas.</li>
+<li>Cíclica: índices mod <span class="math inline">N</span>, resultado de largo <span class="math inline">N</span>; <span class="math inline">y_c[n] = \sum_m y_\ell[n + mN]</span> — la lineal <em>enrollada</em> (aliasing en el tiempo); zero-padding hasta <span class="math inline">L_1 + L_2 - 1</span> las hace coincidir.</li>
+<li>Ecuaciones de diferencias: se iteran; FIR (siempre estable) vs.&nbsp;IIR; <span class="math inline">y[n] = ay[n-1] + x[n] \Rightarrow h[n] = a^n u[n]</span>; estable <span class="math inline">\iff \sum\lvert h\rvert &lt; \infty \iff \lvert a\rvert &lt; 1</span>.</li>
+<li>Cadena C/D → LTI → D/C: <span class="math inline">H_{\text{ef}}(\omega) = H(e^{j\omega T})</span> para <span class="math inline">\lvert\omega\rvert &lt; \pi/T</span>; los cuatro pasos, con el chequeo de Nyquist siempre primero.</li>
+</ul>
+</section>
+<section id="sec-ejercicios-cap05" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="sec-ejercicios-cap05"><span class="header-section-number">5.9</span> Ejercicios</h2>
+<p>Del banco del curso, en orden sugerido (los códigos [DB E0xxx] identifican el ejercicio; aparecen repartidos en las Listas 10 y 11 de las semanas 10–11):</p>
+<ol type="1">
+<li><strong>[DB E0152]</strong> (básico) Período de muestreo crítico de <span class="math inline">\operatorname{sinc}(t)</span>, <span class="math inline">\cos(6\pi t)</span>, una constante y <span class="math inline">\operatorname{sinc}^2(t)</span>. <em>[U5.1]</em></li>
+<li><strong>[DB E0151]</strong> (intermedio) Tasas de Nyquist de combinaciones de sincs — con productos que ensanchan la banda. <em>[U5.1]</em></li>
+<li><strong>[DB E0148]</strong> (intermedio) Tres componentes muestreadas a 200 Hz: cuáles se pliegan, y la señal reconstruida completa. <em>[U5.1]</em></li>
+<li><strong>[DB E0153]</strong> (intermedio) <span class="math inline">\sin^2(2\pi\cdot 3000t)\cos(2\pi\cdot 1000t)</span>: frecuencia mínima, reconstrucción bajo Nyquist, y <span class="math inline">x[n]</span> a 20 kHz. <em>[U5.1]</em></li>
+<li><strong>[DB E0150]</strong> (intermedio) Retenedor de orden cero e interpolación lineal como convoluciones — y qué <span class="math inline">h</span> da la reconstrucción perfecta. <em>[U5.1, U5.3]</em></li>
+<li><strong>Lista 10, L10.5</strong> (intermedio) Periodicidad y período fundamental de cinco secuencias, incluida una suma (mcm) y dos irracionales. <em>[U5.2]</em></li>
+<li><strong>Lista 10, L10.6</strong> (intermedio) Cosenos de 1000, 7000 y 9000 Hz muestreados a 8000 Hz: reducción al rango fundamental y secuencias idénticas. <em>[U5.2]</em></li>
+<li><strong>[DB E0143]</strong> (intermedio) Convolución de secuencias finitas — anticipando el largo antes de calcular. <em>[U5.3]</em></li>
+<li><strong>[DB E0144]</strong> (intermedio) Identificación: ¿qué convoluciones pueden haber producido estas secuencias? (Piensa en <span class="math inline">n = 0</span> y el soporte antes de calcular nada.) <em>[U5.3]</em></li>
+<li><strong>Lista 11, L11.3</strong> (intermedio) Lineal vs.&nbsp;cíclica de largo 4 del mismo par, verificación del enrollado y el <span class="math inline">N</span> mínimo de zero-padding. <em>[U5.3]</em></li>
+<li><strong>[DB E0154]</strong> (básico) Primer orden <span class="math inline">y[n] - ay[n-1] = x[n]</span>: <span class="math inline">h[n]</span>, estabilidad, memoria y causalidad. <em>[U5.4]</em></li>
+<li><strong>[DB E0140]</strong> (intermedio) Ecuación de diferencias homogénea de segundo orden con condiciones iniciales. <em>[U5.4]</em></li>
+<li><strong>[DB E0156]</strong> (intermedio) <span class="math inline">h[n]</span> por iteración + polinomio característico, con veredicto de estabilidad. <em>[U5.4]</em></li>
+<li><strong>Lista 11, L11.6</strong> (calibre examen) Cadena híbrida completa con el diferenciador <span class="math inline">y[n] = \tfrac12(x[n] - x[n-1])</span>: <span class="math inline">H(e^{j\Omega})</span>, <span class="math inline">H_{\text{ef}}</span>, salida sinusoidal y qué pasa sobre Nyquist. <em>[U5.5]</em></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Antes de seguir
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si puedes resolver de corrido el ejercicio 3, el 10 y el 14 — un muestreo con aliasing, el contraste lineal/cíclica y una cadena híbrida completa — tienes la materia de I3 de este capítulo bajo control. El capítulo 6 asumirá, sin pedir permiso, que <span class="math inline">a^n u[n]</span> y la suma geométrica son tus amigos de confianza.</p>
+</div>
+</div>
+</section>
+<section id="sec-referencias-cap05" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="sec-referencias-cap05"><span class="header-section-number">5.10</span> Para profundizar</h2>
+<ul>
+<li><strong>[Oppenheim]</strong> §7.1 (muestreo con tren de impulsos — la figura 7.1, tres señales continuas atravesando las mismas muestras, vale una lectura por sí sola), §7.2 (reconstrucción), §7.3 (aliasing), §7.4 (procesamiento discreto de señales continuas: nuestras cadenas híbridas); §1.3.3 (exponenciales complejas discretas y su periodicidad); §2.1 (la suma de convolución); §2.4 (ecuaciones de diferencias). Ojo al leerlo: Oppenheim escribe <span class="math inline">\omega</span> también para la frecuencia discreta — traduce a <span class="math inline">\Omega</span> al tomar apuntes.</li>
+<li><strong>[Alvarado]</strong> §5.1 (funciones en tiempo discreto: conversión A/D, representaciones de secuencias y señales elementales discretas), §5.3 (sistemas en tiempo discreto y análisis LTI).</li>
+<li>Apuntes propios del curso: <em>Sinusoides discretas</em> (el plan de clase con las actividades de fasores y la app interactiva <code>interactive_sinusoids.py</code>) — la fuente de la <a href="#sec-sinusoides-discretas" class="quarto-xref"><span>Sección 5.3</span></a>.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./cap04.html" class="pagination-link" aria-label="La transformada de Laplace">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">La transformada de Laplace</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./cap06.html" class="pagination-link" aria-label="La transformada Z">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">La transformada Z</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

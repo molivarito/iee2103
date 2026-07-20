@@ -1,0 +1,47 @@
+/* Estilo del curso IEE2103 */
+
+.ficha-profesor {
+  background-color: #f5f0e6;
+  border-left: 4px solid #b8860b;
+  padding: 0.8em 1em;
+  margin-bottom: 1.2em;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+.guion table {
+  font-size: 0.92em;
+}
+
+.hueco {
+  border: 2px dashed #999;
+  border-radius: 6px;
+  min-height: 5em;
+  margin: 0.8em 0;
+  padding: 0.5em;
+  color: #888;
+  font-style: italic;
+}
+
+.hueco-grande {
+  border: 2px dashed #999;
+  border-radius: 6px;
+  min-height: 12em;
+  margin: 0.8em 0;
+  padding: 0.5em;
+  color: #888;
+  font-style: italic;
+}
+
+.prediccion {
+  background-color: #e8f0fe;
+  border-left: 4px solid #1a73e8;
+  padding: 0.8em 1em;
+  margin: 1em 0;
+  border-radius: 4px;
+}
+
+audio {
+  width: 100%;
+  margin: 0.5em 0;
+}
