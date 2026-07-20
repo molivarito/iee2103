@@ -1,27 +1,5 @@
 [
   {
-    "objectID": "curso/listas/lista-03.html",
-    "href": "curso/listas/lista-03.html",
-    "title": "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución",
-    "section": "",
-    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo. El próximo control es el CV2 (semana 6, en ayudantía): una variante de un ejercicio de las Listas 3–5, con tu portafolio como único material permitido. Y antes de eso viene la I1 (viernes de la semana 5, materia U1–U2): esta lista es parte directa de ese entrenamiento.\nRegla de la casa para toda la unidad 2: propiedad que se cumple → demostración con entradas genéricas; propiedad que falla → contraejemplo concreto. “Se ve lineal” vale cero.\nReferencias de estudio: [Oppenheim] §1.5–1.6 (propiedades de sistemas), §2.2 (la derivación de la convolución); [Alvarado] §3.4.",
-    "crumbs": [
-      "Listas de ejercicios",
-      "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución"
-    ]
-  },
-  {
-    "objectID": "curso/listas/lista-03.html#ejercicios",
-    "href": "curso/listas/lista-03.html#ejercicios",
-    "title": "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución",
-    "section": "Ejercicios",
-    "text": "Ejercicios\nL3.1 [DB E0185] — Determine si los siguientes sistemas y(t) = T\\{x(t)\\} son lineales: \\text{(a) } y(t) = \\frac{d}{dt}x(t) \\qquad \\text{(b) } y(t) = x(-t) \\qquad \\text{(c) } y(t) = x(t) + 1\nL3.2 [DB E0013] — Determine si los siguientes sistemas son causales: \\text{(a) } g(t) = f(t-2) \\qquad \\text{(b) } g(t) = f(-t) \\qquad \\text{(c) } g(t) = \\int_{-5}^{5} f(\\tau)\\,d\\tau \\qquad \\text{(d) } g(t) = \\frac{f^2(t)}{df(t)/dt}\nL3.3 [DB E0029] — Determine si el sistema g(t) = f(t)^{1/5} + 4 es LTI.\nL3.4 [DB E0030] — Determine si el sistema g(t) = m(t)\\,f(t) es LTI, donde f(t) es la entrada y m(t) es una función fija, independiente de la entrada.\nL3.5 [DB E0056] — Dos sistemas S_1 y S_2 se conectan en cascada en ambos órdenes: p(t) es la salida de f \\to S_1 \\to S_2, y q(t) la de f \\to S_2 \\to S_1.\n\n¿Es p(t) = q(t) para todo f(t) si S_1 y S_2 son lineales e invariantes en el tiempo? Demuestre su respuesta.\n¿Es p(t) = q(t) para todo f(t) si S_1 y S_2 son solo invariantes en el tiempo? Demuestre su respuesta.\n\nL3.6 [DB E0035] — Sea \\mathcal{P} un sistema LTI. Demuestre que si \\mathcal{P}\\{f(x)\\} = g(x), entonces \\mathcal{P}\\{f'(x)\\} = g'(x). Hint: escriba la derivada como límite de un cociente de diferencias y use una propiedad en cada paso.\nL3.7 [DB E0060] — Se tiene el sistema g(x) = \\displaystyle\\int_0^x f(\\eta)\\,d\\eta.\n\nEncuentre la salida cuando la entrada es \\delta(\\eta - \\xi), con \\xi \\in \\mathbb{R}.\nA la luz del resultado (compare los casos \\xi &gt; 0 y \\xi &lt; 0), ¿es este sistema invariante en el tiempo? ¿Qué dice eso sobre hablar de “la” respuesta al impulso de este sistema?",
-    "crumbs": [
-      "Listas de ejercicios",
-      "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución"
-    ]
-  },
-  {
     "objectID": "curso/listas/lista-01.html",
     "href": "curso/listas/lista-01.html",
     "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
@@ -41,61 +19,6 @@
     "crumbs": [
       "Listas de ejercicios",
       "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
-    ]
-  },
-  {
-    "objectID": "curso/semana-03/c06.html",
-    "href": "curso/semana-03/c06.html",
-    "title": "C6 · LTI ⇒ convolución: el teorema del curso",
-    "section": "",
-    "text": "1. La promesa sobre la mesa\nDefinición de respuesta al impulso:\nh(t) = \nEl teorema de hoy (enúncialo con tus palabras — qué basta conocer, y para qué alcanza):\n\n\n\n\n\n2. Toda señal es una suma de impulsos\nMi predicción (el peso del pulso en t = k\\Delta, y por qué):\n\n\n\nLa escalera de pulsos y su límite (fórmula de la aproximación y fórmula límite):\nx(t) \\approx \\hspace{6cm}\nx(t) = \\hspace{6cm}\nLa relectura clave (¿qué dice esta fórmula sobre los “ladrillos” de cualquier señal? ¿en qué se diferencia de cómo la leíamos en C4?):\n\n\n\n\n\n3. La derivación: linealidad reparte, invariancia traslada\nLa derivación en 4 líneas (completa la tabla — entrada, salida y propiedad usada en cada paso):\n\n\n\n#\nEntrada\nSalida\nPropiedad usada\n\n\n\n\n1\n\\delta(t)\n\n\n\n\n2\n\n\n\n\n\n3\n\n\n\n\n\n4\n\n\n\n\n\n\nLa integral de convolución (fórmula + lectura en palabras de cada símbolo):\ny(t) = \\hspace{6cm}\n\n\n\nLas dos lecturas del teorema (análisis / síntesis):\n\n\n\n\n\n4. El misterio de C1, resuelto\nEl misterio de C1, en una ecuación (¿qué es cada término, y cuál se midió con un golpe?):\n\\text{voz en la iglesia} = \n\n\n\nLa frase para el bolsillo (la que ordena la unidad — cópiala completa):\n\n\n\nEl eco simple: si h(t) = \\delta(t) + \\alpha\\,\\delta(t-T), entonces $y(t) = $\n\n\n5. Primeros cálculos\nLas dos convoluciones gratis:\nx(t) * \\delta(t) = \\hspace{3cm} x(t) * \\delta(t - t_0) = \nEjemplo resuelto: u(t) * e^{-2t}u(t) (desarrollo completo: cómo recortan los escalones, la integral, y el chequeo de cordura con el área de h):",
-    "crumbs": [
-      "Semana 3 · Sistemas",
-      "C6 · LTI ⇒ convolución: el teorema del curso"
-    ]
-  },
-  {
-    "objectID": "curso/semana-02/ay02.html",
-    "href": "curso/semana-02/ay02.html",
-    "title": "Ay2 · Ejercicios U1: señales, simetrías, impulso",
-    "section": "",
-    "text": "Min\nActividad\n\n\n\n\n0–20\nPizarra: [DB E0010] (periodicidad de sinusoides, con trampa de fase)\n\n\n20–40\nPizarra: [DB E0021] (descomposición par/impar de ln(x) — calibre I1)\n\n\n40–60\nParejas: [DB E0022] (energía par+impar) y δ(g(x)) de la Lista 2\n\n\n60–70\nCierre: anuncio CV1 + revisión de qué debe tener el portafolio",
-    "crumbs": [
-      "Semana 2 · Elementales e impulso",
-      "Ay2 · Ejercicios U1: señales, simetrías, impulso"
-    ]
-  },
-  {
-    "objectID": "curso/semana-02/ay02.html#plan-de-la-sesión-70-min",
-    "href": "curso/semana-02/ay02.html#plan-de-la-sesión-70-min",
-    "title": "Ay2 · Ejercicios U1: señales, simetrías, impulso",
-    "section": "",
-    "text": "Min\nActividad\n\n\n\n\n0–20\nPizarra: [DB E0010] (periodicidad de sinusoides, con trampa de fase)\n\n\n20–40\nPizarra: [DB E0021] (descomposición par/impar de ln(x) — calibre I1)\n\n\n40–60\nParejas: [DB E0022] (energía par+impar) y δ(g(x)) de la Lista 2\n\n\n60–70\nCierre: anuncio CV1 + revisión de qué debe tener el portafolio",
-    "crumbs": [
-      "Semana 2 · Elementales e impulso",
-      "Ay2 · Ejercicios U1: señales, simetrías, impulso"
-    ]
-  },
-  {
-    "objectID": "curso/semana-02/ay02.html#cierre-instalación-del-cv1-6070-min",
-    "href": "curso/semana-02/ay02.html#cierre-instalación-del-cv1-6070-min",
-    "title": "Ay2 · Ejercicios U1: señales, simetrías, impulso",
-    "section": "Cierre: instalación del CV1 (60–70 min)",
-    "text": "Cierre: instalación del CV1 (60–70 min)\nExplicar con total claridad (primera vez que lo viven):\n\nEl próximo viernes, primeros 15 min de la ayudantía: CV1. Una variante (números/contexto cambiados) de un ejercicio de las Listas 1–2.\nÚnico material permitido: tu portafolio manuscrito. Sin portafolio se puede rendir igual, pero sin red.\nQué debería tener el portafolio a esta altura: Listas 1 y 2 resueltas con desarrollo, y los ejemplos de clase que cada uno quiera sumar.\nRecordar el quiz Canvas de la semana (ensayo directo del CV1).",
-    "crumbs": [
-      "Semana 2 · Elementales e impulso",
-      "Ay2 · Ejercicios U1: señales, simetrías, impulso"
-    ]
-  },
-  {
-    "objectID": "curso/semana-02/c03.html",
-    "href": "curso/semana-02/c03.html",
-    "title": "C3 · Señales elementales y transformaciones de la variable",
-    "section": "",
-    "text": "1. El vocabulario: señales elementales\nEl catálogo — dibuja cada señal con sus valores clave:\n\n\n\nSeñal\nGráfico\n\n\n\n\nu(t)\n\n\n\n\\operatorname{rect}(t)\n\n\n\n\\operatorname{tri}(t)\n\n\n\n\\operatorname{sgn}(t)\n\n\n\n\\operatorname{sinc}(t)\n\n\n\ne^{-at}u(t)\n\n\n\n\nRelaciones entre ellas (rect en términos de escalones; sgn en términos de u):\n\n\n\n\n\n2. La exponencial compleja (el fasor, ahora como señal)\nLa señal e^{st} con s = \\sigma + j\\omega — dibuja los tres casos (\\sigma&lt;0, \\sigma=0, \\sigma&gt;0):\n\n\n\nEl coseno como dos fasores: $(t) = $\n\n\n\n\n\n3. Transformaciones de la variable independiente\nLas tres transformaciones y su efecto (una frase + mini-gráfico cada una):\n\nx(t-t_0):\nx(at):\nx(-t):\n\nLa regla para x(at-b) (¿por qué el desplazamiento no es b?):\n\n\n\nMi voto y el desarrollo de la votación:\n\n\n\nLectura rápida de \\operatorname{rect}\\!\\big(\\tfrac{t-c}{w}\\big): centro = ____, ancho = ____.\n\n\n4. Construcción de señales por tramos\nEstrategia de 3 pasos para escribir una señal por tramos:\n\n\n\n\n\nLos dos ejemplos de la pizarra (señal graficada + expresión):",
-    "crumbs": [
-      "Semana 2 · Elementales e impulso",
-      "C3 · Señales elementales y transformaciones de la variable"
     ]
   },
   {
@@ -204,94 +127,6 @@
     "crumbs": [
       "Semana 1 · Presentación y señales",
       "Ay1 · Nivelación: números complejos"
-    ]
-  },
-  {
-    "objectID": "curso/semana-02/c04.html",
-    "href": "curso/semana-02/c04.html",
-    "title": "C4 · El impulso",
-    "section": "",
-    "text": "1. Construcción: el límite de pulsos\nMi predicción (área y altura del pulso cuando \\epsilon \\to 0):\n\n\n\nDefinición del impulso (las dos condiciones + el gráfico con su flecha):\n\n\n\n\n\n2. Lo que δ hace: la propiedad de muestreo\nPropiedad de muestreo (fórmula + explicación con tus palabras):\n\\int_{-\\infty}^{\\infty} f(t)\\,\\delta(t-t_0)\\,dt = \n\n\n\nEjercicio relámpago hecho en clase: $_{-}^{} e^{-2t}(t),(t-1),dt = $\n\n\n3. Propiedades\nEscalado: $(at) = $\nLa fórmula para \\delta(g(t)):\n\\delta\\big(g(t)\\big) = \nEjemplo resuelto: \\delta(t^2-9) (desarrollo completo):\n\n\n\nRelación escalón ↔︎ impulso (en ambas direcciones):\n\n\n\n\n\n4. El impulso en el mundo real\nLo que escuchamos en el audio de la iglesia y qué representa:\n\n\n\nLa pregunta que queda abierta para la próxima semana:\n\n\n\n\n\n5. El tren de impulsos\nDefinición del tren de impulsos (fórmula + gráfico):\n\n\n\nPara qué servirá (la frase que ordena el curso):",
-    "crumbs": [
-      "Semana 2 · Elementales e impulso",
-      "C4 · El impulso"
-    ]
-  },
-  {
-    "objectID": "curso/semana-03/c05.html",
-    "href": "curso/semana-03/c05.html",
-    "title": "C5 · Propiedades de sistemas",
-    "section": "",
-    "text": "1. La caja bajo interrogatorio\nLas cinco preguntas que le haremos a todo sistema (una frase cada una):\n\nLinealidad:\nInvariancia:\nCausalidad:\nEstabilidad:\nMemoria:\n\nLa promesa para el miércoles (¿qué ganamos si el sistema cumple las dos primeras?):\n\n\n\n\n\n2. Linealidad e invariancia: las dos que valen oro\nLinealidad — las dos condiciones, con sus fórmulas:\n\nHomogeneidad:\nAditividad:\n\nEl chequeo rápido que descarta sin calcular:\n\n\n\nEl cuadrador y = x^2(t) no es lineal (desarrollo de las dos fallas; ¿cómo se llama el término cruzado y cómo se escucha?):\n\n\n\nInvariancia — definición y la receta de los dos caminos:\n\n\n\nEjemplo resuelto (calibre I1): y(t) = x(t)\\cos(\\omega_0 t) — ¿lineal? ¿invariante? (desarrollo completo, con el contraejemplo concreto):\n\n\n\nLa tabla de las cuatro combinaciones (un ejemplo por casilla):\n\n\n\n\nInvariante\nVariante\n\n\n\n\nLineal\n\n\n\n\nNo lineal\n\n\n\n\n\n\n\n3. Votación: ¿cuáles de estos 4 sistemas son lineales?\nMi voto para cada sistema (antes de la discusión), y por qué:\n\n\n\nSistema\n¿Lineal? (mi voto)\n¿Lineal? (final)\n¿Invariante?\n\n\n\n\n(A) y = x^2(t)\n\n\n\n\n\n(B) y = t\\,x(t)\n\n\n\n\n\n(C) y = x(t)+1\n\n\n\n\n\n(D) y = dx/dt\n\n\n\n\n\n\nLo que aprendí de la discusión (en una frase):\n\n\n\n\n\n4. Causalidad, estabilidad y memoria\nCausalidad — definición + un sistema causal y uno no causal:\n\n\n\nEstabilidad BIBO — definición + el contraejemplo que demuestra que el integrador es inestable:\n\n\n\nMemoria — definición + un sistema con memoria y uno sin:\n\n\n\nLa regla de oro para responder en la I1:",
-    "crumbs": [
-      "Semana 3 · Sistemas",
-      "C5 · Propiedades de sistemas"
-    ]
-  },
-  {
-    "objectID": "curso/semana-03/ay03.html",
-    "href": "curso/semana-03/ay03.html",
-    "title": "Ay3 · Ejercicios U2 + CV1 (primer control de validación)",
-    "section": "",
-    "text": "Min\nActividad\n\n\n\n\n0–20\nCV1 (5 min de instalación + 15 min de control, portafolio sobre la mesa)\n\n\n20–40\nPizarra: [DB E0016] (las cinco propiedades de y(t) = x(t)\\cos(2\\pi\\nu t))\n\n\n40–60\nParejas: [DB E0066(a)] y [DB E0015] (ayudantes circulan)\n\n\n60–70\nCierre: errores frecuentes + anuncios",
-    "crumbs": [
-      "Semana 3 · Sistemas",
-      "Ay3 · Ejercicios U2 + CV1 (primer control de validación)"
-    ]
-  },
-  {
-    "objectID": "curso/semana-03/ay03.html#plan-de-la-sesión-70-min",
-    "href": "curso/semana-03/ay03.html#plan-de-la-sesión-70-min",
-    "title": "Ay3 · Ejercicios U2 + CV1 (primer control de validación)",
-    "section": "",
-    "text": "Min\nActividad\n\n\n\n\n0–20\nCV1 (5 min de instalación + 15 min de control, portafolio sobre la mesa)\n\n\n20–40\nPizarra: [DB E0016] (las cinco propiedades de y(t) = x(t)\\cos(2\\pi\\nu t))\n\n\n40–60\nParejas: [DB E0066(a)] y [DB E0015] (ayudantes circulan)\n\n\n60–70\nCierre: errores frecuentes + anuncios",
-    "crumbs": [
-      "Semana 3 · Sistemas",
-      "Ay3 · Ejercicios U2 + CV1 (primer control de validación)"
-    ]
-  },
-  {
-    "objectID": "curso/semana-03/ay03.html#cv1-mecánica-completa-020-min",
-    "href": "curso/semana-03/ay03.html#cv1-mecánica-completa-020-min",
-    "title": "Ay3 · Ejercicios U2 + CV1 (primer control de validación)",
-    "section": "CV1: mecánica completa (0–20 min)",
-    "text": "CV1: mecánica completa (0–20 min)\nPrimera vez del semestre — explicar el rito antes de repartir, con calma:\n\nQué es: un control de 15 minutos con una variante (números/contexto cambiados) de un ejercicio de las Listas 1–2. Si trabajaste las listas, ya resolviste este problema una vez.\nMaterial permitido: el portafolio manuscrito propio, abierto sobre la mesa. Nada más: ni libros, ni apuntes de otros, ni pantallas. Los ayudantes verifican al pasar que el portafolio sea manuscrito — no se timbra, no se revisa, no se corrige: se usa.\nSin portafolio: se rinde igual, sin red. (El mensaje del sistema es ese: el portafolio es tu memoria externa, y se construye durante la semana, no el jueves en la noche.)\nCómo pesa: los 6 CV del semestre promedian en la nota (30%), descartando el peor — un mal día no persigue a nadie.\nEl acople: 1–2 preguntas de cada CV son variantes del quiz Canvas de la semana. Quien completó el quiz ya ensayó el control.",
-    "crumbs": [
-      "Semana 3 · Sistemas",
-      "Ay3 · Ejercicios U2 + CV1 (primer control de validación)"
-    ]
-  },
-  {
-    "objectID": "curso/semana-03/ay03.html#cierre-6070-min",
-    "href": "curso/semana-03/ay03.html#cierre-6070-min",
-    "title": "Ay3 · Ejercicios U2 + CV1 (primer control de validación)",
-    "section": "Cierre (60–70 min)",
-    "text": "Cierre (60–70 min)\n\nAnuncios: Lista 3 publicada (propiedades + nacimiento de la convolución — al portafolio); quiz Canvas; I1 el viernes de la semana 5 (U1–U2; la materia se cierra el próximo miércoles en C8). La Ay4 será íntegramente de integración pre-I1.",
-    "crumbs": [
-      "Semana 3 · Sistemas",
-      "Ay3 · Ejercicios U2 + CV1 (primer control de validación)"
-    ]
-  },
-  {
-    "objectID": "curso/listas/lista-02.html",
-    "href": "curso/listas/lista-02.html",
-    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
-    "section": "",
-    "text": "ImportanteRecordatorio\n\n\n\nEl CV1 es este viernes (semana 3, primeros 15 min de la ayudantía): una variante de un ejercicio de las Listas 1–2, con tu portafolio manuscrito como único material permitido. El quiz Canvas de esta semana es el ensayo directo.\nReferencias de estudio: [Oppenheim] §1.2.1, §1.3–1.4, §2.5; [Alvarado] cap. 1.",
-    "crumbs": [
-      "Listas de ejercicios",
-      "Lista 2 · Señales elementales, transformaciones y el impulso"
-    ]
-  },
-  {
-    "objectID": "curso/listas/lista-02.html#ejercicios",
-    "href": "curso/listas/lista-02.html#ejercicios",
-    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
-    "section": "Ejercicios",
-    "text": "Ejercicios\nL2.1 [DB E0018] — Con f(x) = x^3 (restringida a un tramo graficado en clase), grafique: \\text{(a) } f(2x) \\text{ y } f(x/2) \\qquad \\text{(b) } f(-(x-3)) \\qquad \\text{(c) } 3 + f(2(x-3))\nL2.2 — Grafique x(t) = \\operatorname{rect}\\!\\big(\\tfrac{t-1}{2}\\big) - 2\\,\\operatorname{tri}(t+1), indicando todos los puntos relevantes de los ejes.\nL2.3 [DB E0020] — La señal f(x) es un pulso rectangular de altura 1 entre x = -\\tfrac12 y x = \\tfrac12. Exprésela como suma de señales elementales de dos maneras distintas.\nL2.4 [DB E0023] — Calcule el área de \\alpha^2 \\operatorname{rect}(\\alpha x), con \\alpha \\in \\mathbb{R}^+.\nL2.5 — Simplifique usando las propiedades del impulso: \\text{(a) } \\int_{-\\infty}^{\\infty} (t^2+2)\\,\\delta(t-3)\\,dt \\qquad \\text{(b) } 6\\,\\delta(t^2-9) \\qquad \\text{(c) } \\delta(4t^3-3t) \\qquad \\text{(d) } e^{-t}\\,\\delta(2t-4)\nL2.6 [DB E0036] — Calcule (sin aproximar): \\displaystyle\\int_{-\\infty}^{\\infty} \\delta'(x)\\,dx.\nL2.7 — Con el tren de impulsos \\delta_2(t) = \\sum_n \\delta(t-2n), calcule \\displaystyle\\int_{-1}^{5} e^{-|t|}\\,\\delta_2(t)\\,dt y grafique \\cos(\\pi t)\\,\\delta_2(t) (impulsos con sus pesos).",
-    "crumbs": [
-      "Listas de ejercicios",
-      "Lista 2 · Señales elementales, transformaciones y el impulso"
     ]
   }
 ]
