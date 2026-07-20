@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C1 · Presentación: señales, sistemas y el mapa del curso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Lista 3 · Propiedades de sistemas y el nacimiento de la convolución – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-01/c02.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../curso/listas/lista-02.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +128,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">Semana 1 · Presentación y señales</a></li><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">C1 · Presentación: señales, sistemas y el mapa del curso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-03.html">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -171,7 +170,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C1 · Presentación: señales, sistemas y el mapa del curso</span></a>
   </div>
 </li>
@@ -270,7 +269,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/listas/lista-03.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-03.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</span></a>
   </div>
 </li>
@@ -286,20 +285,17 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#bloque-1-qué-es-una-señal-qué-es-un-sistema" id="toc-bloque-1-qué-es-una-señal-qué-es-un-sistema" class="nav-link active" data-scroll-target="#bloque-1-qué-es-una-señal-qué-es-un-sistema">Bloque 1 — ¿Qué es una señal? ¿Qué es un sistema?</a></li>
-  <li><a href="#bloque-2-el-mapa-del-curso" id="toc-bloque-2-el-mapa-del-curso" class="nav-link" data-scroll-target="#bloque-2-el-mapa-del-curso">Bloque 2 — El mapa del curso</a></li>
-  <li><a href="#bloque-3-cómo-funciona-este-curso" id="toc-bloque-3-cómo-funciona-este-curso" class="nav-link" data-scroll-target="#bloque-3-cómo-funciona-este-curso">Bloque 3 — Cómo funciona este curso</a></li>
-  <li><a href="#bloque-4-diagnóstico-de-números-complejos" id="toc-bloque-4-diagnóstico-de-números-complejos" class="nav-link" data-scroll-target="#bloque-4-diagnóstico-de-números-complejos">Bloque 4 — Diagnóstico de números complejos</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link active" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">Semana 1 · Presentación y señales</a></li><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">C1 · Presentación: señales, sistemas y el mapa del curso</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-03.html">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">C1 · Presentación: señales, sistemas y el mapa del curso</h1>
-<p class="subtitle lead">Semana 1 · Lunes · 70 min</p>
+<h1 class="title">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</h1>
+<p class="subtitle lead">Se publica al cierre de la semana 3 · Materia: C5–C6 · Al portafolio</p>
 </div>
 
 
@@ -316,56 +312,38 @@ window.Quarto = {
 </header>
 
 
-<section id="bloque-1-qué-es-una-señal-qué-es-un-sistema" class="level1">
-<h1>Bloque 1 — ¿Qué es una señal? ¿Qué es un sistema?</h1>
-<p><strong>Los dos audios que escuchamos:</strong> ¿qué cambió entre el primero y el segundo?</p>
-<div class="hueco">
-<p>(tu respuesta, antes de que se discuta)</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p><strong>Definición de señal:</strong></p>
-<div class="hueco">
-
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Cómo trabajar esta lista
 </div>
-<p><strong>Definición de sistema (y su diagrama de caja):</strong></p>
-<div class="hueco">
-
 </div>
-<p><strong>Mis tres ejemplos favoritos de señales y un sistema de mi vida diaria:</strong></p>
-<div class="hueco">
-
+<div class="callout-body-container callout-body">
+<p>Resuélvela <strong>a mano, en tu portafolio, con desarrollo completo</strong>. El próximo control es el <strong>CV2</strong> (semana 6, en ayudantía): una variante de un ejercicio de las Listas 3–5, con tu portafolio como único material permitido. Y antes de eso viene la <strong>I1</strong> (viernes de la semana 5, materia U1–U2): esta lista es parte directa de ese entrenamiento.</p>
+<p>Regla de la casa para toda la unidad 2: propiedad que se cumple → <strong>demostración con entradas genéricas</strong>; propiedad que falla → <strong>contraejemplo concreto</strong>. “Se ve lineal” vale cero.</p>
 </div>
-</section>
-<section id="bloque-2-el-mapa-del-curso" class="level1">
-<h1>Bloque 2 — El mapa del curso</h1>
-<p><strong>Los cuatro dominios del curso</strong> (complétalos con una frase cada uno a medida que se presentan):</p>
+</div>
+<p><strong>Referencias de estudio</strong>: [Oppenheim] §1.5–1.6 (propiedades de sistemas), §2.2 (la derivación de la convolución); [Alvarado] §3.4.</p>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<p><strong>L3.1</strong> [DB E0185] — Determine si los siguientes sistemas <span class="math inline">y(t) = T\{x(t)\}</span> son lineales: <span class="math display">\text{(a) } y(t) = \frac{d}{dt}x(t) \qquad \text{(b) } y(t) = x(-t) \qquad \text{(c) } y(t) = x(t) + 1</span></p>
+<p><strong>L3.2</strong> [DB E0013] — Determine si los siguientes sistemas son causales: <span class="math display">\text{(a) } g(t) = f(t-2) \qquad \text{(b) } g(t) = f(-t) \qquad \text{(c) } g(t) = \int_{-5}^{5} f(\tau)\,d\tau \qquad \text{(d) } g(t) = \frac{f^2(t)}{df(t)/dt}</span></p>
+<p><strong>L3.3</strong> [DB E0029] — Determine si el sistema <span class="math inline">g(t) = f(t)^{1/5} + 4</span> es LTI.</p>
+<p><strong>L3.4</strong> [DB E0030] — Determine si el sistema <span class="math inline">g(t) = m(t)\,f(t)</span> es LTI, donde <span class="math inline">f(t)</span> es la entrada y <span class="math inline">m(t)</span> es una función fija, independiente de la entrada.</p>
+<p><strong>L3.5</strong> [DB E0056] — Dos sistemas <span class="math inline">S_1</span> y <span class="math inline">S_2</span> se conectan en cascada en ambos órdenes: <span class="math inline">p(t)</span> es la salida de <span class="math inline">f \to S_1 \to S_2</span>, y <span class="math inline">q(t)</span> la de <span class="math inline">f \to S_2 \to S_1</span>.</p>
 <ol type="1">
-<li>Tiempo:</li>
-<li>Frecuencia:</li>
-<li>Plano <span class="math inline">s</span>:</li>
-<li>Mundo discreto:</li>
+<li>¿Es <span class="math inline">p(t) = q(t)</span> para todo <span class="math inline">f(t)</span> si <span class="math inline">S_1</span> y <span class="math inline">S_2</span> son lineales e invariantes en el tiempo? Demuestre su respuesta.</li>
+<li>¿Es <span class="math inline">p(t) = q(t)</span> para todo <span class="math inline">f(t)</span> si <span class="math inline">S_1</span> y <span class="math inline">S_2</span> son solo invariantes en el tiempo? Demuestre su respuesta.</li>
 </ol>
-<p><strong>La promesa del curso:</strong></p>
-<div class="hueco">
-
-</div>
-</section>
-<section id="bloque-3-cómo-funciona-este-curso" class="level1">
-<h1>Bloque 3 — Cómo funciona este curso</h1>
-<p><strong>Las reglas del juego</strong> (anota lo esencial de cada una):</p>
-<ul>
-<li>Portafolio manuscrito y controles de validación:</li>
-<li>Quiz semanal en Canvas:</li>
-<li>Hoja resumen para las interrogaciones:</li>
-<li>Política de IA en una frase:</li>
-</ul>
-<div class="hueco">
-
-</div>
-</section>
-<section id="bloque-4-diagnóstico-de-números-complejos" class="level1">
-<h1>Bloque 4 — Diagnóstico de números complejos</h1>
-<p><em>(El diagnóstico se rinde en papel en la clase; no está incluido en estos apuntes.)</em></p>
-<p><strong>Para estudiar antes del viernes</strong>: apéndice A del curso (números complejos) — disponible en Canvas.</p>
+<p><strong>L3.6</strong> [DB E0035] — Sea <span class="math inline">\mathcal{P}</span> un sistema LTI. Demuestre que si <span class="math inline">\mathcal{P}\{f(x)\} = g(x)</span>, entonces <span class="math inline">\mathcal{P}\{f'(x)\} = g'(x)</span>. <em>Hint: escriba la derivada como límite de un cociente de diferencias y use una propiedad en cada paso.</em></p>
+<p><strong>L3.7</strong> [DB E0060] — Se tiene el sistema <span class="math inline">g(x) = \displaystyle\int_0^x f(\eta)\,d\eta</span>.</p>
+<ol type="1">
+<li>Encuentre la salida cuando la entrada es <span class="math inline">\delta(\eta - \xi)</span>, con <span class="math inline">\xi \in \mathbb{R}</span>.</li>
+<li>A la luz del resultado (compare los casos <span class="math inline">\xi &gt; 0</span> y <span class="math inline">\xi &lt; 0</span>), ¿es este sistema invariante en el tiempo? ¿Qué dice eso sobre hablar de “la” respuesta al impulso de este sistema?</li>
+</ol>
 
 
 </section>
@@ -773,14 +751,11 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="IEE2103 · Señales y Sistemas">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">IEE2103 · Señales y Sistemas</span>
+      <a href="../../curso/listas/lista-02.html" class="pagination-link" aria-label="Lista 2 · Señales elementales, transformaciones y el impulso">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lista 2 · Señales elementales, transformaciones y el impulso</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-01/c02.html" class="pagination-link" aria-label="C2 · Clasificación de señales">
-        <span class="nav-page-text">C2 · Clasificación de señales</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
