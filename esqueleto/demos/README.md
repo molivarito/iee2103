@@ -1,0 +1,28 @@
+# Demos del curso — inventario
+
+Casa canónica de todas las demos y apps interactivas del curso IEE2103. Antes vivían dispersas en `modulos/*/demos/` (versiones _working, "copy" y checkpoints obsoletas se quedaron ahí) y en `common/SyS-Reader/python/`. Esta carpeta reúne solo las **versiones curadas**, listas para clase y para que los estudiantes las bajen y corran en casa.
+
+También hay una página pública con la misma información, más amigable, en `material/demos.qmd` (se publica como `demos.html` en el sitio del curso).
+
+Orden: por clase.
+
+| Demo | Clase | Qué ilustra | Cómo correr | Dependencias |
+|---|---|---|---|---|
+| [`convolucion/demo_convolucion.py`](convolucion/demo_convolucion.py) | C6–C7 | Convolución paso a paso: flip / slide / multiply / integrate, en modo continuo y discreto, con animación. | `python3 demo_convolucion.py` | numpy, matplotlib |
+| [`convolucion/demo_convolucion_audio.py`](convolucion/demo_convolucion_audio.py) | C7 | Convolución audible: y = x \* h con respuestas al impulso (IR) acústicas reales de `common/ejercicios/IR`. Teclas: `t` (seco), `c` (convolucionado), `g` (guardar .wav). | `python3 demo_convolucion_audio.py` | numpy, matplotlib, scipy (`scipy.io.wavfile`); sounddevice opcional (si falta, degrada a solo guardar .wav) |
+| [`series-fourier/Series_fourier.py`](series-fourier/Series_fourier.py) | C10–C11 | App de Series de Fourier con sonido: sliders de magnitud y fase para 20 armónicos de onda cuadrada/triangular/diente de sierra; se *oye* el efecto de apagar armónicos o mover fases. | `python3 Series_fourier.py` | numpy, matplotlib, scipy, sounddevice (para el audio) |
+| [`laplace/laplace_visualizer.py`](laplace/laplace_visualizer.py) | C17 | Plano s interactivo: arrastrar polos/ceros y predecir la forma de la señal antes de soltar; ROC, integrando amortiguado, superficie 3D de \|X(s)\|. Guía de 3 actividades en [`laplace/actividades.txt`](laplace/actividades.txt). | `python3 laplace_visualizer.py` | numpy, matplotlib, scipy, sympy |
+| [`sinusoides-discretas/interactive_sinusoids.py`](sinusoides-discretas/interactive_sinusoids.py) | C20 | Sinusoide discreta $\mathrm{Re}\{e^{j(\Omega n+\phi)}\}$: stem plot, fasor girando en el círculo unitario, espiral 3D y parte imaginaria, con sliders de $\Omega$, número de muestras y $\phi$. | `python3 interactive_sinusoids.py` | numpy, matplotlib (`mpl_toolkits.mplot3d`) |
+| [`z-app/z_visualizer.py`](z-app/z_visualizer.py) | C25–C26 | Plano z interactivo: polos/ceros arrastrables, modo geométrico (vectores a $e^{j\omega}$), \|H(e^{jω})\| y fase en vivo, respuesta al impulso h[n], presets de diseño (notch, peine, pasa bajos/altos, resonador) y botón para copiar coeficientes a `scipy.signal`. Guía de 3 actividades en [`z-app/actividades.txt`](z-app/actividades.txt); detalles en [`z-app/README.md`](z-app/README.md). | `python3 z_visualizer.py` | numpy, matplotlib |
+| [`dtft/demo_dtft.py`](dtft/demo_dtft.py) | C27 | DTFT $X(e^{j\omega})=\sum_n x[n]e^{-j\omega n}$ de pulso rectangular, exponencial causal o sinusoide enventanada: magnitud, fase, periodicidad 2π y relación con la transformada Z sobre el círculo unitario. | `python3 demo_dtft.py` | numpy, matplotlib |
+| [`bases-fourier/interactive_fourier_bases.py`](bases-fourier/interactive_fourier_bases.py) | C27–C29 | Las columnas de la matriz DFT $\mathbf{W}_N$ como sinusoides: recorrerlas una a una para ver que la DFT es una proyección sobre esa base. | `python3 interactive_fourier_bases.py` | numpy, matplotlib |
+| [`dsp/dsp_visualizer.py`](dsp/dsp_visualizer.py) / [`dsp/dsp_visualizer_b.py`](dsp/dsp_visualizer_b.py) | C27–C29 | Espectro de una señal con y sin ventana, zero-padding en vivo, DFT vs. DTFT. **Dos versiones sin decidir cuál usar en clase**: `dsp_visualizer.py` (customtkinter) y `dsp_visualizer_b.py` (PySide6 + pyqtgraph, más completa). Guía en [`dsp/guia.pdf`](dsp/guia.pdf) / [`dsp/guia.tex`](dsp/guia.tex). | `python3 dsp_visualizer.py` **o** `python3 dsp_visualizer_b.py` | `.py`: numpy, matplotlib, scipy, customtkinter · `_b.py`: numpy, scipy, PySide6, pyqtgraph |
+| [`fft-web/index.html`](fft-web/index.html) | C28 | Demo web autocontenida "FFT paso a paso": separación par/impar, mariposas por etapa, conteo de operaciones en vivo (Cooley–Tukey). | Doble clic al archivo, o usarla en línea desde la página "Demos" del sitio del curso | Ninguna (HTML/JS autocontenido, corre en el navegador) |
+| [`ola-ols/visualizador_conv.py`](ola-ols/visualizador_conv.py) | C30 (optativo) | Convolución rápida por bloques, Overlap-Add y Overlap-Save, paso a paso: qué entra a la FFT, qué sale de la IFFT, y cómo se reconstruye la salida global sin errores de aliasing temporal. Ver [`ola-ols/README.md`](ola-ols/README.md) y [`ola-ols/guia_practica_app.pdf`](ola-ols/guia_practica_app.pdf) para la guía pedagógica completa. | `python3 visualizador_conv.py` (ver [`ola-ols/requirements.txt`](ola-ols/requirements.txt)) | numpy, matplotlib, PySide6 |
+
+## Notas
+
+- **`dsp/`**: hay dos versiones de la misma demo sin decidir cuál usar en clase (`dsp_visualizer.py` vs. `dsp_visualizer_b.py`) — pendiente de decisión del profesor.
+- Los duplicados idénticos que existían en `common/SyS-Reader/python/` (`dsp_visualizer.py`, `dsp_visualizer_b.py`, `interactive_fourier_bases.py`, `interactive_sinusoids.py`) se eliminaron; la única copia vigente es la de esta carpeta.
+- Las versiones obsoletas (`_working`, "copy", checkpoints de Jupyter) se dejaron donde estaban, en `modulos/*/demos/`, y no se mantienen.
+- Instalar dependencias comunes: `pip install numpy matplotlib scipy` (agregar `sounddevice`, `sympy`, `customtkinter`, `PySide6`, `pyqtgraph` según la demo — ver tabla).

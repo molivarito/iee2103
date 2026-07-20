@@ -304,7 +304,7 @@ window.Quarto = {
 <p><strong>La idea brillante</strong> — y es <em>una sola</em> idea: si <span class="math inline">x(t)</span> crece demasiado, multiplícala por una exponencial que decae <strong>más rápido</strong>, <span class="math inline">e^{-\sigma t}</span>, y toma Fourier de eso:</p>
 <p><span class="math display">\mathcal{F}\{x(t)\,e^{-\sigma t}\} = \int_{-\infty}^{\infty} x(t)\,e^{-\sigma t}e^{-j\omega t}\,dt = \int_{-\infty}^{\infty} x(t)\,e^{-(\sigma + j\omega)t}\,dt</span></p>
 <p>El exponente que aparece solo es… <span class="math inline">s = \sigma + j\omega</span>. Amortiguar y transformar es lo mismo que <strong>transformar contra la espiral <span class="math inline">e^{st}</span> completa</strong>, no solo contra el fasor <span class="math inline">e^{j\omega t}</span>. El parámetro <span class="math inline">\sigma</span> es el <em>factor de convergencia</em>: el precio que pagamos por poder ver señales que crecen.</p>
-<div id="3ef3d5c9" class="cell" data-execution_count="1">
+<div id="a208b194" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -367,7 +367,7 @@ window.Quarto = {
 <p>La suma converge donde <strong>ambas</strong> convergen — la intersección:</p>
 <p><span class="math display">e^{-a|t|} \;\longleftrightarrow\; \frac{1}{s+a} - \frac{1}{s-a} = \frac{2a}{a^2 - s^2}, \qquad \text{ROC: } -a &lt; \Re\{s\} &lt; a</span></p>
 <p>La ROC es una <strong>franja vertical</strong> entre los polos <span class="math inline">\pm a</span>. Contiene al eje <span class="math inline">j\omega</span>, y por eso <span class="math inline">e^{-a|t|}</span> sí tiene transformada de Fourier: evaluando <span class="math inline">s = j\omega</span> sale <span class="math inline">\frac{2a}{a^2+\omega^2}</span>, un par que ya conociste en la unidad 3.</p>
-<div id="e1333371" class="cell" data-execution_count="2">
+<div id="45af0355" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -469,7 +469,7 @@ window.Quarto = {
 <p><strong>Mirarlas juntas</strong> (la figura siguiente): tres señales completamente distintas, <strong>una sola fórmula</strong>. Y una pregunta más, de regalo: ¿cuál de las tres tiene transformada de Fourier? Solo (a) — su ROC es la única que contiene al eje <span class="math inline">j\omega</span>.</p>
 </div>
 </div>
-<div id="6c0b499c" class="cell" data-execution_count="3">
+<div id="75c7ee22" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -496,7 +496,7 @@ window.Quarto = {
 <li><strong>Eje real (<span class="math inline">\sigma</span>) = eje del amortiguamiento.</strong> Polo real en <span class="math inline">-2</span>: modo <span class="math inline">e^{-2t}</span>, decae. Más a la izquierda = muere más rápido. Polo en <span class="math inline">+0.5</span>: <span class="math inline">e^{0.5t}</span>, crece sin freno.</li>
 <li><strong>Eje imaginario (<span class="math inline">\omega</span>) = eje de la oscilación.</strong> Para señales reales, los polos complejos vienen <strong>siempre en pares conjugados</strong> <span class="math inline">\sigma_0 \pm j\omega_0</span>, y el par completo aporta <span class="math display">\frac{A}{s-(\sigma_0+j\omega_0)} + \frac{A^*}{s-(\sigma_0-j\omega_0)} \;\longrightarrow\; 2|A|\,e^{\sigma_0 t}\cos(\omega_0 t + \angle A)\,u(t)</span> una <strong>oscilación de frecuencia <span class="math inline">\omega_0</span> con envolvente <span class="math inline">e^{\sigma_0 t}</span></strong>. La altura del polo fija el tono; su posición horizontal, cuánto dura. Los dos ejes son independientes.</li>
 </ul>
-<div id="d387295d" class="cell" data-execution_count="4">
+<div id="bf908531" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -543,7 +543,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="5d2d5c4d" class="cell" data-execution_count="5">
+<div id="377baa4b" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -561,7 +561,7 @@ window.Quarto = {
 <li><span class="math inline">\sigma_0</span> — qué tan pegado está al eje — es <strong>el sustain</strong>. Una cuerda que suena un segundo: <span class="math inline">\sigma_0 \approx -3</span>. Un piano con pedal: polos casi tocando el eje. Un “plop” percusivo seco: polos bien metidos a la izquierda. Una campana que resuena diez segundos: polos casi <em>sobre</em> el eje.</li>
 </ul>
 <p>¿Y un instrumento con polos en el semiplano derecho? Una nota que crece sola sin que nadie la toque — eso es el acople micrófono–parlante de un escenario, que <em>es</em>, literalmente, un par de polos cruzando al lado derecho. Esta unidad solo le pone nombre técnico a cosas que tu oído clasifica hace años.</p>
-<p>Si quieres jugar con esto (muy recomendado): corre <code>python modulos/5_transformada_laplace/demos/Laplace-app/laplace_visualizer.py</code>, arrastra los polos y <strong>predice la forma de la señal antes de soltar</strong>.</p>
+<p>Si quieres jugar con esto (muy recomendado): corre <code>python material/demos/laplace/laplace_visualizer.py</code>, arrastra los polos y <strong>predice la forma de la señal antes de soltar</strong>.</p>
 </section>
 <section id="sec-estabilidad" class="level3" data-number="4.4.2">
 <h3 data-number="4.4.2" class="anchored" data-anchor-id="sec-estabilidad"><span class="header-section-number">4.4.2</span> Estabilidad: la frontera es el eje jω</h3>
@@ -629,7 +629,7 @@ window.Quarto = {
 <p><strong>Leer el resultado con los ojos del mapa</strong> (esto es lo nuevo respecto de EDO): el modo <span class="math inline">e^{-t/\tau}</span> vive en el <strong>polo del sistema</strong> (<span class="math inline">s = -1/\tau</span>: su respuesta natural — más pequeño el <span class="math inline">\tau</span>, más a la izquierda el polo, más rápida la carga); el término constante vive en el <strong>polo de la entrada</strong> (<span class="math inline">s = 0</span>: el escalón). Lo que en EDO llamabas “homogénea + particular” es esto mismo, visto desde el mapa.</p>
 </div>
 </div>
-<div id="e80a601f" class="cell" data-execution_count="6">
+<div id="34aaa6c9" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -721,7 +721,7 @@ window.Quarto = {
 <li><strong>[Alvarado]</strong> §4.1 (transformada bilateral: ROC, inversa por fracciones parciales, sistemas LTI — con la tabla 4.1 de propiedades y la tabla 4.2 de pares), §4.2 (unilateral: propiedades, teoremas de valor inicial y final, EDOs con condiciones iniciales).</li>
 <li><strong>[Oppenheim]</strong> §9.0–9.2 (definición y ROC), §9.3–9.4 (inversa y evaluación geométrica), §9.5–9.6 (propiedades y pares), §9.7 (análisis de sistemas: causalidad y estabilidad desde <span class="math inline">H(s)</span>), §9.9 (unilateral).</li>
 <li>Apunte propio del curso: <em>La Transformada de Laplace — una aventura en el plano complejo</em> (<code>modulos/5_transformada_laplace/apuntes/</code>), origen de la analogía costa/continente y de la visualización de <span class="math inline">|X(s)|</span> como superficie 3D con polos-carpas y ceros-anclajes.</li>
-<li>La app interactiva <code>modulos/5_transformada_laplace/demos/Laplace-app/laplace_visualizer.py</code>: arrastrar polos y predecir. La mejor forma de estudiar la <a href="#sec-mapa" class="quarto-xref"><span>Sección 4.4</span></a> es jugar con ella hasta que ninguna predicción te sorprenda.</li>
+<li>La app interactiva <code>material/demos/laplace/laplace_visualizer.py</code>: arrastrar polos y predecir. La mejor forma de estudiar la <a href="#sec-mapa" class="quarto-xref"><span>Sección 4.4</span></a> es jugar con ella hasta que ninguna predicción te sorprenda.</li>
 </ul>
 
 

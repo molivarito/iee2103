@@ -1,0 +1,179 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Documento Beamer: Guía Práctica para la App de Filtrado Rápido
+% Creado por: Gemini Code Assist
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[10pt]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{tcolorbox}
+\usepackage{enumitem} % Para personalizar listas
+
+% --- Configuración del Tema ---
+\usetheme{Madrid} 
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{frametitle}[default][center]
+
+% --- Página de Título ---
+\title[Guía Práctica]{Guía Práctica: App de Filtrado Rápido}
+\subtitle{Un Recorrido Pedagógico Interactivo}
+\author{Patricio de la Cuadra}
+\institute{Señales y Sistemas \\ Pontificia Universidad Católica de Chile}
+\date{\today}
+
+\begin{document}
+
+% --- DIAPOSITIVA: TÍTULO ---
+\begin{frame}
+  \maketitle
+\end{frame}
+
+% --- DIAPOSITIVA: INTRODUCCIÓN ---
+\begin{frame}
+  \frametitle{Introducción}
+  
+  Esta guía te acompañará en el uso de la aplicación \textbf{Lección Interactiva de Filtrado Rápido}.
+  
+  El objetivo es que, a través de la experimentación, descubras por ti mismo los conceptos fundamentales detrás de los algoritmos de filtrado por bloques.
+  
+  \begin{alertblock}{Estructura del Aprendizaje}
+  La aplicación está dividida en tres pestañas, que siguen un orden lógico:
+  \begin{enumerate}
+    \item \textbf{¿Cómo Funciona la Convolución?}: Entender la mecánica y la diferencia entre convolución lineal y circular.
+    \item \textbf{Lineal vs. Circular (vía FFT)}: Descubrir cómo la FFT puede calcular la convolución lineal.
+    \item \textbf{Filtrado por Bloques (OLA/OLS)}: Aplicar el conocimiento anterior para filtrar señales largas.
+  \end{enumerate}
+  \end{alertblock}
+  
+  ¡Vamos a empezar!
+  
+\end{frame}
+
+% --- DIAPOSITIVA: PESTAÑA 1 ---
+\begin{frame}[allowframebreaks]
+  \frametitle{Pestaña 1: ¿Cómo Funciona la Convolución?}
+  
+  \textbf{Objetivo:} Visualizar la diferencia mecánica entre la convolución lineal y la circular.
+  
+  \begin{block}{Actividad 1: Observación Inicial}
+  \begin{enumerate}
+    \item Abre la aplicación. En la primera pestaña, presiona \textbf{“Generar Señales”}.
+    \item Observa los dos paneles. El de la izquierda (circular) muestra dos ``rondas'' de muestras. El de la derecha (lineal) muestra dos secuencias en un eje cartesiano.
+    \item Fíjate en el punto de inicio de cada secuencia (marcado en negro).
+  \end{enumerate}
+  \end{block}
+  
+  \pause
+  
+  \begin{block}{Actividad 2: Animación Paso a Paso}
+    \begin{enumerate}
+      \item Presiona repetidamente el botón \textbf{“Siguiente Paso >>”}.
+      \item \textbf{Observa el panel derecho (Lineal):} La secuencia roja ($h$) se \textit{desliza} sobre la azul ($x$). Al final, se desliza hacia el ``vacío''.
+      \item \textbf{Observa el panel izquierdo (Circular):} La ronda roja ($h$) \textit{gira} una posición en cada paso. Cuando llega al final, ``da la vuelta'' y reaparece por el principio. Este es el famoso efecto \textbf{wrap-around}.
+      \item Compara los gráficos de resultado en la parte inferior. ¿Son iguales? ¿Tienen el mismo largo?
+    \end{enumerate}
+  \end{block}
+  
+  \pause
+  
+  \begin{tcolorbox}[colback=green!5!white, colframe=green!50!black]
+    \textbf{Conclusión Clave:} La convolución circular introduce un error de solapamiento (wrap-around) que la convolución lineal no tiene. El resto de la aplicación se dedica a ver cómo podemos corregir este ``error'' para usar la eficiente FFT.
+  \end{tcolorbox}
+  
+\end{frame}
+
+% --- DIAPOSITIVA: PESTAÑA 2 ---
+\begin{frame}[allowframebreaks]
+  \frametitle{Pestaña 2: Lineal vs. Circular (vía FFT)}
+  
+  \textbf{Objetivo:} Entender cómo el \textit{zero-padding} permite que la convolución circular (calculada por la FFT) dé el mismo resultado que la convolución lineal.
+  
+  \begin{block}{Actividad 1: El Problema del Aliasing}
+    \begin{enumerate}
+      \item Ve a la segunda pestaña. Verás una señal de entrada $x[n]$ y un filtro $h[n]$.
+      \item En el tercer gráfico, observa la línea azul (convolución lineal, el resultado ``correcto'') y la línea roja punteada (convolución circular).
+      \item Por defecto, con $N=256$, las líneas no coinciden. El gráfico muestra \textbf{“¡Aliasing!”}. Esto es el error de wrap-around a gran escala.
+    \end{enumerate}
+  \end{block}
+  
+  \pause
+  
+  \begin{block}{Actividad 2: La Solución Mágica}
+    \begin{enumerate}
+      \item En el menú desplegable “Tamaño FFT (N)”, selecciona la última opción, que corresponde a $N = L_x + M - 1$.
+      \item \textbf{¡Observa el cambio!} El gráfico ahora muestra \textbf{“¡Coinciden!”}. Los puntos rojos (resultado de la convolución circular) ahora caen perfectamente sobre la línea azul (resultado de la convolución lineal).
+    \end{enumerate}
+  \end{block}
+  
+  \pause
+  
+  \begin{tcolorbox}[colback=green!5!white, colframe=green!50!black]
+    \textbf{Conclusión Clave:} Si rellenamos las señales con suficientes ceros para que la FFT tenga un tamaño $N \ge L_x + M - 1$, el resultado de la convolución circular es idéntico al de la convolución lineal. Este es el ``truco'' fundamental que usan OLA y OLS.
+  \end{tcolorbox}
+  
+\end{frame}
+
+% --- DIAPOSITIVA: PESTAÑA 3 ---
+\begin{frame}[allowframebreaks]
+  \frametitle{Pestaña 3: Filtrado por Bloques (OLA/OLS)}
+  
+  \textbf{Objetivo:} Entender cómo los algoritmos OLA y OLS aplican el truco del zero-padding para filtrar señales largas de manera eficiente.
+  
+  \begin{block}{Actividad 1: Overlap-Add (OLA)}
+    \begin{enumerate}[label*=\arabic*.]
+      \item Selecciona el método \textbf{Overlap-Add (OLA)}.
+      \item Ajusta los parámetros para que el estado sea ``VÁLIDO'' (p.ej., $L=64, N=128$).
+      \item Presiona \textbf{“Iniciar / Reiniciar”} y luego avanza con \textbf{“Siguiente Bloque >>”}.
+      \item \textbf{Observa el Gráfico 2 (Entrada):} Se toma un bloque de datos (cian) \textbf{sin solapamiento}.
+      \item \textbf{Observa el Gráfico 3 (Salida de Bloque):} Gracias al padding, la convolución es ``limpia''. Fíjate en la ``cola'' de $M-1$ muestras (verde). Esta es la parte que se \textbf{SUMA} al siguiente bloque.
+      \item \textbf{Observa el Gráfico 1 (Salida Global):} La línea roja (reconstruida) va trazando perfectamente la línea azul (la verdad fundamental) a medida que avanzas.
+    \end{enumerate}
+  \end{block}
+  
+  \pause
+  
+  \begin{block}{Actividad 2: Overlap-Save (OLS)}
+    \begin{enumerate}[label*=\arabic*.]
+      \item Selecciona el método \textbf{Overlap-Save (OLS)}.
+      \item Ajusta $N$ (p.ej., $N=128$). $L$ se calculará automáticamente.
+      \item Presiona \textbf{“Iniciar / Reiniciar”} y luego avanza con \textbf{“Siguiente Bloque >>”}.
+      \item \textbf{Observa el Gráfico 2 (Entrada):} Se toman datos nuevos (cian) pero se les antepone un bloque de \textbf{solapamiento} (naranja) del paso anterior.
+      \item \textbf{Observa el Gráfico 3 (Salida de Bloque):} El aliasing ocurre. Las primeras $M-1$ muestras (rojo) son incorrectas y se \textbf{DESCARTAN}. Solo la parte verde se \textbf{GUARDA}.
+      \item \textbf{Observa el Gráfico 1 (Salida Global):} La salida se construye concatenando las partes ``guardadas''. El resultado final también es perfecto.
+    \end{enumerate}
+  \end{block}
+  
+  \begin{alertblock}{No te olvides del botón de ayuda}
+  En esta pestaña, puedes presionar el botón \textbf{“? Explicación del Método”} para obtener un recordatorio de la idea central de cada algoritmo.
+  \end{alertblock}
+  
+\end{frame}
+
+% --- DIAPOSITIVA: CONCLUSIÓN ---
+\begin{frame}
+  \frametitle{Conclusiones del Recorrido}
+  
+  ¡Felicitaciones! Has completado el recorrido interactivo. Ahora deberías tener una comprensión mucho más profunda de:
+  
+  \begin{itemize}
+    \item La diferencia fundamental entre la convolución lineal y la circular (\textbf{wrap-around}).
+    \item Cómo el \textbf{zero-padding} es la herramienta clave para que la FFT calcule convoluciones lineales.
+    \item Las dos estrategias principales para aplicar este truco en bloques:
+    \begin{itemize}
+        \item \textbf{OLA:} Entradas limpias, salidas que se solapan y \textbf{suman}.
+        \item \textbf{OLS:} Entradas solapadas, salidas que se \textbf{descartan} y se guardan.
+    \end{itemize}
+  \end{itemize}
+  
+  \vspace{1em}
+  
+  \begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+    Ahora tienes la base conceptual para entender una de las técnicas más importantes y eficientes del procesamiento digital de señales.
+  \end{tcolorbox}
+  
+\end{frame}
+
+\end{document}

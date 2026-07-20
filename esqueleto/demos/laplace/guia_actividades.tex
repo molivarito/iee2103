@@ -1,0 +1,138 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{framed}
+
+\geometry{a4paper, margin=1in, headheight=15pt}
+\linespread{1.2}
+
+\newcommand{\laplace}{\mathcal{L}}
+
+\begin{document}
+
+\title{\textbf{Guía de Laboratorio Interactivo:}\\ \Large Explorando la Transformada de Laplace}
+\author{Prof. Patricio de la Cuadra}
+\date{Curso de Señales y Sistemas}
+\maketitle
+
+\begin{abstract}
+\noindent Esta guía presenta una serie de actividades prácticas diseñadas para ser realizadas con la aplicación interactiva de Laplace. El objetivo es construir una comprensión intuitiva y profunda de la Transformada de Laplace, conectando los conceptos matemáticos con sus consecuencias visuales en el comportamiento de señales y sistemas.
+\end{abstract}
+
+\hrule
+\vspace{1cm}
+
+\section*{Introducción}
+La Transformada de Fourier es una herramienta excelente para analizar el contenido frecuencial de una señal, pero se limita a señales cuya energía es finita (absolutamente integrables). La Transformada de Laplace generaliza este concepto al introducir el plano complejo $s = \sigma + j\omega$, permitiéndonos analizar una clase mucho más amplia de señales y, fundamentalmente, sistemas.
+
+Esta guía utiliza la aplicación interactiva para que puedas \textbf{ver} y \textbf{experimentar} con estos conceptos.
+
+\section*{Puesta en Marcha}
+\begin{enumerate}
+    \item Asegúrate de tener todas las librerías necesarias instaladas (`numpy`, `matplotlib`, `scipy`, `sympy`, `tkinter`).
+    \item Abre una terminal, navega a la carpeta donde se encuentra la aplicación y ejecútala con:
+    \begin{verbatim}
+python laplace_visualizer.py
+    \end{verbatim}
+\end{enumerate}
+
+\newpage
+
+\section{Actividades Prácticas}
+
+\begin{framed}
+\subsection*{Actividad 1: El Significado de la Convergencia}
+\textbf{Objetivo:} Entender por qué existe la Región de Convergencia (ROC) y cuál es el rol del parámetro $\sigma$.
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item Inicia la aplicación en el modo \textbf{Análisis de Señales}.
+    \item Selecciona la señal \textbf{``Derecha: Escalón Unitario''}. Esta señal no es absolutamente integrable ($\int |u(t)|dt \to \infty$).
+    \item Observa que su polo está en $s=0$. La T.F. existe en un sentido generalizado. Fíjate en el gráfico de $|X(j\omega)|$. ¿Qué ocurre cerca de $\omega=0$?
+    \item Mueve el punto verde interactivo \textbf{'s'} y colócalo justo sobre el eje imaginario (ej: en $s = 0 + j2$). \textbf{Mantén presionada la tecla SHIFT} para ajustarte al eje.
+    \item Observa el gráfico del \textbf{``Integrando Amortiguado''} ($x(t)e^{-\sigma t}$). Verás que es una constante para $t>0$ y no decae a cero. La integral de esta función no converge a un valor finito.
+    
+    \textbf{Pregunta 1:} ¿Por qué no converge la integral del integrando cuando $\sigma=0$?
+    
+    \vspace{2cm} 
+    
+    \item Ahora, lentamente, arrastra el punto 's' hacia la derecha, dentro de la zona verde (la ROC), por ejemplo a $s = 0.5 + j2$.
+    
+    \textbf{Pregunta 2:} Describe qué le ocurre a la forma de onda del "Integrando Amortiguado" a medida que $\sigma$ se vuelve positivo. ¿Cómo se relaciona esto con la convergencia de la integral de Laplace?
+    
+    \vspace{2cm}
+    
+    \item \textbf{Concepto Clave:} Has demostrado visualmente que $\sigma$ es un factor de amortiguamiento que ``fuerza'' la convergencia. La ROC ($Re(s)>0$) es la región exacta donde este factor es lo suficientemente fuerte para vencer la persistencia del escalón.
+\end{enumerate}
+\end{framed}
+
+\vspace{1cm}
+
+\begin{framed}
+\subsection*{Actividad 2: El Plano $s$ como Mapa del Comportamiento}
+\textbf{Objetivo:} Conectar directamente la \textbf{posición de los polos} con la respuesta temporal de un sistema ($h(t)$).
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item Cambia al modo \textbf{``Diseño de Sistemas''} y selecciona la opción \textbf{``Por Polos y Ceros''}. Presiona ``Limpiar Diseño''.
+    
+    \item \textbf{Estabilidad y Amortiguamiento:}
+        \begin{itemize}
+            \item Coloca un único polo (clic izquierdo) en $\sigma = -2$. Observa la forma de $h(t)$.
+            \item Arrástralo a $\sigma = -0.5$. ¿La respuesta es más rápida o más lenta?
+            \item Arrástralo al semiplano derecho, a $\sigma = +0.5$. ¿Qué ocurre con $h(t)$?
+        \end{itemize}
+    
+    \textbf{Pregunta 3:} ¿Qué representa el eje imaginario ($j\omega$) en términos de estabilidad? ¿Qué le pasa a la respuesta de un sistema si todos sus polos están a la izquierda de este eje? ¿Y si al menos uno está a la derecha?
+    
+    \vspace{2cm}
+    
+    \item \textbf{Oscilaciones:}
+        \begin{itemize}
+            \item Limpia el diseño. Coloca un polo en $s = -1 + j5$. El polo conjugado aparecerá automáticamente.
+            \item Observa la respuesta $h(t)$. Ahora, mantén la parte real ($\sigma = -1$) y arrastra los polos verticalmente (ej: a $-1 \pm j10$).
+            \item Limpia de nuevo. Coloca los polos en $-1 \pm j5$. Ahora, mantén la parte imaginaria ($\omega = 5$) y arrastra los polos horizontalmente (ej: a $-2 \pm j5$ y luego a $-0.2 \pm j5$).
+        \end{itemize}
+        
+    \textbf{Pregunta 4:} ¿Qué coordenada del polo ($\sigma$ o $\omega$) controla la \textbf{frecuencia de oscilación} de $h(t)$? ¿Qué coordenada controla la \textbf{velocidad de amortiguamiento}?
+    
+    \vspace{2cm}
+    
+    \item \textbf{Concepto Clave:} Has construido una intuición fundamental: $\sigma_p$ dicta la estabilidad y el decaimiento, y $\omega_p$ dicta la oscilación. ¡Has aprendido a leer el mapa del plano $s$!
+\end{enumerate}
+\end{framed}
+
+\vspace{1cm}
+
+\begin{framed}
+\subsection*{Actividad 3: De la Ecuación Diferencial al Análisis Completo}
+\textbf{Objetivo:} Utilizar la aplicación para resolver y analizar un sistema LTI desde su modelo matemático fundamental.
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+    \item En el modo \textbf{``Diseño de Sistemas''}, selecciona la opción \textbf{``Por Ecuación Diferencial''}.
+    \item Analiza un sistema de segundo orden subamortiguado, como un circuito RLC, modelado por:
+    \[ y''(t) + 2y'(t) + 26y(t) = x(t) \]
+    Introduce los coeficientes: `1, 2, 26` para $y(t)$ y `1` para $x(t)$. Presiona ``Calcular''.
+    
+    \textbf{Pregunta 5:} Observa el panel superior. ¿Cuál es la función de transferencia $H(s)$ resultante? Observa el plano $s$. ¿Dónde están ubicados los polos? ¿Corresponde la respuesta $h(t)$ a la que esperarías para esos polos?
+    
+    \vspace{2cm}
+    
+    \item Ahora, investiga el efecto de un \textbf{cero}. Modifica los coeficientes de $x(t)$ para que la ecuación sea:
+     \[ y''(t) + 2y'(t) + 26y(t) = x'(t) \]
+     (Coeficientes de $x(t)$: `1, 0`). Calcula de nuevo.
+     
+     \textbf{Pregunta 6:} ¿Dónde apareció el cero en el plano $s$? Compara la nueva respuesta $h(t)$ con la anterior. ¿Cómo afectó el cero a la respuesta del sistema?
+    
+    \vspace{2cm}
+
+    \item \textbf{Concepto Clave:} Has completado el ciclo de análisis: Ecuación Diferencial $\rightarrow$ Transformada de Laplace $\rightarrow$ Función de Transferencia $H(s) \rightarrow$ Polos y Ceros $\rightarrow$ Respuesta en el Tiempo $h(t)$.
+\end{enumerate}
+\end{framed}
+
+
+\end{document}

@@ -1,0 +1,4 @@
+numpy>=1.24
+matplotlib>=3.7
+PySide6>=6.5
+qdarktheme>=2.1   # opcional: tema visual oscuro

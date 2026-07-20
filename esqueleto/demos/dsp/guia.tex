@@ -1,0 +1,109 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage[spanish]{babel}
+\usepackage{fancybox}
+
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
+\title{Guía de Laboratorio: Exploración de Operaciones Discretas con DSP Visualizer}
+\author{IEE2103 -- Señales y Sistemas}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introducción}
+Esta guía de laboratorio tiene como objetivo reforzar los conceptos teóricos de \textbf{Transformada de Fourier de Tiempo Discreto (DTFT)}, \textbf{Expansión, Diezmado, e Interpolación} mediante la herramienta interactiva \texttt{DSP Visualizer}. La aplicación les permitirá visualizar los efectos de las operaciones de cambio de tasa de muestreo directamente en los dominios del tiempo y la frecuencia ($\text{Hz}$ y $\omega$).
+
+\begin{center}
+\fbox{\parbox{0.95\textwidth}{
+\textbf{Objetivos Específicos:}
+\begin{itemize}
+    \item Confirmar la propiedad de las imágenes espectrales generadas por la Expansión (Upsampling).
+    \item Demostrar el fenómeno de Aliasing (solapamiento) causado por el Diezmado sin filtrado.
+    \item Entender la función del filtro anti-aliasing y anti-imagen en el Remuestreo racional ($L/M$).
+\end{itemize}
+}}
+\end{center}
+
+\section{Actividad 1: La Propiedad de las Imágenes y la Interpolación ($\mathbf{L}$)}
+
+Configure la aplicación en modo \textbf{Expansión (L)} con los siguientes parámetros iniciales:
+\begin{itemize}
+    \item $F_s = 200 \text{ Hz}$
+    \item $f_0 = 40 \text{ Hz}$
+    \item Factor $L = 3$
+\end{itemize}
+
+\subsection{Preguntas y Tareas}
+
+\begin{enumerate}
+    \item \textbf{Verificación en $\mathbf{Hz}$:} Con $L=3$, ¿cuál es la nueva frecuencia de muestreo $F_s'$?
+    \item \textbf{Imágenes Espectrales:} Observe el gráfico "Espectro Original y Efecto de la Operación" (AX3). La línea roja punteada muestra el espectro de la señal expandida.
+    \begin{itemize}
+        \item ¿Cuántas copias del espectro original (imágenes) observa en el rango $[0, F_s']$?
+        \item Indique la posición en $\text{Hz}$ de la primera imagen lateral (el primer pico positivo más allá de $f_0$). Explique cómo se relaciona esta posición con $F_s$.
+    \end{itemize}
+    \item \textbf{Rol del Filtro:} El proceso de interpolación (\texttt{DSP Visualizer} lo simula con \texttt{resample\_poly}) aplica un filtro ideal.
+    \begin{itemize}
+        \item ¿Cuál es la frecuencia de corte $\omega_c$ normalizada que debería tener este filtro para eliminar las imágenes? (Deje $L=3$).
+        \item En el gráfico de Salida (DFT), ¿por qué solo se ve el pico de $40 \text{ Hz}$ y no las imágenes?
+    \end{itemize}
+\end{enumerate}
+
+\section{Actividad 2: Diezmado, Aliasing y el Filtro Anti-Aliasing ($\mathbf{M}$)}
+
+Configure la aplicación en modo \textbf{Diezmado (M)} con los siguientes parámetros iniciales:
+\begin{itemize}
+    \item $F_s = 200 \text{ Hz}$
+    \item $f_0 = 70 \text{ Hz}$
+    \item Factor $M = 3$
+\end{itemize}
+
+\subsection{Preguntas y Tareas}
+
+\begin{enumerate}
+    \item \textbf{Frecuencia de Nyquist:} Con $M=3$, calcule la nueva frecuencia de muestreo $F_s'$. ¿Cuál es la nueva frecuencia de Nyquist ($F_s'/2$)?
+    \item \textbf{Observación del Aliasing:} En la sección de Diezmado, habilite la opción de simular el diezmado \textbf{SIN FILTRO}.
+    \begin{itemize}
+        \item ¿El pico original de $70 \text{ Hz}$ es visible en la DFT final (AX4)? ¿Qué valor de frecuencia "alias" aparece en su lugar?
+        \item Explique el origen matemático de esta frecuencia de alias ($\hat{f}_0$) usando la fórmula de solapamiento: $\hat{f}_0 = |f_0 - k F_s'|$ (donde $k$ es un entero).
+    \end{itemize}
+    \item \textbf{Efecto del Filtro:} Vuelva a usar la función normal de Diezmado (que incluye el filtro anti-aliasing).
+    \begin{itemize}
+        \item ¿Qué sucede con el pico de $70 \text{ Hz}$ en el espectro de salida? ¿Por qué el filtro lo elimina?
+        \item ¿Cuál es la frecuencia de corte en $\text{Hz}$ del filtro pasa-bajos que precede al diezmado por $M=3$?
+    \end{itemize}
+\end{enumerate}
+
+\section{Actividad 3: Remuestreo Racional y Resolución ($\mathbf{L/M}$)}
+
+Configure la aplicación en modo \textbf{Remuestreo (L/M)} con los siguientes parámetros:
+\begin{itemize}
+    \item $F_s = 200 \text{ Hz}$
+    \item $f_0 = 20 \text{ Hz}$
+    \item Factor $L = 5$
+    \item Factor $M = 4$
+\end{itemize}
+
+\subsection{Preguntas y Tareas}
+
+\begin{enumerate}
+    \item \textbf{Nueva Tasa:} Calcule el nuevo factor de remuestreo $R = L/M$. ¿Cuál es la nueva frecuencia de muestreo $F_s'$?
+    \item \textbf{Filtro Único:} El proceso de remuestreo $L/M$ utiliza un único filtro con $\omega_c = \min\{\pi/L, \pi/M\}$.
+    \begin{itemize}
+        \item ¿Cuál de los dos factores ($L$ o $M$) domina la elección de la frecuencia de corte en este caso? ¿Cuál es la frecuencia de corte en $\text{Hz}$?
+    \end{itemize}
+    \item \textbf{Zero-Padding (Resolución DFT):} Desactive y reactive la casilla \textbf{Aplicar Zero-Padding a la DFT} en la salida (AX4).
+    \begin{itemize}
+        \item Al desactivar el ZP, ¿se mueve el pico de $20 \text{ Hz}$? ¿Qué cambia en el espectro (AX4)?
+        \item Si la señal original de entrada $x[n]$ fue muestreada por $N=128$ puntos, ¿cuál es la resolución de frecuencia $\Delta f$ real (la capacidad de distinguir tonos) de la DTFT? (Depende solo de $F_s$ y $N$).
+    \end{itemize}
+\end{enumerate}
+
+\end{document}

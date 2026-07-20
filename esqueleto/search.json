@@ -33,6 +33,26 @@
     ]
   },
   {
+    "objectID": "demos.html",
+    "href": "demos.html",
+    "title": "Demos del curso",
+    "section": "",
+    "text": "Todas las demos y apps interactivas del curso, en un solo lugar. Son las mismas que se usan en clase: bájalas y córrelas en tu computador para volver a jugar con ellas cuando quieras — antes de una interrogación, para preparar una pregunta, o simplemente por curiosidad.\nNecesitas Python 3 instalado. Cada demo indica sus dependencias; lo mínimo común es numpy y matplotlib:\nOrden: por clase.",
+    "crumbs": [
+      "Demos del curso"
+    ]
+  },
+  {
+    "objectID": "demos.html#inventario-completo",
+    "href": "demos.html#inventario-completo",
+    "title": "Demos del curso",
+    "section": "Inventario completo",
+    "text": "Inventario completo\nVer material/demos/README.md en el repo para la tabla completa (demo, clase, qué ilustra, cómo correr, dependencias) y notas sobre versiones duplicadas eliminadas.",
+    "crumbs": [
+      "Demos del curso"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "IEE2103 · Señales y Sistemas",

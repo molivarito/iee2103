@@ -1,0 +1,63 @@
+¡Excelente pregunta! El visualizador de Laplace ya demostró que convertir el plano complejo en un lienzo interactivo transforma la manera en que los alumnos construyen intuición. El visualizador Z hace lo mismo para el mundo discreto: el círculo unitario reemplaza al eje jω, y "diseñar un filtro" deja de ser álgebra abstracta para convertirse en algo que se dibuja con el mouse.
+
+Aquí van tres actividades, pensadas para C25 (geometría del plano z → |H(e^jω)|) y C26 (diseño de filtros por polos y ceros), de menor a mayor complejidad.
+
+---
+## Actividad 1: La Geometría de la Respuesta en Frecuencia (C25)
+
+**Objetivo Pedagógico:** Entender que |H(e^jω)| no es un cálculo misterioso, sino literalmente el producto de distancias de un punto móvil sobre el círculo unitario a cada cero, dividido por el producto de distancias a cada polo.
+
+**Instrucciones:**
+
+1. Inicia la aplicación en modo "Manual (sin preset)" y presiona "Limpiar Diseño".
+2. Haz clic izquierdo para poner un polo en, por ejemplo, z = 0.7 (sobre el eje real, dentro del círculo). Haz clic derecho para poner un cero en z = -0.7.
+3. Activa la casilla "Modo geométrico (vectores a e^{jω})". Aparecerá un triángulo verde sobre el círculo unitario en ω = ω₀, con flechas desde el polo y el cero hasta ese punto.
+4. Mueve lentamente el slider de ω. Observa cómo cambian simultáneamente: (a) las longitudes de las flechas en el plano z, y (b) el valor de |H(e^jω)| marcado en el panel de magnitud.
+
+**¿Qué Deberían Observar?**
+Cuando ω₀ = 0 (el punto está en z = 1, cerca del cero en z = -0.7 y lejos del polo en z = 0.7... ojo, revisa la geometría real), la distancia al cero y al polo determinan el valor exacto de |H|. Al mover ω hacia π, el punto se acerca al polo en 0.7 (si está del mismo lado) y la magnitud sube; si se acerca al cero, la magnitud baja. La curva de |H(e^jω)| es, punto por punto, el resultado de esta razón de distancias.
+
+**Concepto Clave Reforzado:**
+|H(e^jω)| = |K| · (producto de distancias a los ceros) / (producto de distancias a los polos), evaluado siempre SOBRE el círculo unitario. Un cero muy cerca del círculo produce un valle profundo; un polo muy cerca del círculo produce un pico agudo. Esta es la misma idea del plano s, pero la "línea de evaluación" ahora es un círculo, no una recta.
+
+---
+## Actividad 2: El Notch — Diseñando un Filtro para Eliminar 50 Hz (C26)
+
+**Objetivo Pedagógico:** Diseñar, con criterio y no por ensayo y error ciego, un filtro que elimine una frecuencia específica de una señal muestreada, y entender el rol del radio del polo en la selectividad.
+
+**Contexto:** Una señal fue muestreada a fs = 1000 Hz y está contaminada con una interferencia de 50 Hz (ruido de la red eléctrica). Queremos un filtro notch que la elimine sin distorsionar el resto del espectro.
+
+**Instrucciones:**
+
+1. Selecciona el preset "Notch (elimina f0)". Ajusta f0 = 50 y fs = 1000 con los sliders. Verás que la app coloca automáticamente un par de ceros conjugados exactamente sobre el círculo unitario en ±ω₀ = ±2π·50/1000, y un par de polos en el mismo ángulo pero con radio r < 1.
+2. Activa el modo geométrico y mueve ω hasta ω₀. Confirma que |H(e^jω₀)| ≈ 0: el cero, al estar exactamente sobre el círculo, anula esa frecuencia por completo.
+3. Ahora mueve el slider de r (el radio del polo) de 0.5 a 0.99. Observa el panel |H(e^jω)|.
+
+**¿Qué Deberían Observar?**
+Con r pequeño (polo lejos del círculo), la muesca es ancha: se elimina 50 Hz, pero también se atenúan frecuencias vecinas (30, 40, 60, 70 Hz), distorsionando la señal. Con r cercano a 1 (polo casi sobre el círculo, justo "debajo" del cero), la muesca se vuelve angosta y quirúrgica: solo 50 Hz se ve afectada.
+
+**Pregunta para el alumno:** ¿Por qué no simplemente usar r = 0.999999? Revisa el panel h[n] y el indicador de estabilidad. (Un polo muy cerca del círculo unitario hace que la respuesta al impulso decaiga muy lentamente — el filtro "tarda" mucho en estabilizarse tras un transiente, y en la práctica los errores de precisión numérica pueden empujarlo fuera del círculo, volviéndolo inestable.)
+
+**Concepto Clave Reforzado:**
+El cero sobre el círculo define QUÉ frecuencia se anula; el radio del polo define QUÉ TAN SELECTIVO (angosto) es ese notch, con un costo: mayor selectividad implica una respuesta al impulso más larga y un sistema más cerca del límite de estabilidad.
+
+---
+## Actividad 3: Peine, Resonador y el Costado Inestable (C26)
+
+**Objetivo Pedagógico:** Generalizar la idea de la Actividad 2 a un banco de frecuencias (el peine), reconocer su dual (el resonador), y ver con los propios ojos qué significa "salirse del círculo unitario".
+
+**Instrucciones:**
+
+1. **Parte A (Peine):** Selecciona el preset "Peine / Comb". Prueba N = 4 y luego N = 8, con r = 0.85. Observa el panel |H(e^jω)|: aparecen N muescas equiespaciadas alrededor del círculo. Sube y baja r y confirma que se cumple la misma relación radio-selectividad de la Actividad 2, pero ahora replicada N veces. (Este es el filtro que se usaría, por ejemplo, para eliminar un armónico fundamental y todos sus múltiplos.)
+2. **Parte B (Resonador, el filtro dual):** Selecciona "Resonador". A diferencia del notch, aquí NO hay ceros: solo un par de polos cerca del círculo en ±ω₀. Mueve r de 0.8 a 0.999 y observa cómo, en vez de un valle, ahora aparece un PICO cada vez más angosto y alto en ω₀. Compara el panel h[n]: para r alto, la oscilación tarda muchísimo en apagarse.
+3. **Parte C (Cruzando la frontera):** Vuelve a modo manual, limpia el diseño, y coloca un solo polo en z = 0.95 sobre el eje real. Observa h[n] (decae) y el estado "ESTABLE". Ahora arrástralo lentamente hacia afuera del círculo unitario (usa Shift mientras arrastras para "pegarlo" exactamente al círculo, y luego suéltalo un poco más allá). Observa el instante exacto en que el indicador cambia a "INESTABLE" y qué le pasa a h[n].
+
+**¿Qué Deberían Observar?**
+El peine es "muchos notches a la vez"; el resonador es el filtro complementario del notch (pasa en vez de bloquear). Ambos comparten la misma física: la cercanía del polo al círculo unitario controla la selectividad. Y el límite de estabilidad no es una regla arbitraria: es literalmente el borde del círculo dibujado en pantalla. Un polo apenas fuera de él (r = 1.0001) basta para que h[n] deje de decaer y empiece a crecer sin límite.
+
+**Conceptos Clave Reforzados:**
+El diseño de filtros IIR discretos es, en esencia, geometría: dónde pones los ceros decide qué se cancela, dónde pones los polos decide qué se realza y qué tan selectivo es el filtro, y la distancia de los polos al círculo unitario es, simultáneamente, la medida de selectividad y el margen de seguridad frente a la inestabilidad.
+
+---
+
+Con estas tres actividades, el plano z deja de ser "el plano s pero con un círculo en vez de una recta" y se convierte en lo que realmente es para el diseño de sistemas discretos: el tablero de control completo de un filtro digital. El botón "Copiar b, a para scipy" permite a los alumnos llevarse el diseño hecho con el mouse directamente a `scipy.signal.freqz`/`lfilter` y verificar (o seguir explorando) fuera de la app.

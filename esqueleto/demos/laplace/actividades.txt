@@ -1,0 +1,71 @@
+¡Excelente pregunta! Ahora que tenemos la herramienta, podemos diseñar actividades que transformen la manera en que los alumnos interactúan con el material. La clave es pasar de una observación pasiva a una **exploración guiada que genere descubrimientos**.
+
+Aquí te propongo tres actividades prácticas, de menor a mayor complejidad, que puedes usar como un laboratorio o una guía de trabajo para tus alumnos.
+
+---
+## Actividad 1: El Poder de la Convergencia
+
+**Objetivo Pedagógico:** Entender de forma intuitiva por qué existe la Región de Convergencia (ROC) y cuál es el rol fundamental del parámetro $\sigma$ en la variable $s = \sigma + j\omega$.
+
+**Instrucciones:**
+
+1.  Inicia la aplicación en el modo **"Análisis de Señales"**.
+2.  Selecciona una señal que **no tenga Transformada de Fourier**, como el "Seno Puro" o, mejor aún, una exponencial creciente (que podrías añadir, ej: $e^{at}u(t)$). Para nuestro caso, usemos el **"Seno Puro"**.
+3.  Observa que su ROC es $Re(s) > 0$. Los gráficos de la Transformada de Fourier (magnitud y fase) muestran el mensaje "T.F. no existe".
+4.  Mueve el punto verde interactivo **'s'** y colócalo justo sobre el eje $j\omega$ (donde $\sigma = 0$).
+5.  Fíjate en el gráfico del **"Integrando Amortiguado"** ($x(t)e^{-\sigma t}$). Verás que es una sinusoide que no decae. Esto representa una integral que no converge.
+6.  Ahora, lentamente, **arrastra el punto 's' hacia la derecha**, adentrándote en la ROC (a una zona donde $\sigma > 0$).
+
+**¿Qué Deberían Observar?**
+A medida que $\sigma$ se vuelve positivo, verán "mágicamente" cómo el gráfico del integrando, que antes no decaía, ahora es "aplastado" por una exponencial decreciente. La oscilación se amortigua y tiende a cero.
+
+**Concepto Clave Reforzado:**
+Los alumnos *verán* que $\sigma$ es un **factor de amortiguamiento artificial** que "fuerza" la convergencia de la integral. Entenderán que la ROC no es una regla arbitraria, sino la región exacta donde este factor de amortiguamiento es lo suficientemente fuerte para "ganarle" al crecimiento de la señal original.
+
+---
+## Actividad 2: El Arquitecto de Sistemas
+
+**Objetivo Pedagógico:** Construir una conexión directa y visceral entre la **posición de los polos** en el plano $s$ y la **respuesta temporal** de un sistema (estabilidad, amortiguamiento y oscilación).
+
+**Instrucciones:**
+
+1.  Cambia al modo **"Diseño de Sistemas"** y presiona "Limpiar Diseño".
+2.  **Parte A (Estabilidad):**
+    * Haz clic izquierdo en $\sigma = -2$. Observa la respuesta al impulso $h(t)$: un decaimiento exponencial rápido.
+    * Mueve el polo a $\sigma = -0.5$. Observa que el decaimiento es mucho más lento.
+    * Ahora, arrastra el polo al semiplano derecho, a $\sigma = +0.5$. Observa cómo la respuesta $h(t)$ **explota** y aparece la advertencia "INESTABLE".
+3.  **Parte B (Oscilación):**
+    * Limpia el diseño. Haz clic en un punto complejo, por ejemplo, $s = -1 + j4$. La aplicación añadirá automáticamente el par conjugado.
+    * Observa la respuesta: una sinusoide amortiguada.
+    * Mueve los polos **verticalmente** (cambiando $\omega$ pero manteniendo $\sigma=-1$). Observa que la **frecuencia de la oscilación** cambia, pero la envolvente de decaimiento es la misma.
+    * Ahora, mueve los polos **horizontalmente** (cambiando $\sigma$). Observa que la frecuencia se mantiene, pero la respuesta se amortigua más o menos rápido.
+
+**¿Qué Deberían Observar?**
+Los alumnos descubrirán por sí mismos las reglas fundamentales del diseño de sistemas: el eje real controla la estabilidad y la velocidad de respuesta, mientras que el eje imaginario controla la frecuencia de las oscilaciones.
+
+**Concepto Clave Reforzado:**
+El plano $s$ deja de ser un concepto abstracto y se convierte en un **lienzo de diseño**. Los polos son las "brochas" con las que se "pinta" el comportamiento de un sistema en el tiempo.
+
+---
+## Actividad 3: El Cero Anulador y el Corte de Fourier
+
+**Objetivo Pedagógico:** Entender el efecto de los ceros en la respuesta de un sistema y visualizar la relación directa entre la T. de Laplace y la T. de Fourier.
+
+**Instrucciones:**
+
+1.  **Parte A (El Efecto del Cero):**
+    * En el **"Modo Diseño"**, crea un sistema subamortiguado con polos en, por ejemplo, $-1 \pm j5$. Observa la respuesta $h(t)$ oscilatoria.
+    * Ahora, añade un **cero** (con clic derecho) y colócalo muy cerca de uno de los polos (ej: en $-0.9 + j5$).
+    * **Pregunta para el alumno:** ¿Qué le pasó a la amplitud de la respuesta? ¿Por qué? (Deberían observar que la respuesta casi desaparece, porque el cero está "cancelando" el modo asociado a ese polo).
+2.  **Parte B (El Corte de Fourier):**
+    * Vuelve al **"Modo Análisis"** y selecciona el "Seno Amortiguado".
+    * Pide a los alumnos que observen simultáneamente el gráfico **3D de $|X(s)|$** y el gráfico de **magnitud de Fourier $|X(j\omega)|$**.
+    * **Pregunta para el alumno:** ¿Qué relación observas entre ambos gráficos? (Deberían notar que el gráfico de Fourier es exactamente el "corte" o la "rebanada" de la superficie 3D a lo largo del plano $\sigma=0$).
+    * Usa el slider del parámetro 'a' para acercar el polo al eje $j\omega$. ¿Qué le pasa al "pico" en el gráfico de Fourier? (Se vuelve más alto y agudo, demostrando el concepto de resonancia).
+
+**Conceptos Clave Reforzados:**
+Los ceros no son pasivos; pueden usarse para **modular o eliminar** componentes de la respuesta de un sistema. La Transformada de Fourier es un caso particular y una "vista de perfil" de la Transformada de Laplace para sistemas estables.
+
+---
+
+Con estas actividades, la aplicación pasa de ser un visualizador a un verdadero **laboratorio virtual**, donde los estudiantes pueden experimentar, cometer errores y construir una intuición sólida sobre uno de los temas más importantes de la ingeniería.

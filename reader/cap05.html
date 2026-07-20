@@ -330,7 +330,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Este es <em>el</em> dibujo del capítulo. Míralo con calma, porque contiene el teorema completo:</p>
-<div id="09cfe805" class="cell" data-execution_count="1">
+<div id="9bb7a431" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -364,7 +364,7 @@ window.Quarto = {
 <section id="sec-nyquist-aliasing" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="sec-nyquist-aliasing"><span class="header-section-number">5.2.3</span> Aliasing: frecuencias disfrazadas</h3>
 <p>¿Y si se viola la condición? Una componente con <span class="math inline">f &gt; f_s/2</span> hace que la réplica vecina invada la banda base: esa componente aparece <strong>disfrazada</strong> de una frecuencia más baja. El fenómeno se llama <strong>aliasing</strong> (de <em>alias</em>: otro nombre para la misma cosa). Para sinusoides hay una regla práctica que conviene tatuarse: la frecuencia aparente es <span class="math inline">\lvert f - k f_s\rvert</span>, con el entero <span class="math inline">k</span> que la deje en <span class="math inline">[0, f_s/2]</span>.</p>
-<div id="c585114d" class="cell" data-execution_count="2">
+<div id="c966c552" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -410,7 +410,7 @@ window.Quarto = {
 <p><span class="math display">x_r(t) = \sum_{n=-\infty}^{\infty} x(nT)\,\operatorname{sinc}\!\Big(\frac{t - nT}{T}\Big)</span> Cada muestra iza su sinc; la suma de todas reconstruye la señal — no una aproximación: <strong>la señal</strong>.</p>
 </div>
 </div>
-<div id="e426bc14" class="cell" data-execution_count="3">
+<div id="72599807" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -488,7 +488,7 @@ window.Quarto = {
 <p><strong>(d)</strong> <span class="math inline">\cos\big(\tfrac{\pi}{3}n\big) + \sin\big(\tfrac{\pi}{4}n\big)</span>: períodos individuales <span class="math inline">N_1 = 6</span> y <span class="math inline">N_2 = 8</span>; la suma se repite en el mínimo común múltiplo: <span class="math inline">N = 24</span>.</p>
 </div>
 </div>
-<div id="e9f1e872" class="cell" data-execution_count="4">
+<div id="d187c56a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -638,7 +638,7 @@ window.Quarto = {
 </tbody>
 </table>
 <p>Seis muestras, como predice <span class="math inline">4 + 3 - 1</span>. La lectura física de las filas es la deducción hecha tabla: <em>cada muestra de la entrada dispara una copia de <span class="math inline">h</span>, retardada y escalada; la salida es la superposición.</em></p>
-<div id="766dfa2d" class="cell" data-execution_count="5">
+<div id="f1723291" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -723,7 +723,7 @@ window.Quarto = {
 y_c(t) = 2\sqrt{2}\,\cos\big(500\pi t - \tfrac{\pi}{4}\big)</span></p>
 </div>
 </div>
-<div id="e62613a4" class="cell" data-execution_count="6">
+<div id="7a976cf5" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -797,7 +797,7 @@ y_c(t) = 2\sqrt{2}\,\cos\big(500\pi t - \tfrac{\pi}{4}\big)</span></p>
 <ul>
 <li><strong>[Oppenheim]</strong> §7.1 (muestreo con tren de impulsos — la figura 7.1, tres señales continuas atravesando las mismas muestras, vale una lectura por sí sola), §7.2 (reconstrucción), §7.3 (aliasing), §7.4 (procesamiento discreto de señales continuas: nuestras cadenas híbridas); §1.3.3 (exponenciales complejas discretas y su periodicidad); §2.1 (la suma de convolución); §2.4 (ecuaciones de diferencias). Ojo al leerlo: Oppenheim escribe <span class="math inline">\omega</span> también para la frecuencia discreta — traduce a <span class="math inline">\Omega</span> al tomar apuntes.</li>
 <li><strong>[Alvarado]</strong> §5.1 (funciones en tiempo discreto: conversión A/D, representaciones de secuencias y señales elementales discretas), §5.3 (sistemas en tiempo discreto y análisis LTI).</li>
-<li>Apuntes propios del curso: <em>Sinusoides discretas</em> (el plan de clase con las actividades de fasores y la app interactiva <code>interactive_sinusoids.py</code>) — la fuente de la <a href="#sec-sinusoides-discretas" class="quarto-xref"><span>Sección 5.3</span></a>.</li>
+<li>Apuntes propios del curso: <em>Sinusoides discretas</em> (el plan de clase con las actividades de fasores y la app interactiva <code>material/demos/sinusoides-discretas/interactive_sinusoids.py</code>) — la fuente de la <a href="#sec-sinusoides-discretas" class="quarto-xref"><span>Sección 5.3</span></a>.</li>
 </ul>
 
 

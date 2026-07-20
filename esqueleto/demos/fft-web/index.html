@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FFT paso a paso | Señales y Sistemas</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --ink: #152033;
+      --muted: #5e697b;
+      --line: #d9e0ea;
+      --blue: #2563eb;
+      --blue-soft: #e8efff;
+      --green: #10865d;
+      --green-soft: #e6f6ef;
+      --amber: #c47a00;
+      --amber-soft: #fff2d8;
+      --rose: #c93656;
+      --rose-soft: #ffe8ee;
+      --shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+      --radius: 8px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    header {
+      background: #152033;
+      color: white;
+      border-bottom: 4px solid var(--green);
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .top {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+      gap: 24px;
+      padding: 26px 0 24px;
+      align-items: end;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 4rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 0;
+      color: #d8e1ef;
+      font-size: 1.02rem;
+    }
+
+    .controls {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+
+    select,
+    input[type="number"],
+    textarea {
+      width: 100%;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 9px 10px;
+      font: inherit;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--blue);
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 700;
+      border-radius: 6px;
+      padding: 9px 12px;
+      cursor: pointer;
+    }
+
+    button.primary {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    button:focus-visible,
+    select:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.22);
+      outline-offset: 2px;
+    }
+
+    main {
+      padding: 20px 0 44px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .tab {
+      min-width: 118px;
+      border-color: transparent;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--panel);
+      color: var(--ink);
+      border-color: var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(330px, 0.8fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .box {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .box h2,
+    .box h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .box h2 {
+      font-size: 1.28rem;
+    }
+
+    .box h3 {
+      font-size: 1.02rem;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: #fbfcfe;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: clamp(1.15rem, 2vw, 1.75rem);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .stepbar {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      margin: 14px 0 6px;
+    }
+
+    .stage-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: var(--blue-soft);
+      color: #1d4ed8;
+      font-weight: 800;
+      font-size: 0.84rem;
+    }
+
+    .formula {
+      background: #0f172a;
+      color: white;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.94rem;
+      margin: 14px 0;
+    }
+
+    .note {
+      border-left: 4px solid var(--green);
+      background: var(--green-soft);
+      padding: 12px 14px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 12px 0;
+    }
+
+    .warning {
+      border-left-color: var(--amber);
+      background: var(--amber-soft);
+    }
+
+    .editor {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(78px, 1fr));
+      gap: 8px;
+      max-height: 245px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .sample-input {
+      display: grid;
+      gap: 4px;
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .sample-input input {
+      padding: 7px 8px;
+    }
+
+    .svg-host {
+      width: 100%;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfe;
+    }
+
+    svg {
+      display: block;
+      max-width: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f8;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #314056;
+    }
+
+    tbody tr:hover {
+      background: #f7faff;
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .algo-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .algo-list li {
+      margin: 8px 0;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .pill {
+      background: #eef3f8;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .ok {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .bad {
+      color: var(--rose);
+      font-weight: 800;
+    }
+
+    .legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-right: 5px;
+      vertical-align: -1px;
+    }
+
+    @media (max-width: 920px) {
+      .top,
+      .grid,
+      .two {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 20px, 1180px);
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .stepbar {
+        grid-template-columns: 1fr;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap top">
+      <section>
+        <h1>FFT paso a paso</h1>
+        <p class="subtitle">
+          Visualizador autocontenido del algoritmo radix-2 de Cooley-Tukey para calcular la misma DFT con muchas menos operaciones.
+        </p>
+      </section>
+      <section class="controls" aria-label="Controles principales">
+        <label>
+          Tamaño N
+          <select id="nSelect">
+            <option value="4">4 puntos</option>
+            <option value="8" selected>8 puntos</option>
+            <option value="16">16 puntos</option>
+            <option value="32">32 puntos</option>
+          </select>
+        </label>
+        <label>
+          Señal de entrada
+          <select id="presetSelect">
+            <option value="twoTone" selected>Dos tonos: k=1 y k=3</option>
+            <option value="singleTone">Sinusoide exacta: k=1</option>
+            <option value="pulse">Pulso rectangular</option>
+            <option value="impulse">Impulso desplazado</option>
+            <option value="ramp">Rampa corta</option>
+            <option value="editable">Editable</option>
+          </select>
+        </label>
+      </section>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <nav class="tabs" aria-label="Vistas">
+      <button class="tab" type="button" data-tab="pasos" aria-selected="true">Pasos</button>
+      <button class="tab" type="button" data-tab="red" aria-selected="false">Red FFT</button>
+      <button class="tab" type="button" data-tab="complejidad" aria-selected="false">Complejidad</button>
+    </nav>
+
+    <section id="pasos" class="panel active">
+      <div class="grid">
+        <section class="box">
+          <div class="stage-badge" id="stageBadge">Etapa 0</div>
+          <h2 id="stepTitle">Reordenamiento por inversión de bits</h2>
+          <p id="stepText" class="muted"></p>
+          <div class="stepbar">
+            <button id="prevStep" type="button">Anterior</button>
+            <input id="stepRange" type="range" min="0" max="3" value="0" aria-label="Etapa FFT">
+            <button id="nextStep" type="button" class="primary">Siguiente</button>
+          </div>
+          <div class="pill-row" id="stagePills"></div>
+          <div class="formula" id="formulaBox"></div>
+          <div id="stepTable"></div>
+        </section>
+
+        <aside class="box">
+          <h2>Entrada x[n]</h2>
+          <p class="muted">Los valores son reales para mantener el foco en la estructura del algoritmo. La FFT calcula salidas complejas.</p>
+          <div id="sampleEditor" class="editor"></div>
+          <div class="note" id="validationNote"></div>
+        </aside>
+
+        <section class="box full" id="plotsBox">
+          <h2>Señal y Espectro (Tiempo Real)</h2>
+          <div class="two">
+            <div>
+              <h3>Señal en el Tiempo x[n]</h3>
+              <div id="timePlot" class="svg-host" aria-label="Grafico de la señal en el tiempo"></div>
+            </div>
+            <div>
+              <h3>Espectro de Magnitud |X[k]|</h3>
+              <div id="freqPlot" class="svg-host" aria-label="Grafico del espectro de magnitud"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="box full">
+          <h2>Vista de mariposas</h2>
+          <div id="butterflySvg" class="svg-host" aria-label="Diagrama de mariposas FFT"></div>
+          <div class="legend">
+            <span><i class="swatch" style="background:#2563eb"></i>conexiones de la etapa activa</span>
+            <span><i class="swatch" style="background:#10865d"></i>nodos calculados</span>
+            <span><i class="swatch" style="background:#c47a00"></i>factor twiddle</span>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="red" class="panel">
+      <div class="grid">
+        <section class="box">
+          <h2>Divide y vencerás</h2>
+          <p class="muted">
+            Una DFT de N puntos se separa en una DFT de las muestras pares y una DFT de las muestras impares. Luego se recombinan con factores twiddle.
+          </p>
+          <div class="formula">
+X[k]       = E[k] + W_N^k O[k]<br>
+X[k+N/2]   = E[k] - W_N^k O[k], &nbsp; 0 <= k < N/2
+          </div>
+          <div id="splitSvg" class="svg-host" aria-label="Arbol de division par impar"></div>
+          <div class="note warning">
+            La demo usa radix-2, por eso N debe ser potencia de dos. Otras FFT existen para tamaños compuestos o mixtos, pero la idea de reutilizar subproblemas es la misma.
+          </div>
+        </section>
+
+        <section class="box">
+          <h2>Resultado final</h2>
+          <div id="resultTable"></div>
+          <div class="note" id="errorNote"></div>
+        </section>
+
+        <section class="box full">
+          <h2>Red completa</h2>
+          <div id="networkSvg" class="svg-host" aria-label="Red completa de FFT"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="complejidad" class="panel">
+      <div class="grid">
+        <section class="box full">
+          <h2>Ahorro de complejidad</h2>
+          <div class="metrics" id="metrics"></div>
+        </section>
+
+        <section class="box">
+          <h2>Comparación visual</h2>
+          <p class="muted">
+            La escala del gráfico es logarítmica porque la brecha entre N² y N log₂ N crece muy rápido.
+          </p>
+          <div id="complexitySvg" class="svg-host" aria-label="Grafico de complejidad"></div>
+        </section>
+
+        <section class="box">
+          <h2>Conteo de operaciones</h2>
+          <div id="complexityTable"></div>
+          <div class="note">
+            En radix-2 hay log₂(N) etapas, N/2 mariposas por etapa, una multiplicación por twiddle y dos sumas complejas por mariposa.
+          </div>
+        </section>
+
+        <section class="box full">
+          <h2>Pseudocódigo de la versión iterativa</h2>
+          <div class="formula">
+reordenar x[n] por inversion de bits<br>
+para m = 2, 4, 8, ..., N:<br>
+&nbsp;&nbsp;para cada bloque de largo m:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;para j = 0, ..., m/2 - 1:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u = a[p + j]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v = W_m^j a[p + j + m/2]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a[p + j]       = u + v<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a[p + j + m/2] = u - v
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    "use strict";
+
+    const state = {
+      N: 8,
+      preset: "twoTone",
+      x: [],
+      stages: [],
+      direct: [],
+      step: 0,
+      tab: "pasos"
+    };
+
+    const els = {
+      nSelect: document.getElementById("nSelect"),
+      presetSelect: document.getElementById("presetSelect"),
+      stepRange: document.getElementById("stepRange"),
+      prevStep: document.getElementById("prevStep"),
+      nextStep: document.getElementById("nextStep"),
+      sampleEditor: document.getElementById("sampleEditor"),
+      stageBadge: document.getElementById("stageBadge"),
+      stepTitle: document.getElementById("stepTitle"),
+      stepText: document.getElementById("stepText"),
+      formulaBox: document.getElementById("formulaBox"),
+      stepTable: document.getElementById("stepTable"),
+      stagePills: document.getElementById("stagePills"),
+      validationNote: document.getElementById("validationNote"),
+      timePlot: document.getElementById("timePlot"),
+      freqPlot: document.getElementById("freqPlot"),
+      butterflySvg: document.getElementById("butterflySvg"),
+      splitSvg: document.getElementById("splitSvg"),
+      resultTable: document.getElementById("resultTable"),
+      errorNote: document.getElementById("errorNote"),
+      networkSvg: document.getElementById("networkSvg"),
+      metrics: document.getElementById("metrics"),
+      complexitySvg: document.getElementById("complexitySvg"),
+      complexityTable: document.getElementById("complexityTable")
+    };
+
+    function C(re, im = 0) {
+      return { re, im };
+    }
+
+    function add(a, b) {
+      return C(a.re + b.re, a.im + b.im);
+    }
+
+    function sub(a, b) {
+      return C(a.re - b.re, a.im - b.im);
+    }
+
+    function mul(a, b) {
+      return C(a.re * b.re - a.im * b.im, a.re * b.im + a.im * b.re);
+    }
+
+    function expj(theta) {
+      return C(Math.cos(theta), Math.sin(theta));
+    }
+
+    function clone(z) {
+      return C(z.re, z.im);
+    }
+
+    function mag(z) {
+      return Math.hypot(z.re, z.im);
+    }
+
+    function clean(v) {
+      return Math.abs(v) < 1e-10 ? 0 : v;
+    }
+
+    function fmtNumber(v, digits = 3) {
+      v = clean(v);
+      if (Number.isInteger(v)) return String(v);
+      return v.toFixed(digits).replace(/0+$/, "").replace(/\.$/, "");
+    }
+
+    function fmt(z, digits = 3) {
+      const re = clean(z.re);
+      const im = clean(z.im);
+      if (im === 0) return fmtNumber(re, digits);
+      if (re === 0) return fmtNumber(im, digits) + "j";
+      return fmtNumber(re, digits) + (im >= 0 ? " + " : " - ") + fmtNumber(Math.abs(im), digits) + "j";
+    }
+
+    function htmlEscape(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function bitReverse(index, bits) {
+      let result = 0;
+      for (let i = 0; i < bits; i++) {
+        result = (result << 1) | (index & 1);
+        index >>= 1;
+      }
+      return result;
+    }
+
+    function bitsOf(index, bits) {
+      return index.toString(2).padStart(bits, "0");
+    }
+
+    function makePreset(N, name) {
+      const values = Array.from({ length: N }, () => 0);
+      if (name === "singleTone") {
+        for (let n = 0; n < N; n++) values[n] = Math.cos(2 * Math.PI * n / N);
+      } else if (name === "twoTone") {
+        for (let n = 0; n < N; n++) {
+          values[n] = Math.cos(2 * Math.PI * n / N) + 0.55 * Math.sin(2 * Math.PI * 3 * n / N);
+        }
+      } else if (name === "pulse") {
+        const width = Math.max(2, Math.floor(N / 4));
+        for (let n = 0; n < width; n++) values[n] = 1;
+      } else if (name === "impulse") {
+        values[Math.min(2, N - 1)] = 1;
+      } else if (name === "ramp") {
+        for (let n = 0; n < N; n++) values[n] = n < N / 2 ? n + 1 : 0;
+      } else {
+        for (let n = 0; n < N; n++) values[n] = state.x[n] ? state.x[n].re : 0;
+      }
+      return values.map(v => C(v, 0));
+    }
+
+    function dftDirect(x) {
+      const N = x.length;
+      const out = [];
+      for (let k = 0; k < N; k++) {
+        let sum = C(0, 0);
+        for (let n = 0; n < N; n++) {
+          sum = add(sum, mul(x[n], expj(-2 * Math.PI * k * n / N)));
+        }
+        out.push(sum);
+      }
+      return out;
+    }
+
+    function fftStages(x) {
+      const N = x.length;
+      const bits = Math.log2(N);
+      let a = Array.from({ length: N }, (_, i) => clone(x[bitReverse(i, bits)]));
+      const stages = [{
+        label: "Reordenamiento",
+        len: 1,
+        values: a.map(clone),
+        butterflies: []
+      }];
+
+      for (let s = 1; s <= bits; s++) {
+        const len = 2 ** s;
+        const half = len / 2;
+        const butterflies = [];
+        const before = a.map(clone);
+        for (let start = 0; start < N; start += len) {
+          for (let j = 0; j < half; j++) {
+            const upper = start + j;
+            const lower = start + j + half;
+            const twiddle = expj(-2 * Math.PI * j / len);
+            const u = a[upper];
+            const t = mul(twiddle, a[lower]);
+            a[upper] = add(u, t);
+            a[lower] = sub(u, t);
+            butterflies.push({
+              start,
+              j,
+              upper,
+              lower,
+              twiddle,
+              beforeUpper: before[upper],
+              beforeLower: before[lower],
+              twiddledLower: t,
+              afterUpper: a[upper],
+              afterLower: a[lower],
+              len
+            });
+          }
+        }
+        stages.push({
+          label: "Mariposas de largo " + len,
+          len,
+          values: a.map(clone),
+          butterflies
+        });
+      }
+      return stages;
+    }
+
+    function recompute(updateEditor = false) {
+      state.stages = fftStages(state.x);
+      state.direct = dftDirect(state.x);
+      const max = state.stages.length - 1;
+      if (state.step > max) state.step = max;
+      els.stepRange.max = String(max);
+      els.stepRange.value = String(state.step);
+      render(updateEditor);
+    }
+
+    function resetSignal() {
+      state.N = Number(els.nSelect.value);
+      state.preset = els.presetSelect.value;
+      state.x = makePreset(state.N, state.preset);
+      state.step = 0;
+      recompute(true);
+    }
+
+    function setStep(step) {
+      state.step = Math.max(0, Math.min(step, state.stages.length - 1));
+      els.stepRange.value = String(state.step);
+      render();
+    }
+
+    function render(updateEditor = false) {
+      if (updateEditor) renderEditor();
+      renderStep();
+      renderButterfly();
+      renderSplitTree();
+      renderResults();
+      renderComplexity();
+      renderPlots();
+    }
+
+    function renderEditor() {
+      const disabled = state.preset !== "editable";
+      els.sampleEditor.innerHTML = state.x.map((z, n) => `
+        <label class="sample-input">
+          x[${n}]
+          <input data-sample="${n}" type="number" step="0.05" value="${fmtNumber(z.re, 4)}" ${disabled ? "disabled" : ""}>
+        </label>
+      `).join("");
+      const bits = Math.log2(state.N);
+      els.validationNote.innerHTML = `
+        <strong>N = ${state.N}</strong> tiene ${bits} etapas FFT. La DFT directa usa ${formatInt(state.N * state.N)} multiplicaciones complejas; esta FFT radix-2 usa ${formatInt((state.N / 2) * bits)} multiplicaciones por twiddle.
+      `;
+    }
+
+    function renderStep() {
+      const bits = Math.log2(state.N);
+      const stage = state.stages[state.step];
+      els.stageBadge.textContent = state.step === 0 ? "Etapa 0 de " + bits : "Etapa " + state.step + " de " + bits;
+      els.stepTitle.textContent = state.step === 0
+        ? "Reordenamiento por inversión de bits"
+        : "Mariposas con sub-DFT de " + stage.len + " puntos";
+
+      if (state.step === 0) {
+        els.stepText.textContent = "La versión iterativa empieza reordenando la entrada: la fila i recibe la muestra cuyo índice original es bitReverse(i). Después de esto, cada etapa combina bloques contiguos.";
+        els.formulaBox.innerHTML = "a[i] = x[bitReverse(i)]";
+        renderBitReverseTable();
+      } else {
+        els.stepText.textContent = "Cada mariposa toma dos resultados parciales separados por m/2 posiciones. El factor twiddle rota la rama inferior antes de sumar y restar.";
+        els.formulaBox.innerHTML = "u = a[p+j], &nbsp; v = W_m^j a[p+j+m/2]<br>a'[p+j] = u + v, &nbsp; a'[p+j+m/2] = u - v";
+        renderButterflyTable(stage);
+      }
+
+      els.prevStep.disabled = state.step === 0;
+      els.nextStep.disabled = state.step === state.stages.length - 1;
+      els.stagePills.innerHTML = state.stages.map((s, i) => {
+        const label = i === 0 ? "bits" : "m=" + s.len;
+        return `<span class="pill" style="${i === state.step ? "background:var(--blue-soft);color:#1d4ed8;border-color:#b9cbff" : ""}">${label}</span>`;
+      }).join("");
+    }
+
+    function renderBitReverseTable() {
+      const bits = Math.log2(state.N);
+      const rows = Array.from({ length: state.N }, (_, i) => {
+        const original = bitReverse(i, bits);
+        return `
+          <tr>
+            <td>${i}</td>
+            <td>${bitsOf(i, bits)} -> ${bitsOf(original, bits)}</td>
+            <td>x[${original}]</td>
+            <td>${fmt(state.x[original])}</td>
+          </tr>
+        `;
+      }).join("");
+      els.stepTable.innerHTML = `
+        <table>
+          <thead><tr><th>Fila i</th><th>Bits</th><th>Muestra que entra</th><th>Valor</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    function renderButterflyTable(stage) {
+      const rows = stage.butterflies.map(b => `
+        <tr>
+          <td>${b.upper} / ${b.lower}</td>
+          <td>W<sub>${b.len}</sub><sup>${b.j}</sup> = ${fmt(b.twiddle)}</td>
+          <td>${fmt(b.beforeUpper)}</td>
+          <td>${fmt(b.beforeLower)}</td>
+          <td>${fmt(b.twiddledLower)}</td>
+          <td>${fmt(b.afterUpper)}</td>
+          <td>${fmt(b.afterLower)}</td>
+        </tr>
+      `).join("");
+      els.stepTable.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Filas</th><th>Twiddle</th><th>u</th><th>rama inferior</th><th>v</th><th>u + v</th><th>u - v</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    function renderButterfly() {
+      els.butterflySvg.innerHTML = drawNetworkSvg(state.step, true);
+      els.networkSvg.innerHTML = drawNetworkSvg(state.stages.length - 1, false);
+    }
+
+    function drawNetworkSvg(activeStep, compact) {
+      const N = state.N;
+      const cols = state.stages.length;
+      const left = compact ? 80 : 110;
+      const right = compact ? 70 : 110;
+      const top = 34;
+      const rowGap = N <= 8 ? 54 : N <= 16 ? 38 : 28;
+      const colGap = compact ? 140 : 160;
+      const width = left + right + colGap * (cols - 1);
+      const height = top * 2 + rowGap * (N - 1) + 58;
+      const maxMag = Math.max(1e-9, ...state.stages.flatMap(s => s.values.map(mag)));
+      const x = col => left + col * colGap;
+      const y = row => top + row * rowGap;
+      const bits = Math.log2(N);
+      const parts = [];
+
+      parts.push(`<svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img">`);
+      parts.push(`<rect x="0" y="0" width="${width}" height="${height}" fill="#fbfcfe"/>`);
+
+      for (let c = 0; c < cols; c++) {
+        const label = c === 0 ? "bits" : "m=" + state.stages[c].len;
+        parts.push(`<text x="${x(c)}" y="20" text-anchor="middle" font-size="13" font-weight="800" fill="${c === activeStep ? "#1d4ed8" : "#5e697b"}">${label}</text>`);
+      }
+
+      for (let r = 0; r < N; r++) {
+        const original = bitReverse(r, bits);
+        parts.push(`<text x="${left - 14}" y="${y(r) + 4}" text-anchor="end" font-size="11" fill="#5e697b">x[${original}]</text>`);
+        parts.push(`<text x="${x(cols - 1) + 22}" y="${y(r) + 4}" text-anchor="start" font-size="11" fill="#5e697b">X[${r}]</text>`);
+      }
+
+      for (let c = 1; c < cols; c++) {
+        const isActive = c === activeStep;
+        for (const b of state.stages[c].butterflies) {
+          const stroke = isActive ? "#2563eb" : "#d4dde8";
+          const opacity = isActive ? "0.92" : "0.33";
+          const sw = isActive ? 2.6 : 1.2;
+          parts.push(`<line x1="${x(c - 1)}" y1="${y(b.upper)}" x2="${x(c)}" y2="${y(b.upper)}" stroke="${stroke}" stroke-width="${sw}" opacity="${opacity}"/>`);
+          parts.push(`<line x1="${x(c - 1)}" y1="${y(b.lower)}" x2="${x(c)}" y2="${y(b.upper)}" stroke="${stroke}" stroke-width="${sw}" opacity="${opacity}"/>`);
+          parts.push(`<line x1="${x(c - 1)}" y1="${y(b.upper)}" x2="${x(c)}" y2="${y(b.lower)}" stroke="${stroke}" stroke-width="${sw}" opacity="${opacity}"/>`);
+          parts.push(`<line x1="${x(c - 1)}" y1="${y(b.lower)}" x2="${x(c)}" y2="${y(b.lower)}" stroke="${stroke}" stroke-width="${sw}" opacity="${opacity}"/>`);
+          if (isActive && b.j >= 0) {
+            const tx = (x(c - 1) + x(c)) / 2;
+            const ty = (y(b.lower) + y(b.upper)) / 2 + 13;
+            if (b.j > 0 || state.N <= 16) {
+              parts.push(`<text class="twiddle-text" data-len="${b.len}" data-j="${b.j}" x="${tx}" y="${ty}" text-anchor="middle" font-size="11" font-weight="800" fill="#c47a00" style="cursor: help;">W${b.len}^${b.j}</text>`);
+            }
+          }
+        }
+      }
+
+      for (let c = 0; c < cols; c++) {
+        for (let r = 0; r < N; r++) {
+          const value = state.stages[c].values[r];
+          const ratio = Math.min(1, mag(value) / maxMag);
+          const fill = c <= activeStep ? blend("#dbeafe", "#10865d", ratio * 0.78) : "#edf2f7";
+          const stroke = c === activeStep ? "#0f766e" : "#9fb0c3";
+          parts.push(`<circle cx="${x(c)}" cy="${y(r)}" r="${N <= 16 ? 14 : 11}" fill="${fill}" stroke="${stroke}" stroke-width="${c === activeStep ? 2 : 1}"/>`);
+          if (N <= 16 || !compact) {
+            parts.push(`<text x="${x(c)}" y="${y(r) + 4}" text-anchor="middle" font-size="${N <= 16 ? 10 : 8}" fill="#152033">${htmlEscape(shortNodeLabel(value))}</text>`);
+          }
+        }
+      }
+
+      parts.push(`</svg>`);
+      return parts.join("");
+    }
+
+    function shortNodeLabel(z) {
+      const re = clean(z.re);
+      const im = clean(z.im);
+      if (im === 0) return fmtNumber(re, 1);
+      if (re === 0) return fmtNumber(im, 1) + "j";
+      return fmtNumber(re, 1);
+    }
+
+    function blend(a, b, t) {
+      const pa = hexToRgb(a);
+      const pb = hexToRgb(b);
+      const c = pa.map((v, i) => Math.round(v + (pb[i] - v) * t));
+      return `rgb(${c[0]},${c[1]},${c[2]})`;
+    }
+
+    function hexToRgb(hex) {
+      const cleanHex = hex.replace("#", "");
+      return [
+        parseInt(cleanHex.slice(0, 2), 16),
+        parseInt(cleanHex.slice(2, 4), 16),
+        parseInt(cleanHex.slice(4, 6), 16)
+      ];
+    }
+
+    function renderSplitTree() {
+      const N = state.N;
+      const levels = Math.log2(N) + 1;
+      const width = 860;
+      const height = Math.max(300, levels * 86);
+      const parts = [`<svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img">`];
+      parts.push(`<rect x="0" y="0" width="${width}" height="${height}" fill="#fbfcfe"/>`);
+      const nodes = [];
+
+      function addNode(label, level, index, count, color) {
+        const x = width * (index + 1) / (count + 1);
+        const y = 42 + level * 78;
+        nodes.push({ label, level, index, count, x, y, color });
+        return { x, y };
+      }
+
+      const byLevel = [];
+      for (let level = 0; level < levels; level++) {
+        const count = 2 ** level;
+        byLevel[level] = [];
+        for (let i = 0; i < count; i++) {
+          const size = N / count;
+          const label = size >= 1 ? `DFT ${size}` : "1";
+          const color = level === 0 ? "#2563eb" : level === levels - 1 ? "#10865d" : "#314056";
+          byLevel[level].push(addNode(label, level, i, count, color));
+        }
+      }
+
+      for (let level = 0; level < levels - 1; level++) {
+        for (let i = 0; i < byLevel[level].length; i++) {
+          const parent = byLevel[level][i];
+          const left = byLevel[level + 1][2 * i];
+          const right = byLevel[level + 1][2 * i + 1];
+          parts.push(`<line x1="${parent.x}" y1="${parent.y + 18}" x2="${left.x}" y2="${left.y - 18}" stroke="#b7c3d1" stroke-width="1.5"/>`);
+          parts.push(`<line x1="${parent.x}" y1="${parent.y + 18}" x2="${right.x}" y2="${right.y - 18}" stroke="#b7c3d1" stroke-width="1.5"/>`);
+        }
+      }
+
+      for (const node of nodes) {
+        parts.push(`<rect x="${node.x - 35}" y="${node.y - 18}" width="70" height="36" rx="6" fill="white" stroke="${node.color}" stroke-width="2"/>`);
+        parts.push(`<text x="${node.x}" y="${node.y + 5}" text-anchor="middle" font-size="12" font-weight="800" fill="${node.color}">${node.label}</text>`);
+      }
+      parts.push(`<text x="${width / 2}" y="${height - 18}" text-anchor="middle" font-size="13" fill="#5e697b">El trabajo lineal de cada nivel se repite log2(N) veces.</text>`);
+      parts.push(`</svg>`);
+      els.splitSvg.innerHTML = parts.join("");
+    }
+
+    function renderResults() {
+      const fft = state.stages[state.stages.length - 1].values;
+      const rows = fft.map((z, k) => {
+        const ref = state.direct[k];
+        const err = mag(sub(z, ref));
+        return `
+          <tr>
+            <td>${k}</td>
+            <td>${fmt(z)}</td>
+            <td>${fmt(ref)}</td>
+            <td>${err < 1e-8 ? "<span class='ok'>ok</span>" : "<span class='bad'>" + err.toExponential(2) + "</span>"}</td>
+          </tr>
+        `;
+      }).join("");
+      els.resultTable.innerHTML = `
+        <table>
+          <thead><tr><th>k</th><th>FFT</th><th>DFT directa</th><th>Error</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+      const maxErr = Math.max(...fft.map((z, i) => mag(sub(z, state.direct[i]))));
+      els.errorNote.innerHTML = `Error máximo FFT vs DFT directa: <strong>${maxErr.toExponential(3)}</strong>. La diferencia restante es solo redondeo numérico.`;
+    }
+
+    function renderComplexity() {
+      const N = state.N;
+      const logN = Math.log2(N);
+      const dftMult = N * N;
+      const dftAdd = N * (N - 1);
+      const fftMult = (N / 2) * logN;
+      const fftAdd = N * logN;
+      const speed = dftMult / fftMult;
+      els.metrics.innerHTML = [
+        metric("DFT mult.", formatInt(dftMult), "N²"),
+        metric("FFT mult.", formatInt(fftMult), "(N/2)log₂N"),
+        metric("Etapas", formatInt(logN), "log₂N"),
+        metric("Ahorro", speed.toFixed(1) + "x", "solo multiplicaciones")
+      ].join("");
+
+      const Ns = [8, 16, 64, 256, 1024, 4096, 16384, 65536];
+      const rows = Ns.map(n => {
+        const l = Math.log2(n);
+        const d = n * n;
+        const f = n * l;
+        return `
+          <tr>
+            <td>${formatInt(n)}</td>
+            <td>${formatInt(d)}</td>
+            <td>${formatInt(f)}</td>
+            <td>${(d / f).toFixed(1)}x</td>
+          </tr>
+        `;
+      }).join("");
+      els.complexityTable.innerHTML = `
+        <table>
+          <thead><tr><th>N</th><th>N²</th><th>N log₂N</th><th>Razón</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+      els.complexitySvg.innerHTML = drawComplexitySvg(Ns);
+    }
+
+    function metric(label, value, detail) {
+      return `<div class="metric"><strong>${value}</strong><span>${label}<br>${detail}</span></div>`;
+    }
+
+    function drawComplexitySvg(Ns) {
+      const width = 760;
+      const height = 360;
+      const left = 92;
+      const right = 30;
+      const top = 30;
+      const bottom = 54;
+      const maxLog = Math.log10(Math.max(...Ns.map(n => n * n)));
+      const minLog = Math.log10(Math.min(...Ns.map(n => n * Math.log2(n))));
+      const x = i => left + i * ((width - left - right) / (Ns.length - 1));
+      const y = val => top + (maxLog - Math.log10(val)) / (maxLog - minLog) * (height - top - bottom);
+      const parts = [`<svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img">`];
+      parts.push(`<rect width="${width}" height="${height}" fill="#fbfcfe"/>`);
+      parts.push(`<line x1="${left}" y1="${height - bottom}" x2="${width - right}" y2="${height - bottom}" stroke="#7b8798"/>`);
+      parts.push(`<line x1="${left}" y1="${top}" x2="${left}" y2="${height - bottom}" stroke="#7b8798"/>`);
+      [1e2, 1e4, 1e6, 1e8, 1e10].forEach(tick => {
+        if (tick >= 10 ** minLog && tick <= 10 ** maxLog) {
+          const yy = y(tick);
+          parts.push(`<line x1="${left}" y1="${yy}" x2="${width - right}" y2="${yy}" stroke="#e1e7ef"/>`);
+          parts.push(`<text x="${left - 10}" y="${yy + 4}" text-anchor="end" font-size="11" fill="#5e697b">10^${Math.round(Math.log10(tick))}</text>`);
+        }
+      });
+      const dftPoints = Ns.map((n, i) => `${x(i)},${y(n * n)}`).join(" ");
+      const fftPoints = Ns.map((n, i) => `${x(i)},${y(n * Math.log2(n))}`).join(" ");
+      parts.push(`<polyline points="${dftPoints}" fill="none" stroke="#c93656" stroke-width="3"/>`);
+      parts.push(`<polyline points="${fftPoints}" fill="none" stroke="#2563eb" stroke-width="3"/>`);
+      Ns.forEach((n, i) => {
+        parts.push(`<circle cx="${x(i)}" cy="${y(n * n)}" r="4" fill="#c93656"/>`);
+        parts.push(`<circle cx="${x(i)}" cy="${y(n * Math.log2(n))}" r="4" fill="#2563eb"/>`);
+        parts.push(`<text x="${x(i)}" y="${height - 28}" text-anchor="middle" font-size="11" fill="#5e697b">${formatShort(n)}</text>`);
+      });
+      parts.push(`<text x="${width - 160}" y="45" font-size="13" font-weight="800" fill="#c93656">DFT: N²</text>`);
+      parts.push(`<text x="${width - 160}" y="66" font-size="13" font-weight="800" fill="#2563eb">FFT: N log₂N</text>`);
+      parts.push(`<text x="${width / 2}" y="${height - 8}" text-anchor="middle" font-size="12" fill="#5e697b">Tamaño de la señal N</text>`);
+      parts.push(`</svg>`);
+      return parts.join("");
+    }
+
+    function formatInt(n) {
+      return Math.round(n).toLocaleString("es-CL");
+    }
+
+    function formatShort(n) {
+      if (n >= 1000) return (n / 1000).toLocaleString("es-CL", { maximumFractionDigits: 0 }) + "k";
+      return String(n);
+    }
+
+    function renderPlots() {
+      if (!els.timePlot || !els.freqPlot) return;
+      els.timePlot.innerHTML = drawStemPlot(state.x.map(z => z.re), "n", "x[n]", "#10865d");
+      els.freqPlot.innerHTML = drawStemPlot(state.direct.map(mag), "k", "|X[k]|", "#2563eb");
+    }
+
+    function drawStemPlot(data, xLabel, yLabel, color) {
+      const width = 500;
+      const height = 180;
+      const left = 40;
+      const right = 20;
+      const top = 20;
+      const bottom = 30;
+      const maxVal = Math.max(1e-9, ...data.map(Math.abs));
+      const minVal = Math.min(0, ...data);
+      const range = Math.max(maxVal - minVal, 1e-9);
+      const N = data.length;
+      
+      const parts = [`<svg viewBox="0 0 ${width} ${height}" width="100%" height="100%" style="min-height:220px;" preserveAspectRatio="xMidYMid meet" role="img">`];
+      parts.push(`<rect width="${width}" height="${height}" fill="#fbfcfe"/>`);
+      
+      const x = i => left + (i + 0.5) * ((width - left - right) / N);
+      const y = val => top + (maxVal - val) / range * (height - top - bottom);
+      const y0 = y(0);
+      
+      parts.push(`<line x1="${left}" y1="${y0}" x2="${width - right}" y2="${y0}" stroke="#b7c3d1" stroke-width="1.5"/>`);
+      parts.push(`<line x1="${left}" y1="${top}" x2="${left}" y2="${height - bottom}" stroke="#b7c3d1" stroke-width="1.5"/>`);
+      
+      for (let i = 0; i < N; i++) {
+        const val = data[i];
+        const px = x(i);
+        const py = y(val);
+        parts.push(`<line x1="${px}" y1="${y0}" x2="${px}" y2="${py}" stroke="${color}" stroke-width="2.5"/>`);
+        parts.push(`<circle cx="${px}" cy="${py}" r="4" fill="${color}"/>`);
+        if (N <= 16) {
+          parts.push(`<text x="${px}" y="${height - 10}" text-anchor="middle" font-size="11" fill="#5e697b">${i}</text>`);
+        }
+      }
+      
+      parts.push(`<text x="${left - 8}" y="${top + 10}" text-anchor="end" font-size="12" font-weight="800" fill="#152033">${yLabel}</text>`);
+      if (N > 16) {
+         parts.push(`<text x="${width - right + 12}" y="${y0 + 4}" text-anchor="start" font-size="12" font-weight="800" fill="#152033">${xLabel}</text>`);
+      }
+      parts.push(`</svg>`);
+      return parts.join("");
+    }
+
+    const phasorTooltip = document.createElement("div");
+    phasorTooltip.id = "phasorTooltip";
+    phasorTooltip.style.cssText = "display: none; position: absolute; background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; box-shadow: var(--shadow); z-index: 100; pointer-events: none; width: 140px;";
+    document.body.appendChild(phasorTooltip);
+
+    function showPhasorTooltip(event, len, j) {
+      const twiddle = expj(-2 * Math.PI * j / len);
+      const width = 110;
+      const height = 110;
+      const cx = width / 2;
+      const cy = height / 2;
+      const r = 40;
+      
+      const endX = cx + twiddle.re * r;
+      const endY = cy - twiddle.im * r;
+      
+      const parts = [`<svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">`];
+      parts.push(`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#e1e7ef" stroke-width="2"/>`);
+      parts.push(`<line x1="${cx - r - 10}" y1="${cy}" x2="${cx + r + 10}" y2="${cy}" stroke="#9fb0c3" stroke-width="1" stroke-dasharray="2,2"/>`);
+      parts.push(`<line x1="${cx}" y1="${cy - r - 10}" x2="${cx}" y2="${cy + r + 10}" stroke="#9fb0c3" stroke-width="1" stroke-dasharray="2,2"/>`);
+      parts.push(`<line x1="${cx}" y1="${cy}" x2="${endX}" y2="${endY}" stroke="#c47a00" stroke-width="3" marker-end="url(#arrow)"/>`);
+      parts.push(`<defs><marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c47a00"/></marker></defs>`);
+      parts.push(`</svg>`);
+      
+      phasorTooltip.innerHTML = `
+        <div style="font-weight: 800; text-align: center; margin-bottom: 6px; color: var(--amber); font-size: 0.95rem;">W<sub>${len}</sub><sup>${j}</sup></div>
+        ${parts.join("")}
+        <div style="text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 4px;">${fmt(twiddle, 2)}</div>
+      `;
+      
+      phasorTooltip.style.display = "block";
+      phasorTooltip.style.left = (event.pageX + 15) + "px";
+      phasorTooltip.style.top = (event.pageY + 15) + "px";
+    }
+
+    document.addEventListener("mouseover", event => {
+      if (event.target.classList.contains("twiddle-text")) {
+        const len = Number(event.target.dataset.len);
+        const j = Number(event.target.dataset.j);
+        showPhasorTooltip(event, len, j);
+      }
+    });
+
+    document.addEventListener("mouseout", event => {
+      if (event.target.classList.contains("twiddle-text")) {
+        phasorTooltip.style.display = "none";
+      }
+    });
+
+    els.nSelect.addEventListener("change", resetSignal);
+    els.presetSelect.addEventListener("change", resetSignal);
+    els.prevStep.addEventListener("click", () => setStep(state.step - 1));
+    els.nextStep.addEventListener("click", () => setStep(state.step + 1));
+    els.stepRange.addEventListener("input", event => setStep(Number(event.target.value)));
+    els.sampleEditor.addEventListener("input", event => {
+      const input = event.target.closest("[data-sample]");
+      if (!input) return;
+      const n = Number(input.dataset.sample);
+      state.x[n] = C(Number(input.value) || 0, 0);
+      state.preset = "editable";
+      els.presetSelect.value = "editable";
+      recompute();
+    });
+
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        state.tab = tab.dataset.tab;
+        document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", String(t === tab)));
+        document.querySelectorAll(".panel").forEach(panel => panel.classList.toggle("active", panel.id === state.tab));
+        render();
+      });
+    });
+
+    resetSignal();
+  </script>
+</body>
+</html>

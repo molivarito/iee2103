@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C1 · Presentación: señales, sistemas y el mapa del curso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Demos del curso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,28 +23,63 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-01/c02.html" rel="next">
-<link href="../../demos.html" rel="prev">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./curso/semana-01/c01.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -117,7 +152,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -129,7 +164,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">Semana 1 · Presentación y señales</a></li><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">C1 · Presentación: señales, sistemas y el mapa del curso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./demos.html">Demos del curso</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -144,7 +179,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
+      <a href="./">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -156,13 +191,13 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">IEE2103 · Señales y Sistemas</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../demos.html" class="sidebar-item-text sidebar-link">
+  <a href="./demos.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Demos del curso</span></a>
   </div>
 </li>
@@ -177,19 +212,19 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link active">
+  <a href="./curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C1 · Presentación: señales, sistemas y el mapa del curso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
+  <a href="./curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C2 · Clasificación de señales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
+  <a href="./curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ay1 · Nivelación: números complejos</span></a>
   </div>
 </li>
@@ -206,7 +241,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
+  <a href="./curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span></a>
   </div>
 </li>
@@ -222,20 +257,17 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#bloque-1-qué-es-una-señal-qué-es-un-sistema" id="toc-bloque-1-qué-es-una-señal-qué-es-un-sistema" class="nav-link active" data-scroll-target="#bloque-1-qué-es-una-señal-qué-es-un-sistema">Bloque 1 — ¿Qué es una señal? ¿Qué es un sistema?</a></li>
-  <li><a href="#bloque-2-el-mapa-del-curso" id="toc-bloque-2-el-mapa-del-curso" class="nav-link" data-scroll-target="#bloque-2-el-mapa-del-curso">Bloque 2 — El mapa del curso</a></li>
-  <li><a href="#bloque-3-cómo-funciona-este-curso" id="toc-bloque-3-cómo-funciona-este-curso" class="nav-link" data-scroll-target="#bloque-3-cómo-funciona-este-curso">Bloque 3 — Cómo funciona este curso</a></li>
-  <li><a href="#bloque-4-diagnóstico-de-números-complejos" id="toc-bloque-4-diagnóstico-de-números-complejos" class="nav-link" data-scroll-target="#bloque-4-diagnóstico-de-números-complejos">Bloque 4 — Diagnóstico de números complejos</a></li>
+  <li><a href="#inventario-completo" id="toc-inventario-completo" class="nav-link active" data-scroll-target="#inventario-completo">Inventario completo</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">Semana 1 · Presentación y señales</a></li><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">C1 · Presentación: señales, sistemas y el mapa del curso</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">C1 · Presentación: señales, sistemas y el mapa del curso</h1>
-<p class="subtitle lead">Semana 1 · Lunes · 70 min</p>
+<h1 class="title">Demos del curso</h1>
+<p class="subtitle lead">Para correr en casa — el mismo software que se usa en clase</p>
 </div>
 
 
@@ -252,56 +284,177 @@ window.Quarto = {
 </header>
 
 
-<section id="bloque-1-qué-es-una-señal-qué-es-un-sistema" class="level1">
-<h1>Bloque 1 — ¿Qué es una señal? ¿Qué es un sistema?</h1>
-<p><strong>Los dos audios que escuchamos:</strong> ¿qué cambió entre el primero y el segundo?</p>
-<div class="hueco">
-<p>(tu respuesta, antes de que se discuta)</p>
+<p>Todas las demos y apps interactivas del curso, en un solo lugar. Son las mismas que se usan en clase: bájalas y córrelas en tu computador para volver a jugar con ellas cuando quieras — antes de una interrogación, para preparar una pregunta, o simplemente por curiosidad.</p>
+<p>Necesitas Python 3 instalado. Cada demo indica sus dependencias; lo mínimo común es <code>numpy</code> y <code>matplotlib</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy matplotlib</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Orden: por clase.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="C6–C7 · Convolución paso a paso">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p><strong>Definición de señal:</strong></p>
-<div class="hueco">
-
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C6–C7 · Convolución paso a paso
 </div>
-<p><strong>Definición de sistema (y su diagrama de caja):</strong></p>
-<div class="hueco">
-
 </div>
-<p><strong>Mis tres ejemplos favoritos de señales y un sistema de mi vida diaria:</strong></p>
-<div class="hueco">
-
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: el procedimiento gráfico flip / slide / multiply / integrate para calcular <span class="math inline">y(t) = (x*h)(t)</span>, en modo continuo y discreto, con botón de animación.</p>
+<p><strong>Cómo correr</strong>: <code>python3 demo_convolucion.py</code> <strong>Dependencias</strong>: numpy, matplotlib</p>
+<p><a href="demos/convolucion/demo_convolucion.py">Descargar demo_convolucion.py</a></p>
 </div>
-</section>
-<section id="bloque-2-el-mapa-del-curso" class="level1">
-<h1>Bloque 2 — El mapa del curso</h1>
-<p><strong>Los cuatro dominios del curso</strong> (complétalos con una frase cada uno a medida que se presentan):</p>
-<ol type="1">
-<li>Tiempo:</li>
-<li>Frecuencia:</li>
-<li>Plano <span class="math inline">s</span>:</li>
-<li>Mundo discreto:</li>
-</ol>
-<p><strong>La promesa del curso:</strong></p>
-<div class="hueco">
-
 </div>
-</section>
-<section id="bloque-3-cómo-funciona-este-curso" class="level1">
-<h1>Bloque 3 — Cómo funciona este curso</h1>
-<p><strong>Las reglas del juego</strong> (anota lo esencial de cada una):</p>
-<ul>
-<li>Portafolio manuscrito y controles de validación:</li>
-<li>Quiz semanal en Canvas:</li>
-<li>Hoja resumen para las interrogaciones:</li>
-<li>Política de IA en una frase:</li>
-</ul>
-<div class="hueco">
-
+<div class="callout callout-style-default callout-tip callout-titled" title="C7 · Convolución audible">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-</section>
-<section id="bloque-4-diagnóstico-de-números-complejos" class="level1">
-<h1>Bloque 4 — Diagnóstico de números complejos</h1>
-<p><em>(El diagnóstico se rinde en papel en la clase; no está incluido en estos apuntes.)</em></p>
-<p><strong>Para estudiar antes del viernes</strong>: apéndice A del curso (números complejos) — disponible en Canvas.</p>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C7 · Convolución audible
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: <span class="math inline">y = x * h</span> no es solo álgebra — es literalmente lo que se escucha cuando una señal seca suena dentro de una sala real. Convoluciona una señal seca con respuestas al impulso (IR) acústicas reales y permite reproducir el resultado o guardarlo como .wav.</p>
+<p><strong>Cómo correr</strong>: <code>python3 demo_convolucion_audio.py</code> <strong>Dependencias</strong>: numpy, matplotlib, scipy; <code>sounddevice</code> opcional (sin él, igual se pueden guardar los .wav)</p>
+<p><a href="demos/convolucion/demo_convolucion_audio.py">Descargar demo_convolucion_audio.py</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C10–C11 · Series de Fourier (con sonido)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C10–C11 · Series de Fourier (con sonido)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: sliders de magnitud y fase para los primeros 20 armónicos de una onda cuadrada, triangular o diente de sierra — y se <em>escucha</em> el efecto de apagar armónicos o de mover solo las fases (el timbre cambia, la nota casi no).</p>
+<p><strong>Cómo correr</strong>: <code>python3 Series_fourier.py</code> <strong>Dependencias</strong>: numpy, matplotlib, scipy, sounddevice (para el audio)</p>
+<p><a href="demos/series-fourier/Series_fourier.py">Descargar Series_fourier.py</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C17 · Visualizador de Laplace">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C17 · Visualizador de Laplace
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: el plano <span class="math inline">s</span> como lienzo interactivo — arrastra un polo y <strong>predice la forma de la señal antes de soltar</strong>. Muestra la ROC, el integrando amortiguado y la superficie 3D de <span class="math inline">|X(s)|</span>.</p>
+<p><strong>Cómo correr</strong>: <code>python3 laplace_visualizer.py</code> <strong>Dependencias</strong>: numpy, matplotlib, scipy, sympy</p>
+<p><a href="demos/laplace/laplace_visualizer.py">Descargar laplace_visualizer.py</a> · <a href="demos/laplace/actividades.txt">Guía de 3 actividades</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C20 · Sinusoides discretas interactivas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C20 · Sinusoides discretas interactivas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: <span class="math inline">\mathrm{Re}\{e^{j(\Omega n+\phi)}\}</span> a la vez como stem plot, fasor girando en el círculo unitario y espiral 3D, con sliders de <span class="math inline">\Omega</span>, número de muestras y <span class="math inline">\phi</span>.</p>
+<p><strong>Cómo correr</strong>: <code>python3 interactive_sinusoids.py</code> <strong>Dependencias</strong>: numpy, matplotlib</p>
+<p><a href="demos/sinusoides-discretas/interactive_sinusoids.py">Descargar interactive_sinusoids.py</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C25–C26 · Visualizador Z">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C25–C26 · Visualizador Z
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: el plano <span class="math inline">z</span> como lienzo interactivo — arrastra polos y ceros y observa en vivo <span class="math inline">|H(e^{j\omega})|</span>, la fase y <span class="math inline">h[n]</span>. Incluye modo geométrico (vectores hasta <span class="math inline">e^{j\omega}</span>) y presets de diseño de filtros (notch, peine, pasa bajos/altos, resonador).</p>
+<p><strong>Cómo correr</strong>: <code>python3 z_visualizer.py</code> <strong>Dependencias</strong>: numpy, matplotlib</p>
+<p><a href="demos/z-app/z_visualizer.py">Descargar z_visualizer.py</a> · <a href="demos/z-app/actividades.txt">Guía de 3 actividades</a> · <a href="demos/z-app/README.md">README completo</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C27 · DTFT">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C27 · DTFT
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: la DTFT <span class="math inline">X(e^{j\omega}) = \sum_n x[n]e^{-j\omega n}</span> de un pulso rectangular, una exponencial causal o una sinusoide enventanada — magnitud, fase, periodicidad <span class="math inline">2\pi</span> y su relación con la transformada Z evaluada sobre el círculo unitario.</p>
+<p><strong>Cómo correr</strong>: <code>python3 demo_dtft.py</code> <strong>Dependencias</strong>: numpy, matplotlib</p>
+<p><a href="demos/dtft/demo_dtft.py">Descargar demo_dtft.py</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C27–C29 · Bases de Fourier discretas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C27–C29 · Bases de Fourier discretas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: las columnas de la matriz DFT <span class="math inline">\mathbf{W}_N</span> como sinusoides — recorrerlas una a una deja ver que la DFT es, literalmente, una proyección sobre esa base.</p>
+<p><strong>Cómo correr</strong>: <code>python3 interactive_fourier_bases.py</code> <strong>Dependencias</strong>: numpy, matplotlib</p>
+<p><a href="demos/bases-fourier/interactive_fourier_bases.py">Descargar interactive_fourier_bases.py</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C27–C29 · Espectro con ventana y zero-padding">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C27–C29 · Espectro con ventana y zero-padding
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: el espectro de una señal con y sin ventana, y el efecto (real o cosmético) del zero-padding — DFT vs.&nbsp;DTFT. Hay <strong>dos versiones</strong> (el profesor todavía no decide cuál se usa en clase): <code>dsp_visualizer.py</code> es más liviana (customtkinter); <code>dsp_visualizer_b.py</code> es más completa (PySide6 + pyqtgraph).</p>
+<p><strong>Cómo correr</strong>: <code>python3 dsp_visualizer.py</code> <strong>o</strong> <code>python3 dsp_visualizer_b.py</code> <strong>Dependencias</strong>: <code>.py</code> → numpy, matplotlib, scipy, customtkinter · <code>_b.py</code> → numpy, scipy, PySide6, pyqtgraph</p>
+<p><a href="demos/dsp/dsp_visualizer.py">Descargar dsp_visualizer.py</a> · <a href="demos/dsp/dsp_visualizer_b.py">Descargar dsp_visualizer_b.py</a> · <a href="demos/dsp/guia.pdf">Guía</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C28 · FFT paso a paso (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C28 · FFT paso a paso (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: el algoritmo Cooley–Tukey en vivo — separación par/impar, mariposas por etapa y el conteo de operaciones, todo en el navegador.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/fft-web/index.html">ábrela en línea, directo en el navegador</a> — no requiere instalar nada. <strong>Dependencias</strong>: ninguna (HTML/JS autocontenido)</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C30 (optativo) · Overlap-Add / Overlap-Save">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C30 (optativo) · Overlap-Add / Overlap-Save
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: convolución rápida por bloques, paso a paso — qué entra a la FFT, qué sale de la IFFT y cómo se reconstruye la salida global sin errores de aliasing temporal. Para curiosos: no entra a ninguna evaluación; es la lectura de transición hacia un curso de DSP.</p>
+<p><strong>Cómo correr</strong>: <code>python3 visualizador_conv.py</code> (ver <code>requirements.txt</code>) <strong>Dependencias</strong>: numpy, matplotlib, PySide6</p>
+<p><a href="demos/ola-ols/visualizador_conv.py">Descargar visualizador_conv.py</a> · <a href="demos/ola-ols/guia_practica_app.pdf">Guía pedagógica</a> · <a href="demos/ola-ols/README.md">README</a></p>
+</div>
+</div>
+<section id="inventario-completo" class="level2">
+<h2 class="anchored" data-anchor-id="inventario-completo">Inventario completo</h2>
+<p>Ver <a href="demos/README.md"><code>material/demos/README.md</code></a> en el repo para la tabla completa (demo, clase, qué ilustra, cómo correr, dependencias) y notas sobre versiones duplicadas eliminadas.</p>
 
 
 </section>
@@ -709,13 +862,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../demos.html" class="pagination-link" aria-label="Demos del curso">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Demos del curso</span>
+      <a href="./index.html" class="pagination-link" aria-label="IEE2103 · Señales y Sistemas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">IEE2103 · Señales y Sistemas</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-01/c02.html" class="pagination-link" aria-label="C2 · Clasificación de señales">
-        <span class="nav-page-text">C2 · Clasificación de señales</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./curso/semana-01/c01.html" class="pagination-link" aria-label="C1 · Presentación: señales, sistemas y el mapa del curso">
+        <span class="nav-page-text">C1 · Presentación: señales, sistemas y el mapa del curso</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
