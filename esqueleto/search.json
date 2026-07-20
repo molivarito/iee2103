@@ -1,5 +1,38 @@
 [
   {
+    "objectID": "curso/listas/lista-01.html",
+    "href": "curso/listas/lista-01.html",
+    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "section": "",
+    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para entender; el desarrollo escrito debe ser tuyo. El CV1 (semana 3) será una variante de un ejercicio de las Listas 1–2, y tu portafolio será tu único material permitido.\nReferencias de estudio: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-01.html#ejercicios",
+    "href": "curso/listas/lista-01.html#ejercicios",
+    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "section": "Ejercicios",
+    "text": "Ejercicios\nL1.1 — Clasifique cada señal como de energía, de potencia, o ninguna; calcule E o P según corresponda: \\text{(a) } x(t) = e^{-3t}u(t) \\qquad \\text{(b) } x(t) = 4\\cos(2\\pi t) \\qquad \\text{(c) } x[n] = \\left(\\tfrac{1}{2}\\right)^{n} u[n] \\qquad \\text{(d) } x(t) = t\\,u(t)\nL1.2 [DB E0010] — Sea x(t) = \\cos(\\omega_x(t+\\tau_x)+\\theta_x):\n\nDetermine la frecuencia en Hz y el período de x(t) para: (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4.\nCon y(t) = \\sin(\\omega_y(t+\\tau_y)+\\theta_y), determine en qué casos x(t) = y(t): (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi y \\omega_y = \\pi/3, \\tau_y = 1, \\theta_y = -\\pi/3; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4 y \\omega_y = 11\\pi/4, \\tau_y = 1, \\theta_y = 3\\pi/8; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4 y \\omega_y = 3/4, \\tau_y = 1, \\theta_y = 3/8.\n\nL1.3 — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: \\text{(a) } 2\\cos(10t+1) - \\sin(4t-1) \\qquad \\text{(b) } \\cos(6t) + \\sin(15t) \\qquad \\text{(c) } \\cos(t) + \\cos(\\pi t)\nL1.4 [DB E0021] — Demuestre que \\ln(x) se puede descomponer en una parte par P(x) y una impar I(x) dadas por P(x) = \\ln(|x|) + j\\frac{\\pi}{2}, \\qquad I(x) = -\\frac{j\\pi}{2}\\operatorname{sgn}(x) Hint: considere x = |x|\\operatorname{sgn}(x).\nL1.5 [DB E0022] — Una señal f(x) se descompone en parte par P(x) e impar I(x). Demuestre que \\int_{-\\infty}^{\\infty} f^2(x)\\,dx = \\int_{-\\infty}^{\\infty} P^2(x)\\,dx + \\int_{-\\infty}^{\\infty} I^2(x)\\,dx",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+    ]
+  },
+  {
+    "objectID": "curso/semana-01/c02.html",
+    "href": "curso/semana-01/c02.html",
+    "title": "C2 · Clasificación de señales",
+    "section": "",
+    "text": "1. Señales continuas y discretas\nNotación: señal continua se escribe _____ ; señal discreta se escribe _____ .\nUn ejemplo de cada una:\n\n\n\n\n\n2. Periodicidad\nDefinición de señal periódica y de período fundamental T_0:\n\n\n\nRegla para la suma de dos periódicas (¿cuándo es periódica la suma? ¿cuál es su T_0?):\n\n\n\nEjemplo resuelto en clase: x(t) = 2\\cos(10t+1) - \\sin(4t-1)\n\n\n\nMi voto en la pregunta de la votación y por qué:\n\n\n\n\n\n3. Energía y potencia\nDefiniciones:\nE = \\hspace{6cm} P = \nClasificación (completa con ejemplos):\n\n\n\nTipo\nCondición\nEjemplo\n\n\n\n\nde energía\n\n\n\n\nde potencia\n\n\n\n\nninguna\n\n\n\n\n\nEnergía y potencia de A\\cos(\\omega_0 t) (desarrollo):\n\n\n\n\n\n4. Simetrías: par e impar\nDefiniciones (par / impar) y las fórmulas de descomposición:\nx_p(t) = \\hspace{4cm} x_i(t) = \nDescomposición de e^t (desarrollo y sorpresa):",
+    "crumbs": [
+      "Semana 1 · Presentación y señales",
+      "C2 · Clasificación de señales"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "IEE2103 · Señales y Sistemas",
@@ -17,6 +50,83 @@
     "text": "Referencias del curso\n\n[Alvarado] P. Alvarado Moya, Señales y Sistemas: Fundamentos Matemáticos, 2ª ed., 2024.\n[Oppenheim] A. Oppenheim, A. Willsky, S. Nawab, Señales y Sistemas, 2ª ed., Prentice Hall, 1998.\n[MIT] Lecture notes MIT OCW 6.007 (Oppenheim).\n\nDocumentos rectores: OBJETIVOS_APRENDIZAJE.md · PLAN_SEMESTRE.md · METODOLOGIA.md · PLAN_MATERIAL.md. Banco de ejercicios: common/ejercicios/banco_v2/ (herramienta tools/banco.py, guía en SISTEMA.md).",
     "crumbs": [
       "IEE2103 · Señales y Sistemas"
+    ]
+  },
+  {
+    "objectID": "curso/semana-01/c01.html",
+    "href": "curso/semana-01/c01.html",
+    "title": "C1 · Presentación: señales, sistemas y el mapa del curso",
+    "section": "",
+    "text": "Bloque 1 — ¿Qué es una señal? ¿Qué es un sistema?\nLos dos audios que escuchamos: ¿qué cambió entre el primero y el segundo?\n\n(tu respuesta, antes de que se discuta)\n\nDefinición de señal:\n\n\n\nDefinición de sistema (y su diagrama de caja):\n\n\n\nMis tres ejemplos favoritos de señales y un sistema de mi vida diaria:\n\n\n\n\n\nBloque 2 — El mapa del curso\nLos cuatro dominios del curso (complétalos con una frase cada uno a medida que se presentan):\n\nTiempo:\nFrecuencia:\nPlano s:\nMundo discreto:\n\nLa promesa del curso:\n\n\n\n\n\nBloque 3 — Cómo funciona este curso\nLas reglas del juego (anota lo esencial de cada una):\n\nPortafolio manuscrito y controles de validación:\nQuiz semanal en Canvas:\nHoja resumen para las interrogaciones:\nPolítica de IA en una frase:\n\n\n\n\n\n\nBloque 4 — Diagnóstico de números complejos\n(El diagnóstico se rinde en papel en la clase; no está incluido en estos apuntes.)\nPara estudiar antes del viernes: apéndice A del curso (números complejos) — disponible en Canvas.",
+    "crumbs": [
+      "Semana 1 · Presentación y señales",
+      "C1 · Presentación: señales, sistemas y el mapa del curso"
+    ]
+  },
+  {
+    "objectID": "curso/semana-01/ay01.html",
+    "href": "curso/semana-01/ay01.html",
+    "title": "Ay1 · Nivelación: números complejos",
+    "section": "",
+    "text": "Min\nActividad\n\n\n\n\n0–15\nRepaso dirigido: el plano complejo, forma polar y Euler (pizarra, ritmo alto)\n\n\n15–35\nEjercicios en pizarra: [DB E0001] y [DB E0002] (resueltos con la sala)\n\n\n35–60\nTrabajo en parejas: [DB E0004] y [DB E0006] (ayudantes circulan)\n\n\n60–70\nCierre: los tres errores más vistos + qué estudiar del apéndice A",
+    "crumbs": [
+      "Semana 1 · Presentación y señales",
+      "Ay1 · Nivelación: números complejos"
+    ]
+  },
+  {
+    "objectID": "curso/semana-01/ay01.html#plan-de-la-sesión-70-min",
+    "href": "curso/semana-01/ay01.html#plan-de-la-sesión-70-min",
+    "title": "Ay1 · Nivelación: números complejos",
+    "section": "",
+    "text": "Min\nActividad\n\n\n\n\n0–15\nRepaso dirigido: el plano complejo, forma polar y Euler (pizarra, ritmo alto)\n\n\n15–35\nEjercicios en pizarra: [DB E0001] y [DB E0002] (resueltos con la sala)\n\n\n35–60\nTrabajo en parejas: [DB E0004] y [DB E0006] (ayudantes circulan)\n\n\n60–70\nCierre: los tres errores más vistos + qué estudiar del apéndice A",
+    "crumbs": [
+      "Semana 1 · Presentación y señales",
+      "Ay1 · Nivelación: números complejos"
+    ]
+  },
+  {
+    "objectID": "curso/semana-01/ay01.html#repaso-dirigido-015-min-lo-mínimo-que-hay-que-dominar",
+    "href": "curso/semana-01/ay01.html#repaso-dirigido-015-min-lo-mínimo-que-hay-que-dominar",
+    "title": "Ay1 · Nivelación: números complejos",
+    "section": "Repaso dirigido (0–15 min): lo mínimo que hay que dominar",
+    "text": "Repaso dirigido (0–15 min): lo mínimo que hay que dominar\n\nDos formas, un número: z = a + jb = r\\,e^{j\\theta}, con r = \\sqrt{a^2+b^2}, \\theta = \\operatorname{atan2}(b,a). Dibujar siempre el punto en el plano.\nEuler (la fórmula que paga el semestre): e^{j\\theta} = \\cos\\theta + j\\sin\\theta. Casos que hay que saber de memoria: e^{j\\pi/2} = j, e^{j\\pi} = -1, e^{j2\\pi} = 1.\nMultiplicar en polar: módulos se multiplican, fases se suman — por eso la forma polar existe. Dividir: al revés.\nConjugado: z^* = a - jb = r\\,e^{-j\\theta}; z z^* = |z|^2 (siempre real ≥ 0); \\Re\\{z\\} = \\frac{z+z^*}{2}.\nEl fasor: e^{j\\omega t} es un punto girando en el círculo unitario a \\omega rad/s. Es la señal del curso: toda sinusoide es su sombra: \\cos(\\omega t) = \\Re\\{e^{j\\omega t}\\}.",
+    "crumbs": [
+      "Semana 1 · Presentación y señales",
+      "Ay1 · Nivelación: números complejos"
+    ]
+  },
+  {
+    "objectID": "curso/semana-01/ay01.html#ejercicios-en-pizarra-1535-min",
+    "href": "curso/semana-01/ay01.html#ejercicios-en-pizarra-1535-min",
+    "title": "Ay1 · Nivelación: números complejos",
+    "section": "Ejercicios en pizarra (15–35 min)",
+    "text": "Ejercicios en pizarra (15–35 min)\n[DB E0001] Con 2z = 1 + j\\sqrt{3} y 2w = \\sqrt{2} - j\\sqrt{2}, usando forma polar: (a) z\\cdot w; (b) z/w; (c) zz^*, \\frac{1}{2}(z+z^*), \\frac{1}{2j}(z-z^*); (d) magnitud y fase de (z\\cdot w)^*.\n[DB E0002] Demostrar que \\Re\\{z\\} = \\frac{z+z^*}{2} y j\\,\\Im\\{z\\} = \\frac{z-z^*}{2}.",
+    "crumbs": [
+      "Semana 1 · Presentación y señales",
+      "Ay1 · Nivelación: números complejos"
+    ]
+  },
+  {
+    "objectID": "curso/semana-01/ay01.html#trabajo-en-parejas-3560-min",
+    "href": "curso/semana-01/ay01.html#trabajo-en-parejas-3560-min",
+    "title": "Ay1 · Nivelación: números complejos",
+    "section": "Trabajo en parejas (35–60 min)",
+    "text": "Trabajo en parejas (35–60 min)\n[DB E0004] Para x(t) = \\sqrt{2}(1+j)\\,e^{j\\pi/4}\\,e^{(-1+j2\\pi)t}: determinar \\Re\\{x(t)\\}, \\Im\\{x(t)\\} y x(t+2) + x^*(t+2).\n[DB E0006] Hallar todos los valores de (2j)^{1/2} y la raíz principal.",
+    "crumbs": [
+      "Semana 1 · Presentación y señales",
+      "Ay1 · Nivelación: números complejos"
+    ]
+  },
+  {
+    "objectID": "curso/semana-01/ay01.html#cierre-6070-min",
+    "href": "curso/semana-01/ay01.html#cierre-6070-min",
+    "title": "Ay1 · Nivelación: números complejos",
+    "section": "Cierre (60–70 min)",
+    "text": "Cierre (60–70 min)\n\nRecordar: Lista 1 ya está publicada — al portafolio manuscrito (se usa en el control CV1 de la semana 3).\nEstudio personal: apéndice A completo; quien falló el diagnóstico en las preguntas 3, 4 u 8 debería rehacerlas tras leer el apéndice.",
+    "crumbs": [
+      "Semana 1 · Presentación y señales",
+      "Ay1 · Nivelación: números complejos"
     ]
   }
 ]

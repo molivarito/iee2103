@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>IEE2103 · Señales y Sistemas – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Ay1 · Nivelación: números complejos – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,24 +26,25 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./curso/semana-01/c01.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../curso/listas/lista-01.html" rel="next">
+<link href="../../curso/semana-01/c02.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -72,8 +73,51 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -85,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">IEE2103 · Señales y Sistemas</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">Semana 1 · Presentación y señales</a></li><li class="breadcrumb-item"><a href="../../curso/semana-01/ay01.html">Ay1 · Nivelación: números complejos</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -100,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
+      <a href="../../">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -112,7 +156,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">IEE2103 · Señales y Sistemas</span></a>
   </div>
 </li>
@@ -127,19 +171,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C1 · Presentación: señales, sistemas y el mapa del curso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C2 · Clasificación de señales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Ay1 · Nivelación: números complejos</span></a>
   </div>
 </li>
@@ -156,7 +200,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span></a>
   </div>
 </li>
@@ -172,17 +216,21 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#referencias-del-curso" id="toc-referencias-del-curso" class="nav-link active" data-scroll-target="#referencias-del-curso">Referencias del curso</a></li>
+  <li><a href="#plan-de-la-sesión-70-min" id="toc-plan-de-la-sesión-70-min" class="nav-link active" data-scroll-target="#plan-de-la-sesión-70-min">Plan de la sesión (70 min)</a></li>
+  <li><a href="#repaso-dirigido-015-min-lo-mínimo-que-hay-que-dominar" id="toc-repaso-dirigido-015-min-lo-mínimo-que-hay-que-dominar" class="nav-link" data-scroll-target="#repaso-dirigido-015-min-lo-mínimo-que-hay-que-dominar">Repaso dirigido (0–15 min): lo mínimo que hay que dominar</a></li>
+  <li><a href="#ejercicios-en-pizarra-1535-min" id="toc-ejercicios-en-pizarra-1535-min" class="nav-link" data-scroll-target="#ejercicios-en-pizarra-1535-min">Ejercicios en pizarra (15–35 min)</a></li>
+  <li><a href="#trabajo-en-parejas-3560-min" id="toc-trabajo-en-parejas-3560-min" class="nav-link" data-scroll-target="#trabajo-en-parejas-3560-min">Trabajo en parejas (35–60 min)</a></li>
+  <li><a href="#cierre-6070-min" id="toc-cierre-6070-min" class="nav-link" data-scroll-target="#cierre-6070-min">Cierre (60–70 min)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">Semana 1 · Presentación y señales</a></li><li class="breadcrumb-item"><a href="../../curso/semana-01/ay01.html">Ay1 · Nivelación: números complejos</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">IEE2103 · Señales y Sistemas</h1>
-<p class="subtitle lead">Material del curso — 15 semanas completas</p>
+<h1 class="title">Ay1 · Nivelación: números complejos</h1>
+<p class="subtitle lead">Semana 1 · Viernes · 70 min · Prerrequisito (D1)</p>
 </div>
 
 
@@ -199,15 +247,65 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Este sitio es la <strong>fuente única del material del curso</strong> (ver <code>PLAN_MATERIAL.md</code> en la raíz del repo). Cada sesión tiene una página con: ficha docente (objetivos, guion, actividades), el contenido completo de la clase y los medios (audio, demos, videos). La navegación por semanas está en la barra lateral.</p>
-<section id="referencias-del-curso" class="level2">
-<h2 class="anchored" data-anchor-id="referencias-del-curso">Referencias del curso</h2>
+<section id="plan-de-la-sesión-70-min" class="level2">
+<h2 class="anchored" data-anchor-id="plan-de-la-sesión-70-min">Plan de la sesión (70 min)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Min</th>
+<th>Actividad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0–15</td>
+<td>Repaso dirigido: el plano complejo, forma polar y Euler (pizarra, ritmo alto)</td>
+</tr>
+<tr class="even">
+<td>15–35</td>
+<td>Ejercicios en pizarra: <strong>[DB E0001]</strong> y <strong>[DB E0002]</strong> (resueltos con la sala)</td>
+</tr>
+<tr class="odd">
+<td>35–60</td>
+<td>Trabajo en parejas: <strong>[DB E0004]</strong> y <strong>[DB E0006]</strong> (ayudantes circulan)</td>
+</tr>
+<tr class="even">
+<td>60–70</td>
+<td>Cierre: los tres errores más vistos + qué estudiar del apéndice A</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="repaso-dirigido-015-min-lo-mínimo-que-hay-que-dominar" class="level2">
+<h2 class="anchored" data-anchor-id="repaso-dirigido-015-min-lo-mínimo-que-hay-que-dominar">Repaso dirigido (0–15 min): lo mínimo que hay que dominar</h2>
+<ol type="1">
+<li><strong>Dos formas, un número</strong>: <span class="math inline">z = a + jb = r\,e^{j\theta}</span>, con <span class="math inline">r = \sqrt{a^2+b^2}</span>, <span class="math inline">\theta = \operatorname{atan2}(b,a)</span>. Dibujar <em>siempre</em> el punto en el plano.</li>
+<li><strong>Euler</strong> (la fórmula que paga el semestre): <span class="math inline">e^{j\theta} = \cos\theta + j\sin\theta</span>. Casos que hay que saber de memoria: <span class="math inline">e^{j\pi/2} = j</span>, <span class="math inline">e^{j\pi} = -1</span>, <span class="math inline">e^{j2\pi} = 1</span>.</li>
+<li><strong>Multiplicar en polar</strong>: módulos se multiplican, fases se suman — por eso la forma polar existe. Dividir: al revés.</li>
+<li><strong>Conjugado</strong>: <span class="math inline">z^* = a - jb = r\,e^{-j\theta}</span>; <span class="math inline">z z^* = |z|^2</span> (siempre real ≥ 0); <span class="math inline">\Re\{z\} = \frac{z+z^*}{2}</span>.</li>
+<li><strong>El fasor</strong>: <span class="math inline">e^{j\omega t}</span> es un punto girando en el círculo unitario a <span class="math inline">\omega</span> rad/s. Es <em>la</em> señal del curso: toda sinusoide es su sombra: <span class="math inline">\cos(\omega t) = \Re\{e^{j\omega t}\}</span>.</li>
+</ol>
+</section>
+<section id="ejercicios-en-pizarra-1535-min" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-en-pizarra-1535-min">Ejercicios en pizarra (15–35 min)</h2>
+<p><strong>[DB E0001]</strong> Con <span class="math inline">2z = 1 + j\sqrt{3}</span> y <span class="math inline">2w = \sqrt{2} - j\sqrt{2}</span>, usando forma polar: (a) <span class="math inline">z\cdot w</span>; (b) <span class="math inline">z/w</span>; (c) <span class="math inline">zz^*</span>, <span class="math inline">\frac{1}{2}(z+z^*)</span>, <span class="math inline">\frac{1}{2j}(z-z^*)</span>; (d) magnitud y fase de <span class="math inline">(z\cdot w)^*</span>.</p>
+<p><strong>[DB E0002]</strong> Demostrar que <span class="math inline">\Re\{z\} = \frac{z+z^*}{2}</span> y <span class="math inline">j\,\Im\{z\} = \frac{z-z^*}{2}</span>.</p>
+</section>
+<section id="trabajo-en-parejas-3560-min" class="level2">
+<h2 class="anchored" data-anchor-id="trabajo-en-parejas-3560-min">Trabajo en parejas (35–60 min)</h2>
+<p><strong>[DB E0004]</strong> Para <span class="math inline">x(t) = \sqrt{2}(1+j)\,e^{j\pi/4}\,e^{(-1+j2\pi)t}</span>: determinar <span class="math inline">\Re\{x(t)\}</span>, <span class="math inline">\Im\{x(t)\}</span> y <span class="math inline">x(t+2) + x^*(t+2)</span>.</p>
+<p><strong>[DB E0006]</strong> Hallar todos los valores de <span class="math inline">(2j)^{1/2}</span> y la raíz principal.</p>
+</section>
+<section id="cierre-6070-min" class="level2">
+<h2 class="anchored" data-anchor-id="cierre-6070-min">Cierre (60–70 min)</h2>
 <ul>
-<li><strong>[Alvarado]</strong> P. Alvarado Moya, <em>Señales y Sistemas: Fundamentos Matemáticos</em>, 2ª ed., 2024.</li>
-<li><strong>[Oppenheim]</strong> A. Oppenheim, A. Willsky, S. Nawab, <em>Señales y Sistemas</em>, 2ª ed., Prentice Hall, 1998.</li>
-<li><strong>[MIT]</strong> Lecture notes MIT OCW 6.007 (Oppenheim).</li>
+<li>Recordar: Lista 1 ya está publicada — al <strong>portafolio manuscrito</strong> (se usa en el control CV1 de la semana 3).</li>
+<li>Estudio personal: apéndice A completo; quien falló el diagnóstico en las preguntas 3, 4 u 8 debería rehacerlas tras leer el apéndice.</li>
 </ul>
-<p>Documentos rectores: <code>OBJETIVOS_APRENDIZAJE.md</code> · <code>PLAN_SEMESTRE.md</code> · <code>METODOLOGIA.md</code> · <code>PLAN_MATERIAL.md</code>. Banco de ejercicios: <code>common/ejercicios/banco_v2/</code> (herramienta <code>tools/banco.py</code>, guía en <code>SISTEMA.md</code>).</p>
 
 
 </section>
@@ -615,10 +713,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../curso/semana-01/c02.html" class="pagination-link" aria-label="C2 · Clasificación de señales">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C2 · Clasificación de señales</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./curso/semana-01/c01.html" class="pagination-link" aria-label="C1 · Presentación: señales, sistemas y el mapa del curso">
-        <span class="nav-page-text">C1 · Presentación: señales, sistemas y el mapa del curso</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/listas/lista-01.html" class="pagination-link" aria-label="Lista 1 · Señales: clasificación, periodicidad, energía, simetrías">
+        <span class="nav-page-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>IEE2103 · Señales y Sistemas – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Lista 1 · Señales: clasificación, periodicidad, energía, simetrías – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,24 +26,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./curso/semana-01/c01.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../curso/semana-01/ay01.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -72,8 +72,51 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -85,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">IEE2103 · Señales y Sistemas</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -100,7 +143,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
+      <a href="../../">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -112,7 +155,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">IEE2103 · Señales y Sistemas</span></a>
   </div>
 </li>
@@ -127,19 +170,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C1 · Presentación: señales, sistemas y el mapa del curso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C2 · Clasificación de señales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ay1 · Nivelación: números complejos</span></a>
   </div>
 </li>
@@ -156,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span></a>
   </div>
 </li>
@@ -172,17 +215,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#referencias-del-curso" id="toc-referencias-del-curso" class="nav-link active" data-scroll-target="#referencias-del-curso">Referencias del curso</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link active" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">IEE2103 · Señales y Sistemas</h1>
-<p class="subtitle lead">Material del curso — 15 semanas completas</p>
+<h1 class="title">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</h1>
+<p class="subtitle lead">Se publica al cierre de la semana 1 · Materia: C1–C2 · Al portafolio</p>
 </div>
 
 
@@ -199,15 +242,31 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Este sitio es la <strong>fuente única del material del curso</strong> (ver <code>PLAN_MATERIAL.md</code> en la raíz del repo). Cada sesión tiene una página con: ficha docente (objetivos, guion, actividades), el contenido completo de la clase y los medios (audio, demos, videos). La navegación por semanas está en la barra lateral.</p>
-<section id="referencias-del-curso" class="level2">
-<h2 class="anchored" data-anchor-id="referencias-del-curso">Referencias del curso</h2>
-<ul>
-<li><strong>[Alvarado]</strong> P. Alvarado Moya, <em>Señales y Sistemas: Fundamentos Matemáticos</em>, 2ª ed., 2024.</li>
-<li><strong>[Oppenheim]</strong> A. Oppenheim, A. Willsky, S. Nawab, <em>Señales y Sistemas</em>, 2ª ed., Prentice Hall, 1998.</li>
-<li><strong>[MIT]</strong> Lecture notes MIT OCW 6.007 (Oppenheim).</li>
-</ul>
-<p>Documentos rectores: <code>OBJETIVOS_APRENDIZAJE.md</code> · <code>PLAN_SEMESTRE.md</code> · <code>METODOLOGIA.md</code> · <code>PLAN_MATERIAL.md</code>. Banco de ejercicios: <code>common/ejercicios/banco_v2/</code> (herramienta <code>tools/banco.py</code>, guía en <code>SISTEMA.md</code>).</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Cómo trabajar esta lista
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Resuélvela <strong>a mano, en tu portafolio, con desarrollo completo</strong> — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para <em>entender</em>; el desarrollo escrito debe ser tuyo. El <strong>CV1</strong> (semana 3) será una variante de un ejercicio de las Listas 1–2, y tu portafolio será tu único material permitido.</p>
+</div>
+</div>
+<p><strong>Referencias de estudio</strong>: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.</p>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<p><strong>L1.1</strong> — Clasifique cada señal como de energía, de potencia, o ninguna; calcule <span class="math inline">E</span> o <span class="math inline">P</span> según corresponda: <span class="math display">\text{(a) } x(t) = e^{-3t}u(t) \qquad \text{(b) } x(t) = 4\cos(2\pi t) \qquad \text{(c) } x[n] = \left(\tfrac{1}{2}\right)^{n} u[n] \qquad \text{(d) } x(t) = t\,u(t)</span></p>
+<p><strong>L1.2</strong> [DB E0010] — Sea <span class="math inline">x(t) = \cos(\omega_x(t+\tau_x)+\theta_x)</span>:</p>
+<ol type="1">
+<li>Determine la frecuencia en Hz y el período de <span class="math inline">x(t)</span> para: (a) <span class="math inline">\omega_x = \pi/3</span>, <span class="math inline">\tau_x = 0</span>, <span class="math inline">\theta_x = 2\pi</span>; (b) <span class="math inline">\omega_x = 3\pi/4</span>, <span class="math inline">\tau_x = 1/2</span>, <span class="math inline">\theta_x = \pi/4</span>; (c) <span class="math inline">\omega_x = 3/4</span>, <span class="math inline">\tau_x = 1/2</span>, <span class="math inline">\theta_x = 1/4</span>.</li>
+<li>Con <span class="math inline">y(t) = \sin(\omega_y(t+\tau_y)+\theta_y)</span>, determine en qué casos <span class="math inline">x(t) = y(t)</span>: (a) <span class="math inline">\omega_x = \pi/3, \tau_x = 0, \theta_x = 2\pi</span> y <span class="math inline">\omega_y = \pi/3, \tau_y = 1, \theta_y = -\pi/3</span>; (b) <span class="math inline">\omega_x = 3\pi/4, \tau_x = 1/2, \theta_x = \pi/4</span> y <span class="math inline">\omega_y = 11\pi/4, \tau_y = 1, \theta_y = 3\pi/8</span>; (c) <span class="math inline">\omega_x = 3/4, \tau_x = 1/2, \theta_x = 1/4</span> y <span class="math inline">\omega_y = 3/4, \tau_y = 1, \theta_y = 3/8</span>.</li>
+</ol>
+<p><strong>L1.3</strong> — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: <span class="math display">\text{(a) } 2\cos(10t+1) - \sin(4t-1) \qquad \text{(b) } \cos(6t) + \sin(15t) \qquad \text{(c) } \cos(t) + \cos(\pi t)</span></p>
+<p><strong>L1.4</strong> [DB E0021] — Demuestre que <span class="math inline">\ln(x)</span> se puede descomponer en una parte par <span class="math inline">P(x)</span> y una impar <span class="math inline">I(x)</span> dadas por <span class="math display">P(x) = \ln(|x|) + j\frac{\pi}{2}, \qquad I(x) = -\frac{j\pi}{2}\operatorname{sgn}(x)</span> <em>Hint: considere <span class="math inline">x = |x|\operatorname{sgn}(x)</span>.</em></p>
+<p><strong>L1.5</strong> [DB E0022] — Una señal <span class="math inline">f(x)</span> se descompone en parte par <span class="math inline">P(x)</span> e impar <span class="math inline">I(x)</span>. Demuestre que <span class="math display">\int_{-\infty}^{\infty} f^2(x)\,dx = \int_{-\infty}^{\infty} P^2(x)\,dx + \int_{-\infty}^{\infty} I^2(x)\,dx</span></p>
 
 
 </section>
@@ -615,11 +674,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../curso/semana-01/ay01.html" class="pagination-link" aria-label="Ay1 · Nivelación: números complejos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Ay1 · Nivelación: números complejos</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./curso/semana-01/c01.html" class="pagination-link" aria-label="C1 · Presentación: señales, sistemas y el mapa del curso">
-        <span class="nav-page-text">C1 · Presentación: señales, sistemas y el mapa del curso</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
