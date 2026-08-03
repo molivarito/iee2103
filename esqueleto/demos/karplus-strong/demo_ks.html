@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo · Karplus-Strong — Sesión 10</title>
+<style>
+:root {
+  --bg:        #0d1a14;
+  --panel:     #182b22;
+  --panel-2:   #233f33;
+  --accent:    #c89544;     /* dorado guitarra */
+  --accent-2:  #6ddb7a;     /* verde fresco */
+  --accent-3:  #ff5577;     /* rojo bug */
+  --accent-4:  #4ec3ff;     /* cyan referencia */
+  --accent-5:  #b86dff;     /* preset */
+  --text:      #ecf0e8;
+  --text-dim:  #97aa9a;
+  --border:    #2a3d33;
+  --font:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono:      "SF Mono", "Menlo", "Consolas", monospace;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.5; font-size:15px; min-height:100vh; }
+header {
+  background:linear-gradient(135deg,#4a3010 0%,#7b5821 50%,#c89544 100%);
+  padding:22px 32px; border-bottom:1px solid var(--border);
+}
+header h1 { font-size:1.55em; font-weight:600; letter-spacing:0.3px; }
+header .subtitle { color:rgba(255,255,255,.85); font-size:1em; margin-top:4px; font-weight:300; }
+header .meta { color:rgba(255,255,255,.7); font-size:0.85em; margin-top:6px; }
+nav.tabs {
+  display:flex; gap:0; background:var(--panel); padding:0 32px;
+  border-bottom:1px solid var(--border); overflow-x:auto;
+}
+nav.tabs button {
+  background:transparent; color:var(--text-dim); border:none; border-bottom:3px solid transparent;
+  padding:14px 20px; font:inherit; font-weight:500; cursor:pointer; white-space:nowrap; transition:.15s;
+}
+nav.tabs button:hover { color:var(--text); }
+nav.tabs button.active { color:var(--accent); border-bottom-color:var(--accent); }
+main { padding:24px 32px; max-width:1400px; margin:0 auto; }
+section.module { display:none; }
+section.module.active { display:block; }
+section.module > h2 { font-size:1.35em; margin-bottom:6px; color:var(--accent-2); }
+section.module .prose { color:var(--text-dim); margin-bottom:16px; max-width:880px; }
+section.module .prose strong { color:var(--text); }
+section.module .prose code { font-family:var(--mono); background:var(--panel); padding:1px 6px; border-radius:3px; color:var(--accent-2); font-size:.9em; }
+.layout { display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:18px; }
+.layout-wide { display:grid; grid-template-columns:1fr; gap:18px; }
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px 18px; min-width:0; }
+.panel h3 { font-size:1em; color:var(--accent); margin-bottom:10px; }
+.panel.sub { background:var(--panel-2); }
+canvas { width:100%; height:auto; display:block; background:#08110d; border-radius:6px; border:1px solid var(--border); }
+.row { display:flex; gap:10px; align-items:center; margin:8px 0; flex-wrap:wrap; }
+button.btn {
+  background:var(--accent); color:#1a0f04; border:none; padding:9px 16px; border-radius:5px;
+  font:inherit; font-weight:600; cursor:pointer; transition:.1s;
+}
+button.btn:hover { filter:brightness(1.15); }
+button.btn.ghost { background:transparent; color:var(--text); border:1px solid var(--border); }
+button.btn.ghost:hover { background:var(--panel-2); }
+button.btn.danger { background:var(--accent-3); color:#fff; }
+button.btn.preset {
+  background:var(--panel-2); color:var(--text); border:1px solid var(--accent-5);
+  padding:8px 12px; font-weight:500; font-size:.92em;
+}
+button.btn.preset:hover { background:var(--accent-5); color:#fff; }
+button.btn.preset.active { background:var(--accent-5); color:#fff; }
+.slider-group { margin:10px 0; }
+.slider-group label {
+  display:flex; justify-content:space-between; font-size:.92em; color:var(--text-dim); margin-bottom:4px;
+}
+.slider-group label .val { color:var(--accent); font-family:var(--mono); font-weight:600; }
+input[type=range] {
+  width:100%; -webkit-appearance:none; height:6px; background:var(--panel-2);
+  border-radius:3px; outline:none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:50%;
+  background:var(--accent); cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,.4);
+}
+input[type=range]::-moz-range-thumb { width:18px; height:18px; border-radius:50%; background:var(--accent); cursor:pointer; border:none; }
+.kv { display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:.9em; color:var(--text-dim); margin-top:8px; }
+.kv .k { color:var(--text); font-family:var(--mono); }
+.note { background:var(--panel-2); border-left:3px solid var(--accent-2); padding:10px 14px; border-radius:4px; font-size:.93em; color:var(--text-dim); margin-top:10px; }
+.note strong { color:var(--text); }
+.callout { background:rgba(200,149,68,.08); border:1px solid rgba(200,149,68,.3); border-radius:6px; padding:10px 14px; font-size:.92em; color:var(--text); margin-bottom:12px; }
+.callout.warn { background:rgba(255,85,119,.08); border-color:rgba(255,85,119,.3); }
+.preset-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:8px; margin:8px 0; }
+.eq-display {
+  font-family:var(--mono); font-size:.95em; color:var(--accent);
+  background:#08110d; padding:10px 14px; border-radius:4px; margin:8px 0;
+  border:1px solid var(--border); text-align:center;
+}
+.led { display:inline-block; width:9px; height:9px; border-radius:50%; background:#444; transition:.1s; vertical-align:middle; margin-right:6px; }
+.led.on { background:var(--accent-2); box-shadow:0 0 8px var(--accent-2); }
+table { border-collapse:collapse; width:100%; font-size:.9em; margin:8px 0; }
+th, td { padding:6px 10px; text-align:left; border-bottom:1px solid var(--border); }
+th { color:var(--accent-2); font-weight:600; }
+small.dim { color:var(--text-dim); font-size:.85em; }
+hr.div { border:none; border-top:1px solid var(--border); margin:14px 0; }
+
+/* Teclado virtual */
+.keyboard {
+  display:flex; justify-content:center; gap:2px; margin:14px 0; position:relative; user-select:none;
+}
+.key {
+  width:42px; height:140px; background:#f5f5f5; border:1px solid #888; border-radius:0 0 5px 5px;
+  cursor:pointer; transition:.05s; position:relative; display:flex; align-items:flex-end; justify-content:center; padding-bottom:6px; color:#333; font-size:.78em;
+}
+.key:hover { background:#ddd; }
+.key.active { background:var(--accent); color:#000; }
+.key.black {
+  width:28px; height:90px; background:#1a1a1a; color:#ccc; margin:0 -14px; z-index:2;
+  border-color:#000; border-radius:0 0 4px 4px;
+}
+.key.black:hover { background:#444; }
+.key.black.active { background:var(--accent); color:#000; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🪕 Demo · Karplus-Strong</h1>
+  <div class="subtitle">Sesión 10 — Análisis y Síntesis de Señales Musicales</div>
+  <div class="meta">Web Audio API · buffer circular en vivo, ρ y N, comparación N vs N+0.5 · Prof. Patricio de la Cuadra</div>
+</header>
+
+<nav class="tabs">
+  <button data-tab="lab"      class="active">🧪 KS Lab</button>
+  <button data-tab="buffer">  🔄 Buffer en vivo</button>
+  <button data-tab="bug">     🐛 Bug del +½</button>
+  <button data-tab="excite">  ⚡ Excitación inicial</button>
+  <button data-tab="keyboard">🎹 Guitarra virtual</button>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     KS LAB — sliders en vivo
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="module active" id="lab">
+  <h2>🧪 KS Lab — buffer + filtro + ρ en vivo</h2>
+  <p class="prose">
+    La ecuación: <code>y[n] = ρ · ½(y[n−N] + y[n−N−1])</code>. Cambia $N$ y oye el tono; cambia $\rho$ y oye el decay; cambia el filtro y oye cómo el timbre se cierra.
+  </p>
+
+  <div class="layout">
+    <div class="panel">
+      <h3>Salida y espectro</h3>
+      <div class="row" style="gap:6px">
+        <button id="lab-pluck" class="btn">🎸 Pluck (trigger)</button>
+        <button id="lab-stop" class="btn danger">■ Stop</button>
+        <span class="led" id="lab-led"></span><small class="dim" id="lab-status">parado</small>
+      </div>
+      <div class="eq-display" id="lab-eq">f₀ = 44100 / (100 + 0.5) = 438.81 Hz · N=100 · ρ=0.996</div>
+      <canvas id="lab-wave"  width="900" height="160"></canvas>
+      <small class="dim">⬆ Forma de onda (zoom: 60 ms)</small>
+      <canvas id="lab-spec"  width="900" height="220" style="margin-top:10px"></canvas>
+      <small class="dim">⬆ Espectro (0–4 kHz, dB) — observa cómo los agudos se apagan con el tiempo</small>
+    </div>
+
+    <div class="panel sub">
+      <h3>Parámetros</h3>
+
+      <div class="slider-group">
+        <label>Frecuencia <code>f₀</code> <span class="val" id="lab-f0-val">220 Hz</span></label>
+        <input id="lab-f0" type="range" min="55" max="880" step="1" value="220">
+      </div>
+
+      <div class="slider-group">
+        <label>Factor de pérdida <code>ρ</code> <span class="val" id="lab-rho-val">0.996</span></label>
+        <input id="lab-rho" type="range" min="0.85" max="1.000" step="0.001" value="0.996">
+      </div>
+
+      <div class="slider-group">
+        <label>Mezcla del filtro promedio <span class="val" id="lab-mix-val">0.50</span></label>
+        <input id="lab-mix" type="range" min="0" max="1" step="0.01" value="0.50">
+        <small class="dim">0 = sin filtro (loop puro), 0.5 = clásico KS, 1.0 = máximo damping de agudos.</small>
+      </div>
+
+      <div class="slider-group">
+        <label>Compensación de N <span class="val" id="lab-comp-val">+0 (correcto)</span></label>
+        <input id="lab-comp" type="range" min="-2" max="2" step="0.5" value="0">
+        <small class="dim">Si vale 0 se usa N=round(fs/f₀−0.5). Valores ≠0 introducen desafinación.</small>
+      </div>
+
+      <hr class="div">
+
+      <div class="kv">
+        <div class="k">N (samples)</div>           <div id="lab-N">100</div>
+        <div class="k">f real (Hz)</div>            <div id="lab-freal">440.0</div>
+        <div class="k">Decay 60 dB (s)</div>        <div id="lab-decay">2.50</div>
+        <div class="k">Carácter</div>               <div id="lab-char">nylon</div>
+      </div>
+
+      <div class="note" id="lab-note">
+        Con ρ=0.996 y filtro 0.5 estás en KS clásico: guitarra de nylon con decay de ~2 s.
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     BUFFER — visualización del buffer circular
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="buffer">
+  <h2>🔄 Buffer circular — la cuerda digital animada</h2>
+  <p class="prose">
+    Cada celda del círculo es una muestra del buffer. El puntero rojo gira leyendo el valor (sale por el output) y reescribe ahí la mezcla filtrada de la muestra actual y la anterior. Con $N=200$ y $f_s=44100$ el puntero da una vuelta completa cada $\approx 4.5$ ms — eso es 220 Hz.
+  </p>
+
+  <div class="layout">
+    <div class="panel">
+      <h3>Vista de la "cuerda" (ralentizada 8000×)</h3>
+      <canvas id="buf-canvas" width="900" height="420"></canvas>
+      <div class="row">
+        <button id="buf-start" class="btn">▶ Animar</button>
+        <button id="buf-stop"  class="btn danger">■ Pausar</button>
+        <button id="buf-reset" class="btn ghost">↻ Re-pluck</button>
+        <span class="led" id="buf-led"></span>
+        <small class="dim" id="buf-status">parado</small>
+      </div>
+    </div>
+    <div class="panel sub">
+      <h3>Parámetros de la simulación visual</h3>
+      <div class="slider-group">
+        <label>Tamaño del buffer N <span class="val" id="buf-N-val">120</span></label>
+        <input id="buf-N" type="range" min="20" max="200" step="1" value="120">
+      </div>
+      <div class="slider-group">
+        <label>Factor de pérdida ρ <span class="val" id="buf-rho-val">0.99</span></label>
+        <input id="buf-rho" type="range" min="0.85" max="1.000" step="0.001" value="0.99">
+      </div>
+      <div class="slider-group">
+        <label>Velocidad de animación <span class="val" id="buf-speed-val">1×</span></label>
+        <input id="buf-speed" type="range" min="0.25" max="4" step="0.25" value="1">
+      </div>
+      <div class="note">
+        El radio de cada celda representa el valor absoluto de la muestra; azul = positivo, rojo = negativo. Mira cómo el ruido inicial (todas las celdas con valores aleatorios) se va alisando hasta quedar casi senoidal — eso es la "cuerda envejeciendo".
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     BUG — comparación N vs N+0.5 con beating
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="bug">
+  <h2>🐛 El bug del +½ — diagnóstico por beating</h2>
+  <p class="prose">
+    Dos implementaciones de KS para la <em>misma</em> nota La (440 Hz):
+    una con <code>N = round(fs/f₀)</code> (buggy), otra con <code>N = round(fs/f₀ − 0.5)</code> (correcta).
+    Las superponemos con una sinusoide pura de 440 Hz y dejamos que la ley de las pulsaciones haga el trabajo.
+  </p>
+
+  <div class="callout">
+    <strong>Lo que escucharás:</strong> la buggy contra la referencia produce un <em>beating</em> de ~1.2 Hz (una pulsación cada ~0.84 s). La correcta produce un sonido estable, sin pulsación.
+  </div>
+
+  <div class="layout-wide">
+    <div class="panel">
+      <div class="preset-grid" style="grid-template-columns:repeat(3,1fr)">
+        <button class="btn" id="bug-play-buggy">▶ KS buggy + seno 440</button>
+        <button class="btn" id="bug-play-correct">▶ KS correcto + seno 440</button>
+        <button class="btn danger" id="bug-stop">■ Stop</button>
+      </div>
+      <canvas id="bug-env" width="1200" height="180"></canvas>
+      <small class="dim">⬆ Envolvente RMS de la mezcla — la <em>buggy</em> oscila, la <em>correcta</em> es plana</small>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:14px">
+    <h3>Por qué aparece el +½</h3>
+    <p class="prose" style="margin:0">
+      El filtro promedio $y[n] = \tfrac{1}{2}(x[n] + x[n-1])$ tiene fase lineal con pendiente $-\omega/2$ — es decir, agrega <strong>medio sample</strong> de retardo a todas las frecuencias. El lazo completo entonces tiene un periodo efectivo de $N + 0.5$ muestras, no $N$. La frecuencia es entonces $f_s/(N+0.5)$. Para que salga 440 Hz exactos: $N = \mathrm{round}(f_s/f_0 - 0.5) = \mathrm{round}(99.55) = 100$. <em>Misma N que la buggy</em> — pero la <em>interpretación</em> es distinta. Para frecuencias donde $f_s/f_0 - 0.5$ tiene parte decimal cerca de 0.5, sí da N distintos.
+    </p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     EXCITE — distintas excitaciones iniciales
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="excite">
+  <h2>⚡ Excitación inicial — el carácter de la cuerda viene del pluck</h2>
+  <p class="prose">
+    El algoritmo no inventa armónicos: solo sostiene los que la excitación inicial ya tenía. Cambia
+    lo que pones en el buffer al inicio y oye cómo cambia el timbre <em>aunque</em> $N$, $\rho$ y el filtro sean idénticos.
+  </p>
+
+  <div class="layout-wide">
+    <div class="panel">
+      <div class="preset-grid">
+        <button class="btn preset preset-card active" data-excite="noise">🌫️ Ruido blanco<br><small style="opacity:.7">guitarra clásica</small></button>
+        <button class="btn preset preset-card" data-excite="impulse">⬆️ Impulso<br><small style="opacity:.7">igual al ruido blanco</small></button>
+        <button class="btn preset preset-card" data-excite="sine">∿ Senoide<br><small style="opacity:.7">cuerda "limpia"</small></button>
+        <button class="btn preset preset-card" data-excite="square">⊓ Cuadrada<br><small style="opacity:.7">guitarra eléctrica</small></button>
+        <button class="btn preset preset-card" data-excite="triangle">△ Triangular<br><small style="opacity:.7">flauta-piano híbrido</small></button>
+        <button class="btn preset preset-card" data-excite="halfnoise">½ Ruido<br><small style="opacity:.7">solo primera mitad del buffer</small></button>
+      </div>
+      <div class="row">
+        <button id="excite-play" class="btn">🎸 Pluck con esta excitación</button>
+        <button id="excite-stop" class="btn danger">■ Stop</button>
+        <small class="dim">f₀ = 220 Hz · ρ = 0.996</small>
+      </div>
+      <canvas id="excite-buf" width="1200" height="120"></canvas>
+      <small class="dim">⬆ Buffer inicial (lo que se "pone en la cuerda" antes de soltar)</small>
+      <canvas id="excite-spec" width="1200" height="220" style="margin-top:10px"></canvas>
+      <small class="dim">⬆ Espectro resultante (en vivo)</small>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Conexión con S08:</strong> esto es la versión "física" del principio substractivo. El filtro
+    solo puede quitar armónicos que estaban en la excitación. Si el buffer inicial es una sinusoide pura, el algoritmo no puede producir armónicos nuevos — solo puede *atenuar* el que ya hay. Por eso el pluck importa tanto.
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     KEYBOARD — guitarra virtual
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="module" id="keyboard">
+  <h2>🎹 Guitarra virtual — toca KS como instrumento</h2>
+  <p class="prose">
+    Teclado MIDI con $N$ calculado correctamente para cada nota. También puedes disparar acordes
+    pre-configurados — un acorde KS es solo varios plucks simultáneos a frecuencias distintas.
+  </p>
+
+  <div class="panel">
+    <div class="row">
+      <small class="dim">Slider de ρ global:</small>
+      <input id="kb-rho" type="range" min="0.95" max="1.000" step="0.001" value="0.996" style="width:280px">
+      <span class="val" id="kb-rho-val" style="color:var(--accent);font-family:var(--mono);font-weight:600">0.996</span>
+      <small class="dim" style="margin-left:14px">Tipo de pluck:</small>
+      <select id="kb-excite" style="background:var(--panel-2);color:var(--text);border:1px solid var(--border);padding:5px 8px;border-radius:4px;font:inherit">
+        <option value="noise">Ruido (clásico)</option>
+        <option value="square">Cuadrada (eléctrica)</option>
+        <option value="triangle">Triangular (suave)</option>
+      </select>
+    </div>
+
+    <!-- Teclado de C4 a C5 (octava completa) -->
+    <div class="keyboard" id="keyboard">
+      <div class="key" data-note="261.63">C4</div>
+      <div class="key black" data-note="277.18">C#4</div>
+      <div class="key" data-note="293.66">D4</div>
+      <div class="key black" data-note="311.13">D#4</div>
+      <div class="key" data-note="329.63">E4</div>
+      <div class="key" data-note="349.23">F4</div>
+      <div class="key black" data-note="369.99">F#4</div>
+      <div class="key" data-note="392.00">G4</div>
+      <div class="key black" data-note="415.30">G#4</div>
+      <div class="key" data-note="440.00">A4</div>
+      <div class="key black" data-note="466.16">A#4</div>
+      <div class="key" data-note="493.88">B4</div>
+      <div class="key" data-note="523.25">C5</div>
+    </div>
+
+    <div class="row">
+      <small class="dim">Acordes (strum hacia abajo, 30 ms entre cuerdas):</small>
+      <button class="btn" data-chord="C">Do mayor</button>
+      <button class="btn" data-chord="G">Sol mayor</button>
+      <button class="btn" data-chord="Am">La menor</button>
+      <button class="btn" data-chord="F">Fa mayor</button>
+      <button class="btn" data-chord="D7">Re7</button>
+    </div>
+
+    <div class="note">
+      <strong>Para clase:</strong> arpegio Do mayor → Sol mayor → La menor → Fa mayor es la progresión IV-I-vi-IV
+      (el famoso "axis of awesome"). Es la base de cientos de canciones pop.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// AUDIO ENGINE COMPARTIDO
+// ═══════════════════════════════════════════════════════════════
+let audioCtx = null;
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)({sampleRate: 44100});
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+// ── Genera un buffer KS dado N, rho, mix-del-filtro y buffer inicial
+function genKS({ N, rho = 0.996, mix = 0.5, dur, excite = 'noise', sr }) {
+  const ctx = getCtx();
+  sr = sr || ctx.sampleRate;
+  const totalN = Math.floor(dur * sr);
+  const buf = ctx.createBuffer(1, totalN, sr);
+  const ch = buf.getChannelData(0);
+
+  // Inicialización del buffer KS
+  const ks = new Float32Array(N);
+  if (excite === 'noise') {
+    for (let i = 0; i < N; i++) ks[i] = (Math.random() * 2 - 1);
+  } else if (excite === 'impulse') {
+    ks[0] = 1.0;
+  } else if (excite === 'sine') {
+    for (let i = 0; i < N; i++) ks[i] = Math.sin(2 * Math.PI * i / N);
+  } else if (excite === 'square') {
+    for (let i = 0; i < N; i++) ks[i] = (Math.sin(2 * Math.PI * i / N) >= 0 ? 1 : -1);
+  } else if (excite === 'triangle') {
+    for (let i = 0; i < N; i++) {
+      const x = i / N;
+      ks[i] = (x < 0.5) ? (4*x - 1) : (3 - 4*x);
+    }
+  } else if (excite === 'halfnoise') {
+    for (let i = 0; i < N / 2; i++) ks[i] = (Math.random() * 2 - 1);
+  }
+
+  // Loop principal
+  let ptr = 0;
+  for (let i = 0; i < totalN; i++) {
+    ch[i] = ks[ptr] * 0.7;
+    // y[n] = ρ · (mix·avg(prev, prev2) + (1-mix)·prev)
+    // simplification: el "mix" es la fuerza del LP
+    const prev = ks[ptr];
+    const prev2 = ks[(ptr - 1 + N) % N];
+    const avg = 0.5 * (prev + prev2);
+    const filtered = mix * avg + (1 - mix) * prev;
+    ks[ptr] = rho * filtered;
+    ptr = (ptr + 1) % N;
+  }
+  return buf;
+}
+
+function getNCorrect(f0, fs, comp = 0) {
+  // N = round(fs/f0 - 0.5) + comp
+  return Math.max(2, Math.round(fs / f0 - 0.5) + comp);
+}
+
+// ── Visualización
+function drawWaveform(canvas, data, color = '#c89544') {
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.fillStyle = '#08110d'; ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.beginPath(); ctx.moveTo(0, H/2); ctx.lineTo(W, H/2); ctx.stroke();
+  ctx.strokeStyle = color; ctx.lineWidth = 1.2; ctx.beginPath();
+  const N = data.length;
+  for (let x = 0; x < W; x++) {
+    const i = Math.floor(x / W * N);
+    const v = data[i];
+    const y = H/2 - v * H/2 * 0.85;
+    if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+}
+
+function drawSpectrum(canvas, freqData, opts = {}) {
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.fillStyle = '#08110d'; ctx.fillRect(0, 0, W, H);
+  const fs = opts.fs || 44100;
+  const fmax = opts.fmax || 4000;
+  const Nbins = freqData.length;
+  const binHz = (fs / 2) / Nbins;
+  const xMaxBin = Math.min(Nbins, Math.floor(fmax / binHz));
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.font = '10px monospace';
+  for (let f = 0; f <= fmax; f += 500) {
+    const x = (f / fmax) * W;
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    if (f > 0) ctx.fillText(f + ' Hz', x + 3, H - 4);
+  }
+  for (let db = -20; db >= -60; db -= 20) {
+    const y = H * (1 - (db + 80) / 80);
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    ctx.fillText(db + ' dB', 4, y - 2);
+  }
+  ctx.strokeStyle = opts.color || '#c89544';
+  ctx.fillStyle = (opts.color || '#c89544') + '40';
+  ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(0, H);
+  for (let i = 0; i < xMaxBin; i++) {
+    const x = (i / xMaxBin) * W;
+    const db = freqData[i];
+    let y = H * (1 - (db + 80) / 80);
+    y = Math.max(0, Math.min(H, y));
+    ctx.lineTo(x, y);
+  }
+  ctx.lineTo(W, H); ctx.closePath(); ctx.fill(); ctx.stroke();
+  if (opts.harmonics && opts.f0) {
+    ctx.strokeStyle = '#6ddb7a80'; ctx.lineWidth = 1;
+    for (let k = 1; k * opts.f0 <= fmax; k++) {
+      const x = (k * opts.f0 / fmax) * W;
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+  }
+}
+
+// Tabs
+document.querySelectorAll('nav.tabs button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('section.module').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById(b.dataset.tab).classList.add('active');
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════
+// MÓDULO 1: KS LAB
+// ═══════════════════════════════════════════════════════════════
+(function lab() {
+  const f0El = document.getElementById('lab-f0');
+  const rhoEl = document.getElementById('lab-rho');
+  const mixEl = document.getElementById('lab-mix');
+  const compEl = document.getElementById('lab-comp');
+  const f0Val = document.getElementById('lab-f0-val');
+  const rhoVal = document.getElementById('lab-rho-val');
+  const mixVal = document.getElementById('lab-mix-val');
+  const compVal = document.getElementById('lab-comp-val');
+  const NEl = document.getElementById('lab-N');
+  const frealEl = document.getElementById('lab-freal');
+  const decayEl = document.getElementById('lab-decay');
+  const charEl = document.getElementById('lab-char');
+  const eqEl = document.getElementById('lab-eq');
+  const noteEl = document.getElementById('lab-note');
+  const led = document.getElementById('lab-led');
+  const status = document.getElementById('lab-status');
+
+  let src = null, analyser = null;
+
+  function updateLabels() {
+    const f0 = parseFloat(f0El.value);
+    const rho = parseFloat(rhoEl.value);
+    const mix = parseFloat(mixEl.value);
+    const comp = parseFloat(compEl.value);
+    f0Val.textContent = f0.toFixed(0) + ' Hz';
+    rhoVal.textContent = rho.toFixed(3);
+    mixVal.textContent = mix.toFixed(2);
+    compVal.textContent = (comp >= 0 ? '+' : '') + comp.toFixed(1) + (comp === 0 ? ' (correcto)' : ' (desafinado)');
+    const N = getNCorrect(f0, 44100, comp);
+    NEl.textContent = N;
+    const fReal = 44100 / (N + 0.5);
+    frealEl.textContent = fReal.toFixed(1);
+    // decay 60 dB ≈ -60/(20*log10(rho)) vueltas * (N/fs) s
+    const vueltas60 = (rho < 1) ? (-3 / Math.log10(rho)) : 999;
+    decayEl.textContent = (vueltas60 * N / 44100).toFixed(2);
+    eqEl.textContent = `f₀ = ${44100} / (${N} + 0.5) = ${fReal.toFixed(2)} Hz · N=${N} · ρ=${rho.toFixed(3)}`;
+
+    // carácter
+    if (rho < 0.95) charEl.textContent = 'pizzicato seco';
+    else if (rho < 0.99) charEl.textContent = 'pluck corto';
+    else if (rho < 0.998) charEl.textContent = 'nylon';
+    else charEl.textContent = 'cuerda casi infinita';
+
+    if (Math.abs(comp) > 0.1) {
+      noteEl.innerHTML = '<strong>⚠ Desafinado:</strong> el oído lo notará al lado de un instrumento bien afinado. Súbelo a un coro de sinusoides y oirás beating.';
+    } else if (mix < 0.1) {
+      noteEl.innerHTML = '<strong>Sin filtro:</strong> el loop conserva todos los agudos. Suena más a "ring modulator" que a cuerda.';
+    } else if (rho > 0.998) {
+      noteEl.innerHTML = '<strong>Cuerda eterna:</strong> ρ casi 1 → la nota no decae por pérdida. Solo el filtro suaviza el timbre. Útil para drones.';
+    } else {
+      noteEl.innerHTML = '<strong>Configuración clásica</strong> — pluck → buffer de ruido → filtro promedio → loop con ρ.';
+    }
+  }
+
+  function trigger() {
+    stop();
+    const ctx = getCtx();
+    const f0 = parseFloat(f0El.value);
+    const rho = parseFloat(rhoEl.value);
+    const mix = parseFloat(mixEl.value);
+    const comp = parseFloat(compEl.value);
+    const N = getNCorrect(f0, ctx.sampleRate, comp);
+    const dur = Math.min(4.0, 0.3 + 4 * Math.max(0, rho - 0.9) * 10);
+    const buf = genKS({ N, rho, mix, dur });
+    src = ctx.createBufferSource(); src.buffer = buf;
+    analyser = ctx.createAnalyser(); analyser.fftSize = 4096; analyser.smoothingTimeConstant = 0.4;
+    src.connect(analyser); analyser.connect(ctx.destination);
+    src.start();
+    led.classList.add('on'); status.textContent = 'sonando';
+    src.onended = () => { led.classList.remove('on'); status.textContent = 'parado'; };
+
+    const fdata = new Float32Array(analyser.frequencyBinCount);
+    const tdata = new Float32Array(analyser.fftSize);
+    function tick() {
+      if (!analyser) return;
+      analyser.getFloatFrequencyData(fdata);
+      analyser.getFloatTimeDomainData(tdata);
+      // muestra 60 ms del waveform
+      drawWaveform(document.getElementById('lab-wave'), tdata.subarray(0, 2646));
+      drawSpectrum(document.getElementById('lab-spec'), fdata, { fs: ctx.sampleRate, fmax: 4000, harmonics: true, f0 });
+      if (src) requestAnimationFrame(tick);
+    }
+    tick();
+  }
+  function stop() {
+    if (src) { try { src.stop(); } catch(e){} src.disconnect(); src = null; }
+    if (analyser) { analyser.disconnect(); analyser = null; }
+    led.classList.remove('on'); status.textContent = 'parado';
+  }
+  document.getElementById('lab-pluck').addEventListener('click', trigger);
+  document.getElementById('lab-stop').addEventListener('click', stop);
+  [f0El, rhoEl, mixEl, compEl].forEach(el => el.addEventListener('input', updateLabels));
+  updateLabels();
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+// MÓDULO 2: BUFFER visualizado (canvas animation)
+// ═══════════════════════════════════════════════════════════════
+(function bufferVis() {
+  const canvas = document.getElementById('buf-canvas');
+  const NEl = document.getElementById('buf-N');
+  const rhoEl = document.getElementById('buf-rho');
+  const speedEl = document.getElementById('buf-speed');
+  const NVal = document.getElementById('buf-N-val');
+  const rhoVal = document.getElementById('buf-rho-val');
+  const speedVal = document.getElementById('buf-speed-val');
+  const led = document.getElementById('buf-led');
+  const status = document.getElementById('buf-status');
+
+  let buf, ptr, running = false, rafId = null;
+
+  function init() {
+    const N = parseInt(NEl.value);
+    buf = new Float32Array(N);
+    for (let i = 0; i < N; i++) buf[i] = Math.random() * 2 - 1;
+    ptr = 0;
+  }
+
+  function step() {
+    const N = buf.length;
+    const rho = parseFloat(rhoEl.value);
+    const steps = Math.max(1, Math.floor(parseFloat(speedEl.value) * 2));
+    for (let s = 0; s < steps; s++) {
+      const prev = buf[ptr];
+      const prev2 = buf[(ptr - 1 + N) % N];
+      buf[ptr] = rho * 0.5 * (prev + prev2);
+      ptr = (ptr + 1) % N;
+    }
+  }
+
+  function draw() {
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.fillStyle = '#08110d'; ctx.fillRect(0, 0, W, H);
+    const cx = W / 2, cy = H / 2;
+    const R = Math.min(W, H) * 0.42;
+    const N = buf.length;
+    // dibujar celdas
+    for (let i = 0; i < N; i++) {
+      const angle = (i / N) * 2 * Math.PI - Math.PI / 2;
+      const v = buf[i];
+      const cellR = R - 8 - Math.abs(v) * 30;
+      const cx2 = cx + Math.cos(angle) * R;
+      const cy2 = cy + Math.sin(angle) * R;
+      ctx.beginPath();
+      ctx.arc(cx2, cy2, 3 + Math.abs(v) * 12, 0, 2 * Math.PI);
+      ctx.fillStyle = v >= 0 ? `rgba(78,195,255,${0.25 + Math.abs(v)*0.6})` : `rgba(255,85,119,${0.25 + Math.abs(v)*0.6})`;
+      ctx.fill();
+    }
+    // puntero
+    const angP = (ptr / N) * 2 * Math.PI - Math.PI / 2;
+    const xP = cx + Math.cos(angP) * R;
+    const yP = cy + Math.sin(angP) * R;
+    ctx.strokeStyle = '#c89544'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(xP, yP); ctx.stroke();
+    ctx.fillStyle = '#c89544';
+    ctx.beginPath(); ctx.arc(xP, yP, 8, 0, 2 * Math.PI); ctx.fill();
+    // centro
+    ctx.fillStyle = '#1a2a22';
+    ctx.beginPath(); ctx.arc(cx, cy, 50, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillStyle = '#c89544'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('ptr = ' + ptr, cx, cy - 4);
+    ctx.font = '12px sans-serif'; ctx.fillStyle = '#97aa9a';
+    ctx.fillText('N = ' + N, cx, cy + 14);
+    ctx.textAlign = 'left';
+    // info
+    ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.font = '11px monospace';
+    ctx.fillText('Azul = valor positivo · Rojo = valor negativo', 12, H - 10);
+  }
+
+  function loop() {
+    if (!running) return;
+    step();
+    draw();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  document.getElementById('buf-start').addEventListener('click', () => {
+    if (running) return;
+    if (!buf) init();
+    running = true; led.classList.add('on'); status.textContent = 'animando';
+    loop();
+  });
+  document.getElementById('buf-stop').addEventListener('click', () => {
+    running = false; if (rafId) cancelAnimationFrame(rafId);
+    led.classList.remove('on'); status.textContent = 'pausado';
+  });
+  document.getElementById('buf-reset').addEventListener('click', () => {
+    init(); draw();
+  });
+
+  function updateLabels() {
+    NVal.textContent = NEl.value;
+    rhoVal.textContent = parseFloat(rhoEl.value).toFixed(3);
+    speedVal.textContent = parseFloat(speedEl.value).toFixed(2) + '×';
+    if (buf && buf.length !== parseInt(NEl.value)) {
+      running = false; if (rafId) cancelAnimationFrame(rafId);
+      init(); draw();
+      led.classList.remove('on'); status.textContent = 'parado (resetea para tocar)';
+    }
+  }
+  [NEl, rhoEl, speedEl].forEach(el => el.addEventListener('input', updateLabels));
+  init(); draw(); updateLabels();
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+// MÓDULO 3: BUG — comparación
+// ═══════════════════════════════════════════════════════════════
+(function bug() {
+  const envCanvas = document.getElementById('bug-env');
+  let src = null;
+
+  function play(buggy) {
+    stop();
+    const ctx = getCtx();
+    const fs = ctx.sampleRate;
+    const f0 = 440;
+    const N = buggy ? Math.round(fs / f0) : Math.round(fs / f0 - 0.5);
+    const dur = 3.0;
+    const ksBuf = genKS({ N, rho: 0.996, mix: 0.5, dur });
+    const ksData = ksBuf.getChannelData(0);
+    // crear seno 440 mezclado
+    const totalN = ksData.length;
+    const mixedBuf = ctx.createBuffer(1, totalN, fs);
+    const mixedData = mixedBuf.getChannelData(0);
+    for (let i = 0; i < totalN; i++) {
+      mixedData[i] = ksData[i] * 0.5 + 0.5 * Math.sin(2 * Math.PI * 440 * i / fs);
+    }
+    // calcular envolvente RMS y dibujar
+    const win = Math.floor(0.02 * fs);
+    const env = [];
+    for (let i = 0; i < totalN - win; i += win) {
+      let s = 0;
+      for (let k = 0; k < win; k++) s += mixedData[i + k] ** 2;
+      env.push(Math.sqrt(s / win));
+    }
+    const ctx2 = envCanvas.getContext('2d');
+    const W = envCanvas.width, H = envCanvas.height;
+    ctx2.fillStyle = '#08110d'; ctx2.fillRect(0, 0, W, H);
+    ctx2.strokeStyle = 'rgba(255,255,255,0.08)';
+    for (let y = 0; y < 5; y++) {
+      const yy = (y / 4) * H;
+      ctx2.beginPath(); ctx2.moveTo(0, yy); ctx2.lineTo(W, yy); ctx2.stroke();
+    }
+    const maxEnv = Math.max(...env) * 1.1;
+    ctx2.strokeStyle = buggy ? '#ff5577' : '#6ddb7a';
+    ctx2.lineWidth = 2; ctx2.beginPath();
+    env.forEach((v, i) => {
+      const x = i / env.length * W;
+      const y = H - (v / maxEnv) * H * 0.85;
+      i === 0 ? ctx2.moveTo(x, y) : ctx2.lineTo(x, y);
+    });
+    ctx2.stroke();
+    ctx2.fillStyle = buggy ? '#ff5577' : '#6ddb7a'; ctx2.font = '13px sans-serif';
+    ctx2.fillText(buggy ? 'KS BUGGY + seno 440 — la envolvente oscila' : 'KS CORRECTO + seno 440 — la envolvente es plana', 12, 20);
+
+    src = ctx.createBufferSource(); src.buffer = mixedBuf;
+    src.connect(ctx.destination); src.start();
+  }
+  function stop() { if (src) { try { src.stop(); } catch(e){} src.disconnect(); src = null; } }
+  document.getElementById('bug-play-buggy').addEventListener('click', () => play(true));
+  document.getElementById('bug-play-correct').addEventListener('click', () => play(false));
+  document.getElementById('bug-stop').addEventListener('click', stop);
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+// MÓDULO 4: EXCITE — distintas excitaciones
+// ═══════════════════════════════════════════════════════════════
+(function excite() {
+  let current = 'noise';
+  const bufCanvas = document.getElementById('excite-buf');
+  const specCanvas = document.getElementById('excite-spec');
+  let src = null, analyser = null;
+
+  function drawInitBuf() {
+    const ctx = getCtx();
+    const sr = ctx.sampleRate;
+    const f0 = 220;
+    const N = getNCorrect(f0, sr);
+    const arr = new Float32Array(N);
+    if (current === 'noise')     for (let i = 0; i < N; i++) arr[i] = Math.random()*2-1;
+    else if (current === 'impulse') arr[0] = 1.0;
+    else if (current === 'sine')   for (let i = 0; i < N; i++) arr[i] = Math.sin(2*Math.PI*i/N);
+    else if (current === 'square') for (let i = 0; i < N; i++) arr[i] = (Math.sin(2*Math.PI*i/N) >= 0 ? 1 : -1);
+    else if (current === 'triangle') for (let i = 0; i < N; i++) { const x = i/N; arr[i] = x < 0.5 ? (4*x-1) : (3-4*x); }
+    else if (current === 'halfnoise') for (let i = 0; i < N/2; i++) arr[i] = Math.random()*2-1;
+    drawWaveform(bufCanvas, arr, '#c89544');
+  }
+
+  document.querySelectorAll('#excite .preset-card').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#excite .preset-card').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      current = b.dataset.excite;
+      drawInitBuf();
+    });
+  });
+
+  document.getElementById('excite-play').addEventListener('click', () => {
+    stop();
+    const ctx = getCtx();
+    const N = getNCorrect(220, ctx.sampleRate);
+    const buf = genKS({ N, rho: 0.996, mix: 0.5, dur: 3.0, excite: current });
+    src = ctx.createBufferSource(); src.buffer = buf;
+    analyser = ctx.createAnalyser(); analyser.fftSize = 4096; analyser.smoothingTimeConstant = 0.4;
+    src.connect(analyser); analyser.connect(ctx.destination);
+    src.start();
+    src.onended = () => {};
+    const fdata = new Float32Array(analyser.frequencyBinCount);
+    function tick() {
+      if (!analyser) return;
+      analyser.getFloatFrequencyData(fdata);
+      drawSpectrum(specCanvas, fdata, { fs: ctx.sampleRate, fmax: 4000, harmonics: true, f0: 220 });
+      if (src) requestAnimationFrame(tick);
+    }
+    tick();
+  });
+  function stop() {
+    if (src) { try { src.stop(); } catch(e){} src.disconnect(); src = null; }
+    if (analyser) { analyser.disconnect(); analyser = null; }
+  }
+  document.getElementById('excite-stop').addEventListener('click', stop);
+  drawInitBuf();
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+// MÓDULO 5: KEYBOARD
+// ═══════════════════════════════════════════════════════════════
+(function keyboard() {
+  const rhoEl = document.getElementById('kb-rho');
+  const rhoVal = document.getElementById('kb-rho-val');
+  const exciteEl = document.getElementById('kb-excite');
+  rhoEl.addEventListener('input', () => rhoVal.textContent = parseFloat(rhoEl.value).toFixed(3));
+
+  function pluck(f0) {
+    const ctx = getCtx();
+    const N = getNCorrect(f0, ctx.sampleRate);
+    const rho = parseFloat(rhoEl.value);
+    const buf = genKS({ N, rho, mix: 0.5, dur: 2.0 + 4*(rho-0.95), excite: exciteEl.value });
+    const src = ctx.createBufferSource(); src.buffer = buf;
+    const g = ctx.createGain(); g.gain.value = 0.5;
+    src.connect(g); g.connect(ctx.destination);
+    src.start();
+  }
+  document.querySelectorAll('#keyboard .key').forEach(k => {
+    k.addEventListener('mousedown', () => {
+      k.classList.add('active');
+      pluck(parseFloat(k.dataset.note));
+      setTimeout(() => k.classList.remove('active'), 200);
+    });
+  });
+
+  // Acordes (triadas)
+  const CHORDS = {
+    C:  [261.63, 329.63, 392.00],
+    G:  [196.00, 246.94, 293.66],
+    Am: [220.00, 261.63, 329.63],
+    F:  [174.61, 220.00, 261.63],
+    D7: [146.83, 220.00, 277.18, 349.23],
+  };
+  document.querySelectorAll('button[data-chord]').forEach(b => {
+    b.addEventListener('click', () => {
+      const notes = CHORDS[b.dataset.chord];
+      notes.forEach((f, i) => setTimeout(() => pluck(f), i * 30));
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

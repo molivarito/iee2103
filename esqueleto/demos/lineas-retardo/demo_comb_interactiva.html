@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Comb Filters Interactivo — Sesión 04</title>
+<style>
+:root {
+  --bg:       #0a0e1a;
+  --panel:    #111827;
+  --border:   #1e2a3a;
+  --text:     #c8d6e5;
+  --text-dim: #6b7b8d;
+  --cyan:     #00e5ff;
+  --orange:   #ff6d00;
+  --red:      #ff1744;
+  --green:    #00e676;
+  --accent:   #7c4dff;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'SF Mono','Fira Code','Consolas', monospace;
+  font-size: 14px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 20px 60px;
+}
+h1 { font-size: 1.5em; color: var(--cyan); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 4px; text-align: center; }
+.subtitle { color: var(--text-dim); font-size: 0.85em; margin-bottom: 20px; text-align: center; }
+.app { width: 100%; max-width: 1000px; display: flex; flex-direction: column; gap: 14px; }
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+.panel-title {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+.panel-title .step-num {
+  display: inline-block;
+  background: var(--cyan);
+  color: #000;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  font-size: 0.85em;
+  font-weight: 800;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+/* Buttons */
+.btn {
+  border: none; border-radius: 6px;
+  padding: 10px 20px;
+  font-family: inherit; font-size: 0.9em; font-weight: 700;
+  cursor: pointer; transition: all 0.15s;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.btn:active { transform: scale(0.96); }
+#btnPlay { background: var(--green); color: #000; min-width: 130px; }
+#btnPlay.playing { background: var(--red); }
+/* Toggle switch */
+.type-switch {
+  display: flex; background: #0d1117;
+  border-radius: 6px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.type-switch label {
+  padding: 10px 16px; cursor: pointer;
+  font-size: 0.82em; font-weight: 600;
+  transition: all 0.2s; text-align: center; line-height: 1.3;
+  flex: 1;
+}
+.type-switch input { display: none; }
+.type-switch input:checked + label { background: var(--cyan); color: #000; }
+/* Controls */
+.controls-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.slider-group { flex: 1; min-width: 180px; }
+.slider-label { display: flex; justify-content: space-between; font-size: 0.78em; margin-bottom: 4px; }
+.slider-label .val { color: var(--cyan); font-weight: 700; }
+input[type="range"] {
+  -webkit-appearance: none; width: 100%; height: 6px;
+  border-radius: 3px; background: #1a2332; outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px;
+  border-radius: 50%; background: var(--cyan); cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,229,255,0.4);
+}
+/* Source radios */
+.source-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.source-row label {
+  padding: 6px 14px; cursor: pointer; font-size: 0.8em;
+  border: 1px solid var(--border); border-radius: 5px;
+  transition: all 0.15s;
+}
+.source-row input { display: none; }
+.source-row input:checked + label { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* Canvas */
+canvas { width: 100%; border-radius: 6px; background: #050a12; display: block; }
+.canvas-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.canvas-row > .panel { flex: 1; min-width: 300px; }
+/* Equation display */
+.eq-display {
+  background: #050a12; border: 1px solid var(--border);
+  border-radius: 6px; padding: 10px 14px; margin-top: 10px;
+  font-size: 0.9em; color: var(--cyan); text-align: center;
+  min-height: 36px;
+}
+/* Info box */
+.info-box {
+  background: rgba(0,229,255,0.05);
+  border-left: 3px solid var(--cyan);
+  padding: 10px 14px; font-size: 0.8em;
+  line-height: 1.6; color: var(--text-dim);
+  border-radius: 0 4px 4px 0; margin-top: 10px;
+}
+.info-box.theory { border-left-color: var(--accent); background: rgba(124,77,255,0.05); }
+.info-box strong { color: var(--text); }
+/* Presets */
+.presets-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.preset-btn {
+  border: 1px solid var(--border); border-radius: 8px;
+  background: linear-gradient(145deg, #111827, #0d1117);
+  padding: 10px 14px; cursor: pointer;
+  font-family: inherit; font-size: 0.78em;
+  color: var(--text-dim); transition: all 0.2s;
+  text-align: center; min-width: 90px;
+  line-height: 1.4;
+}
+.preset-btn:hover { border-color: var(--cyan); color: var(--text); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,229,255,0.1); }
+.preset-btn.active { border-color: var(--cyan); background: rgba(0,229,255,0.08); color: var(--cyan); }
+.preset-btn .preset-icon { font-size: 1.4em; display: block; margin-bottom: 3px; }
+.preset-btn .preset-name { font-weight: 700; display: block; font-size: 0.95em; }
+.preset-btn .preset-detail { font-size: 0.8em; opacity: 0.6; display: block; margin-top: 2px; }
+/* Flow diagram */
+.flow-svg text { font-family: 'SF Mono','Fira Code','Consolas', monospace; }
+</style>
+</head>
+<body>
+
+<h1>Lab: Filtros Peineta</h1>
+<p class="subtitle">Comb Filters — Feedforward, Feedback y Allpass en tiempo real</p>
+
+<div class="app">
+
+<!-- Panel 1: Source + Play -->
+<div class="panel">
+  <div class="panel-title"><span class="step-num">1</span> Fuente de audio</div>
+  <div class="controls-row">
+    <div class="source-row">
+      <input type="radio" name="src" id="srcNoise" value="noise" checked>
+      <label for="srcNoise">Ruido blanco</label>
+      <input type="radio" name="src" id="srcPulse" value="pulse">
+      <label for="srcPulse">Impulso (click)</label>
+      <input type="radio" name="src" id="srcSweep" value="sweep">
+      <label for="srcSweep">Barrido</label>
+      <input type="radio" name="src" id="srcMic" value="mic">
+      <label for="srcMic">Micrófono</label>
+    </div>
+    <button class="btn" id="btnPlay" onclick="toggleAudio()">Play</button>
+  </div>
+</div>
+
+<!-- Panel 1.5: Effect Presets -->
+<div class="panel">
+  <div class="panel-title"><span class="step-num" style="background:var(--accent)">★</span> Presets de efectos — ¿Qué efecto produce un comb filter?</div>
+  <div class="presets-row">
+    <button class="preset-btn" onclick="applyPreset('flanger')">
+      <span class="preset-icon">🌀</span>
+      <span class="preset-name">Flanger</span>
+      <span class="preset-detail">FF · 0.2 ms</span>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('chorus')">
+      <span class="preset-icon">🎭</span>
+      <span class="preset-name">Chorus</span>
+      <span class="preset-detail">FF · 0.8 ms</span>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('slapback')">
+      <span class="preset-icon">👏</span>
+      <span class="preset-name">Slapback</span>
+      <span class="preset-detail">FB · 75 ms</span>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('delay')">
+      <span class="preset-icon">🔁</span>
+      <span class="preset-name">Dub Delay</span>
+      <span class="preset-detail">FB · 250 ms</span>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('reverb')">
+      <span class="preset-icon">🏛️</span>
+      <span class="preset-name">Spring Reverb</span>
+      <span class="preset-detail">FB · 3.4 ms</span>
+    </button>
+    <button class="preset-btn" onclick="applyPreset('phaser')">
+      <span class="preset-icon">🌊</span>
+      <span class="preset-name">Phaser</span>
+      <span class="preset-detail">AP · 0.2 ms</span>
+    </button>
+  </div>
+  <div class="info-box" id="presetInfo" style="display:none; margin-top:10px;"></div>
+</div>
+
+<!-- Panel 2: Filter type -->
+<div class="panel">
+  <div class="panel-title"><span class="step-num">2</span> Tipo de filtro peineta</div>
+  <div class="type-switch">
+    <input type="radio" name="ftype" id="ftFF" value="ff" checked>
+    <label for="ftFF">Feedforward<br><small>(FIR)</small></label>
+    <input type="radio" name="ftype" id="ftFB" value="fb">
+    <label for="ftFB">Feedback<br><small>(IIR)</small></label>
+    <input type="radio" name="ftype" id="ftAP" value="ap">
+    <label for="ftAP">Allpass<br><small>(FF+FB)</small></label>
+  </div>
+  <div class="eq-display" id="eqDisplay">y(n) = x(n) + 0.50 · x(n − 50)</div>
+</div>
+
+<!-- Panel 3: Parameters -->
+<div class="panel">
+  <div class="panel-title"><span class="step-num">3</span> Parámetros</div>
+  <div class="controls-row">
+    <div class="slider-group">
+      <div class="slider-label"><span>Delay M (muestras)</span><span class="val" id="valM">50</span></div>
+      <input type="range" id="sliderM" min="1" max="22000" value="50" step="1">
+      <div style="font-size:0.7em;color:var(--text-dim);margin-top:2px;" id="valMms">= 1.13 ms @ 44100 Hz</div>
+    </div>
+    <div class="slider-group">
+      <div class="slider-label"><span>Ganancia g</span><span class="val" id="valG">0.50</span></div>
+      <input type="range" id="sliderG" min="-99" max="99" value="50" step="1">
+    </div>
+    <div class="slider-group">
+      <div class="slider-label"><span>Dry / Wet</span><span class="val" id="valMix">100%</span></div>
+      <input type="range" id="sliderMix" min="0" max="100" value="100" step="1">
+    </div>
+  </div>
+</div>
+
+<!-- Panel 4+5: Freq response + Pole-Zero side by side -->
+<div class="canvas-row">
+  <div class="panel">
+    <div class="panel-title"><span class="step-num">4</span> Respuesta en frecuencia |H(e<sup>jω</sup>)|</div>
+    <canvas id="canvasFreq" height="260"></canvas>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><span class="step-num">5</span> Diagrama de polos y ceros</div>
+    <canvas id="canvasPZ" height="260"></canvas>
+  </div>
+</div>
+
+<!-- Panel 6: Signal flow -->
+<div class="panel">
+  <div class="panel-title"><span class="step-num">6</span> Diagrama de flujo</div>
+  <div style="display:flex;justify-content:center;" id="flowContainer">
+    <svg id="flowSVG" class="flow-svg" width="480" height="140" viewBox="0 0 480 140"></svg>
+  </div>
+</div>
+
+<!-- Panel 7: Info -->
+<div class="panel">
+  <div class="panel-title"><span class="step-num">7</span> Contexto</div>
+  <div class="info-box theory" id="infoBox">
+    <strong>Feedforward (FIR):</strong> Suma la señal con una copia retardada. Produce <strong>M valles</strong> (cancelaciones) igualmente espaciados. Es la base del efecto <em>flanger</em> — si modulas M con un LFO, los valles se barren en frecuencia.
+  </div>
+</div>
+
+</div><!-- .app -->
+
+<script>
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let audioCtx = null, isPlaying = false;
+let scriptNode = null, sourceNode = null, micStream = null;
+const MAX_DELAY = 22050;  // 500 ms @ 44100 Hz
+let bufferX = new Float32Array(MAX_DELAY); // for feedforward
+let bufferY = new Float32Array(MAX_DELAY); // for feedback / allpass
+let writePtr = 0;
+
+function getM() { return parseInt(document.getElementById('sliderM').value); }
+function getG() { return parseInt(document.getElementById('sliderG').value) / 100; }
+function getMix() { return parseInt(document.getElementById('sliderMix').value) / 100; }
+function getType() { return document.querySelector('input[name="ftype"]:checked').value; }
+function getSource() { return document.querySelector('input[name="src"]:checked').value; }
+
+// ═══════════════════════════════════════════════
+// AUDIO ENGINE
+// ═══════════════════════════════════════════════
+function toggleAudio() {
+  if (isPlaying) { stopAudio(); return; }
+  startAudio();
+}
+
+async function startAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+  const src = getSource();
+  const bufSize = 1024;
+
+  // Reset delay buffers
+  bufferX.fill(0); bufferY.fill(0); writePtr = 0;
+
+  scriptNode = audioCtx.createScriptProcessor(bufSize, 1, 1);
+  let pulseCounter = 0;
+  let sweepPhase = 0;
+
+  scriptNode.onaudioprocess = function(e) {
+    const input = e.inputBuffer.getChannelData(0);
+    const output = e.outputBuffer.getChannelData(0);
+    const M = getM();
+    const g = getG();
+    const mix = getMix();
+    const type = getType();
+    const fs = audioCtx.sampleRate;
+
+    for (let i = 0; i < bufSize; i++) {
+      let x;
+      if (src === 'noise') {
+        x = (Math.random() * 2 - 1) * 0.3;
+      } else if (src === 'pulse') {
+        pulseCounter++;
+        if (pulseCounter >= fs * 0.5) { // every 500ms
+          x = 0.8;
+          pulseCounter = 0;
+        } else {
+          x = 0;
+        }
+      } else if (src === 'sweep') {
+        const sweepRate = 0.3; // Hz/s of log sweep
+        sweepPhase += 2 * Math.PI * (100 * Math.pow(200, (sweepPhase / (2*Math.PI*fs*5)) % 1)) / fs;
+        x = Math.sin(sweepPhase) * 0.4;
+        if (sweepPhase > 2 * Math.PI * fs * 5) sweepPhase = 0;
+      } else {
+        x = input[i]; // mic
+      }
+
+      // Read delayed values
+      const readIdx = ((writePtr - M) % MAX_DELAY + MAX_DELAY) % MAX_DELAY;
+      const xDelayed = bufferX[readIdx];
+      const yDelayed = bufferY[readIdx];
+
+      let y;
+      if (type === 'ff') {
+        // Feedforward: y = x + g * x[n-M]
+        y = x + g * xDelayed;
+      } else if (type === 'fb') {
+        // Feedback: y = x + g * y[n-M]
+        y = x + g * yDelayed;
+      } else {
+        // Allpass: y = g*x + x[n-M] - g*y[n-M]
+        y = g * x + xDelayed - g * yDelayed;
+      }
+
+      // Soft clip to prevent blowup
+      if (y > 2) y = 2; else if (y < -2) y = -2;
+
+      bufferX[writePtr] = x;
+      bufferY[writePtr] = y;
+      writePtr = (writePtr + 1) % MAX_DELAY;
+
+      output[i] = x * (1 - mix) + y * mix;
+    }
+  };
+
+  if (src === 'mic') {
+    try {
+      micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      sourceNode = audioCtx.createMediaStreamSource(micStream);
+      sourceNode.connect(scriptNode);
+    } catch(e) {
+      alert('No se pudo acceder al micrófono');
+      return;
+    }
+  } else {
+    // Create a silent buffer source
+    const silentBuf = audioCtx.createBuffer(1, 1024, audioCtx.sampleRate);
+    sourceNode = audioCtx.createBufferSource();
+    sourceNode.buffer = silentBuf;
+    sourceNode.loop = true;
+    sourceNode.connect(scriptNode);
+    sourceNode.start();
+  }
+
+  scriptNode.connect(audioCtx.destination);
+  isPlaying = true;
+  document.getElementById('btnPlay').textContent = 'Stop';
+  document.getElementById('btnPlay').classList.add('playing');
+}
+
+function stopAudio() {
+  if (scriptNode) { scriptNode.disconnect(); scriptNode = null; }
+  if (sourceNode) {
+    try { sourceNode.disconnect(); } catch(e) {}
+    try { sourceNode.stop(); } catch(e) {}
+    sourceNode = null;
+  }
+  if (micStream) {
+    micStream.getTracks().forEach(t => t.stop());
+    micStream = null;
+  }
+  isPlaying = false;
+  document.getElementById('btnPlay').textContent = 'Play';
+  document.getElementById('btnPlay').classList.remove('playing');
+}
+
+// ═══════════════════════════════════════════════
+// FREQUENCY RESPONSE DRAWING
+// ═══════════════════════════════════════════════
+function drawFreqResponse() {
+  const canvas = document.getElementById('canvasFreq');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const M = getM();
+  const g = getG();
+  const type = getType();
+  const fs = audioCtx ? audioCtx.sampleRate : 44100;
+  const N = 512;
+  const dBmin = -30, dBmax = 30;
+
+  // Grid
+  ctx.strokeStyle = '#1e2a3a'; ctx.lineWidth = 1;
+  for (let db = dBmin; db <= dBmax; db += 10) {
+    const y = H - (db - dBmin) / (dBmax - dBmin) * H;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    ctx.fillStyle = '#6b7b8d'; ctx.font = '10px monospace';
+    ctx.fillText(db + ' dB', 4, y - 3);
+  }
+  // 0 dB line
+  const y0 = H - (0 - dBmin) / (dBmax - dBmin) * H;
+  ctx.strokeStyle = '#3a4a5a'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(0, y0); ctx.lineTo(W, y0); ctx.stroke();
+
+  // Freq labels
+  const freqs = [100, 500, 1000, 2000, 5000, 10000, 20000];
+  const fMax = fs / 2;
+  ctx.fillStyle = '#6b7b8d'; ctx.font = '10px monospace';
+  for (const f of freqs) {
+    if (f >= fMax) break;
+    const x = (f / fMax) * W;
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H);
+    ctx.strokeStyle = '#1e2a3a'; ctx.lineWidth = 1; ctx.stroke();
+    const label = f >= 1000 ? (f/1000)+'k' : f+'';
+    ctx.fillText(label, x + 2, H - 4);
+  }
+
+  // Compute |H(e^jw)|
+  ctx.beginPath();
+  ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2;
+  for (let i = 0; i < N; i++) {
+    const w = (i / N) * Math.PI; // 0 to pi
+    const cosW = Math.cos(w * M);
+    const sinW = Math.sin(w * M);
+
+    let magSq;
+    if (type === 'ff') {
+      // H = 1 + g*e^{-jwM}
+      const re = 1 + g * cosW;
+      const im = -g * sinW;
+      magSq = re * re + im * im;
+    } else if (type === 'fb') {
+      // H = 1 / (1 - g*e^{-jwM})
+      const re = 1 - g * cosW;
+      const im = g * sinW;
+      magSq = 1 / (re * re + im * im + 1e-12);
+    } else {
+      // Allpass: H = (g + e^{-jwM}) / (1 + g*e^{-jwM})
+      const numRe = g + cosW;
+      const numIm = -sinW;
+      const denRe = 1 + g * cosW;
+      const denIm = -g * sinW;
+      const denMagSq = denRe * denRe + denIm * denIm + 1e-12;
+      magSq = (numRe * numRe + numIm * numIm) / denMagSq;
+    }
+
+    const mag = Math.sqrt(magSq);
+    const dB = 20 * Math.log10(mag + 1e-12);
+    const clampedDB = Math.max(dBmin, Math.min(dBmax, dB));
+    const x = (i / N) * W;
+    const y = H - (clampedDB - dBmin) / (dBmax - dBmin) * H;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Title
+  ctx.fillStyle = '#6b7b8d'; ctx.font = '11px monospace';
+  ctx.fillText('0 Hz', 4, H - 4);
+  ctx.fillText((fMax/1000).toFixed(1) + ' kHz', W - 60, H - 4);
+}
+
+// ═══════════════════════════════════════════════
+// POLE-ZERO DIAGRAM
+// ═══════════════════════════════════════════════
+function drawPoleZero() {
+  const canvas = document.getElementById('canvasPZ');
+  const ctx = canvas.getContext('2d');
+  const W = canvas._drawW || canvas.offsetWidth;
+  const H = canvas._drawH || 260;
+  ctx.clearRect(0, 0, W * 2, H * 2);
+
+  const M = getM();
+  const g = getG();
+  const type = getType();
+  const cx = W / 2, cy = H / 2;
+  const scale = Math.min(W, H) * 0.38;
+
+  // Axes
+  ctx.strokeStyle = '#1e2a3a'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
+
+  // Unit circle
+  ctx.strokeStyle = '#3a4a5a'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(cx, cy, scale, 0, 2 * Math.PI); ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#6b7b8d'; ctx.font = '10px monospace';
+  ctx.fillText('Re', W - 20, cy - 6);
+  ctx.fillText('Im', cx + 6, 14);
+  ctx.fillText('1', cx + scale + 4, cy - 4);
+
+  const maxDraw = Math.min(M, 60);
+  const tooMany = M > 60;
+
+  if (type === 'ff') {
+    // Zeros on unit circle: z_k = e^{j*pi*(2k+1)/M}
+    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2;
+    for (let k = 0; k < maxDraw; k++) {
+      const angle = Math.PI * (2 * k + 1) / M;
+      const zx = cx + Math.cos(angle) * scale;
+      const zy = cy - Math.sin(angle) * scale;
+      ctx.beginPath(); ctx.arc(zx, zy, 5, 0, 2 * Math.PI); ctx.stroke();
+    }
+    // Pole at origin
+    drawX(ctx, cx, cy, 6, '#ff6d00');
+  } else if (type === 'fb') {
+    // Poles at radius |g|^(1/M)
+    const absG = Math.abs(g);
+    const r = absG > 0 ? Math.pow(absG, 1 / M) : 0;
+    // Dashed circle at pole radius
+    ctx.strokeStyle = '#ff6d00'; ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.arc(cx, cy, r * scale, 0, 2 * Math.PI); ctx.stroke();
+    ctx.setLineDash([]);
+    // Poles
+    for (let k = 0; k < maxDraw; k++) {
+      const angle = 2 * Math.PI * k / M + (g < 0 ? Math.PI / M : 0);
+      const px = cx + Math.cos(angle) * r * scale;
+      const py = cy - Math.sin(angle) * r * scale;
+      drawX(ctx, px, py, 4, '#ff6d00');
+    }
+  } else {
+    // Allpass: poles at |g|^(1/M), zeros at 1/|g|^(1/M)
+    const absG = Math.abs(g);
+    const rPole = absG > 0 ? Math.pow(absG, 1 / M) : 0;
+    const rZero = absG > 0 ? 1 / rPole : 1;
+    // Dashed circles
+    ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+    ctx.strokeStyle = '#ff6d00';
+    ctx.beginPath(); ctx.arc(cx, cy, rPole * scale, 0, 2 * Math.PI); ctx.stroke();
+    ctx.strokeStyle = '#00e5ff';
+    if (rZero * scale < Math.min(W, H) / 2) {
+      ctx.beginPath(); ctx.arc(cx, cy, rZero * scale, 0, 2 * Math.PI); ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    // Poles
+    for (let k = 0; k < maxDraw; k++) {
+      const angle = 2 * Math.PI * k / M;
+      drawX(ctx, cx + Math.cos(angle) * rPole * scale, cy - Math.sin(angle) * rPole * scale, 4, '#ff6d00');
+    }
+    // Zeros
+    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2;
+    for (let k = 0; k < maxDraw; k++) {
+      const angle = 2 * Math.PI * k / M;
+      const zr = rZero * scale;
+      if (zr < Math.min(W, H) / 2) {
+        const zx = cx + Math.cos(angle) * zr;
+        const zy = cy - Math.sin(angle) * zr;
+        ctx.beginPath(); ctx.arc(zx, zy, 5, 0, 2 * Math.PI); ctx.stroke();
+      }
+    }
+  }
+
+  if (tooMany) {
+    ctx.fillStyle = '#ff6d00'; ctx.font = '11px monospace';
+    ctx.fillText('M=' + M + ' (mostrando ' + maxDraw + ')', 8, H - 8);
+  }
+
+  // Legend
+  ctx.fillStyle = '#6b7b8d'; ctx.font = '10px monospace';
+  ctx.fillText('○ ceros', W - 70, 18);
+  ctx.fillText('× polos', W - 70, 32);
+  ctx.fillStyle = '#00e5ff'; ctx.fillRect(W - 78, 10, 6, 6);
+  ctx.fillStyle = '#ff6d00'; ctx.fillRect(W - 78, 24, 6, 6);
+}
+
+function drawX(ctx, x, y, size, color) {
+  ctx.strokeStyle = color; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(x - size, y - size); ctx.lineTo(x + size, y + size);
+  ctx.moveTo(x + size, y - size); ctx.lineTo(x - size, y + size);
+  ctx.stroke();
+}
+
+// ═══════════════════════════════════════════════
+// SIGNAL FLOW DIAGRAM
+// ═══════════════════════════════════════════════
+function drawFlowDiagram() {
+  const svg = document.getElementById('flowSVG');
+  const type = getType();
+  let html = '';
+  const mkArrow = 'marker-end="url(#fArrow)"';
+
+  html += '<defs><marker id="fArrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">';
+  html += '<polygon points="0 0, 8 3, 0 6" fill="#6b7b8d"/></marker></defs>';
+
+  if (type === 'ff') {
+    svg.setAttribute('viewBox', '0 0 480 140');
+    svg.setAttribute('height', '120');
+    // x(n) → split → ×1 → (+) → y(n)
+    //              → z⁻ᴹ → ×g ↗
+    html += '<text x="10" y="44" fill="#00e5ff" font-size="14" font-weight="bold">x(n)</text>';
+    html += '<circle cx="65" cy="40" r="3.5" fill="#c8d6e5"/>';
+    html += `<line x1="45" y1="40" x2="130" y2="40" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<rect x="130" y="25" width="50" height="30" rx="5" fill="#111827" stroke="#7c4dff" stroke-width="1.5"/>';
+    html += '<text x="155" y="45" text-anchor="middle" fill="#7c4dff" font-size="12">× 1</text>';
+    html += `<line x1="180" y1="40" x2="269" y2="40" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<circle cx="285" cy="40" r="14" fill="#111827" stroke="#00e676" stroke-width="2"/>';
+    html += '<text x="285" y="45" text-anchor="middle" fill="#00e676" font-size="15" font-weight="bold">+</text>';
+    html += `<line x1="299" y1="40" x2="420" y2="40" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<text x="430" y="44" fill="#00e5ff" font-size="14" font-weight="bold">y(n)</text>';
+    // Delay path
+    html += '<line x1="65" y1="40" x2="65" y2="110" stroke="#6b7b8d" stroke-width="1.5"/>';
+    html += `<line x1="65" y1="110" x2="130" y2="110" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<rect x="130" y="95" width="60" height="30" rx="5" fill="#111827" stroke="#ff6d00" stroke-width="1.5"/>';
+    html += '<text x="160" y="115" text-anchor="middle" fill="#ff6d00" font-size="12">z⁻ᴹ</text>';
+    html += `<line x1="190" y1="110" x2="240" y2="110" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<rect x="240" y="95" width="50" height="30" rx="5" fill="#111827" stroke="#7c4dff" stroke-width="1.5"/>';
+    html += '<text x="265" y="115" text-anchor="middle" fill="#7c4dff" font-size="12">× g</text>';
+    html += '<line x1="285" y1="95" x2="285" y2="54" stroke="#6b7b8d" stroke-width="1.5" marker-end="url(#fArrow)"/>';
+  } else if (type === 'fb') {
+    svg.setAttribute('viewBox', '0 0 480 150');
+    svg.setAttribute('height', '130');
+    // x(n) → (+) → y(n)
+    //          ↑ ← ×g ← z⁻ᴹ ← y(n)
+    html += '<text x="10" y="44" fill="#00e5ff" font-size="14" font-weight="bold">x(n)</text>';
+    html += `<line x1="45" y1="40" x2="149" y2="40" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<circle cx="165" cy="40" r="14" fill="#111827" stroke="#00e676" stroke-width="2"/>';
+    html += '<text x="165" y="45" text-anchor="middle" fill="#00e676" font-size="15" font-weight="bold">+</text>';
+    html += `<line x1="179" y1="40" x2="420" y2="40" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<text x="430" y="44" fill="#00e5ff" font-size="14" font-weight="bold">y(n)</text>';
+    html += '<circle cx="340" cy="40" r="3.5" fill="#c8d6e5"/>';
+    // Feedback loop
+    html += '<line x1="340" y1="40" x2="340" y2="120" stroke="#6b7b8d" stroke-width="1.5"/>';
+    html += `<line x1="340" y1="120" x2="290" y2="120" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<rect x="230" y="105" width="60" height="30" rx="5" fill="#111827" stroke="#ff6d00" stroke-width="1.5"/>';
+    html += '<text x="260" y="125" text-anchor="middle" fill="#ff6d00" font-size="12">z⁻ᴹ</text>';
+    html += `<line x1="230" y1="120" x2="195" y2="120" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<rect x="135" y="105" width="60" height="30" rx="5" fill="#111827" stroke="#7c4dff" stroke-width="1.5"/>';
+    html += '<text x="165" y="125" text-anchor="middle" fill="#7c4dff" font-size="12">× g</text>';
+    html += '<line x1="165" y1="105" x2="165" y2="54" stroke="#6b7b8d" stroke-width="1.5" marker-end="url(#fArrow)"/>';
+    html += '<text x="355" y="90" fill="#6b7b8d" font-size="10" font-style="italic">feedback</text>';
+  } else {
+    svg.setAttribute('viewBox', '0 0 520 180');
+    svg.setAttribute('height', '155');
+    // Allpass: FF path (×a) + delay path + FB path (×(−a))
+    html += '<text x="5" y="44" fill="#00e5ff" font-size="14" font-weight="bold">x(n)</text>';
+    html += '<circle cx="55" cy="40" r="3.5" fill="#c8d6e5"/>';
+    html += `<line x1="40" y1="40" x2="100" y2="40" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<rect x="100" y="25" width="50" height="30" rx="5" fill="#111827" stroke="#7c4dff" stroke-width="1.5"/>';
+    html += '<text x="125" y="45" text-anchor="middle" fill="#7c4dff" font-size="12">× a</text>';
+    html += `<line x1="150" y1="40" x2="264" y2="40" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<circle cx="280" cy="40" r="14" fill="#111827" stroke="#00e676" stroke-width="2"/>';
+    html += '<text x="280" y="45" text-anchor="middle" fill="#00e676" font-size="15" font-weight="bold">+</text>';
+    html += `<line x1="294" y1="40" x2="450" y2="40" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<text x="460" y="44" fill="#00e5ff" font-size="14" font-weight="bold">y(n)</text>';
+    html += '<circle cx="380" cy="40" r="3.5" fill="#c8d6e5"/>';
+    // FF delay path: x(n) → z⁻ᴹ → (+)
+    html += '<line x1="55" y1="40" x2="55" y2="110" stroke="#6b7b8d" stroke-width="1.5"/>';
+    html += `<line x1="55" y1="110" x2="155" y2="110" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<rect x="155" y="95" width="60" height="30" rx="5" fill="#111827" stroke="#ff6d00" stroke-width="1.5"/>';
+    html += '<text x="185" y="115" text-anchor="middle" fill="#ff6d00" font-size="12">z⁻ᴹ</text>';
+    html += '<line x1="215" y1="110" x2="280" y2="110" stroke="#6b7b8d" stroke-width="1.5"/>';
+    html += '<line x1="280" y1="110" x2="280" y2="54" stroke="#6b7b8d" stroke-width="1.5" marker-end="url(#fArrow)"/>';
+    html += '<text x="235" y="103" fill="#6b7b8d" font-size="9">+1</text>';
+    // FB path: y(n) → z⁻ᴹ → ×(−a) → (+)
+    html += '<line x1="380" y1="40" x2="380" y2="160" stroke="#6b7b8d" stroke-width="1.5"/>';
+    html += `<line x1="380" y1="160" x2="340" y2="160" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<rect x="280" y="145" width="60" height="30" rx="5" fill="#111827" stroke="#ff6d00" stroke-width="1.5"/>';
+    html += '<text x="310" y="165" text-anchor="middle" fill="#ff6d00" font-size="12">z⁻ᴹ</text>';
+    html += `<line x1="280" y1="160" x2="230" y2="160" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<rect x="165" y="145" width="65" height="30" rx="5" fill="#111827" stroke="#7c4dff" stroke-width="1.5"/>';
+    html += '<text x="197" y="165" text-anchor="middle" fill="#7c4dff" font-size="11">× (−a)</text>';
+    html += '<line x1="197" y1="145" x2="197" y2="50" stroke="#6b7b8d" stroke-width="1.5"/>';
+    html += `<line x1="197" y1="50" x2="264" y2="45" stroke="#6b7b8d" stroke-width="1.5" ${mkArrow}/>`;
+    html += '<text x="395" y="110" fill="#6b7b8d" font-size="10" font-style="italic">feedback</text>';
+  }
+  svg.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════
+// UI UPDATES
+// ═══════════════════════════════════════════════
+function updateUI() {
+  const M = getM();
+  const g = getG();
+  const type = getType();
+  const fs = audioCtx ? audioCtx.sampleRate : 44100;
+
+  document.getElementById('valM').textContent = M;
+  document.getElementById('valMms').textContent = '= ' + (M / fs * 1000).toFixed(2) + ' ms @ ' + fs + ' Hz';
+  document.getElementById('valG').textContent = g.toFixed(2);
+  document.getElementById('valMix').textContent = getMix() * 100 + '%';
+
+  // Equation display
+  const gStr = g >= 0 ? '+ ' + g.toFixed(2) : '− ' + Math.abs(g).toFixed(2);
+  let eq;
+  if (type === 'ff') {
+    eq = 'y(n) = x(n) ' + gStr + ' · x(n − ' + M + ')';
+  } else if (type === 'fb') {
+    eq = 'y(n) = x(n) ' + gStr + ' · y(n − ' + M + ')';
+  } else {
+    const negG = g >= 0 ? '− ' + g.toFixed(2) : '+ ' + Math.abs(g).toFixed(2);
+    eq = 'y(n) = ' + g.toFixed(2) + '·x(n) + x(n−' + M + ') ' + negG + '·y(n−' + M + ')';
+  }
+  document.getElementById('eqDisplay').textContent = eq;
+
+  // Info box
+  const infoBox = document.getElementById('infoBox');
+  if (type === 'ff') {
+    infoBox.innerHTML = '<strong>Feedforward (FIR):</strong> Suma la señal con una copia retardada. Produce <strong>' + M + ' valles</strong> (cancelaciones) igualmente espaciados. Es la base del efecto <em>flanger</em>. Los ceros están <em>sobre</em> el círculo unitario. Espaciado entre valles: ' + (fs / M).toFixed(0) + ' Hz.';
+  } else if (type === 'fb') {
+    const stable = Math.abs(g) < 1;
+    infoBox.innerHTML = '<strong>Feedback (IIR):</strong> La salida se retroalimenta, creando ecos infinitos. Produce <strong>' + M + ' picos</strong> de resonancia. ' + (stable ? 'Sistema <span style="color:#00e676">ESTABLE</span> (|g| < 1).' : 'Sistema <span style="color:#ff1744">INESTABLE</span> (|g| ≥ 1) — en la app se aplica soft-clip.') + ' Espaciado entre picos: ' + (fs / M).toFixed(0) + ' Hz. Este es el filtro de tu Fun Task 04.';
+  } else {
+    infoBox.innerHTML = '<strong>Allpass (Schroeder):</strong> Combina feedforward y feedback con el mismo coeficiente. La ganancia es <strong>exactamente 1</strong> en todas las frecuencias (la curva debería ser plana a 0 dB). Pero la <em>fase</em> varía: diferentes frecuencias llegan en diferentes momentos. Esto crea <strong>dispersión temporal</strong> — útil para reverberación artificial.';
+  }
+
+  drawFreqResponse();
+  drawPoleZero();
+  drawFlowDiagram();
+}
+
+// ═══════════════════════════════════════════════
+// CANVAS RESIZE
+// ═══════════════════════════════════════════════
+function resizeCanvases() {
+  const cFreq = document.getElementById('canvasFreq');
+  const cPZ = document.getElementById('canvasPZ');
+  cFreq.width = cFreq.offsetWidth * (window.devicePixelRatio || 1);
+  cFreq.height = 260 * (window.devicePixelRatio || 1);
+  cFreq.style.height = '260px';
+  cPZ.width = cPZ.offsetWidth * (window.devicePixelRatio || 1);
+  cPZ.height = 260 * (window.devicePixelRatio || 1);
+  cPZ.style.height = '260px';
+
+  const ctxF = cFreq.getContext('2d');
+  const ctxP = cPZ.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  ctxF.scale(dpr, dpr);
+  ctxP.scale(dpr, dpr);
+
+  // Reset actual drawing dimensions
+  cFreq._drawW = cFreq.offsetWidth;
+  cFreq._drawH = 260;
+  cPZ._drawW = cPZ.offsetWidth;
+  cPZ._drawH = 260;
+}
+
+// Override draw functions to use logical sizes
+const origDrawFreq = drawFreqResponse;
+drawFreqResponse = function() {
+  const canvas = document.getElementById('canvasFreq');
+  const ctx = canvas.getContext('2d');
+  ctx.save();
+  // Use logical pixels
+  const W = canvas._drawW || canvas.offsetWidth;
+  const H = canvas._drawH || 260;
+
+  ctx.clearRect(0, 0, W * 2, H * 2);
+
+  const M = getM();
+  const g = getG();
+  const type = getType();
+  const fs = audioCtx ? audioCtx.sampleRate : 44100;
+  const N = 512;
+  const dBmin = -30, dBmax = 30;
+
+  // Grid
+  ctx.strokeStyle = '#1e2a3a'; ctx.lineWidth = 0.5;
+  for (let db = dBmin; db <= dBmax; db += 10) {
+    const y = H - (db - dBmin) / (dBmax - dBmin) * H;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    ctx.fillStyle = '#6b7b8d'; ctx.font = '10px monospace';
+    ctx.fillText(db + '', 4, y - 3);
+  }
+  // 0 dB line
+  const y0 = H - (0 - dBmin) / (dBmax - dBmin) * H;
+  ctx.strokeStyle = '#3a4a5a'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0, y0); ctx.lineTo(W, y0); ctx.stroke();
+
+  // Freq ticks
+  const freqs = [100, 500, 1000, 2000, 5000, 10000];
+  const fMax = fs / 2;
+  ctx.fillStyle = '#6b7b8d'; ctx.font = '10px monospace';
+  for (const f of freqs) {
+    if (f >= fMax) break;
+    const x = (f / fMax) * W;
+    ctx.strokeStyle = '#1e2a3a'; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    ctx.fillText(f >= 1000 ? (f/1000)+'k' : f, x + 2, H - 5);
+  }
+
+  // Magnitude
+  ctx.beginPath(); ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2;
+  for (let i = 0; i < N; i++) {
+    const w = (i / N) * Math.PI;
+    const cosW = Math.cos(w * M);
+    const sinW = Math.sin(w * M);
+    let magSq;
+    if (type === 'ff') {
+      const re = 1 + g * cosW, im = -g * sinW;
+      magSq = re * re + im * im;
+    } else if (type === 'fb') {
+      const re = 1 - g * cosW, im = g * sinW;
+      magSq = 1 / (re * re + im * im + 1e-12);
+    } else {
+      const nr = g + cosW, ni = -sinW;
+      const dr = 1 + g * cosW, di = -g * sinW;
+      magSq = (nr*nr + ni*ni) / (dr*dr + di*di + 1e-12);
+    }
+    const dB = 10 * Math.log10(magSq + 1e-12);
+    const cDB = Math.max(dBmin, Math.min(dBmax, dB));
+    const x = (i / N) * W;
+    const y = H - (cDB - dBmin) / (dBmax - dBmin) * H;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  ctx.fillStyle = '#6b7b8d'; ctx.font = '10px monospace';
+  ctx.fillText('dB', W - 18, 14);
+
+  ctx.restore();
+};
+
+// ═══════════════════════════════════════════════
+// EFFECT PRESETS
+// ═══════════════════════════════════════════════
+const PRESETS = {
+  flanger: {
+    type: 'ff', M: 8, g: 75, mix: 100, source: 'noise',
+    info: '<strong>Flanger</strong> = Comb filter feedforward con delay muy corto (< 1 ms). ' +
+          'Los valles de cancelación están tan espaciados que se escuchan como una coloración metálica. ' +
+          'En un flanger real, M se modula lentamente con un LFO, barriendo los valles arriba y abajo. ' +
+          'Prueba mover el slider M entre 2 y 15 para simular ese barrido manualmente.'
+  },
+  chorus: {
+    type: 'ff', M: 35, g: 50, mix: 70, source: 'noise',
+    info: '<strong>Chorus</strong> = Similar al flanger pero con delay más largo (~1 ms). ' +
+          'Suena como si hubiera dos instrumentos tocando casi lo mismo pero ligeramente desfasados. ' +
+          'Los valles están más juntos en frecuencia, creando una textura más suave. ' +
+          'En un chorus real, M se modula aleatoriamente para emular la imperfección de dos músicos.'
+  },
+  slapback: {
+    type: 'fb', M: 3300, g: 30, mix: 80, source: 'pulse',
+    info: '<strong>Slapback Echo</strong> = Comb feedback con delay medio (~75 ms). ' +
+          'Un solo eco rápido que "rebota" como una palmada contra una pared cercana. ' +
+          'Típico del rockabilly y Elvis Presley. El feedback bajo (0.30) asegura que solo se escuche 1-2 ecos. ' +
+          'Nota cómo los picos de resonancia están muy juntos: fs/M ≈ 13 Hz entre picos.'
+  },
+  delay: {
+    type: 'fb', M: 11025, g: 65, mix: 85, source: 'pulse',
+    info: '<strong>Dub Delay</strong> = Comb feedback con delay largo (250 ms). ' +
+          'Ecos claros y rítmicos que se repiten. Exactamente lo de tu Fun Task 04. ' +
+          'Con g=0.65, cada eco es 65% del anterior. Prueba subir g a 0.85+ para el efecto dub jamaicano. ' +
+          'En la Fun Task usas tanh() para controlar el feedback cuando g ≥ 1.'
+  },
+  reverb: {
+    type: 'fb', M: 150, g: 83, mix: 75, source: 'pulse',
+    info: '<strong>Spring Reverb</strong> = Comb feedback con delay corto (~3.4 ms) y feedback alto. ' +
+          'Los ecos se acumulan tan rápido que se funden en una "cola" reverberante. ' +
+          'Un reverb real usa varios comb filters en paralelo con tiempos primos (11, 17, 23 ms) — ' +
+          'exactamente lo que construiste en el Desafío Relámpago, Sección 5.'
+  },
+  phaser: {
+    type: 'ap', M: 8, g: 85, mix: 100, source: 'noise',
+    info: '<strong>Phaser</strong> = Comb allpass con delay corto. ' +
+          'La magnitud es plana (todos pasan), pero la fase varía: algunas frecuencias se atrasan más. ' +
+          'Al mezclar con la señal seca (dry/wet ~50%), las cancelaciones de fase crean "muescas" que se mueven. ' +
+          'Prueba bajar el Dry/Wet a 50% — ahí es donde aparece el efecto phaser clásico.'
+  }
+};
+
+let activePreset = null;
+
+function applyPreset(name) {
+  const p = PRESETS[name];
+  if (!p) return;
+
+  // Set filter type
+  document.querySelector('input[name="ftype"][value="' + p.type + '"]').checked = true;
+
+  // Set sliders
+  document.getElementById('sliderM').value = p.M;
+  document.getElementById('sliderG').value = p.g;
+  document.getElementById('sliderMix').value = p.mix;
+
+  // Set source
+  document.querySelector('input[name="src"][value="' + p.source + '"]').checked = true;
+
+  // Reset delay buffers for clean start
+  bufferX.fill(0); bufferY.fill(0);
+
+  // Highlight active preset button
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  const btns = document.querySelectorAll('.preset-btn');
+  btns.forEach(b => { if (b.onclick.toString().includes(name)) b.classList.add('active'); });
+  // Better: use event target
+  event.currentTarget.classList.add('active');
+  activePreset = name;
+
+  // Show info
+  const infoEl = document.getElementById('presetInfo');
+  infoEl.style.display = 'block';
+  infoEl.innerHTML = p.info;
+
+  // Restart audio if playing (to pick up new source)
+  if (isPlaying) { stopAudio(); startAudio(); }
+
+  updateUI();
+}
+
+// ═══════════════════════════════════════════════
+// EVENT LISTENERS
+// ═══════════════════════════════════════════════
+function clearPreset() {
+  activePreset = null;
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+}
+document.getElementById('sliderM').addEventListener('input', () => { clearPreset(); updateUI(); });
+document.getElementById('sliderG').addEventListener('input', () => { clearPreset(); updateUI(); });
+document.getElementById('sliderMix').addEventListener('input', () => { clearPreset(); updateUI(); });
+document.querySelectorAll('input[name="ftype"]').forEach(r => r.addEventListener('change', () => {
+  // Reset buffers on type change to avoid pops
+  bufferX.fill(0); bufferY.fill(0);
+  updateUI();
+}));
+document.querySelectorAll('input[name="src"]').forEach(r => r.addEventListener('change', () => {
+  if (isPlaying) { stopAudio(); startAudio(); }
+}));
+
+window.addEventListener('resize', () => { resizeCanvases(); updateUI(); });
+
+// Init
+window.addEventListener('load', () => {
+  resizeCanvases();
+  updateUI();
+});
+</script>
+</body>
+</html>

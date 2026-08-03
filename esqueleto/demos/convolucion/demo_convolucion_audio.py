@@ -12,7 +12,7 @@ medido con un disparo/globo/sine-sweep. Este script:
 
     1. Genera una señal seca corta x[n]: un par de clicks (impulsos breves)
        seguidos de un fragmento de melodía sintética simple (arpegio).
-    2. Carga una respuesta al impulso real h[n] desde common/ejercicios/IR
+    2. Carga una respuesta al impulso real h[n] desde _archivo/ejercicios/IR
        (archivos .wav de salas, iglesias, túneles, etc. — ver Read Me.txt
        de cada carpeta), la deja mono y la resamplea si su fs no coincide
        con la de x (resampleo lineal con numpy puro, sin dependencias
@@ -190,9 +190,10 @@ def reproducir(audio, fs, nombre=""):
 
 _SCRIPT_DIR = Path(__file__).resolve().parent
 # Script vive en material/demos/convolucion/; el repo del curso está 3 niveles
-# arriba y de ahí cuelga common/ejercicios/IR con las respuestas al impulso.
-IR_DEFAULT = (_SCRIPT_DIR.parent.parent.parent / "common" / "ejercicios" / "IR"
-              / "lady-chapel-st-albans-cathedral" / "mono" / "stalbans_a_mono.wav")
+# arriba y de ahí cuelga _archivo/ejercicios/IR con las respuestas al impulso.
+IR_DEFAULT = (_SCRIPT_DIR.parent.parent.parent / "_archivo" / "ejercicios"
+              / "IR" / "lady-chapel-st-albans-cathedral" / "mono"
+              / "stalbans_a_mono.wav")
 
 
 # ---------------------------------------------------------------------------

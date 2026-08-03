@@ -217,6 +217,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Series</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -428,7 +434,7 @@ window.Quarto = {
 <p><strong>Solución.</strong> Es una suma geométrica finita: <span class="math display">X(e^{j\Omega}) = \sum_{n=0}^{M-1} e^{-j\Omega n} = \frac{1 - e^{-j\Omega M}}{1 - e^{-j\Omega}}</span> Ahora el truco estándar — factorizar la “media exponencial” arriba y abajo para armar senos: <span class="math display">\frac{e^{-j\Omega M/2}\left(e^{j\Omega M/2} - e^{-j\Omega M/2}\right)}{e^{-j\Omega/2}\left(e^{j\Omega/2} - e^{-j\Omega/2}\right)} = e^{-j\Omega\frac{M-1}{2}}\,\frac{\sin(\Omega M/2)}{\sin(\Omega/2)}</span> El cociente de senos es el <strong>núcleo de Dirichlet</strong>: vale <span class="math inline">M</span> en <span class="math inline">\Omega = 0</span> (suma de <span class="math inline">M</span> unos) y se anula en <span class="math inline">\Omega = 2\pi k/M</span>. Es el primo <em>periódico</em> de la sinc: mismo lóbulo principal, mismos lóbulos laterales — pero repitiéndose cada <span class="math inline">2\pi</span>, como todo espectro discreto debe.</p>
 </div>
 </div>
-<div id="731e7281" class="cell" data-execution_count="1">
+<div id="fd9bbe15" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -539,7 +545,7 @@ x[n] = \frac{1}{N}\sum_{k=0}^{N-1} X[k]\, e^{j\frac{2\pi k}{N}n}</span> Es la co
 <blockquote class="blockquote">
 <p>La DTFT es la <strong>curva completa</strong> del espectro; la DFT son <strong><span class="math inline">N</span> fotos equiespaciadas</strong> de esa curva — <span class="math inline">N</span> puntos repartidos en una vuelta del círculo unitario.</p>
 </blockquote>
-<div id="a0da9b1d" class="cell" data-execution_count="2">
+<div id="a5058303" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -555,7 +561,7 @@ x[n] = \frac{1}{N}\sum_{k=0}^{N-1} X[k]\, e^{j\frac{2\pi k}{N}n}</span> Es la co
 <h3 data-number="7.3.3" class="anchored" data-anchor-id="sec-matriz-w"><span class="header-section-number">7.3.3</span> La matriz <span class="math inline">\mathbf{W}</span>: las raíces de la unidad cobran su promesa</h3>
 <p>La DFT es lineal en <span class="math inline">x</span>, así que es una multiplicación matriz-vector: <span class="math display">\mathbf{X} = \mathbf{W}\,\mathbf{x}, \qquad [\mathbf{W}]_{k,n} = W_N^{kn}, \qquad W_N = e^{-j2\pi/N}</span></p>
 <p>En el <a href="apendice-a.html" class="quarto-xref"><span>Apéndice A</span></a> quedó plantada una promesa: “las <span class="math inline">N</span> soluciones de <span class="math inline">z^N = 1</span> son las raíces de la unidad, <span class="math inline">N</span> puntos equiespaciados en el círculo — en el capítulo 7 la DFT se construye enteramente sobre estos puntos”. Hoy se cobra: <strong>toda</strong> entrada de <span class="math inline">\mathbf{W}</span> es una potencia de <span class="math inline">W_N</span>, es decir, una raíz de la unidad; la fila <span class="math inline">k</span> recorre el círculo dando <span class="math inline">k</span> vueltas por período — es la sinusoide discreta de frecuencia <span class="math inline">\Omega_k = \frac{2\pi k}{N}</span> escrita como vector.</p>
-<div id="35fd1afa" class="cell" data-execution_count="3">
+<div id="caa1a884" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -626,7 +632,7 @@ x[n] = \frac{1}{N}\sum_{k=0}^{N-1} X[k]\, e^{j\frac{2\pi k}{N}n}</span> Es la co
 <p>Y la lectura <strong>inversa</strong>, que es como suele preguntarse: si te muestran un vector de <span class="math inline">N = 4000</span> bins tomado a <span class="math inline">F_s = 8000</span> Hz con <span class="math inline">|X[600]| = |X[3400]| = 6000</span> y cero en el resto, tú reconstruyes: <span class="math inline">f = 600 \cdot 2 = 1200</span> Hz, <span class="math inline">A = 2\cdot 6000/4000 = 3</span>. Señal: <span class="math inline">3\cos(2\pi\, 1200\, t)</span> (la fase requeriría mirar <span class="math inline">\angle X[600]</span>).</p>
 </div>
 </div>
-<div id="24708882" class="cell" data-execution_count="4">
+<div id="e89a7df9" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -697,7 +703,7 @@ x[n] = \frac{1}{N}\sum_{k=0}^{N-1} X[k]\, e^{j\frac{2\pi k}{N}n}</span> Es la co
 </tbody>
 </table>
 <p><strong>No hay ventana gratis.</strong> Hann compra lóbulos laterales bajos (menos fuga) pagando con un lóbulo principal del doble de ancho (menos resolución); Blackman va más lejos en la misma dirección. La rectangular es la de máxima resolución y peor fuga. Elegir ventana <strong>es</strong> una decisión de ingeniería — y el examen suele pedir justificarla en dos frases, con estos números.</p>
-<div id="db4cc74b" class="cell" data-execution_count="5">
+<div id="e76d1ac8" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -714,7 +720,7 @@ x[n] = \frac{1}{N}\sum_{k=0}^{N-1} X[k]\, e^{j\frac{2\pi k}{N}n}</span> Es la co
 <p>Esa es la <strong>STFT</strong> (transformada de Fourier de tiempo corto): deslizar una ventana <span class="math inline">w[n]</span> de largo <span class="math inline">L</span> por la señal (con saltos de <span class="math inline">H</span> muestras, usualmente traslapados) y calcular la FFT de cada trozo ventaneado: <span class="math display">X[m, k] = \sum_n x[n]\, w[n - mH]\, e^{-j\frac{2\pi k}{L}n}</span> Dos índices: <span class="math inline">m</span> dice <strong>cuándo</strong>, <span class="math inline">k</span> dice <strong>qué frecuencia</strong>. El gráfico de <span class="math inline">|X[m,k]|</span> — tiempo horizontal, frecuencia vertical, energía como color — es el <strong>espectrograma</strong>, la herramienta estándar para toda señal cuyo contenido cambia (voz, música, sismos, radar).</p>
 <p>Si tocas algún instrumento, ya conoces esta representación: <strong>una partitura es un espectrograma</strong> — tiempo horizontal, altura vertical, y cada nota es una mancha que dice “esta frecuencia, durante este intervalo”. Los músicos llevan siglos usándola; nosotros solo la calculamos (y de paso el espectrograma revela los armónicos de cada nota — el timbre del capítulo 3).</p>
 <p>El precio ya lo conoces de la <a href="#sec-zero-padding" class="quarto-xref"><span>Sección 7.4.1</span></a>, aplicado trozo a trozo: cada columna del espectrograma tiene resolución <span class="math inline">\Delta f \approx 1/T_{\text{ventana}}</span>. <strong>Ventana corta = sé bien <em>cuándo</em>, mal <em>qué nota</em>; ventana larga = al revés.</strong> No existe ventana que gane en ambos frentes — elegir su largo es elegir qué pregunta le haces a la señal (para voz, 20–30 ms es el clásico punto medio):</p>
-<div id="40069076" class="cell" data-execution_count="6">
+<div id="4dc8649d" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -748,7 +754,7 @@ x[n] = \frac{1}{N}\sum_{k=0}^{N-1} X[k]\, e^{j\frac{2\pi k}{N}n}</span> Es la co
 <p><strong>La receta para obtener la lineal por FFT</strong>: impedir que el enrollado alcance a morder. Si <span class="math inline">x</span> mide <span class="math inline">L</span> y <span class="math inline">h</span> mide <span class="math inline">M</span>, la lineal mide <span class="math inline">L + M - 1</span>: basta rellenar <strong>ambas</strong> señales con ceros hasta <span class="math inline">N \ge L + M - 1</span> y entonces cíclica <span class="math inline">=</span> lineal: <span class="math display">y_{\text{lin}} = \operatorname{IFFT}\big(\operatorname{FFT}(x_{\text{pad}}) \cdot \operatorname{FFT}(h_{\text{pad}})\big)</span> En el ejemplo, con <span class="math inline">N = 8</span>: la cuenta da <span class="math inline">(1, 3, 5, 7, 4, 0, 0, 0)</span> — la lineal exacta, con ceros de sobra (verificado numéricamente).</p>
 </div>
 </div>
-<div id="ea1a9424" class="cell" data-execution_count="7">
+<div id="343702e4" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

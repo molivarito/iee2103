@@ -217,6 +217,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Series</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -250,14 +256,15 @@ window.Quarto = {
   <li><a href="#sec-propiedades-convolucion" id="toc-sec-propiedades-convolucion" class="nav-link" data-scroll-target="#sec-propiedades-convolucion"><span class="header-section-number">2.5.2</span> Propiedades: la caja de herramientas</a></li>
   <li><a href="#sec-anticipar" id="toc-sec-anticipar" class="nav-link" data-scroll-target="#sec-anticipar"><span class="header-section-number">2.5.3</span> Anticipar sin calcular</a></li>
   </ul></li>
-  <li><a href="#sec-edos" id="toc-sec-edos" class="nav-link" data-scroll-target="#sec-edos"><span class="header-section-number">2.6</span> De dónde salen las h(t): ecuaciones diferenciales</a>
+  <li><a href="#sec-autocorrelacion" id="toc-sec-autocorrelacion" class="nav-link" data-scroll-target="#sec-autocorrelacion"><span class="header-section-number">2.6</span> La señal comparada consigo misma: autocorrelación</a></li>
+  <li><a href="#sec-edos" id="toc-sec-edos" class="nav-link" data-scroll-target="#sec-edos"><span class="header-section-number">2.7</span> De dónde salen las h(t): ecuaciones diferenciales</a>
   <ul class="collapse">
-  <li><a href="#sec-h-primer-orden" id="toc-sec-h-primer-orden" class="nav-link" data-scroll-target="#sec-h-primer-orden"><span class="header-section-number">2.6.1</span> La respuesta al impulso de un sistema de primer orden</a></li>
+  <li><a href="#sec-h-primer-orden" id="toc-sec-h-primer-orden" class="nav-link" data-scroll-target="#sec-h-primer-orden"><span class="header-section-number">2.7.1</span> La respuesta al impulso de un sistema de primer orden</a></li>
   </ul></li>
-  <li><a href="#sec-causal-estable-h" id="toc-sec-causal-estable-h" class="nav-link" data-scroll-target="#sec-causal-estable-h"><span class="header-section-number">2.7</span> Causalidad y estabilidad, leídas desde h(t)</a></li>
-  <li><a href="#sec-resumen-cap02" id="toc-sec-resumen-cap02" class="nav-link" data-scroll-target="#sec-resumen-cap02"><span class="header-section-number">2.8</span> En una página</a></li>
-  <li><a href="#sec-ejercicios-cap02" id="toc-sec-ejercicios-cap02" class="nav-link" data-scroll-target="#sec-ejercicios-cap02"><span class="header-section-number">2.9</span> Ejercicios</a></li>
-  <li><a href="#sec-referencias-cap02" id="toc-sec-referencias-cap02" class="nav-link" data-scroll-target="#sec-referencias-cap02"><span class="header-section-number">2.10</span> Para profundizar</a></li>
+  <li><a href="#sec-causal-estable-h" id="toc-sec-causal-estable-h" class="nav-link" data-scroll-target="#sec-causal-estable-h"><span class="header-section-number">2.8</span> Causalidad y estabilidad, leídas desde h(t)</a></li>
+  <li><a href="#sec-resumen-cap02" id="toc-sec-resumen-cap02" class="nav-link" data-scroll-target="#sec-resumen-cap02"><span class="header-section-number">2.9</span> En una página</a></li>
+  <li><a href="#sec-ejercicios-cap02" id="toc-sec-ejercicios-cap02" class="nav-link" data-scroll-target="#sec-ejercicios-cap02"><span class="header-section-number">2.10</span> Ejercicios</a></li>
+  <li><a href="#sec-referencias-cap02" id="toc-sec-referencias-cap02" class="nav-link" data-scroll-target="#sec-referencias-cap02"><span class="header-section-number">2.11</span> Para profundizar</a></li>
   </ul>
 </nav>
     </div>
@@ -289,11 +296,11 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U2.1–U2.5]
+<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U2.1–U2.6]
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Al terminar este capítulo podrás: <strong>decidir</strong> si un sistema es lineal, invariante, causal, estable y/o con memoria — con demostración o contraejemplo, nunca “por inspección” [U2.1]; <strong>explicar</strong> por qué linealidad + invariancia implican que una sola función <span class="math inline">h(t)</span> caracteriza al sistema completo, reproduciendo la derivación [U2.2]; <strong>calcular</strong> convoluciones analítica y gráficamente, y anticipar soporte y forma sin calcular [U2.3]; <strong>modelar</strong> sistemas físicos con EDOs lineales y obtener su <span class="math inline">h(t)</span> [U2.4]; y <strong>leer</strong> causalidad y estabilidad directamente desde <span class="math inline">h(t)</span> [U2.5].</p>
+<p>Al terminar este capítulo podrás: <strong>decidir</strong> si un sistema es lineal, invariante, causal, estable y/o con memoria — con demostración o contraejemplo, nunca “por inspección” [U2.1]; <strong>explicar</strong> por qué linealidad + invariancia implican que una sola función <span class="math inline">h(t)</span> caracteriza al sistema completo, reproduciendo la derivación [U2.2]; <strong>calcular</strong> convoluciones analítica y gráficamente, y anticipar soporte y forma sin calcular [U2.3]; <strong>modelar</strong> sistemas físicos con EDOs lineales y obtener su <span class="math inline">h(t)</span> [U2.4]; <strong>leer</strong> causalidad y estabilidad directamente desde <span class="math inline">h(t)</span> [U2.5]; y <strong>calcular</strong> la autocorrelación de una señal de energía, leyéndola como la convolución de la señal con su propia inversión temporal [U2.6].</p>
 <p><strong>Prerrequisito</strong>: el impulso <span class="math inline">\delta(t)</span> y su propiedad de muestreo (<a href="cap01.html#sec-impulso" class="quarto-xref"><span>Sección 1.5</span></a>). Este capítulo cobra, una por una, las semillas que el capítulo 1 dejó plantadas.</p>
 </div>
 </div>
@@ -384,7 +391,7 @@ window.Quarto = {
 </div>
 <p>Dos contraejemplos más, ambos canónicos de Oppenheim, que completan el arsenal:</p>
 <p><strong>El escalador <span class="math inline">y(t) = x(2t)</span> es variante</strong> (ejemplo 1.16) — y es el más traicionero, porque “comprimir es comprimir siempre igual, ¿no?”. No: el sistema comprime el tiempo <em>hacia el origen</em>, y eso ancla un instante privilegiado. Con un pulso como entrada, los dos caminos se separan a la vista:</p>
-<div id="ee184eaf" class="cell" data-execution_count="1">
+<div id="e8e8f098" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -442,7 +449,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>Causalidad.</strong> <span class="math inline">y(t) = x(t-2)</span> es causal (usa el pasado); <span class="math inline">y(t) = x(t+1)</span> no (lee mañana); <span class="math inline">y(t) = x(-t)</span> no — para <span class="math inline">t = -5</span> necesita <span class="math inline">x(5)</span>, que aún no ocurre. Todo sistema físico <em>operando en tiempo real</em> es causal. Pero un sistema que procesa datos <strong>grabados</strong> puede no serlo: suavizar una foto usa píxeles “futuros” en ambas direcciones. No causal no significa imposible — significa <em>no en vivo</em>.</p>
-<p><strong>Estabilidad.</strong> <span class="math inline">y = x^2</span> es estable (<span class="math inline">|x| \leq M \Rightarrow |y| \leq M^2</span> — estable no exige lineal; Oppenheim muestra incluso que <span class="math inline">y = e^{x(t)}</span> es estable, acotado por <span class="math inline">e^M</span>). El contraejemplo importante es el <strong>integrador</strong> <span class="math inline">y(t) = \int_{-\infty}^{t} x(\tau)\,d\tau</span>: la entrada más inocente del curso, <span class="math inline">x = u(t)</span> (acotada por 1), produce la rampa <span class="math inline">t\,u(t)</span>, que crece sin límite. <strong>Inestable</strong> — y guarda este ejemplo, que reaparecerá leído desde <span class="math inline">h</span> en la <a href="#sec-causal-estable-h" class="quarto-xref"><span>Sección 2.7</span></a>.</p>
+<p><strong>Estabilidad.</strong> <span class="math inline">y = x^2</span> es estable (<span class="math inline">|x| \leq M \Rightarrow |y| \leq M^2</span> — estable no exige lineal; Oppenheim muestra incluso que <span class="math inline">y = e^{x(t)}</span> es estable, acotado por <span class="math inline">e^M</span>). El contraejemplo importante es el <strong>integrador</strong> <span class="math inline">y(t) = \int_{-\infty}^{t} x(\tau)\,d\tau</span>: la entrada más inocente del curso, <span class="math inline">x = u(t)</span> (acotada por 1), produce la rampa <span class="math inline">t\,u(t)</span>, que crece sin límite. <strong>Inestable</strong> — y guarda este ejemplo, que reaparecerá leído desde <span class="math inline">h</span> en la <a href="#sec-causal-estable-h" class="quarto-xref"><span>Sección 2.8</span></a>.</p>
 <p><strong>Memoria.</strong> El resistor no tiene (<span class="math inline">i(t) = v(t)/R</span>: foto instantánea); el condensador sí (<span class="math inline">v(t) = \frac{1}{C}\int_{-\infty}^{t} i\,d\tau</span>: acumula toda su historia); el retardo <span class="math inline">x(t-2)</span> también (recuerda 2 segundos). Memoria y causalidad se confunden a menudo: memoria pregunta si el sistema mira <em>otros instantes</em>; causalidad, si alguno de esos instantes está <em>en el futuro</em>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -478,7 +485,7 @@ window.Quarto = {
 <p>Toda señal es una <strong>superposición continua de impulsos desplazados</strong>: en cada instante <span class="math inline">\tau</span> hay un impulso <span class="math inline">\delta(t - \tau)</span>, pesado por el valor <span class="math inline">x(\tau)\,d\tau</span>.</p>
 </blockquote>
 <p>Si el cambio de lectura no convence, la construcción de Alvarado lo hace visible: aproxima <span class="math inline">x(t)</span> con una escalera de pulsos angostos <span class="math inline">p_\Delta</span> de ancho <span class="math inline">\Delta</span>, cada uno parado en <span class="math inline">k\Delta</span> con área <span class="math inline">x(k\Delta)\,\Delta</span>:</p>
-<div id="9aecd640" class="cell" data-execution_count="2">
+<div id="5edfa94f" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -575,7 +582,7 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <p>Calcula <span class="math inline">y(t) = u(t) * e^{-2t}u(t)</span>.</p>
-<p><strong>Solución.</strong> <span class="math display">y(t) = \int_{-\infty}^{\infty} u(\tau)\,e^{-2(t-\tau)}\,u(t-\tau)\,d\tau</span> Los dos escalones recortan la integral: <span class="math inline">u(\tau)</span> exige <span class="math inline">\tau &gt; 0</span>; <span class="math inline">u(t - \tau)</span> exige <span class="math inline">\tau &lt; t</span>. Si <span class="math inline">t &lt; 0</span>, no queda intervalo: <span class="math inline">y(t) = 0</span>. Si <span class="math inline">t \geq 0</span>: <span class="math display">y(t) = \int_0^t e^{-2(t-\tau)}\,d\tau = e^{-2t}\int_0^t e^{2\tau}\,d\tau = e^{-2t}\cdot\frac{e^{2t} - 1}{2} = \frac{1 - e^{-2t}}{2}</span> <span class="math display">\Rightarrow\quad y(t) = \tfrac{1}{2}\big(1 - e^{-2t}\big)\,u(t)</span> Sube desde 0 y satura en <span class="math inline">\tfrac12</span>. <strong>Chequeo de cordura</strong>: la saturación debe valer el área de <span class="math inline">h</span> (una entrada que se queda en 1 termina “cosechando” toda la respuesta): <span class="math inline">\int_0^\infty e^{-2t}\,dt = \tfrac12</span> ✓. Guarda este resultado: en la <a href="#sec-edos" class="quarto-xref"><span>Sección 2.6</span></a> descubriremos que es la carga de un condensador.</p>
+<p><strong>Solución.</strong> <span class="math display">y(t) = \int_{-\infty}^{\infty} u(\tau)\,e^{-2(t-\tau)}\,u(t-\tau)\,d\tau</span> Los dos escalones recortan la integral: <span class="math inline">u(\tau)</span> exige <span class="math inline">\tau &gt; 0</span>; <span class="math inline">u(t - \tau)</span> exige <span class="math inline">\tau &lt; t</span>. Si <span class="math inline">t &lt; 0</span>, no queda intervalo: <span class="math inline">y(t) = 0</span>. Si <span class="math inline">t \geq 0</span>: <span class="math display">y(t) = \int_0^t e^{-2(t-\tau)}\,d\tau = e^{-2t}\int_0^t e^{2\tau}\,d\tau = e^{-2t}\cdot\frac{e^{2t} - 1}{2} = \frac{1 - e^{-2t}}{2}</span> <span class="math display">\Rightarrow\quad y(t) = \tfrac{1}{2}\big(1 - e^{-2t}\big)\,u(t)</span> Sube desde 0 y satura en <span class="math inline">\tfrac12</span>. <strong>Chequeo de cordura</strong>: la saturación debe valer el área de <span class="math inline">h</span> (una entrada que se queda en 1 termina “cosechando” toda la respuesta): <span class="math inline">\int_0^\infty e^{-2t}\,dt = \tfrac12</span> ✓. Guarda este resultado: en la <a href="#sec-edos" class="quarto-xref"><span>Sección 2.7</span></a> descubriremos que es la carga de un condensador.</p>
 </div>
 </div>
 </section>
@@ -628,7 +635,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>El triángulo del capítulo 1 no era un capricho del catálogo</strong> (<a href="cap01.html#sec-elementales" class="quarto-xref"><span>Sección 1.4</span></a> prometió exactamente esto): <span class="math inline">\operatorname{tri}</span> es lo que pasa cuando un rect se mira en otro. Nota además dos cosas para la sección siguiente: el resultado es <em>continuo</em> aunque los rect no lo eran, y su soporte <span class="math inline">[-1, 1]</span> es la <em>suma</em> de los soportes.</p>
-<div id="76f650c2" class="cell" data-execution_count="3">
+<div id="b164bfa7" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -734,21 +741,47 @@ window.Quarto = {
 <p>Lo que oíste: cada golpe — casi un impulso — sale durando ~2 s (soporte: suma de soportes), y las colas de golpes vecinos se <strong>superponen y suman</strong> (¡aditividad!), emborronando el ritmo rápido en un lavado continuo. La convolución suaviza y alarga; nuestra intuición acústica lee esa reverberación larga como “sala grande y lejana”. Tres reglas de papel, verificadas de oído.</p>
 </section>
 </section>
-<section id="sec-edos" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="sec-edos"><span class="header-section-number">2.6</span> De dónde salen las h(t): ecuaciones diferenciales</h2>
+<section id="sec-autocorrelacion" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="sec-autocorrelacion"><span class="header-section-number">2.6</span> La señal comparada consigo misma: autocorrelación</h2>
+<p>Hay una convolución especial que merece nombre propio: la de una señal <strong>con su propia inversión temporal</strong>. Aparece tan seguido en procesamiento de señales — detectar períodos, medir ecos, estimar espectros — que conviene conocerla desde ya.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Definición: autocorrelación
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para una señal real de energía, <span class="math display">R_x(\tau) = \int_{-\infty}^{\infty} x(t)\,x(t+\tau)\,dt = x(\tau) \ast x(-\tau)</span> <span class="math inline">R_x(\tau)</span> mide <strong>cuánto se parece la señal a sí misma corrida en <span class="math inline">\tau</span></strong>.</p>
+</div>
+</div>
+<p>Tres propiedades salen casi solas:</p>
+<ul>
+<li><strong><span class="math inline">R_x(0) = E_x</span></strong>: sin desfase el traslape es perfecto, y la integral es la energía del capítulo 1.</li>
+<li><strong><span class="math inline">R_x</span> es siempre par</strong>, aunque <span class="math inline">x</span> no lo sea: el cambio de variable <span class="math inline">u = t+\tau</span> da <span class="math inline">R_x(-\tau) = \int x(t)\,x(t-\tau)\,dt = \int x(u+\tau)\,x(u)\,du = R_x(\tau)</span>. Correr la copia hacia un lado o hacia el otro produce el mismo traslape.</li>
+<li><strong><span class="math inline">|R_x(\tau)| \le R_x(0)</span></strong>: ninguna copia corrida se parece más que la señal a sí misma (es la desigualdad de Cauchy–Schwarz, la misma geometría que reaparecerá en el capítulo 3).</li>
+</ul>
+<p><strong>El ejemplo canónico ya lo hiciste.</strong> Como rect es par, su autocorrelación <em>es</em> el rect ∗ rect = tri de la sección anterior. Reléelo con estos ojos: el triángulo mide el traslape de un pulso con su copia corrida — máximo en <span class="math inline">\tau = 0</span>, cero apenas dejan de tocarse. Y la demo del “detector de período” de la primera semana era esencialmente esta función: caía a cero justo donde la copia corrida volvía a calzar.</p>
+<p><strong>La promesa</strong> (se cumple en el capítulo 3, <a href="cap03.html#sec-teorema-autocorrelacion" class="quarto-xref"><span>Sección 3.5.5</span></a>): la transformada de Fourier de <span class="math inline">R_x</span> es <span class="math inline">|X(\omega)|^2</span> — la autocorrelación y la densidad espectral de energía son la misma información en dos dominios.</p>
+<p>En el banco: [DB E0048] (partes par e impar de <span class="math inline">R_x</span>), [DB E0295] (rect → tri como autocorrelación), [DB E0296] (la exponencial causal, con la sorpresa de que <span class="math inline">R_x</span> sale par).</p>
+</section>
+<section id="sec-edos" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="sec-edos"><span class="header-section-number">2.7</span> De dónde salen las h(t): ecuaciones diferenciales</h2>
 <p>Hasta aquí los sistemas eran cajas dadas. Pregunta legítima: en la práctica, ¿de dónde salen las <span class="math inline">h(t)</span>? Respuesta: casi siempre, de una <strong>ley física escrita como ecuación diferencial</strong>.</p>
 <p><strong>Ejemplo 1 — circuito RC</strong> (entrada: voltaje de la fuente <span class="math inline">x(t)</span>; salida: voltaje del condensador <span class="math inline">y(t)</span>). Kirchhoff más la ley del condensador (<span class="math inline">i = C\,y'</span>): <span class="math display">x(t) = R\,i(t) + y(t) = RC\,\frac{dy}{dt} + y(t)</span></p>
 <p><strong>Ejemplo 2 — masa-resorte-amortiguador</strong> (entrada: fuerza <span class="math inline">x(t)</span>; salida: posición <span class="math inline">y(t)</span>). Newton, Hooke y roce viscoso: <span class="math display">m\,\frac{d^2y}{dt^2} + b\,\frac{dy}{dt} + k\,y(t) = x(t)</span></p>
 <p>Un circuito y la suspensión de un auto: física sin nada en común y, sin embargo, <strong>la misma especie matemática</strong>: <span class="math display">\sum_{k=0}^{N} a_k\,\frac{d^k y}{dt^k} \;=\; \sum_{k=0}^{M} b_k\,\frac{d^k x}{dt^k}</span> una <strong>EDO lineal de coeficientes constantes</strong>. Y las dos palabras que valen oro reaparecen solas: <em>lineal</em> — la derivada reparte sumas y escalados → superposición ✓; <em>coeficientes constantes</em> — <span class="math inline">R</span>, <span class="math inline">C</span>, <span class="math inline">m</span>, <span class="math inline">b</span>, <span class="math inline">k</span> no dependen de <span class="math inline">t</span> → el sistema es el mismo hoy y mañana ✓. Una EDO así (con el sistema <strong>en reposo inicial</strong>: sin energía guardada antes de que llegue la entrada) define un sistema <strong>LTI</strong>. Por lo tanto tiene una <span class="math inline">h(t)</span>… y por la <a href="#sec-derivacion" class="quarto-xref"><span>Sección 2.3.3</span></a>, esa <span class="math inline">h(t)</span> lo cuenta todo. Vamos a buscarla.</p>
 <p><em>Honestidad de treinta segundos</em>: si las condiciones iniciales no son nulas, el sistema “recuerda” algo que no vino de <span class="math inline">x</span>, y la homogeneidad falla (entrada cero ya no da salida cero). Reposo inicial es la letra chica del teorema. Laplace (capítulo 4) manejará condiciones iniciales con elegancia total.</p>
-<section id="sec-h-primer-orden" class="level3" data-number="2.6.1">
-<h3 data-number="2.6.1" class="anchored" data-anchor-id="sec-h-primer-orden"><span class="header-section-number">2.6.1</span> La respuesta al impulso de un sistema de primer orden</h3>
+<section id="sec-h-primer-orden" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="sec-h-primer-orden"><span class="header-section-number">2.7.1</span> La respuesta al impulso de un sistema de primer orden</h3>
 <p>Buscamos la <span class="math inline">h(t)</span> del RC: la solución de <span class="math display">RC\,h'(t) + h(t) = \delta(t), \qquad \text{en reposo: } h(t) = 0 \text{ para } t &lt; 0.</span></p>
 <p><strong>Paso 1 — lejos del golpe</strong> (<span class="math inline">t &gt; 0</span>): la ecuación es homogénea, <span class="math inline">RC\,h' + h = 0</span>, y su solución la conoces de cálculo: <span class="math inline">h(t) = A\,e^{-t/RC}</span>.</p>
 <p><strong>Paso 2 — el golpe fija <span class="math inline">A</span></strong>: integrar la EDO en una ventana diminuta <span class="math inline">(0^-, 0^+)</span> alrededor del impulso: <span class="math display">RC\big[h(0^+) - h(0^-)\big] + \underbrace{\int_{0^-}^{0^+} h\,dt}_{\to\,0\ (h\ \text{finita})} = \underbrace{\int_{0^-}^{0^+}\delta\,dt}_{=\,1} \;\Rightarrow\; h(0^+) = \frac{1}{RC}</span> El impulso no puede “durar”: lo único que hace es <strong>cargar el sistema de un salto</strong> y desaparecer. Entonces:</p>
 <p><span class="math display">\boxed{\;h(t) = \frac{1}{RC}\,e^{-t/RC}\,u(t)\;}</span></p>
 <p><strong>Verificación por sustitución</strong> (hazla — es pregunta tipo de la I1, [DB E0037]): con <span class="math inline">u' = \delta</span> y la regla del producto, <span class="math display">h'(t) = -\frac{1}{(RC)^2}\,e^{-t/RC}\,u(t) + \frac{1}{RC}\,\underbrace{e^{-t/RC}\,\delta(t)}_{=\ \delta(t)\ \text{(muestreo, cap. 1)}} \quad\Rightarrow\quad RC\,h'(t) + h(t) = \delta(t)\ \checkmark</span> (el término con <span class="math inline">u</span> se cancela exactamente contra <span class="math inline">h</span>, y sobrevive el impulso — la propiedad <span class="math inline">f(t)\,\delta(t) = f(0)\,\delta(t)</span> haciendo su trabajo).</p>
-<div id="1e21a6e8" class="cell" data-execution_count="4">
+<div id="f4822ce7" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -779,8 +812,8 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="sec-causal-estable-h" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="sec-causal-estable-h"><span class="header-section-number">2.7</span> Causalidad y estabilidad, leídas desde h(t)</h2>
+<section id="sec-causal-estable-h" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="sec-causal-estable-h"><span class="header-section-number">2.8</span> Causalidad y estabilidad, leídas desde h(t)</h2>
 <p>En la <a href="#sec-propiedades-sistemas" class="quarto-xref"><span>Sección 2.2</span></a> las propiedades se verificaban entrada por entrada. Para sistemas LTI hay un atajo definitivo, y es la última pieza del capítulo: <strong>todas las preguntas sobre el sistema se convierten en preguntas sobre la función <span class="math inline">h(t)</span>.</strong></p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -801,7 +834,7 @@ window.Quarto = {
 </div>
 <p><em>Por qué la causalidad</em>: escribe la convolución (conmutada) como <span class="math inline">y(t) = \int h(\tau)\,x(t - \tau)\,d\tau</span>. El número <span class="math inline">h(\tau)</span> es el peso con que la entrada de hace <span class="math inline">\tau</span> segundos influye hoy. Si <span class="math inline">h(\tau) \neq 0</span> para algún <span class="math inline">\tau &lt; 0</span>, el sistema pesa entradas de un “hace negativo”: el futuro. (Y es natural desde la definición: <span class="math inline">h</span> es la respuesta a un golpe en <span class="math inline">t = 0</span>; responder antes del golpe es adivinar.)</p>
 <p><em>Por qué la estabilidad</em> — la dirección útil, en dos líneas: si <span class="math inline">|x| \leq M</span>, <span class="math display">|y(t)| \leq \int |h(\tau)|\,|x(t - \tau)|\,d\tau \leq M\int |h(\tau)|\,d\tau &lt; \infty</span> <em>Honestidad (treinta segundos)</em>: la vuelta también vale — si la integral diverge, existe una entrada acotada maligna (<span class="math inline">x(t - \tau) = \operatorname{sgn} h(\tau)</span>, que se alía con cada signo de <span class="math inline">h</span>) que hace explotar la salida. Queda de lectura.</p>
-<div id="0037caea" class="cell" data-execution_count="5">
+<div id="048ac50f" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -862,8 +895,8 @@ window.Quarto = {
 </table>
 <p>Ficha una conexión hacia adelante: “<span class="math inline">h</span> decae lo bastante rápido” será, en el plano <span class="math inline">s</span> de Laplace, “los polos están a la izquierda”. La condición <span class="math inline">\int |h| &lt; \infty</span> es la versión en el tiempo de esa geometría — la frase se cobra en el capítulo 4, igual que este capítulo cobró las semillas del 1.</p>
 </section>
-<section id="sec-resumen-cap02" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="sec-resumen-cap02"><span class="header-section-number">2.8</span> En una página</h2>
+<section id="sec-resumen-cap02" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="sec-resumen-cap02"><span class="header-section-number">2.9</span> En una página</h2>
 <ul>
 <li>Cinco propiedades, una disciplina: demostración con entradas genéricas o contraejemplo concreto. Contraejemplos de bolsillo: <span class="math inline">x^2</span> (no lineal, intermodulación), <span class="math inline">x(t)+1</span> (entrada cero → salida no nula), <span class="math inline">x(t)\cos(\omega_0 t)</span> y <span class="math inline">t\,x(t)</span> y <span class="math inline">x(2t)</span> y <span class="math inline">n\,x[n]</span> (lineales pero variantes), el integrador con <span class="math inline">u(t)</span> (inestable: la rampa).</li>
 <li>LTI ⇒ convolución, la derivación en 4 líneas: <span class="math inline">\delta \to h</span> (definición); <span class="math inline">\delta(t-\tau) \to h(t-\tau)</span> (invariancia); pesar por <span class="math inline">x(\tau)</span> (homogeneidad); integrar (aditividad). Insumo: <span class="math inline">x(t) = \int x(\tau)\,\delta(t-\tau)\,d\tau</span> — la semilla del capítulo 1, cobrada.</li>
@@ -875,8 +908,8 @@ window.Quarto = {
 <li>Desde <span class="math inline">h</span>: causal ⟺ <span class="math inline">h = 0</span> en <span class="math inline">t &lt; 0</span>; estable ⟺ <span class="math inline">\int|h| &lt; \infty</span>.</li>
 </ul>
 </section>
-<section id="sec-ejercicios-cap02" class="level2" data-number="2.9">
-<h2 data-number="2.9" class="anchored" data-anchor-id="sec-ejercicios-cap02"><span class="header-section-number">2.9</span> Ejercicios</h2>
+<section id="sec-ejercicios-cap02" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="sec-ejercicios-cap02"><span class="header-section-number">2.10</span> Ejercicios</h2>
 <p>Del banco del curso, en orden sugerido (los códigos [DB E0xxx] identifican el ejercicio; aparecen repartidos en las Listas 3 y 4 de las semanas 3–4):</p>
 <ol type="1">
 <li><strong>[DB E0185]</strong> (básico) Linealidad de tres sistemas: derivador, inversor temporal y “sumar 1” — el chequeo entrada cero en acción. <em>[U2.1]</em></li>
@@ -906,8 +939,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="sec-referencias-cap02" class="level2" data-number="2.10">
-<h2 data-number="2.10" class="anchored" data-anchor-id="sec-referencias-cap02"><span class="header-section-number">2.10</span> Para profundizar</h2>
+<section id="sec-referencias-cap02" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="sec-referencias-cap02"><span class="header-section-number">2.11</span> Para profundizar</h2>
 <ul>
 <li><strong>[Oppenheim]</strong> §1.5 (sistemas y sus interconexiones), §1.6 (las cinco propiedades, con los ejemplos 1.14–1.20: el arsenal completo de contraejemplos), §2.2 (la derivación de la convolución continua; §2.1 hace la versión discreta con sumas — léela, es la misma idea y prepara el capítulo 5), §2.3 (propiedades de la convolución y de los sistemas LTI, incluidas causalidad y estabilidad desde <span class="math inline">h</span>: §2.3.5–2.3.7), §2.4.1 (EDOs y sistemas LTI).</li>
 <li><strong>[Alvarado]</strong> §3.4 (sistemas LTI y convolución, con la construcción de la escalera de pulsos que usamos en la <a href="#sec-suma-impulsos" class="quarto-xref"><span>Sección 2.3.2</span></a>).</li>

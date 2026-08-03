@@ -217,6 +217,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Series</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -244,7 +250,10 @@ window.Quarto = {
   <li><a href="#sec-gancho-musical" id="toc-sec-gancho-musical" class="nav-link" data-scroll-target="#sec-gancho-musical"><span class="header-section-number">4.4.1</span> Llevas toda la vida escuchando diagramas de polos</a></li>
   <li><a href="#sec-estabilidad" id="toc-sec-estabilidad" class="nav-link" data-scroll-target="#sec-estabilidad"><span class="header-section-number">4.4.2</span> Estabilidad: la frontera es el eje jω</a></li>
   </ul></li>
-  <li><a href="#sec-unilateral" id="toc-sec-unilateral" class="nav-link" data-scroll-target="#sec-unilateral"><span class="header-section-number">4.5</span> EDOs con condiciones iniciales: la transformada unilateral</a></li>
+  <li><a href="#sec-unilateral" id="toc-sec-unilateral" class="nav-link" data-scroll-target="#sec-unilateral"><span class="header-section-number">4.5</span> EDOs con condiciones iniciales: la transformada unilateral</a>
+  <ul class="collapse">
+  <li><a href="#sec-tvi-tvf" id="toc-sec-tvi-tvf" class="nav-link" data-scroll-target="#sec-tvi-tvf"><span class="header-section-number">4.5.1</span> Asomarse a los extremos sin invertir: valor inicial y valor final</a></li>
+  </ul></li>
   <li><a href="#sec-fourier-laplace" id="toc-sec-fourier-laplace" class="nav-link" data-scroll-target="#sec-fourier-laplace"><span class="header-section-number">4.6</span> Fourier ↔︎ Laplace, y el sistema entero en una fórmula</a>
   <ul class="collapse">
   <li><a href="#sec-Hs" id="toc-sec-Hs" class="nav-link" data-scroll-target="#sec-Hs"><span class="header-section-number">4.6.1</span> H(s): la función de transferencia</a></li>
@@ -304,7 +313,7 @@ window.Quarto = {
 <p><strong>La idea brillante</strong> — y es <em>una sola</em> idea: si <span class="math inline">x(t)</span> crece demasiado, multiplícala por una exponencial que decae <strong>más rápido</strong>, <span class="math inline">e^{-\sigma t}</span>, y toma Fourier de eso:</p>
 <p><span class="math display">\mathcal{F}\{x(t)\,e^{-\sigma t}\} = \int_{-\infty}^{\infty} x(t)\,e^{-\sigma t}e^{-j\omega t}\,dt = \int_{-\infty}^{\infty} x(t)\,e^{-(\sigma + j\omega)t}\,dt</span></p>
 <p>El exponente que aparece solo es… <span class="math inline">s = \sigma + j\omega</span>. Amortiguar y transformar es lo mismo que <strong>transformar contra la espiral <span class="math inline">e^{st}</span> completa</strong>, no solo contra el fasor <span class="math inline">e^{j\omega t}</span>. El parámetro <span class="math inline">\sigma</span> es el <em>factor de convergencia</em>: el precio que pagamos por poder ver señales que crecen.</p>
-<div id="a208b194" class="cell" data-execution_count="1">
+<div id="1684eee3" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -367,7 +376,7 @@ window.Quarto = {
 <p>La suma converge donde <strong>ambas</strong> convergen — la intersección:</p>
 <p><span class="math display">e^{-a|t|} \;\longleftrightarrow\; \frac{1}{s+a} - \frac{1}{s-a} = \frac{2a}{a^2 - s^2}, \qquad \text{ROC: } -a &lt; \Re\{s\} &lt; a</span></p>
 <p>La ROC es una <strong>franja vertical</strong> entre los polos <span class="math inline">\pm a</span>. Contiene al eje <span class="math inline">j\omega</span>, y por eso <span class="math inline">e^{-a|t|}</span> sí tiene transformada de Fourier: evaluando <span class="math inline">s = j\omega</span> sale <span class="math inline">\frac{2a}{a^2+\omega^2}</span>, un par que ya conociste en la unidad 3.</p>
-<div id="45af0355" class="cell" data-execution_count="2">
+<div id="2c591c78" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -469,7 +478,7 @@ window.Quarto = {
 <p><strong>Mirarlas juntas</strong> (la figura siguiente): tres señales completamente distintas, <strong>una sola fórmula</strong>. Y una pregunta más, de regalo: ¿cuál de las tres tiene transformada de Fourier? Solo (a) — su ROC es la única que contiene al eje <span class="math inline">j\omega</span>.</p>
 </div>
 </div>
-<div id="75c7ee22" class="cell" data-execution_count="3">
+<div id="f5435fa8" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -479,7 +488,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><strong>La receta general</strong>, para la hoja resumen — todo problema de inversión del curso son estos cuatro pasos:</p>
+<p><strong>La receta general</strong> — cada pieza (las transformadas, las reglas de ROC) está en tu formulario oficial, pero conviene tener clara la secuencia: todo problema de inversión del curso son estos cuatro pasos:</p>
 <ol type="1">
 <li><strong>Factorizar</strong> el denominador y ubicar los polos en el plano <span class="math inline">s</span>.</li>
 <li><strong>Fracciones parciales</strong> (tapadita; polos repetidos: todos los órdenes; complejos: completar el cuadrado). <em>Verificar evaluando en un punto.</em></li>
@@ -496,7 +505,7 @@ window.Quarto = {
 <li><strong>Eje real (<span class="math inline">\sigma</span>) = eje del amortiguamiento.</strong> Polo real en <span class="math inline">-2</span>: modo <span class="math inline">e^{-2t}</span>, decae. Más a la izquierda = muere más rápido. Polo en <span class="math inline">+0.5</span>: <span class="math inline">e^{0.5t}</span>, crece sin freno.</li>
 <li><strong>Eje imaginario (<span class="math inline">\omega</span>) = eje de la oscilación.</strong> Para señales reales, los polos complejos vienen <strong>siempre en pares conjugados</strong> <span class="math inline">\sigma_0 \pm j\omega_0</span>, y el par completo aporta <span class="math display">\frac{A}{s-(\sigma_0+j\omega_0)} + \frac{A^*}{s-(\sigma_0-j\omega_0)} \;\longrightarrow\; 2|A|\,e^{\sigma_0 t}\cos(\omega_0 t + \angle A)\,u(t)</span> una <strong>oscilación de frecuencia <span class="math inline">\omega_0</span> con envolvente <span class="math inline">e^{\sigma_0 t}</span></strong>. La altura del polo fija el tono; su posición horizontal, cuánto dura. Los dos ejes son independientes.</li>
 </ul>
-<div id="bf908531" class="cell" data-execution_count="4">
+<div id="d7053f9c" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -506,7 +515,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>El catálogo completo, en una tabla que merece un lugar en tu hoja resumen:</p>
+<p>El catálogo completo, en una tabla que ya está en tu formulario oficial — lo que hay que entrenar es leerla rápido, no memorizarla:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -543,7 +552,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="377baa4b" class="cell" data-execution_count="5">
+<div id="80ba7482" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -629,7 +638,7 @@ window.Quarto = {
 <p><strong>Leer el resultado con los ojos del mapa</strong> (esto es lo nuevo respecto de EDO): el modo <span class="math inline">e^{-t/\tau}</span> vive en el <strong>polo del sistema</strong> (<span class="math inline">s = -1/\tau</span>: su respuesta natural — más pequeño el <span class="math inline">\tau</span>, más a la izquierda el polo, más rápida la carga); el término constante vive en el <strong>polo de la entrada</strong> (<span class="math inline">s = 0</span>: el escalón). Lo que en EDO llamabas “homogénea + particular” es esto mismo, visto desde el mapa.</p>
 </div>
 </div>
-<div id="34aaa6c9" class="cell" data-execution_count="6">
+<div id="0f62d6e4" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -642,6 +651,31 @@ window.Quarto = {
 <p>Un bono de la unilateral que reaparecerá en control: los <strong>teoremas del valor inicial y final</strong>. Para <span class="math inline">x</span> causal y sin impulsos en el origen,</p>
 <p><span class="math display">x(0^+) = \lim_{s\to\infty} s\,\mathcal{X}(s), \qquad \lim_{t\to\infty} x(t) = \lim_{s\to 0} s\,\mathcal{X}(s)</span></p>
 <p>El del valor final tiene letra chica que muerde: vale solo si todos los polos de <span class="math inline">s\,\mathcal{X}(s)</span> están en el semiplano izquierdo — aplicado a un sistema inestable entrega un número que no significa nada. (Chequeo con el ejemplo RC: <span class="math inline">\lim_{s\to 0} s\,V(s) = 1</span> ✓.)</p>
+<section id="sec-tvi-tvf" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="sec-tvi-tvf"><span class="header-section-number">4.5.1</span> Asomarse a los extremos sin invertir: valor inicial y valor final</h3>
+<p>La unilateral trae dos atajos de regalo. A veces no interesa toda la señal <span class="math inline">x(t)</span> — solo cómo <strong>parte</strong> o dónde <strong>termina</strong>. Los teoremas del valor inicial y del valor final entregan esos dos números directamente desde <span class="math inline">\mathcal{X}(s)</span>, sin fracciones parciales ni inversión:</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teoremas del valor inicial y del valor final
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">x(0^+) = \lim_{s\to\infty} s\,\mathcal{X}(s)
+\qquad\qquad
+\lim_{t\to\infty} x(t) = \lim_{s\to 0}\, s\,\mathcal{X}(s)</span> El del valor final tiene letra chica: vale solo si el límite temporal <strong>existe</strong> — en términos del plano <span class="math inline">s</span>, si todos los polos de <span class="math inline">s\,\mathcal{X}(s)</span> están en el semiplano izquierdo abierto. Si hay polos sobre el eje <span class="math inline">j\omega</span> (aparte del posible polo simple en el origen de <span class="math inline">\mathcal{X}</span>, que el factor <span class="math inline">s</span> cancela) o a la derecha, la fórmula entrega un número… que no significa nada.</p>
+</div>
+</div>
+<p>De dónde salen: los dos son hijos de la propiedad estrella <span class="math inline">\mathcal{L}\{x'\} = s\mathcal{X}(s) - x(0^-)</span>. Para el valor inicial, cuando <span class="math inline">s\to\infty</span> la integral <span class="math inline">\int_{0^-}^\infty x'(t)e^{-st}dt</span> se muere (el <span class="math inline">e^{-st}</span> aplasta todo) y queda <span class="math inline">0 = \lim s\mathcal{X}(s) - x(0^+)</span>. Para el valor final, cuando <span class="math inline">s\to 0</span> el <span class="math inline">e^{-st}</span> se vuelve 1 y la integral de <span class="math inline">x'</span> es telescópica: <span class="math inline">x(\infty) - x(0^-)</span>; igualando, <span class="math inline">\lim_{s\to0} s\mathcal{X}(s) = x(\infty)</span>.</p>
+<p>Pruébalos contra el ejemplo del RC de arriba, o contra este par que ya conoces del banco: la EDO <span class="math inline">x'' + 3x' + 2x = 2</span> con <span class="math inline">x(0)=3</span>, <span class="math inline">x'(0)=-3</span> tiene <span class="math inline">\mathcal{X}(s) = \dfrac{3s^2+6s+2}{s(s+1)(s+2)}</span> [DB E0309]. Sin invertir nada: <span class="math display">x(0^+) = \lim_{s\to\infty} \frac{3s^3+6s^2+2s}{s(s+1)(s+2)} = 3 \checkmark
+\qquad
+x(\infty) = \lim_{s\to 0} \frac{3s^2+6s+2}{(s+1)(s+2)} = \frac{2}{2} = 1 \checkmark</span> — ambos coinciden con la solución completa <span class="math inline">x(t) = 1 + e^{-t} + e^{-2t}</span>, y los polos de <span class="math inline">s\mathcal{X}(s)</span> (<span class="math inline">-1</span> y <span class="math inline">-2</span>) están donde deben.</p>
+<p>La letra chica no es decorativa. Con <span class="math inline">x(t) = \sin(t)</span>: <span class="math inline">\mathcal{X}(s) = \tfrac{1}{s^2+1}</span>, y la fórmula del valor final da <span class="math inline">\lim_{s\to0} \tfrac{s}{s^2+1} = 0</span>. Pero <span class="math inline">\sin(t)</span> <strong>no tiende a nada</strong> — oscila para siempre. El “0” es un espejismo: los polos en <span class="math inline">\pm j</span> están sobre el eje, la condición falla, y el teorema simplemente no aplica. Primero se mira dónde están los polos; después se usa la fórmula.</p>
+<p>(El espejo discreto — <span class="math inline">y[0] = \lim_{z\to\infty} Y(z)</span> y <span class="math inline">\lim_{n\to\infty} y[n] = \lim_{z\to1}(z-1)Y(z)</span> — te espera en el capítulo 6, junto a la Z unilateral.)</p>
+</section>
 </section>
 <section id="sec-fourier-laplace" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="sec-fourier-laplace"><span class="header-section-number">4.6</span> Fourier ↔︎ Laplace, y el sistema entero en una fórmula</h2>

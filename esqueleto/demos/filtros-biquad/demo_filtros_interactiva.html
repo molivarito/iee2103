@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab: Biquad vs SVF — Zipper Noise Demo</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DARK LAB THEME
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --bg:       #0a0e1a;
+  --panel:    #111827;
+  --border:   #1e2a3a;
+  --text:     #c8d6e5;
+  --text-dim: #6b7b8d;
+  --cyan:     #00e5ff;
+  --orange:   #ff6d00;
+  --red:      #ff1744;
+  --green:    #00e676;
+  --accent:   #7c4dff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 14px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 20px 60px;
+}
+
+h1 {
+  font-size: 1.5em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.subtitle {
+  color: var(--text-dim);
+  font-size: 0.85em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Layout */
+.app {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Panels */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.panel-title {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+.panel-title .step-num {
+  display: inline-block;
+  background: var(--cyan);
+  color: #000;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  font-size: 0.85em;
+  font-weight: 800;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Controls row */
+.controls-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 12px 22px;
+  font-family: inherit;
+  font-size: 0.9em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn:active { transform: scale(0.96); }
+
+#btnPlay {
+  background: var(--green);
+  color: #000;
+  min-width: 140px;
+  font-size: 1em;
+}
+
+#btnPlay.playing {
+  background: var(--red);
+}
+
+#btnJump {
+  background: var(--orange);
+  color: #000;
+  position: relative;
+  overflow: hidden;
+  font-size: 1em;
+  min-width: 180px;
+}
+
+#btnJump::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.3);
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+#btnJump:active::after { opacity: 1; }
+
+#btnReset {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  font-size: 0.8em;
+  padding: 8px 14px;
+}
+
+#btnReset:hover {
+  border-color: var(--text-dim);
+  color: var(--text);
+}
+
+/* Toggle switch */
+.topology-switch {
+  display: flex;
+  background: #0d1117;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.topology-switch label {
+  padding: 12px 18px;
+  cursor: pointer;
+  font-size: 0.85em;
+  font-weight: 600;
+  transition: all 0.2s;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.topology-switch input { display: none; }
+
+.topology-switch input:checked + label {
+  background: var(--cyan);
+  color: #000;
+}
+
+/* Sliders */
+.slider-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78em;
+  margin-bottom: 6px;
+}
+
+.slider-label .val {
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #1a2332;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--cyan);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,229,255,0.4);
+}
+
+/* Canvas oscilloscope */
+#scopeCanvas {
+  width: 100%;
+  height: 260px;
+  border-radius: 6px;
+  background: #050a12;
+  display: block;
+}
+
+/* Info boxes */
+.info-box {
+  background: rgba(0,229,255,0.05);
+  border-left: 3px solid var(--cyan);
+  padding: 10px 14px;
+  font-size: 0.8em;
+  line-height: 1.6;
+  color: var(--text-dim);
+  border-radius: 0 4px 4px 0;
+  margin-top: 10px;
+}
+
+.info-box.warn {
+  border-left-color: var(--orange);
+  background: rgba(255,109,0,0.05);
+}
+
+.info-box.theory {
+  border-left-color: var(--accent);
+  background: rgba(124,77,255,0.05);
+}
+
+.info-box strong {
+  color: var(--text);
+}
+
+.info-box .emoji { font-style: normal; }
+
+/* Context / intro panel */
+.context-text {
+  font-size: 0.85em;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+.context-text strong {
+  color: var(--text);
+}
+
+.context-text code {
+  background: rgba(0,229,255,0.1);
+  color: var(--cyan);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.95em;
+}
+
+/* Signal chain diagram */
+.signal-chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 14px 0 6px;
+  flex-wrap: wrap;
+}
+
+.chain-block {
+  background: #1a2332;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 0.78em;
+  text-align: center;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+
+.chain-block strong {
+  color: var(--text);
+  display: block;
+  font-size: 1.05em;
+}
+
+.chain-block.active-chain {
+  border-color: var(--cyan);
+  background: rgba(0,229,255,0.08);
+}
+
+.chain-arrow {
+  color: var(--text-dim);
+  font-size: 1.2em;
+  padding: 0 6px;
+}
+
+/* Dynamic explanation panel */
+#dynamicExplanation {
+  background: rgba(0,229,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-top: 10px;
+  font-size: 0.82em;
+  line-height: 1.6;
+  min-height: 60px;
+  transition: all 0.3s;
+}
+
+#dynamicExplanation .dyn-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+#dynamicExplanation.mode-biquad {
+  border-color: rgba(255,109,0,0.3);
+  background: rgba(255,109,0,0.04);
+}
+
+#dynamicExplanation.mode-biquad .dyn-title {
+  color: var(--orange);
+}
+
+#dynamicExplanation.mode-svf {
+  border-color: rgba(0,229,255,0.3);
+  background: rgba(0,229,255,0.04);
+}
+
+#dynamicExplanation.mode-svf .dyn-title {
+  color: var(--cyan);
+}
+
+/* Guide steps */
+.guide-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.guide-step {
+  background: #0d1117;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 0.78em;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.guide-step .step-number {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 22px;
+  font-size: 0.85em;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.guide-step strong {
+  color: var(--text);
+}
+
+/* Status bar */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72em;
+  color: var(--text-dim);
+  padding-top: 8px;
+}
+
+.status-bar .active-filter {
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+/* Two-column layout for sliders */
+.params-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.param-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.param-hint {
+  font-size: 0.72em;
+  color: var(--text-dim);
+  margin-top: 6px;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 650px) {
+  .controls-row { flex-direction: column; }
+  .slider-group { min-width: 100%; }
+  .guide-steps { grid-template-columns: 1fr; }
+  .params-grid { grid-template-columns: 1fr; }
+  .signal-chain { flex-direction: column; }
+  .chain-arrow { transform: rotate(90deg); }
+}
+</style>
+</head>
+<body>
+
+<h1>Lab Interactivo: Filtros DSP</h1>
+<p class="subtitle">Biquad (Forma Directa) vs. Chamberlin SVF &mdash; El problema del "Zipper Noise"</p>
+
+<div class="app">
+
+  <!-- ═══════════════════════════════════════
+       PANEL 0: CONTEXTO TEÓRICO
+       ═══════════════════════════════════════ -->
+  <div class="panel">
+    <div class="panel-title">Contexto: ¿Qué vamos a explorar?</div>
+    <div class="context-text">
+      En audio digital, los <strong>filtros</strong> modifican el contenido espectral de una señal.
+      Un filtro <strong>low-pass</strong> deja pasar las frecuencias bajas y atenúa las altas. Su parámetro
+      principal es la <strong>frecuencia de corte (f<sub>c</sub>)</strong>: todo lo que esté por encima de
+      f<sub>c</sub> se atenúa.
+      <br><br>
+      En muchas aplicaciones musicales (wah-wah, auto-filter, síntesis sustractiva) necesitamos
+      <strong>mover f<sub>c</sub> en tiempo real</strong>. Pero no todas las estructuras de filtro toleran
+      esto igual. Aquí compararemos dos:
+    </div>
+
+    <!-- Cadena de señal visual -->
+    <div class="signal-chain">
+      <div class="chain-block">
+        <strong>Oscilador</strong>
+        Diente de sierra<br>110 Hz (La2)
+      </div>
+      <span class="chain-arrow">&rarr;</span>
+      <div class="chain-block active-chain" id="chainFilter">
+        <strong id="chainFilterName">Filtro Low-Pass</strong>
+        <span id="chainFilterType">Biquad (Forma Directa)</span>
+      </div>
+      <span class="chain-arrow">&rarr;</span>
+      <div class="chain-block">
+        <strong>Salida</strong>
+        Parlante /<br>Osciloscopio
+      </div>
+    </div>
+
+    <div class="info-box theory">
+      <strong>¿Qué estás escuchando?</strong> Una onda <strong>diente de sierra a 110 Hz</strong>,
+      que es muy rica en armónicos (contiene el 1°, 2°, 3°... armónico con amplitud decreciente).
+      El filtro low-pass "esculpe" esta onda recortando los armónicos altos. Al mover
+      f<sub>c</sub>, el timbre cambia: grave/opaco (f<sub>c</sub> baja) &rarr; brillante/nasal (f<sub>c</sub> alta).
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 1: GUÍA PASO A PASO
+       ═══════════════════════════════════════ -->
+  <div class="panel">
+    <div class="panel-title">Guía del Experimento</div>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="step-number">1</div><br>
+        <strong>Activa el audio</strong> con el botón Play.
+        Escucharás la sawtooth filtrada. Mueve el slider de f<sub>c</sub>
+        lentamente y observa cómo cambia el timbre.
+      </div>
+      <div class="guide-step">
+        <div class="step-number">2</div><br>
+        Con <strong>Biquad</strong> seleccionado, sube Q a ~10 y pulsa
+        <strong>"Salto Brusco"</strong>. Escucha el <strong>clic/pop</strong>
+        y mira el pico en el osciloscopio.
+      </div>
+      <div class="guide-step">
+        <div class="step-number">3</div><br>
+        Cambia a <strong>Chamberlin SVF</strong> y repite el salto.
+        El cambio suena <strong>fluido</strong>, sin clic.
+        Compara las ondas de ambos.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 2: CONTROLES PRINCIPALES
+       ═══════════════════════════════════════ -->
+  <div class="panel">
+    <div class="panel-title"><span class="step-num">A</span> Transporte y Topología</div>
+    <div class="controls-row">
+      <button id="btnPlay" class="btn" onclick="toggleAudio()">&#9654; Play</button>
+
+      <div class="topology-switch">
+        <input type="radio" name="topo" id="topoBiquad" value="biquad" checked>
+        <label for="topoBiquad">Biquad<br><small>(Forma Directa II)</small></label>
+        <input type="radio" name="topo" id="topoSVF" value="svf">
+        <label for="topoSVF">Chamberlin<br><small>(SVF)</small></label>
+      </div>
+
+      <button id="btnJump" class="btn" onclick="doJump()">&#9889; Barrido Escalonado</button>
+      <button id="btnReset" class="btn" onclick="doReset()">Reset</button>
+    </div>
+    <div class="info-box">
+      <strong>Barrido Escalonado:</strong> Activa un LFO que mueve f<sub>c</sub> en
+      <strong>8 escalones discretos</strong> entre 200 Hz y 4000 Hz.
+      Cada escalón es un salto brusco de coeficientes. Con el <strong>Biquad</strong>
+      escucharás clics en cada escalón. Con el <strong>SVF</strong>, transiciones suaves.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 3: PARÁMETROS
+       ═══════════════════════════════════════ -->
+  <div class="panel">
+    <div class="panel-title"><span class="step-num">B</span> Parámetros del Filtro</div>
+    <div class="params-grid">
+      <div class="param-block">
+        <div class="slider-group">
+          <div class="slider-label">
+            <span>Frecuencia de corte (f<sub>c</sub>)</span>
+            <span class="val" id="fcVal">500 Hz</span>
+          </div>
+          <input type="range" id="fcSlider" min="0" max="1" step="0.001" value="0.333"
+                 oninput="onFcSlider(this.value)">
+        </div>
+        <div class="param-hint">
+          Controla hasta dónde deja pasar el filtro. Valores bajos = sonido grave/opaco.
+          Valores altos = más armónicos pasan, sonido brillante.
+        </div>
+      </div>
+      <div class="param-block">
+        <div class="slider-group">
+          <div class="slider-label">
+            <span>Resonancia (Q)</span>
+            <span class="val" id="qVal">5.0</span>
+          </div>
+          <input type="range" id="qSlider" min="0.7" max="30" step="0.1" value="5.0"
+                 oninput="onQSlider(this.value)">
+        </div>
+        <div class="param-hint">
+          Amplifica las frecuencias cercanas a f<sub>c</sub>. Q alta = pico resonante
+          pronunciado. Exacerba el transitorio del Biquad al hacer el salto.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 4: PLANO Z (Polos y Ceros)
+       ═══════════════════════════════════════ -->
+  <div class="panel">
+    <div class="panel-title"><span class="step-num">Z</span> Plano Z &mdash; Polos y Ceros del Biquad</div>
+    <div style="text-align: center;">
+      <canvas id="pzCanvas" style="background:#050a12; border-radius:8px; border:1px solid rgba(255,255,255,0.1); margin-top:10px; width: 100%; max-width: 300px; aspect-ratio: 1/1;"></canvas>
+    </div>
+    <div class="info-box" style="margin-top:15px; margin-bottom:0px;">
+      Animación de las raíces matemáticas de la transferencia del filtro.<br>
+      <span style="color:#ff1744; font-weight:bold;">&times; Polos (Rojas):</span> Resonancia. Se acercan al círculo unitario (blanco) a mayor Q.<br>
+      <span style="color:#00e5ff; font-weight:bold;">&#9675; Ceros (Cian):</span> Frecuencias atenuadas. Fijos en Nyquist (z=-1) para Low-Pass.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 5: OSCILOSCOPIO
+       ═══════════════════════════════════════ -->
+  <div class="panel">
+    <div class="panel-title"><span class="step-num">C</span> Osciloscopio &mdash; Dominio del Tiempo</div>
+    <canvas id="scopeCanvas"></canvas>
+    <div class="status-bar">
+      <span>Filtro activo: <span class="active-filter" id="statusFilter">Biquad (Forma Directa)</span></span>
+      <span>f<sub>c</sub> = <span id="statusFc">500</span> Hz &nbsp;|&nbsp; Q = <span id="statusQ">5.0</span></span>
+    </div>
+    <div class="info-box warn">
+      <strong>Leyenda de Comparación (se procesan EN SIMULTÁNEO):</strong><br>
+      <span style="color:var(--cyan); font-weight:bold;">Trazado Cian:</span> Filtro SVF (Base de referencia estable, barrido suave).<br>
+      <span style="color:var(--orange); font-weight:bold;">Trazado Naranja:</span> Filtro Biquad DF1 superpuesto (Observa sus fracturas de fase).<br>
+      <span style="color:#ff1744; font-weight:bold;">Trazado Rojo (abajo):</span> Diferencia acústica amplificada 3x (El clásico "Zipper Noise").
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 6: EXPLICACIÓN DINÁMICA
+       ═══════════════════════════════════════ -->
+  <div class="panel">
+    <div class="panel-title">¿Qué está pasando ahora mismo?</div>
+    <div id="dynamicExplanation" class="mode-biquad">
+      <div class="dyn-title">Biquad (Forma Directa II Transpuesta)</div>
+      <div id="dynText">
+        Pulsa <strong>Play</strong> para comenzar el experimento. Luego usa los controles
+        para explorar la diferencia entre ambas topologías.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PANEL 7: RESUMEN TEÓRICO
+       ═══════════════════════════════════════ -->
+  <div class="panel">
+    <div class="panel-title">Resumen: ¿Por qué ocurre esto?</div>
+    <div class="params-grid">
+      <div class="info-box" style="margin-top:0;">
+        <strong style="color:var(--orange);">Biquad (Forma Directa)</strong><br>
+        Los coeficientes (b<sub>0</sub>, b<sub>1</sub>, b<sub>2</sub>, a<sub>1</sub>, a<sub>2</sub>)
+        se recalculan desde f<sub>c</sub> y Q. Pero los <strong>estados internos</strong>
+        (x[n-1], x[n-2], y[n-1], y[n-2]) guardan <strong>muestras crudas</strong> del régimen anterior.
+        Al cambiar los coeficientes de golpe, las muestras viejas se multiplican
+        por coeficientes nuevos &rarr; <strong>spike de energía brutal</strong>.
+      </div>
+      <div class="info-box" style="margin-top:0; border-left-color:var(--cyan);">
+        <strong style="color:var(--cyan);">Chamberlin SVF</strong><br>
+        Las variables de estado (<code>low</code>, <code>band</code>) son la propia
+        <strong>señal filtrada</strong>. No son memorias de muestras pasadas sino
+        energía real en los integradores. Al cambiar f, los integradores simplemente
+        acumulan a una tasa diferente &rarr; <strong>transición suave</strong>, sin
+        conflicto entre coeficientes y estados.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DSP ENGINE + UI LOGIC
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+// ═══════════════════════════════════════════════════════════════════
+//  DSP ENGINE — Procesamiento muestra por muestra en el hilo principal
+//  Usa ScriptProcessorNode para máxima compatibilidad con navegadores
+// ═══════════════════════════════════════════════════════════════════
+
+var dsp = {
+  sawPhase: 0.0,
+  sawFreq:  110.0,
+  topology: 'biquad',
+  fc:       500.0,
+  Q:        5.0,
+  // Biquad Forma Directa I: guarda muestras CRUDAS de entrada/salida.
+  bq_x1: 0.0, bq_x2: 0.0, bq_y1: 0.0, bq_y2: 0.0,
+  svf_low: 0.0, svf_band: 0.0,
+  // Modulación escalonada (staircase LFO)
+  lfoActive: false,
+  lfoPhase: 0.0,
+  lfoRate: 4.0,        // Hz del LFO
+  lfoSteps: 8,         // Dividir el barrido en N escalones discretos
+  lfoSampleCount: 0,
+  lfoFcMin: 200,
+  lfoFcMax: 4000
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  BIQUAD LOW-PASS — FORMA DIRECTA I  (la peor para modulación)
+// ═══════════════════════════════════════════════════════════════
+//  Ref: Robert Bristow-Johnson "Audio EQ Cookbook"
+//
+//  Ecuación:
+//    y[n] = b0*x[n] + b1*x[n-1] + b2*x[n-2] - a1*y[n-1] - a2*y[n-2]
+//
+//  Estados: x[n-1], x[n-2], y[n-1], y[n-2] (muestras crudas)
+//
+//  PROBLEMA: al cambiar fc de golpe, y[n-1] e y[n-2] contienen
+//  valores computados con los coeficientes ANTERIORES. Al multiplicarlos
+//  por los coeficientes NUEVOS (a1, a2), el mismatch produce un spike
+//  de energía brutal → clic audible y visible.
+//
+function processBiquad(input, fs) {
+  var w0 = 2.0 * Math.PI * dsp.fc / fs;
+  var cosw0 = Math.cos(w0);
+  var sinw0 = Math.sin(w0);
+  var alpha = sinw0 / (2.0 * dsp.Q);
+  var a0_inv = 1.0 / (1.0 + alpha);
+  var b0 = ((1.0 - cosw0) * 0.5) * a0_inv;
+  var b1 = (1.0 - cosw0) * a0_inv;
+  var b2 = b0;
+  var a1 = (-2.0 * cosw0) * a0_inv;
+  var a2 = (1.0 - alpha) * a0_inv;
+
+  // Forma Directa I: y[n-1] y y[n-2] se multiplican por a1,a2 nuevos
+  var y = b0 * input + b1 * dsp.bq_x1 + b2 * dsp.bq_x2
+                      - a1 * dsp.bq_y1 - a2 * dsp.bq_y2;
+
+  // Actualizar estados (muestras crudas)
+  dsp.bq_x2 = dsp.bq_x1;
+  dsp.bq_x1 = input;
+  dsp.bq_y2 = dsp.bq_y1;
+  dsp.bq_y1 = y;
+
+  return y;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  CHAMBERLIN STATE VARIABLE FILTER (SVF)
+// ═══════════════════════════════════════════════════════════════
+//  Ref: Hal Chamberlin, "Musical Applications of Microprocessors"
+//
+//    f = 2*sin(pi*fc/fs),  q = 1/Q
+//    low  += f * band
+//    high  = input - low - q*band
+//    band += f * high
+//
+//  ROBUSTO: 'low' y 'band' son energía de integradores.
+//  Cambiar f no genera discontinuidad.
+//
+function processSVF(input, fs) {
+  var f = 2.0 * Math.sin(Math.PI * dsp.fc / fs);
+  var q = 1.0 / dsp.Q;
+  dsp.svf_low += f * dsp.svf_band;
+  var high = input - dsp.svf_low - q * dsp.svf_band;
+  dsp.svf_band += f * high;
+  return dsp.svf_low;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  AUDIO CONTEXT & GRAPH
+// ═══════════════════════════════════════════════════════════════════
+
+var audioCtx = null;
+var scriptNode = null;
+var isPlaying = false;
+
+var SCOPE_LEN = 4096;
+var scopeBufferBiq = new Float32Array(SCOPE_LEN);
+var scopeBufferSvf = new Float32Array(SCOPE_LEN);
+var scopeBufferDiff = new Float32Array(SCOPE_LEN);
+var scopeWriteIdx = 0;
+
+// Track peak for dynamic explanation
+var recentPeak = 0;
+var peakDecay = 0.995;
+var freezeScopeTimer = 0;
+var scopeYMax = 1.0;  // Auto-scale: pico máximo visible en el scope
+
+function initAudio() {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  var fs = audioCtx.sampleRate;
+
+  scriptNode = audioCtx.createScriptProcessor(1024, 0, 1);
+
+  scriptNode.onaudioprocess = function(e) {
+    var output = e.outputBuffer.getChannelData(0);
+    var len = output.length;
+
+    for (var i = 0; i < len; i++) {
+      // ── LFO Escalonado: cambia fc en escalones bruscos ──
+      if (dsp.lfoActive) {
+        dsp.lfoPhase += dsp.lfoRate / fs;
+        if (dsp.lfoPhase >= 1.0) dsp.lfoPhase -= 1.0;
+        // Cuantizar la fase del LFO en N escalones → saltos bruscos de fc
+        var steppedPhase = Math.floor(dsp.lfoPhase * dsp.lfoSteps) / dsp.lfoSteps;
+        // Triángulo escalonado: sube y baja
+        var tri = steppedPhase < 0.5 ? steppedPhase * 2.0 : 2.0 - steppedPhase * 2.0;
+        // Mapeo exponencial a frecuencia
+        dsp.fc = dsp.lfoFcMin * Math.pow(dsp.lfoFcMax / dsp.lfoFcMin, tri);
+      }
+
+      var saw = 2.0 * dsp.sawPhase - 1.0;
+      dsp.sawPhase += dsp.sawFreq / fs;
+      if (dsp.sawPhase >= 1.0) dsp.sawPhase -= 1.0;
+
+      // Procesar AMBOS filtros siempre para poder comparar en tiempo real
+      var outBiq = processBiquad(saw, fs);
+      var outSvf = processSVF(saw, fs);
+      
+      var filtered = dsp.topology === 'biquad' ? outBiq : outSvf;
+
+      // Audio: clamp suave, rango [-2, 2] para que los clics se escuchen
+      var clamped = Math.max(-2.0, Math.min(2.0, filtered));
+      output[i] = clamped * 0.3;
+
+      // Scope buffers: guardar las tres señales crudas
+      scopeBufferBiq[scopeWriteIdx] = outBiq;
+      scopeBufferSvf[scopeWriteIdx] = outSvf;
+      scopeBufferDiff[scopeWriteIdx] = outBiq - outSvf;
+      scopeWriteIdx = (scopeWriteIdx + 1) % SCOPE_LEN;
+
+      // Track peak (usamos la señal de error como métrica de distorsión)
+      var absErr = Math.abs(outBiq - outSvf);
+      if (absErr > recentPeak) recentPeak = absErr;
+      else recentPeak *= peakDecay;
+    }
+  };
+
+  scriptNode.connect(audioCtx.destination);
+}
+
+// ── Mapeo logarítmico del slider ──
+var FC_MIN = 50, FC_MAX = 5000;
+
+function sliderToFc(val) {
+  return FC_MIN * Math.pow(FC_MAX / FC_MIN, val);
+}
+function fcToSlider(fc) {
+  return Math.log(fc / FC_MIN) / Math.log(FC_MAX / FC_MIN);
+}
+
+function updateParams() {
+  dsp.topology = document.querySelector('input[name="topo"]:checked').value;
+  dsp.fc = sliderToFc(parseFloat(document.getElementById('fcSlider').value));
+  dsp.Q = parseFloat(document.getElementById('qSlider').value);
+
+  document.getElementById('statusFilter').textContent =
+    dsp.topology === 'biquad' ? 'Biquad (Forma Directa)' : 'Chamberlin SVF';
+  document.getElementById('statusFc').textContent = Math.round(dsp.fc);
+  document.getElementById('statusQ').textContent = dsp.Q.toFixed(1);
+
+  // Update signal chain
+  document.getElementById('chainFilterType').textContent =
+    dsp.topology === 'biquad' ? 'Biquad (Forma Directa)' : 'Chamberlin SVF';
+
+  updateDynamicExplanation();
+}
+
+// ── Dynamic explanation panel ──
+function updateDynamicExplanation() {
+  var el = document.getElementById('dynamicExplanation');
+  var text = document.getElementById('dynText');
+  var titleEl = el.querySelector('.dyn-title');
+
+  el.className = dsp.topology === 'biquad' ? 'mode-biquad' : 'mode-svf';
+
+  if (!isPlaying) {
+    titleEl.textContent = dsp.topology === 'biquad'
+      ? 'Biquad (Forma Directa II Transpuesta)' : 'Chamberlin SVF';
+    text.innerHTML = 'Pulsa <strong>Play</strong> para comenzar el experimento.';
+    return;
+  }
+
+  if (dsp.topology === 'biquad') {
+    titleEl.textContent = 'Modo: Biquad (Forma Directa II)';
+    text.innerHTML =
+      'Estás escuchando la sawtooth de 110 Hz filtrada por un <strong>Biquad en Forma Directa II Transpuesta</strong>. ' +
+      'Los coeficientes del filtro se recalculan en cada muestra a partir de f<sub>c</sub>=' +
+      Math.round(dsp.fc) + ' Hz y Q=' + dsp.Q.toFixed(1) + '. ' +
+      'Los registros internos z<sub>1</sub> y z<sub>2</sub> guardan el estado del filtro del instante anterior. ' +
+      '<br><strong>Si pulsas "Salto Brusco"</strong>, los 5 coeficientes cambiarán de golpe pero z<sub>1</sub> y z<sub>2</sub> ' +
+      'mantendrán sus valores previos &rarr; conflicto &rarr; clic audible y pico visible en el osciloscopio.';
+  } else {
+    titleEl.textContent = 'Modo: Chamberlin SVF';
+    text.innerHTML =
+      'Estás escuchando la sawtooth de 110 Hz filtrada por un <strong>State Variable Filter de Chamberlin</strong>. ' +
+      'Solo se recalcula un coeficiente: <code>f = 2&middot;sin(&pi;&middot;' +
+      Math.round(dsp.fc) + '/' + (audioCtx ? audioCtx.sampleRate : '44100') + ')</code>. ' +
+      'Las variables <code>low</code> y <code>band</code> son integradores que conservan la energía del sistema. ' +
+      '<br><strong>Si pulsas "Salto Brusco"</strong>, el coeficiente f cambiará pero los integradores ' +
+      'absorberán el cambio naturalmente &rarr; transición suave, sin clic ni pico.';
+  }
+}
+
+// ── Toggle Play/Stop ──
+function toggleAudio() {
+  var btn = document.getElementById('btnPlay');
+  if (!isPlaying) {
+    if (!audioCtx) initAudio();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    btn.textContent = '\u25A0 Stop';
+    btn.classList.add('playing');
+    isPlaying = true;
+    updateParams();
+    drawScope();
+  } else {
+    if (audioCtx) audioCtx.suspend();
+    btn.textContent = '\u25B6 Play';
+    btn.classList.remove('playing');
+    isPlaying = false;
+    updateDynamicExplanation();
+  }
+}
+
+// ── Salto Brusco → ahora activa/desactiva el LFO escalonado ──
+// En vez de un salto único, activa una modulación CONTINUA con escalones
+// que produce clics repetidos en el Biquad DF1 pero no en el SVF.
+function doJump() {
+  if (!audioCtx || !isPlaying) return;
+  dsp.lfoActive = !dsp.lfoActive;
+  var btn = document.getElementById('btnJump');
+  if (dsp.lfoActive) {
+    btn.textContent = '\u25A0 Detener Barrido';
+    btn.style.background = '#ff1744';
+    dsp.lfoPhase = 0.0;
+  } else {
+    btn.textContent = '\u26A1 Barrido Escalonado';
+    btn.style.background = '';
+    // Restaurar fc al slider
+    dsp.fc = sliderToFc(parseFloat(document.getElementById('fcSlider').value));
+  }
+  updateParams();
+}
+
+// ── Reset: limpia estados y desactiva LFO ──
+function doReset() {
+  dsp.lfoActive = false;
+  dsp.lfoPhase = 0.0;
+  var btn = document.getElementById('btnJump');
+  btn.textContent = '\u26A1 Barrido Escalonado';
+  btn.style.background = '';
+  dsp.bq_x1 = 0; dsp.bq_x2 = 0; dsp.bq_y1 = 0; dsp.bq_y2 = 0;
+  dsp.svf_low = 0; dsp.svf_band = 0;
+  var targetFc = 500;
+  document.getElementById('fcSlider').value = fcToSlider(targetFc);
+  document.getElementById('fcVal').textContent = targetFc + ' Hz';
+  dsp.fc = targetFc;
+  updateParams();
+}
+
+// ── Slider handlers ──
+function onFcSlider(val) {
+  var fc = sliderToFc(parseFloat(val));
+  document.getElementById('fcVal').textContent = Math.round(fc) + ' Hz';
+  dsp.fc = fc;
+  updateParams();
+}
+
+function onQSlider(val) {
+  document.getElementById('qVal').textContent = parseFloat(val).toFixed(1);
+  dsp.Q = parseFloat(val);
+  updateParams();
+}
+
+// Topology radio buttons — limpiar estados solo al cambiar topología
+document.querySelectorAll('input[name="topo"]').forEach(function(radio) {
+  radio.addEventListener('change', function() {
+    dsp.bq_x1 = 0; dsp.bq_x2 = 0;
+    dsp.bq_y1 = 0; dsp.bq_y2 = 0;
+    dsp.svf_low = 0; dsp.svf_band = 0;
+    updateParams();
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════
+//  OSCILOSCOPIO
+// ═══════════════════════════════════════════════════════════════════
+
+var canvas = document.getElementById('scopeCanvas');
+var canvasCtx = canvas.getContext('2d');
+
+var pzCanvas = document.getElementById('pzCanvas');
+var pzCtx = pzCanvas.getContext('2d');
+
+function resizeCanvas() {
+  var rect = canvas.getBoundingClientRect();
+  var dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  canvasCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  if (pzCanvas) {
+    var rectPZ = pzCanvas.getBoundingClientRect();
+    if (rectPZ.width > 0) {
+      pzCanvas.width = rectPZ.width * dpr;
+      pzCanvas.height = rectPZ.height * dpr;
+      pzCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+  }
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function drawScope() {
+  if (!isPlaying) return;
+  requestAnimationFrame(drawScope);
+
+
+  var dpr = window.devicePixelRatio || 1;
+  var W = canvas.width / dpr;
+  var H = canvas.height / dpr;
+
+  // Fondo sólido (sin opacity) para borrar completamente el frame anterior
+  // y evitar las ondas superpuestas.
+  canvasCtx.fillStyle = 'rgba(5, 10, 18, 1.0)';
+  canvasCtx.fillRect(0, 0, W, H);
+
+  // Gridlines
+  canvasCtx.strokeStyle = 'rgba(30, 42, 58, 0.5)';
+  canvasCtx.lineWidth = 1;
+  canvasCtx.setLineDash([4, 4]);
+  // Horizontal center
+  canvasCtx.beginPath();
+  canvasCtx.moveTo(0, H / 2);
+  canvasCtx.lineTo(W, H / 2);
+  canvasCtx.stroke();
+  // +0.5 and -0.5 lines
+  canvasCtx.beginPath();
+  canvasCtx.moveTo(0, H * 0.25);
+  canvasCtx.lineTo(W, H * 0.25);
+  canvasCtx.moveTo(0, H * 0.75);
+  canvasCtx.lineTo(W, H * 0.75);
+  canvasCtx.stroke();
+  canvasCtx.setLineDash([]);
+
+  // Waveform
+  var topo = dsp.topology;
+  var colorBiq = 'rgba(255, 109, 0, 0.85)';
+  var colorSvf = 'rgba(0, 229, 255, 0.6)';
+  var colorDiff = 'rgba(255, 23, 68, 0.9)';
+
+  // Mostrar 4096 muestras (~93ms a 44.1kHz) para ver la transición completa
+  var samplesToShow = Math.min(4096, SCOPE_LEN);
+
+  // ── Auto-escala del eje Y (juntando ambos buffers) ──
+  var maxAbs = 0.01;
+  for (var j = 0; j < samplesToShow; j++) {
+    var jdx = (scopeWriteIdx - samplesToShow + j + SCOPE_LEN) % SCOPE_LEN;
+    var a = Math.abs(scopeBufferBiq[jdx]);
+    var b = Math.abs(scopeBufferSvf[jdx]);
+    if (a > maxAbs) maxAbs = a;
+    if (b > maxAbs) maxAbs = b;
+  }
+  if (maxAbs > scopeYMax) scopeYMax = maxAbs;
+  else scopeYMax = scopeYMax * 0.98 + maxAbs * 0.02;
+  var yScale = Math.max(scopeYMax, 1.0);
+
+  // Función local para rasterizar cada línea
+  function drawLine(buffer, color, lineWidth, offsetPx, scale) {
+    canvasCtx.strokeStyle = color;
+    canvasCtx.lineWidth = lineWidth;
+    canvasCtx.beginPath();
+    for (var i = 0; i < samplesToShow; i++) {
+      var idx = (scopeWriteIdx - samplesToShow + i + SCOPE_LEN) % SCOPE_LEN;
+      var x = (i / samplesToShow) * W;
+      // Normalizamos con yScale, aplicamos scale y el offset de posicion Y
+      var y = H / 2 - (buffer[idx] * scale / yScale) * (H / 2) * 0.85 + offsetPx;
+      if (i === 0) canvasCtx.moveTo(x, y);
+      else canvasCtx.lineTo(x, y);
+    }
+    canvasCtx.stroke();
+  }
+
+  // Dibujar SVF de fondo (más grueso pero tenue)
+  drawLine(scopeBufferSvf, colorSvf, 2.0, 0, 1.0);
+  // Dibujar Biquad superpuesto (más fino e intenso)
+  drawLine(scopeBufferBiq, colorBiq, 1.2, 0, 1.0);
+  
+  // Dibujar Diferencia (Error) amplificada al triple, y desplazada al cuarto inferior
+  drawLine(scopeBufferDiff, colorDiff, 1.0, H * 0.3, 3.0);
+
+  // Labels con escala dinámica
+  canvasCtx.fillStyle = 'rgba(107, 123, 141, 0.5)';
+  canvasCtx.font = '10px monospace';
+  canvasCtx.textAlign = 'left';
+  canvasCtx.fillText('+' + yScale.toFixed(1), 4, 14);
+  canvasCtx.fillText('+' + (yScale/2).toFixed(1), 4, H * 0.25 - 3);
+  canvasCtx.fillText(' 0.0', 4, H / 2 - 3);
+  canvasCtx.fillText('-' + (yScale/2).toFixed(1), 4, H * 0.75 - 3);
+  canvasCtx.fillText('-' + yScale.toFixed(1), 4, H - 6);
+
+  // Filter indicator (Legends)
+  canvasCtx.fillStyle = colorSvf;
+  canvasCtx.font = 'bold 12px monospace';
+  canvasCtx.textAlign = 'right';
+  canvasCtx.fillText('SVF (Referencia limpia)', W - 10, 16);
+  
+  canvasCtx.fillStyle = colorBiq;
+  canvasCtx.fillText('Biquad DF1', W - 10, 32);
+  
+  canvasCtx.fillStyle = colorDiff;
+  canvasCtx.fillText('Error Diferencial (x3)', W - 10, H - 10);
+  canvasCtx.textAlign = 'left';
+
+  // Peak indicator
+  if (recentPeak > 0.8) {
+    canvasCtx.fillStyle = 'rgba(255,23,68,0.7)';
+    canvasCtx.font = 'bold 11px monospace';
+    canvasCtx.textAlign = 'center';
+    canvasCtx.fillText('!! TRANSITORIO DETECTADO !!', W / 2, 20);
+    canvasCtx.textAlign = 'left';
+  }
+
+  // Dibujar el plano Z en tiempo real
+  drawPZ(dsp.fc, dsp.Q);
+}
+
+// ── Init slider ──
+document.getElementById('fcSlider').value = fcToSlider(500);
+
+// ── Idle screen ──
+function idleDraw() {
+  if (isPlaying) return;
+  requestAnimationFrame(idleDraw);
+
+  var dpr = window.devicePixelRatio || 1;
+  var W = canvas.width / dpr;
+  var H = canvas.height / dpr;
+  canvasCtx.fillStyle = '#050a12';
+  canvasCtx.fillRect(0, 0, W, H);
+
+  canvasCtx.strokeStyle = 'rgba(30, 42, 58, 0.8)';
+  canvasCtx.setLineDash([4, 4]);
+  canvasCtx.beginPath();
+  canvasCtx.moveTo(0, H / 2);
+  canvasCtx.lineTo(W, H / 2);
+  canvasCtx.stroke();
+  canvasCtx.setLineDash([]);
+
+  canvasCtx.fillStyle = 'rgba(107, 123, 141, 0.4)';
+  canvasCtx.font = '14px monospace';
+  canvasCtx.textAlign = 'center';
+  canvasCtx.fillText('Presiona PLAY para iniciar el experimento', W / 2, H / 2 - 10);
+  canvasCtx.textAlign = 'left';
+
+  // Mostrar el plano Z incluso antes de dar a Play
+  drawPZ(dsp.fc, dsp.Q);
+}
+idleDraw();
+
+// ═══════════════════════════════════════════════════════════════════
+//  PLANO Z - POLOS Y CEROS
+// ═══════════════════════════════════════════════════════════════════
+
+function drawPZ(fc, Q) {
+  if (!pzCanvas || !pzCtx || pzCanvas.width === 0) return;
+  var dpr = window.devicePixelRatio || 1;
+  var W = pzCanvas.width / dpr;
+  var H = pzCanvas.height / dpr;
+  var cx = W / 2;
+  var cy = H / 2;
+  var R = Math.min(W, H) * 0.4; // Radio == 40% del canvas
+
+  // Limpiar
+  pzCtx.fillStyle = '#050a12';
+  pzCtx.fillRect(0, 0, W, H);
+
+  // Ejes
+  pzCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+  pzCtx.lineWidth = 1;
+  pzCtx.beginPath();
+  pzCtx.moveTo(0, cy); pzCtx.lineTo(W, cy);
+  pzCtx.moveTo(cx, 0); pzCtx.lineTo(cx, H);
+  pzCtx.stroke();
+
+  // Circulo unitario
+  pzCtx.beginPath();
+  pzCtx.arc(cx, cy, R, 0, 2 * Math.PI);
+  pzCtx.stroke();
+  
+  // Calcular coeficientes RBJ
+  var fs = audioCtx ? audioCtx.sampleRate : 44100;
+  var w0 = 2.0 * Math.PI * fc / fs;
+  var cosw0 = Math.cos(w0);
+  var sinw0 = Math.sin(w0);
+  var alpha = sinw0 / (2.0 * Q);
+
+  var a0 = 1.0 + alpha;
+  var a1 = (-2.0 * cosw0) / a0;
+  var a2 = (1.0 - alpha) / a0;
+  
+  // En Lowpass RBJ, los ceros siempre están en Nyquist
+  var zeroRe = -1.0;
+  var zeroIm = 0.0;
+  
+  // Polos: z^2 + a1*z + a2 = 0
+  var disc = a1 * a1 - 4 * a2;
+  var poles = [];
+  if (disc >= 0) {
+    poles.push({ re: (-a1 + Math.sqrt(disc)) / 2, im: 0 });
+    poles.push({ re: (-a1 - Math.sqrt(disc)) / 2, im: 0 });
+  } else {
+    var re = -a1 / 2;
+    var im = Math.sqrt(-disc) / 2;
+    poles.push({ re: re, im: im });
+    poles.push({ re: re, im: -im });
+  }
+
+  // Dibujar Cero de grado 2 (Cian, sobre el -1 del eje X)
+  pzCtx.strokeStyle = '#00e5ff';
+  pzCtx.lineWidth = 2;
+  pzCtx.beginPath();
+  pzCtx.arc(cx + zeroRe * R, cy - zeroIm * R, 5, 0, 2 * Math.PI);
+  pzCtx.stroke();
+  
+  // Dibujar Polos (Rojo)
+  function drawCross(x, y) {
+    var p = 5;
+    pzCtx.beginPath();
+    pzCtx.moveTo(x - p, y - p); pzCtx.lineTo(x + p, y + p);
+    pzCtx.moveTo(x + p, y - p); pzCtx.lineTo(x - p, y + p);
+    pzCtx.stroke();
+  }
+  
+  pzCtx.strokeStyle = '#ff1744';
+  poles.forEach(function(pole) {
+    drawCross(cx + pole.re * R, cy - pole.im * R);
+  });
+}
+</script>
+
+</body>
+</html>

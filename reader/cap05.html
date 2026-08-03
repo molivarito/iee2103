@@ -217,6 +217,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Series</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -242,18 +248,19 @@ window.Quarto = {
   <li><a href="#sec-no-unicidad" id="toc-sec-no-unicidad" class="nav-link" data-scroll-target="#sec-no-unicidad"><span class="header-section-number">5.3.1</span> La no-unicidad: <span class="math inline">\Omega</span> y <span class="math inline">\Omega + 2\pi</span> son la misma señal</a></li>
   <li><a href="#sec-periodicidad-discreta" id="toc-sec-periodicidad-discreta" class="nav-link" data-scroll-target="#sec-periodicidad-discreta"><span class="header-section-number">5.3.2</span> Periodicidad: la condición racional</a></li>
   </ul></li>
-  <li><a href="#sec-convolucion-discreta" id="toc-sec-convolucion-discreta" class="nav-link" data-scroll-target="#sec-convolucion-discreta"><span class="header-section-number">5.4</span> Convolución discreta: lineal y cíclica</a>
+  <li><a href="#sec-cambio-tasa" id="toc-sec-cambio-tasa" class="nav-link" data-scroll-target="#sec-cambio-tasa"><span class="header-section-number">5.4</span> Cambio de tasa: diezmar e interpolar</a></li>
+  <li><a href="#sec-convolucion-discreta" id="toc-sec-convolucion-discreta" class="nav-link" data-scroll-target="#sec-convolucion-discreta"><span class="header-section-number">5.5</span> Convolución discreta: lineal y cíclica</a>
   <ul class="collapse">
-  <li><a href="#sec-deduccion-expres" id="toc-sec-deduccion-expres" class="nav-link" data-scroll-target="#sec-deduccion-expres"><span class="header-section-number">5.4.1</span> La deducción exprés</a></li>
-  <li><a href="#sec-calculo-convolucion" id="toc-sec-calculo-convolucion" class="nav-link" data-scroll-target="#sec-calculo-convolucion"><span class="header-section-number">5.4.2</span> Cálculo: tabla, soporte y suma geométrica</a></li>
-  <li><a href="#sec-conv-ciclica" id="toc-sec-conv-ciclica" class="nav-link" data-scroll-target="#sec-conv-ciclica"><span class="header-section-number">5.4.3</span> La convolución cíclica</a></li>
+  <li><a href="#sec-deduccion-expres" id="toc-sec-deduccion-expres" class="nav-link" data-scroll-target="#sec-deduccion-expres"><span class="header-section-number">5.5.1</span> La deducción exprés</a></li>
+  <li><a href="#sec-calculo-convolucion" id="toc-sec-calculo-convolucion" class="nav-link" data-scroll-target="#sec-calculo-convolucion"><span class="header-section-number">5.5.2</span> Cálculo: tabla, soporte y suma geométrica</a></li>
+  <li><a href="#sec-conv-ciclica-definicion" id="toc-sec-conv-ciclica-definicion" class="nav-link" data-scroll-target="#sec-conv-ciclica-definicion"><span class="header-section-number">5.5.3</span> La convolución cíclica</a></li>
   </ul></li>
-  <li><a href="#sec-ecuaciones-diferencias" id="toc-sec-ecuaciones-diferencias" class="nav-link" data-scroll-target="#sec-ecuaciones-diferencias"><span class="header-section-number">5.5</span> Ecuaciones de diferencias</a></li>
-  <li><a href="#sec-cadenas-hibridas" id="toc-sec-cadenas-hibridas" class="nav-link" data-scroll-target="#sec-cadenas-hibridas"><span class="header-section-number">5.6</span> Cadenas híbridas: C/D → LTI → D/C</a></li>
-  <li><a href="#sec-cierre-cap05" id="toc-sec-cierre-cap05" class="nav-link" data-scroll-target="#sec-cierre-cap05"><span class="header-section-number">5.7</span> El cierre: falta un plano</a></li>
-  <li><a href="#sec-resumen-cap05" id="toc-sec-resumen-cap05" class="nav-link" data-scroll-target="#sec-resumen-cap05"><span class="header-section-number">5.8</span> En una página</a></li>
-  <li><a href="#sec-ejercicios-cap05" id="toc-sec-ejercicios-cap05" class="nav-link" data-scroll-target="#sec-ejercicios-cap05"><span class="header-section-number">5.9</span> Ejercicios</a></li>
-  <li><a href="#sec-referencias-cap05" id="toc-sec-referencias-cap05" class="nav-link" data-scroll-target="#sec-referencias-cap05"><span class="header-section-number">5.10</span> Para profundizar</a></li>
+  <li><a href="#sec-ecuaciones-diferencias" id="toc-sec-ecuaciones-diferencias" class="nav-link" data-scroll-target="#sec-ecuaciones-diferencias"><span class="header-section-number">5.6</span> Ecuaciones de diferencias</a></li>
+  <li><a href="#sec-cadenas-hibridas" id="toc-sec-cadenas-hibridas" class="nav-link" data-scroll-target="#sec-cadenas-hibridas"><span class="header-section-number">5.7</span> Cadenas híbridas: C/D → LTI → D/C</a></li>
+  <li><a href="#sec-cierre-cap05" id="toc-sec-cierre-cap05" class="nav-link" data-scroll-target="#sec-cierre-cap05"><span class="header-section-number">5.8</span> El cierre: falta un plano</a></li>
+  <li><a href="#sec-resumen-cap05" id="toc-sec-resumen-cap05" class="nav-link" data-scroll-target="#sec-resumen-cap05"><span class="header-section-number">5.9</span> En una página</a></li>
+  <li><a href="#sec-ejercicios-cap05" id="toc-sec-ejercicios-cap05" class="nav-link" data-scroll-target="#sec-ejercicios-cap05"><span class="header-section-number">5.10</span> Ejercicios</a></li>
+  <li><a href="#sec-referencias-cap05" id="toc-sec-referencias-cap05" class="nav-link" data-scroll-target="#sec-referencias-cap05"><span class="header-section-number">5.11</span> Para profundizar</a></li>
   </ul>
 </nav>
     </div>
@@ -285,11 +292,11 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U5.1–U5.5]
+<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U5.1–U5.6]
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Al terminar este capítulo podrás: <strong>derivar</strong> el espectro de una señal muestreada, <strong>decidir</strong> con el teorema del muestreo si hay aliasing y <strong>reconstruir</strong> la señal con la fórmula de interpolación [U5.1]; <strong>operar</strong> con sinusoides discretas: no-unicidad de <span class="math inline">\Omega</span>, rango fundamental y condición de periodicidad [U5.2]; <strong>calcular</strong> convoluciones discretas lineales y <strong>cíclicas</strong>, y explicar la relación entre ambas [U5.3]; <strong>modelar</strong> sistemas discretos con ecuaciones de diferencias, obtener <span class="math inline">h[n]</span> y decidir estabilidad [U5.4]; y <strong>analizar</strong> cadenas híbridas C/D → LTI → D/C calculando su respuesta efectiva continua [U5.5].</p>
+<p>Al terminar este capítulo podrás: <strong>derivar</strong> el espectro de una señal muestreada, <strong>decidir</strong> con el teorema del muestreo si hay aliasing y <strong>reconstruir</strong> la señal con la fórmula de interpolación [U5.1]; <strong>operar</strong> con sinusoides discretas: no-unicidad de <span class="math inline">\Omega</span>, rango fundamental y condición de periodicidad [U5.2]; <strong>calcular</strong> convoluciones discretas lineales y <strong>cíclicas</strong>, y explicar la relación entre ambas [U5.3]; <strong>modelar</strong> sistemas discretos con ecuaciones de diferencias, obtener <span class="math inline">h[n]</span> y decidir estabilidad [U5.4]; <strong>analizar</strong> cadenas híbridas C/D → LTI → D/C calculando su respuesta efectiva continua [U5.5]; y <strong>cambiar la tasa de muestreo</strong> sin volver al mundo continuo: diezmar con su condición anti-aliasing, interpolar con ceros más filtro [U5.6].</p>
 <p><strong>Prerrequisitos</strong>: la transformada de Fourier y sus propiedades (capítulo 3) — en particular la propiedad de multiplicación y la transformada del tren de impulsos — y el impulso discreto <span class="math inline">\delta[n]</span> del capítulo 1 (<a href="cap01.html#sec-impulso-discreto" class="quarto-xref"><span>Sección 1.5.6</span></a>).</p>
 </div>
 </div>
@@ -330,7 +337,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Este es <em>el</em> dibujo del capítulo. Míralo con calma, porque contiene el teorema completo:</p>
-<div id="9bb7a431" class="cell" data-execution_count="1">
+<div id="3f95e473" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -364,7 +371,7 @@ window.Quarto = {
 <section id="sec-nyquist-aliasing" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="sec-nyquist-aliasing"><span class="header-section-number">5.2.3</span> Aliasing: frecuencias disfrazadas</h3>
 <p>¿Y si se viola la condición? Una componente con <span class="math inline">f &gt; f_s/2</span> hace que la réplica vecina invada la banda base: esa componente aparece <strong>disfrazada</strong> de una frecuencia más baja. El fenómeno se llama <strong>aliasing</strong> (de <em>alias</em>: otro nombre para la misma cosa). Para sinusoides hay una regla práctica que conviene tatuarse: la frecuencia aparente es <span class="math inline">\lvert f - k f_s\rvert</span>, con el entero <span class="math inline">k</span> que la deje en <span class="math inline">[0, f_s/2]</span>.</p>
-<div id="c966c552" class="cell" data-execution_count="2">
+<div id="c59d8eff" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -410,7 +417,7 @@ window.Quarto = {
 <p><span class="math display">x_r(t) = \sum_{n=-\infty}^{\infty} x(nT)\,\operatorname{sinc}\!\Big(\frac{t - nT}{T}\Big)</span> Cada muestra iza su sinc; la suma de todas reconstruye la señal — no una aproximación: <strong>la señal</strong>.</p>
 </div>
 </div>
-<div id="72599807" class="cell" data-execution_count="3">
+<div id="78de99f4" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -429,7 +436,7 @@ window.Quarto = {
 <p>Ya sabemos entrar al mundo discreto. Ahora vivamos adentro. El átomo de este mundo es el de siempre — la exponencial compleja — pero con índice entero:</p>
 <p><span class="math display">x[n] = A\,e^{j(\Omega n + \phi)}, \qquad\qquad x[n] = A\cos(\Omega n + \phi)</span></p>
 <p>donde <span class="math inline">\Omega</span> es la <strong>frecuencia angular discreta</strong>, en <strong>radianes por muestra</strong>. La interpretación geométrica buena: <span class="math inline">e^{j\Omega n}</span> es un fasor que <strong>salta</strong> por el círculo unitario — cada muestra avanza exactamente <span class="math inline">\Omega</span> radianes respecto de la anterior. En el continuo el fasor <em>giraba</em>; aquí <em>salta</em>.</p>
-<p><strong>El puente con el muestreo</strong>: si la secuencia viene de muestrear <span class="math inline">\cos(\omega t)</span> cada <span class="math inline">T</span> segundos, entonces <span class="math inline">x[n] = \cos(\omega T n)</span>, es decir <span class="math display">\Omega = \omega\,T = \frac{2\pi f}{f_s}</span> La frecuencia discreta es la frecuencia continua <em>medida con la regla del muestreador</em>. Esta igualdad chica es la llave de las cadenas híbridas de la <a href="#sec-cadenas-hibridas" class="quarto-xref"><span>Sección 5.6</span></a> — y de los exámenes.</p>
+<p><strong>El puente con el muestreo</strong>: si la secuencia viene de muestrear <span class="math inline">\cos(\omega t)</span> cada <span class="math inline">T</span> segundos, entonces <span class="math inline">x[n] = \cos(\omega T n)</span>, es decir <span class="math display">\Omega = \omega\,T = \frac{2\pi f}{f_s}</span> La frecuencia discreta es la frecuencia continua <em>medida con la regla del muestreador</em>. Esta igualdad chica es la llave de las cadenas híbridas de la <a href="#sec-cadenas-hibridas" class="quarto-xref"><span>Sección 5.7</span></a> — y de los exámenes.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -488,7 +495,7 @@ window.Quarto = {
 <p><strong>(d)</strong> <span class="math inline">\cos\big(\tfrac{\pi}{3}n\big) + \sin\big(\tfrac{\pi}{4}n\big)</span>: períodos individuales <span class="math inline">N_1 = 6</span> y <span class="math inline">N_2 = 8</span>; la suma se repite en el mínimo común múltiplo: <span class="math inline">N = 24</span>.</p>
 </div>
 </div>
-<div id="d187c56a" class="cell" data-execution_count="4">
+<div id="c4438a25" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -542,10 +549,31 @@ window.Quarto = {
 </table>
 </section>
 </section>
-<section id="sec-convolucion-discreta" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="sec-convolucion-discreta"><span class="header-section-number">5.4</span> Convolución discreta: lineal y cíclica</h2>
-<section id="sec-deduccion-expres" class="level3" data-number="5.4.1">
-<h3 data-number="5.4.1" class="anchored" data-anchor-id="sec-deduccion-expres"><span class="header-section-number">5.4.1</span> La deducción exprés</h3>
+<section id="sec-cambio-tasa" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-cambio-tasa"><span class="header-section-number">5.4</span> Cambio de tasa: diezmar e interpolar</h2>
+<p>Una pregunta perfectamente práctica cierra lo que acabas de aprender sobre sinusoides discretas: <strong>¿cómo se cambia la frecuencia de muestreo de una señal que ya es digital?</strong> El audio del estudio viene a 48 kHz; la telefonía trabaja a 8 kHz. ¿Hay que reconstruir la señal continua y muestrearla de nuevo?</p>
+<p><strong>Diezmar por <span class="math inline">M</span></strong> es quedarse con una de cada <span class="math inline">M</span> muestras: <span class="math inline">y[n] = x[Mn]</span>. Para una sinusoide, la cuenta cabe en una línea: <span class="math display">x[n] = \cos(\Omega_0 n) \quad\Longrightarrow\quad y[n] = \cos(M\Omega_0\, n)</span> <strong>la frecuencia se multiplica por <span class="math inline">M</span></strong> — el reloj nuevo late <span class="math inline">M</span> veces más lento, así que la misma oscilación se ve <span class="math inline">M</span> veces más rápida. Y aquí muerde la no-unicidad de la sección anterior: si <span class="math inline">M\Omega_0 &gt; \pi</span>, la frecuencia nueva se envuelve y aparece disfrazada de otra. Es <strong>aliasing puramente digital</strong>, sin ningún conversor de por medio.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>La regla del diezmado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de botar muestras por <span class="math inline">M</span>, filtrar la señal bajo <span class="math inline">\pi/M</span>. Mejor perder una banda a sabiendas que corromper la banda útil con réplicas.</p>
+</div>
+</div>
+<p>El caso 48 → 8 kHz (<span class="math inline">M = 6</span>): la nueva Nyquist es 4 kHz, así que todo contenido sobre 4 kHz debe filtrarse <em>antes</em> — si no, una componente de 5 kHz reaparece plantada en 3 kHz, indistinguible de una señal legítima. [DB E0300, E0301]</p>
+<p><strong>Interpolar por <span class="math inline">L</span></strong> es el camino inverso: subir la tasa. Dos pasos: insertar <span class="math inline">L-1</span> ceros entre cada par de muestras, y pasar un filtro pasabajos de corte <span class="math inline">\pi/L</span> y ganancia <span class="math inline">L</span> que “rellena” los ceros. Es el pariente discreto de la fórmula de interpolación de este mismo capítulo: allá la sinc reconstruía entre muestras en tiempo continuo; acá un pasabajos discreto hace lo mismo entre índices. La mirada espectral fina — las <em>imágenes</em> que aparecen al insertar ceros y por qué la ganancia debe ser exactamente <span class="math inline">L</span> — usa la DTFT y queda para el capítulo 7 [DB E0302].</p>
+<p><strong>La moraleja</strong>: re-muestrear no exige volver al mundo continuo. La cadena D/C → C/D con otro período — que sería el camino conceptual — se reemplaza por operaciones puramente discretas: filtrar y botar, o insertar y filtrar. Toda la conversión de tasas del mundo real (audio, video, comunicaciones) funciona así.</p>
+</section>
+<section id="sec-convolucion-discreta" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="sec-convolucion-discreta"><span class="header-section-number">5.5</span> Convolución discreta: lineal y cíclica</h2>
+<section id="sec-deduccion-expres" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="sec-deduccion-expres"><span class="header-section-number">5.5.1</span> La deducción exprés</h3>
 <p>En el capítulo 2, deducir la convolución costó una construcción entera: aproximar la señal con pulsos, tomar el límite. En discreto, el primer paso es una identidad <strong>evidente</strong> — una secuencia <em>es</em> una lista de valores, cada uno parado en su índice:</p>
 <p><span class="math display">x[n] = \sum_{k=-\infty}^{\infty} x[k]\,\delta[n-k]</span></p>
 <p>(con <span class="math inline">\delta[n]</span> el impulso discreto del capítulo 1: un uno humilde, sin distribuciones ni límites). La cadena LTI de siempre, ahora sin integrales: si <span class="math inline">h[n]</span> es la respuesta al impulso, la invariancia da <span class="math inline">\delta[n-k] \mapsto h[n-k]</span> y la linealidad remata:</p>
@@ -564,8 +592,8 @@ window.Quarto = {
 </div>
 <p>Las propiedades viajan gratis (mismas demostraciones, con sumas): conmutativa (<span class="math inline">x * h = h * x</span> — en la práctica, da vuelta siempre la secuencia más corta), asociativa y distributiva (cascadas se funden en un solo <span class="math inline">h</span>, paralelos se suman), e identidad: <span class="math inline">x[n] * \delta[n] = x[n]</span>, <span class="math inline">x[n] * \delta[n - n_0] = x[n - n_0]</span>.</p>
 </section>
-<section id="sec-calculo-convolucion" class="level3" data-number="5.4.2">
-<h3 data-number="5.4.2" class="anchored" data-anchor-id="sec-calculo-convolucion"><span class="header-section-number">5.4.2</span> Cálculo: tabla, soporte y suma geométrica</h3>
+<section id="sec-calculo-convolucion" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="sec-calculo-convolucion"><span class="header-section-number">5.5.2</span> Cálculo: tabla, soporte y suma geométrica</h3>
 <p>Antes de calcular cualquier convolución, <strong>anticipa el resultado</strong>: si <span class="math inline">x</span> tiene <span class="math inline">L_1</span> muestras no nulas y <span class="math inline">h</span> tiene <span class="math inline">L_2</span>, entonces <span class="math inline">x * h</span> tiene a lo más <span class="math inline">L_1 + L_2 - 1</span>; y los soportes se suman — el inicio del resultado es la suma de los inicios, el fin es la suma de los fines. Verificar el largo antes de calcular es el hábito que salva puntos en la I3.</p>
 <p><strong>El método tabular</strong> — el caballo de batalla para secuencias cortas. Ejemplo: <span class="math inline">x[n] = (1, 2, 0, -1)</span> y <span class="math inline">h[n] = (2, 1, 1)</span>, ambas partiendo en <span class="math inline">n = 0</span>. Cada fila es <span class="math inline">x[k]\,h[n-k]</span>: una copia de <span class="math inline">h</span> desplazada <span class="math inline">k</span> posiciones y escalada por <span class="math inline">x[k]</span>; la salida es la suma por columnas:</p>
 <table class="caption-top table">
@@ -638,7 +666,7 @@ window.Quarto = {
 </tbody>
 </table>
 <p>Seis muestras, como predice <span class="math inline">4 + 3 - 1</span>. La lectura física de las filas es la deducción hecha tabla: <em>cada muestra de la entrada dispara una copia de <span class="math inline">h</span>, retardada y escalada; la salida es la superposición.</em></p>
-<div id="f1723291" class="cell" data-execution_count="5">
+<div id="6cec8fb4" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -651,8 +679,8 @@ window.Quarto = {
 <p>Para secuencias <strong>infinitas</strong> la tabla no alcanza y se trabaja la suma directamente. El ejemplo canónico (calibre I3): <span class="math inline">x[n] = a^n u[n]</span> con <span class="math inline">\lvert a\rvert &lt; 1</span>, <span class="math inline">h[n] = u[n]</span> (el acumulador): <span class="math display">y[n] = \sum_{k=-\infty}^{\infty} a^k u[k]\,u[n-k] = \sum_{k=0}^{n} a^k = \frac{1 - a^{n+1}}{1 - a}, \quad n \ge 0</span> (y <span class="math inline">0</span> para <span class="math inline">n &lt; 0</span>). La clave está en los límites: <span class="math inline">u[k]</span> obliga <span class="math inline">k \ge 0</span> y <span class="math inline">u[n-k]</span> obliga <span class="math inline">k \le n</span>. La herramienta es la <strong>suma geométrica</strong> — en el mundo discreto juega el papel que las integrales de exponenciales jugaban en el continuo; convérsala en reflejo. Nota al margen: <span class="math inline">y[n] \to \frac{1}{1-a}</span>, la respuesta estacionaria al escalón — reaparecerá con la transformada Z.</p>
 <p>(NumPy verifica en una línea: <code>np.convolve([1,2,0,-1],[2,1,1])</code>. Las máquinas convolucionan mejor que tú; lo que se evalúa es que sepas <em>qué</em> estás calculando y puedas hacerlo a mano en secuencias cortas.)</p>
 </section>
-<section id="sec-conv-ciclica" class="level3" data-number="5.4.3">
-<h3 data-number="5.4.3" class="anchored" data-anchor-id="sec-conv-ciclica"><span class="header-section-number">5.4.3</span> La convolución cíclica</h3>
+<section id="sec-conv-ciclica-definicion" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="sec-conv-ciclica-definicion"><span class="header-section-number">5.5.3</span> La convolución cíclica</h3>
 <p>Existe una <strong>segunda</strong> convolución en el mundo discreto, y no la presento por completitud enciclopédica: en el capítulo 7 verás que el algoritmo más importante del procesamiento de señales — la FFT — multiplica espectros (DFT), y multiplicar DFTs <strong>no</strong> entrega la convolución lineal: entrega <em>esta</em>. Quien confunde las dos produce audio con clics y filtros que fallan. Hoy la definimos y la contrastamos; el capítulo 7 cobrará esta semilla.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -676,16 +704,16 @@ window.Quarto = {
 <p><strong>la cíclica es la lineal enrollada sobre el reloj</strong>. ¿Te suena “sumar réplicas desplazadas”? Es el mismo fenómeno del aliasing de la <a href="#sec-espectro-muestreada" class="quarto-xref"><span>Sección 5.2.2</span></a>, pero en el tiempo: solapar réplicas por vivir en un mundo periódico. Muestrear periodiza la frecuencia; la cíclica periodiza el tiempo. La simetría no es casualidad — es la dualidad de Fourier trabajando, y en el capítulo 7 quedará limpia. Adelanto práctico en una frase: si quieres la lineal usando maquinaria cíclica, alarga ambas secuencias con ceros hasta <span class="math inline">N \ge L_1 + L_2 - 1</span> (<em>zero-padding</em>) — no queda nada que enrollar.</p>
 </section>
 </section>
-<section id="sec-ecuaciones-diferencias" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="sec-ecuaciones-diferencias"><span class="header-section-number">5.5</span> Ecuaciones de diferencias</h2>
+<section id="sec-ecuaciones-diferencias" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="sec-ecuaciones-diferencias"><span class="header-section-number">5.6</span> Ecuaciones de diferencias</h2>
 <p>En el mundo continuo, los sistemas físicos se modelaron con ecuaciones <strong>diferenciales</strong>. En el discreto, el rol lo toman las ecuaciones de <strong>diferencias</strong>: relaciones entre muestras presentes y pasadas. Y traen una ventaja enorme: no hace falta resolver nada para <em>usarlas</em> — <strong>se iteran</strong>, muestra a muestra. Así calcula un computador; así funciona todo filtro digital.</p>
-<p><strong>Ejemplo 1 — el promedio móvil</strong> (el sistema discreto más usado del planeta): <span class="math display">y[n] = \tfrac{1}{2}x[n] + \tfrac{1}{2}x[n-1]</span> Su respuesta al impulso se lee directo — con <span class="math inline">x = \delta</span> solo sobreviven dos términos: <span class="math display">h[n] = \tfrac{1}{2}\delta[n] + \tfrac{1}{2}\delta[n-1] = \big(\tfrac{1}{2}, \tfrac{1}{2}\big)</span> Finitas muestras no nulas: sistema <strong>FIR</strong> (<em>finite impulse response</em>). La intuición: suaviza — el ruido rápido se cancela al promediar, lo lento pasa. En la <a href="#sec-cadenas-hibridas" class="quarto-xref"><span>Sección 5.6</span></a> esa intuición se volverá cuantitativa.</p>
+<p><strong>Ejemplo 1 — el promedio móvil</strong> (el sistema discreto más usado del planeta): <span class="math display">y[n] = \tfrac{1}{2}x[n] + \tfrac{1}{2}x[n-1]</span> Su respuesta al impulso se lee directo — con <span class="math inline">x = \delta</span> solo sobreviven dos términos: <span class="math display">h[n] = \tfrac{1}{2}\delta[n] + \tfrac{1}{2}\delta[n-1] = \big(\tfrac{1}{2}, \tfrac{1}{2}\big)</span> Finitas muestras no nulas: sistema <strong>FIR</strong> (<em>finite impulse response</em>). La intuición: suaviza — el ruido rápido se cancela al promediar, lo lento pasa. En la <a href="#sec-cadenas-hibridas" class="quarto-xref"><span>Sección 5.7</span></a> esa intuición se volverá cuantitativa.</p>
 <p><strong>Ejemplo 2 — primer orden con realimentación</strong>: <span class="math display">y[n] = a\,y[n-1] + x[n]</span> Aquí la salida se muerde la cola y <span class="math inline">h[n]</span> no se lee: se <strong>itera</strong>. Con <span class="math inline">x[n] = \delta[n]</span> y reposo inicial: <span class="math display">h[0] = a \cdot 0 + 1 = 1, \qquad h[1] = a \cdot 1 + 0 = a, \qquad h[2] = a^2, \;\dots \qquad\Longrightarrow\qquad h[n] = a^n\,u[n]</span> Infinitas muestras no nulas: sistema <strong>IIR</strong> (<em>infinite impulse response</em>) — un solo coeficiente de realimentación fabrica una cola exponencial eterna. Es el análogo discreto exacto del circuito RC del capítulo 2: memoria que se desvanece geométricamente. (¿Te suena <span class="math inline">a^n u[n]</span>? Es la secuencia del ejemplo analítico de la sección anterior — el mundo discreto tiene pocos personajes y los recicla.)</p>
 <p><strong>Estabilidad.</strong> Mismo criterio que en continuo, con suma en vez de integral: un LTI discreto es BIBO estable si y solo si <span class="math display">\sum_{n=-\infty}^{\infty} \lvert h[n]\rvert &lt; \infty</span> Los veredictos de nuestros personajes: el promedio móvil suma <span class="math inline">1 &lt; \infty</span> — estable, y <strong>todo FIR lo es</strong> (una suma finita no diverge). El primer orden suma la geométrica <span class="math inline">\sum \lvert a\rvert^n</span>, que converge <span class="math inline">\iff \lvert a\rvert &lt; 1</span>: la realimentación es estable solo si atenúa. Y el <strong>acumulador</strong> <span class="math inline">y[n] = y[n-1] + x[n]</span> (el caso <span class="math inline">a = 1</span>, la “integral” discreta) es inestable: <span class="math inline">h[n] = u[n]</span>, suma infinita — el testigo concreto es la entrada acotada <span class="math inline">x[n] = u[n]</span>, que produce <span class="math inline">y[n] = n + 1 \to \infty</span>. Guarda el resultado del primer orden: en el capítulo 6 se convertirá en “el polo dentro del círculo unitario” — la misma verdad, en otro mapa.</p>
 <p><strong>Estados, en un párrafo</strong> (mención conceptual; no se evalúa): una ecuación de diferencias de orden <span class="math inline">N</span> puede reescribirse como <span class="math inline">N</span> ecuaciones de primer orden acopladas — un vector de <strong>estado</strong> (las muestras que el sistema “recuerda”) que se actualiza con una multiplicación matricial por paso: <span class="math inline">\mathbf{v}[n+1] = A\,\mathbf{v}[n] + B\,x[n]</span>. Es el formato con que los computadores simulan sistemas y la puerta de entrada al curso de control; los curiosos pueden mirar [DB E0159].</p>
 </section>
-<section id="sec-cadenas-hibridas" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="sec-cadenas-hibridas"><span class="header-section-number">5.6</span> Cadenas híbridas: C/D → LTI → D/C</h2>
+<section id="sec-cadenas-hibridas" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="sec-cadenas-hibridas"><span class="header-section-number">5.7</span> Cadenas híbridas: C/D → LTI → D/C</h2>
 <p>La motivación es el mundo real entero: casi todo el procesamiento de señales de hoy — audio, comunicaciones, control, biomédica — sigue esta arquitectura: la señal continua se muestrea (conversor C/D), un procesador le aplica un sistema discreto, y un conversor D/C la devuelve al mundo continuo:</p>
 <p><span class="math display">x_c(t) \longrightarrow \boxed{\text{C/D}} \xrightarrow{\;x[n]\;} \boxed{\;h[n]\;} \xrightarrow{\;y[n]\;} \boxed{\text{D/C}} \longrightarrow y_c(t)</span></p>
 <p>La pregunta de ingeniería: vista <strong>desde afuera</strong> (de <span class="math inline">x_c</span> a <span class="math inline">y_c</span>), ¿qué filtro continuo es esta caja compuesta? El examen de este curso pregunta esto todos los años — armemos la maquinaria completa.</p>
@@ -723,7 +751,7 @@ window.Quarto = {
 y_c(t) = 2\sqrt{2}\,\cos\big(500\pi t - \tfrac{\pi}{4}\big)</span></p>
 </div>
 </div>
-<div id="7a976cf5" class="cell" data-execution_count="6">
+<div id="88e6db66" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -741,13 +769,13 @@ y_c(t) = 2\sqrt{2}\,\cos\big(500\pi t - \tfrac{\pi}{4}\big)</span></p>
 <li>Evaluar magnitud y fase en la frecuencia de entrada y escribir la salida.</li>
 </ol>
 </section>
-<section id="sec-cierre-cap05" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="sec-cierre-cap05"><span class="header-section-number">5.7</span> El cierre: falta un plano</h2>
+<section id="sec-cierre-cap05" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="sec-cierre-cap05"><span class="header-section-number">5.8</span> El cierre: falta un plano</h2>
 <p>Mira lo que este capítulo dejó armado: un mundo discreto completo, con sus señales (<span class="math inline">a^n</span>, las sinusoides con sus rarezas), su convolución, sus sistemas y hasta sus puentes con el continuo. Pero compáralo con el arsenal del mundo continuo y notarás un hueco: allá, cuando las convoluciones y las ecuaciones se pusieron pesadas, apareció Laplace con su plano <span class="math inline">s</span> — polos que cuentan la estabilidad de un vistazo, convoluciones que se vuelven productos, ecuaciones diferenciales que se vuelven álgebra.</p>
 <p>El mundo discreto necesita su propio plano <span class="math inline">s</span>. Ya viste las pistas: la estabilidad del primer orden dependía de <span class="math inline">\lvert a\rvert &lt; 1</span> — una condición sobre un <em>radio</em>, no sobre una parte real; y las frecuencias discretas viven en un círculo, no en una recta. El mapa que buscamos no será un semiplano: será un <strong>círculo</strong>. Se llama transformada Z, y es el capítulo que viene.</p>
 </section>
-<section id="sec-resumen-cap05" class="level2" data-number="5.8">
-<h2 data-number="5.8" class="anchored" data-anchor-id="sec-resumen-cap05"><span class="header-section-number">5.8</span> En una página</h2>
+<section id="sec-resumen-cap05" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="sec-resumen-cap05"><span class="header-section-number">5.9</span> En una página</h2>
 <ul>
 <li>Muestrear = multiplicar por <span class="math inline">\delta_T</span>: <span class="math inline">X_s(\omega) = \frac{1}{T}\sum_k X(\omega - k\omega_s)</span> — <strong>muestrear en el tiempo es periodizar en la frecuencia</strong>.</li>
 <li>Teorema del muestreo: banda limitada a <span class="math inline">f_M</span> + <span class="math inline">f_s &gt; 2f_M</span> ⟹ reconstrucción exacta. Bajo Nyquist: aliasing, frecuencia aparente <span class="math inline">\lvert f - kf_s\rvert</span> en <span class="math inline">[0, f_s/2]</span>.</li>
@@ -759,8 +787,8 @@ y_c(t) = 2\sqrt{2}\,\cos\big(500\pi t - \tfrac{\pi}{4}\big)</span></p>
 <li>Cadena C/D → LTI → D/C: <span class="math inline">H_{\text{ef}}(\omega) = H(e^{j\omega T})</span> para <span class="math inline">\lvert\omega\rvert &lt; \pi/T</span>; los cuatro pasos, con el chequeo de Nyquist siempre primero.</li>
 </ul>
 </section>
-<section id="sec-ejercicios-cap05" class="level2" data-number="5.9">
-<h2 data-number="5.9" class="anchored" data-anchor-id="sec-ejercicios-cap05"><span class="header-section-number">5.9</span> Ejercicios</h2>
+<section id="sec-ejercicios-cap05" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="sec-ejercicios-cap05"><span class="header-section-number">5.10</span> Ejercicios</h2>
 <p>Del banco del curso, en orden sugerido (los códigos [DB E0xxx] identifican el ejercicio; aparecen repartidos en las Listas 10 y 11 de las semanas 10–11):</p>
 <ol type="1">
 <li><strong>[DB E0152]</strong> (básico) Período de muestreo crítico de <span class="math inline">\operatorname{sinc}(t)</span>, <span class="math inline">\cos(6\pi t)</span>, una constante y <span class="math inline">\operatorname{sinc}^2(t)</span>. <em>[U5.1]</em></li>
@@ -792,8 +820,8 @@ y_c(t) = 2\sqrt{2}\,\cos\big(500\pi t - \tfrac{\pi}{4}\big)</span></p>
 </div>
 </div>
 </section>
-<section id="sec-referencias-cap05" class="level2" data-number="5.10">
-<h2 data-number="5.10" class="anchored" data-anchor-id="sec-referencias-cap05"><span class="header-section-number">5.10</span> Para profundizar</h2>
+<section id="sec-referencias-cap05" class="level2" data-number="5.11">
+<h2 data-number="5.11" class="anchored" data-anchor-id="sec-referencias-cap05"><span class="header-section-number">5.11</span> Para profundizar</h2>
 <ul>
 <li><strong>[Oppenheim]</strong> §7.1 (muestreo con tren de impulsos — la figura 7.1, tres señales continuas atravesando las mismas muestras, vale una lectura por sí sola), §7.2 (reconstrucción), §7.3 (aliasing), §7.4 (procesamiento discreto de señales continuas: nuestras cadenas híbridas); §1.3.3 (exponenciales complejas discretas y su periodicidad); §2.1 (la suma de convolución); §2.4 (ecuaciones de diferencias). Ojo al leerlo: Oppenheim escribe <span class="math inline">\omega</span> también para la frecuencia discreta — traduce a <span class="math inline">\Omega</span> al tomar apuntes.</li>
 <li><strong>[Alvarado]</strong> §5.1 (funciones en tiempo discreto: conversión A/D, representaciones de secuencias y señales elementales discretas), §5.3 (sistemas en tiempo discreto y análisis LTI).</li>

@@ -166,6 +166,12 @@ window.Quarto = {
  <span class="menu-text">Demos del curso</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../formularios.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formularios oficiales</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -236,7 +242,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">Semana 1 · Presentación y señales</a></li><li class="breadcrumb-item"><a href="../../curso/semana-01/ay01.html">Ay1 · Nivelación: números complejos</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Ay1 · Nivelación: números complejos</h1>
-<p class="subtitle lead">Semana 1 · Viernes · 70 min · Prerrequisito (D1)</p>
+<p class="subtitle lead">Semana 1 · 70 min · Prerrequisito (D1)</p>
 </div>
 
 
@@ -295,6 +301,21 @@ window.Quarto = {
 <li><strong>Conjugado</strong>: <span class="math inline">z^* = a - jb = r\,e^{-j\theta}</span>; <span class="math inline">z z^* = |z|^2</span> (siempre real ≥ 0); <span class="math inline">\Re\{z\} = \frac{z+z^*}{2}</span>.</li>
 <li><strong>El fasor</strong>: <span class="math inline">e^{j\omega t}</span> es un punto girando en el círculo unitario a <span class="math inline">\omega</span> rad/s. Es <em>la</em> señal del curso: toda sinusoide es su sombra: <span class="math inline">\cos(\omega t) = \Re\{e^{j\omega t}\}</span>.</li>
 </ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Repetir el recorrido de C3, ahora con complejos frescos (5 min)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Repetir el recorrido de C3, ahora con complejos frescos (5 min)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En C3 vieron que <strong>elegir qué se grafica es una decisión</strong>. Vale la pena repetirlo aquí, porque recién ahora tienen la aritmética compleja fresca y el punto se entiende mejor.</p>
+<p>Proyectar <a href="https://www.desmos.com/calculator/akpveuu0ba">Complejas 1</a>: <span class="math inline">e^{st}</span> con Re, Im, módulo y fase simultáneos. Arrastrar <span class="math inline">\sigma</span> y <span class="math inline">\omega</span> y pedir que <strong>anticipen</strong> qué proyección cambia con cuál. La respuesta que importa: <span class="math inline">\sigma</span> mueve solo la envolvente, <span class="math inline">\omega</span> solo la velocidad de giro — y la fase es la única que muestra el <em>wrapping</em>, que es lo que más confunde después en Bode.</p>
+<p><strong>Ejercicio Gauss</strong> (del material del profesor, ver <code>demos/desmos/README.md</code>): graficar a mano, en forma aproximada, las cuatro proyecciones de <span class="math display">f(x) = e^{-\pi x^{2}}\,(1 - i2\pi x)</span> y recién después comprobar con el gráfico. Es el mejor ejercicio del recorrido porque las cuatro proyecciones salen <strong>completamente distintas</strong>: la magnitud tiene doble joroba y la fase es una transición suave, aunque Re e Im se parezcan a una gaussiana y su derivada.</p>
+</div>
+</div>
 </section>
 <section id="ejercicios-en-pizarra-1535-min" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios-en-pizarra-1535-min">Ejercicios en pizarra (15–35 min)</h2>
@@ -305,11 +326,26 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="trabajo-en-parejas-3560-min">Trabajo en parejas (35–60 min)</h2>
 <p><strong>[DB E0004]</strong> Para <span class="math inline">x(t) = \sqrt{2}(1+j)\,e^{j\pi/4}\,e^{(-1+j2\pi)t}</span>: determinar <span class="math inline">\Re\{x(t)\}</span>, <span class="math inline">\Im\{x(t)\}</span> y <span class="math inline">x(t+2) + x^*(t+2)</span>.</p>
 <p><strong>[DB E0006]</strong> Hallar todos los valores de <span class="math inline">(2j)^{1/2}</span> y la raíz principal.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Mencionar el apéndice B (1 min, no más)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Mencionar el apéndice B (1 min, no más)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En el cierre, junto con el apéndice A, avisar que existe el <strong>apéndice B: Series</strong>. Decirlo con honestidad: <em>“no lo necesitan todavía — lo van a necesitar en la unidad 4, y sobre todo en la 6”</em>.</p>
+<p><strong>Por qué no le damos minutos hoy</strong>: series no se usa hasta Laplace. Un repaso en la semana 1 se olvida antes de que sirva, y esta ayudantía ya está apretada con la nivelación de complejos. El apéndice está escrito para leerse solo, y las clases que lo cobran (C15 y C23) mandan de vuelta a él.</p>
+<p>Lo único que vale la pena adelantar hoy, si sobra medio minuto: <strong>la identidad de Euler que acaban de usar sale de sumar tres series de Taylor</strong>. Está desarrollado en el apéndice B, y es el punto donde los dos apéndices se tocan.</p>
+</div>
+</div>
 </section>
 <section id="cierre-6070-min" class="level2">
 <h2 class="anchored" data-anchor-id="cierre-6070-min">Cierre (60–70 min)</h2>
 <ul>
-<li>Recordar: Lista 1 ya está publicada — al <strong>portafolio manuscrito</strong> (se usa en el control CV1 de la semana 3).</li>
+<li>Recordar: Lista 1 ya está publicada — al <strong>portafolio manuscrito</strong> (se usa en el control CV1 de la semana 4).</li>
 <li>Estudio personal: apéndice A completo; quien falló el diagnóstico en las preguntas 3, 4 u 8 debería rehacerlas tras leer el apéndice.</li>
 </ul>
 

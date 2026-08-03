@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Apéndice A — Números complejos – Señales y Sistemas</title>
+<title>Apéndice B — Series – Señales y Sistemas</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./apendice-b.html" rel="next">
-<link href="./cap07.html" rel="prev">
+<link href="./apendice-a.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +128,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./apendice-a.html">Apéndices</a></li><li class="breadcrumb-item"><a href="./apendice-a.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./apendice-a.html">Apéndices</a></li><li class="breadcrumb-item"><a href="./apendice-b.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Series</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -213,13 +212,13 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./apendice-a.html" class="sidebar-item-text sidebar-link active">
+  <a href="./apendice-a.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./apendice-b.html" class="sidebar-item-text sidebar-link">
+  <a href="./apendice-b.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Series</span></span></a>
   </div>
 </li>
@@ -235,22 +234,22 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#por-qué-un-curso-de-señales-habla-en-complejo" id="toc-por-qué-un-curso-de-señales-habla-en-complejo" class="nav-link active" data-scroll-target="#por-qué-un-curso-de-señales-habla-en-complejo"><span class="header-section-number">A.1</span> Por qué un curso de señales habla en complejo</a></li>
-  <li><a href="#el-plano-complejo" id="toc-el-plano-complejo" class="nav-link" data-scroll-target="#el-plano-complejo"><span class="header-section-number">A.2</span> El plano complejo</a></li>
-  <li><a href="#aritmética-cada-forma-tiene-su-especialidad" id="toc-aritmética-cada-forma-tiene-su-especialidad" class="nav-link" data-scroll-target="#aritmética-cada-forma-tiene-su-especialidad"><span class="header-section-number">A.3</span> Aritmética: cada forma tiene su especialidad</a></li>
-  <li><a href="#conjugado-y-módulo" id="toc-conjugado-y-módulo" class="nav-link" data-scroll-target="#conjugado-y-módulo"><span class="header-section-number">A.4</span> Conjugado y módulo</a></li>
-  <li><a href="#el-fasor-ejomega-t-como-movimiento" id="toc-el-fasor-ejomega-t-como-movimiento" class="nav-link" data-scroll-target="#el-fasor-ejomega-t-como-movimiento"><span class="header-section-number">A.5</span> El fasor: <span class="math inline">e^{j\omega t}</span> como movimiento</a></li>
-  <li><a href="#raíces-de-un-número-complejo" id="toc-raíces-de-un-número-complejo" class="nav-link" data-scroll-target="#raíces-de-un-número-complejo"><span class="header-section-number">A.6</span> Raíces de un número complejo</a></li>
-  <li><a href="#ejercicios-de-nivelación" id="toc-ejercicios-de-nivelación" class="nav-link" data-scroll-target="#ejercicios-de-nivelación"><span class="header-section-number">A.7</span> Ejercicios de nivelación</a></li>
+  <li><a href="#por-qué-un-curso-de-señales-habla-en-series" id="toc-por-qué-un-curso-de-señales-habla-en-series" class="nav-link active" data-scroll-target="#por-qué-un-curso-de-señales-habla-en-series"><span class="header-section-number">B.1</span> Por qué un curso de señales habla en series</a></li>
+  <li><a href="#series-de-potencias" id="toc-series-de-potencias" class="nav-link" data-scroll-target="#series-de-potencias"><span class="header-section-number">B.2</span> Series de potencias</a></li>
+  <li><a href="#el-requisito-de-convergencia-y-la-razón-de-dalembert" id="toc-el-requisito-de-convergencia-y-la-razón-de-dalembert" class="nav-link" data-scroll-target="#el-requisito-de-convergencia-y-la-razón-de-dalembert"><span class="header-section-number">B.3</span> El requisito de convergencia y la razón de D’Alembert</a></li>
+  <li><a href="#potencias-positivas-potencias-negativas-y-el-anillo" id="toc-potencias-positivas-potencias-negativas-y-el-anillo" class="nav-link" data-scroll-target="#potencias-positivas-potencias-negativas-y-el-anillo"><span class="header-section-number">B.4</span> Potencias positivas, potencias negativas, y el anillo</a></li>
+  <li><a href="#dónde-se-cobra-la-roc-de-la-transformada-z" id="toc-dónde-se-cobra-la-roc-de-la-transformada-z" class="nav-link" data-scroll-target="#dónde-se-cobra-la-roc-de-la-transformada-z"><span class="header-section-number">B.5</span> Dónde se cobra: la ROC de la transformada Z</a></li>
+  <li><a href="#series-de-taylor" id="toc-series-de-taylor" class="nav-link" data-scroll-target="#series-de-taylor"><span class="header-section-number">B.6</span> Series de Taylor</a></li>
+  <li><a href="#ejercicios-de-nivelación" id="toc-ejercicios-de-nivelación" class="nav-link" data-scroll-target="#ejercicios-de-nivelación"><span class="header-section-number">B.7</span> Ejercicios de nivelación</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./apendice-a.html">Apéndices</a></li><li class="breadcrumb-item"><a href="./apendice-a.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./apendice-a.html">Apéndices</a></li><li class="breadcrumb-item"><a href="./apendice-b.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Series</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-apendice-a" class="quarto-section-identifier">Apéndice A — Números complejos</span></h1>
+<h1 class="title"><span id="sec-apendice-b" class="quarto-section-identifier">Apéndice B — Series</span></h1>
 </div>
 
 
@@ -277,90 +276,155 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Los números complejos <strong>no son materia de este curso: son su idioma</strong>. Aquí está todo lo que el curso da por sabido — el mismo contenido que cubre la ayudantía de nivelación de la semana 1. Si el diagnóstico de la primera clase te costó, trabaja este apéndice completo antes de la segunda semana; si no, úsalo como referencia rápida.</p>
+<p>Igual que los complejos, las series <strong>no son materia de este curso: son su idioma</strong>. Pero aquí hay algo más concreto que un repaso: cuando en el capítulo 6 aparezca la <strong>región de convergencia</strong> de la transformada Z y parezca una condición técnica arbitraria, va a ser exactamente lo que estás por leer. La ROC no es una regla del curso — es dónde converge una serie de potencias, ni más ni menos.</p>
+<p>Léelo antes de la unidad 6. Si lo lees antes de la 4, mejor: la ROC de Laplace es el mismo argumento con una integral en vez de una suma.</p>
 </div>
 </div>
-<section id="por-qué-un-curso-de-señales-habla-en-complejo" class="level2" data-number="A.1">
-<h2 data-number="A.1" class="anchored" data-anchor-id="por-qué-un-curso-de-señales-habla-en-complejo"><span class="header-section-number">A.1</span> Por qué un curso de señales habla en complejo</h2>
-<p>La señal más importante del semestre es la exponencial compleja <span class="math inline">e^{j\omega t}</span>. No porque las señales del mundo sean complejas — un micrófono entrega números reales — sino porque <strong>toda sinusoide real se escribe con exponenciales complejas</strong>, y las exponenciales se derivan, se integran y se multiplican con un álgebra incomparablemente más simple que la de senos y cosenos. Una ecuación diferencial con coseno se convierte en álgebra al pasarla por <span class="math inline">e^{j\omega t}</span>. Ese truco — de nombre <em>fasor</em> — es el corazón de Fourier, Laplace y Z.</p>
+<section id="por-qué-un-curso-de-señales-habla-en-series" class="level2" data-number="B.1">
+<h2 data-number="B.1" class="anchored" data-anchor-id="por-qué-un-curso-de-señales-habla-en-series"><span class="header-section-number">B.1</span> Por qué un curso de señales habla en series</h2>
+<p>Casi todas las transformadas del semestre son <strong>sumas infinitas</strong> o integrales de un mismo tipo:</p>
+<p><span class="math display">X(z) = \sum_{n=-\infty}^{\infty} x[n]\,z^{-n}, \qquad X(s) = \int_{-\infty}^{\infty} x(t)\,e^{-st}\,dt</span></p>
+<p>Escribir la fórmula es gratis. La pregunta que no es gratis: <strong>¿para qué valores de <span class="math inline">z</span> (o de <span class="math inline">s</span>) esa suma da un número finito?</strong> Fuera de ese conjunto la transformada sencillamente no existe, y dos señales completamente distintas pueden tener la misma fórmula y diferenciarse <em>solo</em> por dónde converge.</p>
+<p>Ese conjunto tiene nombre —la <strong>región de convergencia</strong>— y este apéndice es su maquinaria.</p>
 </section>
-<section id="el-plano-complejo" class="level2" data-number="A.2">
-<h2 data-number="A.2" class="anchored" data-anchor-id="el-plano-complejo"><span class="header-section-number">A.2</span> El plano complejo</h2>
-<p>Un número complejo es un punto del plano: <span class="math display">z = x + jy, \qquad x = \Re\{z\},\quad y = \Im\{z\}</span></p>
-<p>En ingeniería usamos <span class="math inline">j</span> (no <span class="math inline">i</span>, reservada para corriente) con <span class="math inline">j^2 = -1</span>.</p>
-<p>El mismo punto se describe de dos maneras:</p>
-<ul>
-<li><strong>Cartesiana</strong> <span class="math inline">z = x + jy</span>: coordenadas horizontal y vertical.</li>
-<li><strong>Polar</strong> <span class="math inline">z = r\,e^{j\theta}</span>: distancia al origen <span class="math inline">r = |z| = \sqrt{x^2 + y^2}</span> y ángulo <span class="math inline">\theta = \angle z</span> medido desde el eje real positivo.</li>
-</ul>
-<p>El puente entre ambas es la <strong>identidad de Euler</strong> — la fórmula más usada del semestre: <span class="math display">e^{j\theta} = \cos\theta + j\sin\theta</span></p>
-<p>de donde <span class="math inline">x = r\cos\theta</span>, <span class="math inline">y = r\sin\theta</span> y <span class="math inline">\theta = \operatorname{atan2}(y, x)</span> (¡cuidado con el cuadrante: <span class="math inline">-1-j</span> no tiene el mismo ángulo que <span class="math inline">1+j</span>!).</p>
-<div id="b04b9b84" class="cell" data-execution_count="1">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="apendice-a_files/figure-html/cell-2-output-1.png" width="438" height="393" class="figure-img"></p>
-<figcaption>Un mismo número complejo, dos lecturas: cartesiana (x, y) y polar (r, θ). Su conjugado es el reflejo en el eje real.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>Valores que hay que reconocer sin calcular</strong> (aparecerán cientos de veces): <span class="math display">e^{j0} = 1, \qquad e^{j\pi/2} = j, \qquad e^{j\pi} = -1, \qquad e^{j3\pi/2} = e^{-j\pi/2} = -j, \qquad e^{j2\pi} = 1</span></p>
-</section>
-<section id="aritmética-cada-forma-tiene-su-especialidad" class="level2" data-number="A.3">
-<h2 data-number="A.3" class="anchored" data-anchor-id="aritmética-cada-forma-tiene-su-especialidad"><span class="header-section-number">A.3</span> Aritmética: cada forma tiene su especialidad</h2>
-<p><strong>Sumar y restar: en cartesiana.</strong> Componente a componente, como vectores: <span class="math display">(2 + j) + (1 - 3j) = 3 - 2j</span></p>
-<p><strong>Multiplicar y dividir: en polar.</strong> Los módulos se multiplican, los ángulos se suman: <span class="math display">r_1 e^{j\theta_1} \cdot r_2 e^{j\theta_2} = r_1 r_2\, e^{j(\theta_1 + \theta_2)}, \qquad \frac{r_1 e^{j\theta_1}}{r_2 e^{j\theta_2}} = \frac{r_1}{r_2}\, e^{j(\theta_1 - \theta_2)}</span></p>
-<p>Multiplicar por <span class="math inline">e^{j\phi}</span> es <strong>rotar</strong> en <span class="math inline">\phi</span> sin cambiar el tamaño — multiplicar por <span class="math inline">j</span> es girar 90°. Esta lectura geométrica de la multiplicación reaparecerá al leer diagramas de polos y ceros (capítulo 6).</p>
-<p><strong>Potencias: en polar, siempre.</strong> <span class="math display">z^n = r^n e^{jn\theta} \qquad \text{(fórmula de De Moivre)}</span></p>
+<section id="series-de-potencias" class="level2" data-number="B.2">
+<h2 data-number="B.2" class="anchored" data-anchor-id="series-de-potencias"><span class="header-section-number">B.2</span> Series de potencias</h2>
+<p>Una <strong>serie de potencias</strong> centrada en el origen es <span class="math display">S(x) = \sum_{k=0}^{\infty} a_k\,x^k = a_0 + a_1 x + a_2 x^2 + \cdots</span></p>
+<p>El ejemplo que hay que tener tatuado es la <strong>serie geométrica</strong>, porque es prácticamente la única que este curso necesita sumar en forma cerrada: <span class="math display">\sum_{k=0}^{\infty} r^k = \frac{1}{1-r} \qquad \textbf{si y solo si } |r| &lt; 1</span></p>
+<p>Si <span class="math inline">|r| \ge 1</span> los términos no se achican y la suma se va a infinito. Esa condición <span class="math inline">|r|&lt;1</span>, que parece inocente, es el origen de casi todas las ROC del curso.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Regla práctica
+<span class="screen-reader-only">Tip</span>Verificación en una línea
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Antes de operar, pregúntate: ¿voy a sumar? → cartesiana. ¿Voy a multiplicar, dividir o elevar? → polar. Convertir entre formas cuesta una línea; operar en la forma equivocada cuesta una página.</p>
+<p><span class="math inline">S = 1 + r + r^2 + \cdots</span>. Entonces <span class="math inline">rS = r + r^2 + \cdots = S - 1</span>, de donde <span class="math inline">S(1-r) = 1</span> y <span class="math inline">S = 1/(1-r)</span>. El paso ilegal está en asumir que <span class="math inline">S</span> es finito: por eso la fórmula <strong>solo</strong> vale donde converge.</p>
 </div>
 </div>
 </section>
-<section id="conjugado-y-módulo" class="level2" data-number="A.4">
-<h2 data-number="A.4" class="anchored" data-anchor-id="conjugado-y-módulo"><span class="header-section-number">A.4</span> Conjugado y módulo</h2>
-<p>El <strong>conjugado</strong> <span class="math inline">z^* = x - jy = r\,e^{-j\theta}</span> refleja el punto en el eje real. Tres identidades que el curso usa sin avisar: <span class="math display">z\,z^* = |z|^2, \qquad \Re\{z\} = \frac{z + z^*}{2}, \qquad \Im\{z\} = \frac{z - z^*}{2j}</span></p>
-<p>La primera es la razón de que en las definiciones de energía aparezca <span class="math inline">|x(t)|^2</span>: si la señal es compleja, <span class="math inline">|x|^2 = x\,x^*</span> es real y positivo, como corresponde a una energía.</p>
-<p><strong>Ejemplo (calibre diagnóstico).</strong> Para <span class="math inline">z = 2e^{j\pi/6}</span>: <span class="math inline">\;z^* = 2e^{-j\pi/6}</span> y <span class="math inline">z\,z^* = 4</span>. En cartesiana: <span class="math inline">(1+j)(1-j) = 1 - j^2 = 2 = |1+j|^2</span>. ✓</p>
+<section id="el-requisito-de-convergencia-y-la-razón-de-dalembert" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="el-requisito-de-convergencia-y-la-razón-de-dalembert"><span class="header-section-number">B.3</span> El requisito de convergencia y la razón de D’Alembert</h2>
+<p>Para que <span class="math inline">\sum a_k</span> converja, es <strong>necesario</strong> que <span class="math inline">a_k \to 0</span>. No es suficiente (la serie armónica <span class="math inline">\sum 1/k</span> diverge aunque sus términos tiendan a cero), pero sirve para descartar rápido.</p>
+<p>El criterio que usaremos es el <strong>cociente</strong> o <strong>razón de D’Alembert</strong>: si <span class="math display">L = \lim_{k\to\infty}\left|\frac{a_{k+1}}{a_k}\right|</span> entonces la serie converge si <span class="math inline">L &lt; 1</span> y diverge si <span class="math inline">L &gt; 1</span> (si <span class="math inline">L = 1</span> el criterio no decide).</p>
+<p>Aplicado a una serie de potencias <span class="math inline">\sum a_k x^k</span>, el cociente incluye la <span class="math inline">x</span>: <span class="math display">\left|\frac{a_{k+1}x^{k+1}}{a_k x^k}\right| = |x|\left|\frac{a_{k+1}}{a_k}\right| \;\longrightarrow\; \frac{|x|}{R}, \qquad R = \lim_{k\to\infty}\left|\frac{a_k}{a_{k+1}}\right|</span></p>
+<p>y la condición <span class="math inline">L&lt;1</span> se convierte en <span class="math inline">|x| &lt; R</span>. Ese <span class="math inline">R</span> es el <strong>radio de convergencia</strong>.</p>
+<p><strong>La serie de potencias converge dentro de un disco de radio <span class="math inline">R</span> y diverge fuera.</strong> En el borde <span class="math inline">|x| = R</span> hay que mirar caso a caso.</p>
 </section>
-<section id="el-fasor-ejomega-t-como-movimiento" class="level2" data-number="A.5">
-<h2 data-number="A.5" class="anchored" data-anchor-id="el-fasor-ejomega-t-como-movimiento"><span class="header-section-number">A.5</span> El fasor: <span class="math inline">e^{j\omega t}</span> como movimiento</h2>
-<p>Hasta aquí, <span class="math inline">z</span> era un punto quieto. La señal <span class="math inline">e^{j\omega t}</span> es un punto <strong>en movimiento</strong>: para cada <span class="math inline">t</span>, un número complejo de módulo 1 y ángulo <span class="math inline">\omega t</span>. Al crecer <span class="math inline">t</span>, el punto recorre el <strong>círculo unitario</strong> en sentido antihorario, dando una vuelta cada <span class="math inline">T = 2\pi/\omega</span> segundos.</p>
-<p>Sus sombras son las sinusoides: la proyección sobre el eje real es <span class="math inline">\cos(\omega t)</span>; sobre el imaginario, <span class="math inline">\sin(\omega t)</span>. Y despejando de Euler: <span class="math display">\cos(\omega t) = \frac{e^{j\omega t} + e^{-j\omega t}}{2}, \qquad \sin(\omega t) = \frac{e^{j\omega t} - e^{-j\omega t}}{2j}</span></p>
-<p>Toda sinusoide real son <strong>dos fasores contrarrotantes</strong>. Cuando en el capítulo 3 el espectro de un coseno muestre dos líneas — una en <span class="math inline">\omega</span> y otra en <span class="math inline">-\omega</span> — será exactamente esta identidad hecha dibujo. Las “frecuencias negativas” no son un misterio: son el fasor que gira al revés.</p>
+<section id="potencias-positivas-potencias-negativas-y-el-anillo" class="level2" data-number="B.4">
+<h2 data-number="B.4" class="anchored" data-anchor-id="potencias-positivas-potencias-negativas-y-el-anillo"><span class="header-section-number">B.4</span> Potencias positivas, potencias negativas, y el anillo</h2>
+<p>Aquí está el punto que hace que este apéndice sea de <em>este</em> curso y no de Cálculo.</p>
+<p><strong>Potencias positivas.</strong> <span class="math inline">\sum_{k\ge0} a_k x^k</span> converge para <span class="math inline">|x| &lt; R_+</span>: <strong>el interior de un disco</strong>. Términos con <span class="math inline">x</span> grande son los que hacen daño, así que hay que quedarse cerca del origen.</p>
+<p><strong>Potencias negativas.</strong> <span class="math inline">\sum_{k\ge0} b_k x^{-k}</span> es lo mismo con <span class="math inline">u = 1/x</span>: converge para <span class="math inline">|u| &lt; R_-</span>, es decir para <span class="math display">|x| &gt; \frac{1}{R_-}</span> <strong>el exterior de un disco</strong>. Ahora el peligro está <em>cerca</em> del origen: hay que quedarse lejos.</p>
+<p><strong>Las dos juntas.</strong> Una serie con potencias positivas <em>y</em> negativas —una <strong>serie de Laurent</strong>— <span class="math display">\sum_{n=-\infty}^{\infty} c_n\,x^{n}</span> converge donde convergen ambas mitades a la vez: en un <strong>anillo</strong> <span class="math display">r_{\text{int}} &lt; |x| &lt; r_{\text{ext}}</span></p>
+<p>Si el anillo es vacío, la serie no converge en ninguna parte.</p>
+<div id="e98a48f1" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="apendice-b_files/figure-html/cell-2-output-1.png" width="912" height="327" class="figure-img"></p>
+<figcaption>Las tres formas que puede tomar una región de convergencia. Potencias positivas: disco. Potencias negativas: exterior de un disco. Ambas: un anillo. Son exactamente las tres formas de ROC que aparecen en los capítulos 4 y 6.</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
-<section id="raíces-de-un-número-complejo" class="level2" data-number="A.6">
-<h2 data-number="A.6" class="anchored" data-anchor-id="raíces-de-un-número-complejo"><span class="header-section-number">A.6</span> Raíces de un número complejo</h2>
-<p><span class="math inline">z^N = w</span> tiene exactamente <span class="math inline">N</span> soluciones, repartidas en un polígono regular sobre el círculo de radio <span class="math inline">|w|^{1/N}</span>: <span class="math display">z_k = |w|^{1/N} e^{j(\theta_w + 2\pi k)/N}, \qquad k = 0, 1, \dots, N-1</span></p>
-<p><strong>Ejemplo.</strong> <span class="math inline">z^2 = -1 = e^{j\pi}</span>: soluciones <span class="math inline">e^{j\pi/2} = j</span> y <span class="math inline">e^{j3\pi/2} = -j</span>. ✓</p>
-<p>Las <span class="math inline">N</span> soluciones de <span class="math inline">z^N = 1</span> son las <strong>raíces de la unidad</strong> <span class="math inline">e^{j2\pi k/N}</span> — <span class="math inline">N</span> puntos equiespaciados en el círculo unitario. Guarda esta imagen: en el capítulo 7, la DFT se construye enteramente sobre estos puntos.</p>
+<section id="dónde-se-cobra-la-roc-de-la-transformada-z" class="level2" data-number="B.5">
+<h2 data-number="B.5" class="anchored" data-anchor-id="dónde-se-cobra-la-roc-de-la-transformada-z"><span class="header-section-number">B.5</span> Dónde se cobra: la ROC de la transformada Z</h2>
+<p>La transformada Z de una secuencia es, literalmente, una serie de Laurent en <span class="math inline">z</span>: <span class="math display">X(z) = \sum_{n=-\infty}^{\infty} x[n]\,z^{-n}</span></p>
+<p>Mira qué le corresponde a cada mitad:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Serie</th>
+<th>Converge en</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><span class="math inline">n \ge 0</span></strong> (señal <strong>derecha</strong>, causal)</td>
+<td>potencias de <span class="math inline">z^{-1}</span></td>
+<td><span class="math inline">|z| &gt; r</span> — <strong>fuera</strong> de un disco</td>
+</tr>
+<tr class="even">
+<td><strong><span class="math inline">n &lt; 0</span></strong> (señal <strong>izquierda</strong>, anticausal)</td>
+<td>potencias de <span class="math inline">z</span></td>
+<td><span class="math inline">|z| &lt; R</span> — <strong>dentro</strong> de un disco</td>
+</tr>
+<tr class="odd">
+<td><strong>ambas</strong> (señal <strong>bilateral</strong>)</td>
+<td>Laurent</td>
+<td><span class="math inline">r &lt; |z| &lt; R</span> — un <strong>anillo</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Y eso es <em>toda</em> la teoría de ROC del capítulo 6. Las tres formas de ROC que ahí se presentan como un catálogo son las tres formas de convergencia que acabas de ver.</p>
+<p><strong>El ejemplo canónico.</strong> Sea <span class="math inline">x[n] = a^n u[n]</span> (exponencial causal). Entonces <span class="math display">X(z) = \sum_{n=0}^{\infty} a^n z^{-n} = \sum_{n=0}^{\infty}\left(\frac{a}{z}\right)^{n} = \frac{1}{1 - a z^{-1}} = \frac{z}{z-a}</span></p>
+<p>usando la geométrica, <strong>válida solo si</strong> <span class="math inline">|a/z| &lt; 1</span>, o sea <span class="math inline">|z| &gt; |a|</span>. La ROC es el exterior del círculo de radio <span class="math inline">|a|</span>, y el borde de esa región es justamente donde está el <strong>polo</strong> <span class="math inline">z = a</span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>La consecuencia que más cuesta en la interrogación
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La <strong>fórmula</strong> <span class="math inline">X(z) = z/(z-a)</span> <strong>no determina la señal</strong>. La secuencia anticausal <span class="math inline">x[n] = -a^n u[-n-1]</span> tiene <em>exactamente la misma fórmula</em>, pero converge en <span class="math inline">|z| &lt; |a|</span> — el interior.</p>
+<p>Misma expresión algebraica, dos señales distintas, dos ROC distintas. Por eso en este curso <strong>una transformada sin su ROC es media respuesta</strong>, y así se corrige.</p>
+</div>
+</div>
+<p>El mismo argumento, con integral en vez de suma, da las ROC de Laplace del capítulo 4: semiplano derecho para señales derechas, semiplano izquierdo para izquierdas, franja para bilaterales.</p>
 </section>
-<section id="ejercicios-de-nivelación" class="level2" data-number="A.7">
-<h2 data-number="A.7" class="anchored" data-anchor-id="ejercicios-de-nivelación"><span class="header-section-number">A.7</span> Ejercicios de nivelación</h2>
-<p>Resuélvelos sin calculadora; las respuestas están al final de cada uno entre corchetes.</p>
+<section id="series-de-taylor" class="level2" data-number="B.6">
+<h2 data-number="B.6" class="anchored" data-anchor-id="series-de-taylor"><span class="header-section-number">B.6</span> Series de Taylor</h2>
+<p>La otra cara de las series de potencias: en vez de preguntar <em>a qué converge</em> una serie dada, se construye la serie que reproduce una función conocida.</p>
+<p>Si <span class="math inline">f</span> es suficientemente derivable en <span class="math inline">x_0</span>: <span class="math display">f(x) = \sum_{k=0}^{\infty} \frac{f^{(k)}(x_0)}{k!}\,(x-x_0)^k</span></p>
+<p>Centrada en <span class="math inline">x_0 = 0</span> se llama <strong>serie de Maclaurin</strong>. Las tres que el curso usa sin avisar:</p>
+<p><span class="math display">e^{x} = \sum_{k=0}^{\infty}\frac{x^k}{k!}, \qquad \cos x = \sum_{k=0}^{\infty}\frac{(-1)^k x^{2k}}{(2k)!}, \qquad \sin x = \sum_{k=0}^{\infty}\frac{(-1)^k x^{2k+1}}{(2k+1)!}</span></p>
+<p>Las tres convergen para <strong>todo</strong> <span class="math inline">x</span> (<span class="math inline">R = \infty</span>).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>De aquí sale Euler
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Evalúa la serie de <span class="math inline">e^x</span> en <span class="math inline">x = j\theta</span> y separa las potencias pares de las impares: <span class="math display">e^{j\theta} = \underbrace{\left(1 - \tfrac{\theta^2}{2!} + \tfrac{\theta^4}{4!} - \cdots\right)}_{\cos\theta} + j\underbrace{\left(\theta - \tfrac{\theta^3}{3!} + \tfrac{\theta^5}{5!} - \cdots\right)}_{\sin\theta}</span></p>
+<p>La identidad de Euler del <a href="apendice-a.html" class="quarto-xref"><span>Apéndice A</span></a> no es una definición ni un truco de notación: es lo que sale de sumar tres series de Taylor. Los dos apéndices se tocan justo aquí.</p>
+</div>
+</div>
+<p>La serie de Taylor también da la lectura correcta de las aproximaciones que el curso usa a la ligera: <span class="math inline">\sin\theta \approx \theta</span> para <span class="math inline">\theta</span> pequeño es quedarse con el primer término, y el error es del orden de <span class="math inline">\theta^3/6</span>.</p>
+</section>
+<section id="ejercicios-de-nivelación" class="level2" data-number="B.7">
+<h2 data-number="B.7" class="anchored" data-anchor-id="ejercicios-de-nivelación"><span class="header-section-number">B.7</span> Ejercicios de nivelación</h2>
+<p>Sin calculadora; respuestas entre corchetes.</p>
 <ol type="1">
-<li>Calcula <span class="math inline">|3 + 4j|</span> y <span class="math inline">\angle(3+4j)</span> aproximado. — [<span class="math inline">5</span>; <span class="math inline">\approx 0.93</span> rad <span class="math inline">\approx 53°</span>]</li>
-<li>Escribe <span class="math inline">1 + j</span> en forma polar. — [<span class="math inline">\sqrt{2}\,e^{j\pi/4}</span>]</li>
-<li>Escribe <span class="math inline">-1 - j</span> en forma polar (cuidado con el cuadrante). — [<span class="math inline">\sqrt{2}\,e^{-j3\pi/4}</span>, equivalente a <span class="math inline">\sqrt{2}\,e^{j5\pi/4}</span>]</li>
-<li>¿Cuánto valen <span class="math inline">e^{j\pi/2}</span>, <span class="math inline">e^{j\pi}</span> y <span class="math inline">e^{j100\pi}</span>? — [<span class="math inline">j</span>; <span class="math inline">-1</span>; <span class="math inline">1</span>]</li>
-<li>Si <span class="math inline">z = e^{j\theta}</span>, ¿cuánto valen <span class="math inline">\Re\{z\}</span>, <span class="math inline">\Im\{z\}</span> y <span class="math inline">|z|</span>? — [<span class="math inline">\cos\theta</span>; <span class="math inline">\sin\theta</span>; <span class="math inline">1</span>]</li>
-<li>Calcula <span class="math inline">(1+j)(1-j)</span> y <span class="math inline">(1+j)^2</span>. — [<span class="math inline">2</span>; <span class="math inline">2j</span>]</li>
-<li>Para <span class="math inline">z = 2e^{j\pi/6}</span>: escribe <span class="math inline">z^*</span> y calcula <span class="math inline">z\,z^*</span> y <span class="math inline">z^3</span>. — [<span class="math inline">2e^{-j\pi/6}</span>; <span class="math inline">4</span>; <span class="math inline">8j</span>]</li>
-<li>Encuentra todas las soluciones de <span class="math inline">z^2 = -1</span> y de <span class="math inline">z^3 = 8</span>. — [<span class="math inline">\pm j</span>; <span class="math inline">2,\; 2e^{j2\pi/3},\; 2e^{-j2\pi/3}</span>]</li>
-<li>Dibuja la trayectoria de <span class="math inline">e^{j\omega t}</span> cuando <span class="math inline">t</span> crece, y la de <span class="math inline">e^{(-1+j\omega)t}</span>. — [círculo unitario antihorario; espiral que decae hacia el origen]</li>
-<li>Demuestra que <span class="math inline">\cos\theta = \frac{e^{j\theta}+e^{-j\theta}}{2}</span> a partir de la identidad de Euler. — [sumar <span class="math inline">e^{j\theta}</span> y <span class="math inline">e^{-j\theta}</span> y despejar]</li>
+<li>¿Para qué valores de <span class="math inline">r</span> converge <span class="math inline">\sum_{k\ge0} r^k</span>, y a cuánto? — [<span class="math inline">|r|&lt;1</span>; <span class="math inline">1/(1-r)</span>]</li>
+<li>Suma <span class="math inline">\sum_{k\ge0} (1/3)^k</span> y <span class="math inline">\sum_{k\ge2} (1/3)^k</span>. — [<span class="math inline">3/2</span>; <span class="math inline">3/2 - 1 - 1/3 = 1/6</span>]</li>
+<li>Radio de convergencia de <span class="math inline">\sum_{k\ge0} \frac{x^k}{k!}</span> usando D’Alembert. — [<span class="math inline">R=\infty</span>: el cociente es <span class="math inline">|x|/(k+1)\to0</span>]</li>
+<li>Radio de convergencia de <span class="math inline">\sum_{k\ge0} k\,x^k</span>. — [<span class="math inline">R=1</span>]</li>
+<li>¿Dónde converge <span class="math inline">\sum_{k\ge0} 2^{-k}x^{-k}</span>? Descríbela como región del plano. — [<span class="math inline">|x|&gt;1/2</span>: exterior del círculo de radio <span class="math inline">1/2</span>]</li>
+<li>Escribe <span class="math inline">\sum_{n\ge0}(a/z)^n</span> en forma cerrada e indica dónde vale. — [<span class="math inline">\dfrac{1}{1-az^{-1}} = \dfrac{z}{z-a}</span>, si <span class="math inline">|z|&gt;|a|</span>]</li>
+<li>La señal <span class="math inline">x[n] = (1/2)^n u[n]</span>: calcula <span class="math inline">X(z)</span> y su ROC. — [<span class="math inline">\dfrac{z}{z-1/2}</span>, ROC <span class="math inline">|z|&gt;1/2</span>]</li>
+<li>La señal <span class="math inline">x[n] = -(1/2)^n u[-n-1]</span>: calcula <span class="math inline">X(z)</span> y su ROC. Compara con la anterior. — [misma fórmula <span class="math inline">\dfrac{z}{z-1/2}</span>, pero ROC <span class="math inline">|z|&lt;1/2</span> — la fórmula sola no distingue]</li>
+<li>Deduce <span class="math inline">\cos\theta</span> y <span class="math inline">\sin\theta</span> a partir de la serie de <span class="math inline">e^{j\theta}</span>. — [separar potencias pares e impares, como en el callout]</li>
+<li>¿Cuál es el error de aproximar <span class="math inline">\sin(0{,}1) \approx 0{,}1</span>? — [<span class="math inline">\approx 0{,}1^3/6 \approx 1{,}7\times10^{-4}</span>]</li>
 </ol>
-<p>En el banco del curso: [DB E0005, E0006, E0007, E0012] son ejercicios de prerrequisito con este material.</p>
+<p>En el banco del curso, los ejercicios donde esto se cobra de verdad: [DB E0112] (inversa de Laplace con ROC), [DB E0175] y [DB E0186] (Z de secuencias y de una bilateral, donde la ROC decide).</p>
 
 
 </section>
@@ -768,14 +832,11 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./cap07.html" class="pagination-link" aria-label="Fourier discreto y análisis espectral">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Fourier discreto y análisis espectral</span></span>
+      <a href="./apendice-a.html" class="pagination-link" aria-label="Números complejos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./apendice-b.html" class="pagination-link" aria-label="Series">
-        <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Series</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El límite de pulsos: cómo nace δ — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --rect:#2d70b3; --tri:#388c46; --gau:#c74440; --acc:#6042a6; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;display:flex;flex-direction:column;padding:10px 14px;gap:9px}
+
+  header{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:7px 13px;cursor:pointer}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  label.sl{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:13px}
+  input[type=range]{width:190px}
+
+  /* la predicción tapa el gráfico hasta que se vota */
+  #velo{position:absolute;inset:0;background:rgba(255,255,255,.97);z-index:5;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:20px}
+  #velo h2{margin:0;font-size:26px}
+  #velo p{margin:0;color:var(--dim);font-size:17px;max-width:640px}
+  #velo .par{display:flex;gap:34px;margin-top:6px;font-size:19px}
+  #velo .par b{color:var(--acc)}
+
+  .wrap{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;gap:9px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+  #fig1{flex:1.5;min-height:150px}
+  #fig2{flex:1;min-height:110px}
+  figcaption{position:absolute;top:6px;left:10px;z-index:2;color:var(--dim);font-size:12.5px;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none}
+  canvas{display:block;width:100%;height:100%}
+
+  .lect{display:flex;gap:22px;flex-wrap:wrap;align-items:baseline;padding:0 2px}
+  body:not(.revelado) .lect{visibility:hidden}   /* no delatar la respuesta antes de votar */
+  body:not(.revelado) .ctrls{visibility:hidden}
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  .cel .v{font-size:23px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .swatch{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:5px}
+  .hint{color:var(--dim);font-size:12.5px;text-align:center}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">El límite de pulsos <span>IEE2103 · C4 — cómo nace δ</span></div>
+    <div class="ctrls">
+      <button id="btnPlay" class="primary">▶ Animar ε → 0</button>
+      <button id="btnReset">↺ Reiniciar</button>
+      <label class="sl">ε <input type="range" id="sl" min="0.06" max="2" step="0.001" value="2"></label>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">ancho ε</span><span class="v" id="rEps">—</span></div>
+    <div class="cel"><span class="k">alto 1/ε</span><span class="v" id="rAlt">—</span></div>
+    <div class="cel"><span class="k"><span class="swatch" style="background:var(--rect)"></span>área rect</span><span class="v" id="rA1">—</span></div>
+    <div class="cel"><span class="k"><span class="swatch" style="background:var(--tri)"></span>área triáng.</span><span class="v" id="rA2">—</span></div>
+    <div class="cel"><span class="k"><span class="swatch" style="background:var(--gau)"></span>área gauss.</span><span class="v" id="rA3">—</span></div>
+  </div>
+
+  <div class="wrap">
+    <div id="velo">
+      <h2>Antes de mirar nada</h2>
+      <p>Un pulso de ancho ε y alto 1/ε. Si ε se va a cero…</p>
+      <div class="par"><span>¿qué pasa con el <b>ÁREA</b>?</span><span>¿y con la <b>ALTURA</b>?</span></div>
+      <p style="font-size:14px">Voten primero. Después apreten el botón.</p>
+      <button id="btnGo" class="primary">Ya votamos — mostrar</button>
+    </div>
+
+    <figure id="fig1"><figcaption>Tres formas distintas, las tres de área 1</figcaption><canvas id="c1"></canvas></figure>
+    <figure id="fig2"><figcaption>La prueba de fondo: ∫ f(t)·p<sub>ε</sub>(t) dt → f(0), sea cual sea la forma</figcaption><canvas id="c2"></canvas></figure>
+  </div>
+
+  <div class="hint">Teclas: <b>espacio</b> anima/pausa · <b>R</b> reinicia. La altura se sale del gráfico a propósito: es lo que se va al infinito.</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const c1=$('c1'), c2=$('c2');
+
+// ── las tres familias aproximantes, todas de área 1 ───────────────────
+const rect  = (t,e) => Math.abs(t) < e/2 ? 1/e : 0;
+const tri   = (t,e) => Math.max(0, (2/e)*(1 - 2*Math.abs(t)/e));
+const gauss = (t,e) => { const s=e/5; return Math.exp(-t*t/(2*s*s))/(s*Math.sqrt(2*Math.PI)); };
+const FAM = [
+  {f:rect,  color:'var(--rect)', css:'#2d70b3', nom:'rect'},
+  {f:tri,   color:'var(--tri)',  css:'#388c46', nom:'triángulo'},
+  {f:gauss, color:'var(--gau)',  css:'#c74440', nom:'gaussiana'},
+];
+
+// la función de prueba para el sifting: f(0)=2.5, y bien distinta de una constante
+const fTest = t => 1.5 + Math.cos(2*t) + 0.35*t;
+const F0 = fTest(0);
+
+// integración numérica fina (el pulso es angosto: hay que muestrear denso cerca de 0)
+function integra(g, a, b, n){
+  let s=0, h=(b-a)/n;
+  for(let i=0;i<n;i++){ const x=a+(i+0.5)*h; s += g(x); }
+  return s*h;
+}
+const area   = (fam,e) => integra(t=>fam.f(t,e), -3, 3, 24000);
+const sift   = (fam,e) => integra(t=>fTest(t)*fam.f(t,e), -3, 3, 24000);
+
+// ── estado ───────────────────────────────────────────────────────────
+let eps = 2, animando = false, raf = 0, revelado = false;
+const EPS_MIN = 0.06, EPS_MAX = 2;
+
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  return {ctx, w:r.width, h:r.height};
+}
+
+const T_MAX = 1.6;            // rango horizontal fijo: el ancho se ve encoger de verdad
+const Y_MAX = 6;              // techo fijo: la altura se sale, y ese es el punto
+
+function ejes(ctx,w,h,ymax,etiqY){
+  ctx.clearRect(0,0,w,h);
+  const x0 = w/2, y0 = h-22;
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(0,y0); ctx.lineTo(w,y0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x0,4); ctx.lineTo(x0,h-4); ctx.stroke();
+  ctx.fillStyle='#8a97a8'; ctx.font='11px system-ui'; ctx.textAlign='center';
+  for(let t=-1.5;t<=1.5;t+=0.5){
+    if(Math.abs(t)<1e-9) continue;
+    const x=x0 + (t/T_MAX)*(w/2-14);
+    ctx.beginPath(); ctx.moveTo(x,y0-3); ctx.lineTo(x,y0+3); ctx.stroke();
+    ctx.fillText(t.toFixed(1), x, y0+14);
+  }
+  ctx.textAlign='left';
+  if(etiqY){ ctx.fillText(etiqY, 6, 14); }
+  return {x0, y0, sx:(w/2-14)/T_MAX, sy:(y0-10)/ymax};
+}
+
+function dibujaPulsos(){
+  const {ctx,w,h}=fit(c1);
+  const A=ejes(ctx,w,h,Y_MAX,'');
+  // línea de referencia en el techo, para que se note que se salen
+  ctx.setLineDash([3,4]); ctx.strokeStyle='#e4e9f0';
+  ctx.beginPath(); ctx.moveTo(0, A.y0 - Y_MAX*A.sy); ctx.lineTo(w, A.y0 - Y_MAX*A.sy); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // el recorte va ANTES de trazar: si no, su beginPath() borra el trazado del pulso
+  ctx.save();
+  ctx.beginPath(); ctx.rect(0,0,w,h); ctx.clip();
+  for(const fam of FAM){
+    ctx.beginPath();
+    const N=1400;
+    for(let i=0;i<=N;i++){
+      const t=-T_MAX + (2*T_MAX)*i/N;
+      const v=Math.min(fam.f(t,eps), Y_MAX*1.35);
+      const x=A.x0 + t*A.sx, y=A.y0 - v*A.sy;
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    ctx.strokeStyle=fam.css; ctx.lineWidth=2.6; ctx.lineJoin='round'; ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function dibujaSifting(){
+  const {ctx,w,h}=fit(c2);
+  const YM = 4.2;
+  const A=ejes(ctx,w,h,YM,'');
+  // f(t) de fondo
+  ctx.beginPath();
+  for(let i=0;i<=600;i++){
+    const t=-T_MAX + (2*T_MAX)*i/600;
+    const x=A.x0 + t*A.sx, y=A.y0 - fTest(t)*A.sy;
+    i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+  }
+  ctx.strokeStyle='#111'; ctx.lineWidth=2; ctx.stroke();
+  // la meta: f(0)
+  const yF0 = A.y0 - F0*A.sy;
+  ctx.setLineDash([4,4]); ctx.strokeStyle='#9aa7b8';
+  ctx.beginPath(); ctx.moveTo(0,yF0); ctx.lineTo(w,yF0); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#5a6879'; ctx.font='12px system-ui'; ctx.textAlign='left';
+  ctx.fillText('f(0) = '+F0.toFixed(3), 8, yF0-6);
+
+  // los tres valores del sifting, como barras cortas a la derecha
+  const bx = w - 118;
+  FAM.forEach((fam,k)=>{
+    const v = sift(fam, eps);
+    const y = A.y0 - v*A.sy;
+    ctx.fillStyle=fam.css;
+    ctx.fillRect(bx + k*30, Math.min(y,A.y0), 15, Math.abs(A.y0-y));
+    ctx.font='11px system-ui'; ctx.textAlign='center';
+    ctx.fillText(v.toFixed(3), bx + k*30 + 7, Math.min(y,A.y0)-4);
+  });
+  ctx.fillStyle='#5a6879'; ctx.textAlign='right'; ctx.font='12px system-ui';
+  ctx.fillText('∫ f·p', bx-8, A.y0-6);
+}
+
+function lectura(){
+  $('rEps').textContent = eps.toFixed(3);
+  $('rAlt').textContent = (1/eps).toFixed(2);
+  $('rA1').textContent = area(FAM[0],eps).toFixed(3);
+  $('rA2').textContent = area(FAM[1],eps).toFixed(3);
+  $('rA3').textContent = area(FAM[2],eps).toFixed(3);
+}
+
+function pinta(){ dibujaPulsos(); dibujaSifting(); lectura(); }
+
+// ── animación: ε decae exponencialmente, que es como se ve mejor ──────
+function paso(){
+  if(!animando) return;
+  raf = requestAnimationFrame(paso);
+  eps *= 0.985;
+  if(eps <= EPS_MIN){ eps = EPS_MIN; animando=false; $('btnPlay').textContent='▶ Animar ε → 0'; }
+  $('sl').value = eps;
+  pinta();
+}
+function toggle(){
+  if(eps <= EPS_MIN + 1e-9) reset();
+  animando = !animando;
+  $('btnPlay').textContent = animando ? '⏸ Pausa' : '▶ Animar ε → 0';
+  if(animando){ cancelAnimationFrame(raf); raf=requestAnimationFrame(paso); }
+}
+function reset(){
+  animando=false; cancelAnimationFrame(raf);
+  eps=EPS_MAX; $('sl').value=eps; $('btnPlay').textContent='▶ Animar ε → 0'; pinta();
+}
+
+$('btnPlay').onclick = toggle;
+$('btnReset').onclick = reset;
+$('sl').oninput = e => { animando=false; $('btnPlay').textContent='▶ Animar ε → 0'; eps=+e.target.value; pinta(); };
+$('btnGo').onclick = () => { $('velo').style.display='none'; revelado=true; document.body.classList.add('revelado'); pinta(); };
+addEventListener('keydown', e=>{
+  if(e.target.tagName==='INPUT') return;
+  if(e.code==='Space'){ e.preventDefault(); if(revelado) toggle(); else $('btnGo').click(); }
+  else if(e.key==='r'||e.key==='R') reset();
+});
+new ResizeObserver(()=>pinta()).observe(document.body);
+pinta();
+</script>
+</body>
+</html>

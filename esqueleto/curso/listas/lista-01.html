@@ -165,6 +165,12 @@ window.Quarto = {
  <span class="menu-text">Demos del curso</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../formularios.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formularios oficiales</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -258,21 +264,26 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Resuélvela <strong>a mano, en tu portafolio, con desarrollo completo</strong> — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para <em>entender</em>; el desarrollo escrito debe ser tuyo. El <strong>CV1</strong> (semana 3) será una variante de un ejercicio de las Listas 1–2, y tu portafolio será tu único material permitido.</p>
+<p>Resuélvela <strong>a mano, en tu portafolio, con desarrollo completo</strong> — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para <em>entender</em>; el desarrollo escrito debe ser tuyo. El <strong>CV1</strong> (semana 4) será una de las preguntas <strong>¿Y si…?</strong> de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido.</p>
 </div>
 </div>
 <p><strong>Referencias de estudio</strong>: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.</p>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
 <p><strong>L1.1</strong> — Clasifique cada señal como de energía, de potencia, o ninguna; calcule <span class="math inline">E</span> o <span class="math inline">P</span> según corresponda: <span class="math display">\text{(a) } x(t) = e^{-3t}u(t) \qquad \text{(b) } x(t) = 4\cos(2\pi t) \qquad \text{(c) } x[n] = \left(\tfrac{1}{2}\right)^{n} u[n] \qquad \text{(d) } x(t) = t\,u(t)</span></p>
+<p><strong>¿Y si…?</strong> ¿Y si la señal (b) se truncara a un intervalo finito, digamos <span class="math inline">t\in[0,5]</span>, en vez de estar definida para todo <span class="math inline">t</span>? ¿sigue siendo señal de potencia?</p>
 <p><strong>L1.2</strong> [DB E0010] — Sea <span class="math inline">x(t) = \cos(\omega_x(t+\tau_x)+\theta_x)</span>:</p>
 <ol type="1">
 <li>Determine la frecuencia en Hz y el período de <span class="math inline">x(t)</span> para: (a) <span class="math inline">\omega_x = \pi/3</span>, <span class="math inline">\tau_x = 0</span>, <span class="math inline">\theta_x = 2\pi</span>; (b) <span class="math inline">\omega_x = 3\pi/4</span>, <span class="math inline">\tau_x = 1/2</span>, <span class="math inline">\theta_x = \pi/4</span>; (c) <span class="math inline">\omega_x = 3/4</span>, <span class="math inline">\tau_x = 1/2</span>, <span class="math inline">\theta_x = 1/4</span>.</li>
 <li>Con <span class="math inline">y(t) = \sin(\omega_y(t+\tau_y)+\theta_y)</span>, determine en qué casos <span class="math inline">x(t) = y(t)</span>: (a) <span class="math inline">\omega_x = \pi/3, \tau_x = 0, \theta_x = 2\pi</span> y <span class="math inline">\omega_y = \pi/3, \tau_y = 1, \theta_y = -\pi/3</span>; (b) <span class="math inline">\omega_x = 3\pi/4, \tau_x = 1/2, \theta_x = \pi/4</span> y <span class="math inline">\omega_y = 11\pi/4, \tau_y = 1, \theta_y = 3\pi/8</span>; (c) <span class="math inline">\omega_x = 3/4, \tau_x = 1/2, \theta_x = 1/4</span> y <span class="math inline">\omega_y = 3/4, \tau_y = 1, \theta_y = 3/8</span>.</li>
 </ol>
+<p><strong>¿Y si…?</strong> ¿Y si en el caso (a) fuera <span class="math inline">\omega_x = 0</span> (en vez de <span class="math inline">\pi/3</span>)? ¿sigue teniendo una frecuencia y un período fundamental bien definidos?</p>
 <p><strong>L1.3</strong> — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: <span class="math display">\text{(a) } 2\cos(10t+1) - \sin(4t-1) \qquad \text{(b) } \cos(6t) + \sin(15t) \qquad \text{(c) } \cos(t) + \cos(\pi t)</span></p>
+<p><strong>¿Y si…?</strong> ¿Y si en (b) la frecuencia <span class="math inline">15</span> se reemplazara por <span class="math inline">15\pi</span> (razón irracional con <span class="math inline">6</span>)? ¿la suma sigue siendo periódica?</p>
 <p><strong>L1.4</strong> [DB E0021] — Demuestre que <span class="math inline">\ln(x)</span> se puede descomponer en una parte par <span class="math inline">P(x)</span> y una impar <span class="math inline">I(x)</span> dadas por <span class="math display">P(x) = \ln(|x|) + j\frac{\pi}{2}, \qquad I(x) = -\frac{j\pi}{2}\operatorname{sgn}(x)</span> <em>Hint: considere <span class="math inline">x = |x|\operatorname{sgn}(x)</span>.</em></p>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">x=0</span>? ¿sigue siendo válida ahí la descomposición en partes par e impar de <span class="math inline">\ln(x)</span>?</p>
 <p><strong>L1.5</strong> [DB E0022] — Una señal <span class="math inline">f(x)</span> se descompone en parte par <span class="math inline">P(x)</span> e impar <span class="math inline">I(x)</span>. Demuestre que <span class="math display">\int_{-\infty}^{\infty} f^2(x)\,dx = \int_{-\infty}^{\infty} P^2(x)\,dx + \int_{-\infty}^{\infty} I^2(x)\,dx</span></p>
+<p><strong>¿Y si…?</strong> ¿Y si el dominio de integración no fuera simétrico respecto del origen (p.&nbsp;ej. de <span class="math inline">0</span> a <span class="math inline">\infty</span>)? ¿sigue siendo válida la identidad <span class="math inline">\int f^2 = \int P^2 + \int I^2</span>?</p>
 
 
 </section>

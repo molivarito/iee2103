@@ -68,7 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./curso/semana-01/c01.html" rel="next">
+<link href="./formularios.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -201,6 +201,12 @@ window.Quarto = {
  <span class="menu-text">Demos del curso</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./formularios.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formularios oficiales</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -258,6 +264,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#inventario-completo" id="toc-inventario-completo" class="nav-link active" data-scroll-target="#inventario-completo">Inventario completo</a></li>
+  <li><a href="#aplicaciones-musicales" id="toc-aplicaciones-musicales" class="nav-link" data-scroll-target="#aplicaciones-musicales">Aplicaciones musicales 🎵</a></li>
   </ul>
 </nav>
     </div>
@@ -288,6 +295,65 @@ window.Quarto = {
 <p>Necesitas Python 3 instalado. Cada demo indica sus dependencias; lo mínimo común es <code>numpy</code> y <code>matplotlib</code>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy matplotlib</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Orden: por clase.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="C2, C3 y más · Clasificación, transformaciones y funciones complejas en Desmos">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C2, C3 y más · Clasificación, transformaciones y funciones complejas en Desmos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: los cuatro conceptos de la clase, cada uno en un gráfico que puedes manipular — ¿cuándo una suma de sinusoides es periódica (y cuál es su <span class="math inline">T_0</span>)?, ¿qué distingue una señal de energía de una de potencia?, cómo se parte cualquier señal en su parte par y su parte impar, y qué pasa cuando muestreas una señal continua.</p>
+<p><strong>Cómo usarlas</strong>: son los mismos gráficos que se proyectan en clase — ábrelos y juega con los sliders, no hay que instalar nada.</p>
+<ul>
+<li><a href="https://www.desmos.com/calculator/0pa5xq5fvv">D1 · Periodicidad de una suma</a></li>
+<li><a href="https://www.desmos.com/calculator/03eionpor9">D2 · Energía vs.&nbsp;potencia</a></li>
+<li><a href="https://www.desmos.com/calculator/tgftr50dp5">D3 · Descomposición par + impar</a></li>
+<li><a href="https://www.desmos.com/calculator/iyfcef6onv">D4 · Continua vs.&nbsp;discreta (muestreo)</a></li>
+<li><a href="https://www.desmos.com/calculator/7axluaxsae">D5 · Transformaciones <span class="math inline">x(at-b)</span></a> — el de C3: arrastra <span class="math inline">a</span> y <span class="math inline">b</span> y mira dónde cae de verdad el desplazamiento</li>
+</ul>
+<p>Y el <strong>recorrido de funciones complejas</strong> — por qué graficar la parte real, el módulo o la fase es una <em>elección</em>, y no una propiedad de la función:</p>
+<ul>
+<li><a href="https://www.desmos.com/calculator/akpveuu0ba">Las 4 proyecciones de <span class="math inline">e^{st}</span></a></li>
+<li><a href="https://www.desmos.com/3d/ftb7axttio">Plano <span class="math inline">s</span>: la superficie y el corte <span class="math inline">j\omega</span></a></li>
+<li><a href="https://www.desmos.com/3d/cfs2pt7nfz">Plano <span class="math inline">z</span>: el corte del círculo unitario</a></li>
+<li><a href="https://www.desmos.com/calculator/d4oknsgkxc">Polos y ceros: el resumen sintético</a></li>
+</ul>
+<p><strong>Para qué sirven de verdad</strong>: son el mejor lugar para probar tus propias respuestas de la Lista 1. Cambia las frecuencias, invéntate una señal y comprueba si tu <span class="math inline">T_0</span> calculado a mano es el correcto.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C4 · El límite de pulsos: cómo nace δ (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C4 · El límite de pulsos: cómo nace δ (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: por qué el impulso tiene “altura infinita y área 1”. Tres familias de pulsos distintas — rectangular, triangular y gaussiana — encogiéndose a la vez, con el ancho, el alto y las tres áreas medidos en vivo. La altura se dispara; las áreas no se mueven de 1.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/impulso-limite/index.html">ábrela en el navegador</a> — no requiere instalar nada ni tener internet. Parte con la pregunta tapada: respóndela antes de apretar el botón.</p>
+<p><strong>Lo que conviene mirar</strong>: que las tres formas den lo mismo. Ninguna <em>es</em> el impulso; las tres tienden a él. Por eso δ se define por lo que <strong>hace</strong> dentro de una integral, no por su forma.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C1 · Analizador de espectro en vivo (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C1 · Analizador de espectro en vivo (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: la misma señal en tres retratos simultáneos — la forma de onda <span class="math inline">x(t)</span>, el espectro <span class="math inline">|X(f)|</span> con sus armónicos <span class="math inline">f_0, 2f_0, 3f_0,\dots</span> marcados, y el sonograma (frecuencia vs.&nbsp;tiempo). Es la demo de la primera clase: canta, silba o toca un instrumento frente al micrófono y congela la imagen para mirarla con calma. También te dice qué nota estás produciendo y cuántos <em>cents</em> estás desafinado.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/analizador-vivo/index.html">ábrela en línea, directo en el navegador</a> — no requiere instalar nada. El navegador te pedirá permiso para usar el micrófono; si lo rechazas o no tienes, hay un <em>tono de prueba</em> en «⚙ Ajustes».</p>
+<p><strong>Ojo</strong>: si la descargas, no funcionará con doble clic (<code>file://</code>): los navegadores solo entregan el micrófono desde <code>https://</code> o <code>http://localhost</code>. Úsala desde esta página.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled" title="C6–C7 · Convolución paso a paso">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -455,6 +521,80 @@ window.Quarto = {
 <section id="inventario-completo" class="level2">
 <h2 class="anchored" data-anchor-id="inventario-completo">Inventario completo</h2>
 <p>Ver <a href="demos/README.md"><code>material/demos/README.md</code></a> en el repo para la tabla completa (demo, clase, qué ilustra, cómo correr, dependencias) y notas sobre versiones duplicadas eliminadas.</p>
+</section>
+<section id="aplicaciones-musicales" class="level2">
+<h2 class="anchored" data-anchor-id="aplicaciones-musicales">Aplicaciones musicales 🎵</h2>
+<p>Estas demos vienen del curso hermano <em>Análisis y Síntesis de Señales Musicales</em>: los mismos conceptos que estás aprendiendo aquí, aplicados a hacer y transformar música. Los notebooks (<code>.ipynb</code>) se abren con Jupyter o VS Code y generan sus propios sonidos; los <code>.html</code> corren con doble clic en el navegador.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="C7 · Convolución = meter tu voz en otro espacio">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C7 · Convolución = meter tu voz en otro espacio
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: convolucionar una voz con la respuesta al impulso de una sala la “mete” en esa sala. Tres IRs (directo, sala, cámara anecoica) y el diseño de tu propia IR con un solo eco.</p>
+<p><a href="demos/convolucion/convolucion_espacios.ipynb">Descargar convolucion_espacios.ipynb</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C6–C8 y C25–C26 · Líneas de retardo, eco y feedback">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C6–C8 y C25–C26 · Líneas de retardo, eco y feedback
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: la línea de retardo con buffer circular — el átomo de todo efecto de audio. Eco simple, feedback y estabilidad (<span class="math inline">|g|&lt;1</span>: ¿qué pasa con <span class="math inline">g&gt;1</span>? distorsión con <code>tanh</code>), y un reverb de resorte. En el HTML: el filtro peine con <span class="math inline">|H(e^{j\Omega})|</span> y polos/ceros en vivo.</p>
+<p><a href="demos/lineas-retardo/lineas_retardo.ipynb">Descargar lineas_retardo.ipynb</a> · <a href="demos/lineas-retardo/demo_comb_interactiva.html">Abrir demo del peine</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C25–C26 · Filtros biquad con plano Z en vivo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C25–C26 · Filtros biquad con plano Z en vivo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: un ecualizador de dos polos con osciloscopio y plano Z interactivos; mueve la frecuencia de corte a saltos y escucha el “zipper noise”.</p>
+<p><a href="demos/filtros-biquad/demo_filtros_interactiva.html">Abrir demo_filtros_interactiva.html</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C26 · Karplus-Strong: sintetizar una cuerda con un peine">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C26 · Karplus-Strong: sintetizar una cuerda con un peine
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: un delay con feedback y un promedio de dos muestras suena a cuerda pulsada. Y la afinación exacta exige compensar media muestra: un error de cuantización por muestreo que se oye como beating.</p>
+<p><a href="demos/karplus-strong/karplus_strong.ipynb">Descargar karplus_strong.ipynb</a> · <a href="demos/karplus-strong/demo_ks.html">Abrir demo_ks.html</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C29–C30 · Voz robot, susurro y el phase vocoder">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C29–C30 · Voz robot, susurro y el phase vocoder
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: qué guarda la magnitud de la STFT y qué guarda la fase (fase cero → robot; fase aleatoria → susurro), y el phase vocoder completo: estirar el tiempo sin cambiar el tono, con la versión buggy audible para entender por qué el unwrapping importa.</p>
+<p><a href="demos/stft-voz/robot_whisper.ipynb">Descargar robot_whisper.ipynb</a> · <a href="demos/phase-vocoder/phase_vocoder.ipynb">Descargar phase_vocoder.ipynb</a> · <a href="demos/phase-vocoder/phase_vocoder_teoria.html">Teoría visual</a></p>
+</div>
+</div>
 
 
 </section>
@@ -867,8 +1007,8 @@ window.Quarto = {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./curso/semana-01/c01.html" class="pagination-link" aria-label="C1 · Presentación: señales, sistemas y el mapa del curso">
-        <span class="nav-page-text">C1 · Presentación: señales, sistemas y el mapa del curso</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./formularios.html" class="pagination-link" aria-label="Formularios oficiales">
+        <span class="nav-page-text">Formularios oficiales</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -217,6 +217,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Números complejos</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice-b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Series</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -256,6 +262,7 @@ window.Quarto = {
   <li><a href="#sec-rect-sinc" id="toc-sec-rect-sinc" class="nav-link" data-scroll-target="#sec-rect-sinc"><span class="header-section-number">3.5.2</span> El par estrella: rect ↔︎ sinc</a></li>
   <li><a href="#sec-pares-canonicos" id="toc-sec-pares-canonicos" class="nav-link" data-scroll-target="#sec-pares-canonicos"><span class="header-section-number">3.5.3</span> Los pares canónicos</a></li>
   <li><a href="#sec-propiedades-tf" id="toc-sec-propiedades-tf" class="nav-link" data-scroll-target="#sec-propiedades-tf"><span class="header-section-number">3.5.4</span> Las propiedades: el oficio</a></li>
+  <li><a href="#sec-teorema-autocorrelacion" id="toc-sec-teorema-autocorrelacion" class="nav-link" data-scroll-target="#sec-teorema-autocorrelacion"><span class="header-section-number">3.5.5</span> El teorema de autocorrelación</a></li>
   </ul></li>
   <li><a href="#sec-lti-frecuencia" id="toc-sec-lti-frecuencia" class="nav-link" data-scroll-target="#sec-lti-frecuencia"><span class="header-section-number">3.6</span> Sistemas LTI en frecuencia</a>
   <ul class="collapse">
@@ -298,11 +305,11 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U3.1–U3.5]
+<span class="screen-reader-only">Nota</span>Objetivos del capítulo [U3.1–U3.7]
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Al terminar este capítulo podrás: <strong>explicar</strong> la serie de Fourier como una proyección ortogonal — producto interno, mejor aproximación, Bessel y Parseval [U3.1]; <strong>calcular</strong> coeficientes de señales estándar en forma exponencial y trigonométrica, y transformadas por definición y por propiedades [U3.2, U3.4]; <strong>leer</strong> un espectro cualitativamente: simetrías, decaimiento según suavidad, Gibbs [U3.3]; <strong>manejar</strong> los pares canónicos y las propiedades de la transformada, en especial convolución ↔︎ multiplicación [U3.4]; y <strong>analizar</strong> sistemas LTI en frecuencia: <span class="math inline">H(\omega)</span>, filtrado, respuesta a señales periódicas [U3.5].</p>
+<p>Al terminar este capítulo podrás: <strong>explicar</strong> la serie de Fourier como una proyección ortogonal — producto interno, mejor aproximación, Bessel y Parseval [U3.1]; <strong>calcular</strong> coeficientes de señales estándar en forma exponencial y trigonométrica, y transformadas por definición y por propiedades [U3.2, U3.4]; <strong>leer</strong> un espectro cualitativamente: simetrías, decaimiento según suavidad, Gibbs [U3.3]; <strong>manejar</strong> los pares canónicos y las propiedades de la transformada, en especial convolución ↔︎ multiplicación [U3.4]; <strong>analizar</strong> sistemas LTI en frecuencia: <span class="math inline">H(\omega)</span>, filtrado, respuesta a señales periódicas [U3.5]; <strong>identificar</strong> <span class="math inline">e^{j\omega t}</span> como autofunción de los sistemas LTI — el origen de <span class="math inline">H(\omega)</span> [U3.6]; y <strong>aplicar</strong> el teorema de autocorrelación <span class="math inline">R_x \leftrightarrow |X(\omega)|^2</span>, con Parseval como su caso particular [U3.7].</p>
 <p><strong>Prerrequisitos</strong>: las señales del capítulo 1 (en particular la exponencial compleja de la <a href="cap01.html#sec-exp-compleja" class="quarto-xref"><span>Sección 1.4.1</span></a> y el impulso de la <a href="cap01.html#sec-impulso" class="quarto-xref"><span>Sección 1.5</span></a>) y la convolución del capítulo 2. Este capítulo cobra varias promesas plantadas allá.</p>
 </div>
 </div>
@@ -424,7 +431,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Mira la reconstrucción en acción — la suma parcial con <span class="math inline">N</span> términos es la <em>proyección</em> de la cuadrada sobre los primeros <span class="math inline">N</span> armónicos, es decir, la mejor aproximación posible con ese presupuesto:</p>
-<div id="c968badf" class="cell" data-execution_count="1">
+<div id="6f89256d" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -520,7 +527,7 @@ window.Quarto = {
 <li><strong>Onda cuadrada</strong> (discontinua — tiene <em>saltos</em>): <span class="math inline">|c_n| = \frac{2}{\pi n}</span> en los impares — decae como <span class="math inline">1/n</span>.</li>
 <li><strong>Onda triangular</strong> par de amplitud <span class="math inline">\pm 1</span> (continua, pero con <em>puntas</em>: derivada discontinua): <span class="math inline">c_n = \frac{4}{\pi^2 n^2}</span> en los impares — decae como <span class="math inline">1/n^2</span>.</li>
 </ul>
-<div id="e4433ba3" class="cell" data-execution_count="2">
+<div id="8cb7fee5" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -536,7 +543,7 @@ window.Quarto = {
 <section id="sec-gibbs" class="level3" data-number="3.4.4">
 <h3 data-number="3.4.4" class="anchored" data-anchor-id="sec-gibbs"><span class="header-section-number">3.4.4</span> Truncar la serie: el fenómeno de Gibbs</h3>
 <p>En la práctica nadie suma infinitos armónicos: se <strong>trunca</strong> la serie en <span class="math inline">N</span> términos. Ya viste en la figura de la cuadrada que junto al salto asoma una “oreja”. La pregunta natural — ¿desaparece al subir <span class="math inline">N</span>? — tiene una respuesta sorprendente: <strong>no</strong>.</p>
-<div id="4182ad05" class="cell" data-execution_count="3">
+<div id="77cc4817" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -595,7 +602,7 @@ window.Quarto = {
 = \frac{2\sin(\omega\tau/2)}{\omega}</span> Multiplicando y dividiendo por <span class="math inline">\tau/2</span> para reconocer la sinc normalizada: <span class="math display">\operatorname{rect}\!\left(\frac{t}{\tau}\right) \;\longleftrightarrow\; \tau\,\operatorname{sinc}\!\left(\frac{\omega\tau}{2\pi}\right)</span> Los tres chequeos de rigor (hábito que vale puntos en toda interrogación): (i) <span class="math inline">X(0) = \tau</span> = área del pulso ✓; (ii) primer cero en <span class="math inline">\omega = 2\pi/\tau</span> ✓; (iii) <span class="math inline">X</span> real y par, como corresponde a una señal real y par ✓.</p>
 </div>
 </div>
-<div id="98f9f56e" class="cell" data-execution_count="4">
+<div id="2edf24f1" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -613,7 +620,7 @@ window.Quarto = {
 <p><strong>Impulso</strong> (por la propiedad de muestreo de la <a href="cap01.html#sec-sifting" class="quarto-xref"><span>Sección 1.5.2</span></a> — una línea): <span class="math display">\delta(t) \;\longleftrightarrow\; 1</span> El impulso contiene <strong>todas las frecuencias por igual</strong>: lo más breve posible es lo más ancho posible. Por eso una palmada sirve para “sonar” una sala entera — excita todas sus frecuencias de una vez.</p>
 <p><strong>Constante y fasor</strong> (leyendo la síntesis al revés; honestidad de 30 segundos: aquí las transformadas son distribuciones, y la teoría lo respalda): <span class="math display">1 \;\longleftrightarrow\; 2\pi\,\delta(\omega) \qquad\qquad e^{j\omega_0 t} \;\longleftrightarrow\; 2\pi\,\delta(\omega - \omega_0)</span> Una señal eterna de una sola frecuencia es una <strong>línea</strong> infinitamente concentrada: el caso extremo opuesto al impulso.</p>
 <p><strong>Coseno</strong> (Euler + linealidad, sin integrar — los dos fasores contrarrotantes, ahora en dibujo): <span class="math display">\cos(\omega_0 t) \;\longleftrightarrow\; \pi\big[\delta(\omega-\omega_0) + \delta(\omega+\omega_0)\big]</span></p>
-<p><strong>Gaussiana</strong> (la aristócrata de la tabla — el cálculo completa el cuadrado; vale la pena hacerlo una vez): <span class="math display">e^{-t^2/2} \;\longleftrightarrow\; \sqrt{2\pi}\,e^{-\omega^2/2}</span> La única señal que conserva su forma al transformarse: perfectamente suave, decae más rápido que cualquier <span class="math inline">1/\omega^k</span> — el caso límite de la regla del decaimiento.</p>
+<p><strong>Gaussiana</strong> (la aristócrata de la tabla — el cálculo completa el cuadrado; vale la pena hacerlo una vez): <span class="math display">e^{-t^2/2} \;\longleftrightarrow\; \sqrt{2\pi}\,e^{-\omega^2/2}</span> La única señal que conserva su forma al transformarse: perfectamente suave, decae más rápido que cualquier <span class="math inline">1/\omega^k</span> — el caso límite de la regla del decaimiento. Desde este capítulo la gaussiana figura en el catálogo de elementales del capítulo 1 con pleno derecho: con la normalización <span class="math inline">e^{-\pi t^2}</span>, y midiendo la frecuencia en hertz (<span class="math inline">f = \omega/2\pi</span>), la simetría es perfecta — se transforma exactamente en sí misma. El ejercicio de visualización de la Ay1 usa justamente esa versión.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -681,12 +688,20 @@ window.Quarto = {
 <p>Vuelve a escuchar el audio con que abrió este Reader — la voz dentro de la iglesia:</p>
 <audio controls="" src="assets/audio/voz_en_iglesia.mp3">
 </audio>
-<p>Esa reverberación se fabricó convolucionando la voz seca con la respuesta al impulso de la iglesia: una integral pesada por cada instante. Pero en frecuencia es solo esto: <strong>la convolución con la iglesia es una multiplicación en frecuencia</strong>. La iglesia multiplica el espectro de la voz por su <span class="math inline">H(\omega)</span>: refuerza las frecuencias donde resuena, apaga las que absorbe. Esta frase ordena la unidad 3 y media unidad 4 — merece tu hoja resumen.</p>
+<p>Esa reverberación se fabricó convolucionando la voz seca con la respuesta al impulso de la iglesia: una integral pesada por cada instante. Pero en frecuencia es solo esto: <strong>la convolución con la iglesia es una multiplicación en frecuencia</strong>. La iglesia multiplica el espectro de la voz por su <span class="math inline">H(\omega)</span>: refuerza las frecuencias donde resuena, apaga las que absorbe. Esta frase ordena la unidad 3 y media unidad 4 — la propiedad en sí (convolución ↔︎ multiplicación) ya está en tu formulario oficial, así que no hay que memorizarla; lo que vale la pena es tenerla tan interiorizada que la reconozcas de inmediato en un problema, como aquí.</p>
 <p>Y el espejo (misma técnica de demostración): <span class="math inline">x(t)\,y(t) \leftrightarrow \frac{1}{2\pi}(X * Y)(\omega)</span>. Multiplicar en el tiempo convoluciona los espectros. Guárdala: hace funcionar lo que sigue y el final del capítulo.</p>
 <p><strong>Modulación</strong> (el desplazamiento, pero en frecuencia): <span class="math display">x(t)\,e^{j\omega_0 t} \;\longleftrightarrow\; X(\omega - \omega_0)
 \qquad\Rightarrow\qquad
 x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X(\omega+\omega_0)\big]</span> Multiplicar por un coseno <strong>traslada el espectro</strong> a <span class="math inline">\pm\omega_0</span>. Esto <em>es</em> la radio AM en una línea: tu voz (banda base, 0–4 kHz) multiplicada por una portadora se muda a vivir alrededor de la frecuencia de tu emisora; cada emisora, su <span class="math inline">\omega_0</span>; el receptor la trae de vuelta multiplicando otra vez [DB E0096 arma el sistema completo].</p>
 <p><strong>Parseval</strong> (la energía no depende del dominio en que se mire): <span class="math display">\int_{-\infty}^{\infty} |x(t)|^2\,dt = \frac{1}{2\pi}\int_{-\infty}^{\infty} |X(\omega)|^2\,d\omega</span> Uso práctico: la integral difícil se hace en el dominio fácil. Ejemplo relámpago: <span class="math inline">\int \operatorname{sinc}^2(t)\,dt = \frac{1}{2\pi}\int \big|\!\operatorname{rect}(\tfrac{\omega}{2\pi})\big|^2 d\omega = 1</span>. (Inténtalo por residuos si quieres sufrir.) A <span class="math inline">|X(\omega)|^2</span> se le llama <strong>densidad espectral de energía</strong>: dónde vive la energía de la señal.</p>
+</section>
+<section id="sec-teorema-autocorrelacion" class="level3" data-number="3.5.5">
+<h3 data-number="3.5.5" class="anchored" data-anchor-id="sec-teorema-autocorrelacion"><span class="header-section-number">3.5.5</span> El teorema de autocorrelación</h3>
+<p>El broche que une la propiedad de convolución con Parseval. En el capítulo 2 (<a href="cap02.html#sec-autocorrelacion" class="quarto-xref"><span>Sección 2.6</span></a>) definimos <span class="math inline">R_x(\tau) = x(\tau) \ast x(-\tau)</span>. Transfórmala: convolución ↔︎ multiplicación, más <span class="math inline">\mathcal{F}\{x(-t)\} = X(-\omega) = X^{*}(\omega)</span> para señal real:</p>
+<p><span class="math display">R_x(\tau) \;\longleftrightarrow\; X(\omega)\,X^{*}(\omega) = |X(\omega)|^2</span></p>
+<p>La autocorrelación y la densidad espectral de energía son <strong>un par de Fourier</strong>: la misma información, mirada desde el tiempo o desde la frecuencia. Y Parseval deja de ser un resultado aparte — es este teorema evaluado en <span class="math inline">\tau = 0</span>: <span class="math display">R_x(0) = E_x = \frac{1}{2\pi}\int_{-\infty}^{\infty} |X(\omega)|^2\,d\omega</span></p>
+<p>Verificación con un par completo: <span class="math inline">x(t) = e^{-at}u(t)</span> tiene <span class="math inline">R_x(\tau) = e^{-a|\tau|}/(2a)</span> (capítulo 2), y con el par <span class="math inline">e^{-a|\tau|} \leftrightarrow \frac{2a}{a^2+\omega^2}</span> sale <span class="math inline">\mathcal{F}\{R_x\} = \frac{1}{a^2+\omega^2} = |X(\omega)|^2</span>, con <span class="math inline">X(\omega) = \frac{1}{a+j\omega}</span>. ✓ [DB E0297]</p>
+<p>Y una nota práctica que se cobra en el capítulo 7: calcular <span class="math inline">R_x</span> directo es caro, pero es la transformada inversa de <span class="math inline">|X|^2</span> — y eso, con FFT, es barato. Así se estima el período de una señal real en la práctica.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -715,7 +730,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-filtros" class="level3" data-number="3.6.2">
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="sec-filtros"><span class="header-section-number">3.6.2</span> Filtros: moldear el espectro</h3>
 <p><strong>Filtrar = multiplicar el espectro por la <span class="math inline">H(\omega)</span> que convenga.</strong> El ejemplo de carne y hueso: el circuito RC con salida en el condensador, <span class="math inline">RC\,\dot{v}_c + v_c = v_{in}</span>. La propiedad de derivación (<span class="math inline">\dot{x} \leftrightarrow j\omega X</span>) convierte la EDO en álgebra: <span class="math display">(1 + j\omega RC)\,V_c(\omega) = V_{in}(\omega) \qquad\Longrightarrow\qquad H(\omega) = \frac{1}{1 + j\omega RC}</span> <span class="math display">|H(\omega)| = \frac{1}{\sqrt{1+(\omega RC)^2}}: \quad \text{deja pasar } \omega \ll \tfrac{1}{RC},\ \text{atenúa } \omega \gg \tfrac{1}{RC}</span> Un <strong>pasa-bajos</strong>: con dos componentes ya estás <em>diseñando</em> qué frecuencias viven y cuáles mueren. (Y nota el gesto: la EDO se volvió álgebra. Ese gesto es media unidad 4.)</p>
-<div id="4a4c60a8" class="cell" data-execution_count="5">
+<div id="8cb050ca" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -749,7 +764,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-teaser-muestreo" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="sec-teaser-muestreo"><span class="header-section-number">3.7</span> Cierre: ¿y si multiplicamos por un tren de impulsos?</h2>
 <p>Una última jugada, para dejar el final abierto. En el capítulo 1 definimos el tren de impulsos <span class="math inline">\delta_T(t)</span> (<a href="cap01.html#sec-tren-impulsos" class="quarto-xref"><span>Sección 1.5.5</span></a>) y pedimos guardar una frase: <em>“muestrear una señal es multiplicarla por un tren de impulsos”</em>. Recién ahora tenemos las herramientas para preguntar qué le hace eso al <strong>espectro</strong>: <span class="math display">x_s(t) = x(t)\cdot\delta_T(t) = \sum_n x(nT)\,\delta(t-nT)</span> — de la señal solo sobreviven sus <em>muestras</em> cada <span class="math inline">T</span> segundos. Multiplicar en el tiempo ⇒ convolucionar los espectros (la propiedad espejo). Y la TF de un tren de impulsos es… ¡otro tren de impulsos!, espaciado <span class="math inline">\omega_s = 2\pi/T</span> (la demostración queda debiéndose para el capítulo 5). Convolucionar con un tren de impulsos <strong>copia y pega</strong>: <span class="math display">X_s(\omega) = \frac{1}{T}\sum_{k=-\infty}^{\infty} X(\omega - k\omega_s)</span></p>
-<div id="4c66c6b5" class="cell" data-execution_count="6">
+<div id="d6723f00" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -771,7 +786,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <li>Leer sin integrar: par ⇒ solo cosenos; impar ⇒ solo senos; media onda ⇒ solo armónicos impares. Saltos ⇒ <span class="math inline">1/n</span>; puntas ⇒ <span class="math inline">1/n^2</span>; más suavidad, más rápido decae. Gibbs: el sobrepaso (≈ 9 %) se angosta pero no baja.</li>
 <li>TF: <span class="math inline">X(\omega) = \int x e^{-j\omega t}dt</span>, <span class="math inline">x = \frac{1}{2\pi}\int X e^{j\omega t}d\omega</span>; puente <span class="math inline">c_n = X(n\omega_0)/T_0</span>. Real ⇒ Hermitiana (<span class="math inline">|X|</span> par, fase impar).</li>
 <li>Pares: rect ↔︎ <span class="math inline">\tau\,</span>sinc (ceros en <span class="math inline">2\pi k/\tau</span>); sinc ↔︎ rect (dualidad); <span class="math inline">e^{-at}u \leftrightarrow \frac{1}{a+j\omega}</span>; <span class="math inline">\delta \leftrightarrow 1</span>; <span class="math inline">1 \leftrightarrow 2\pi\delta</span>; coseno ↔︎ dos líneas; gaussiana ↔︎ gaussiana.</li>
-<li>Propiedades: desplazamiento (fase lineal), escalamiento (tiempo corto ↔︎ banda ancha), dualidad, <strong>convolución ↔︎ multiplicación</strong>, modulación (AM), Parseval.</li>
+<li>Propiedades: desplazamiento (fase lineal), escalamiento (tiempo corto ↔︎ banda ancha), dualidad, <strong>convolución ↔︎ multiplicación</strong>, modulación (AM), Parseval y el teorema de autocorrelación (<span class="math inline">R_x \leftrightarrow |X|^2</span>).</li>
 <li>LTI en frecuencia: <span class="math inline">e^{j\omega t}</span> es función propia, <span class="math inline">y = H(\omega)e^{j\omega t}</span>; ante coseno: <span class="math inline">|H|</span> escala, <span class="math inline">\angle H</span> desfasa; periódicas: <span class="math inline">d_n = c_n H(n\omega_0)</span>; filtro ideal = sinc no causal.</li>
 <li>Muestrear = multiplicar por <span class="math inline">\delta_T</span> ⇒ espectro replicado cada <span class="math inline">\omega_s = 2\pi/T</span> — continuará (capítulo 5).</li>
 </ul>

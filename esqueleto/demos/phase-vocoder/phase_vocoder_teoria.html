@@ -1,0 +1,2063 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Phase vocoder: chorreo espectral, coherencia y phase locking</title>
+<style>
+  :root{
+    --bg:#f4f1ec;
+    --panel:#ffffff;
+    --ink:#1a1a1c;
+    --muted:#6b6a66;
+    --line:#d9d4ca;
+    --accent:#2f3a8f;
+    --accent-soft:#e6e8f5;
+    --peak:#b5341f;
+    --peak-soft:#f3dfd8;
+    --neighbor:#3b7a57;
+    --grid:#ebe6dc;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.45}
+  .mono{font-family:"SF Mono","Menlo","Consolas",monospace}
+  header{padding:28px 36px 18px;border-bottom:1px solid var(--line);background:var(--bg)}
+  header h1{margin:0 0 6px;font-size:22px;font-weight:600;letter-spacing:-0.01em}
+  header p{margin:0;color:var(--muted);max-width:780px}
+  main{padding:24px 36px 64px;display:flex;flex-direction:column;gap:22px;max-width:1280px;margin:0 auto}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .panel-hd{display:flex;align-items:baseline;gap:14px;padding:16px 22px;border-bottom:1px solid var(--line)}
+  .panel-hd .num{font-family:"SF Mono","Menlo",monospace;font-size:12px;color:var(--accent);letter-spacing:0.08em}
+  .panel-hd h2{margin:0;font-size:16px;font-weight:600}
+  .panel-hd .sub{color:var(--muted);font-size:13px}
+  .panel-bd{padding:18px 22px}
+  .controls{display:flex;flex-wrap:wrap;gap:18px 26px;margin-bottom:14px;align-items:flex-end}
+  .ctrl{display:flex;flex-direction:column;gap:4px;min-width:110px}
+  .ctrl label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)}
+  .ctrl select, .ctrl input[type=range]{font-family:inherit;font-size:13px}
+  select{background:#fff;border:1px solid var(--line);padding:5px 8px;border-radius:4px;color:var(--ink)}
+  input[type=range]{width:180px;accent-color:var(--accent)}
+  .val{font-family:"SF Mono","Menlo",monospace;font-size:12px;color:var(--ink)}
+  button{font-family:inherit;font-size:13px;padding:7px 14px;border:1px solid var(--line);background:#fff;border-radius:4px;cursor:pointer;color:var(--ink)}
+  button:hover{border-color:var(--accent);color:var(--accent)}
+  button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  button.primary:hover{background:#1f2770;color:#fff}
+  button:disabled{opacity:0.45;cursor:not-allowed}
+  .row{display:grid;gap:16px}
+  .row.c2{grid-template-columns:1fr 1fr}
+  .row.c3{grid-template-columns:1fr 1fr 1fr}
+  .row.phasor-pair{grid-template-columns:1fr}
+  @media (max-width:900px){.row.c2,.row.c3{grid-template-columns:1fr}}
+  .p2-panel .panel-bd{padding:12px 14px}
+  .p2-panel .row{gap:8px}
+  .p2-panel .row.c2,.p2-panel .row.phasor-pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .p2-controls{position:sticky;top:0;z-index:4;background:rgba(255,255,255,0.96);border:1px solid var(--line);border-radius:5px;padding:8px 10px;margin-bottom:8px;gap:8px 12px;align-items:end}
+  .p2-controls .ctrl{min-width:92px;flex:1}
+  .p2-controls .ctrl select,.p2-controls .ctrl input[type=range]{width:100%;max-width:180px}
+  .p2-panel .cap{font-size:10.5px;line-height:1.22;margin-top:3px;max-height:30px;overflow:hidden}
+  .p2-section-hd{display:flex;align-items:center;gap:8px;margin:8px 0 5px;color:var(--muted);font-size:11px}
+  .p2-section-hd .pill{flex:0 0 auto}
+  .p2-section-hd span{white-space:normal;overflow:visible;line-height:1.25}
+  .p2-guide{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:0 0 8px}
+  .p2-guide .step{background:#fbf8f2;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:4px;padding:8px 9px;font-size:12px;line-height:1.32;color:#3a3a3c}
+  .p2-guide b{display:block;color:var(--ink);font-size:11.5px;margin-bottom:3px}
+  .p2-guide em{font-style:normal;color:var(--accent);font-weight:600}
+  .p2-guide .mono{font-size:10.5px}
+  .p2-local-controls{margin-top:5px;margin-bottom:6px;padding:6px 8px;border:1px solid var(--line);border-radius:5px;background:#fbfaf7;gap:8px 14px}
+  .p2-local-controls .ctrl{min-width:120px}
+  .p2-readout{margin-top:8px;padding:7px 9px;border:1px solid var(--line);border-radius:5px;background:#fbfaf7}
+  @media (max-width:650px){
+    .p2-panel .panel-hd{padding:12px 14px;gap:8px}
+    .p2-panel .panel-hd .sub{display:none}
+    .p2-panel .row.c2,.p2-panel .row.phasor-pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+    .p2-guide{grid-template-columns:1fr}
+    .p2-controls .ctrl{min-width:80px}
+    .p2-panel .cap{display:none}
+  }
+  .p2-panel .cap{display:none}
+  canvas{display:block;width:100%;background:#fafaf7;border:1px solid var(--line);border-radius:4px}
+  .cap{font-size:12px;color:var(--muted);margin-top:6px}
+  .note{background:#fbf8f2;border-left:3px solid var(--accent);padding:10px 14px;color:#3a3a3c;font-size:13px;border-radius:0 4px 4px 0}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin-top:8px}
+  .legend .sw{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-2px;border-radius:2px}
+  .pill{display:inline-block;font-family:"SF Mono",monospace;background:var(--accent-soft);color:var(--accent);padding:2px 7px;border-radius:10px;font-size:11px}
+  .readout{font-family:"SF Mono",monospace;font-size:12px;color:var(--muted);display:flex;gap:18px;flex-wrap:wrap}
+  .readout b{color:var(--ink);font-weight:500}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .status{font-family:"SF Mono",monospace;font-size:11px;color:var(--muted)}
+  .eq{background:#fbf8f2;border:1px solid var(--line);border-left:3px solid var(--accent);padding:10px 14px;margin:8px 0;font-family:"SF Mono",monospace;font-size:13.5px;color:#1a1a1c;border-radius:0 4px 4px 0;overflow-x:auto}
+  .flow{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 4px;padding:10px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
+  .flow .step{flex:1;min-width:140px;padding:8px 10px;background:#fafaf7;border:1px solid var(--line);border-radius:4px;font-size:12px;color:var(--muted)}
+  .flow .step b{display:block;color:var(--ink);font-size:12px;margin-bottom:2px}
+  .flow .step.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+  .flow .step.on b{color:var(--accent)}
+  table.phase-ex{border-collapse:collapse;margin:8px 0;font-family:"SF Mono",monospace;font-size:12.5px}
+  table.phase-ex th,table.phase-ex td{padding:4px 10px;border:1px solid var(--line);text-align:right}
+  table.phase-ex th{background:#fbf8f2;color:var(--muted);font-weight:500}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Phase vocoder: chorreo espectral, coherencia entre bins y phase locking</h1>
+  <p>Demostración interactiva y pedagógica. Vamos a entender — visualmente y numéricamente — por qué un phase vocoder que actualiza cada bin de forma independiente puede romper la coherencia local alrededor de un parcial, y cómo el <i>phase locking</i> la restaura usando el bin del peak como referencia.</p>
+  <div class="flow">
+    <div class="step"><b>00 · Intuición</b>Una sinusoide vive en varios bins.</div>
+    <div class="step"><b>01 · Chorreo</b>La ventana convoluciona; aparecen lóbulos.</div>
+    <div class="step"><b>02 · Coherencia</b>Horizontal vs. local. Reconstrucción.</div>
+    <div class="step"><b>03 · Identidad</b>Identity phase locking en 16 muestras.</div>
+    <div class="step"><b>04 · Escucha</b>Time-stretch real, tres versiones.</div>
+    <div class="step"><b>05 · Locking</b>Laroche & Dolson, peak-to-neighbors.</div>
+  </div>
+</header>
+
+<main>
+
+<section class="panel">
+  <div class="panel-hd">
+    <span class="num">FUNDAMENTO</span>
+    <h2>El phase vocoder en una página</h2>
+    <span class="sub">Modificar duración y altura preservando la calidad perceptual.</span>
+  </div>
+  <div class="panel-bd">
+    <p style="margin:0 0 10px">El <b>vocoder de fase</b> permite modificar la duración (<i>time-stretching</i>) o la altura tonal (<i>pitch-shifting</i>) de una señal manteniendo su calidad perceptual. Parte del análisis de la STFT, que en coordenadas polares se expresa como</p>
+    <div class="eq">X(m, k) = A(m, k) · e<sup>jϕ(m, k)</sup></div>
+    <p style="margin:10px 0">donde <span class="mono">A(m, k)</span> es la magnitud y <span class="mono">ϕ(m, k)</span> la fase del bin <span class="mono">k</span> en el frame <span class="mono">m</span>. Para estirar el tiempo por un factor <span class="mono">α = R<sub>s</sub>/R<sub>a</sub></span> reescribimos los frames con un hop de síntesis <span class="mono">R<sub>s</sub></span> distinto al de análisis <span class="mono">R<sub>a</sub></span>. Las magnitudes se conservan; las <b>fases</b> hay que reconstruirlas para que no queden arbitrarias entre frames.</p>
+    <p style="margin:0 0 10px">La receta clásica de <i>propagación de fase</i> es bin por bin. Primero se calcula el avance <i>residual</i> de fase de análisis:</p>
+    <div class="eq">Δϕ<sub>a</sub>(m, k) = princ( ϕ(m, k) − ϕ(m−1, k) − 2π k R<sub>a</sub> / N )</div>
+    <p style="margin:10px 0">Aquí conviene ser precisos. Un bin <span class="mono">k</span> no es una frecuencia cualquiera: representa la exponencial de frecuencia central <span class="mono">2πk/N</span>. Si entre dos frames avanzamos <span class="mono">R<sub>a</sub></span> muestras, un oscilador que estuviera <b>exactamente</b> en el centro de ese bin debería rotar</p>
+    <div class="eq">rotación del centro del bin = 2π k R<sub>a</sub> / N</div>
+    <p style="margin:10px 0">Eso es lo que llamamos rotación “esperada”: no es una predicción inteligente de la señal, sino la rotación trivial que ya conocemos por estar mirando el bin <span class="mono">k</span>. La señal real, en cambio, rara vez cae justo en el centro. Si el parcial está en <span class="mono">k+0.30</span>, su fase rota un poco más rápido; si está en <span class="mono">k−0.20</span>, rota un poco más lento.</p>
+    <p style="margin:10px 0">Por eso restamos la rotación conocida del centro del bin y nos quedamos con el <b>residuo de fase</b>:</p>
+    <div class="eq">Δϕ<sub>a</sub>(m, k) = princ( rotación observada − rotación del centro del bin )</div>
+    <p style="margin:10px 0">La función <span class="mono">princ(·)</span> devuelve el ángulo principal en <span class="mono">[−π, π]</span>, porque las fases de la STFT llegan envueltas: sólo vemos el reloj módulo una vuelta. Después de quitar la rotación grande y conocida, el residuo suele ser pequeño y sí es interpretable: mide cuánto se aparta la frecuencia instantánea del parcial respecto del centro del bin.</p>
+    <div class="eq">frecuencia estimada, en bins: &nbsp; k̂(m,k) = k + N Δϕ<sub>a</sub>(m,k) / (2π R<sub>a</sub>)</div>
+    <p style="margin:10px 0">Ejemplo: con <span class="mono">N=512</span>, <span class="mono">R<sub>a</sub>=128</span> y un parcial en <span class="mono">k+0.30</span>, el residuo es aproximadamente <span class="mono">0.47 rad</span>. Al reemplazarlo en la fórmula aparece <span class="mono">k̂≈k+0.30</span>. Es decir: el bin <span class="mono">k</span> no “cree” que todo está en <span class="mono">k</span>; usa la fase entre frames para estimar dónde va realmente el parcial que lo atraviesa.</p>
+    <p style="margin:10px 0">Luego, al sintetizar con otro hop, no copiamos la fase de análisis, porque ahora los frames estarán separados por <span class="mono">R<sub>s</sub></span> muestras. Reconstruimos una nueva fase sumando dos partes: la rotación del centro del bin para el hop de síntesis, más el mismo residuo de frecuencia instantánea escalado al nuevo hop:</p>
+    <div class="eq">ϕ<sub>s</sub>(m, k) = ϕ<sub>s</sub>(m−1, k) + Δϕ<sub>a</sub>(m, k) · R<sub>s</sub> / R<sub>a</sub> + 2π k R<sub>s</sub> / N</div>
+    <p style="margin:12px 0 0">Aplicada <b>bin por bin</b>, esta fórmula garantiza la <b>coherencia horizontal</b>: cada banda avanza a su propia frecuencia instantánea, de frame en frame. Lo que <i>no</i> garantiza, en señales no estacionarias o con parciales cercanos, es la <b>coherencia local</b>: los bins vecinos que describen una misma región espectral pueden dejar de mantener entre sí la relación de fase que les daba forma común. Ese desajuste es una de las fuentes del sonido acuoso o metálico característico del phase vocoder. Lo haremos visible y luego lo arreglaremos.</p>
+  </div>
+</section>
+
+<!-- ============ PANEL 0 ============ -->
+<section class="panel">
+  <div class="panel-hd">
+    <span class="num">PANEL 00</span>
+    <h2>Intuición: una sinusoide vive en varios bins</h2>
+    <span class="sub">La FFT no descompone en “sonidos”. Descompone en una base de exponenciales complejas.</span>
+  </div>
+  <div class="panel-bd">
+    <p style="margin:0 0 10px">Cuando tomamos una sinusoide de frecuencia <span class="mono">f<sub>0</sub></span> y la multiplicamos por una ventana finita (Hann, Hamming…), <b>ya no tenemos una sinusoide pura infinita</b>. Tenemos un producto <span class="mono">x[n] = cos(ω<sub>0</sub>n) · w[n]</span>. Y la transformada de Fourier de un producto es una convolución:</p>
+    <div class="eq">ℱ{ cos(ω<sub>0</sub> n) · w[n] } = ℱ{cos(ω<sub>0</sub> n)} ✱ ℱ{w[n]}</div>
+    <p style="margin:10px 0">La FT de un coseno son dos deltas en <span class="mono">±ω<sub>0</sub></span>. La FT de una Hann tiene un lóbulo principal compacto (típicamente 3 muestras de ancho) con dos pequeños lóbulos laterales. Al convolucionar, esas deltas se <i>ensanchan</i>. Por eso vemos energía en 3–5 bins aunque haya <b>una sola sinusoide</b>.</p>
+
+    <p style="margin:10px 0 6px"><b>Ejemplo numérico, N = 16 muestras:</b> <span class="mono">x[n] = cos(2π · 3 n / 16) · w<sub>Hann</sub>[n]</span>. La FFT presenta energía concentrada en tres bins (2, 3, 4):</p>
+
+    <div class="row c2">
+      <div>
+        <table class="phase-ex">
+          <tr><th>Bin k</th><th>|X[k]|</th><th>∠X[k]</th></tr>
+          <tr><td>2</td><td id="p0-m2">—</td><td id="p0-f2">—</td></tr>
+          <tr><td>3 (peak)</td><td id="p0-m3">—</td><td id="p0-f3">—</td></tr>
+          <tr><td>4</td><td id="p0-m4">—</td><td id="p0-f4">—</td></tr>
+        </table>
+        <div class="cap" style="max-width:460px">
+          Estos tres números <i>no</i> son tres sinusoides independientes. Son tres coeficientes que, <b>sumados con sus fases correctas</b>, reconstruyen exactamente la sinusoide enventanada. Juntos codifican un único tono con envolvente Hann.
+        </div>
+      </div>
+
+      <div>
+        <canvas id="p0-canvas" height="260"></canvas>
+        <div class="cap">
+          <span style="color:#1a1a1c">■</span> Señal original <span class="mono">x[n]</span> &nbsp;·&nbsp;
+          <span style="color:#2f3a8f">■</span> IFFT de los 3 bins con sus fases reales (se superpone) &nbsp;·&nbsp;
+          <span style="color:#b5341f">■</span> IFFT de los 3 bins con fases forzadas a 0 (<i>identity</i>). Misma magnitud, envolvente distinta.
+        </div>
+      </div>
+    </div>
+
+    <div class="controls" style="margin-top:10px">
+      <div class="ctrl">
+        <label>Bins activos</label>
+        <select id="p0-bins">
+          <option value="center">Sólo el peak (bin 3)</option>
+          <option value="three" selected>Tres bins (2, 3, 4)</option>
+          <option value="five">Cinco bins (1 – 5)</option>
+          <option value="all">Todos los bins</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Variante</label>
+        <select id="p0-mode">
+          <option value="orig" selected>Fases originales</option>
+          <option value="id">Identity (fases = 0)</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Frecuencia (ciclos / N)</label>
+        <input type="range" id="p0-freq" min="2" max="4" step="0.1" value="3">
+        <span class="val mono">f = <span id="p0-freq-val">3.0</span></span>
+      </div>
+    </div>
+
+    <div class="readout" style="margin-top:8px">
+      <span>RMSE reconstrucción vs. original: <b id="p0-rmse">—</b></span>
+      <span>Bins usados: <b id="p0-count">3</b> / 9</span>
+    </div>
+
+    <div class="note" style="margin-top:14px">
+      <b>Conclusión.</b> El “chorreo” no crea sinusoides nuevas: es el precio que paga Fourier por representar en una base finita de exponenciales algo que ya no es una sinusoide infinita. Los bins vecinos son <i>coeficientes</i> del mismo parcial. Si cambiamos sus fases relativas — por ejemplo poniéndolas todas a cero — la magnitud del espectro no cambia, pero la <b>forma de onda</b> sí. Esta observación es el corazón de todo lo que viene.
+    </div>
+  </div>
+</section>
+
+<!-- ============ PANEL 1 ============ -->
+<section class="panel">
+  <div class="panel-hd">
+    <span class="num">PANEL 01</span>
+    <h2>Chorreo espectral</h2>
+    <span class="sub">Una sinusoide que no cae exactamente en un bin reparte energía entre bins vecinos.</span>
+  </div>
+  <div class="panel-bd">
+    <div class="controls">
+      <div class="ctrl">
+        <label>NFFT (malla FFT)</label>
+        <select id="p1-nfft">
+          <option>256</option><option selected>512</option><option>1024</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Frecuencia respecto al bin k</label>
+        <select id="p1-off">
+          <option value="0">k exacto</option>
+          <option value="0.25" selected>k + 0.25</option>
+          <option value="0.5">k + 0.5</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Ventana</label>
+        <select id="p1-win">
+          <option value="rect">Rectangular</option>
+          <option value="hann" selected>Hann</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Bin base k (ventana)</label>
+        <input type="range" id="p1-k" min="8" max="40" step="1" value="20">
+        <span class="val mono"><span id="p1-k-val">20</span></span>
+      </div>
+    </div>
+
+    <div class="row c2">
+      <div>
+        <canvas id="p1-time" height="230"></canvas>
+        <div class="cap">Señal temporal tras aplicar la ventana.</div>
+      </div>
+      <div>
+        <canvas id="p1-mag" height="230"></canvas>
+        <div class="cap">Magnitud DFT alrededor del peak. Rojo = bin del peak, verde = vecinos. NFFT cambia la malla: el índice FFT del peak puede moverse, pero la frecuencia física no.</div>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <canvas id="p1-phase" height="190"></canvas>
+      <div class="cap">Fase (principal value) de los bins en torno al peak.</div>
+    </div>
+
+    <div class="note" style="margin-top:14px">
+      <b>Lectura de NFFT.</b> En este panel la ventana temporal queda fija en <span class="mono">N<sub>w</sub>=256</span> muestras. Cambiar <span class="mono">NFFT</span> agrega ceros y toma más muestras del mismo espectro: no cambia la frecuencia del parcial, sólo cambia qué bin FFT cae debajo del máximo. Con ventana rectangular y frecuencia fuera de bin, los <b>lóbulos laterales</b> dispersan energía varios bins hacia los lados. La ventana de Hann reduce ese sangrado pero ensancha el lóbulo principal: un único parcial ocupa típicamente 3–5 bins vecinos. Esos bins no son osciladores independientes, son la <i>huella</i> del mismo parcial.
+    </div>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--peak)"></span>Bin del peak</span>
+      <span><span class="sw" style="background:var(--neighbor)"></span>Vecinos (≈±2 bins ventana)</span>
+      <span><span class="sw" style="background:var(--accent)"></span>Otros bins</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PANEL 2 ============ -->
+<section class="panel p2-panel">
+  <div class="panel-hd">
+    <span class="num">PANEL 02</span>
+    <h2>Coherencia horizontal vs. coherencia local, reconstruidas</h2>
+    <span class="sub">Cinco bins vecinos alrededor del peak local p vistos como una región espectral; abajo seguimos bins fijos para validar continuidad temporal.</span>
+  </div>
+  <div class="panel-bd">
+    <div class="controls p2-controls">
+      <div class="ctrl">
+        <label>Escenario</label>
+        <select id="p2-scene">
+          <option value="cross" selected>Dos parciales cercanos</option>
+          <option value="glide">Parcial con glide</option>
+          <option value="stationary">Sanity check: parcial estacionario</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Offset del bin central</label>
+        <input type="range" id="p2-off" min="0" max="0.5" step="0.01" value="0.3">
+        <span class="val mono">k + <span id="p2-off-val">0.30</span></span>
+      </div>
+      <div class="ctrl">
+        <label>Factor α de estiramiento</label>
+        <input type="range" id="p2-alpha" min="1" max="4" step="0.1" value="2.5">
+        <span class="val mono">α = <span id="p2-alpha-val">2.5</span></span>
+      </div>
+      <div class="ctrl">
+        <label>Frame a inspeccionar</label>
+        <input type="range" id="p2-frame" min="1" max="7" step="1" value="4">
+        <span class="val mono">frame <span id="p2-frame-val">4</span></span>
+      </div>
+      <div class="ctrl">
+        <label>Vista fasores</label>
+        <select id="p2-view">
+          <option value="rel" selected>Fases relativas al peak</option>
+          <option value="abs">Fases absolutas</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Osciladores incluidos</label>
+        <input type="range" id="p2-nosc" min="1" max="5" step="1" value="5">
+        <span class="val mono"><span id="p2-nosc-val">5</span> / 5</span>
+      </div>
+      <div class="ctrl">
+        <label>Orden de suma</label>
+        <select id="p2-order">
+          <option value="peak" selected>Desde el peak hacia afuera</option>
+          <option value="ltr">De izquierda a derecha (p−2 → p+2)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="p2-guide">
+      <div class="step"><b>1 · Experimento base</b>Deja <span class="mono">Dos parciales cercanos</span>, <span class="mono">α=2.5</span> y <span class="mono">Fases relativas</span>. Mueve <span class="mono">Frame</span>: no buscas una animación suave, buscas fotos de la huella local en distintos instantes.</div>
+      <div class="step"><b>2 · Qué es la huella</b>La huella son los ángulos de p−2, p−1, p+1, p+2 <em>medidos respecto del peak local p+0</em>. Ese peak p se vuelve a detectar en el frame seleccionado: si cambia el parcial dominante, p puede caer en otro bin.</div>
+      <div class="step"><b>3 · Cómo hacer que cambie</b>Usa <span class="mono">Dos parciales cercanos</span> o <span class="mono">Glide</span> y sube <span class="mono">α</span>. Ahí cada bin estima una historia propia; al estirar, esas historias se separan y los offsets relativos se deforman.</div>
+      <div class="step"><b>4 · Cómo hacer que se mantenga</b>Pon <span class="mono">α=1</span>: análisis y síntesis deben coincidir casi por completo. Luego usa <span class="mono">Parcial estacionario</span>: incluso con α alto, los offsets deberían cambiar mucho menos.</div>
+      <div class="step"><b>5 · Valida lo horizontal</b>En “frecuencia instantánea”, azul y rojo deberían coincidir: el vocoder usa la frecuencia estimada en análisis y la integra con otro hop. Eso valida la parte bin-a-bin.</div>
+      <div class="step"><b>6 · Detecta lo local</b>Si lo horizontal funciona pero la huella/reconstrucción se deforma, el problema no está en un bin aislado: está en la relación entre bins vecinos. Ahí entra phase locking.</div>
+    </div>
+
+    <!-- Bloque 1: fasores análisis vs síntesis bin-a-bin -->
+    <div class="row c2 phasor-pair">
+      <div>
+        <canvas id="p2-coh" height="165"></canvas>
+        <div class="cap"><b>A. Análisis.</b> p−2…p+2 tras la STFT del frame seleccionado. Los fasores describen la forma local de una región espectral.</div>
+      </div>
+      <div>
+        <canvas id="p2-incoh" height="165"></canvas>
+        <div class="cap"><b>B. Síntesis bin-a-bin.</b> Cada bin avanzó su fase con su propia ω_k durante α·hop. Al mirarlos juntos, la relación local se ha desordenado.</div>
+      </div>
+    </div>
+
+    <!-- Bloque 2: coherencia horizontal, un bin a lo largo del tiempo -->
+    <div class="p2-section-hd">
+      <div class="pill">Coherencia horizontal</div>
+      <span style="color:var(--muted);font-size:12px;margin-left:8px">Aquí sí validamos el vocoder bin-a-bin: seguimos siempre los mismos bins fijos k y k+1. Al mover Frame sólo cambia la franja sombreada, no la identidad del bin.</span>
+    </div>
+    <div class="row c2">
+      <div>
+        <canvas id="p2-horiz-peak" height="155"></canvas>
+        <div class="cap">
+          Bin fijo k. <span style="color:#2f3a8f">●</span> frecuencia instantánea estimada en análisis &nbsp;·&nbsp;
+          <span style="color:#b5341f">▲</span> frecuencia inferida desde síntesis &nbsp;·&nbsp;
+          <span style="color:#9aa0d4">— — —</span> centro del bin.
+        </div>
+      </div>
+      <div>
+        <canvas id="p2-horiz-neighbor" height="155"></canvas>
+        <div class="cap">Bin fijo k+1, mismas convenciones. Puede estar horizontalmente bien y aun así no preservar la huella local del grupo.</div>
+      </div>
+    </div>
+
+    <!-- Bloque 3: reconstrucción de la señal sumando los 5 bins -->
+    <div class="p2-section-hd">
+      <div class="pill">Forma local reconstruida</div>
+      <span style="color:var(--muted);font-size:12px;margin-left:8px">Aquí sí evaluamos el efecto audible/geométrico: ¿los cinco coeficientes suman una forma estable o se cancelan?</span>
+    </div>
+    <div class="row c2">
+      <div>
+        <canvas id="p2-reco-coh" height="170"></canvas>
+        <div class="cap">
+          <b>Suma coherente</b> &nbsp;·&nbsp;
+          <span style="color:#2f3a8f">■</span> suma acumulada &nbsp;·&nbsp;
+          <span style="color:#3b7a57">— — —</span> último aporte añadido &nbsp;·&nbsp;
+          <span style="color:#b3ada0">······</span> huella de análisis completa.
+        </div>
+      </div>
+      <div>
+        <canvas id="p2-reco-inc" height="170"></canvas>
+        <div class="cap">
+          <b>Suma bin-a-bin</b> (mismas magnitudes, offsets relativos de síntesis) &nbsp;·&nbsp;
+          <span style="color:#b5341f">■</span> suma acumulada &nbsp;·&nbsp;
+          <span style="color:#d9b9b0">— — —</span> último aporte &nbsp;·&nbsp;
+          <span style="color:#b3ada0">······</span> huella de análisis completa.
+        </div>
+      </div>
+    </div>
+
+    <div class="row c2" style="margin-top:8px">
+      <div>
+        <canvas id="p2-env" height="112"></canvas>
+        <div class="cap">Envolvente instantánea |y(t)| de cada reconstrucción (con los N osciladores seleccionados).</div>
+      </div>
+      <div>
+        <canvas id="p2-err" height="112"></canvas>
+        <div class="cap">Error respecto a la huella de análisis completa. Si sólo hay rotación global, este error no debería crecer.</div>
+      </div>
+    </div>
+
+    <div class="readout p2-readout">
+      <span>Error control (misma huella): <b id="p2-rmse-coh">—</b></span>
+      <span>Error bin-a-bin: <b id="p2-rmse-inc">—</b></span>
+      <span>Diagnóstico: <b id="p2-ratio">—</b></span>
+    </div>
+
+    <div class="note" style="margin-top:14px">
+      <b>Lectura final.</b> El vocoder básico no “elige mal” por azar: hace exactamente lo que le pedimos, propagar fase <b>bin por bin</b>. El problema es que una región espectral no siempre debe comportarse como bins independientes. Cuando varios bins son la huella de un mismo evento sonoro, importan sus <b>relaciones relativas</b>. Phase locking agrega esa restricción local.
+    </div>
+  </div>
+</section>
+
+<!-- ============ PANEL 3 — IDENTITY LOCKING ============ -->
+<section class="panel">
+  <div class="panel-hd">
+    <span class="num">PANEL 03</span>
+    <h2>Identity phase locking bajo time-stretch</h2>
+    <span class="sub">La fase absoluta de cada bin no importa al oído. Lo que importa es que los bins vecinos se muevan en bloque entre frames.</span>
+  </div>
+  <div class="panel-bd">
+    <p style="margin:0 0 10px">En el panel anterior vimos que, dentro de <b>un frame</b>, las fases relativas entre bins vecinos determinan la forma de onda reconstruida. Ahora el salto conceptual que define <i>identity phase locking</i>:</p>
+    <div class="note" style="margin:10px 0">
+      <b>La idea.</b> Los bins vecinos de un peak espectral no son osciladores independientes: son la huella de <i>un mismo parcial</i> proyectado sobre la ventana. Sus fases mantienen, por construcción, un <b>offset fijo</b> respecto al peak (lo determina la ventana y no cambia entre frames). <i>Identity phase locking</i> hace explícito ese hecho: propaga <b>sólo la fase del peak</b> con la fórmula del Fundamento, y reconstruye los vecinos como <span class="mono">ϕ<sub>s</sub>[k] = ϕ<sub>s</sub>[peak] + (ϕ<sub>a</sub>[k] − ϕ<sub>a</sub>[peak])</span>. La región entera del parcial se mueve como un bloque.
+    </div>
+    <p style="margin:10px 0"><b>Cuándo importa.</b> Si hay un solo parcial estacionario la propagación bin-a-bin ya reproduce (implícitamente) esos offsets, y las dos recetas dan la misma salida. El problema aparece cuando en la región de influencia del peak caen <i>contribuciones de otros parciales</i> (frecuencias cercanas, ruido, transitorios), o cuando el peak se mueve entre frames y la propagación bin-a-bin mezcla la historia del parcial saliente con la del entrante. Ahí cada bin empieza a llevar una fase distinta al del peak, la región deja de ser un bloque, y en la OLA aparecen las interferencias que se oyen como <i>phasiness</i>.</p>
+
+    <p style="margin:12px 0 6px"><b>Simulación, N = 16, α = 1.5</b> (hop análisis <span class="mono">Ra = 4</span>, hop síntesis <span class="mono">Rs = 6</span>). Un único parcial <span class="mono">cos(2π f<sub>0</sub> n / N)</span>, dos frames de síntesis consecutivos. Este es el <b>caso fácil</b>: los dos métodos deberían coincidir, y así lo confirman los números. Consérvalo como sanity check del pipeline — la diferencia audible llega en el panel siguiente.</p>
+
+    <div class="row c2">
+      <div>
+        <canvas id="p3-frame1" height="220"></canvas>
+        <div class="cap">
+          <b>Frame aislado</b> (el segundo de síntesis). &nbsp;
+          <span style="color:#1a1a1c">■</span> referencia ideal (tono continuo en su posición <span class="mono">Rs</span>, doble-enventanado) &nbsp;·&nbsp;
+          <span style="color:#2f3a8f">— — —</span> <b>bin-a-bin</b> &nbsp;·&nbsp;
+          <span style="color:#b5341f">······</span> <b>identity</b>. Deberían coincidir — y coinciden.
+        </div>
+      </div>
+      <div>
+        <canvas id="p3-ola" height="220"></canvas>
+        <div class="cap">
+          <b>Overlap-add de dos frames</b> con hop Rs. &nbsp;
+          <span style="color:#1a1a1c">■</span> referencia continua &nbsp;·&nbsp;
+          <span style="color:#2f3a8f">— — —</span> OLA bin-a-bin &nbsp;·&nbsp;
+          <span style="color:#b5341f">······</span> OLA identity. Las tres curvas se superponen.
+        </div>
+      </div>
+    </div>
+
+    <div class="controls" style="margin-top:10px">
+      <div class="ctrl">
+        <label>Frecuencia (ciclos / 16)</label>
+        <input type="range" id="p3id-freq" min="2.5" max="3.5" step="0.1" value="3.3">
+        <span class="val mono">f = <span id="p3id-freq-val">3.3</span></span>
+      </div>
+      <div class="ctrl">
+        <label>Bins del parcial</label>
+        <select id="p3id-nbins">
+          <option value="3" selected>3 (k=peak±1)</option>
+          <option value="5">5 (k=peak±2)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="readout" style="margin-top:8px">
+      <span>RMSE frame aislado — bin-a-bin: <b id="p3id-rmse-orig">—</b></span>
+      <span>RMSE frame aislado — identity: <b id="p3id-rmse-id">—</b></span>
+      <span>OLA (bin-a-bin vs identity): <b id="p3id-rmse-ola">—</b></span>
+    </div>
+
+    <div class="note" style="margin-top:14px">
+      <b>Lectura.</b> En un solo parcial estacionario, ambos métodos coinciden: <i>identity</i> preserva los mismos offsets de fase intra-región que la propagación bin-a-bin reproduce implícitamente, y las dos OLA reconstruyen la sinusoide. La diferencia aparece cuando <b>varios parciales coexisten</b> o la señal no es estacionaria: la propagación bin-a-bin deja que cada bin derive a su propio ritmo y esa deriva produce el batido característico en la zona de solape. <i>Identity</i> fuerza a toda la región espectral del parcial a seguir al peak como un bloque, eliminando la deriva interna. La escucha comparativa del siguiente panel — con una señal de dos parciales fuera de bin — es donde este efecto se manifiesta audiblemente.
+    </div>
+  </div>
+</section>
+
+<!-- ============ PANEL 4 — ESCUCHA ============ -->
+<section class="panel">
+  <div class="panel-hd">
+    <span class="num">PANEL 04</span>
+    <h2>Escucha comparativa</h2>
+    <span class="sub">Time-stretch de una señal grave con parciales fuera de bin y glide suave. α=2.5 es el caso recomendado.</span>
+  </div>
+  <div class="panel-bd">
+    <div class="controls">
+      <div class="ctrl">
+        <label>Señal de prueba</label>
+        <select id="p3-sig">
+          <option value="single">Una sinusoide grave con glide</option>
+          <option value="two" selected>Dos parciales graves con glide</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Factor α</label>
+        <select id="p3-alpha">
+          <option value="1.5">1.5</option>
+          <option value="2">2.0</option>
+          <option value="2.5" selected>2.5</option>
+          <option value="3">3.0</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>&nbsp;</label>
+        <button id="p3-build">Generar y procesar</button>
+      </div>
+    </div>
+
+    <div class="btnrow" style="margin-top:6px">
+      <button id="p3-play-orig" disabled>▶ Original</button>
+      <button id="p3-play-basic" disabled>▶ Vocoder básico (sin locking)</button>
+      <button id="p3-play-lock" disabled class="primary">▶ Vocoder + phase locking</button>
+      <button id="p3-stop" disabled>■ Detener</button>
+      <span class="status" id="p3-status">Pulsa “Generar y procesar”. Requiere interacción del usuario para habilitar audio.</span>
+    </div>
+
+    <div style="margin-top:14px">
+      <canvas id="p3-wave" height="150"></canvas>
+      <div class="cap">Forma de onda de cada versión con escala comparable. Arriba original, en medio vocoder básico, abajo con phase locking.</div>
+      <div class="readout" style="margin-top:8px">
+        <span>Nivel RMS original: <b id="p3-rms-orig">—</b></span>
+        <span>Vocoder básico: <b id="p3-rms-basic">—</b></span>
+        <span>Phase locking: <b id="p3-rms-lock">—</b></span>
+        <span>Diferencia básico-locking: <b id="p3-rms-diff">—</b></span>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:14px">
+      Usa primero <span class="mono">Dos parciales graves con glide</span> y <span class="mono">α=2.5</span>. La señal se mueve lentamente entre bins: el vocoder básico tiende a sonar más “acuoso” o menos focalizado, mientras que phase locking mantiene mejor la relación local alrededor de cada peak. <span class="mono">α=3.0</span> es un caso más exigente, no el punto de partida.
+    </div>
+  </div>
+</section>
+
+<!-- ============ PANEL 4 ============ -->
+<section class="panel">
+  <div class="panel-hd">
+    <span class="num">PANEL 05</span>
+    <h2>Phase locking</h2>
+    <span class="sub">El peak manda. En un parcial que se mueve, los vecinos heredan su fase y mantienen forma local.</span>
+  </div>
+  <div class="panel-bd">
+    <div class="controls">
+      <div class="ctrl">
+        <label>Offset de bin</label>
+        <input type="range" id="p4-off" min="0" max="0.5" step="0.01" value="0.3">
+        <span class="val mono">k + <span id="p4-off-val">0.30</span></span>
+      </div>
+      <div class="ctrl">
+        <label>Factor α</label>
+        <input type="range" id="p4-alpha" min="1" max="4" step="0.1" value="2.5">
+        <span class="val mono">α = <span id="p4-alpha-val">2.5</span></span>
+      </div>
+      <div class="ctrl">
+        <label>Radio de locking</label>
+        <select id="p4-radius">
+          <option value="2" selected>±2 bins</option>
+          <option value="3">±3 bins</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row c3">
+      <div>
+        <canvas id="p4-mag" height="200"></canvas>
+        <div class="cap">Magnitud DFT del parcial con glide. Zona sombreada = región de locking.</div>
+      </div>
+      <div>
+        <canvas id="p4-before" height="200"></canvas>
+        <div class="cap">Fasores vecinos <b>sin</b> locking (bin-a-bin).</div>
+      </div>
+      <div>
+        <canvas id="p4-after" height="200"></canvas>
+        <div class="cap">Fasores vecinos <b>con</b> locking.</div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:14px">
+      Regla: <span class="mono">phase_locked[k_n] = phase_peak_synth + (phase_analysis[k_n] − phase_analysis[peak])</span>. En esta escena el parcial cambia lentamente de frecuencia: la propagación bin-a-bin deja que cada vecino estime su propia trayectoria, mientras que el locking obliga a la región del peak a moverse como bloque. Phase locking es una corrección <i>local</i> alrededor de peaks espectrales, no una magia global.
+    </div>
+  </div>
+</section>
+
+<footer style="text-align:center;color:var(--muted);font-size:12px;padding:20px">
+  Implementación didáctica. FFT radix-2, STFT/ISTFT con OLA, princArg, phase locking de Puckette simplificado.
+</footer>
+
+</main>
+
+<script>
+/* ==========================================================
+   DSP núcleo
+   ========================================================== */
+
+// FFT radix-2 iterativa (bit-reverse + Cooley-Tukey).
+// Entradas/salidas como arrays separados re[], im[] de longitud N potencia de 2.
+function fftInPlace(re, im, inverse){
+  const N = re.length;
+  // bit-reverse
+  let j = 0;
+  for(let i=1;i<N;i++){
+    let bit = N>>1;
+    for(; j & bit; bit>>=1){ j ^= bit; }
+    j ^= bit;
+    if(i < j){ [re[i],re[j]]=[re[j],re[i]]; [im[i],im[j]]=[im[j],im[i]]; }
+  }
+  // butterflies
+  for(let len=2; len<=N; len<<=1){
+    const ang = (inverse?2:-2)*Math.PI/len;
+    const wlr = Math.cos(ang), wli = Math.sin(ang);
+    for(let i=0;i<N;i+=len){
+      let wr=1, wi=0;
+      for(let k=0;k<len/2;k++){
+        const xr = re[i+k], xi = im[i+k];
+        const yr = re[i+k+len/2]*wr - im[i+k+len/2]*wi;
+        const yi = re[i+k+len/2]*wi + im[i+k+len/2]*wr;
+        re[i+k]       = xr + yr;
+        im[i+k]       = xi + yi;
+        re[i+k+len/2] = xr - yr;
+        im[i+k+len/2] = xi - yi;
+        const nwr = wr*wlr - wi*wli;
+        wi = wr*wli + wi*wlr;
+        wr = nwr;
+      }
+    }
+  }
+  if(inverse){ for(let i=0;i<N;i++){ re[i]/=N; im[i]/=N; } }
+}
+
+// DFT real → half-spectrum (N/2+1 bins). Devuelve {re, im} de tamaño N/2+1.
+function rfft(x){
+  const N = x.length;
+  const re = new Float64Array(N), im = new Float64Array(N);
+  for(let i=0;i<N;i++){ re[i]=x[i]; im[i]=0; }
+  fftInPlace(re, im, false);
+  const half = N/2+1;
+  const R = new Float64Array(half), I = new Float64Array(half);
+  for(let k=0;k<half;k++){ R[k]=re[k]; I[k]=im[k]; }
+  return {re:R, im:I};
+}
+
+// IFFT real: reconstruye con simetría conjugada.
+function irfft(R, I, N){
+  const re = new Float64Array(N), im = new Float64Array(N);
+  for(let k=0;k<=N/2;k++){ re[k]=R[k]; im[k]=I[k]; }
+  // simetría conjugada: X[N-k] = conj(X[k])
+  for(let k=1;k<N/2;k++){
+    re[N-k] =  R[k];
+    im[N-k] = -I[k];
+  }
+  fftInPlace(re, im, true);
+  const out = new Float64Array(N);
+  for(let i=0;i<N;i++) out[i]=re[i];
+  return out;
+}
+
+// Ventanas
+function windowRect(N){ const w=new Float64Array(N); w.fill(1); return w; }
+function windowHann(N){
+  const w=new Float64Array(N);
+  for(let n=0;n<N;n++) w[n]=0.5*(1-Math.cos(2*Math.PI*n/(N-1)));
+  return w;
+}
+
+// princArg: envuelve fase a (-pi, pi]
+function princArg(x){
+  return x - 2*Math.PI*Math.round(x/(2*Math.PI));
+}
+
+/* ==========================================================
+   STFT / ISTFT
+   ========================================================== */
+
+function stft(x, N, hop, window){
+  const frames = [];
+  for(let start=0; start+N<=x.length; start+=hop){
+    const frame = new Float64Array(N);
+    for(let i=0;i<N;i++) frame[i] = x[start+i]*window[i];
+    frames.push(rfft(frame));
+  }
+  return frames; // array de {re, im}
+}
+
+// ISTFT con OLA. ws = ventana de síntesis (típicamente igual a la de análisis para Hann^2 OLA).
+function istft(frames, N, hop, ws){
+  const totalLen = (frames.length-1)*hop + N;
+  const y = new Float64Array(totalLen);
+  const wsum = new Float64Array(totalLen);
+  for(let f=0; f<frames.length; f++){
+    const frame = irfft(frames[f].re, frames[f].im, N);
+    const start = f*hop;
+    for(let i=0;i<N;i++){
+      y[start+i]    += frame[i]*ws[i];
+      wsum[start+i] += ws[i]*ws[i];
+    }
+  }
+  // Normalización OLA. En los bordes finitos la suma de ventanas puede ser
+  // muy pequeña; dividir ahí amplifica residuos de fase y crea clicks/spikes.
+  // Esas muestras caen dentro del fade, por lo que las dejamos en cero.
+  for(let i=0;i<totalLen;i++){
+    if(wsum[i] > 1e-3) y[i] /= wsum[i];
+    else y[i] = 0;
+  }
+  return y;
+}
+
+/* ==========================================================
+   Phase vocoder
+   ========================================================== */
+
+// Vocoder básico bin-a-bin (sin locking).
+// Recibe frames de análisis (rfft), devuelve frames de síntesis para ISTFT.
+function phaseVocoderBasic(frames, N, hopA, hopS){
+  const K = N/2+1;
+  const omega = new Float64Array(K);
+  for(let k=0;k<K;k++) omega[k] = 2*Math.PI*k*hopA/N; // fase esperada por hop de análisis
+  let lastPhaseA = new Float64Array(K);
+  let lastPhaseS = new Float64Array(K);
+  const out = [];
+  for(let f=0; f<frames.length; f++){
+    const {re, im} = frames[f];
+    const mag = new Float64Array(K), ph = new Float64Array(K);
+    for(let k=0;k<K;k++){
+      mag[k] = Math.hypot(re[k], im[k]);
+      ph[k]  = Math.atan2(im[k], re[k]);
+    }
+    const newRe = new Float64Array(K), newIm = new Float64Array(K);
+    if(f===0){
+      // primer frame: mantenemos fase original
+      for(let k=0;k<K;k++){ newRe[k]=re[k]; newIm[k]=im[k]; }
+      lastPhaseA.set(ph);
+      lastPhaseS.set(ph);
+    } else {
+      for(let k=0;k<K;k++){
+        // fase instantánea (unwrapped)
+        const dphi = ph[k] - lastPhaseA[k] - omega[k];
+        const dphiWrapped = princArg(dphi);
+        const freqTrue = omega[k] + dphiWrapped;  // avance real por hopA
+        // síntesis: avanzamos con hopS
+        const phaseS = lastPhaseS[k] + freqTrue*(hopS/hopA);
+        newRe[k] = mag[k]*Math.cos(phaseS);
+        newIm[k] = mag[k]*Math.sin(phaseS);
+        lastPhaseA[k] = ph[k];
+        lastPhaseS[k] = phaseS;
+      }
+    }
+    out.push({re:newRe, im:newIm});
+  }
+  return out;
+}
+
+// Vocoder con phase locking simplificado estilo Puckette:
+// detecta peaks locales; cada peak propaga su fase a sus vecinos conservando fase relativa.
+function phaseVocoderLocked(frames, N, hopA, hopS, radius){
+  const K = N/2+1;
+  const omega = new Float64Array(K);
+  for(let k=0;k<K;k++) omega[k] = 2*Math.PI*k*hopA/N;
+  let lastPhaseA = new Float64Array(K);
+  let lastPhaseS = new Float64Array(K);
+  const out = [];
+
+  function findPeaks(mag){
+    const peaks = [];
+    for(let k=2;k<K-2;k++){
+      if(mag[k]>mag[k-1] && mag[k]>mag[k-2] && mag[k]>mag[k+1] && mag[k]>mag[k+2]){
+        peaks.push(k);
+      }
+    }
+    return peaks;
+  }
+
+  for(let f=0; f<frames.length; f++){
+    const {re, im} = frames[f];
+    const mag = new Float64Array(K), ph = new Float64Array(K);
+    for(let k=0;k<K;k++){
+      mag[k] = Math.hypot(re[k], im[k]);
+      ph[k]  = Math.atan2(im[k], re[k]);
+    }
+    const newRe = new Float64Array(K), newIm = new Float64Array(K);
+    const newPhaseS = new Float64Array(K);
+
+    if(f===0){
+      for(let k=0;k<K;k++){ newRe[k]=re[k]; newIm[k]=im[k]; newPhaseS[k]=ph[k]; }
+    } else {
+      const peaks = findPeaks(mag);
+      // marcamos a qué peak pertenece cada bin
+      const owner = new Int32Array(K); owner.fill(-1);
+      for(const p of peaks){
+        for(let d=-radius; d<=radius; d++){
+          const k=p+d;
+          if(k>=0 && k<K) owner[k]=p;
+        }
+      }
+      // primero calculamos fase propagada para peaks (como vocoder básico)
+      for(const p of peaks){
+        const dphi = ph[p] - lastPhaseA[p] - omega[p];
+        const dphiW = princArg(dphi);
+        const freqTrue = omega[p] + dphiW;
+        newPhaseS[p] = lastPhaseS[p] + freqTrue*(hopS/hopA);
+      }
+      // vecinos: fase del peak + (fase_analisis_vecino - fase_analisis_peak)
+      for(let k=0;k<K;k++){
+        if(owner[k]>=0 && owner[k]!==k){
+          const p = owner[k];
+          newPhaseS[k] = newPhaseS[p] + (ph[k] - ph[p]);
+        }
+      }
+      // bins fuera de cualquier peak: vocoder básico estándar
+      for(let k=0;k<K;k++){
+        if(owner[k]<0){
+          const dphi = ph[k] - lastPhaseA[k] - omega[k];
+          const dphiW = princArg(dphi);
+          const freqTrue = omega[k] + dphiW;
+          newPhaseS[k] = lastPhaseS[k] + freqTrue*(hopS/hopA);
+        }
+      }
+      for(let k=0;k<K;k++){
+        newRe[k] = mag[k]*Math.cos(newPhaseS[k]);
+        newIm[k] = mag[k]*Math.sin(newPhaseS[k]);
+      }
+    }
+    lastPhaseA.set(ph);
+    lastPhaseS.set(newPhaseS);
+    out.push({re:newRe, im:newIm});
+  }
+  return out;
+}
+
+/* ==========================================================
+   Utilidades
+   ========================================================== */
+
+function normalizePeak(x, target=0.9){
+  let m=0;
+  for(let i=0;i<x.length;i++){ const a=Math.abs(x[i]); if(a>m) m=a; }
+  if(m<1e-9) return x;
+  const g = target/m;
+  const y = new Float64Array(x.length);
+  for(let i=0;i<x.length;i++) y[i]=x[i]*g;
+  return y;
+}
+
+function anyNaN(x){ for(let i=0;i<x.length;i++) if(!isFinite(x[i])) return true; return false; }
+
+function maxAbs(arr){
+  let m = 0;
+  for(let i=0;i<arr.length;i++){
+    const a = Math.abs(arr[i]);
+    if(a>m) m=a;
+  }
+  return m;
+}
+
+function rmsLevel(arr, trim=0){
+  const start = Math.min(arr.length, Math.floor(arr.length*trim));
+  const end = Math.max(start, arr.length - start);
+  let s = 0, n = 0;
+  for(let i=start;i<end;i++){
+    const v = arr[i];
+    if(isFinite(v)){ s += v*v; n++; }
+  }
+  return n ? Math.sqrt(s/n) : 0;
+}
+
+function rmsDifference(a, b, trim=0.03){
+  const L = Math.min(a.length, b.length);
+  const start = Math.min(L, Math.floor(L*trim));
+  const end = Math.max(start, L - start);
+  let s = 0, n = 0;
+  for(let i=start;i<end;i++){
+    const d = a[i] - b[i];
+    if(isFinite(d)){ s += d*d; n++; }
+  }
+  return n ? Math.sqrt(s/n) : 0;
+}
+
+function scaleSignal(arr, gain){
+  const y = new Float64Array(arr.length);
+  for(let i=0;i<arr.length;i++) y[i] = arr[i]*gain;
+  return y;
+}
+
+function softLimitSignal(arr, knee=0.98){
+  const y = new Float64Array(arr.length);
+  const top = 0.999;
+  const range = top - knee;
+  for(let i=0;i<arr.length;i++){
+    const v = arr[i];
+    const a = Math.abs(v);
+    if(a <= knee){
+      y[i] = v;
+    } else {
+      const extra = a - knee;
+      y[i] = Math.sign(v) * (knee + range*(1 - Math.exp(-extra/range)));
+    }
+  }
+  return y;
+}
+
+function matchRmsToReference(arr, refRms, trim=0.03, ceiling=0.96){
+  const before = rmsLevel(arr, trim);
+  let gain = before>1e-9 ? refRms/before : 1;
+  let y = scaleSignal(arr, gain);
+  let limited = false;
+  for(let iter=0; iter<3; iter++){
+    if(maxAbs(y) > ceiling){
+      y = softLimitSignal(y, ceiling);
+      limited = true;
+    }
+    const r = rmsLevel(y, trim);
+    if(r<1e-9) break;
+    const g = refRms/r;
+    if(Math.abs(g-1)<0.005) break;
+    y = scaleSignal(y, g);
+    gain *= g;
+  }
+  if(maxAbs(y) > ceiling){
+    y = softLimitSignal(y, ceiling);
+    limited = true;
+  }
+  return {
+    y,
+    gain,
+    limited,
+    rmsBefore: before,
+    rmsAfter: rmsLevel(y, trim),
+    peakAfter: maxAbs(y)
+  };
+}
+
+function autoGain(target, maxGain, ...arrs){
+  let m = 0;
+  for(const arr of arrs) m = Math.max(m, maxAbs(arr));
+  if(m<1e-9) return 1;
+  return Math.max(1, Math.min(maxGain, target/m));
+}
+
+/* ==========================================================
+   CANVAS helpers
+   ========================================================== */
+
+function setupCanvas(cv){
+  const dpr = window.devicePixelRatio||1;
+  const rect = cv.getBoundingClientRect();
+  cv.width = Math.floor(rect.width*dpr);
+  cv.height = Math.floor(cv.clientHeight*dpr || cv.height);
+  const ctx = cv.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  return {ctx, w:rect.width, h:cv.clientHeight || (cv.height/dpr)};
+}
+
+function axis(ctx,x,y,w,h,color='#d9d4ca'){
+  ctx.strokeStyle=color; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x,y+h); ctx.lineTo(x+w,y+h); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x,y+h); ctx.stroke();
+}
+
+/* ==========================================================
+   PANEL 0 -- Intuición 16 puntos
+   ========================================================== */
+
+function renderPanel0(){
+  const mode = document.getElementById('p0-mode').value;
+  const binsMode = document.getElementById('p0-bins').value;
+  const f0 = parseFloat(document.getElementById('p0-freq').value);
+  document.getElementById('p0-freq-val').textContent = f0.toFixed(1);
+
+  const N = 16;
+  const w = windowHann(N);
+  const x = new Float64Array(N);
+  for(let n=0;n<N;n++) x[n] = Math.cos(2*Math.PI*f0*n/N) * w[n];
+
+  // FFT completa (usamos rfft y reconstruimos con IFFT "manual" para que soporte fases editadas)
+  const {re, im} = rfft(x);
+  const K = N/2+1;
+  const mag = new Float64Array(K), ph = new Float64Array(K);
+  for(let i=0;i<K;i++){ mag[i]=Math.hypot(re[i],im[i]); ph[i]=Math.atan2(im[i],re[i]); }
+
+  // tabla: bins 2,3,4 (referidos a f0=3). Escala de magnitud: N/4 aprox para Hann
+  // mostramos magnitud dividida por N/4 para que salga cerca de 0.5 para el peak
+  function fmtMag(v){ return (v/(N/4)).toFixed(2); }
+  function fmtPh(v){
+    const deg = v*180/Math.PI;
+    return (deg>0?'+':'')+deg.toFixed(0)+'°';
+  }
+  document.getElementById('p0-m2').textContent = fmtMag(mag[2]);
+  document.getElementById('p0-m3').textContent = fmtMag(mag[3]);
+  document.getElementById('p0-m4').textContent = fmtMag(mag[4]);
+  document.getElementById('p0-f2').textContent = fmtPh(ph[2]);
+  document.getElementById('p0-f3').textContent = fmtPh(ph[3]);
+  document.getElementById('p0-f4').textContent = fmtPh(ph[4]);
+
+  // seleccionar bins
+  let active;
+  if(binsMode==='center') active=[3];
+  else if(binsMode==='three') active=[2,3,4];
+  else if(binsMode==='five') active=[1,2,3,4,5];
+  else active = Array.from({length:K}, (_,i)=>i);
+  document.getElementById('p0-count').textContent = active.length;
+
+  // Reconstrucción: IDFT manual sumando sólo los bins activos
+  // Para una señal real: x[n] = sum_{k=0..K-1} A_k * cos(2pi k n/N + phi_k) * (1 si k==0 o k==N/2 else 2) / N
+  // Usamos forma directa: sumar componentes y su conjugado (excepto DC y Nyquist)
+  const y = new Float64Array(N);
+  for(const k of active){
+    const magK = mag[k];
+    const phK = (mode==='id') ? 0 : ph[k];
+    const coef = (k===0 || k===N/2) ? 1 : 2;
+    for(let n=0;n<N;n++){
+      y[n] += coef * magK * Math.cos(2*Math.PI*k*n/N + phK) / N;
+    }
+  }
+  // RMSE (sólo en modo orig con todos los bins debería ser ~0; con identity o menos bins, distinto)
+  let err=0; for(let n=0;n<N;n++) err += (x[n]-y[n])**2;
+  const rmse = Math.sqrt(err/N);
+  document.getElementById('p0-rmse').textContent = rmse.toExponential(2);
+
+  // Dibujar
+  const cv = document.getElementById('p0-canvas');
+  const {ctx, w:W, h:H} = setupCanvas(cv);
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+  const pad=22;
+  // eje cero
+  ctx.strokeStyle='#ebe6dc'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(pad, H/2); ctx.lineTo(W-pad, H/2); ctx.stroke();
+  // gridlines verticales
+  for(let n=0;n<N;n++){
+    const px = pad + (W-2*pad)*n/(N-1);
+    ctx.strokeStyle= n===0||n===N-1?'#d9d4ca':'#f0ebde';
+    ctx.beginPath(); ctx.moveTo(px,pad); ctx.lineTo(px,H-pad); ctx.stroke();
+  }
+  // escala
+  let amax=0; for(let n=0;n<N;n++) amax = Math.max(amax, Math.abs(x[n]), Math.abs(y[n]));
+  if(amax<1e-9) amax=1;
+  function draw(arr, color, width, dashed){
+    ctx.strokeStyle=color; ctx.lineWidth=width;
+    ctx.setLineDash(dashed||[]);
+    ctx.beginPath();
+    for(let n=0;n<N;n++){
+      const px = pad + (W-2*pad)*n/(N-1);
+      const py = H/2 - (H/2-pad)*arr[n]/amax;
+      if(n===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+    // puntos
+    ctx.fillStyle=color;
+    for(let n=0;n<N;n++){
+      const px = pad + (W-2*pad)*n/(N-1);
+      const py = H/2 - (H/2-pad)*arr[n]/amax;
+      ctx.beginPath(); ctx.arc(px,py,2.4,0,2*Math.PI); ctx.fill();
+    }
+  }
+  draw(x, '#1a1a1c', 1.3);
+  if(mode==='id'){
+    draw(y, '#b5341f', 1.6, [4,3]);
+  } else {
+    draw(y, '#2f3a8f', 1.6, [4,3]);
+  }
+  ctx.fillStyle='#6b6a66'; ctx.font='11px "SF Mono", monospace';
+  ctx.fillText(`N=${N}  f₀=${f0.toFixed(1)}  bins activos=${active.length}`, pad+4, 14);
+}
+
+['p0-mode','p0-bins','p0-freq'].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input', renderPanel0);
+  el.addEventListener('change', renderPanel0);
+});
+
+/* ==========================================================
+   PANEL 3 -- Identity phase locking (time-stretch α=1.5)
+   Sanity check: en un parcial estacionario aislado, la propagación
+   bin-a-bin y el identity locking deben coincidir casi por completo.
+   ========================================================== */
+
+function renderPanel3Identity(){
+  const f0 = parseFloat(document.getElementById('p3id-freq').value);
+  document.getElementById('p3id-freq-val').textContent = f0.toFixed(1);
+  const nbins = parseInt(document.getElementById('p3id-nbins').value);
+
+  const N = 16;
+  const Ra = N/4;         // hop análisis = 4 (75 % solape)
+  const Rs = Math.round(Ra*1.5); // hop síntesis = 6 (α = 1.5)
+  const w = windowHann(N);
+  const K = N/2+1;
+
+  // --- Dos frames de análisis consecutivos del tono continuo cos(2π f0 t / N) ---
+  function analyze(offset){
+    const x = new Float64Array(N);
+    for(let n=0;n<N;n++) x[n] = Math.cos(2*Math.PI*f0*(n+offset)/N) * w[n];
+    const {re, im} = rfft(x);
+    const mag = new Float64Array(K), ph = new Float64Array(K);
+    for(let i=0;i<K;i++){ mag[i]=Math.hypot(re[i],im[i]); ph[i]=Math.atan2(im[i],re[i]); }
+    return {mag, ph};
+  }
+  const A0 = analyze(0);
+  const A1 = analyze(Ra);
+
+  // peak común
+  let peak=0; for(let i=1;i<K;i++) if(A0.mag[i]>A0.mag[peak]) peak=i;
+  const half = Math.floor(nbins/2);
+  const active=[]; for(let d=-half; d<=half; d++){ const b=peak+d; if(b>=0 && b<K) active.push(b);}
+
+  // --- Propagación de fase estándar (bin por bin) para frame 1 de síntesis ---
+  // ϕ_s(1,k) = ϕ_s(0,k) + [princ(Δϕ_a) + 2π k Ra / N] · (Rs/Ra)
+  // con ϕ_s(0,k) = ϕ_a(0,k)
+  function princ(x){ return Math.atan2(Math.sin(x), Math.cos(x)); }
+  const phSyn_bin = new Float64Array(K);
+  for(let k=0;k<K;k++){
+    const expected = 2*Math.PI*k*Ra/N;
+    const dphiUnwrap = princ(A1.ph[k] - A0.ph[k] - expected) + expected;
+    phSyn_bin[k] = A0.ph[k] + dphiUnwrap * (Rs/Ra);
+  }
+
+  // --- Identity locking para AMBOS frames ---
+  // La idea correcta: cada bin mantiene su OFFSET de fase respecto al peak
+  // (ese offset lo determina la ventana y es el mismo en todos los frames).
+  // Sólo propaga el bin del peak; los vecinos heredan (fase_peak_nueva + offset_relativo).
+  // frame 0 de síntesis: identidad con el propio peak de análisis
+  const phSyn0_id = new Float64Array(K);
+  for(let k=0;k<K;k++) phSyn0_id[k] = A0.ph[peak] + (A0.ph[k] - A0.ph[peak]);
+  // (equivale a A0.ph en frame 0: ok — no hay propagación aún)
+  // frame 1: peak propagado + offset relativo heredado del análisis del frame 1
+  const phSyn_id = new Float64Array(K);
+  for(let k=0;k<K;k++) phSyn_id[k] = phSyn_bin[peak] + (A1.ph[k] - A1.ph[peak]);
+
+  // Reconstruir un frame dadas las fases, usando las magnitudes de análisis A0
+  function recon(phases, magSrc){
+    const y = new Float64Array(N);
+    for(const k of active){
+      const coef = (k===0||k===N/2)?1:2;
+      for(let n=0;n<N;n++) y[n] += coef*magSrc[k]*Math.cos(2*Math.PI*k*n/N + phases[k])/N;
+    }
+    // re-enventanar (como hace cualquier vocoder en síntesis)
+    for(let n=0;n<N;n++) y[n] *= w[n];
+    return y;
+  }
+
+  // Frame 0: dos variantes — bin-a-bin usa las fases originales; identity usa phSyn0_id.
+  const yFrame0_bin = recon(A0.ph,     A0.mag);
+  const yFrame0_id  = recon(phSyn0_id, A0.mag);
+  // Frame 1 al hop de síntesis Rs:
+  const yFrame1_bin = recon(phSyn_bin, A1.mag);
+  const yFrame1_id  = recon(phSyn_id,  A1.mag);
+
+  // --- Frame aislado: panel izquierdo muestra el frame 1 de síntesis ---
+  // Referencia ideal para el frame 1: el tono continuo desplazado al hop Rs y enventanado
+  const xRef1 = new Float64Array(N);
+  for(let n=0;n<N;n++) xRef1[n] = Math.cos(2*Math.PI*f0*(n+Rs)/N) * w[n] * w[n];
+  // (w aparece dos veces: una en análisis, una en re-enventanado síntesis — mismo tratamiento que recon)
+  let eB=0, eI=0;
+  for(let n=0;n<N;n++){ eB += (xRef1[n]-yFrame1_bin[n])**2; eI += (xRef1[n]-yFrame1_id[n])**2; }
+  const rmseBin = Math.sqrt(eB/N), rmseId = Math.sqrt(eI/N);
+  document.getElementById('p3id-rmse-orig').textContent = rmseBin.toFixed(3);
+  document.getElementById('p3id-rmse-id').textContent = rmseId.toFixed(3);
+
+  drawOverlay('p3-frame1', xRef1, yFrame1_bin, yFrame1_id, N);
+
+  // --- Overlap-add síntesis: frame0 @ 0, frame1 @ Rs ---
+  const Ltot = N + Rs;
+  function ola(y0, y1){
+    const out = new Float64Array(Ltot);
+    for(let n=0;n<N;n++) out[n] += y0[n];
+    for(let n=0;n<N;n++) out[n+Rs] += y1[n];
+    return out;
+  }
+  const olaBin = ola(yFrame0_bin, yFrame1_bin);
+  const olaId  = ola(yFrame0_id,  yFrame1_id);
+
+  // Referencia continua para la OLA: cos(2π f0 n/N) modulado por la envelope OLA
+  // La envelope OLA es w(n)·w(n) + w(n-Rs)·w(n-Rs)  (w² porque hay ventana en análisis y síntesis)
+  const env = new Float64Array(Ltot);
+  for(let n=0;n<N;n++) env[n]     += w[n]*w[n];
+  for(let n=0;n<N;n++) env[n+Rs]  += w[n]*w[n];
+  const ref = new Float64Array(Ltot);
+  for(let n=0;n<Ltot;n++) ref[n] = Math.cos(2*Math.PI*f0*n/N) * env[n];
+
+  // RMSE en zona de overlap [Rs, N)
+  let sB=0, sI=0, cnt=0;
+  for(let n=Rs;n<N;n++){ sB += (olaBin[n]-ref[n])**2; sI += (olaId[n]-ref[n])**2; cnt++; }
+  const rmseOlaBin = Math.sqrt(sB/cnt);
+  const rmseOlaId  = Math.sqrt(sI/cnt);
+  document.getElementById('p3id-rmse-ola').textContent =
+    `bin-a-bin ${rmseOlaBin.toFixed(3)} · identity ${rmseOlaId.toFixed(3)}`;
+
+  drawOverlay('p3-ola', ref, olaBin, olaId, Ltot, {overlapStart:Rs, overlapEnd:N});
+}
+
+function drawOverlay(canvasId, x, yA, yB, L, opts){
+  const cv = document.getElementById(canvasId);
+  const {ctx, w:W, h:H} = setupCanvas(cv);
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+  const pad=22;
+  // zona overlap
+  if(opts && opts.overlapStart!==undefined){
+    const x0 = pad + (W-2*pad)*opts.overlapStart/(L-1);
+    const x1 = pad + (W-2*pad)*opts.overlapEnd/(L-1);
+    ctx.fillStyle='rgba(230,232,245,0.6)';
+    ctx.fillRect(x0, pad, x1-x0, H-2*pad);
+    ctx.fillStyle='#6b6a66'; ctx.font='10px "SF Mono", monospace';
+    ctx.fillText('zona de overlap', x0+4, pad+12);
+  }
+  ctx.strokeStyle='#ebe6dc'; ctx.beginPath(); ctx.moveTo(pad, H/2); ctx.lineTo(W-pad, H/2); ctx.stroke();
+
+  let amax=0;
+  for(let n=0;n<L;n++) amax = Math.max(amax, Math.abs(x[n]), Math.abs(yA[n]), Math.abs(yB[n]));
+  if(amax<1e-9) amax=1;
+  function draw(arr, color, width, dashed){
+    ctx.strokeStyle=color; ctx.lineWidth=width;
+    ctx.setLineDash(dashed||[]);
+    ctx.beginPath();
+    for(let n=0;n<L;n++){
+      const px = pad + (W-2*pad)*n/(L-1);
+      const py = H/2 - (H/2-pad)*arr[n]/amax;
+      if(n===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+    // puntos pequeños sólo si N es pequeño
+    if(L<=24){
+      ctx.fillStyle=color;
+      for(let n=0;n<L;n++){
+        const px = pad + (W-2*pad)*n/(L-1);
+        const py = H/2 - (H/2-pad)*arr[n]/amax;
+        ctx.beginPath(); ctx.arc(px,py,2.2,0,2*Math.PI); ctx.fill();
+      }
+    }
+  }
+  draw(x,  '#1a1a1c', 1.3);
+  draw(yA, '#2f3a8f', 1.4, [4,3]);
+  draw(yB, '#b5341f', 1.4, [2,3]);
+}
+
+['p3id-freq','p3id-nbins'].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input', renderPanel3Identity);
+  el.addEventListener('change', renderPanel3Identity);
+});
+
+/* ==========================================================
+   PANEL 1
+   ========================================================== */
+
+function renderPanel1(){
+  const Nfft = parseInt(document.getElementById('p1-nfft').value);
+  const Nwin = 256;
+  const off = parseFloat(document.getElementById('p1-off').value);
+  const winType = document.getElementById('p1-win').value;
+  let k = parseInt(document.getElementById('p1-k').value);
+  // Asegurar k entero válido
+  k = Math.max(4, Math.min(Nwin/2-5, k));
+  document.getElementById('p1-k-val').textContent = k;
+
+  const freqWinBin = k + off; // ciclos dentro de la ventana fija
+  const expectedFftBin = freqWinBin * Nfft / Nwin;
+  // frecuencia normalizada: omega = 2*pi*freqWinBin/Nwin
+  const x = new Float64Array(Nwin);
+  for(let n=0;n<Nwin;n++) x[n] = Math.cos(2*Math.PI*freqWinBin*n/Nwin);
+  const w = (winType==='hann')?windowHann(Nwin):windowRect(Nwin);
+  const xw = new Float64Array(Nwin);
+  for(let n=0;n<Nwin;n++) xw[n]=x[n]*w[n];
+
+  const fftIn = new Float64Array(Nfft);
+  fftIn.set(xw);
+  const {re, im} = rfft(fftIn);
+  const K = Nfft/2+1;
+  const mag = new Float64Array(K), ph = new Float64Array(K);
+  for(let i=0;i<K;i++){ mag[i]=Math.hypot(re[i],im[i]); ph[i]=Math.atan2(im[i],re[i]); }
+
+  // encontrar peak real en la malla FFT
+  const search = Math.max(4, Math.ceil(4*Nfft/Nwin));
+  let peak = Math.max(1, Math.min(K-2, Math.round(expectedFftBin)));
+  for(let i=Math.max(1,peak-search);i<=Math.min(K-2,peak+search);i++) if(mag[i]>mag[peak]) peak=i;
+  const peakAsWinBin = peak * Nwin / Nfft;
+
+  // --- time canvas ---
+  {
+    const cv = document.getElementById('p1-time');
+    const {ctx,w:W,h:H} = setupCanvas(cv);
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+    const pad=16;
+    ctx.strokeStyle='#ebe6dc'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(pad,H/2); ctx.lineTo(W-pad,H/2); ctx.stroke();
+    ctx.strokeStyle='var(--accent)'.replace('var(--accent)','#2f3a8f');
+    const yGain = autoGain(0.88, 2.2, xw);
+    ctx.beginPath();
+    for(let n=0;n<Nwin;n++){
+      const px = pad + (W-2*pad)*n/(Nwin-1);
+      const py = H/2 - (H/2-pad)*xw[n]*yGain;
+      if(n===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.strokeStyle='#2f3a8f'; ctx.lineWidth=1.2; ctx.stroke();
+    ctx.fillStyle='#6b6a66'; ctx.font='11px "SF Mono", monospace';
+    const scaleTxt = yGain>1.05 ? `   escala y x${yGain.toFixed(1)}` : '';
+    ctx.fillText(`Nw=${Nwin}   NFFT=${Nfft}   ventana=${winType}   f=${freqWinBin.toFixed(2)} bins ventana${scaleTxt}`, pad, 14);
+  }
+
+  // --- magnitude canvas ---
+  {
+    const cv = document.getElementById('p1-mag');
+    const {ctx,w:W,h:H} = setupCanvas(cv);
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+    const pad=20;
+    // mostrar una zona de frecuencia fija alrededor del peak, expresada en bins FFT
+    const span = Math.max(10, Math.round(10*Nfft/Nwin));
+    const kmin=Math.max(0,peak-span), kmax=Math.min(K-1,peak+span);
+    const nb = kmax-kmin;
+    let mmax=0; for(let i=kmin;i<=kmax;i++) if(mag[i]>mmax) mmax=mag[i];
+    if(mmax<1e-6) mmax=1;
+    const barW = (W-2*pad)/(nb+1);
+    const labelStep = Math.max(1, Math.ceil((kmax-kmin)/10));
+    const neighborSpan = Math.max(2, Math.round(2*Nfft/Nwin));
+    for(let i=kmin;i<=kmax;i++){
+      const px = pad + (i-kmin)*barW;
+      const magN = Math.sqrt(mag[i]/mmax);
+      const bh = (H-2*pad)*magN;
+      const py = H-pad-bh;
+      let col='#2f3a8f';
+      if(i===peak) col='#b5341f';
+      else if(Math.abs(i-peak)<=neighborSpan) col='#3b7a57';
+      ctx.fillStyle=col;
+      ctx.fillRect(px+2, py, Math.max(1, barW-4), bh);
+      // etiqueta bin
+      ctx.fillStyle='#6b6a66'; ctx.font='10px "SF Mono", monospace';
+      if((i-kmin)%labelStep===0) ctx.fillText(i, px+barW/2-6, H-4);
+    }
+    axis(ctx,pad,pad,W-2*pad,H-2*pad);
+    ctx.fillStyle='#1a1a1c'; ctx.font='11px "SF Mono", monospace';
+    ctx.fillText(`|X[k]|  peak FFT=${peak}  ≈${peakAsWinBin.toFixed(2)} bins ventana  mag=${mag[peak].toFixed(2)}`, pad+6, pad+12);
+  }
+
+  // --- phase canvas ---
+  {
+    const cv = document.getElementById('p1-phase');
+    const {ctx,w:W,h:H} = setupCanvas(cv);
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+    const pad=22;
+    const span = Math.max(8, Math.round(8*Nfft/Nwin));
+    const kmin=Math.max(0,peak-span), kmax=Math.min(K-1,peak+span);
+    const nb = kmax-kmin;
+    axis(ctx,pad,pad,W-2*pad,H-2*pad);
+    // eje 0
+    ctx.strokeStyle='#ebe6dc';
+    ctx.beginPath(); ctx.moveTo(pad,(H-2*pad)/2+pad); ctx.lineTo(W-pad,(H-2*pad)/2+pad); ctx.stroke();
+    // marcas ±pi
+    ctx.fillStyle='#a8a49a'; ctx.font='10px "SF Mono", monospace';
+    ctx.fillText('+π', 2, pad+6);
+    ctx.fillText(' 0', 2, (H-2*pad)/2+pad+3);
+    ctx.fillText('-π', 2, H-pad);
+    const labelStep = Math.max(1, Math.ceil((kmax-kmin)/10));
+    const neighborSpan = Math.max(2, Math.round(2*Nfft/Nwin));
+    for(let i=kmin;i<=kmax;i++){
+      const px = pad + (W-2*pad)*(i-kmin)/nb;
+      const py = pad + (H-2*pad)*(1 - (ph[i]+Math.PI)/(2*Math.PI));
+      let col='#2f3a8f'; let r=3;
+      if(i===peak){ col='#b5341f'; r=5; }
+      else if(Math.abs(i-peak)<=neighborSpan){ col='#3b7a57'; r=4; }
+      ctx.fillStyle=col;
+      ctx.beginPath(); ctx.arc(px,py,r,0,2*Math.PI); ctx.fill();
+      ctx.fillStyle='#6b6a66'; ctx.font='10px "SF Mono", monospace';
+      if((i-kmin)%labelStep===0) ctx.fillText(i, px-5, H-4);
+    }
+    ctx.fillStyle='#1a1a1c'; ctx.font='11px "SF Mono", monospace';
+    ctx.fillText('∠X[k] ∈ (-π, π]', pad+6, pad+12);
+  }
+}
+
+['p1-nfft','p1-off','p1-win','p1-k'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', renderPanel1);
+  document.getElementById(id).addEventListener('change', renderPanel1);
+});
+
+/* ==========================================================
+   PANEL 2  -- coherencia horizontal vs local, reconstruidas
+   ========================================================== */
+
+function renderPanel2(){
+  const scene = document.getElementById('p2-scene').value;
+  const off = parseFloat(document.getElementById('p2-off').value);
+  const alpha = parseFloat(document.getElementById('p2-alpha').value);
+  const frameIdx = parseInt(document.getElementById('p2-frame').value);
+  const view = document.getElementById('p2-view').value;
+  document.getElementById('p2-off-val').textContent = off.toFixed(2);
+  document.getElementById('p2-alpha-val').textContent = alpha.toFixed(1);
+  document.getElementById('p2-frame-val').textContent = frameIdx;
+
+  const N=512, hopA=128;
+  const hopS = Math.round(hopA*alpha);
+  const k = 30;
+  const freqBin = k + off;
+  const Nframes = 8;
+  const totalLen = N + hopA*(Nframes-1);
+  const x = new Float64Array(totalLen);
+  let ph1 = 0, ph2 = 0;
+  for(let n=0;n<totalLen;n++){
+    const u = n/Math.max(1,totalLen-1);
+    if(scene==='stationary'){
+      x[n] = Math.cos(2*Math.PI*freqBin*n/N);
+    } else if(scene==='cross'){
+      const a1 = 0.88*(1-u) + 0.25*u;
+      const a2 = 0.20*(1-u) + 0.82*u;
+      ph1 += 2*Math.PI*(k + off - 0.15)/N;
+      ph2 += 2*Math.PI*(k + off + 1.05)/N;
+      x[n] = a1*Math.cos(ph1) + a2*Math.cos(ph2);
+    } else {
+      const fInst = k + off - 0.35 + 0.70*u;
+      ph1 += 2*Math.PI*fInst/N;
+      x[n] = Math.cos(ph1);
+    }
+  }
+  const win = windowHann(N);
+
+  // Análisis: STFT de los 8 frames
+  const frames = stft(x, N, hopA, win);
+  const K = N/2+1;
+
+  // Síntesis bin-a-bin con vocoder básico
+  const synth = phaseVocoderBasic(frames, N, hopA, hopS);
+
+  // Frame seleccionado
+  const fA = frames[frameIdx];
+  const fS = synth[frameIdx];
+  const magA = new Float64Array(K), phA = new Float64Array(K);
+  const phSy = new Float64Array(K);
+  for(let i=0;i<K;i++){
+    magA[i] = Math.hypot(fA.re[i], fA.im[i]);
+    phA[i]  = Math.atan2(fA.im[i], fA.re[i]);
+    phSy[i] = Math.atan2(fS.im[i], fS.re[i]);
+  }
+  let peak = k;
+  for(let i=Math.max(1,k-3);i<=Math.min(K-2,k+3);i++) if(magA[i]>magA[peak]) peak=i;
+
+  const neighbors = [peak-2, peak-1, peak, peak+1, peak+2];
+
+  // Opcional: fase relativa al peak
+  function maybeRel(arr){
+    if(view!=='rel') return arr.slice();
+    const p0 = arr[2]; // índice del peak dentro de neighbors
+    return arr.map(v => princArg(v - p0));
+  }
+
+  const phAsel = neighbors.map(i=>phA[i]);
+  const phSsel = neighbors.map(i=>phSy[i]);
+  drawPhasors('p2-coh', neighbors,
+    neighbors.map(i=>magA[i]), maybeRel(phAsel), peak,
+    view==='rel' ? 'Análisis — fases relativas al peak' : 'Análisis — fases absolutas');
+  drawPhasors('p2-incoh', neighbors,
+    neighbors.map(i=>magA[i]), maybeRel(phSsel), peak,
+    view==='rel' ? `Síntesis bin-a-bin (α=${alpha.toFixed(1)}) — fases rel. al peak`
+                 : `Síntesis bin-a-bin (α=${alpha.toFixed(1)}) — fases absolutas`);
+
+  // ---- Coherencia horizontal: frecuencia instantánea estimada por bin ----
+  function horizFreq(bin){
+    const anaF = [], synF = [];
+    const omegaA = 2*Math.PI*bin*hopA/N;
+    const omegaS = 2*Math.PI*bin*hopS/N;
+    for(let f=1;f<frames.length;f++){
+      const phA0 = Math.atan2(frames[f-1].im[bin], frames[f-1].re[bin]);
+      const phA1 = Math.atan2(frames[f].im[bin],   frames[f].re[bin]);
+      const phS0 = Math.atan2(synth[f-1].im[bin],  synth[f-1].re[bin]);
+      const phS1 = Math.atan2(synth[f].im[bin],    synth[f].re[bin]);
+      const devA = princArg(phA1 - phA0 - omegaA);
+      const devS = princArg(phS1 - phS0 - omegaS);
+      anaF.push(bin + devA * N/(2*Math.PI*hopA));
+      synF.push(bin + devS * N/(2*Math.PI*hopS));
+    }
+    return {anaF, synF, bin};
+  }
+  // Para validar coherencia horizontal no debemos cambiar de bin cuando cambia
+  // el frame inspeccionado. Si no, el slider mezcla dos preguntas: "qué frame
+  // miro" y "qué bin sigo". Fijamos los bins al k central de la escena.
+  drawHorizFreq('p2-horiz-peak',     horizFreq(k),   `bin fijo k = ${k}`, frameIdx);
+  drawHorizFreq('p2-horiz-neighbor', horizFreq(k+1), `bin fijo k+1 = ${k+1}`, frameIdx);
+
+  // ---- Reconstrucción acumulativa bin-a-bin ----
+  const Lhalf = 96;
+  const n0 = Math.floor(N/2);
+  const L = 2*Lhalf;
+  const nosc = parseInt(document.getElementById('p2-nosc').value);
+  document.getElementById('p2-nosc-val').textContent = nosc;
+  const order = document.getElementById('p2-order').value;
+
+  // Orden de suma
+  let addOrder;
+  if(order==='peak'){
+    // peak primero, luego alterna ±1, ±2
+    addOrder = [peak, peak-1, peak+1, peak-2, peak+2];
+  } else {
+    addOrder = [peak-2, peak-1, peak, peak+1, peak+2];
+  }
+  const active = addOrder.slice(0, nosc);
+  const lastAdded = active[active.length-1];
+
+  const yCohCum = new Float64Array(L);
+  const yIncCum = new Float64Array(L);
+  const yCohLast = new Float64Array(L);
+  const yIncLast = new Float64Array(L);
+  const yCohFull = new Float64Array(L); // los 5 bins coherentes para referencia
+  const phSyLocal = new Float64Array(K);
+  for(let i=0;i<K;i++) phSyLocal[i] = phA[peak] + princArg(phSy[i] - phSy[peak]);
+
+  for(let idx=0; idx<L; idx++){
+    const n = n0 - Lhalf + idx;
+    let sc=0, si=0, full=0;
+    for(const b of active){
+      const wb = 2*Math.PI*b/N;
+      sc += magA[b]*Math.cos(wb*n + phA[b]);
+      si += magA[b]*Math.cos(wb*n + phSyLocal[b]);
+    }
+    for(const b of neighbors){
+      const wb = 2*Math.PI*b/N;
+      full += magA[b]*Math.cos(wb*n + phA[b]);
+    }
+    yCohCum[idx] = sc;
+    yIncCum[idx] = si;
+    yCohFull[idx] = full;
+    const wbL = 2*Math.PI*lastAdded/N;
+    yCohLast[idx] = magA[lastAdded]*Math.cos(wbL*n + phA[lastAdded]);
+    yIncLast[idx] = magA[lastAdded]*Math.cos(wbL*n + phSyLocal[lastAdded]);
+  }
+
+  // referencia local: la huella de análisis completa con los cinco bins vecinos.
+  const yRef = new Float64Array(L);
+  yRef.set(yCohFull);
+
+  // escala común: máximo absoluto entre todas las trazas
+  let scale=0;
+  for(let n=0;n<L;n++){
+    scale = Math.max(scale, Math.abs(yCohFull[n]), Math.abs(yCohCum[n]), Math.abs(yIncCum[n]),
+                     Math.abs(yCohLast[n]), Math.abs(yIncLast[n]), Math.abs(yRef[n]));
+  }
+  if(scale<1e-9) scale=1;
+  for(let n=0;n<L;n++){
+    yCohCum[n]/=scale; yIncCum[n]/=scale;
+    yCohLast[n]/=scale; yIncLast[n]/=scale;
+    yRef[n]/=scale;
+  }
+
+  drawRecoPanel('p2-reco-coh', yCohCum, yCohLast, yRef, active, lastAdded, peak, '#2f3a8f', '#3b7a57',
+                `Suma coherente · ${nosc}/5 osciladores`);
+  drawRecoPanel('p2-reco-inc', yIncCum, yIncLast, yRef, active, lastAdded, peak, '#b5341f', '#d9b9b0',
+                `Suma bin-a-bin local · ${nosc}/5 osciladores`);
+  drawEnvelope('p2-env', yCohCum, yIncCum, L);
+  drawErr('p2-err', yCohCum, yIncCum, yRef, L);
+
+  let eC=0, eI=0;
+  for(let n=0;n<L;n++){ eC += (yCohCum[n]-yRef[n])**2; eI += (yIncCum[n]-yRef[n])**2; }
+  const rmseC = Math.sqrt(eC/L), rmseI = Math.sqrt(eI/L);
+  document.getElementById('p2-rmse-coh').textContent = rmseC.toFixed(3);
+  document.getElementById('p2-rmse-inc').textContent = rmseI.toFixed(3);
+  document.getElementById('p2-ratio').textContent =
+    rmseI < 0.03 ? 'huella preservada'
+    : (rmseC>1e-6 ? (rmseI/rmseC).toFixed(2)+'× más error' : 'huella deformada');
+}
+
+function drawRecoPanel(canvasId, ySum, yLast, yRef, active, lastAdded, peak, sumColor, lastColor, title){
+  const cv = document.getElementById(canvasId);
+  const {ctx, w:W, h:H} = setupCanvas(cv);
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+  const pad=34, padR=10;
+  const L = ySum.length;
+  const yGain = autoGain(0.92, 3.2, ySum, yLast, yRef);
+  // eje
+  ctx.strokeStyle='#ece7dc'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(pad,H/2); ctx.lineTo(W-padR,H/2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(pad,18); ctx.lineTo(pad,H-14); ctx.stroke();
+  ctx.fillStyle='#6b6a66'; ctx.font='11px "SF Mono", monospace'; ctx.textAlign='right';
+  ctx.fillText('+1', pad-5, 24);
+  ctx.fillText('0', pad-5, H/2+4);
+  ctx.fillText('-1', pad-5, H-16);
+  ctx.textAlign='start';
+  function trace(arr, color, width, dash){
+    ctx.strokeStyle=color; ctx.lineWidth=width; ctx.setLineDash(dash||[]);
+    ctx.beginPath();
+    for(let n=0;n<L;n++){
+      const px = pad + (W-pad-padR)*n/(L-1);
+      const py = H/2 - (H/2-18)*arr[n]*yGain;
+      if(n===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  trace(yRef,  '#b3ada0', 1, [2,3]);
+  trace(yLast, lastColor, 1.1, [5,3]);
+  trace(ySum,  sumColor,  1.8);
+  // título
+  ctx.fillStyle='#1a1a1c'; ctx.font='11px "SF Mono", monospace';
+  const scaleTxt = yGain>1.05 ? ` · y x${yGain.toFixed(1)}` : '';
+  ctx.fillText(title + scaleTxt, pad, 14);
+  // chips de bins activos arriba a la derecha
+  const chipY=6, chipH=16;
+  let cx = W - padR - 8;
+  for(let i=active.length-1; i>=0; i--){
+    const b = active[i];
+    const label = (b===peak?'p':(b<peak?'p−'+(peak-b):'p+'+(b-peak)));
+    ctx.font='10px "SF Mono", monospace';
+    const tw = ctx.measureText(label).width + 10;
+    cx -= tw + 4;
+    ctx.fillStyle = (b===lastAdded) ? lastColor : (b===peak ? '#b5341f' : '#e6e8f5');
+    ctx.fillRect(cx, chipY, tw, chipH);
+    ctx.fillStyle = (b===lastAdded) ? '#ffffff' : (b===peak ? '#ffffff' : '#2f3a8f');
+    ctx.fillText(label, cx+5, chipY+11);
+  }
+}
+
+// Frecuencia instantánea estimada para un bin fijo a través de los frames.
+function drawHorizFreq(canvasId, data, title, highlightFrame){
+  const cv = document.getElementById(canvasId);
+  const {ctx, w:W, h:H} = setupCanvas(cv);
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+  const padL=34, padR=18, padT=22, padB=20;
+  const Nfr = data.anaF.length;
+  const yMin = data.bin - 1.4;
+  const yMax = data.bin + 1.4;
+  // ejes
+  ctx.strokeStyle='#ece7dc'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(padL, padT+(H-padT-padB)/2); ctx.lineTo(W-padR, padT+(H-padT-padB)/2); ctx.stroke();
+  // marco
+  axis(ctx,padL,padT,W-padL-padR,H-padT-padB);
+  ctx.fillStyle='#6b6a66'; ctx.font='11px "SF Mono", monospace'; ctx.textAlign='right';
+  ctx.fillText((data.bin+1).toFixed(0), padL-5, padT+6);
+  ctx.fillText(data.bin.toFixed(0), padL-5, padT+(H-padT-padB)/2+4);
+  ctx.fillText((data.bin-1).toFixed(0), padL-5, H-padB);
+  ctx.textAlign='start';
+  ctx.fillStyle='#1a1a1c'; ctx.font='11px "SF Mono", monospace';
+  ctx.fillText(title, padL+6, 14);
+  // resaltar frame actual
+  const hIdx = Math.max(0, Math.min(Nfr-1, highlightFrame-1));
+  const xf = padL + (W-padL-padR)*hIdx/(Nfr-1);
+  ctx.strokeStyle='#e6e8f5'; ctx.lineWidth=8;
+  ctx.beginPath(); ctx.moveTo(xf,padT); ctx.lineTo(xf,H-padB); ctx.stroke();
+
+  function yOf(v){ return padT + (H-padT-padB)*(1 - (v-yMin)/(yMax-yMin)); }
+  // centro del bin
+  ctx.strokeStyle='#9aa0d4'; ctx.lineWidth=1.2; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(padL, yOf(data.bin)); ctx.lineTo(W-padR, yOf(data.bin)); ctx.stroke();
+  ctx.setLineDash([]);
+  function drawSeries(series, color){
+    ctx.strokeStyle=color; ctx.lineWidth=1.5;
+    ctx.beginPath();
+    for(let f=0;f<Nfr;f++){
+      const px = padL + (W-padL-padR)*f/(Nfr-1);
+      const py = yOf(series[f]);
+      if(f===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+  }
+  drawSeries(data.anaF, '#2f3a8f');
+  drawSeries(data.synF, '#b5341f');
+  // markers
+  for(let f=0;f<Nfr;f++){
+    const px = padL + (W-padL-padR)*f/(Nfr-1);
+    // ana (circle)
+    ctx.fillStyle='#2f3a8f';
+    ctx.beginPath(); ctx.arc(px, yOf(data.anaF[f]), 3.2, 0, 2*Math.PI); ctx.fill();
+    // syn (triangle)
+    ctx.fillStyle='#b5341f';
+    const pyS = yOf(data.synF[f]);
+    ctx.beginPath(); ctx.moveTo(px, pyS-4); ctx.lineTo(px-4, pyS+3); ctx.lineTo(px+4, pyS+3); ctx.closePath(); ctx.fill();
+  }
+  ctx.fillStyle='#6b6a66'; ctx.font='10px "SF Mono", monospace';
+  ctx.fillText('frame →', W-padR-55, H-4);
+  // legend mini
+  ctx.fillStyle='#2f3a8f'; ctx.fillText('● f̂ ana', padL+76, 14);
+  ctx.fillStyle='#b5341f'; ctx.fillText('▲ f̂ syn', padL+138, 14);
+  ctx.fillStyle='#8a86b8'; ctx.fillText('--bin', padL+196, 14);
+}
+
+function drawEnvelope(canvasId, yCoh, yInc, L){
+  const cv = document.getElementById(canvasId);
+  const {ctx, w:W, h:H} = setupCanvas(cv);
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+  const padL=34, padR=12, padT=18, padB=14;
+  // envolvente por Hilbert aproximada vía |analítica| no disponible -> usamos |yseñal| suavizado
+  function envelope(arr){
+    const env = new Float64Array(L);
+    const W2 = 12;
+    for(let n=0;n<L;n++){
+      let m=0;
+      for(let d=-W2; d<=W2; d++){
+        const i=n+d; if(i<0||i>=L) continue;
+        const v = Math.abs(arr[i]); if(v>m) m=v;
+      }
+      env[n]=m;
+    }
+    return env;
+  }
+  const eC = envelope(yCoh), eI = envelope(yInc);
+  const yGain = autoGain(0.94, 4.5, eC, eI);
+  axis(ctx,padL,padT,W-padL-padR,H-padT-padB);
+  ctx.fillStyle='#6b6a66'; ctx.font='11px "SF Mono", monospace'; ctx.textAlign='right';
+  ctx.fillText('1', padL-5, padT+5);
+  ctx.fillText('0', padL-5, H-padB);
+  ctx.textAlign='start';
+  function trace(arr, color){
+    ctx.strokeStyle=color; ctx.lineWidth=1.4;
+    ctx.beginPath();
+    for(let n=0;n<L;n++){
+      const px = padL + (W-padL-padR)*n/(L-1);
+      const py = H-padB - (H-padT-padB)*Math.min(1, arr[n]*yGain);
+      if(n===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+  }
+  trace(eC, '#2f3a8f'); trace(eI, '#b5341f');
+  ctx.fillStyle='#1a1a1c'; ctx.font='11px "SF Mono", monospace';
+  const scaleTxt = yGain>1.05 ? ` · y x${yGain.toFixed(1)}` : '';
+  ctx.fillText('Envolvente |y(t)|' + scaleTxt, padL+4, 14);
+}
+
+function drawErr(canvasId, yCoh, yInc, yRef, L){
+  const cv = document.getElementById(canvasId);
+  const {ctx, w:W, h:H} = setupCanvas(cv);
+  ctx.clearRect(0,0,W,H); ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+  const padL=34, padR=12, padT=18, padB=14;
+  ctx.strokeStyle='#ece7dc'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(padL,H/2); ctx.lineTo(W-padR,H/2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(padL,padT); ctx.lineTo(padL,H-padB); ctx.stroke();
+  ctx.fillStyle='#6b6a66'; ctx.font='11px "SF Mono", monospace'; ctx.textAlign='right';
+  ctx.fillText('+', padL-5, padT+5);
+  ctx.fillText('0', padL-5, H/2+4);
+  ctx.fillText('-', padL-5, H-padB);
+  ctx.textAlign='start';
+  function trace(arr, color){
+    ctx.strokeStyle=color; ctx.lineWidth=1.2;
+    ctx.beginPath();
+    for(let n=0;n<L;n++){
+      const px = padL + (W-padL-padR)*n/(L-1);
+      const py = H/2 - (H/2-padT)*arr[n];
+      if(n===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+  }
+  const eC = new Float64Array(L), eI = new Float64Array(L);
+  for(let n=0;n<L;n++){ eC[n]=yCoh[n]-yRef[n]; eI[n]=yInc[n]-yRef[n]; }
+  const yGain = autoGain(0.86, 8, eC, eI);
+  function traceScaled(arr, color){
+    ctx.strokeStyle=color; ctx.lineWidth=1.2;
+    ctx.beginPath();
+    for(let n=0;n<L;n++){
+      const px = padL + (W-padL-padR)*n/(L-1);
+      const py = H/2 - (H/2-padT)*arr[n]*yGain;
+      if(n===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+  }
+  traceScaled(eC, '#2f3a8f'); traceScaled(eI, '#b5341f');
+  ctx.fillStyle='#1a1a1c'; ctx.font='11px "SF Mono", monospace';
+  const scaleTxt = yGain>1.05 ? ` · y x${yGain.toFixed(1)}` : '';
+  ctx.fillText('Error respecto a referencia' + scaleTxt, padL+4, 14);
+}
+
+function drawPhasors(canvasId, bins, mags, phases, peakBin, title){
+  const cv = document.getElementById(canvasId);
+  const {ctx,w:W,h:H} = setupCanvas(cv);
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+  // layout horizontal de círculos
+  const n = bins.length;
+  const cellW = W/n;
+  const radius = Math.max(20, Math.min(cellW/2-18, H/2-48));
+  let mmax=0; for(const m of mags) if(m>mmax) mmax=m; if(mmax<1e-6) mmax=1;
+  ctx.fillStyle='#1a1a1c'; ctx.font='12px "SF Mono", monospace';
+  ctx.fillText(title, 10, 16);
+  for(let i=0;i<n;i++){
+    const cx = cellW*i + cellW/2;
+    const cy = H/2 + 14;
+    // círculo base
+    ctx.strokeStyle='#e0dbcf'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(cx,cy,radius,0,2*Math.PI); ctx.stroke();
+    // ejes
+    ctx.strokeStyle='#ece7dc';
+    ctx.beginPath(); ctx.moveTo(cx-radius,cy); ctx.lineTo(cx+radius,cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,cy-radius); ctx.lineTo(cx,cy+radius); ctx.stroke();
+    // Longitud visual comprimida: conserva el orden de magnitud, pero deja leer fase en vecinos debiles.
+    const magRel = mags[i]/mmax;
+    const len = radius*(0.30 + 0.70*Math.sqrt(magRel));
+    const ex = cx + len*Math.cos(phases[i]);
+    const ey = cy - len*Math.sin(phases[i]);
+    const isPeak = bins[i]===peakBin;
+    ctx.strokeStyle = isPeak ? '#b5341f' : '#3b7a57';
+    ctx.lineWidth = isPeak ? 3.2 : 2.4;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(ex,ey); ctx.stroke();
+    // punta
+    ctx.fillStyle = isPeak ? '#b5341f' : '#3b7a57';
+    ctx.beginPath(); ctx.arc(ex,ey,isPeak?4.5:3.8,0,2*Math.PI); ctx.fill();
+    // etiqueta bin
+    ctx.fillStyle = isPeak ? '#b5341f' : '#1a1a1c';
+    ctx.font = isPeak ? 'bold 11px "SF Mono", monospace' : '11px "SF Mono", monospace';
+    ctx.textAlign='center';
+    ctx.fillText('p'+(bins[i]-peakBin>=0?'+':'')+(bins[i]-peakBin), cx, H-16);
+    ctx.fillStyle='#6b6a66'; ctx.font='10px "SF Mono", monospace';
+    ctx.fillText(`∠=${phases[i].toFixed(2)}`, cx, H-4);
+    ctx.textAlign='start';
+  }
+}
+
+['p2-scene','p2-off','p2-alpha','p2-frame','p2-view','p2-nosc','p2-order'].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input', renderPanel2);
+  el.addEventListener('change', renderPanel2);
+});
+
+/* ==========================================================
+   PANEL 3 -- Escucha comparativa
+   ========================================================== */
+
+const SR = 22050;
+let audioCtx = null;
+let currentSource = null;
+const p3buffers = {orig:null, basic:null, lock:null};
+
+function formatLevelMatch(m){
+  return `${m.rmsAfter.toFixed(3)} (gain ${m.gain.toFixed(2)}×)`;
+}
+
+function getAudio(){
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext||window.webkitAudioContext)({sampleRate:SR});
+  }
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function buildSignal(kind, durSec){
+  const total = Math.floor(SR*durSec);
+  const x = new Float64Array(total);
+  // Registro cómodo para escuchar: alrededor de A3, con frecuencias fuera de bin.
+  // El glide compartido fuerza a los peaks a moverse entre bins; ahí el locking
+  // tiene una corrección audible que hacer.
+  let ph1 = 0, ph2 = 0;
+  for(let n=0;n<total;n++){
+    const u = n/Math.max(1,total-1);
+    const glide = 32*(u-0.5) + 5*Math.sin(2*Math.PI*1.35*u);
+    const f1 = 220 + glide;
+    const f2 = 2.02*f1 + 3.7;
+    ph1 += 2*Math.PI*f1/SR;
+    ph2 += 2*Math.PI*f2/SR;
+    if(kind==='single'){
+      x[n]=0.60*Math.sin(ph1);
+    } else {
+      x[n] = 0.46*Math.sin(ph1) + 0.27*Math.sin(ph2 + 0.35);
+    }
+  }
+  // fade in/out para evitar clicks
+  const fade = Math.floor(0.025*SR);
+  for(let n=0;n<fade;n++){ x[n]*=n/fade; x[total-1-n]*=n/fade; }
+  return x;
+}
+
+function processStretch(x, alpha){
+  const N=1024, hopA=256;
+  const hopS = Math.round(hopA*alpha);
+  const win = windowHann(N);
+  const frames = stft(x, N, hopA, win);
+  const framesBasic = phaseVocoderBasic(frames, N, hopA, hopS);
+  const framesLock  = phaseVocoderLocked(frames, N, hopA, hopS, 3);
+  const yBasic = istft(framesBasic, N, hopS, win);
+  const yLock  = istft(framesLock,  N, hopS, win);
+  return {yBasic, yLock};
+}
+
+function toAudioBuffer(ctx, x){
+  const buf = ctx.createBuffer(1, x.length, SR);
+  const ch = buf.getChannelData(0);
+  for(let i=0;i<x.length;i++) ch[i] = anyNaN([x[i]])? 0 : Math.max(-1, Math.min(1, x[i]));
+  return buf;
+}
+
+function play(buf){
+  if(!buf) return;
+  const ctx = getAudio();
+  stopPlayback();
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  src.connect(ctx.destination);
+  src.start();
+  currentSource = src;
+  src.onended = ()=>{ if(currentSource===src) currentSource=null; };
+}
+function stopPlayback(){
+  if(currentSource){ try{currentSource.stop();}catch(e){} currentSource=null; }
+}
+
+function drawWaveforms(){
+  const cv = document.getElementById('p3-wave');
+  const {ctx,w:W,h:H} = setupCanvas(cv);
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+  const labels=['Original','Básico','Locking'];
+  const data=[p3buffers.orig,p3buffers.basic,p3buffers.lock];
+  const colors=['#6b6a66','#b5341f','#2f3a8f'];
+  const rowH = H/3;
+  for(let r=0;r<3;r++){
+    const y0 = rowH*r + rowH/2;
+    ctx.strokeStyle='#ebe6dc';
+    ctx.beginPath(); ctx.moveTo(0,y0); ctx.lineTo(W,y0); ctx.stroke();
+    ctx.fillStyle='#6b6a66'; ctx.font='10px "SF Mono", monospace';
+    ctx.fillText(labels[r], 6, rowH*r+12);
+    if(!data[r]) continue;
+    const x = data[r].getChannelData(0);
+    const step = Math.max(1, Math.floor(x.length/W));
+    ctx.strokeStyle=colors[r]; ctx.lineWidth=1;
+    ctx.beginPath();
+    for(let i=0;i<W;i++){
+      let mn=1, mx=-1;
+      for(let j=0;j<step;j++){
+        const v = x[i*step+j]; if(v<mn) mn=v; if(v>mx) mx=v;
+      }
+      const yMin = y0 - (rowH/2-4)*mx;
+      const yMax = y0 - (rowH/2-4)*mn;
+      ctx.moveTo(i,yMin); ctx.lineTo(i,yMax);
+    }
+    ctx.stroke();
+  }
+}
+
+document.getElementById('p3-build').addEventListener('click', async ()=>{
+  const status = document.getElementById('p3-status');
+  status.textContent = 'Procesando…';
+  try{
+    const ctx = getAudio();
+    const kind = document.getElementById('p3-sig').value;
+    const alpha = parseFloat(document.getElementById('p3-alpha').value);
+    const x = buildSignal(kind, 0.95);
+    const {yBasic, yLock} = processStretch(x, alpha);
+    if(anyNaN(yBasic) || anyNaN(yLock)) throw new Error('NaN en salida');
+    const refRms = rmsLevel(x, 0.03);
+    const basicMatched = matchRmsToReference(yBasic, refRms);
+    const lockMatched = matchRmsToReference(yLock, refRms);
+    p3buffers.orig  = toAudioBuffer(ctx, x);
+    p3buffers.basic = toAudioBuffer(ctx, basicMatched.y);
+    p3buffers.lock  = toAudioBuffer(ctx, lockMatched.y);
+    ['p3-play-orig','p3-play-basic','p3-play-lock','p3-stop'].forEach(id=>document.getElementById(id).disabled=false);
+    document.getElementById('p3-rms-orig').textContent = refRms.toFixed(3);
+    document.getElementById('p3-rms-basic').textContent = formatLevelMatch(basicMatched);
+    document.getElementById('p3-rms-lock').textContent = formatLevelMatch(lockMatched);
+    const diffBL = rmsDifference(basicMatched.y, lockMatched.y, 0.03);
+    document.getElementById('p3-rms-diff').textContent =
+      `${diffBL.toFixed(3)} (${(diffBL/Math.max(refRms,1e-9)).toFixed(2)}× RMS orig.)`;
+    drawWaveforms();
+    status.textContent = `Listo. α=${alpha}, SR=${SR} Hz, dur≈${(x.length/SR).toFixed(2)}s → estirado≈${(yBasic.length/SR).toFixed(2)}s. Salidas igualadas al RMS del original.`;
+  }catch(e){
+    status.textContent = 'Error: '+e.message;
+  }
+});
+
+document.getElementById('p3-play-orig').addEventListener('click', ()=>play(p3buffers.orig));
+document.getElementById('p3-play-basic').addEventListener('click', ()=>play(p3buffers.basic));
+document.getElementById('p3-play-lock').addEventListener('click', ()=>play(p3buffers.lock));
+document.getElementById('p3-stop').addEventListener('click', stopPlayback);
+
+/* ==========================================================
+   PANEL 4 -- phase locking visualization
+   ========================================================== */
+
+function renderPanel4(){
+  const off = parseFloat(document.getElementById('p4-off').value);
+  const alpha = parseFloat(document.getElementById('p4-alpha').value);
+  const radius = parseInt(document.getElementById('p4-radius').value);
+  document.getElementById('p4-off-val').textContent = off.toFixed(2);
+  document.getElementById('p4-alpha-val').textContent = alpha.toFixed(1);
+
+  const N=512, hopA=128;
+  const hopS = Math.round(hopA*alpha);
+  const k = 30;
+  const freqBin = k+off;
+  // generamos un parcial con glide suave para que el locking tenga algo real que corregir
+  const totalLen = N + hopA*6;
+  const x = new Float64Array(totalLen);
+  let phaseAcc = 0;
+  for(let n=0;n<totalLen;n++){
+    const u = n/Math.max(1,totalLen-1);
+    const fInst = freqBin - 0.30 + 0.60*u;
+    phaseAcc += 2*Math.PI*fInst/N;
+    x[n] = Math.cos(phaseAcc);
+  }
+  const w = windowHann(N);
+  const frames = stft(x, N, hopA, w);
+  const fBasic = phaseVocoderBasic(frames, N, hopA, hopS);
+  const fLock  = phaseVocoderLocked(frames, N, hopA, hopS, radius);
+  const last = frames.length-1;
+  const K=N/2+1;
+  const mag = new Float64Array(K), ph=new Float64Array(K);
+  for(let i=0;i<K;i++){
+    mag[i]=Math.hypot(frames[last].re[i], frames[last].im[i]);
+  }
+  let peak=k;
+  for(let i=k-3;i<=k+3;i++) if(mag[i]>mag[peak]) peak=i;
+
+  // --- magnitud con región sombreada ---
+  {
+    const cv = document.getElementById('p4-mag');
+    const {ctx,w:W,h:H} = setupCanvas(cv);
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#fafaf7'; ctx.fillRect(0,0,W,H);
+    const pad=22;
+    const kmin=Math.max(0,peak-8), kmax=Math.min(K-1,peak+8);
+    const nb = kmax-kmin;
+    let mmax=0; for(let i=kmin;i<=kmax;i++) if(mag[i]>mmax) mmax=mag[i]; if(mmax<1e-6) mmax=1;
+    const barW = (W-2*pad)/(nb+1);
+    // sombra región locking
+    const xL = pad + ((peak-radius)-kmin)*barW;
+    const xR = pad + ((peak+radius+1)-kmin)*barW;
+    ctx.fillStyle='#f3dfd8';
+    ctx.fillRect(xL, pad, xR-xL, H-2*pad);
+    for(let i=kmin;i<=kmax;i++){
+      const px = pad + (i-kmin)*barW;
+      const bh = (H-2*pad)*mag[i]/mmax;
+      const py = H-pad-bh;
+      let col='#2f3a8f';
+      if(i===peak) col='#b5341f';
+      else if(Math.abs(i-peak)<=radius) col='#3b7a57';
+      ctx.fillStyle=col;
+      ctx.fillRect(px+2, py, barW-4, bh);
+      ctx.fillStyle='#6b6a66'; ctx.font='10px "SF Mono", monospace';
+      if((i-kmin)%2===0) ctx.fillText(i, px+barW/2-6, H-4);
+    }
+    axis(ctx,pad,pad,W-2*pad,H-2*pad);
+    ctx.fillStyle='#1a1a1c'; ctx.font='11px "SF Mono", monospace';
+    ctx.fillText(`|X[k]| — región locking ±${radius}`, pad+6, pad+12);
+  }
+
+  // fasores sin locking / con locking en el último frame
+  const phB = new Float64Array(K), phL = new Float64Array(K);
+  for(let i=0;i<K;i++){
+    phB[i] = Math.atan2(fBasic[last].im[i], fBasic[last].re[i]);
+    phL[i] = Math.atan2(fLock[last].im[i],  fLock[last].re[i]);
+  }
+  const neighbors = [];
+  for(let d=-radius; d<=radius; d++) neighbors.push(peak+d);
+  drawPhasors('p4-before', neighbors, neighbors.map(i=>mag[i]), neighbors.map(i=>princArg(phB[i]-phB[peak])), peak, 'Sin locking — fases relativas al peak');
+  drawPhasors('p4-after',  neighbors, neighbors.map(i=>mag[i]), neighbors.map(i=>princArg(phL[i]-phL[peak])), peak, 'Con locking — fases relativas al peak');
+}
+
+['p4-off','p4-alpha','p4-radius'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', renderPanel4);
+  document.getElementById(id).addEventListener('change', renderPanel4);
+});
+
+/* ==========================================================
+   Inicial
+   ========================================================== */
+
+function renderAll(){
+  renderPanel0();
+  renderPanel1();
+  renderPanel2();
+  renderPanel3Identity();
+  renderPanel4();
+  drawWaveforms();
+}
+window.addEventListener('resize', ()=>{ renderAll(); });
+renderAll();
+
+</script>
+</body>
+</html>

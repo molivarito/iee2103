@@ -4,7 +4,7 @@
     "href": "curso/listas/lista-01.html",
     "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
     "section": "",
-    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para entender; el desarrollo escrito debe ser tuyo. El CV1 (semana 3) será una variante de un ejercicio de las Listas 1–2, y tu portafolio será tu único material permitido.\nReferencias de estudio: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.",
+    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para entender; el desarrollo escrito debe ser tuyo. El CV1 (semana 4) será una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido.\nReferencias de estudio: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.",
     "crumbs": [
       "Listas de ejercicios",
       "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
@@ -15,7 +15,7 @@
     "href": "curso/listas/lista-01.html#ejercicios",
     "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
     "section": "Ejercicios",
-    "text": "Ejercicios\nL1.1 — Clasifique cada señal como de energía, de potencia, o ninguna; calcule E o P según corresponda: \\text{(a) } x(t) = e^{-3t}u(t) \\qquad \\text{(b) } x(t) = 4\\cos(2\\pi t) \\qquad \\text{(c) } x[n] = \\left(\\tfrac{1}{2}\\right)^{n} u[n] \\qquad \\text{(d) } x(t) = t\\,u(t)\nL1.2 [DB E0010] — Sea x(t) = \\cos(\\omega_x(t+\\tau_x)+\\theta_x):\n\nDetermine la frecuencia en Hz y el período de x(t) para: (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4.\nCon y(t) = \\sin(\\omega_y(t+\\tau_y)+\\theta_y), determine en qué casos x(t) = y(t): (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi y \\omega_y = \\pi/3, \\tau_y = 1, \\theta_y = -\\pi/3; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4 y \\omega_y = 11\\pi/4, \\tau_y = 1, \\theta_y = 3\\pi/8; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4 y \\omega_y = 3/4, \\tau_y = 1, \\theta_y = 3/8.\n\nL1.3 — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: \\text{(a) } 2\\cos(10t+1) - \\sin(4t-1) \\qquad \\text{(b) } \\cos(6t) + \\sin(15t) \\qquad \\text{(c) } \\cos(t) + \\cos(\\pi t)\nL1.4 [DB E0021] — Demuestre que \\ln(x) se puede descomponer en una parte par P(x) y una impar I(x) dadas por P(x) = \\ln(|x|) + j\\frac{\\pi}{2}, \\qquad I(x) = -\\frac{j\\pi}{2}\\operatorname{sgn}(x) Hint: considere x = |x|\\operatorname{sgn}(x).\nL1.5 [DB E0022] — Una señal f(x) se descompone en parte par P(x) e impar I(x). Demuestre que \\int_{-\\infty}^{\\infty} f^2(x)\\,dx = \\int_{-\\infty}^{\\infty} P^2(x)\\,dx + \\int_{-\\infty}^{\\infty} I^2(x)\\,dx",
+    "text": "Ejercicios\nL1.1 — Clasifique cada señal como de energía, de potencia, o ninguna; calcule E o P según corresponda: \\text{(a) } x(t) = e^{-3t}u(t) \\qquad \\text{(b) } x(t) = 4\\cos(2\\pi t) \\qquad \\text{(c) } x[n] = \\left(\\tfrac{1}{2}\\right)^{n} u[n] \\qquad \\text{(d) } x(t) = t\\,u(t)\n¿Y si…? ¿Y si la señal (b) se truncara a un intervalo finito, digamos t\\in[0,5], en vez de estar definida para todo t? ¿sigue siendo señal de potencia?\nL1.2 [DB E0010] — Sea x(t) = \\cos(\\omega_x(t+\\tau_x)+\\theta_x):\n\nDetermine la frecuencia en Hz y el período de x(t) para: (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4.\nCon y(t) = \\sin(\\omega_y(t+\\tau_y)+\\theta_y), determine en qué casos x(t) = y(t): (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi y \\omega_y = \\pi/3, \\tau_y = 1, \\theta_y = -\\pi/3; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4 y \\omega_y = 11\\pi/4, \\tau_y = 1, \\theta_y = 3\\pi/8; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4 y \\omega_y = 3/4, \\tau_y = 1, \\theta_y = 3/8.\n\n¿Y si…? ¿Y si en el caso (a) fuera \\omega_x = 0 (en vez de \\pi/3)? ¿sigue teniendo una frecuencia y un período fundamental bien definidos?\nL1.3 — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: \\text{(a) } 2\\cos(10t+1) - \\sin(4t-1) \\qquad \\text{(b) } \\cos(6t) + \\sin(15t) \\qquad \\text{(c) } \\cos(t) + \\cos(\\pi t)\n¿Y si…? ¿Y si en (b) la frecuencia 15 se reemplazara por 15\\pi (razón irracional con 6)? ¿la suma sigue siendo periódica?\nL1.4 [DB E0021] — Demuestre que \\ln(x) se puede descomponer en una parte par P(x) y una impar I(x) dadas por P(x) = \\ln(|x|) + j\\frac{\\pi}{2}, \\qquad I(x) = -\\frac{j\\pi}{2}\\operatorname{sgn}(x) Hint: considere x = |x|\\operatorname{sgn}(x).\n¿Y si…? ¿Y si x=0? ¿sigue siendo válida ahí la descomposición en partes par e impar de \\ln(x)?\nL1.5 [DB E0022] — Una señal f(x) se descompone en parte par P(x) e impar I(x). Demuestre que \\int_{-\\infty}^{\\infty} f^2(x)\\,dx = \\int_{-\\infty}^{\\infty} P^2(x)\\,dx + \\int_{-\\infty}^{\\infty} I^2(x)\\,dx\n¿Y si…? ¿Y si el dominio de integración no fuera simétrico respecto del origen (p. ej. de 0 a \\infty)? ¿sigue siendo válida la identidad \\int f^2 = \\int P^2 + \\int I^2?",
     "crumbs": [
       "Listas de ejercicios",
       "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
@@ -30,6 +30,36 @@
     "crumbs": [
       "Semana 1 · Presentación y señales",
       "C2 · Clasificación de señales"
+    ]
+  },
+  {
+    "objectID": "formularios.html",
+    "href": "formularios.html",
+    "title": "Formularios oficiales",
+    "section": "",
+    "text": "En cada interrogación (y en el examen) recibirás, impreso junto con la prueba, el formulario oficial del curso: una hoja con las fórmulas de las unidades que entran en esa evaluación. Es el único material permitido — no se aceptan hojas resumen propias ni apuntes adicionales. Todos rinden con exactamente la misma información sobre la mesa.\n¿Por qué así? Porque el formulario libera a tu memoria de las fórmulas y concentra el estudio donde importa: en el criterio para usarlas. Saber cuál propiedad aplicar, y por qué, es lo que evalúa la prueba — la fórmula te la damos nosotros.\nLos cuatro formularios son acumulativos (cada uno contiene al anterior) y están aquí desde el primer día del semestre. Úsalos al estudiar: resuelve las listas con el formulario al lado, para que el día de la prueba sea un viejo conocido y no una hoja nueva.\n\n\n\n\n\n\nTipFormulario I1 · Unidades 1–2\n\n\n\nSeñales, simetrías, energía/potencia, señales elementales, el impulso; sistemas LTI, convolución, ecuaciones diferenciales y h(t).\nDescargar formulario-i1.pdf\n\n\n\n\n\n\n\n\nTipFormulario I2 · Unidades 1–3\n\n\n\nTodo lo anterior, más series de Fourier (ortogonalidad, coeficientes, propiedades, espectros) y transformada de Fourier (pares, propiedades, H(ω) y filtrado).\nDescargar formulario-i2.pdf\n\n\n\n\n\n\n\n\nTipFormulario I3 · Unidades 1–5\n\n\n\nTodo lo anterior, más transformada de Laplace (ROC, inversión, plano s, unilateral) y muestreo/sistemas discretos (Nyquist, sinusoides discretas, convolución discreta, cadenas C/D–D/C).\nDescargar formulario-i3.pdf\n\n\n\n\n\n\n\n\nTipFormulario I4 y examen · Unidades 1–7\n\n\n\nEl formulario completo: todo lo anterior, más transformada Z (ROC, inversión, H(z), respuesta en frecuencia geométrica, diseño por polos y ceros) y Fourier discreto (DTFT, DFT/FFT, ventanas, convolución cíclica).\nDescargar formulario-i4.pdf\n\n\n\n\n\n\n\n\nNota\n\n\n\nEn los controles de validación (CV) el material permitido es otro: tu portafolio manuscrito. El formulario oficial es para las interrogaciones y el examen.",
+    "crumbs": [
+      "Formularios oficiales"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "IEE2103 · Señales y Sistemas",
+    "section": "",
+    "text": "Este sitio es la fuente única del material del curso (mapa del repo en README.md, en la raíz). Cada sesión tiene una página con: ficha docente (objetivos, guion, actividades), el contenido completo de la clase y los medios (audio, demos, videos). La navegación por semanas está en la barra lateral.",
+    "crumbs": [
+      "IEE2103 · Señales y Sistemas"
+    ]
+  },
+  {
+    "objectID": "index.html#referencias-del-curso",
+    "href": "index.html#referencias-del-curso",
+    "title": "IEE2103 · Señales y Sistemas",
+    "section": "Referencias del curso",
+    "text": "Referencias del curso\n\n[Alvarado] P. Alvarado Moya, Señales y Sistemas: Fundamentos Matemáticos, 2ª ed., 2024.\n[Oppenheim] A. Oppenheim, A. Willsky, S. Nawab, Señales y Sistemas, 2ª ed., Prentice Hall, 1998.\n[MIT] Lecture notes MIT OCW 6.007 (Oppenheim).\n\nDocumentos rectores: OBJETIVOS_APRENDIZAJE.md · PLAN_SEMESTRE.md · METODOLOGIA.md. Banco de ejercicios: banco/ (herramienta tools/banco.py, guía en SISTEMA.md).",
+    "crumbs": [
+      "IEE2103 · Señales y Sistemas"
     ]
   },
   {
@@ -53,23 +83,13 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "IEE2103 · Señales y Sistemas",
-    "section": "",
-    "text": "Este sitio es la fuente única del material del curso (ver PLAN_MATERIAL.md en la raíz del repo). Cada sesión tiene una página con: ficha docente (objetivos, guion, actividades), el contenido completo de la clase y los medios (audio, demos, videos). La navegación por semanas está en la barra lateral.",
+    "objectID": "demos.html#aplicaciones-musicales",
+    "href": "demos.html#aplicaciones-musicales",
+    "title": "Demos del curso",
+    "section": "Aplicaciones musicales 🎵",
+    "text": "Aplicaciones musicales 🎵\nEstas demos vienen del curso hermano Análisis y Síntesis de Señales Musicales: los mismos conceptos que estás aprendiendo aquí, aplicados a hacer y transformar música. Los notebooks (.ipynb) se abren con Jupyter o VS Code y generan sus propios sonidos; los .html corren con doble clic en el navegador.\n\n\n\n\n\n\nTipC7 · Convolución = meter tu voz en otro espacio\n\n\n\nQué ilustra: convolucionar una voz con la respuesta al impulso de una sala la “mete” en esa sala. Tres IRs (directo, sala, cámara anecoica) y el diseño de tu propia IR con un solo eco.\nDescargar convolucion_espacios.ipynb\n\n\n\n\n\n\n\n\nTipC6–C8 y C25–C26 · Líneas de retardo, eco y feedback\n\n\n\nQué ilustra: la línea de retardo con buffer circular — el átomo de todo efecto de audio. Eco simple, feedback y estabilidad (|g|&lt;1: ¿qué pasa con g&gt;1? distorsión con tanh), y un reverb de resorte. En el HTML: el filtro peine con |H(e^{j\\Omega})| y polos/ceros en vivo.\nDescargar lineas_retardo.ipynb · Abrir demo del peine\n\n\n\n\n\n\n\n\nTipC25–C26 · Filtros biquad con plano Z en vivo\n\n\n\nQué ilustra: un ecualizador de dos polos con osciloscopio y plano Z interactivos; mueve la frecuencia de corte a saltos y escucha el “zipper noise”.\nAbrir demo_filtros_interactiva.html\n\n\n\n\n\n\n\n\nTipC26 · Karplus-Strong: sintetizar una cuerda con un peine\n\n\n\nQué ilustra: un delay con feedback y un promedio de dos muestras suena a cuerda pulsada. Y la afinación exacta exige compensar media muestra: un error de cuantización por muestreo que se oye como beating.\nDescargar karplus_strong.ipynb · Abrir demo_ks.html\n\n\n\n\n\n\n\n\nTipC29–C30 · Voz robot, susurro y el phase vocoder\n\n\n\nQué ilustra: qué guarda la magnitud de la STFT y qué guarda la fase (fase cero → robot; fase aleatoria → susurro), y el phase vocoder completo: estirar el tiempo sin cambiar el tono, con la versión buggy audible para entender por qué el unwrapping importa.\nDescargar robot_whisper.ipynb · Descargar phase_vocoder.ipynb · Teoría visual",
     "crumbs": [
-      "IEE2103 · Señales y Sistemas"
-    ]
-  },
-  {
-    "objectID": "index.html#referencias-del-curso",
-    "href": "index.html#referencias-del-curso",
-    "title": "IEE2103 · Señales y Sistemas",
-    "section": "Referencias del curso",
-    "text": "Referencias del curso\n\n[Alvarado] P. Alvarado Moya, Señales y Sistemas: Fundamentos Matemáticos, 2ª ed., 2024.\n[Oppenheim] A. Oppenheim, A. Willsky, S. Nawab, Señales y Sistemas, 2ª ed., Prentice Hall, 1998.\n[MIT] Lecture notes MIT OCW 6.007 (Oppenheim).\n\nDocumentos rectores: OBJETIVOS_APRENDIZAJE.md · PLAN_SEMESTRE.md · METODOLOGIA.md · PLAN_MATERIAL.md. Banco de ejercicios: common/ejercicios/banco_v2/ (herramienta tools/banco.py, guía en SISTEMA.md).",
-    "crumbs": [
-      "IEE2103 · Señales y Sistemas"
+      "Demos del curso"
     ]
   },
   {
@@ -77,7 +97,7 @@
     "href": "curso/semana-01/c01.html",
     "title": "C1 · Presentación: señales, sistemas y el mapa del curso",
     "section": "",
-    "text": "Bloque 1 — ¿Qué es una señal? ¿Qué es un sistema?\nLos dos audios que escuchamos: ¿qué cambió entre el primero y el segundo?\n\n(tu respuesta, antes de que se discuta)\n\nDefinición de señal:\n\n\n\nDefinición de sistema (y su diagrama de caja):\n\n\n\nMis tres ejemplos favoritos de señales y un sistema de mi vida diaria:\n\n\n\n\n\nBloque 2 — El mapa del curso\nLos cuatro dominios del curso (complétalos con una frase cada uno a medida que se presentan):\n\nTiempo:\nFrecuencia:\nPlano s:\nMundo discreto:\n\nLa promesa del curso:\n\n\n\n\n\nBloque 3 — Cómo funciona este curso\nLas reglas del juego (anota lo esencial de cada una):\n\nPortafolio manuscrito y controles de validación:\nQuiz semanal en Canvas:\nHoja resumen para las interrogaciones:\nPolítica de IA en una frase:\n\n\n\n\n\n\nBloque 4 — Diagnóstico de números complejos\n(El diagnóstico se rinde en papel en la clase; no está incluido en estos apuntes.)\nPara estudiar antes del viernes: apéndice A del curso (números complejos) — disponible en Canvas.",
+    "text": "Bloque 1 — ¿Qué es una señal? ¿Qué es un sistema?\nEl audio que escuchamos: ¿dónde está cantando? ¿Qué le hizo el espacio a la voz?\n\n(tu respuesta, antes de que se discuta)\n\nDefinición de señal:\n\n\n\nDefinición de sistema (y su diagrama de caja):\n\n\n\nMis tres ejemplos favoritos de señales y un sistema de mi vida diaria:\n\n\n\n\n\nBloque 2 — La flauta en vivo: una señal, tres retratos\nMi predicción, antes de que el profesor toque (¿una raya o muchas?):\n\n\n\nLa nota que tocó: $f_0 = $ ______ Hz, nota ______\nDibuja lo que viste en cada panel:\n\n\n\nTiempo — x(t)\nFrecuencia — \\lvert X(f)\\rvert\nSonograma\n\n\n\n\n\n\n\n\n\n\n¿Dónde están los armónicos y qué relación tienen con f_0?\n\n\n\nLas tres pruebas: ¿qué cambió en cada dibujo al soplar más fuerte? ¿al tocar la octava? ¿al hacer un glissando?\n\n\n\nLa pregunta del cierre — ¿cuál de los tres dibujos es “la señal”?\n\n\n\n\n\nBloque 3 — El mapa del curso\nLos cuatro dominios del curso (complétalos con una frase cada uno a medida que se presentan):\n\nTiempo:\nFrecuencia:\nPlano s:\nMundo discreto:\n\nLa promesa del curso:\n\n\n\n\n\nBloque 4 — Cómo funciona este curso\nLas reglas del juego (anota lo esencial de cada una):\n\nPortafolio manuscrito y controles de validación:\nQuiz semanal en Canvas:\nFormulario oficial para las interrogaciones:\nPolítica de IA en una frase:\n\n\n\n\n\n\nBloque 5 — Diagnóstico de números complejos\n(El diagnóstico se rinde en papel en la clase; no está incluido en estos apuntes.)\nPara estudiar antes de la ayudantía: apéndice A del curso (números complejos) — disponible en Canvas.",
     "crumbs": [
       "Semana 1 · Presentación y señales",
       "C1 · Presentación: señales, sistemas y el mapa del curso"
@@ -110,7 +130,7 @@
     "href": "curso/semana-01/ay01.html#repaso-dirigido-015-min-lo-mínimo-que-hay-que-dominar",
     "title": "Ay1 · Nivelación: números complejos",
     "section": "Repaso dirigido (0–15 min): lo mínimo que hay que dominar",
-    "text": "Repaso dirigido (0–15 min): lo mínimo que hay que dominar\n\nDos formas, un número: z = a + jb = r\\,e^{j\\theta}, con r = \\sqrt{a^2+b^2}, \\theta = \\operatorname{atan2}(b,a). Dibujar siempre el punto en el plano.\nEuler (la fórmula que paga el semestre): e^{j\\theta} = \\cos\\theta + j\\sin\\theta. Casos que hay que saber de memoria: e^{j\\pi/2} = j, e^{j\\pi} = -1, e^{j2\\pi} = 1.\nMultiplicar en polar: módulos se multiplican, fases se suman — por eso la forma polar existe. Dividir: al revés.\nConjugado: z^* = a - jb = r\\,e^{-j\\theta}; z z^* = |z|^2 (siempre real ≥ 0); \\Re\\{z\\} = \\frac{z+z^*}{2}.\nEl fasor: e^{j\\omega t} es un punto girando en el círculo unitario a \\omega rad/s. Es la señal del curso: toda sinusoide es su sombra: \\cos(\\omega t) = \\Re\\{e^{j\\omega t}\\}.",
+    "text": "Repaso dirigido (0–15 min): lo mínimo que hay que dominar\n\nDos formas, un número: z = a + jb = r\\,e^{j\\theta}, con r = \\sqrt{a^2+b^2}, \\theta = \\operatorname{atan2}(b,a). Dibujar siempre el punto en el plano.\nEuler (la fórmula que paga el semestre): e^{j\\theta} = \\cos\\theta + j\\sin\\theta. Casos que hay que saber de memoria: e^{j\\pi/2} = j, e^{j\\pi} = -1, e^{j2\\pi} = 1.\nMultiplicar en polar: módulos se multiplican, fases se suman — por eso la forma polar existe. Dividir: al revés.\nConjugado: z^* = a - jb = r\\,e^{-j\\theta}; z z^* = |z|^2 (siempre real ≥ 0); \\Re\\{z\\} = \\frac{z+z^*}{2}.\nEl fasor: e^{j\\omega t} es un punto girando en el círculo unitario a \\omega rad/s. Es la señal del curso: toda sinusoide es su sombra: \\cos(\\omega t) = \\Re\\{e^{j\\omega t}\\}.\n\n\n\n\n\n\n\nTipRepetir el recorrido de C3, ahora con complejos frescos (5 min)\n\n\n\nEn C3 vieron que elegir qué se grafica es una decisión. Vale la pena repetirlo aquí, porque recién ahora tienen la aritmética compleja fresca y el punto se entiende mejor.\nProyectar Complejas 1: e^{st} con Re, Im, módulo y fase simultáneos. Arrastrar \\sigma y \\omega y pedir que anticipen qué proyección cambia con cuál. La respuesta que importa: \\sigma mueve solo la envolvente, \\omega solo la velocidad de giro — y la fase es la única que muestra el wrapping, que es lo que más confunde después en Bode.\nEjercicio Gauss (del material del profesor, ver demos/desmos/README.md): graficar a mano, en forma aproximada, las cuatro proyecciones de f(x) = e^{-\\pi x^{2}}\\,(1 - i2\\pi x) y recién después comprobar con el gráfico. Es el mejor ejercicio del recorrido porque las cuatro proyecciones salen completamente distintas: la magnitud tiene doble joroba y la fase es una transición suave, aunque Re e Im se parezcan a una gaussiana y su derivada.",
     "crumbs": [
       "Semana 1 · Presentación y señales",
       "Ay1 · Nivelación: números complejos"
@@ -132,7 +152,7 @@
     "href": "curso/semana-01/ay01.html#trabajo-en-parejas-3560-min",
     "title": "Ay1 · Nivelación: números complejos",
     "section": "Trabajo en parejas (35–60 min)",
-    "text": "Trabajo en parejas (35–60 min)\n[DB E0004] Para x(t) = \\sqrt{2}(1+j)\\,e^{j\\pi/4}\\,e^{(-1+j2\\pi)t}: determinar \\Re\\{x(t)\\}, \\Im\\{x(t)\\} y x(t+2) + x^*(t+2).\n[DB E0006] Hallar todos los valores de (2j)^{1/2} y la raíz principal.",
+    "text": "Trabajo en parejas (35–60 min)\n[DB E0004] Para x(t) = \\sqrt{2}(1+j)\\,e^{j\\pi/4}\\,e^{(-1+j2\\pi)t}: determinar \\Re\\{x(t)\\}, \\Im\\{x(t)\\} y x(t+2) + x^*(t+2).\n[DB E0006] Hallar todos los valores de (2j)^{1/2} y la raíz principal.\n\n\n\n\n\n\nNotaMencionar el apéndice B (1 min, no más)\n\n\n\nEn el cierre, junto con el apéndice A, avisar que existe el apéndice B: Series. Decirlo con honestidad: “no lo necesitan todavía — lo van a necesitar en la unidad 4, y sobre todo en la 6”.\nPor qué no le damos minutos hoy: series no se usa hasta Laplace. Un repaso en la semana 1 se olvida antes de que sirva, y esta ayudantía ya está apretada con la nivelación de complejos. El apéndice está escrito para leerse solo, y las clases que lo cobran (C15 y C23) mandan de vuelta a él.\nLo único que vale la pena adelantar hoy, si sobra medio minuto: la identidad de Euler que acaban de usar sale de sumar tres series de Taylor. Está desarrollado en el apéndice B, y es el punto donde los dos apéndices se tocan.",
     "crumbs": [
       "Semana 1 · Presentación y señales",
       "Ay1 · Nivelación: números complejos"
@@ -143,7 +163,7 @@
     "href": "curso/semana-01/ay01.html#cierre-6070-min",
     "title": "Ay1 · Nivelación: números complejos",
     "section": "Cierre (60–70 min)",
-    "text": "Cierre (60–70 min)\n\nRecordar: Lista 1 ya está publicada — al portafolio manuscrito (se usa en el control CV1 de la semana 3).\nEstudio personal: apéndice A completo; quien falló el diagnóstico en las preguntas 3, 4 u 8 debería rehacerlas tras leer el apéndice.",
+    "text": "Cierre (60–70 min)\n\nRecordar: Lista 1 ya está publicada — al portafolio manuscrito (se usa en el control CV1 de la semana 4).\nEstudio personal: apéndice A completo; quien falló el diagnóstico en las preguntas 3, 4 u 8 debería rehacerlas tras leer el apéndice.",
     "crumbs": [
       "Semana 1 · Presentación y señales",
       "Ay1 · Nivelación: números complejos"
