@@ -47,8 +47,26 @@ T_0=\frac{2\pi}{\gcd\left(w_1,w_2\right)}
    roja cae *exactamente* encima de la negra, ese $u$ es un período.
 2. La curva azul $D(v)$ mide "cuánto difiere la señal de su copia desfasada $v$". **Sus ceros
    son los períodos.** Es, sin nombrarlo, la autocorrelación — vuelve en la unidad 3.
-3. $T_0 = 2\pi/\gcd(w_1,w_2) = 2{,}0944 = 2\pi/3$ ✓ (la respuesta de la votación).
-   Arrastrar $u$ hasta $2{,}09$: $D(u)\to 0$ y las curvas coinciden.
+3. $T_0 = 2\pi/\operatorname{mcd}(w_1,w_2) = 2{,}0944 = 2\pi/3$ ✓ (la respuesta de la
+   votación; la función se llama `\gcd` en Desmos). Arrastrar $u$ hasta $2{,}09$:
+   $D(u)\to 0$ y las curvas coinciden.
+
+**Mejora opcional — frecuencias configurables en el embed** (pendiente: requiere editar el
+gráfico guardado en la cuenta del profesor y apretar Save; el hash no cambia). El modo
+incrustado no deja editar expresiones, pero sí arrastrar puntos: reemplazar las dos primeras
+líneas por puntos arrastrables con redondeo a entero, y rotular la función en la pizarra:
+
+```
+P_1=\left(6,4.5\right)
+P_2=\left(15,-4.5\right)
+w_1=\operatorname{round}\left(P_1.x\right)
+w_2=\operatorname{round}\left(P_2.x\right)
+```
+
+y agregar un punto-etiqueta (showLabel, dragMode NONE) con el texto
+`s(t) = cos(${w_1}t) + sin(${w_2}t)` — así en clase se cambian las frecuencias arrastrando
+$P_1$/$P_2$ y siempre se ve **qué función** está en pantalla. (Poner a $P_1$ y $P_2$
+`dragMode: X`.)
 
 **El contraejemplo** (cambiar solo la línea de `s` y las dos frecuencias):
 
@@ -59,8 +77,8 @@ s(t)=\cos(w_1t)+\cos(w_2t)
 ```
 
 Ampliar el rango de $D$ a `y=D(x)\left\{0\le x\le40\right\}`: **la curva nunca vuelve a tocar
-cero**. Y $T_0$ queda *indefinido*, porque $\gcd$ no existe para $\pi$ — el propio Desmos se
-niega a dar la respuesta, que es justamente el punto.
+cero**. Y $T_0$ queda *indefinido*, porque el mcd (`\gcd` en Desmos) no existe para $\pi$ —
+el propio Desmos se niega a dar la respuesta, que es justamente el punto.
 
 ---
 
@@ -223,6 +241,16 @@ Las dos soluciones, ya aplicadas a D1, D2 y D4:
   Conviene además redondear: `E_{gr}=\operatorname{round}\left(E_{g},2\right)`, o se
   proyectan diez decimales.
 
+## Las instrucciones de uso viajan en las diapositivas (tecla S)
+
+Además de este README y de las fichas docentes, **cada lámina con demo lleva sus
+instrucciones operativas como notas de presentador** (bloques `::: {.notes}` en el
+`-slides.qmd`): qué punto arrastrar, el orden votación→demo, el plan B sin internet, y
+el recordatorio de abrir antes de clase las pestañas de los links (Desmos 3D, videos).
+En clase: tecla **S** abre la vista de presentador con notas, lámina siguiente y
+cronómetro (permitir el popup la primera vez). Ojo al escribirlas: las notas quedan en
+el HTML público — solo contenido operativo, nunca material de evaluación.
+
 ## Cómo están incrustados
 
 Cada gráfico va en su propia diapositiva de `c02-slides.qmd`, justo después de la que plantea
@@ -238,8 +266,9 @@ que las diapositivas quedan actualizadas solas, sin tocar el `.qmd`.
 
 Lo que **no** se puede hacer desde la diapositiva es editar expresiones (por ejemplo, cambiar
 $s(t)$ al contraejemplo $\cos(t)+\cos(\pi t)$ de D1): eso pide la lista de expresiones, o sea
-abrir el gráfico en su propia pestaña. Por eso el contraejemplo tiene su propia lámina de
-transición en las diapositivas.
+abrir el gráfico en su propia pestaña. Por eso el contraejemplo tiene su propia lámina en las
+diapositivas, con una **figura estática** (`c02-contraejemplo.png`, generada con matplotlib:
+señal + curva $D$ que nunca vuelve a cero) — verlo vivo en Desmos quedó como opcional.
 
 **Requiere internet en la sala** — a diferencia del resto de las demos de esta carpeta, que son
 locales. Si la conexión es dudosa, tener capturas de respaldo: los iframes quedan en blanco sin
