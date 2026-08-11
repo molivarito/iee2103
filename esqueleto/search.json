@@ -1,24 +1,57 @@
 [
   {
-    "objectID": "curso/listas/lista-01.html",
-    "href": "curso/listas/lista-01.html",
-    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "objectID": "curso/listas/lista-02.html",
+    "href": "curso/listas/lista-02.html",
+    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
     "section": "",
-    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para entender; el desarrollo escrito debe ser tuyo. El CV1 (semana 4) será una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido.\nReferencias de estudio: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.",
+    "text": "ImportanteRecordatorio\n\n\n\nEl CV1 es en dos semanas más (semana 4, primeros 20 min de la ayudantía): una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio manuscrito será tu único material permitido. El quiz Canvas de esta semana es el ensayo directo.\nReferencias de estudio: [Oppenheim] §1.2.1, §1.3–1.4, §2.5; [Alvarado] cap. 1.",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+      "Lista 2 · Señales elementales, transformaciones y el impulso"
     ]
   },
   {
-    "objectID": "curso/listas/lista-01.html#ejercicios",
-    "href": "curso/listas/lista-01.html#ejercicios",
-    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "objectID": "curso/listas/lista-02.html#ejercicios",
+    "href": "curso/listas/lista-02.html#ejercicios",
+    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
     "section": "Ejercicios",
-    "text": "Ejercicios\nL1.1 — Clasifique cada señal como de energía, de potencia, o ninguna; calcule E o P según corresponda: \\text{(a) } x(t) = e^{-3t}u(t) \\qquad \\text{(b) } x(t) = 4\\cos(2\\pi t) \\qquad \\text{(c) } x[n] = \\left(\\tfrac{1}{2}\\right)^{n} u[n] \\qquad \\text{(d) } x(t) = t\\,u(t)\n¿Y si…? ¿Y si la señal (b) se truncara a un intervalo finito, digamos t\\in[0,5], en vez de estar definida para todo t? ¿sigue siendo señal de potencia?\nL1.2 [DB E0010] — Sea x(t) = \\cos(\\omega_x(t+\\tau_x)+\\theta_x):\n\nDetermine la frecuencia en Hz y el período de x(t) para: (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4.\nCon y(t) = \\sin(\\omega_y(t+\\tau_y)+\\theta_y), determine en qué casos x(t) = y(t): (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi y \\omega_y = \\pi/3, \\tau_y = 1, \\theta_y = -\\pi/3; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4 y \\omega_y = 11\\pi/4, \\tau_y = 1, \\theta_y = 3\\pi/8; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4 y \\omega_y = 3/4, \\tau_y = 1, \\theta_y = 3/8.\n\n¿Y si…? ¿Y si en el caso (a) fuera \\omega_x = 0 (en vez de \\pi/3)? ¿sigue teniendo una frecuencia y un período fundamental bien definidos?\nL1.3 — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: \\text{(a) } 2\\cos(10t+1) - \\sin(4t-1) \\qquad \\text{(b) } \\cos(6t) + \\sin(15t) \\qquad \\text{(c) } \\cos(t) + \\cos(\\pi t)\n¿Y si…? ¿Y si en (b) la frecuencia 15 se reemplazara por 15\\pi (razón irracional con 6)? ¿la suma sigue siendo periódica?\nL1.4 [DB E0021] — Demuestre que \\ln(x) se puede descomponer en una parte par P(x) y una impar I(x) dadas por P(x) = \\ln(|x|) + j\\frac{\\pi}{2}, \\qquad I(x) = -\\frac{j\\pi}{2}\\operatorname{sgn}(x) Hint: considere x = |x|\\operatorname{sgn}(x).\n¿Y si…? ¿Y si x=0? ¿sigue siendo válida ahí la descomposición en partes par e impar de \\ln(x)?\nL1.5 [DB E0022] — Una señal f(x) se descompone en parte par P(x) e impar I(x). Demuestre que \\int_{-\\infty}^{\\infty} f^2(x)\\,dx = \\int_{-\\infty}^{\\infty} P^2(x)\\,dx + \\int_{-\\infty}^{\\infty} I^2(x)\\,dx\n¿Y si…? ¿Y si el dominio de integración no fuera simétrico respecto del origen (p. ej. de 0 a \\infty)? ¿sigue siendo válida la identidad \\int f^2 = \\int P^2 + \\int I^2?",
+    "text": "Ejercicios\nL2.1 [DB E0018] — Con f(x) = x^3 (restringida a un tramo graficado en clase), grafique: \\text{(a) } f(2x) \\text{ y } f(x/2) \\qquad \\text{(b) } f(-(x-3)) \\qquad \\text{(c) } 3 + f(2(x-3))\n¿Y si…? ¿Y si en (b) invertimos el orden de las operaciones — graficamos f(-x-3) en vez de f(-(x-3))? ¿es la misma curva?\nL2.2 — Grafique x(t) = \\operatorname{rect}\\!\\big(\\tfrac{t-1}{2}\\big) - 2\\,\\operatorname{tri}(t+1), indicando todos los puntos relevantes de los ejes.\n¿Y si…? ¿Y si el triángulo estuviera centrado en t=1 (mismo centro que el rect) en vez de t=-1? ¿cambia cualitativamente la forma resultante?\nL2.3 [DB E0020] — La señal f(x) vale -1 para x &lt; -\\tfrac12, 0 en -\\tfrac12 &lt; x &lt; \\tfrac12, y +1 para x &gt; \\tfrac12 (un escalón partido, impar). Exprésela como suma de señales elementales de dos maneras distintas — por ejemplo con escalones, y con \\operatorname{sgn} y \\operatorname{rect}.\n¿Y si…? ¿Y si el pulso rectangular no estuviera centrado en el origen (p. ej. entre x=0 y x=1)? ¿sigue funcionando la segunda forma \\operatorname{sgn}(x)(1-\\operatorname{rect}(x))?\nL2.4 [DB E0023] — Calcule el área de \\alpha^2 \\operatorname{rect}(\\alpha x), con \\alpha \\in \\mathbb{R}^+.\n¿Y si…? ¿Y si \\alpha pudiera ser negativo (en vez de estar restringido a \\mathbb{R}^+)? ¿sigue siendo válida la fórmula del área =\\alpha?\nL2.5 — Simplifique usando las propiedades del impulso: \\text{(a) } \\int_{-\\infty}^{\\infty} (t^2+2)\\,\\delta(t-3)\\,dt \\qquad \\text{(b) } 6\\,\\delta(t^2-9) \\qquad \\text{(c) } \\delta(4t^3-3t) \\qquad \\text{(d) } e^{-t}\\,\\delta(2t-4)\n¿Y si…? ¿Y si en (c) el argumento fuera 4t^3 en vez de 4t^3-3t (raíz triple en t=0)? ¿sigue aplicando la fórmula usual \\delta(g(t))=\\sum \\delta(t-t_i)/|g'(t_i)|?\nL2.6 [DB E0036] — Calcule (sin aproximar): \\displaystyle\\int_{-\\infty}^{\\infty} \\delta'(x)\\,dx.\n¿Y si…? ¿Y si en vez de \\int\\delta'(x)\\,dx calculamos \\int \\delta'(x)\\,x\\,dx (función de prueba no constante)? ¿sigue dando cero?\nL2.7 — Con el tren de impulsos \\delta_2(t) = \\sum_n \\delta(t-2n), calcule \\displaystyle\\int_{-1}^{5} e^{-|t|}\\,\\delta_2(t)\\,dt y grafique \\cos(\\pi t)\\,\\delta_2(t) (impulsos con sus pesos).\n¿Y si…? ¿Y si el intervalo de integración fuera [-2,5] en vez de [-1,5]? ¿el impulso justo en t=-2 cuenta completo, o queda ambiguo?",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+      "Lista 2 · Señales elementales, transformaciones y el impulso"
+    ]
+  },
+  {
+    "objectID": "curso/semana-02/ay02.html",
+    "href": "curso/semana-02/ay02.html",
+    "title": "Ay2 · Ejercicios U1: señales, simetrías, impulso",
+    "section": "",
+    "text": "Explicar con total claridad (primera vez que lo viven):\n\nEn dos semanas, en la Ay4, primeros 20 min de la ayudantía: CV1. Una variante (números/contexto cambiados) de un ejercicio de las Listas 1–2.\nÚnico material permitido: tu portafolio manuscrito. Sin portafolio se puede rendir igual, pero sin red.\nQué debería tener el portafolio a esta altura: Listas 1 y 2 resueltas con desarrollo, y los ejemplos de clase que cada uno quiera sumar.\nRecordar el quiz Canvas de la semana (ensayo directo del CV1).",
+    "crumbs": [
+      "Semana 2 · Elementales e impulso",
+      "Ay2 · Ejercicios U1: señales, simetrías, impulso"
+    ]
+  },
+  {
+    "objectID": "curso/semana-02/ay02.html#cierre-instalación-del-cv1-6070-min",
+    "href": "curso/semana-02/ay02.html#cierre-instalación-del-cv1-6070-min",
+    "title": "Ay2 · Ejercicios U1: señales, simetrías, impulso",
+    "section": "",
+    "text": "Explicar con total claridad (primera vez que lo viven):\n\nEn dos semanas, en la Ay4, primeros 20 min de la ayudantía: CV1. Una variante (números/contexto cambiados) de un ejercicio de las Listas 1–2.\nÚnico material permitido: tu portafolio manuscrito. Sin portafolio se puede rendir igual, pero sin red.\nQué debería tener el portafolio a esta altura: Listas 1 y 2 resueltas con desarrollo, y los ejemplos de clase que cada uno quiera sumar.\nRecordar el quiz Canvas de la semana (ensayo directo del CV1).",
+    "crumbs": [
+      "Semana 2 · Elementales e impulso",
+      "Ay2 · Ejercicios U1: señales, simetrías, impulso"
+    ]
+  },
+  {
+    "objectID": "curso/semana-02/c03.html",
+    "href": "curso/semana-02/c03.html",
+    "title": "C3 · Señales elementales y transformaciones de la variable",
+    "section": "",
+    "text": "1. El vocabulario: señales elementales\nEl catálogo — dibuja cada señal con sus valores clave:\n\n\n\nSeñal\nGráfico\n\n\n\n\nu(t)\n\n\n\n\\operatorname{rect}(t)\n\n\n\n\\operatorname{tri}(t)\n\n\n\n\\operatorname{sgn}(t)\n\n\n\n\\operatorname{sinc}(t)\n\n\n\ne^{-t^2/2} (gaussiana)\n\n\n\ne^{-at}u(t)\n\n\n\n\nRelaciones entre ellas (rect en términos de escalones; sgn en términos de u):\n\n\n\n\n\n2. La exponencial compleja (el fasor, ahora como señal)\nLa señal e^{st} con s = \\sigma + j\\omega — dibuja los tres casos (\\sigma&lt;0, \\sigma=0, \\sigma&gt;0):\n\n\n\nEl coseno como dos fasores: $(t) = $\n\n\n\n\n\n3. Transformaciones de la variable independiente\nLas tres transformaciones y su efecto (una frase + mini-gráfico cada una):\n\nx(t-t_0):\nx(at):\nx(-t):\n\nDel quiz de audio — ¿cuál transformación es inaudible y por qué?\n\n\n\nLa regla para x(at-b) (¿por qué el desplazamiento no es b?):\n\n\n\nMi voto y el desarrollo de la votación:\n\n\n\nLectura rápida de \\operatorname{rect}\\!\\big(\\tfrac{t-c}{w}\\big): centro = ____, ancho = ____.\n\n\n4. Construcción de señales por tramos\nEstrategia de 3 pasos para escribir una señal por tramos:\n\n\n\n\n\nLos dos ejemplos de la pizarra (señal graficada + expresión):",
+    "crumbs": [
+      "Semana 2 · Elementales e impulso",
+      "C3 · Señales elementales y transformaciones de la variable"
     ]
   },
   {
@@ -156,6 +189,39 @@
     "crumbs": [
       "Semana 1 · Presentación y señales",
       "Ay1 · Nivelación: números complejos"
+    ]
+  },
+  {
+    "objectID": "curso/semana-02/c04.html",
+    "href": "curso/semana-02/c04.html",
+    "title": "C4 · El impulso",
+    "section": "",
+    "text": "1. Construcción: el límite de pulsos\nMi predicción (área y altura del pulso cuando \\epsilon \\to 0):\n\n\n\nDefinición del impulso (las dos condiciones + el gráfico con su flecha):\n\n\n\n\n\n2. Lo que δ hace: la propiedad de muestreo\nPropiedad de muestreo (fórmula + explicación con tus palabras):\n\\int_{-\\infty}^{\\infty} f(t)\\,\\delta(t-t_0)\\,dt = \n\n\n\nEjercicio relámpago hecho en clase: $_{-}^{} e^{-2t}(t),(t-1),dt = $\n\n\n3. Propiedades\nEscalado: $(at) = $\nLa fórmula para \\delta(g(t)):\n\\delta\\big(g(t)\\big) = \n¿Por qué |g'| va en el denominador? (la idea geométrica, con un dibujo):\n\n\n\nEjemplo resuelto: \\delta(t^2-9) (desarrollo completo):\n\n\n\nRelación escalón ↔︎ impulso (en ambas direcciones):\n\n\n\n\n\n4. El impulso en el mundo real\nLo que escuchamos en el audio de la iglesia y qué representa:\n\n\n\nLa pregunta que queda abierta para la próxima semana:\n\n\n\n\n\n5. El tren de impulsos\nDefinición del tren de impulsos (fórmula + gráfico):\n\n\n\nPara qué servirá (la frase que ordena el curso):",
+    "crumbs": [
+      "Semana 2 · Elementales e impulso",
+      "C4 · El impulso"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-01.html",
+    "href": "curso/listas/lista-01.html",
+    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "section": "",
+    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para entender; el desarrollo escrito debe ser tuyo. El CV1 (semana 4) será una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido.\nReferencias de estudio: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-01.html#ejercicios",
+    "href": "curso/listas/lista-01.html#ejercicios",
+    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "section": "Ejercicios",
+    "text": "Ejercicios\nL1.1 — Clasifique cada señal como de energía, de potencia, o ninguna; calcule E o P según corresponda: \\text{(a) } x(t) = e^{-3t}u(t) \\qquad \\text{(b) } x(t) = 4\\cos(2\\pi t) \\qquad \\text{(c) } x[n] = \\left(\\tfrac{1}{2}\\right)^{n} u[n] \\qquad \\text{(d) } x(t) = t\\,u(t)\n¿Y si…? ¿Y si la señal (b) se truncara a un intervalo finito, digamos t\\in[0,5], en vez de estar definida para todo t? ¿sigue siendo señal de potencia?\nL1.2 [DB E0010] — Sea x(t) = \\cos(\\omega_x(t+\\tau_x)+\\theta_x):\n\nDetermine la frecuencia en Hz y el período de x(t) para: (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4.\nCon y(t) = \\sin(\\omega_y(t+\\tau_y)+\\theta_y), determine en qué casos x(t) = y(t): (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi y \\omega_y = \\pi/3, \\tau_y = 1, \\theta_y = -\\pi/3; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4 y \\omega_y = 11\\pi/4, \\tau_y = 1, \\theta_y = 3\\pi/8; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4 y \\omega_y = 3/4, \\tau_y = 1, \\theta_y = 3/8.\n\n¿Y si…? ¿Y si en el caso (a) fuera \\omega_x = 0 (en vez de \\pi/3)? ¿sigue teniendo una frecuencia y un período fundamental bien definidos?\nL1.3 — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: \\text{(a) } 2\\cos(10t+1) - \\sin(4t-1) \\qquad \\text{(b) } \\cos(6t) + \\sin(15t) \\qquad \\text{(c) } \\cos(t) + \\cos(\\pi t)\n¿Y si…? ¿Y si en (b) la frecuencia 15 se reemplazara por 15\\pi (razón irracional con 6)? ¿la suma sigue siendo periódica?\nL1.4 [DB E0021] — Demuestre que \\ln(x) se puede descomponer en una parte par P(x) y una impar I(x) dadas por P(x) = \\ln(|x|) + j\\frac{\\pi}{2}, \\qquad I(x) = -\\frac{j\\pi}{2}\\operatorname{sgn}(x) Hint: considere x = |x|\\operatorname{sgn}(x).\n¿Y si…? ¿Y si x=0? ¿sigue siendo válida ahí la descomposición en partes par e impar de \\ln(x)?\nL1.5 [DB E0022] — Una señal f(x) se descompone en parte par P(x) e impar I(x). Demuestre que \\int_{-\\infty}^{\\infty} f^2(x)\\,dx = \\int_{-\\infty}^{\\infty} P^2(x)\\,dx + \\int_{-\\infty}^{\\infty} I^2(x)\\,dx\n¿Y si…? ¿Y si el dominio de integración no fuera simétrico respecto del origen (p. ej. de 0 a \\infty)? ¿sigue siendo válida la identidad \\int f^2 = \\int P^2 + \\int I^2?",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
     ]
   }
 ]

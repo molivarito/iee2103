@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C1 · Presentación: señales, sistemas y el mapa del curso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Ay2 · Ejercicios U1: señales, simetrías, impulso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-01/c02.html" rel="next">
-<link href="../../formularios.html" rel="prev">
+<link href="../../curso/listas/lista-01.html" rel="next">
+<link href="../../curso/semana-02/c04.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -73,49 +73,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
-  <script>document.addEventListener("DOMContentLoaded", function () {
- var mathElements = document.getElementsByClassName("math");
- var macros = [];
- for (var i = 0; i < mathElements.length; i++) {
-  var texText = mathElements[i].firstChild;
-  if (mathElements[i].tagName == "SPAN") {
-   katex.render(texText.data, mathElements[i], {
-    displayMode: mathElements[i].classList.contains('display'),
-    throwOnError: false,
-    macros: macros,
-    fleqn: false
-   });
-}}});
-  </script>
-  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -129,7 +86,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">Semana 1 · Presentación y señales</a></li><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">C1 · Presentación: señales, sistemas y el mapa del curso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/ay02.html">Ay2 · Ejercicios U1: señales, simetrías, impulso</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -183,7 +140,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C1 · Presentación: señales, sistemas y el mapa del curso</span></a>
   </div>
 </li>
@@ -224,7 +181,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Ay2 · Ejercicios U1: señales, simetrías, impulso</span></a>
   </div>
 </li>
@@ -263,21 +220,17 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#bloque-1-qué-es-una-señal-qué-es-un-sistema" id="toc-bloque-1-qué-es-una-señal-qué-es-un-sistema" class="nav-link active" data-scroll-target="#bloque-1-qué-es-una-señal-qué-es-un-sistema">Bloque 1 — ¿Qué es una señal? ¿Qué es un sistema?</a></li>
-  <li><a href="#bloque-2-la-flauta-en-vivo-una-señal-tres-retratos" id="toc-bloque-2-la-flauta-en-vivo-una-señal-tres-retratos" class="nav-link" data-scroll-target="#bloque-2-la-flauta-en-vivo-una-señal-tres-retratos">Bloque 2 — La flauta en vivo: una señal, tres retratos</a></li>
-  <li><a href="#bloque-3-el-mapa-del-curso" id="toc-bloque-3-el-mapa-del-curso" class="nav-link" data-scroll-target="#bloque-3-el-mapa-del-curso">Bloque 3 — El mapa del curso</a></li>
-  <li><a href="#bloque-4-cómo-funciona-este-curso" id="toc-bloque-4-cómo-funciona-este-curso" class="nav-link" data-scroll-target="#bloque-4-cómo-funciona-este-curso">Bloque 4 — Cómo funciona este curso</a></li>
-  <li><a href="#bloque-5-diagnóstico-de-números-complejos" id="toc-bloque-5-diagnóstico-de-números-complejos" class="nav-link" data-scroll-target="#bloque-5-diagnóstico-de-números-complejos">Bloque 5 — Diagnóstico de números complejos</a></li>
+  <li><a href="#cierre-instalación-del-cv1-6070-min" id="toc-cierre-instalación-del-cv1-6070-min" class="nav-link active" data-scroll-target="#cierre-instalación-del-cv1-6070-min">Cierre: instalación del CV1 (60–70 min)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">Semana 1 · Presentación y señales</a></li><li class="breadcrumb-item"><a href="../../curso/semana-01/c01.html">C1 · Presentación: señales, sistemas y el mapa del curso</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/ay02.html">Ay2 · Ejercicios U1: señales, simetrías, impulso</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">C1 · Presentación: señales, sistemas y el mapa del curso</h1>
-<p class="subtitle lead">Semana 1 · 70 min</p>
+<h1 class="title">Ay2 · Ejercicios U1: señales, simetrías, impulso</h1>
+<p class="subtitle lead">Semana 2 · 70 min</p>
 </div>
 
 
@@ -294,93 +247,15 @@ window.Quarto = {
 </header>
 
 
-<section id="bloque-1-qué-es-una-señal-qué-es-un-sistema" class="level1">
-<h1>Bloque 1 — ¿Qué es una señal? ¿Qué es un sistema?</h1>
-<p><strong>El audio que escuchamos:</strong> ¿dónde está cantando? ¿Qué le hizo el espacio a la voz?</p>
-<div class="hueco">
-<p>(tu respuesta, antes de que se discuta)</p>
-</div>
-<p><strong>Definición de señal:</strong></p>
-<div class="hueco">
-
-</div>
-<p><strong>Definición de sistema (y su diagrama de caja):</strong></p>
-<div class="hueco">
-
-</div>
-<p><strong>Mis tres ejemplos favoritos de señales y un sistema de mi vida diaria:</strong></p>
-<div class="hueco">
-
-</div>
-</section>
-<section id="bloque-2-la-flauta-en-vivo-una-señal-tres-retratos" class="level1">
-<h1>Bloque 2 — La flauta en vivo: una señal, tres retratos</h1>
-<p><strong>Mi predicción, antes de que el profesor toque</strong> (¿una raya o muchas?):</p>
-<div class="hueco">
-
-</div>
-<p><strong>La nota que tocó</strong>: $f_0 = $ ______ Hz, nota ______</p>
-<p><strong>Dibuja lo que viste en cada panel:</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Tiempo — <span class="math inline">x(t)</span></th>
-<th>Frecuencia — <span class="math inline">\lvert X(f)\rvert</span></th>
-<th>Sonograma</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>¿Dónde están los armónicos y qué relación tienen con <span class="math inline">f_0</span>?</strong></p>
-<div class="hueco">
-
-</div>
-<p><strong>Las tres pruebas:</strong> ¿qué cambió en cada dibujo al soplar más fuerte? ¿al tocar la octava? ¿al hacer un glissando?</p>
-<div class="hueco">
-
-</div>
-<p><strong>La pregunta del cierre — ¿cuál de los tres dibujos es “la señal”?</strong></p>
-<div class="hueco">
-
-</div>
-</section>
-<section id="bloque-3-el-mapa-del-curso" class="level1">
-<h1>Bloque 3 — El mapa del curso</h1>
-<p><strong>Los cuatro dominios del curso</strong> (complétalos con una frase cada uno a medida que se presentan):</p>
+<section id="cierre-instalación-del-cv1-6070-min" class="level2">
+<h2 class="anchored" data-anchor-id="cierre-instalación-del-cv1-6070-min">Cierre: instalación del CV1 (60–70 min)</h2>
+<p>Explicar con total claridad (primera vez que lo viven):</p>
 <ol type="1">
-<li>Tiempo:</li>
-<li>Frecuencia:</li>
-<li>Plano <span class="math inline">s</span>:</li>
-<li>Mundo discreto:</li>
+<li>En dos semanas, en la Ay4, primeros 20 min de la ayudantía: <strong>CV1</strong>. Una variante (números/contexto cambiados) de un ejercicio de las Listas 1–2.</li>
+<li>Único material permitido: <strong>tu portafolio manuscrito</strong>. Sin portafolio se puede rendir igual, pero sin red.</li>
+<li>Qué debería tener el portafolio a esta altura: Listas 1 y 2 resueltas <em>con desarrollo</em>, y los ejemplos de clase que cada uno quiera sumar.</li>
+<li>Recordar el quiz Canvas de la semana (ensayo directo del CV1).</li>
 </ol>
-<p><strong>La promesa del curso:</strong></p>
-<div class="hueco">
-
-</div>
-</section>
-<section id="bloque-4-cómo-funciona-este-curso" class="level1">
-<h1>Bloque 4 — Cómo funciona este curso</h1>
-<p><strong>Las reglas del juego</strong> (anota lo esencial de cada una):</p>
-<ul>
-<li>Portafolio manuscrito y controles de validación:</li>
-<li>Quiz semanal en Canvas:</li>
-<li>Formulario oficial para las interrogaciones:</li>
-<li>Política de IA en una frase:</li>
-</ul>
-<div class="hueco">
-
-</div>
-</section>
-<section id="bloque-5-diagnóstico-de-números-complejos" class="level1">
-<h1>Bloque 5 — Diagnóstico de números complejos</h1>
-<p><em>(El diagnóstico se rinde en papel en la clase; no está incluido en estos apuntes.)</em></p>
-<p><strong>Para estudiar antes de la ayudantía</strong>: apéndice A del curso (números complejos) — disponible en Canvas.</p>
 
 
 </section>
@@ -788,13 +663,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../formularios.html" class="pagination-link" aria-label="Formularios oficiales">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Formularios oficiales</span>
+      <a href="../../curso/semana-02/c04.html" class="pagination-link" aria-label="C4 · El impulso">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C4 · El impulso</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-01/c02.html" class="pagination-link" aria-label="C2 · Clasificación de señales">
-        <span class="nav-page-text">C2 · Clasificación de señales</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/listas/lista-01.html" class="pagination-link" aria-label="Lista 1 · Señales: clasificación, periodicidad, energía, simetrías">
+        <span class="nav-page-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
