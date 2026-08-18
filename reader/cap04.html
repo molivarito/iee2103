@@ -316,7 +316,7 @@ window.Quarto = {
 <p><strong>La idea brillante</strong> — y es <em>una sola</em> idea: si <span class="math inline">x(t)</span> crece demasiado, multiplícala por una exponencial que decae <strong>más rápido</strong>, <span class="math inline">e^{-\sigma t}</span>, y toma Fourier de eso:</p>
 <p><span class="math display">\mathcal{F}\{x(t)\,e^{-\sigma t}\} = \int_{-\infty}^{\infty} x(t)\,e^{-\sigma t}e^{-j\omega t}\,dt = \int_{-\infty}^{\infty} x(t)\,e^{-(\sigma + j\omega)t}\,dt</span></p>
 <p>El exponente que aparece solo es… <span class="math inline">s = \sigma + j\omega</span>. Amortiguar y transformar es lo mismo que <strong>transformar contra la espiral <span class="math inline">e^{st}</span> completa</strong>, no solo contra el fasor <span class="math inline">e^{j\omega t}</span>. El parámetro <span class="math inline">\sigma</span> es el <em>factor de convergencia</em>: el precio que pagamos por poder ver señales que crecen.</p>
-<div id="1684eee3" class="cell" data-execution_count="1">
+<div id="5e922589" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -379,7 +379,7 @@ window.Quarto = {
 <p>La suma converge donde <strong>ambas</strong> convergen — la intersección:</p>
 <p><span class="math display">e^{-a|t|} \;\longleftrightarrow\; \frac{1}{s+a} - \frac{1}{s-a} = \frac{2a}{a^2 - s^2}, \qquad \text{ROC: } -a &lt; \Re\{s\} &lt; a</span></p>
 <p>La ROC es una <strong>franja vertical</strong> entre los polos <span class="math inline">\pm a</span>. Contiene al eje <span class="math inline">j\omega</span>, y por eso <span class="math inline">e^{-a|t|}</span> sí tiene transformada de Fourier: evaluando <span class="math inline">s = j\omega</span> sale <span class="math inline">\frac{2a}{a^2+\omega^2}</span>, un par que ya conociste en la unidad 3.</p>
-<div id="2c591c78" class="cell" data-execution_count="2">
+<div id="0e19ecca" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -401,7 +401,7 @@ window.Quarto = {
 <li>Señal de <strong>duración finita</strong> (y acotada) → la ROC es <strong>todo el plano</strong>.</li>
 <li>La transformada de <strong>Fourier existe</strong> ⟺ la ROC <strong>contiene al eje <span class="math inline">j\omega</span></strong>. (Esta regla ata la unidad 3 con la 4; le sacaremos punta en la <a href="#sec-fourier-laplace" class="quarto-xref"><span>Sección 4.6</span></a>.)</li>
 </ol>
-<p><strong>Ejercicio relámpago</strong> (diez segundos cada uno): ¿ROC de <span class="math inline">\operatorname{rect}(t)</span>? — Todo el plano: duración finita. ¿Y de <span class="math inline">u(t)</span>? — Señal derecha con polo en <span class="math inline">0</span>: <span class="math inline">X(s) = 1/s</span>, ROC <span class="math inline">\Re\{s\} &gt; 0</span>.</p>
+<p><strong>Ejercicio exprés</strong> (diez segundos cada uno): ¿ROC de <span class="math inline">\operatorname{rect}(t)</span>? — Todo el plano: duración finita. ¿Y de <span class="math inline">u(t)</span>? — Señal derecha con polo en <span class="math inline">0</span>: <span class="math inline">X(s) = 1/s</span>, ROC <span class="math inline">\Re\{s\} &gt; 0</span>.</p>
 </section>
 </section>
 <section id="sec-inversa" class="level2" data-number="4.3">
@@ -481,7 +481,7 @@ window.Quarto = {
 <p><strong>Mirarlas juntas</strong> (la figura siguiente): tres señales completamente distintas, <strong>una sola fórmula</strong>. Y una pregunta más, de regalo: ¿cuál de las tres tiene transformada de Fourier? Solo (a) — su ROC es la única que contiene al eje <span class="math inline">j\omega</span>.</p>
 </div>
 </div>
-<div id="f5435fa8" class="cell" data-execution_count="3">
+<div id="a14de7a6" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -508,7 +508,7 @@ window.Quarto = {
 <li><strong>Eje real (<span class="math inline">\sigma</span>) = eje del amortiguamiento.</strong> Polo real en <span class="math inline">-2</span>: modo <span class="math inline">e^{-2t}</span>, decae. Más a la izquierda = muere más rápido. Polo en <span class="math inline">+0.5</span>: <span class="math inline">e^{0.5t}</span>, crece sin freno.</li>
 <li><strong>Eje imaginario (<span class="math inline">\omega</span>) = eje de la oscilación.</strong> Para señales reales, los polos complejos vienen <strong>siempre en pares conjugados</strong> <span class="math inline">\sigma_0 \pm j\omega_0</span>, y el par completo aporta <span class="math display">\frac{A}{s-(\sigma_0+j\omega_0)} + \frac{A^*}{s-(\sigma_0-j\omega_0)} \;\longrightarrow\; 2|A|\,e^{\sigma_0 t}\cos(\omega_0 t + \angle A)\,u(t)</span> una <strong>oscilación de frecuencia <span class="math inline">\omega_0</span> con envolvente <span class="math inline">e^{\sigma_0 t}</span></strong>. La altura del polo fija el tono; su posición horizontal, cuánto dura. Los dos ejes son independientes.</li>
 </ul>
-<div id="d7053f9c" class="cell" data-execution_count="4">
+<div id="be591b30" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -555,7 +555,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="80ba7482" class="cell" data-execution_count="5">
+<div id="637d854c" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -641,7 +641,7 @@ window.Quarto = {
 <p><strong>Leer el resultado con los ojos del mapa</strong> (esto es lo nuevo respecto de EDO): el modo <span class="math inline">e^{-t/\tau}</span> vive en el <strong>polo del sistema</strong> (<span class="math inline">s = -1/\tau</span>: su respuesta natural — más pequeño el <span class="math inline">\tau</span>, más a la izquierda el polo, más rápida la carga); el término constante vive en el <strong>polo de la entrada</strong> (<span class="math inline">s = 0</span>: el escalón). Lo que en EDO llamabas “homogénea + particular” es esto mismo, visto desde el mapa.</p>
 </div>
 </div>
-<div id="0f62d6e4" class="cell" data-execution_count="6">
+<div id="5a3f11c7" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -694,7 +694,7 @@ x(\infty) = \lim_{s\to 0} \frac{3s^2+6s+2}{(s+1)(s+2)} = \frac{2}{2} = 1 \checkm
 <h3 data-number="4.6.1" class="anchored" data-anchor-id="sec-Hs"><span class="header-section-number">4.6.1</span> H(s): la función de transferencia</h3>
 <p>Para un sistema LTI descrito por una EDO con coeficientes constantes y <strong>en reposo</strong> (condiciones iniciales nulas — la condición para que sea LTI de verdad), transformar la EDO entrega directamente la <strong>función de transferencia</strong>:</p>
 <p><span class="math display">\sum_k a_k\, y^{(k)}(t) = \sum_k b_k\, x^{(k)}(t) \;\xrightarrow{\;\mathcal{L}\;}\; H(s) = \frac{Y(s)}{X(s)} = \frac{\sum_k b_k\, s^k}{\sum_k a_k\, s^k}</span></p>
-<p>Y aquí está la <strong>superpotencia de Laplace</strong> aplicada a sistemas: <span class="math inline">y = h * x \longrightarrow Y(s) = H(s)\,X(s)</span>. La convolución de la unidad 2 se volvió multiplicación. Ejemplo relámpago: <span class="math inline">y' + 2y = x \Rightarrow H(s) = \frac{1}{s+2}</span> — polo en <span class="math inline">-2</span>, causal, estable, <span class="math inline">h(t) = e^{-2t}u(t)</span>. Todo el mapa de la <a href="#sec-mapa" class="quarto-xref"><span>Sección 4.4</span></a> aplica a <span class="math inline">H(s)</span> tal cual: los polos de <span class="math inline">H</span> son el carácter del sistema.</p>
+<p>Y aquí está la <strong>superpotencia de Laplace</strong> aplicada a sistemas: <span class="math inline">y = h * x \longrightarrow Y(s) = H(s)\,X(s)</span>. La convolución de la unidad 2 se volvió multiplicación. Ejemplo exprés: <span class="math inline">y' + 2y = x \Rightarrow H(s) = \frac{1}{s+2}</span> — polo en <span class="math inline">-2</span>, causal, estable, <span class="math inline">h(t) = e^{-2t}u(t)</span>. Todo el mapa de la <a href="#sec-mapa" class="quarto-xref"><span>Sección 4.4</span></a> aplica a <span class="math inline">H(s)</span> tal cual: los polos de <span class="math inline">H</span> son el carácter del sistema.</p>
 <p>El <strong>resumen ejecutivo de la unidad</strong>, para una <span class="math inline">H(s)</span> racional:</p>
 <ul>
 <li><strong>causal</strong> ⟺ ROC a la derecha del último polo;</li>

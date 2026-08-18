@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>IEE2103 · Señales y Sistemas – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Lista 3 · Propiedades de sistemas y el nacimiento de la convolución – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,24 +26,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./demos.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../curso/listas/lista-02.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -72,8 +72,51 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -85,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">IEE2103 · Señales y Sistemas</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-03.html">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -100,7 +143,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
+      <a href="../../">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -112,19 +155,19 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">IEE2103 · Señales y Sistemas</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./demos.html" class="sidebar-item-text sidebar-link">
+  <a href="../../demos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Demos del curso</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./formularios.html" class="sidebar-item-text sidebar-link">
+  <a href="../../formularios.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Formularios oficiales</span></a>
   </div>
 </li>
@@ -139,19 +182,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C1 · Presentación: señales, sistemas y el mapa del curso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C2 · Clasificación de señales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ay1 · Nivelación: números complejos</span></a>
   </div>
 </li>
@@ -168,19 +211,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-02/c03.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-02/c03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C3 · Señales elementales y transformaciones de la variable</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-02/c04.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-02/c04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C4 · El impulso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ay2 · Ejercicios U1: señales, simetrías, impulso</span></a>
   </div>
 </li>
@@ -197,19 +240,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-03/c05.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-03/c05.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C5 · Propiedades de sistemas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-03/c06.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-03/c06.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C6 · LTI ⇒ convolución: el teorema del curso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-03/ay03.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-03/ay03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ay3 · Ejercicios U2</span></a>
   </div>
 </li>
@@ -226,19 +269,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/listas/lista-02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 2 · Señales elementales, transformaciones y el impulso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/listas/lista-03.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-03.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</span></a>
   </div>
 </li>
@@ -254,17 +297,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#referencias-del-curso" id="toc-referencias-del-curso" class="nav-link active" data-scroll-target="#referencias-del-curso">Referencias del curso</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link active" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-03.html">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">IEE2103 · Señales y Sistemas</h1>
-<p class="subtitle lead">Material del curso — 15 semanas completas</p>
+<h1 class="title">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</h1>
+<p class="subtitle lead">Se publica al cierre de la semana 3 · Materia: C5–C6 · Al portafolio</p>
 </div>
 
 
@@ -281,15 +324,45 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Este sitio es la <strong>fuente única del material del curso</strong> (mapa del repo en <code>README.md</code>, en la raíz). Cada sesión tiene una página con: ficha docente (objetivos, guion, actividades), el contenido completo de la clase y los medios (audio, demos, videos). La navegación por semanas está en la barra lateral.</p>
-<section id="referencias-del-curso" class="level2">
-<h2 class="anchored" data-anchor-id="referencias-del-curso">Referencias del curso</h2>
-<ul>
-<li><strong>[Alvarado]</strong> P. Alvarado Moya, <em>Señales y Sistemas: Fundamentos Matemáticos</em>, 2ª ed., 2024.</li>
-<li><strong>[Oppenheim]</strong> A. Oppenheim, A. Willsky, S. Nawab, <em>Señales y Sistemas</em>, 2ª ed., Prentice Hall, 1998.</li>
-<li><strong>[MIT]</strong> Lecture notes MIT OCW 6.007 (Oppenheim).</li>
-</ul>
-<p>Documentos rectores: <code>OBJETIVOS_APRENDIZAJE.md</code> · <code>PLAN_SEMESTRE.md</code> · <code>METODOLOGIA.md</code>. Banco de ejercicios: <code>banco/</code> (herramienta <code>tools/banco.py</code>, guía en <code>SISTEMA.md</code>).</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Cómo trabajar esta lista
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Resuélvela <strong>a mano, en tu portafolio, con desarrollo completo</strong>. El próximo control es el <strong>CV2</strong> (semana 6, en ayudantía): una de las preguntas <strong>¿Y si…?</strong> de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido. Y antes de eso viene la <strong>I1</strong> (semana 5, materia U1–U2): esta lista es parte directa de ese entrenamiento.</p>
+<p>Regla de la casa para toda la unidad 2: propiedad que se cumple → <strong>demostración con entradas genéricas</strong>; propiedad que falla → <strong>contraejemplo concreto</strong>. “Se ve lineal” vale cero.</p>
+</div>
+</div>
+<p><strong>Referencias de estudio</strong>: [Oppenheim] §1.5–1.6 (propiedades de sistemas), §2.2 (la derivación de la convolución); [Alvarado] §3.4.</p>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<p><strong>L3.1</strong> [DB E0185] — Determine si los siguientes sistemas <span class="math inline">y(t) = T\{x(t)\}</span> son lineales: <span class="math display">\text{(a) } y(t) = \frac{d}{dt}x(t) \qquad \text{(b) } y(t) = x(-t) \qquad \text{(c) } y(t) = x(t) + 1</span></p>
+<p><strong>¿Y si…?</strong> ¿Y si en (b) preguntamos por invariancia en el tiempo en vez de linealidad? ¿el sistema <span class="math inline">y(t)=x(-t)</span> sigue teniendo esa propiedad?</p>
+<p><strong>L3.2</strong> [DB E0013] — Determine si los siguientes sistemas son causales: <span class="math display">\text{(a) } g(t) = f(t-2) \qquad \text{(b) } g(t) = f(-t) \qquad \text{(c) } g(t) = \int_{-5}^{5} f(\tau)\,d\tau \qquad \text{(d) } g(t) = \frac{f^2(t)}{df(t)/dt}</span></p>
+<p><strong>¿Y si…?</strong> ¿Y si en (c) el límite superior fuera <span class="math inline">t</span> en vez de <span class="math inline">5</span> fijo — <span class="math inline">g(t)=\int_{-5}^{t} f(\tau)\,d\tau</span>? ¿sigue siendo no causal?</p>
+<p><strong>L3.3</strong> [DB E0029] — Determine si el sistema <span class="math inline">g(t) = f(t)^{1/5} + 4</span> es LTI.</p>
+<p><strong>¿Y si…?</strong> ¿Y si quitamos el “+4” (queda <span class="math inline">g(t)=f(t)^{1/5}</span>)? ¿el sistema pasa a ser lineal?</p>
+<p><strong>L3.4</strong> [DB E0030] — Determine si el sistema <span class="math inline">g(t) = m(t)\,f(t)</span> es LTI, donde <span class="math inline">f(t)</span> es la entrada y <span class="math inline">m(t)</span> es una función fija, independiente de la entrada.</p>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">m(t)</span> fuera una constante (no una función del tiempo)? ¿el sistema sigue siendo variante en el tiempo?</p>
+<p><strong>L3.5</strong> [DB E0056] — Dos sistemas <span class="math inline">S_1</span> y <span class="math inline">S_2</span> se conectan en cascada en ambos órdenes: <span class="math inline">p(t)</span> es la salida de <span class="math inline">f \to S_1 \to S_2</span>, y <span class="math inline">q(t)</span> la de <span class="math inline">f \to S_2 \to S_1</span>.</p>
+<ol type="1">
+<li>¿Es <span class="math inline">p(t) = q(t)</span> para todo <span class="math inline">f(t)</span> si <span class="math inline">S_1</span> y <span class="math inline">S_2</span> son lineales e invariantes en el tiempo? Demuestre su respuesta.</li>
+<li>¿Es <span class="math inline">p(t) = q(t)</span> para todo <span class="math inline">f(t)</span> si <span class="math inline">S_1</span> y <span class="math inline">S_2</span> son solo invariantes en el tiempo? Demuestre su respuesta.</li>
+</ol>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">S_1</span> y <span class="math inline">S_2</span> son solo lineales (no necesariamente invariantes)? ¿sigue garantizada la conmutatividad <span class="math inline">p(t)=q(t)</span>?</p>
+<p><strong>L3.6</strong> [DB E0035] — Sea <span class="math inline">\mathcal{P}</span> un sistema LTI. Demuestre que si <span class="math inline">\mathcal{P}\{f(x)\} = g(x)</span>, entonces <span class="math inline">\mathcal{P}\{f'(x)\} = g'(x)</span>. <em>Hint: escriba la derivada como límite de un cociente de diferencias y use una propiedad en cada paso.</em></p>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">\mathcal{P}</span> fuera solo invariante en el tiempo (pero no lineal)? ¿sigue siendo válida la demostración de que <span class="math inline">\mathcal{P}\{f'\}=g'</span>?</p>
+<p><strong>L3.7</strong> [DB E0060] — Se tiene el sistema <span class="math inline">g(x) = \displaystyle\int_0^x f(\eta)\,d\eta</span>.</p>
+<ol type="1">
+<li>Encuentre la salida cuando la entrada es <span class="math inline">\delta(\eta - \xi)</span>, con <span class="math inline">\xi \in \mathbb{R}</span>.</li>
+<li>A la luz del resultado (compare los casos <span class="math inline">\xi &gt; 0</span> y <span class="math inline">\xi &lt; 0</span>), ¿es este sistema invariante en el tiempo? ¿Qué dice eso sobre hablar de “la” respuesta al impulso de este sistema?</li>
+</ol>
+<p><strong>¿Y si…?</strong> ¿Y si el límite inferior fuera <span class="math inline">-\infty</span> en vez de <span class="math inline">0</span>? ¿el sistema sigue siendo variante en el tiempo?</p>
 
 
 </section>
@@ -697,11 +770,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../curso/listas/lista-02.html" class="pagination-link" aria-label="Lista 2 · Señales elementales, transformaciones y el impulso">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lista 2 · Señales elementales, transformaciones y el impulso</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./demos.html" class="pagination-link" aria-label="Demos del curso">
-        <span class="nav-page-text">Demos del curso</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

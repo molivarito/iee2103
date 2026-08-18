@@ -233,12 +233,41 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Listas de ejercicios</span></a>
+ <span class="menu-text">Semana 3 · Sistemas</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-03/c05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C5 · Propiedades de sistemas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-03/c06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C6 · LTI ⇒ convolución: el teorema del curso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-03/ay03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay3 · Ejercicios U2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Listas de ejercicios</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
@@ -249,6 +278,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../curso/listas/lista-02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 2 · Señales elementales, transformaciones y el impulso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</span></a>
   </div>
 </li>
       </ul>
@@ -263,10 +298,11 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#el-vocabulario-señales-elementales" id="toc-el-vocabulario-señales-elementales" class="nav-link active" data-scroll-target="#el-vocabulario-señales-elementales">1. El vocabulario: señales elementales</a></li>
-  <li><a href="#la-exponencial-compleja-el-fasor-ahora-como-señal" id="toc-la-exponencial-compleja-el-fasor-ahora-como-señal" class="nav-link" data-scroll-target="#la-exponencial-compleja-el-fasor-ahora-como-señal">2. La exponencial compleja (el fasor, ahora como señal)</a></li>
-  <li><a href="#transformaciones-de-la-variable-independiente" id="toc-transformaciones-de-la-variable-independiente" class="nav-link" data-scroll-target="#transformaciones-de-la-variable-independiente">3. Transformaciones de la variable independiente</a></li>
-  <li><a href="#construcción-de-señales-por-tramos" id="toc-construcción-de-señales-por-tramos" class="nav-link" data-scroll-target="#construcción-de-señales-por-tramos">4. Construcción de señales por tramos</a></li>
+  <li><a href="#cómo-se-dibujan-las-señales-bloque-de-apertura" id="toc-cómo-se-dibujan-las-señales-bloque-de-apertura" class="nav-link active" data-scroll-target="#cómo-se-dibujan-las-señales-bloque-de-apertura">1. Cómo se dibujan las señales (bloque de apertura)</a></li>
+  <li><a href="#el-vocabulario-señales-elementales" id="toc-el-vocabulario-señales-elementales" class="nav-link" data-scroll-target="#el-vocabulario-señales-elementales">2. El vocabulario: señales elementales</a></li>
+  <li><a href="#los-dos-fasores-del-coseno" id="toc-los-dos-fasores-del-coseno" class="nav-link" data-scroll-target="#los-dos-fasores-del-coseno">3. Los dos fasores del coseno</a></li>
+  <li><a href="#transformaciones-de-la-variable-independiente" id="toc-transformaciones-de-la-variable-independiente" class="nav-link" data-scroll-target="#transformaciones-de-la-variable-independiente">4. Transformaciones de la variable independiente</a></li>
+  <li><a href="#construcción-de-señales-por-tramos" id="toc-construcción-de-señales-por-tramos" class="nav-link" data-scroll-target="#construcción-de-señales-por-tramos">5. Construcción de señales por tramos</a></li>
   </ul>
 </nav>
     </div>
@@ -293,8 +329,41 @@ window.Quarto = {
 </header>
 
 
+<section id="cómo-se-dibujan-las-señales-bloque-de-apertura" class="level1">
+<h1>1. Cómo se dibujan las señales (bloque de apertura)</h1>
+<p><strong>El mapa: qué se dibuja según argumento y salida</strong> (completa las cuatro casillas):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>salida real</th>
+<th>salida compleja</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>argumento real</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>argumento complejo</strong></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>La señal <span class="math inline">e^{st}</span> con <span class="math inline">s = \sigma + j\omega</span></strong> — dibuja los tres casos (<span class="math inline">\sigma&lt;0</span>, <span class="math inline">\sigma=0</span>, <span class="math inline">\sigma&gt;0</span>):</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>Los dos retratos de <span class="math inline">e^{st}</span></strong> (cartesiano y polar — ¿cuál es más simple y por qué?):</p>
+<div class="hueco">
+
+</div>
+</section>
 <section id="el-vocabulario-señales-elementales" class="level1">
-<h1>1. El vocabulario: señales elementales</h1>
+<h1>2. El vocabulario: señales elementales</h1>
 <p><strong>El catálogo</strong> — dibuja cada señal con sus valores clave:</p>
 <table class="caption-top table">
 <thead>
@@ -339,19 +408,15 @@ window.Quarto = {
 
 </div>
 </section>
-<section id="la-exponencial-compleja-el-fasor-ahora-como-señal" class="level1">
-<h1>2. La exponencial compleja (el fasor, ahora como señal)</h1>
-<p><strong>La señal <span class="math inline">e^{st}</span> con <span class="math inline">s = \sigma + j\omega</span></strong> — dibuja los tres casos (<span class="math inline">\sigma&lt;0</span>, <span class="math inline">\sigma=0</span>, <span class="math inline">\sigma&gt;0</span>):</p>
-<div class="hueco-grande">
-
-</div>
+<section id="los-dos-fasores-del-coseno" class="level1">
+<h1>3. Los dos fasores del coseno</h1>
 <p><strong>El coseno como dos fasores:</strong> $(t) = $</p>
 <div class="hueco">
 
 </div>
 </section>
 <section id="transformaciones-de-la-variable-independiente" class="level1">
-<h1>3. Transformaciones de la variable independiente</h1>
+<h1>4. Transformaciones de la variable independiente</h1>
 <p><strong>Las tres transformaciones y su efecto</strong> (una frase + mini-gráfico cada una):</p>
 <ul>
 <li><span class="math inline">x(t-t_0)</span>:</li>
@@ -373,7 +438,7 @@ window.Quarto = {
 <p><strong>Lectura rápida de <span class="math inline">\operatorname{rect}\!\big(\tfrac{t-c}{w}\big)</span></strong>: centro = ____, ancho = ____.</p>
 </section>
 <section id="construcción-de-señales-por-tramos" class="level1">
-<h1>4. Construcción de señales por tramos</h1>
+<h1>5. Construcción de señales por tramos</h1>
 <p><strong>Estrategia de 3 pasos para escribir una señal por tramos:</strong></p>
 <ol type="1">
 <li></li>

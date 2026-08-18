@@ -335,7 +335,7 @@ window.Quarto = {
 <section id="sec-ct-dt" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="sec-ct-dt"><span class="header-section-number">1.2.1</span> Continuas y discretas</h3>
 <p>Una señal de <strong>tiempo continuo</strong> está definida para todo instante: <span class="math inline">x(t)</span>, con <span class="math inline">t \in \mathbb{R}</span>. Una señal de <strong>tiempo discreto</strong> solo existe en instantes enteros: <span class="math inline">x[n]</span>, con <span class="math inline">n \in \mathbb{Z}</span> — es una <em>secuencia</em> de números, y no tiene sentido preguntar por la “muestra 3½”.</p>
-<div id="32800347" class="cell" data-execution_count="1">
+<div id="05bdc3f3" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -408,7 +408,7 @@ window.Quarto = {
 </div>
 </div>
 <p>El contraejemplo para recordar: <span class="math inline">\cos(t) + \cos(\pi t)</span> <strong>no</strong> es periódica — la razón de períodos es <span class="math inline">\pi</span>, irracional. Las dos componentes nunca vuelven a alinearse exactamente:</p>
-<div id="ee27d6eb" class="cell" data-execution_count="2">
+<div id="dba2665a" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -536,7 +536,7 @@ window.Quarto = {
 <li><strong>Escalamiento</strong> <span class="math inline">x(at)</span>: comprime si <span class="math inline">|a| &gt; 1</span>, estira si <span class="math inline">|a| &lt; 1</span>. En audio: comprimir el tiempo sube el pitch (reproducir a doble velocidad, una octava arriba).</li>
 <li><strong>Inversión</strong> <span class="math inline">x(-t)</span>: espejo temporal — la señal reproducida al revés.</li>
 </ul>
-<div id="d4e2489f" class="cell" data-execution_count="3">
+<div id="5ff237c7" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -630,7 +630,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="926d032f" class="cell" data-execution_count="4">
+<div id="626acc59" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -664,7 +664,7 @@ window.Quarto = {
 <h3 data-number="1.5.1" class="anchored" data-anchor-id="sec-construccion-delta"><span class="header-section-number">1.5.1</span> Construcción: el límite de pulsos</h3>
 <p>Toma el pulso rectangular de área 1: <span class="math display">p_\epsilon(t) = \frac{1}{\epsilon}\operatorname{rect}\!\Big(\frac{t}{\epsilon}\Big) \qquad \text{(ancho } \epsilon\text{, alto } 1/\epsilon\text{)}</span></p>
 <p>Angóstalo: <span class="math inline">\epsilon \to 0</span>. La altura crece sin límite, el ancho se desvanece, pero el <strong>área se mantiene en 1</strong> durante todo el proceso.</p>
-<div id="c529c291" class="cell" data-execution_count="5">
+<div id="3f6b5184" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -706,7 +706,7 @@ window.Quarto = {
 </div>
 <p>El impulso, dentro de una integral, es una <strong>pinza</strong>: extrae el valor de <span class="math inline">f</span> exactamente donde está parado. La intuición viene de la construcción: el pulso angosto solo “ve” a <span class="math inline">f</span> en un entorno diminuto de <span class="math inline">t_0</span>, donde <span class="math inline">f(t) \approx f(t_0)</span>; como el pulso tiene área 1, la integral entrega <span class="math inline">f(t_0)</span> limpio.</p>
 <p>La versión sin integral, para multiplicaciones: <span class="math display">f(t)\,\delta(t - t_0) = f(t_0)\,\delta(t - t_0)</span> — multiplicar una señal por un impulso deja un impulso “pesado” por el valor de la señal en ese punto. (Nota la diferencia: esto es un impulso; la integral de arriba es un número.)</p>
-<p><strong>Ejercicio relámpago</strong> (hazlo ahora, toma diez segundos): <span class="math inline">\displaystyle\int_{-\infty}^{\infty} e^{-2t}\cos(\pi t)\,\delta(t - 1)\,dt</span>. La pinza extrae el valor en <span class="math inline">t = 1</span>: <span class="math inline">e^{-2}\cos(\pi) = -e^{-2}</span>.</p>
+<p><strong>Ejercicio exprés</strong> (hazlo ahora, toma diez segundos): <span class="math inline">\displaystyle\int_{-\infty}^{\infty} e^{-2t}\cos(\pi t)\,\delta(t - 1)\,dt</span>. La pinza extrae el valor en <span class="math inline">t = 1</span>: <span class="math inline">e^{-2}\cos(\pi) = -e^{-2}</span>.</p>
 <p>Alvarado llega al impulso por un camino distinto que vale la pena espiar: aproxima una señal suave <span class="math inline">x(t)</span> con una escalera de pulsos de ancho <span class="math inline">\tau</span> y área ajustada, y observa que al afinar la escalera (<span class="math inline">\tau \to 0</span>) la aproximación se vuelve exacta: <span class="math display">x(t) = \int_{-\infty}^{\infty} x(t')\,\delta(t - t')\,dt'</span> Léelo con calma: <strong>toda señal es una suma continua de impulsos desplazados</strong>, cada uno pesado por el valor de la señal en su posición. Hoy es la propiedad de muestreo leída al revés; en el capítulo 2 será <em>la</em> idea que hace funcionar la convolución. Es la semilla más importante que este capítulo planta.</p>
 </section>
 <section id="sec-propiedades-delta" class="level3" data-number="1.5.3">
@@ -757,7 +757,7 @@ window.Quarto = {
 <h3 data-number="1.5.5" class="anchored" data-anchor-id="sec-tren-impulsos"><span class="header-section-number">1.5.5</span> El tren de impulsos</h3>
 <p>Una última construcción, que hoy solo presentamos: <span class="math display">\delta_T(t) = \sum_{n=-\infty}^{\infty} \delta(t - nT)</span></p>
 <p>Un impulso cada <span class="math inline">T</span> segundos, hasta el infinito por ambos lados. (En parte del material del curso y en algunos textos aparece como Ш, “shah”; Alvarado lo llama “función puente”; nosotros escribimos <span class="math inline">\delta_T</span> y decimos <em>tren de impulsos</em>.)</p>
-<p><strong>Ejercicio relámpago</strong>: <span class="math inline">\displaystyle\int_{-1}^{7} \cos(\pi t)\,\delta_2(t)\,dt</span>. Los impulsos dentro de <span class="math inline">[-1, 7]</span> están en <span class="math inline">t = 0, 2, 4, 6</span>; la pinza actúa cuatro veces: <span class="math inline">\cos 0 + \cos 2\pi + \cos 4\pi + \cos 6\pi = 4</span>.</p>
+<p><strong>Ejercicio exprés</strong>: <span class="math inline">\displaystyle\int_{-1}^{7} \cos(\pi t)\,\delta_2(t)\,dt</span>. Los impulsos dentro de <span class="math inline">[-1, 7]</span> están en <span class="math inline">t = 0, 2, 4, 6</span>; la pinza actúa cuatro veces: <span class="math inline">\cos 0 + \cos 2\pi + \cos 4\pi + \cos 6\pi = 4</span>.</p>
 <p>¿Para qué existe este objeto? Anota esta frase — es de las que ordenan el curso entero: <strong>muestrear una señal es multiplicarla por un tren de impulsos</strong>. Su gran momento llega en el capítulo 5; cuando llegue, el tren ya será un viejo conocido.</p>
 </section>
 <section id="sec-impulso-discreto" class="level3" data-number="1.5.6">
@@ -805,7 +805,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Si puedes resolver de corrido los ejercicios 1 y 5 y el relámpago de la <a href="#sec-sifting" class="quarto-xref"><span>Sección 1.5.2</span></a>, estás listo para el capítulo 2 — que usará todo lo de este capítulo sin pedir permiso. Si no, este es el momento de volver.</p>
+<p>Si puedes resolver de corrido los ejercicios 1 y 5 y el ejercicio exprés de la <a href="#sec-sifting" class="quarto-xref"><span>Sección 1.5.2</span></a>, estás listo para el capítulo 2 — que usará todo lo de este capítulo sin pedir permiso. Si no, este es el momento de volver.</p>
 </div>
 </div>
 </section>

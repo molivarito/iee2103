@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>IEE2103 · Señales y Sistemas – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>C6 · LTI ⇒ convolución: el teorema del curso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,24 +26,25 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./demos.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../curso/semana-03/ay03.html" rel="next">
+<link href="../../curso/semana-03/c05.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -72,8 +73,51 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -85,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">IEE2103 · Señales y Sistemas</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-03/c05.html">Semana 3 · Sistemas</a></li><li class="breadcrumb-item"><a href="../../curso/semana-03/c06.html">C6 · LTI ⇒ convolución: el teorema del curso</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -100,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
+      <a href="../../">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -112,19 +156,19 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">IEE2103 · Señales y Sistemas</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./demos.html" class="sidebar-item-text sidebar-link">
+  <a href="../../demos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Demos del curso</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./formularios.html" class="sidebar-item-text sidebar-link">
+  <a href="../../formularios.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Formularios oficiales</span></a>
   </div>
 </li>
@@ -139,19 +183,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C1 · Presentación: señales, sistemas y el mapa del curso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C2 · Clasificación de señales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ay1 · Nivelación: números complejos</span></a>
   </div>
 </li>
@@ -168,19 +212,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-02/c03.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-02/c03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C3 · Señales elementales y transformaciones de la variable</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-02/c04.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-02/c04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C4 · El impulso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ay2 · Ejercicios U1: señales, simetrías, impulso</span></a>
   </div>
 </li>
@@ -197,19 +241,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-03/c05.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-03/c05.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C5 · Propiedades de sistemas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-03/c06.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-03/c06.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">C6 · LTI ⇒ convolución: el teorema del curso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/semana-03/ay03.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-03/ay03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ay3 · Ejercicios U2</span></a>
   </div>
 </li>
@@ -226,19 +270,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/listas/lista-02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 2 · Señales elementales, transformaciones y el impulso</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./curso/listas/lista-03.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</span></a>
   </div>
 </li>
@@ -254,17 +298,21 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#referencias-del-curso" id="toc-referencias-del-curso" class="nav-link active" data-scroll-target="#referencias-del-curso">Referencias del curso</a></li>
+  <li><a href="#la-promesa-sobre-la-mesa" id="toc-la-promesa-sobre-la-mesa" class="nav-link active" data-scroll-target="#la-promesa-sobre-la-mesa">1. La promesa sobre la mesa</a></li>
+  <li><a href="#toda-señal-es-una-suma-de-impulsos" id="toc-toda-señal-es-una-suma-de-impulsos" class="nav-link" data-scroll-target="#toda-señal-es-una-suma-de-impulsos">2. Toda señal es una suma de impulsos</a></li>
+  <li><a href="#la-derivación-linealidad-reparte-invariancia-traslada" id="toc-la-derivación-linealidad-reparte-invariancia-traslada" class="nav-link" data-scroll-target="#la-derivación-linealidad-reparte-invariancia-traslada">3. La derivación: linealidad reparte, invariancia traslada</a></li>
+  <li><a href="#el-misterio-de-c1-resuelto" id="toc-el-misterio-de-c1-resuelto" class="nav-link" data-scroll-target="#el-misterio-de-c1-resuelto">4. El misterio de C1, resuelto</a></li>
+  <li><a href="#primeros-cálculos" id="toc-primeros-cálculos" class="nav-link" data-scroll-target="#primeros-cálculos">5. Primeros cálculos</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-03/c05.html">Semana 3 · Sistemas</a></li><li class="breadcrumb-item"><a href="../../curso/semana-03/c06.html">C6 · LTI ⇒ convolución: el teorema del curso</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">IEE2103 · Señales y Sistemas</h1>
-<p class="subtitle lead">Material del curso — 15 semanas completas</p>
+<h1 class="title">C6 · LTI ⇒ convolución: el teorema del curso</h1>
+<p class="subtitle lead">Semana 3 · 70 min · U2.2</p>
 </div>
 
 
@@ -281,15 +329,99 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Este sitio es la <strong>fuente única del material del curso</strong> (mapa del repo en <code>README.md</code>, en la raíz). Cada sesión tiene una página con: ficha docente (objetivos, guion, actividades), el contenido completo de la clase y los medios (audio, demos, videos). La navegación por semanas está en la barra lateral.</p>
-<section id="referencias-del-curso" class="level2">
-<h2 class="anchored" data-anchor-id="referencias-del-curso">Referencias del curso</h2>
-<ul>
-<li><strong>[Alvarado]</strong> P. Alvarado Moya, <em>Señales y Sistemas: Fundamentos Matemáticos</em>, 2ª ed., 2024.</li>
-<li><strong>[Oppenheim]</strong> A. Oppenheim, A. Willsky, S. Nawab, <em>Señales y Sistemas</em>, 2ª ed., Prentice Hall, 1998.</li>
-<li><strong>[MIT]</strong> Lecture notes MIT OCW 6.007 (Oppenheim).</li>
-</ul>
-<p>Documentos rectores: <code>OBJETIVOS_APRENDIZAJE.md</code> · <code>PLAN_SEMESTRE.md</code> · <code>METODOLOGIA.md</code>. Banco de ejercicios: <code>banco/</code> (herramienta <code>tools/banco.py</code>, guía en <code>SISTEMA.md</code>).</p>
+<section id="la-promesa-sobre-la-mesa" class="level1">
+<h1>1. La promesa sobre la mesa</h1>
+<p><strong>Definición de respuesta al impulso:</strong></p>
+<p><span class="math display">h(t) = </span></p>
+<p><strong>El teorema de hoy</strong> (enúncialo con tus palabras — qué basta conocer, y para qué alcanza):</p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="toda-señal-es-una-suma-de-impulsos" class="level1">
+<h1>2. Toda señal es una suma de impulsos</h1>
+<p><strong>Mi predicción</strong> (el peso del pulso en <span class="math inline">t = k\Delta</span>, y por qué):</p>
+<div class="hueco">
+
+</div>
+<p><strong>La escalera de pulsos y su límite</strong> (fórmula de la aproximación y fórmula límite):</p>
+<p><span class="math display">x(t) \approx \hspace{6cm}</span></p>
+<p><span class="math display">x(t) = \hspace{6cm}</span></p>
+<p><strong>La relectura clave</strong> (¿qué dice esta fórmula sobre los “ladrillos” de cualquier señal? ¿en qué se diferencia de cómo la leíamos en C4?):</p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="la-derivación-linealidad-reparte-invariancia-traslada" class="level1">
+<h1>3. La derivación: linealidad reparte, invariancia traslada</h1>
+<p><strong>La derivación en 4 líneas</strong> (completa la tabla — entrada, salida y propiedad usada en cada paso):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Entrada</th>
+<th>Salida</th>
+<th>Propiedad usada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><span class="math inline">\delta(t)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>La integral de convolución</strong> (fórmula + lectura en palabras de cada símbolo):</p>
+<p><span class="math display">y(t) = \hspace{6cm}</span></p>
+<div class="hueco">
+
+</div>
+<p><strong>Las dos lecturas del teorema</strong> (análisis / síntesis):</p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="el-misterio-de-c1-resuelto" class="level1">
+<h1>4. El misterio de C1, resuelto</h1>
+<p><strong>El misterio de C1, en una ecuación</strong> (¿qué es cada término, y cuál se midió con un golpe?):</p>
+<p><span class="math display">\text{voz en la iglesia} = </span></p>
+<div class="hueco">
+
+</div>
+<p><strong>La frase para el bolsillo</strong> (la que ordena la unidad — cópiala completa):</p>
+<div class="hueco">
+
+</div>
+<p><strong>El eco simple</strong>: si <span class="math inline">h(t) = \delta(t) + \alpha\,\delta(t-T)</span>, entonces $y(t) = $</p>
+</section>
+<section id="primeros-cálculos" class="level1">
+<h1>5. Primeros cálculos</h1>
+<p><strong>Las dos convoluciones gratis:</strong></p>
+<p><span class="math display">x(t) * \delta(t) = \hspace{3cm} x(t) * \delta(t - t_0) = </span></p>
+<p><strong>Ejemplo resuelto</strong>: <span class="math inline">u(t) * e^{-2t}u(t)</span> (desarrollo completo: cómo recortan los escalones, la integral, y el chequeo de cordura con el área de <span class="math inline">h</span>):</p>
+<div class="hueco-grande">
+
+</div>
 
 
 </section>
@@ -697,10 +829,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../curso/semana-03/c05.html" class="pagination-link" aria-label="C5 · Propiedades de sistemas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C5 · Propiedades de sistemas</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./demos.html" class="pagination-link" aria-label="Demos del curso">
-        <span class="nav-page-text">Demos del curso</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/semana-03/ay03.html" class="pagination-link" aria-label="Ay3 · Ejercicios U2">
+        <span class="nav-page-text">Ay3 · Ejercicios U2</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

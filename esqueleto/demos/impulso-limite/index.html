@@ -82,7 +82,7 @@
     </div>
 
     <figure id="fig1"><figcaption>Tres formas distintas, las tres de área 1</figcaption><canvas id="c1"></canvas></figure>
-    <figure id="fig2"><figcaption>La prueba de fondo: ∫ f(t)·p<sub>ε</sub>(t) dt → f(0), sea cual sea la forma</figcaption><canvas id="c2"></canvas></figure>
+    <figure id="fig2"><figcaption>Una señal de prueba f(t): el pulso solo la "ve" en la ventana sombreada (ancho ε) — y las tres integrales ∫ f·p<sub>ε</sub> (barras) caen hacia f(0)</figcaption><canvas id="c2"></canvas></figure>
   </div>
 
   <div class="hint">Teclas: <b>espacio</b> anima/pausa · <b>R</b> reinicia. La altura se sale del gráfico a propósito: es lo que se va al infinito.</div>
@@ -178,7 +178,19 @@ function dibujaSifting(){
   const {ctx,w,h}=fit(c2);
   const YM = 4.2;
   const A=ejes(ctx,w,h,YM,'');
-  // f(t) de fondo
+
+  // la ventana que el pulso "ve": |t| <= ε/2, se encoge con la animación
+  const xa = A.x0 - (eps/2)*A.sx, xb = A.x0 + (eps/2)*A.sx;
+  ctx.fillStyle='rgba(96,66,166,.10)';
+  ctx.fillRect(xa, 4, xb-xa, A.y0-4);
+  ctx.strokeStyle='rgba(96,66,166,.45)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(xa,4); ctx.lineTo(xa,A.y0);
+  ctx.moveTo(xb,4); ctx.lineTo(xb,A.y0); ctx.stroke();
+  ctx.fillStyle='#6042a6';
+  ctx.font='12px system-ui'; ctx.textAlign='center';
+  ctx.fillText('el pulso solo "ve" esta ventana (ancho ε)', A.x0, 50);
+
+  // f(t), ahora con nombre
   ctx.beginPath();
   for(let i=0;i<=600;i++){
     const t=-T_MAX + (2*T_MAX)*i/600;
@@ -186,25 +198,40 @@ function dibujaSifting(){
     i?ctx.lineTo(x,y):ctx.moveTo(x,y);
   }
   ctx.strokeStyle='#111'; ctx.lineWidth=2; ctx.stroke();
+  // el tramo de f dentro de la ventana, engrosado: lo único que sobrevive
+  ctx.save();
+  ctx.beginPath(); ctx.rect(xa,0,xb-xa,h); ctx.clip();
+  ctx.beginPath();
+  for(let i=0;i<=600;i++){
+    const t=-T_MAX + (2*T_MAX)*i/600;
+    const x=A.x0 + t*A.sx, y=A.y0 - fTest(t)*A.sy;
+    i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+  }
+  ctx.strokeStyle='#6042a6'; ctx.lineWidth=4; ctx.stroke();
+  ctx.restore();
+  const tEt=-1.05, yEt=A.y0 - fTest(tEt)*A.sy;
+  ctx.fillStyle='#111'; ctx.font='bold 13px system-ui'; ctx.textAlign='left';
+  ctx.fillText('f(t) — una señal de prueba cualquiera', A.x0 + tEt*A.sx, yEt-10);
+
   // la meta: f(0)
   const yF0 = A.y0 - F0*A.sy;
-  ctx.setLineDash([4,4]); ctx.strokeStyle='#9aa7b8';
+  ctx.setLineDash([4,4]); ctx.strokeStyle='#9aa7b8'; ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(0,yF0); ctx.lineTo(w,yF0); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle='#5a6879'; ctx.font='12px system-ui'; ctx.textAlign='left';
-  ctx.fillText('f(0) = '+F0.toFixed(3), 8, yF0-6);
+  ctx.fillText('la meta: f(0) = '+F0.toFixed(3), 8, yF0-6);
 
-  // los tres valores del sifting, como barras cortas a la derecha
-  const bx = w - 118;
+  // los tres valores de ∫ f·pε, como barras que persiguen a f(0)
+  const bx = w - 128;
   FAM.forEach((fam,k)=>{
     const v = sift(fam, eps);
     const y = A.y0 - v*A.sy;
     ctx.fillStyle=fam.css;
     ctx.fillRect(bx + k*30, Math.min(y,A.y0), 15, Math.abs(A.y0-y));
     ctx.font='11px system-ui'; ctx.textAlign='center';
-    ctx.fillText(v.toFixed(3), bx + k*30 + 7, Math.min(y,A.y0)-4);
+    ctx.fillText(v.toFixed(3), bx + k*30 + 7, Math.min(y,A.y0)-4-(k%2)*11);
   });
   ctx.fillStyle='#5a6879'; ctx.textAlign='right'; ctx.font='12px system-ui';
-  ctx.fillText('∫ f·p', bx-8, A.y0-6);
+  ctx.fillText('∫ f·pε de cada forma →', bx-8, yF0+16);
 }
 
 function lectura(){

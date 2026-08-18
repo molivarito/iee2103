@@ -434,7 +434,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Mira la reconstrucción en acción — la suma parcial con <span class="math inline">N</span> términos es la <em>proyección</em> de la cuadrada sobre los primeros <span class="math inline">N</span> armónicos, es decir, la mejor aproximación posible con ese presupuesto:</p>
-<div id="6f89256d" class="cell" data-execution_count="1">
+<div id="7df2ee20" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -530,7 +530,7 @@ window.Quarto = {
 <li><strong>Onda cuadrada</strong> (discontinua — tiene <em>saltos</em>): <span class="math inline">|c_n| = \frac{2}{\pi n}</span> en los impares — decae como <span class="math inline">1/n</span>.</li>
 <li><strong>Onda triangular</strong> par de amplitud <span class="math inline">\pm 1</span> (continua, pero con <em>puntas</em>: derivada discontinua): <span class="math inline">c_n = \frac{4}{\pi^2 n^2}</span> en los impares — decae como <span class="math inline">1/n^2</span>.</li>
 </ul>
-<div id="8cb7fee5" class="cell" data-execution_count="2">
+<div id="eab1b833" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -546,7 +546,7 @@ window.Quarto = {
 <section id="sec-gibbs" class="level3" data-number="3.4.4">
 <h3 data-number="3.4.4" class="anchored" data-anchor-id="sec-gibbs"><span class="header-section-number">3.4.4</span> Truncar la serie: el fenómeno de Gibbs</h3>
 <p>En la práctica nadie suma infinitos armónicos: se <strong>trunca</strong> la serie en <span class="math inline">N</span> términos. Ya viste en la figura de la cuadrada que junto al salto asoma una “oreja”. La pregunta natural — ¿desaparece al subir <span class="math inline">N</span>? — tiene una respuesta sorprendente: <strong>no</strong>.</p>
-<div id="77cc4817" class="cell" data-execution_count="3">
+<div id="8a63f7d3" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -605,7 +605,7 @@ window.Quarto = {
 = \frac{2\sin(\omega\tau/2)}{\omega}</span> Multiplicando y dividiendo por <span class="math inline">\tau/2</span> para reconocer la sinc normalizada: <span class="math display">\operatorname{rect}\!\left(\frac{t}{\tau}\right) \;\longleftrightarrow\; \tau\,\operatorname{sinc}\!\left(\frac{\omega\tau}{2\pi}\right)</span> Los tres chequeos de rigor (hábito que vale puntos en toda interrogación): (i) <span class="math inline">X(0) = \tau</span> = área del pulso ✓; (ii) primer cero en <span class="math inline">\omega = 2\pi/\tau</span> ✓; (iii) <span class="math inline">X</span> real y par, como corresponde a una señal real y par ✓.</p>
 </div>
 </div>
-<div id="2edf24f1" class="cell" data-execution_count="4">
+<div id="1446e50e" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -696,7 +696,7 @@ window.Quarto = {
 <p><strong>Modulación</strong> (el desplazamiento, pero en frecuencia): <span class="math display">x(t)\,e^{j\omega_0 t} \;\longleftrightarrow\; X(\omega - \omega_0)
 \qquad\Rightarrow\qquad
 x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X(\omega+\omega_0)\big]</span> Multiplicar por un coseno <strong>traslada el espectro</strong> a <span class="math inline">\pm\omega_0</span>. Esto <em>es</em> la radio AM en una línea: tu voz (banda base, 0–4 kHz) multiplicada por una portadora se muda a vivir alrededor de la frecuencia de tu emisora; cada emisora, su <span class="math inline">\omega_0</span>; el receptor la trae de vuelta multiplicando otra vez [DB E0096 arma el sistema completo].</p>
-<p><strong>Parseval</strong> (la energía no depende del dominio en que se mire): <span class="math display">\int_{-\infty}^{\infty} |x(t)|^2\,dt = \frac{1}{2\pi}\int_{-\infty}^{\infty} |X(\omega)|^2\,d\omega</span> Uso práctico: la integral difícil se hace en el dominio fácil. Ejemplo relámpago: <span class="math inline">\int \operatorname{sinc}^2(t)\,dt = \frac{1}{2\pi}\int \big|\!\operatorname{rect}(\tfrac{\omega}{2\pi})\big|^2 d\omega = 1</span>. (Inténtalo por residuos si quieres sufrir.) A <span class="math inline">|X(\omega)|^2</span> se le llama <strong>densidad espectral de energía</strong>: dónde vive la energía de la señal.</p>
+<p><strong>Parseval</strong> (la energía no depende del dominio en que se mire): <span class="math display">\int_{-\infty}^{\infty} |x(t)|^2\,dt = \frac{1}{2\pi}\int_{-\infty}^{\infty} |X(\omega)|^2\,d\omega</span> Uso práctico: la integral difícil se hace en el dominio fácil. Ejemplo exprés: <span class="math inline">\int \operatorname{sinc}^2(t)\,dt = \frac{1}{2\pi}\int \big|\!\operatorname{rect}(\tfrac{\omega}{2\pi})\big|^2 d\omega = 1</span>. (Inténtalo por residuos si quieres sufrir.) A <span class="math inline">|X(\omega)|^2</span> se le llama <strong>densidad espectral de energía</strong>: dónde vive la energía de la señal.</p>
 </section>
 <section id="sec-teorema-autocorrelacion" class="level3" data-number="3.5.5">
 <h3 data-number="3.5.5" class="anchored" data-anchor-id="sec-teorema-autocorrelacion"><span class="header-section-number">3.5.5</span> El teorema de autocorrelación</h3>
@@ -733,7 +733,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-filtros" class="level3" data-number="3.6.2">
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="sec-filtros"><span class="header-section-number">3.6.2</span> Filtros: moldear el espectro</h3>
 <p><strong>Filtrar = multiplicar el espectro por la <span class="math inline">H(\omega)</span> que convenga.</strong> El ejemplo de carne y hueso: el circuito RC con salida en el condensador, <span class="math inline">RC\,\dot{v}_c + v_c = v_{in}</span>. La propiedad de derivación (<span class="math inline">\dot{x} \leftrightarrow j\omega X</span>) convierte la EDO en álgebra: <span class="math display">(1 + j\omega RC)\,V_c(\omega) = V_{in}(\omega) \qquad\Longrightarrow\qquad H(\omega) = \frac{1}{1 + j\omega RC}</span> <span class="math display">|H(\omega)| = \frac{1}{\sqrt{1+(\omega RC)^2}}: \quad \text{deja pasar } \omega \ll \tfrac{1}{RC},\ \text{atenúa } \omega \gg \tfrac{1}{RC}</span> Un <strong>pasa-bajos</strong>: con dos componentes ya estás <em>diseñando</em> qué frecuencias viven y cuáles mueren. (Y nota el gesto: la EDO se volvió álgebra. Ese gesto es media unidad 4.)</p>
-<div id="8cb050ca" class="cell" data-execution_count="5">
+<div id="54fe7893" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -767,7 +767,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-teaser-muestreo" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="sec-teaser-muestreo"><span class="header-section-number">3.7</span> Cierre: ¿y si multiplicamos por un tren de impulsos?</h2>
 <p>Una última jugada, para dejar el final abierto. En el capítulo 1 definimos el tren de impulsos <span class="math inline">\delta_T(t)</span> (<a href="cap01.html#sec-tren-impulsos" class="quarto-xref"><span>Sección 1.5.5</span></a>) y pedimos guardar una frase: <em>“muestrear una señal es multiplicarla por un tren de impulsos”</em>. Recién ahora tenemos las herramientas para preguntar qué le hace eso al <strong>espectro</strong>: <span class="math display">x_s(t) = x(t)\cdot\delta_T(t) = \sum_n x(nT)\,\delta(t-nT)</span> — de la señal solo sobreviven sus <em>muestras</em> cada <span class="math inline">T</span> segundos. Multiplicar en el tiempo ⇒ convolucionar los espectros (la propiedad espejo). Y la TF de un tren de impulsos es… ¡otro tren de impulsos!, espaciado <span class="math inline">\omega_s = 2\pi/T</span> (la demostración queda debiéndose para el capítulo 5). Convolucionar con un tren de impulsos <strong>copia y pega</strong>: <span class="math display">X_s(\omega) = \frac{1}{T}\sum_{k=-\infty}^{\infty} X(\omega - k\omega_s)</span></p>
-<div id="d6723f00" class="cell" data-execution_count="6">
+<div id="e6db6d41" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

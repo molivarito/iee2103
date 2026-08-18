@@ -394,7 +394,7 @@ window.Quarto = {
 </div>
 <p>Dos contraejemplos más, ambos canónicos de Oppenheim, que completan el arsenal:</p>
 <p><strong>El escalador <span class="math inline">y(t) = x(2t)</span> es variante</strong> (ejemplo 1.16) — y es el más traicionero, porque “comprimir es comprimir siempre igual, ¿no?”. No: el sistema comprime el tiempo <em>hacia el origen</em>, y eso ancla un instante privilegiado. Con un pulso como entrada, los dos caminos se separan a la vista:</p>
-<div id="e8e8f098" class="cell" data-execution_count="1">
+<div id="37c593b4" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -488,7 +488,7 @@ window.Quarto = {
 <p>Toda señal es una <strong>superposición continua de impulsos desplazados</strong>: en cada instante <span class="math inline">\tau</span> hay un impulso <span class="math inline">\delta(t - \tau)</span>, pesado por el valor <span class="math inline">x(\tau)\,d\tau</span>.</p>
 </blockquote>
 <p>Si el cambio de lectura no convence, la construcción de Alvarado lo hace visible: aproxima <span class="math inline">x(t)</span> con una escalera de pulsos angostos <span class="math inline">p_\Delta</span> de ancho <span class="math inline">\Delta</span>, cada uno parado en <span class="math inline">k\Delta</span> con área <span class="math inline">x(k\Delta)\,\Delta</span>:</p>
-<div id="5edfa94f" class="cell" data-execution_count="2">
+<div id="7ca46bd3" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -638,7 +638,7 @@ window.Quarto = {
 </div>
 </div>
 <p><strong>El triángulo del capítulo 1 no era un capricho del catálogo</strong> (<a href="cap01.html#sec-elementales" class="quarto-xref"><span>Sección 1.4</span></a> prometió exactamente esto): <span class="math inline">\operatorname{tri}</span> es lo que pasa cuando un rect se mira en otro. Nota además dos cosas para la sección siguiente: el resultado es <em>continuo</em> aunque los rect no lo eran, y su soporte <span class="math inline">[-1, 1]</span> es la <em>suma</em> de los soportes.</p>
-<div id="b164bfa7" class="cell" data-execution_count="3">
+<div id="9496033c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -736,7 +736,7 @@ window.Quarto = {
 <li><strong>Área</strong>: producto de las áreas. Si una señal tiene área 0 (una impar, por ejemplo), la convolución tiene área 0.</li>
 <li><strong>Casos extremos</strong>: la convolución de señales acotadas de soporte finito <em>nace y muere en cero</em>; y si hay impulsos a la vista, convolucionar contra <span class="math inline">\delta</span> desplazadas es copiar y pegar.</li>
 </ol>
-<p>Ejercicio relámpago (30 segundos cada uno, sin lápiz): (a) <span class="math inline">\operatorname{rect}(t) * \operatorname{tri}(t)</span>: ¿soporte y forma? [Soporte <span class="math inline">[-\tfrac32, \tfrac32]</span>; una campana suave de área 1, más lisa que el tri.] (b) <span class="math inline">\operatorname{rect}(t) * \big[\delta(t+2) - \delta(t-2)\big]</span>: ¿qué sale? [<span class="math inline">\operatorname{rect}(t+2) - \operatorname{rect}(t-2)</span>: una copia positiva y una negativa, sin cálculo alguno.]</p>
+<p>Ejercicio exprés (30 segundos cada uno, sin lápiz): (a) <span class="math inline">\operatorname{rect}(t) * \operatorname{tri}(t)</span>: ¿soporte y forma? [Soporte <span class="math inline">[-\tfrac32, \tfrac32]</span>; una campana suave de área 1, más lisa que el tri.] (b) <span class="math inline">\operatorname{rect}(t) * \big[\delta(t+2) - \delta(t-2)\big]</span>: ¿qué sale? [<span class="math inline">\operatorname{rect}(t+2) - \operatorname{rect}(t-2)</span>: una copia positiva y una negativa, sin cálculo alguno.]</p>
 <p>Estas reglas no son trucos de prueba: son el modo en que un ingeniero <em>lee</em> una convolución antes (y después) de calcularla. <strong>El cálculo que no pasa el chequeo de soporte y área está malo, siempre.</strong></p>
 <p>Y se <em>escuchan</em>. Aquí está la misma <span class="math inline">h_{\text{iglesia}}</span> de antes, ahora convolucionada con una batería grabada en seco. Antes de reproducir, predice con las reglas: cada golpe de bombo dura unos 50 ms y la <span class="math inline">h</span> de la iglesia unos 2 s — ¿cuánto dura cada golpe en la salida? ¿Y dos golpes separados 0.3 s, se escucharán separados?</p>
 <audio controls="" src="assets/audio/bateria_en_iglesia.mp3">
@@ -784,7 +784,7 @@ window.Quarto = {
 <p><strong>Paso 2 — el golpe fija <span class="math inline">A</span></strong>: integrar la EDO en una ventana diminuta <span class="math inline">(0^-, 0^+)</span> alrededor del impulso: <span class="math display">RC\big[h(0^+) - h(0^-)\big] + \underbrace{\int_{0^-}^{0^+} h\,dt}_{\to\,0\ (h\ \text{finita})} = \underbrace{\int_{0^-}^{0^+}\delta\,dt}_{=\,1} \;\Rightarrow\; h(0^+) = \frac{1}{RC}</span> El impulso no puede “durar”: lo único que hace es <strong>cargar el sistema de un salto</strong> y desaparecer. Entonces:</p>
 <p><span class="math display">\boxed{\;h(t) = \frac{1}{RC}\,e^{-t/RC}\,u(t)\;}</span></p>
 <p><strong>Verificación por sustitución</strong> (hazla — es pregunta tipo de la I1, [DB E0037]): con <span class="math inline">u' = \delta</span> y la regla del producto, <span class="math display">h'(t) = -\frac{1}{(RC)^2}\,e^{-t/RC}\,u(t) + \frac{1}{RC}\,\underbrace{e^{-t/RC}\,\delta(t)}_{=\ \delta(t)\ \text{(muestreo, cap. 1)}} \quad\Rightarrow\quad RC\,h'(t) + h(t) = \delta(t)\ \checkmark</span> (el término con <span class="math inline">u</span> se cancela exactamente contra <span class="math inline">h</span>, y sobrevive el impulso — la propiedad <span class="math inline">f(t)\,\delta(t) = f(0)\,\delta(t)</span> haciendo su trabajo).</p>
-<div id="f4822ce7" class="cell" data-execution_count="4">
+<div id="51e8668e" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -837,7 +837,7 @@ window.Quarto = {
 </div>
 <p><em>Por qué la causalidad</em>: escribe la convolución (conmutada) como <span class="math inline">y(t) = \int h(\tau)\,x(t - \tau)\,d\tau</span>. El número <span class="math inline">h(\tau)</span> es el peso con que la entrada de hace <span class="math inline">\tau</span> segundos influye hoy. Si <span class="math inline">h(\tau) \neq 0</span> para algún <span class="math inline">\tau &lt; 0</span>, el sistema pesa entradas de un “hace negativo”: el futuro. (Y es natural desde la definición: <span class="math inline">h</span> es la respuesta a un golpe en <span class="math inline">t = 0</span>; responder antes del golpe es adivinar.)</p>
 <p><em>Por qué la estabilidad</em> — la dirección útil, en dos líneas: si <span class="math inline">|x| \leq M</span>, <span class="math display">|y(t)| \leq \int |h(\tau)|\,|x(t - \tau)|\,d\tau \leq M\int |h(\tau)|\,d\tau &lt; \infty</span> <em>Honestidad (treinta segundos)</em>: la vuelta también vale — si la integral diverge, existe una entrada acotada maligna (<span class="math inline">x(t - \tau) = \operatorname{sgn} h(\tau)</span>, que se alía con cada signo de <span class="math inline">h</span>) que hace explotar la salida. Queda de lectura.</p>
-<div id="048ac50f" class="cell" data-execution_count="5">
+<div id="7c5c4ea9" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

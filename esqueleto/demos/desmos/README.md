@@ -159,7 +159,7 @@ pregunta que la unidad 5 responde. Es el mismo gancho que ya está escrito en el
 
 ---
 
-## D5 · Transformaciones $x(at-b)$ (C3, Bloque 3)
+## D5 · Transformaciones $x(at-b)$ (C3, Bloque 4)
 
 Resuelve la votación de C3 en vivo. La señal base es la escalonada de [DB E0286].
 
@@ -293,7 +293,7 @@ decisión distinta en cada unidad, y casi siempre sin decirlo.
 
 | | Gráfico | Dónde se usa | Link |
 |---|---|---|---|
-| 1 | $e^{st}$: las 4 proyecciones a la vez | **C3** (incrustado) · **Ay1** | <https://www.desmos.com/calculator/akpveuu0ba> |
+| 1 | $e^{st}$: las 4 proyecciones a la vez | **C3** (incrustado, abre la clase) · **Ay1** | <https://www.desmos.com/calculator/akpveuu0ba> |
 | 3 | Plano $s$: la superficie $\|X(s)\|$ y el corte $j\omega$ | **C17** (incrustado) | <https://www.desmos.com/3d/ftb7axttio> |
 | 4 | Plano $z$: la superficie y el corte del círculo unitario | **C25** (incrustado) | <https://www.desmos.com/3d/cfs2pt7nfz> |
 | 5 | Polos y ceros: el resumen sintético | **C17** (incrustado) | <https://www.desmos.com/calculator/d4oknsgkxc> |
