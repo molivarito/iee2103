@@ -215,16 +215,6 @@
     ]
   },
   {
-    "objectID": "curso/ejercicios-sugeridos.html#unidad-5-discreto-y-muestreo",
-    "href": "curso/ejercicios-sugeridos.html#unidad-5-discreto-y-muestreo",
-    "title": "Ejercicios sugeridos",
-    "section": "Unidad 5 · Discreto y muestreo",
-    "text": "Unidad 5 · Discreto y muestreo\n\nE0159 — Análisis de un Sistema Discreto en Espacio de Estados\nU5.4 · avanzado · ~80 min · sugerido en el Reader (cap. 5 · Señales y sistemas discretos)\nConsidere el siguiente sistema discreto en el tiempo representado por la ecuación de diferencias:  y[n] - \\frac{5}{6}y[n-1] + \\frac{1}{6}y[n-2] = 5x[n-1] - x[n-2]  1. Represente el sistema en el espacio de estados en la forma canónica controlable. Es decir, determine las matrices A, B, C y D para el modelo:  q[n+1] = A q[n] + B x[n]   y[n] = C q[n] + D x[n]  2. Encuentre la salida y[n] si la entrada x[n] es el escalón unitario (x[n] = u[n]) y las condiciones iniciales son q_1[0] = 2 y q_2[0] = 3.\n\n\n\nfigura",
-    "crumbs": [
-      "Ejercicios sugeridos"
-    ]
-  },
-  {
     "objectID": "curso/ejercicios-sugeridos.html#unidad-6-transformada-z",
     "href": "curso/ejercicios-sugeridos.html#unidad-6-transformada-z",
     "title": "Ejercicios sugeridos",

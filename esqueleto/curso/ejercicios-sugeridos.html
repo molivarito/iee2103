@@ -372,10 +372,6 @@ window.Quarto = {
   <li><a href="#e0128-cálculo-de-la-salida-de-un-sistema-lti-con-transformada-de-laplace" id="toc-e0128-cálculo-de-la-salida-de-un-sistema-lti-con-transformada-de-laplace" class="nav-link" data-scroll-target="#e0128-cálculo-de-la-salida-de-un-sistema-lti-con-transformada-de-laplace">E0128 — Cálculo de la Salida de un Sistema LTI con Transformada de Laplace</a></li>
   <li><a href="#e0133-determinación-de-la-respuesta-al-impulso-de-un-sistema-estable-y-no-causal" id="toc-e0133-determinación-de-la-respuesta-al-impulso-de-un-sistema-estable-y-no-causal" class="nav-link" data-scroll-target="#e0133-determinación-de-la-respuesta-al-impulso-de-un-sistema-estable-y-no-causal">E0133 — Determinación de la Respuesta al Impulso de un Sistema Estable y No Causal</a></li>
   </ul></li>
-  <li><a href="#unidad-5-discreto-y-muestreo" id="toc-unidad-5-discreto-y-muestreo" class="nav-link" data-scroll-target="#unidad-5-discreto-y-muestreo">Unidad 5 · Discreto y muestreo</a>
-  <ul class="collapse">
-  <li><a href="#e0159-análisis-de-un-sistema-discreto-en-espacio-de-estados" id="toc-e0159-análisis-de-un-sistema-discreto-en-espacio-de-estados" class="nav-link" data-scroll-target="#e0159-análisis-de-un-sistema-discreto-en-espacio-de-estados">E0159 — Análisis de un Sistema Discreto en Espacio de Estados</a></li>
-  </ul></li>
   <li><a href="#unidad-6-transformada-z" id="toc-unidad-6-transformada-z" class="nav-link" data-scroll-target="#unidad-6-transformada-z">Unidad 6 · Transformada Z</a>
   <ul class="collapse">
   <li><a href="#e0176-aplicación-del-teorema-del-valor-final-en-la-transformada-z" id="toc-e0176-aplicación-del-teorema-del-valor-final-en-la-transformada-z" class="nav-link" data-scroll-target="#e0176-aplicación-del-teorema-del-valor-final-en-la-transformada-z">E0176 — Aplicación del Teorema del Valor Final en la Transformada Z</a></li>
@@ -647,20 +643,6 @@ R_x(\tau) = \int_{-\infty}^{\infty} x(t)\,x(t+\tau)\,dt.
 <p>Respuesta al impulso de un sistema estable y <strong>no causal</strong> — la ROC decidiendo todo</p>
 </blockquote>
 <p>La transformada de Laplace de la respuesta al impulso, <span class="math inline">h(t)</span>, de un sistema estable no causal es <span class="math display"> H(s)=\frac{1}{s^{2}+e^{i \alpha}} </span> con <span class="math inline">\alpha=\pi / 2+\operatorname{atan}(3 / 4)</span>. Encuentre <span class="math inline">h(t)</span>.</p>
-</section>
-</section>
-<section id="unidad-5-discreto-y-muestreo" class="level2">
-<h2 class="anchored" data-anchor-id="unidad-5-discreto-y-muestreo">Unidad 5 · Discreto y muestreo</h2>
-<section id="e0159-análisis-de-un-sistema-discreto-en-espacio-de-estados" class="level3">
-<h3 class="anchored" data-anchor-id="e0159-análisis-de-un-sistema-discreto-en-espacio-de-estados">E0159 — Análisis de un Sistema Discreto en Espacio de Estados</h3>
-<p><em>U5.4 · avanzado · ~80 min</em> · sugerido en el Reader (cap. 5 · Señales y sistemas discretos)</p>
-<p>Considere el siguiente sistema discreto en el tiempo representado por la ecuación de diferencias: <span class="math display"> y[n] - \frac{5}{6}y[n-1] + \frac{1}{6}y[n-2] = 5x[n-1] - x[n-2] </span> 1. Represente el sistema en el espacio de estados en la forma canónica controlable. Es decir, determine las matrices <span class="math inline">A</span>, <span class="math inline">B</span>, <span class="math inline">C</span> y <span class="math inline">D</span> para el modelo: <span class="math display"> q[n+1] = A q[n] + B x[n] </span> <span class="math display"> y[n] = C q[n] + D x[n] </span> 2. Encuentre la salida <span class="math inline">y[n]</span> si la entrada <span class="math inline">x[n]</span> es el escalón unitario (<span class="math inline">x[n] = u[n]</span>) y las condiciones iniciales son <span class="math inline">q_1[0] = 2</span> y <span class="math inline">q_2[0] = 3</span>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../figuras-banco/E0159_fig.png" class="img-fluid figure-img"></p>
-<figcaption>figura</figcaption>
-</figure>
-</div>
 </section>
 </section>
 <section id="unidad-6-transformada-z" class="level2">
