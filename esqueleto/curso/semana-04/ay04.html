@@ -433,14 +433,17 @@ window.Quarto = {
 </section>
 <section id="ejercicios-de-la-sesión" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios-de-la-sesión">Ejercicios de la sesión</h2>
-<p><strong>Pizarra (28–43 min): propiedades de sistemas.</strong> Determine si los siguientes sistemas son lineales y/o invariantes en el tiempo: <span class="math display">\text{(a) } y(t)=\int_{0}^{t}x(\tau)\,d\tau \qquad \text{(b) } y(t)=x(t)+t \qquad \text{(c) } y(t)=1/x(t)</span></p>
-<p><strong>Parejas (43–56 min): convolución completa.</strong> Sea <span class="math inline">h(t) = e^{-2t}u(t)</span> y <span class="math inline">x(t) = \operatorname{rect}(t - \tfrac12)</span> (un pulso en <span class="math inline">[0,1]</span>). Encuentre <span class="math inline">y = x * h</span> <strong>gráfica y analíticamente</strong>.</p>
+<p><strong>Pizarra (30–42 min): convolución completa, modelada.</strong> Sea <span class="math inline">x(t) = t\,\big(u(t)-u(t-1)\big)</span> (una <strong>rampa</strong> que sube de 0 a 1 y se corta) y <span class="math inline">h(t) = u(t) - u(t-1)</span> (un pulso en <span class="math inline">[0,1]</span>). Encuentre <span class="math inline">y = x * h</span> <strong>gráfica y analíticamente</strong>.</p>
+<p><strong>Parejas (42–56 min): dos convoluciones.</strong></p>
+<p><strong>(a)</strong> Misma rampa <span class="math inline">x(t) = t\,\big(u(t)-u(t-1)\big)</span>, pero ahora el pulso es <strong>el doble de ancho</strong>: <span class="math inline">h(t) = u(t) - u(t-2)</span>. ¿Qué le pasa a la forma de <span class="math inline">y</span>?</p>
+<p><strong>(b)</strong> <em>(para quienes terminen)</em> Ahora <strong>las dos</strong> son rampas: <span class="math inline">x(t) = h(t) = t\,\big(u(t)-u(t-1)\big)</span>. ¿Qué cambia en la integral respecto de (a)?</p>
 <p><strong>Pizarra (56–64 min): impulso + tren.</strong> Calcule, para <span class="math inline">k \in \mathbb{N}</span>: <span class="math display">\int_{-\infty}^{\infty} \tfrac{1}{k}\,\delta_{1/k}(x)\,\operatorname{tri}(x)\,dx</span></p>
+<p><strong>Para repasar por su cuenta — propiedades de sistemas</strong> <em>(no se ve en sesión; quedó cubierto en Ay3 y la Lista 3)</em>. Determine si los siguientes sistemas son lineales y/o invariantes en el tiempo:</p>
+<p><span class="math display">\text{(a) } y(t)=\int_{0}^{t}x(\tau)\,d\tau \qquad \text{(b) } y(t)=x(t)+t \qquad \text{(c) } y(t)=1/x(t)</span></p>
 <p><strong>Si sobra tiempo — emparejamiento</strong>: en la pizarra, tres señales (<span class="math inline">\operatorname{rect}</span> ancho 1, <span class="math inline">\operatorname{rect}</span> ancho 2, <span class="math inline">\operatorname{tri}</span>) y tres resultados (trapecio de soporte 3, tri de soporte 2, campana suave de soporte 3): ¿quién convolucionado con quién da qué? Resolver <strong>solo</strong> con las reglas de C7: soporte suma, suavidad aumenta, área multiplica.</p>
 </section>
 <section id="el-formulario-oficial-y-cómo-estudiar-con-él-6470-min" class="level2">
 <h2 class="anchored" data-anchor-id="el-formulario-oficial-y-cómo-estudiar-con-él-6470-min">El formulario oficial y cómo estudiar con él (64–70 min)</h2>
-<p>Cerrar con consejería concreta (el formulario se revisa en C8, el lunes siguiente; hoy se adelanta la estrategia de uso para que lleguen con preguntas):</p>
 <ol type="1">
 <li><strong>Qué trae el formulario oficial (U1–U2)</strong>: se entrega impreso junto con la prueba — catálogo de señales, propiedades del impulso, propiedades de la convolución, teoremas causal/estable desde <span class="math inline">h</span>. Es igual para todos: no se aceptan hojas resumen propias ni apuntes adicionales.</li>
 <li><strong>Qué NO trae</strong> (y hay que saber de memoria o saber derivar): los 5 contraejemplos de sistemas y la derivación de C6 en 4 líneas. (La <span class="math inline">h</span> del RC sí está, bajo “Modelado”.) El formulario es un índice de fórmulas, no un sustituto de entender — si no lo entendiste, tenerlo enfrente no ayuda en 90 minutos.</li>
