@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Ejercicios sugeridos – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../curso/semana-01/c01.html" rel="next">
+<link href="../formularios.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1bdbca75b362e6c5a8c09207907ff998.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../curso/ejercicios-sugeridos.html">Ejercicios sugeridos</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">IEE2103 · Señales y Sistemas — Apuntes de clase</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IEE2103 · Señales y Sistemas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../demos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Demos del curso</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../formularios.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formularios oficiales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/ejercicios-sugeridos.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Ejercicios sugeridos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 1 · Presentación y señales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-01/c01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C1 · Presentación: señales, sistemas y el mapa del curso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-01/c02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C2 · Clasificación de señales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-01/ay01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay1 · Nivelación: números complejos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 2 · Elementales e impulso</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-02/c03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C3 · Señales elementales y transformaciones de la variable</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-02/c04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C4 · El impulso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay2 · Ejercicios U1: señales, simetrías, impulso</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 3 · Sistemas</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-03/c05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C5 · Propiedades de sistemas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-03/c06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C6 · LTI ⇒ convolución: el teorema del curso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-03/ay03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay3 · Ejercicios U2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Semana 4 · Convolución y EDOs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-04/c07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C7 · La convolución en la práctica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-04/c08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/semana-04/ay04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay4 · CV1 + Integración U1–U2: rumbo a la I1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Listas de ejercicios</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/listas/lista-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 2 · Señales elementales, transformaciones y el impulso</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/listas/lista-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../curso/listas/lista-04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 4 · Convolución, EDOs y la respuesta al impulso</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#unidad-1-señales" id="toc-unidad-1-señales" class="nav-link active" data-scroll-target="#unidad-1-señales">Unidad 1 · Señales</a>
+  <ul class="collapse">
+  <li><a href="#e0001-operaciones-con-números-complejos-en-forma-polar" id="toc-e0001-operaciones-con-números-complejos-en-forma-polar" class="nav-link" data-scroll-target="#e0001-operaciones-con-números-complejos-en-forma-polar">E0001 — Operaciones con Números Complejos en Forma Polar</a></li>
+  <li><a href="#e0002-parte-real-e-imaginaria-de-un-número-complejo" id="toc-e0002-parte-real-e-imaginaria-de-un-número-complejo" class="nav-link" data-scroll-target="#e0002-parte-real-e-imaginaria-de-un-número-complejo">E0002 — Parte Real e Imaginaria de un Número Complejo</a></li>
+  <li><a href="#e0004-análisis-de-una-señal-compleja-exponencial" id="toc-e0004-análisis-de-una-señal-compleja-exponencial" class="nav-link" data-scroll-target="#e0004-análisis-de-una-señal-compleja-exponencial">E0004 — Análisis de una Señal Compleja Exponencial</a></li>
+  <li><a href="#e0005-conjunto-de-puntos-en-el-plano-complejo" id="toc-e0005-conjunto-de-puntos-en-el-plano-complejo" class="nav-link" data-scroll-target="#e0005-conjunto-de-puntos-en-el-plano-complejo">E0005 — Conjunto de Puntos en el Plano Complejo</a></li>
+  <li><a href="#e0006-cálculo-de-raíces-de-números-complejos" id="toc-e0006-cálculo-de-raíces-de-números-complejos" class="nav-link" data-scroll-target="#e0006-cálculo-de-raíces-de-números-complejos">E0006 — Cálculo de Raíces de Números Complejos</a></li>
+  <li><a href="#e0007-ecuación-trigonométrica-en-el-plano-complejo" id="toc-e0007-ecuación-trigonométrica-en-el-plano-complejo" class="nav-link" data-scroll-target="#e0007-ecuación-trigonométrica-en-el-plano-complejo">E0007 — Ecuación Trigonométrica en el Plano Complejo</a></li>
+  <li><a href="#e0009-multiplicación-de-señales-sinusoidales" id="toc-e0009-multiplicación-de-señales-sinusoidales" class="nav-link" data-scroll-target="#e0009-multiplicación-de-señales-sinusoidales">E0009 — Multiplicación de Señales Sinusoidales</a></li>
+  <li><a href="#e0012-series-geométricas-y-de-taylor" id="toc-e0012-series-geométricas-y-de-taylor" class="nav-link" data-scroll-target="#e0012-series-geométricas-y-de-taylor">E0012 — Series Geométricas y de Taylor</a></li>
+  <li><a href="#e0019-expresión-analítica-de-una-señal-periódica" id="toc-e0019-expresión-analítica-de-una-señal-periódica" class="nav-link" data-scroll-target="#e0019-expresión-analítica-de-una-señal-periódica">E0019 — Expresión Analítica de una Señal Periódica</a></li>
+  <li><a href="#e0025-aproximación-de-la-delta-de-dirac-y-su-derivada" id="toc-e0025-aproximación-de-la-delta-de-dirac-y-su-derivada" class="nav-link" data-scroll-target="#e0025-aproximación-de-la-delta-de-dirac-y-su-derivada">E0025 — Aproximación de la Delta de Dirac y su Derivada</a></li>
+  <li><a href="#e0026-propiedad-de-la-función-triángulo" id="toc-e0026-propiedad-de-la-función-triángulo" class="nav-link" data-scroll-target="#e0026-propiedad-de-la-función-triángulo">E0026 — Propiedad de la función triángulo</a></li>
+  </ul></li>
+  <li><a href="#unidad-2-sistemas-y-convolución" id="toc-unidad-2-sistemas-y-convolución" class="nav-link" data-scroll-target="#unidad-2-sistemas-y-convolución">Unidad 2 · Sistemas y convolución</a>
+  <ul class="collapse">
+  <li><a href="#e0016-análisis-de-un-sistema-con-multiplicación-coseno" id="toc-e0016-análisis-de-un-sistema-con-multiplicación-coseno" class="nav-link" data-scroll-target="#e0016-análisis-de-un-sistema-con-multiplicación-coseno">E0016 — Análisis de un Sistema con Multiplicación Coseno</a></li>
+  <li><a href="#e0048-partes-par-e-impar-de-la-autocorrelación" id="toc-e0048-partes-par-e-impar-de-la-autocorrelación" class="nav-link" data-scroll-target="#e0048-partes-par-e-impar-de-la-autocorrelación">E0048 — Partes Par e Impar de la Autocorrelación</a></li>
+  <li><a href="#e0054-convolución-gráfica-de-señales" id="toc-e0054-convolución-gráfica-de-señales" class="nav-link" data-scroll-target="#e0054-convolución-gráfica-de-señales">E0054 — Convolución Gráfica de Señales</a></li>
+  <li><a href="#e0295-autocorrelación-del-pulso-rectangular-donde-nace-el-triángulo" id="toc-e0295-autocorrelación-del-pulso-rectangular-donde-nace-el-triángulo" class="nav-link" data-scroll-target="#e0295-autocorrelación-del-pulso-rectangular-donde-nace-el-triángulo">E0295 — Autocorrelación del Pulso Rectangular: Donde Nace el Triángulo</a></li>
+  <li><a href="#e0296-autocorrelación-de-la-exponencial-causal" id="toc-e0296-autocorrelación-de-la-exponencial-causal" class="nav-link" data-scroll-target="#e0296-autocorrelación-de-la-exponencial-causal">E0296 — Autocorrelación de la Exponencial Causal</a></li>
+  </ul></li>
+  <li><a href="#unidad-3-fourier" id="toc-unidad-3-fourier" class="nav-link" data-scroll-target="#unidad-3-fourier">Unidad 3 · Fourier</a>
+  <ul class="collapse">
+  <li><a href="#e0071-serie-de-fourier-de-funciones" id="toc-e0071-serie-de-fourier-de-funciones" class="nav-link" data-scroll-target="#e0071-serie-de-fourier-de-funciones">E0071 — Serie de Fourier de Funciones</a></li>
+  <li><a href="#e0074-coeficientes-trigonometricos-de-fourier-para-señal-exponencial-compleja" id="toc-e0074-coeficientes-trigonometricos-de-fourier-para-señal-exponencial-compleja" class="nav-link" data-scroll-target="#e0074-coeficientes-trigonometricos-de-fourier-para-señal-exponencial-compleja">E0074 — Coeficientes Trigonometricos de Fourier para Señal Exponencial Compleja</a></li>
+  </ul></li>
+  <li><a href="#unidad-4-laplace" id="toc-unidad-4-laplace" class="nav-link" data-scroll-target="#unidad-4-laplace">Unidad 4 · Laplace</a>
+  <ul class="collapse">
+  <li><a href="#e0127-transformada-inversa-de-laplace-casos-unilateral-y-bilateral" id="toc-e0127-transformada-inversa-de-laplace-casos-unilateral-y-bilateral" class="nav-link" data-scroll-target="#e0127-transformada-inversa-de-laplace-casos-unilateral-y-bilateral">E0127 — Transformada Inversa de Laplace: Casos Unilateral y Bilateral</a></li>
+  <li><a href="#e0128-cálculo-de-la-salida-de-un-sistema-lti-con-transformada-de-laplace" id="toc-e0128-cálculo-de-la-salida-de-un-sistema-lti-con-transformada-de-laplace" class="nav-link" data-scroll-target="#e0128-cálculo-de-la-salida-de-un-sistema-lti-con-transformada-de-laplace">E0128 — Cálculo de la Salida de un Sistema LTI con Transformada de Laplace</a></li>
+  <li><a href="#e0133-determinación-de-la-respuesta-al-impulso-de-un-sistema-estable-y-no-causal" id="toc-e0133-determinación-de-la-respuesta-al-impulso-de-un-sistema-estable-y-no-causal" class="nav-link" data-scroll-target="#e0133-determinación-de-la-respuesta-al-impulso-de-un-sistema-estable-y-no-causal">E0133 — Determinación de la Respuesta al Impulso de un Sistema Estable y No Causal</a></li>
+  </ul></li>
+  <li><a href="#unidad-5-discreto-y-muestreo" id="toc-unidad-5-discreto-y-muestreo" class="nav-link" data-scroll-target="#unidad-5-discreto-y-muestreo">Unidad 5 · Discreto y muestreo</a>
+  <ul class="collapse">
+  <li><a href="#e0159-análisis-de-un-sistema-discreto-en-espacio-de-estados" id="toc-e0159-análisis-de-un-sistema-discreto-en-espacio-de-estados" class="nav-link" data-scroll-target="#e0159-análisis-de-un-sistema-discreto-en-espacio-de-estados">E0159 — Análisis de un Sistema Discreto en Espacio de Estados</a></li>
+  </ul></li>
+  <li><a href="#unidad-6-transformada-z" id="toc-unidad-6-transformada-z" class="nav-link" data-scroll-target="#unidad-6-transformada-z">Unidad 6 · Transformada Z</a>
+  <ul class="collapse">
+  <li><a href="#e0176-aplicación-del-teorema-del-valor-final-en-la-transformada-z" id="toc-e0176-aplicación-del-teorema-del-valor-final-en-la-transformada-z" class="nav-link" data-scroll-target="#e0176-aplicación-del-teorema-del-valor-final-en-la-transformada-z">E0176 — Aplicación del Teorema del Valor Final en la Transformada Z</a></li>
+  <li><a href="#e0177-transformada-z-inversa-métodos-directo-de-expansión-y-propiedades" id="toc-e0177-transformada-z-inversa-métodos-directo-de-expansión-y-propiedades" class="nav-link" data-scroll-target="#e0177-transformada-z-inversa-métodos-directo-de-expansión-y-propiedades">E0177 — Transformada Z Inversa: Métodos Directo, de Expansión y Propiedades</a></li>
+  <li><a href="#e0182-transformada-z-inversa-de-función-racional" id="toc-e0182-transformada-z-inversa-de-función-racional" class="nav-link" data-scroll-target="#e0182-transformada-z-inversa-de-función-racional">E0182 — Transformada Z Inversa de Función Racional</a></li>
+  <li><a href="#e0183-transformada-z-inversa-por-diferenciación-en-el-dominio-z" id="toc-e0183-transformada-z-inversa-por-diferenciación-en-el-dominio-z" class="nav-link" data-scroll-target="#e0183-transformada-z-inversa-por-diferenciación-en-el-dominio-z">E0183 — Transformada Z Inversa por Diferenciación en el Dominio Z</a></li>
+  <li><a href="#e0186-transformada-z-de-una-señal-bilateral-simétrica-an" id="toc-e0186-transformada-z-de-una-señal-bilateral-simétrica-an" class="nav-link" data-scroll-target="#e0186-transformada-z-de-una-señal-bilateral-simétrica-an">E0186 — Transformada Z de una señal bilateral simétrica a^{|n|}</a></li>
+  <li><a href="#e0299-cuenta-de-ahorro-interés-compuesto-como-sistema-discreto" id="toc-e0299-cuenta-de-ahorro-interés-compuesto-como-sistema-discreto" class="nav-link" data-scroll-target="#e0299-cuenta-de-ahorro-interés-compuesto-como-sistema-discreto">E0299 — Cuenta de ahorro: interés compuesto como sistema discreto</a></li>
+  <li><a href="#e0371-los-conejos-de-fibonacci-y-el-número-áureo-en-z" id="toc-e0371-los-conejos-de-fibonacci-y-el-número-áureo-en-z" class="nav-link" data-scroll-target="#e0371-los-conejos-de-fibonacci-y-el-número-áureo-en-z">E0371 — Los Conejos de Fibonacci y el Número Áureo en Z</a></li>
+  </ul></li>
+  <li><a href="#unidad-7-dft-y-análisis-espectral" id="toc-unidad-7-dft-y-análisis-espectral" class="nav-link" data-scroll-target="#unidad-7-dft-y-análisis-espectral">Unidad 7 · DFT y análisis espectral</a>
+  <ul class="collapse">
+  <li><a href="#e0162-análisis-de-concentración-espectral-de-señal-discreta-con-dtft" id="toc-e0162-análisis-de-concentración-espectral-de-señal-discreta-con-dtft" class="nav-link" data-scroll-target="#e0162-análisis-de-concentración-espectral-de-señal-discreta-con-dtft">E0162 — Análisis de Concentración Espectral de Señal Discreta con DTFT</a></li>
+  <li><a href="#e0167-demostración-de-la-propiedad-de-desplazamiento-temporal-de-la-dft" id="toc-e0167-demostración-de-la-propiedad-de-desplazamiento-temporal-de-la-dft" class="nav-link" data-scroll-target="#e0167-demostración-de-la-propiedad-de-desplazamiento-temporal-de-la-dft">E0167 — Demostración de la Propiedad de Desplazamiento Temporal de la DFT</a></li>
+  <li><a href="#e0169-relación-entre-dfts-con-zero-padding" id="toc-e0169-relación-entre-dfts-con-zero-padding" class="nav-link" data-scroll-target="#e0169-relación-entre-dfts-con-zero-padding">E0169 — Relación entre DFTs con Zero-Padding</a></li>
+  <li><a href="#e0302-interpolar-por-l-ceros-imágenes-y-el-filtro-que-las-borra" id="toc-e0302-interpolar-por-l-ceros-imágenes-y-el-filtro-que-las-borra" class="nav-link" data-scroll-target="#e0302-interpolar-por-l-ceros-imágenes-y-el-filtro-que-las-borra">E0302 — Interpolar por L: Ceros, Imágenes y el Filtro que las Borra</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Ejercicios sugeridos</h1>
+<p class="subtitle lead">Los que el Reader y las ayudantías citan por código</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Este anexo reúne los <strong>enunciados</strong> de los ejercicios del banco del curso que el Reader recomienda al cierre de cada capítulo, o que se resolvieron en alguna ayudantía, y que hasta ahora solo aparecían citados por su código (<code>[DB E####]</code>) sin que pudieras leerlos.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Cómo usarlos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>No traen solución.</strong> Igual que en las Listas: el desarrollo escrito es tuyo, y va a tu portafolio.</li>
+<li><strong>No reemplazan a las Listas.</strong> Las Listas son el entrenamiento obligatorio y el universo del que salen los Controles de Validación; esto es material <strong>adicional</strong>, para profundizar o para llegar con más kilómetros a una interrogación.</li>
+<li>Los marcados como <em>resuelto en la Ayudantía N</em> ya se trabajaron en sala: si fuiste, deberías tener el desarrollo en tus apuntes.</li>
+<li>Cada uno indica su dificultad y un tiempo estimado.</li>
+</ul>
+</div>
+</div>
+<section id="unidad-1-señales" class="level2">
+<h2 class="anchored" data-anchor-id="unidad-1-señales">Unidad 1 · Señales</h2>
+<section id="e0001-operaciones-con-números-complejos-en-forma-polar" class="level3">
+<h3 class="anchored" data-anchor-id="e0001-operaciones-con-números-complejos-en-forma-polar">E0001 — Operaciones con Números Complejos en Forma Polar</h3>
+<p><em>basico · ~20 min</em> · <strong>resuelto en la Ayudantía 1</strong></p>
+<p>Se tiene el número complejo <span class="math inline">2z = 1 + i\sqrt{3}</span> y <span class="math inline">2w = \sqrt{2} - i\sqrt{2}</span>. Calcule, usando la forma polar:</p>
+<ol type="1">
+<li><span class="math inline">z \cdot w</span></li>
+<li><span class="math inline">z / w</span></li>
+<li><span class="math inline">zz^{*}, \frac{1}{2}(z + z^{*}), \frac{1}{2i}(z - z^{*})</span></li>
+<li>Magnitud y fase de <span class="math inline">(z \cdot w)^{*}</span></li>
+</ol>
+</section>
+<section id="e0002-parte-real-e-imaginaria-de-un-número-complejo" class="level3">
+<h3 class="anchored" data-anchor-id="e0002-parte-real-e-imaginaria-de-un-número-complejo">E0002 — Parte Real e Imaginaria de un Número Complejo</h3>
+<p><em>basico · ~5 min</em> · <strong>resuelto en la Ayudantía 1</strong></p>
+<p>Demuestre que para todo <span class="math inline">z \in \mathbb{C}</span> se cumple que:</p>
+<ul>
+<li><span class="math inline">\Re\{z\} = \frac{z + z^*}{2}</span></li>
+<li><span class="math inline">j\Im\{z\} = \frac{z - z^*}{2}</span></li>
+</ul>
+</section>
+<section id="e0004-análisis-de-una-señal-compleja-exponencial" class="level3">
+<h3 class="anchored" data-anchor-id="e0004-análisis-de-una-señal-compleja-exponencial">E0004 — Análisis de una Señal Compleja Exponencial</h3>
+<p><em>U1.3 · basico · ~15 min</em> · <strong>resuelto en la Ayudantía 1</strong></p>
+<p>Considere la señal $x(t) = (1+j)e<sup>{j/4}e</sup>{(-1+j 2)t} $. Determine:</p>
+<ol type="1">
+<li><span class="math inline">\Re\{x(t)\}</span></li>
+<li><span class="math inline">\Im\{x(t)\}</span></li>
+<li><span class="math inline">x(t+2)+x^{*}(t+2)</span></li>
+</ol>
+</section>
+<section id="e0005-conjunto-de-puntos-en-el-plano-complejo" class="level3">
+<h3 class="anchored" data-anchor-id="e0005-conjunto-de-puntos-en-el-plano-complejo">E0005 — Conjunto de Puntos en el Plano Complejo</h3>
+<p><em>intermedio · ~10 min</em> · sugerido en el Reader (Apéndice A · Números complejos)</p>
+<p>Determinar el conjunto de puntos que verifican las condiciones siguientes:</p>
+<ol type="1">
+<li><span class="math display">\|z-2+3i\| = 1</span></li>
+<li><span class="math display">\Re (z^* - i) = 2</span></li>
+</ol>
+</section>
+<section id="e0006-cálculo-de-raíces-de-números-complejos" class="level3">
+<h3 class="anchored" data-anchor-id="e0006-cálculo-de-raíces-de-números-complejos">E0006 — Cálculo de Raíces de Números Complejos</h3>
+<p><em>basico · ~10 min</em> · <strong>resuelto en la Ayudantía 1</strong> · sugerido en el Reader (Apéndice A · Números complejos)</p>
+<p>Hallar todos los valores de $ (2i)^{1/2} $ y calcular la raíz principal.</p>
+</section>
+<section id="e0007-ecuación-trigonométrica-en-el-plano-complejo" class="level3">
+<h3 class="anchored" data-anchor-id="e0007-ecuación-trigonométrica-en-el-plano-complejo">E0007 — Ecuación Trigonométrica en el Plano Complejo</h3>
+<p><em>intermedio · ~20 min</em> · sugerido en el Reader (Apéndice A · Números complejos)</p>
+<p>Resolver la ecuación <span class="math display">\cos z = 2</span></p>
+</section>
+<section id="e0009-multiplicación-de-señales-sinusoidales" class="level3">
+<h3 class="anchored" data-anchor-id="e0009-multiplicación-de-señales-sinusoidales">E0009 — Multiplicación de Señales Sinusoidales</h3>
+<p><em>U1.1, U1.3 · intermedio · ~20 min</em> · sugerido en el Reader (cap. 1 · Señales)</p>
+<blockquote class="blockquote">
+<p>Producto de sumas de sinusoides: ¿es periódica la salida? ¿con qué <span class="math inline">T_0</span>?</p>
+</blockquote>
+<p>Considere las señales de entrada <span class="math display">\begin{aligned}
+x(t) &amp;= \cos\left(\frac{2\pi t}{3}\right) + 2 \sin\left(\frac{16 \pi t}{3}\right)
+y(t) &amp;= \sin(\pi t)\end{aligned}</span> El sistema se modela por la relación <span class="math inline">z(t)=x(t)y(t)</span>, donde <span class="math inline">z(t)</span> es la señal salida. Exprese <span class="math inline">z(t)</span> como una combinación lineal de exponenciales complejas de la forma <span class="math display">\begin{aligned}
+z(t) &amp;= \sum_{k} c_k e^{j k (2\pi/T)},
+\end{aligned}</span> identificando el valor de <span class="math inline">T</span> y los coeficientes <span class="math inline">c_k</span>.</p>
+</section>
+<section id="e0012-series-geométricas-y-de-taylor" class="level3">
+<h3 class="anchored" data-anchor-id="e0012-series-geométricas-y-de-taylor">E0012 — Series Geométricas y de Taylor</h3>
+<p><em>basico · ~15 min</em> · sugerido en el Reader (Apéndice A · Números complejos)</p>
+<p>Exprese las siguientes ecuaciones como sumas infinitas de polinomios y determine para qué valores de <span class="math inline">|x|</span> la serie converge:</p>
+<ol type="1">
+<li><span class="math inline">p_1(x) = \frac{1}{1-x}</span></li>
+<li><span class="math inline">p_2(x) = \frac{1}{(1-x)^2}</span></li>
+</ol>
+<p>HINT: Puede ser útil usar series de Taylor.</p>
+</section>
+<section id="e0019-expresión-analítica-de-una-señal-periódica" class="level3">
+<h3 class="anchored" data-anchor-id="e0019-expresión-analítica-de-una-señal-periódica">E0019 — Expresión Analítica de una Señal Periódica</h3>
+<p><em>U1.3 · intermedio · ~20 min</em> · sugerido en el Reader (cap. 1 · Señales)</p>
+<blockquote class="blockquote">
+<p>Expresión analítica de una señal periódica triangular graficada</p>
+</blockquote>
+<p>Determine una expresión analítica para la señal:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figuras-banco/E0019_fig.png" class="img-fluid figure-img"></p>
+<figcaption>figura</figcaption>
+</figure>
+</div>
+</section>
+<section id="e0025-aproximación-de-la-delta-de-dirac-y-su-derivada" class="level3">
+<h3 class="anchored" data-anchor-id="e0025-aproximación-de-la-delta-de-dirac-y-su-derivada">E0025 — Aproximación de la Delta de Dirac y su Derivada</h3>
+<p><em>U1.4 · intermedio · ~20 min</em> · sugerido en el Reader (cap. 1 · Señales)</p>
+<blockquote class="blockquote">
+<p>Aproximaciones de <span class="math inline">\delta</span> y su derivada: el doblete visto de cerca</p>
+</blockquote>
+<p><span class="math display"> \begin{aligned} g_{\theta}(x) &amp;= \frac{3(\theta-|x|)^2}{2\theta^3} \operatorname{rect}\left(\frac{x}{2\theta}\right). \end{aligned} </span> Considere <span class="math inline">g_{\theta}</span> como función aproximante de <span class="math inline">\delta(x)</span> para calcular <span class="math display">\int_{-\infty}^{\infty} \delta''(x)dx</span></p>
+</section>
+<section id="e0026-propiedad-de-la-función-triángulo" class="level3">
+<h3 class="anchored" data-anchor-id="e0026-propiedad-de-la-función-triángulo">E0026 — Propiedad de la función triángulo</h3>
+<p><em>U1.4 · intermedio · ~20 min</em> · sugerido en el Reader (cap. 1 · Señales)</p>
+<blockquote class="blockquote">
+<p>Una propiedad de la función triángulo, demostrada desde las definiciones</p>
+</blockquote>
+<p><span class="math display">\begin{aligned} \text{Demuestre que } \frac{1}{3} \tfrac{1}{2}\left[\delta\left(\frac{x}{\sqrt{3}}-\tfrac{1}{2}\right)+\delta\left(\frac{x}{\sqrt{3}}+\tfrac{1}{2}\right)\right] = \sqrt{3}\delta(4x^3-3x)-\frac{1}{\sqrt{3}}\delta(x) \end{aligned}</span></p>
+</section>
+</section>
+<section id="unidad-2-sistemas-y-convolución" class="level2">
+<h2 class="anchored" data-anchor-id="unidad-2-sistemas-y-convolución">Unidad 2 · Sistemas y convolución</h2>
+<section id="e0016-análisis-de-un-sistema-con-multiplicación-coseno" class="level3">
+<h3 class="anchored" data-anchor-id="e0016-análisis-de-un-sistema-con-multiplicación-coseno">E0016 — Análisis de un Sistema con Multiplicación Coseno</h3>
+<p><em>U2.1 · intermedio · ~15 min</em> · <strong>resuelto en la Ayudantía 3</strong> · sugerido en el Reader (cap. 2 · Sistemas)</p>
+<blockquote class="blockquote">
+<p>El interrogatorio completo — las cinco propiedades — para el sistema AM <span class="math inline">y(t) = x(t)\cos(2\pi\nu t)</span></p>
+</blockquote>
+<p>Considere el sistema</p>
+<p><span class="math display">y(t) = x(t) \cos(2 \pi u t)</span></p>
+<p>donde <span class="math inline">y(t)</span> es la salida, <span class="math inline">x(t)</span> la entrada y <span class="math inline">u \in \mathbb{R}</span>.</p>
+<ol type="1">
+<li>Determine si el sistema es estable.</li>
+<li>Determine si el sistema tiene memoria.</li>
+<li>Determine si el sistema es lineal.</li>
+<li>Determine si el sistema es invariante.</li>
+<li>Determine si el sistema es causal.</li>
+</ol>
+</section>
+<section id="e0048-partes-par-e-impar-de-la-autocorrelación" class="level3">
+<h3 class="anchored" data-anchor-id="e0048-partes-par-e-impar-de-la-autocorrelación">E0048 — Partes Par e Impar de la Autocorrelación</h3>
+<p><em>U2.6, U2.3, U1.2 · intermedio · ~20 min</em> · sugerido en el Reader (cap. 2 · Sistemas)</p>
+<p>La autocorrelación de una señal real <span class="math inline">f(x)</span> se define como: <span class="math display">
+\begin{aligned}
+f(x) \star f(x) &amp;= \frac{f(x)*f(-x)}{A},
+\end{aligned}
+</span> donde <span class="math inline">A</span> corresponde al área total de <span class="math inline">f(x)</span>. Es decir, corresponde a la auto-convolución sin invertir una de las señales y normalizada por el área.</p>
+<p>Encuentre la parte par (<span class="math inline">P(x)</span>) e impar (<span class="math inline">I(x)</span>) de <span class="math inline">f(x) \star f(x)</span>.</p>
+</section>
+<section id="e0054-convolución-gráfica-de-señales" class="level3">
+<h3 class="anchored" data-anchor-id="e0054-convolución-gráfica-de-señales">E0054 — Convolución Gráfica de Señales</h3>
+<p><em>U2.3 · basico · ~15 min</em> · sugerido en el Reader (cap. 2 · Sistemas)</p>
+<blockquote class="blockquote">
+<p>Convolución gráfica de señales por tramos: el método de la <strong>?@sec-metodo-grafico</strong> en su hábitat</p>
+</blockquote>
+<p>Grafique la convolución de <span class="math inline">x_1(t)</span> y <span class="math inline">x_2(t)</span>, ambas se muestran en el gráfico:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figuras-banco/E0054_fig.png" class="img-fluid figure-img"></p>
+<figcaption>figura</figcaption>
+</figure>
+</div>
+</section>
+<section id="e0295-autocorrelación-del-pulso-rectangular-donde-nace-el-triángulo" class="level3">
+<h3 class="anchored" data-anchor-id="e0295-autocorrelación-del-pulso-rectangular-donde-nace-el-triángulo">E0295 — Autocorrelación del Pulso Rectangular: Donde Nace el Triángulo</h3>
+<p><em>U2.6 · basico · ~15 min</em> · sugerido en el Reader (cap. 2 · Sistemas)</p>
+<p>Sea <span class="math inline">x(t) = A\,\text{rect}(t/T)</span>, con <span class="math inline">A,T&gt;0</span>, y sea <span class="math inline">\text{rect}(u)=1</span> para <span class="math inline">|u|\le\tfrac12</span> y <span class="math inline">0</span> en el resto (de modo que <span class="math inline">x(t)</span> vale <span class="math inline">A</span> en <span class="math inline">|t|\le T/2</span> y <span class="math inline">0</span> fuera). Para señales reales, la autocorrelación se define como <span class="math display">
+R_x(\tau) = \int_{-\infty}^{\infty} x(t)\,x(t+\tau)\,dt.
+</span></p>
+<ol type="a">
+<li><p>Calcule <span class="math inline">R_x(\tau)</span> explícitamente, para todo <span class="math inline">\tau</span>.</p></li>
+<li><p>Verifique que <span class="math inline">R_x(0) = E_x</span>, la energía de <span class="math inline">x(t)</span>.</p></li>
+<li><p>Demuestre que <span class="math inline">R_x</span> es una función par y que <span class="math inline">|R_x(\tau)| \le R_x(0)</span> para todo <span class="math inline">\tau</span>.</p></li>
+</ol>
+</section>
+<section id="e0296-autocorrelación-de-la-exponencial-causal" class="level3">
+<h3 class="anchored" data-anchor-id="e0296-autocorrelación-de-la-exponencial-causal">E0296 — Autocorrelación de la Exponencial Causal</h3>
+<p><em>U2.6 · intermedio · ~15 min</em> · sugerido en el Reader (cap. 2 · Sistemas)</p>
+<p>Sea <span class="math inline">x(t) = e^{-at}u(t)</span>, con <span class="math inline">a&gt;0</span>. Recuerde que para señales reales la autocorrelación se define como <span class="math display">
+R_x(\tau) = \int_{-\infty}^{\infty} x(t)\,x(t+\tau)\,dt.
+</span></p>
+<ol type="a">
+<li><p>Calcule <span class="math inline">R_x(\tau)</span> para <span class="math inline">\tau\ge0</span>.</p></li>
+<li><p>Usando la paridad de <span class="math inline">R_x</span> (que <span class="math inline">R_x(-\tau)=R_x(\tau)</span> para toda señal real), extienda el resultado de (a) a una expresión válida para todo <span class="math inline">\tau</span>.</p></li>
+<li><p>Verifique que <span class="math inline">R_x(0)</span> coincide con la energía <span class="math inline">E_x</span> de <span class="math inline">x(t)</span>.</p></li>
+<li><p><span class="math inline">x(t)</span> no es una función par (es causal: vale <span class="math inline">0</span> para <span class="math inline">t&lt;0</span>). ¿Es <span class="math inline">R_x(\tau)</span> par de todas formas? Comente.</p></li>
+</ol>
+</section>
+</section>
+<section id="unidad-3-fourier" class="level2">
+<h2 class="anchored" data-anchor-id="unidad-3-fourier">Unidad 3 · Fourier</h2>
+<section id="e0071-serie-de-fourier-de-funciones" class="level3">
+<h3 class="anchored" data-anchor-id="e0071-serie-de-fourier-de-funciones">E0071 — Serie de Fourier de Funciones</h3>
+<p><em>U3.2, U1.1 · intermedio · ~15 min</em> · <strong>resuelto en la Ayudantía 6</strong></p>
+<p>Deduzca la serie de Fourier de:</p>
+<ol type="1">
+<li><span class="math inline">1+e^{ix}</span></li>
+<li><span class="math inline">\cos(x) + \cos(\sqrt{2}x)</span></li>
+</ol>
+</section>
+<section id="e0074-coeficientes-trigonometricos-de-fourier-para-señal-exponencial-compleja" class="level3">
+<h3 class="anchored" data-anchor-id="e0074-coeficientes-trigonometricos-de-fourier-para-señal-exponencial-compleja">E0074 — Coeficientes Trigonometricos de Fourier para Señal Exponencial Compleja</h3>
+<p><em>U3.2 · intermedio · ~5 min</em> · <strong>resuelto en la Ayudantía 6</strong></p>
+<p>Encuentre los coeficientes <span class="math inline">a_k</span> y <span class="math inline">b_k</span> de la expansión en series de Fourier de: <span class="math display"> x(t) = 1 + e^{jt} </span></p>
+</section>
+</section>
+<section id="unidad-4-laplace" class="level2">
+<h2 class="anchored" data-anchor-id="unidad-4-laplace">Unidad 4 · Laplace</h2>
+<section id="e0127-transformada-inversa-de-laplace-casos-unilateral-y-bilateral" class="level3">
+<h3 class="anchored" data-anchor-id="e0127-transformada-inversa-de-laplace-casos-unilateral-y-bilateral">E0127 — Transformada Inversa de Laplace: Casos Unilateral y Bilateral</h3>
+<p><em>U4.2 · intermedio · ~12 min</em> · <strong>resuelto en la Ayudantía 9</strong></p>
+<p>Determine <span class="math inline">x(t)</span> para las siguientes condiciones si <span class="math inline">X(s)</span> está dada por: <span class="math display">X(s) = \frac{1}{(s+1)(s+2)}</span> 1. <span class="math inline">x(t)</span> es unilateral derecha 2. <span class="math inline">x(t)</span> es unilateral izquierda 3. <span class="math inline">x(t)</span> es bilateral</p>
+</section>
+<section id="e0128-cálculo-de-la-salida-de-un-sistema-lti-con-transformada-de-laplace" class="level3">
+<h3 class="anchored" data-anchor-id="e0128-cálculo-de-la-salida-de-un-sistema-lti-con-transformada-de-laplace">E0128 — Cálculo de la Salida de un Sistema LTI con Transformada de Laplace</h3>
+<p><em>U4.2 · intermedio · ~25 min</em> · <strong>resuelto en la Ayudantía 9</strong></p>
+<p>Un sistema LTI tiene una respuesta al impulso <span class="math inline">h(t)</span> cuya transformada de Laplace <span class="math inline">H(s)</span> está dada por <span class="math display"> H(s) = \int_{-\infty}^{+\infty} h(t) e^{-st} dt = \frac{1}{s+1}, \quad \text{Re}\{s\} &gt; -1 </span> Determine la salida del sistema <span class="math inline">y(t)</span> si la entrada <span class="math inline">x(t)</span> es la siguiente: <span class="math display"> x(t) = e^{-\frac{t}{2}}u(t) + 2 e^{-\frac{t}{3}}u(t) </span></p>
+</section>
+<section id="e0133-determinación-de-la-respuesta-al-impulso-de-un-sistema-estable-y-no-causal" class="level3">
+<h3 class="anchored" data-anchor-id="e0133-determinación-de-la-respuesta-al-impulso-de-un-sistema-estable-y-no-causal">E0133 — Determinación de la Respuesta al Impulso de un Sistema Estable y No Causal</h3>
+<p><em>U4.2, U4.3 · avanzado · ~40 min</em> · sugerido en el Reader (cap. 4 · Laplace)</p>
+<blockquote class="blockquote">
+<p>Respuesta al impulso de un sistema estable y <strong>no causal</strong> — la ROC decidiendo todo</p>
+</blockquote>
+<p>La transformada de Laplace de la respuesta al impulso, <span class="math inline">h(t)</span>, de un sistema estable no causal es <span class="math display"> H(s)=\frac{1}{s^{2}+e^{i \alpha}} </span> con <span class="math inline">\alpha=\pi / 2+\operatorname{atan}(3 / 4)</span>. Encuentre <span class="math inline">h(t)</span>.</p>
+</section>
+</section>
+<section id="unidad-5-discreto-y-muestreo" class="level2">
+<h2 class="anchored" data-anchor-id="unidad-5-discreto-y-muestreo">Unidad 5 · Discreto y muestreo</h2>
+<section id="e0159-análisis-de-un-sistema-discreto-en-espacio-de-estados" class="level3">
+<h3 class="anchored" data-anchor-id="e0159-análisis-de-un-sistema-discreto-en-espacio-de-estados">E0159 — Análisis de un Sistema Discreto en Espacio de Estados</h3>
+<p><em>U5.4 · avanzado · ~80 min</em> · sugerido en el Reader (cap. 5 · Señales y sistemas discretos)</p>
+<p>Considere el siguiente sistema discreto en el tiempo representado por la ecuación de diferencias: <span class="math display"> y[n] - \frac{5}{6}y[n-1] + \frac{1}{6}y[n-2] = 5x[n-1] - x[n-2] </span> 1. Represente el sistema en el espacio de estados en la forma canónica controlable. Es decir, determine las matrices <span class="math inline">A</span>, <span class="math inline">B</span>, <span class="math inline">C</span> y <span class="math inline">D</span> para el modelo: <span class="math display"> q[n+1] = A q[n] + B x[n] </span> <span class="math display"> y[n] = C q[n] + D x[n] </span> 2. Encuentre la salida <span class="math inline">y[n]</span> si la entrada <span class="math inline">x[n]</span> es el escalón unitario (<span class="math inline">x[n] = u[n]</span>) y las condiciones iniciales son <span class="math inline">q_1[0] = 2</span> y <span class="math inline">q_2[0] = 3</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figuras-banco/E0159_fig.png" class="img-fluid figure-img"></p>
+<figcaption>figura</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="unidad-6-transformada-z" class="level2">
+<h2 class="anchored" data-anchor-id="unidad-6-transformada-z">Unidad 6 · Transformada Z</h2>
+<section id="e0176-aplicación-del-teorema-del-valor-final-en-la-transformada-z" class="level3">
+<h3 class="anchored" data-anchor-id="e0176-aplicación-del-teorema-del-valor-final-en-la-transformada-z">E0176 — Aplicación del Teorema del Valor Final en la Transformada Z</h3>
+<p><em>U6.1 · basico · ~3 min</em> · sugerido en el Reader (cap. 6 · La transformada Z)</p>
+<blockquote class="blockquote">
+<p>El teorema del valor final en la transformada Z</p>
+</blockquote>
+<p>Se sabe que la transformada <span class="math inline">\mathcal{Z}</span> de la secuencia <span class="math inline">f[n]</span> es:<span class="math display"> F(z) = \frac{Az^{-1}}{1-z^{-1}}</span>¿Cuánto debe valer <span class="math inline">A</span> para que <span class="math inline">\lim_{n \to \infty} f[n] = \frac{1}{2}</span>?</p>
+</section>
+<section id="e0177-transformada-z-inversa-métodos-directo-de-expansión-y-propiedades" class="level3">
+<h3 class="anchored" data-anchor-id="e0177-transformada-z-inversa-métodos-directo-de-expansión-y-propiedades">E0177 — Transformada Z Inversa: Métodos Directo, de Expansión y Propiedades</h3>
+<p><em>U6.2 · intermedio · ~25 min</em> · sugerido en el Reader (cap. 6 · La transformada Z)</p>
+<blockquote class="blockquote">
+<p>Inversa por métodos directo, de expansión y propiedades</p>
+</blockquote>
+<p>Encuentre la transformada <span class="math inline">\mathcal{Z}^{-1}</span> de las siguientes expresiones:</p>
+<ol type="1">
+<li><span class="math inline">\frac{1}{1-i z^{-1}} ; |z| &gt; 1</span></li>
+<li><span class="math inline">\frac{1 -2z^{-1}}{1-4 z^{-1}+4z^{-2}} ; |z| &lt; 2</span></li>
+<li><span class="math inline">\log(1-\frac{1}{2}z^{-1}) ; |z| &gt; \frac{1}{2}</span></li>
+</ol>
+</section>
+<section id="e0182-transformada-z-inversa-de-función-racional" class="level3">
+<h3 class="anchored" data-anchor-id="e0182-transformada-z-inversa-de-función-racional">E0182 — Transformada Z Inversa de Función Racional</h3>
+<p><em>U6.2 · basico · ~8 min</em> · sugerido en el Reader (cap. 6 · La transformada Z)</p>
+<blockquote class="blockquote">
+<p>Inversa de una función racional simple</p>
+</blockquote>
+<p><span class="math display"> \begin{aligned}
+&amp;\text{Encuentre la transformada Z inversa de la siguiente función:}
+&amp;F(z) = \frac{1+3z^{-1}}{1-\frac{1}{2}z^{-1}}, \quad |z| &gt; \frac{1}{2}
+\end{aligned} </span></p>
+</section>
+<section id="e0183-transformada-z-inversa-por-diferenciación-en-el-dominio-z" class="level3">
+<h3 class="anchored" data-anchor-id="e0183-transformada-z-inversa-por-diferenciación-en-el-dominio-z">E0183 — Transformada Z Inversa por Diferenciación en el Dominio Z</h3>
+<p><em>U6.2, U6.7 · avanzado · ~25 min</em> · sugerido en el Reader (cap. 6 · La transformada Z)</p>
+<blockquote class="blockquote">
+<p>Inversa por diferenciación en el dominio <span class="math inline">z</span></p>
+</blockquote>
+<p>Determine la transformada <span class="math inline">z</span> unilateral inversa de la siguiente señal: <span class="math display">X[z] = \frac{d^7}{dz^7} \left[ \frac{z^{-4}}{\left(z-\frac{1}{2}\right)(z+3)}\right]</span></p>
+</section>
+<section id="e0186-transformada-z-de-una-señal-bilateral-simétrica-an" class="level3">
+<h3 class="anchored" data-anchor-id="e0186-transformada-z-de-una-señal-bilateral-simétrica-an">E0186 — Transformada Z de una señal bilateral simétrica a^{|n|}</h3>
+<p><em>U6.1 · intermedio · ~20 min</em> · sugerido en el Reader (Apéndice B · La ROC)</p>
+<p>Considere la señal discreta bilateral <span class="math display">
+x[n] = a^{|n|}, \qquad 0 &lt; a &lt; 1 \text{ (parámetro real)}.
+</span></p>
+<ol type="1">
+<li>Escriba <span class="math inline">x[n]</span> como la suma de una parte que vive en <span class="math inline">n \ge 0</span> y otra que vive en <span class="math inline">n \le -1</span>, y calcule la transformada Z de cada una por separado (con su propia ROC).</li>
+<li>Sume ambas transformadas y exprese <span class="math inline">X(z)</span> como una única función racional. Indique la ROC completa.</li>
+<li>Ubique los polos y el cero de <span class="math inline">X(z)</span> en el plano complejo y dibuje el diagrama de polos, ceros y ROC.</li>
+<li>Sin volver a calcular nada: explique por qué, para <strong>cualquier</strong> valor de <span class="math inline">0&lt;a&lt;1</span>, la ROC de esta señal contiene siempre el círculo unitario <span class="math inline">|z|=1</span>.</li>
+<li>Evalúe el caso numérico <span class="math inline">a = 0.6</span>: dé los valores exactos de los polos y verifique que <span class="math inline">X(1)</span> (evaluado con la fórmula) coincide con <span class="math inline">\sum_n x[n]\,(1)^{-n}</span> calculado numéricamente sobre una ventana finita.</li>
+</ol>
+</section>
+<section id="e0299-cuenta-de-ahorro-interés-compuesto-como-sistema-discreto" class="level3">
+<h3 class="anchored" data-anchor-id="e0299-cuenta-de-ahorro-interés-compuesto-como-sistema-discreto">E0299 — Cuenta de ahorro: interés compuesto como sistema discreto</h3>
+<p><em>U6.7 · intermedio · ~20 min</em> · sugerido en el Reader (cap. 6 · La transformada Z)</p>
+<p>Una cuenta de ahorro paga una tasa de interés mensual <span class="math inline">r</span> (por ejemplo, <span class="math inline">r=0{,}01</span> para <span class="math inline">1\%</span> mensual) y recibe además un depósito fijo <span class="math inline">d</span> al final de cada mes. Si <span class="math inline">y[n]</span> es el saldo al final del mes <span class="math inline">n</span>, el saldo evoluciona según</p>
+<p><span class="math display">y[n] = (1+r)y[n-1] + d, \qquad n\geq 0,</span></p>
+<p>con saldo inicial <span class="math inline">y[-1] = C_0</span>.</p>
+<ol type="a">
+<li><p>Aplique la transformada Z unilateral a la ecuación y despeje <span class="math inline">Y(z)</span>. Note que el depósito constante <span class="math inline">d</span>, activo desde <span class="math inline">n=0</span>, se transforma como <span class="math inline">d\,\mathcal{Z}_u\{u[n]\} = d/(1-z^{-1})</span>.</p></li>
+<li><p>Haga fracciones parciales del término asociado al depósito y obtenga <span class="math inline">y[n]</span> para <span class="math inline">n\geq 0</span>.</p></li>
+<li><p>Verifique que su fórmula da el valor correcto de <span class="math inline">y[0]</span> comparando con el cálculo directo desde la ecuación de diferencias.</p></li>
+<li><p>Interprete los dos términos de <span class="math inline">y[n]</span>: ¿cuál corresponde a la respuesta a entrada nula (el saldo inicial solo, sin depósitos) y cuál a la respuesta a estado nulo (los depósitos solos, sin saldo inicial)? ¿Qué rol jugó la Z unilateral en separar ambos efectos?</p></li>
+</ol>
+</section>
+<section id="e0371-los-conejos-de-fibonacci-y-el-número-áureo-en-z" class="level3">
+<h3 class="anchored" data-anchor-id="e0371-los-conejos-de-fibonacci-y-el-número-áureo-en-z">E0371 — Los Conejos de Fibonacci y el Número Áureo en Z</h3>
+<p><em>U6.7, U6.2, U6.4 · avanzado · ~30 min</em> · sugerido en el Reader (cap. 6 · La transformada Z)</p>
+<p>Leonardo de Pisa (Fibonacci) modeló el número de parejas de conejos en la etapa <span class="math inline">n</span> con la recurrencia <span class="math display">
+f[n+2] = f[n+1] + f[n], \qquad f[0]=0,\ f[1]=1.
+</span></p>
+<ol type="a">
+<li><p>Deduzca desde la definición las propiedades de <strong>adelanto</strong> de la Z unilateral: <span class="math display">
+\mathcal{Z}_u\{f[n+1]\} = zF(z) - z f[0], \qquad
+\mathcal{Z}_u\{f[n+2]\} = z^2F(z) - z^2 f[0] - z f[1].
+</span></p></li>
+<li><p>Aplíquelas a la recurrencia y obtenga <span class="math inline">F(z)</span>.</p></li>
+<li><p>Invierta por fracciones parciales (conviene el truco <span class="math inline">F(z)/z</span>) y demuestre la <strong>fórmula de Binet</strong>: <span class="math display">
+f[n] = \frac{\varphi^n - (1-\varphi)^n}{\sqrt5}\,u[n], \qquad
+\varphi = \frac{1+\sqrt5}{2}.
+</span></p></li>
+<li><p>¿Es estable este “sistema”? ¿Qué le pasa a <span class="math inline">f[n]</span> para <span class="math inline">n</span> grande, y a qué tiende el cociente <span class="math inline">f[n+1]/f[n]</span>? Compare con el sistema de [E0327], que difiere en <strong>un solo signo</strong>.</p></li>
+</ol>
+</section>
+</section>
+<section id="unidad-7-dft-y-análisis-espectral" class="level2">
+<h2 class="anchored" data-anchor-id="unidad-7-dft-y-análisis-espectral">Unidad 7 · DFT y análisis espectral</h2>
+<section id="e0162-análisis-de-concentración-espectral-de-señal-discreta-con-dtft" class="level3">
+<h3 class="anchored" data-anchor-id="e0162-análisis-de-concentración-espectral-de-señal-discreta-con-dtft">E0162 — Análisis de Concentración Espectral de Señal Discreta con DTFT</h3>
+<p><em>U7.1 · basico · ~6 min</em> · <strong>resuelto en la Ayudantía 14</strong> · sugerido en el Reader (cap. 7 · DFT y análisis espectral)</p>
+<blockquote class="blockquote">
+<p>¿La señal <span class="math inline">x[-1] = -0.5</span>, <span class="math inline">x[1] = 0.5</span> está concentrada en frecuencias bajas, medias o altas? DTFT en dos líneas</p>
+</blockquote>
+<p>Utilice la DTFT para determinar si la siguiente señal discreta está concentrada en frecuencias bajas, medias o altas: <span class="math display">
+\begin{aligned}
+x[-1] &amp;= -0.5,
+x[1] &amp;= 0.5,
+x[k] &amp;= 0 \quad \forall k \neq \{-1, 1\}
+\end{aligned}
+</span></p>
+</section>
+<section id="e0167-demostración-de-la-propiedad-de-desplazamiento-temporal-de-la-dft" class="level3">
+<h3 class="anchored" data-anchor-id="e0167-demostración-de-la-propiedad-de-desplazamiento-temporal-de-la-dft">E0167 — Demostración de la Propiedad de Desplazamiento Temporal de la DFT</h3>
+<p><em>U7.2 · intermedio · ~7 min</em> · <strong>resuelto en la Ayudantía 14</strong> · sugerido en el Reader (cap. 7 · DFT y análisis espectral)</p>
+<blockquote class="blockquote">
+<p>Demostrar el desplazamiento temporal de la DFT — y descubrir que es <em>circular</em></p>
+</blockquote>
+<p>Demuestre la propiedad de desplazamiento temporal de la Transformada Discreta de Fourier (DFT): <span class="math display"> f[n-a] \rightarrow e^{-i2\pi k a/N} F[k],\quad a\in \mathcal{Z} </span></p>
+</section>
+<section id="e0169-relación-entre-dfts-con-zero-padding" class="level3">
+<h3 class="anchored" data-anchor-id="e0169-relación-entre-dfts-con-zero-padding">E0169 — Relación entre DFTs con Zero-Padding</h3>
+<p><em>U7.3 · intermedio · ~20 min</em> · <strong>resuelto en la Ayudantía 14</strong> · sugerido en el Reader (cap. 7 · DFT y análisis espectral)</p>
+<blockquote class="blockquote">
+<p>Si <span class="math inline">f = (a,b,c,d,0,0,0,0)</span> tiene DFT <span class="math inline">F[k]</span>, ¿cuál es la DFT de 4 puntos de <span class="math inline">(a,b,c,d)</span>? Dos DFTs, una misma DTFT</p>
+</blockquote>
+<p>Si <span class="math inline">f[n] = (a,b,c,d,0,0,0,0)</span> tiene una DFT <span class="math inline">F[k] = (A,B,C,D,E,F,G,H)</span>, ¿cuál es la DFT de <span class="math inline">g[n] = (a,b,c,d)</span> en función de los valores de <span class="math inline">F[k]</span>?</p>
+</section>
+<section id="e0302-interpolar-por-l-ceros-imágenes-y-el-filtro-que-las-borra" class="level3">
+<h3 class="anchored" data-anchor-id="e0302-interpolar-por-l-ceros-imágenes-y-el-filtro-que-las-borra">E0302 — Interpolar por L: Ceros, Imágenes y el Filtro que las Borra</h3>
+<p><em>U7.1, U5.6 · intermedio · ~18 min</em> · sugerido en el Reader (cap. 5 · Señales y sistemas discretos)</p>
+<p>Una señal <span class="math inline">x[n]</span> tiene DTFT <span class="math display">X(e^{j\Omega}) = \begin{cases} 1 &amp; |\Omega| \le \pi/4 \\ 0 &amp; \pi/4 &lt; |\Omega| \le \pi \end{cases}</span> (extendida <span class="math inline">2\pi</span>-periódicamente fuera de <span class="math inline">[-\pi,\pi]</span>).</p>
+<p>Se define <span class="math inline">w[n]</span> por inserción de <span class="math inline">L-1=2</span> ceros (es decir, <span class="math inline">L=3</span>): <span class="math display">w[n] = \begin{cases} x[n/3] &amp; n \text{ múltiplo de } 3 \\ 0 &amp; \text{en caso contrario} \end{cases}</span></p>
+<ol type="a">
+<li><p>Muestre que <span class="math inline">W(e^{j\Omega}) = X(e^{j3\Omega})</span>, y describa cómo queda el espectro de <span class="math inline">w[n]</span>: ¿dónde queda la banda “útil” (la copia de <span class="math inline">X</span> comprimida) y dónde aparecen las imágenes espurias dentro de <span class="math inline">[-\pi,\pi]</span>?</p></li>
+<li><p>Para completar la interpolación, se filtra <span class="math inline">w[n]</span> con un pasabajos ideal de corte <span class="math inline">\Omega_c = \pi/3</span> y ganancia <span class="math inline">L=3</span>. Verifique que ese corte efectivamente separa la banda útil de la primera imagen (calcule ambos bordes y compare con <span class="math inline">\Omega_c</span>).</p></li>
+<li><p>Explique, en términos de energía/amplitud de la señal, por qué la ganancia del filtro debe ser exactamente <span class="math inline">L</span> y no 1.</p></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../formularios.html" class="pagination-link" aria-label="Formularios oficiales">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Formularios oficiales</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../curso/semana-01/c01.html" class="pagination-link" aria-label="C1 · Presentación: señales, sistemas y el mapa del curso">
+        <span class="nav-page-text">C1 · Presentación: señales, sistemas y el mapa del curso</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
