@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C6 · LTI ⇒ convolución: el teorema del curso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Ay4 · CV1 + Integración U1–U2: rumbo a la I1 – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-03/ay03.html" rel="next">
-<link href="../../curso/semana-03/c05.html" rel="prev">
+<link href="../../curso/listas/lista-01.html" rel="next">
+<link href="../../curso/semana-04/c08.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-03/c05.html">Semana 3 · Sistemas</a></li><li class="breadcrumb-item"><a href="../../curso/semana-03/c06.html">C6 · LTI ⇒ convolución: el teorema del curso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-04/c07.html">Semana 4 · Convolución y EDOs</a></li><li class="breadcrumb-item"><a href="../../curso/semana-04/ay04.html">Ay4 · CV1 + Integración U1–U2: rumbo a la I1</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -247,7 +247,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-03/c06.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-03/c06.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C6 · LTI ⇒ convolución: el teorema del curso</span></a>
   </div>
 </li>
@@ -282,7 +282,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-04/ay04.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-04/ay04.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Ay4 · CV1 + Integración U1–U2: rumbo a la I1</span></a>
   </div>
 </li>
@@ -333,21 +333,20 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#la-promesa-sobre-la-mesa" id="toc-la-promesa-sobre-la-mesa" class="nav-link active" data-scroll-target="#la-promesa-sobre-la-mesa">1. La promesa sobre la mesa</a></li>
-  <li><a href="#toda-señal-es-una-suma-de-impulsos" id="toc-toda-señal-es-una-suma-de-impulsos" class="nav-link" data-scroll-target="#toda-señal-es-una-suma-de-impulsos">2. Toda señal es una suma de impulsos</a></li>
-  <li><a href="#la-derivación-linealidad-reparte-invariancia-traslada" id="toc-la-derivación-linealidad-reparte-invariancia-traslada" class="nav-link" data-scroll-target="#la-derivación-linealidad-reparte-invariancia-traslada">3. La derivación: linealidad reparte, invariancia traslada</a></li>
-  <li><a href="#el-misterio-de-c1-resuelto" id="toc-el-misterio-de-c1-resuelto" class="nav-link" data-scroll-target="#el-misterio-de-c1-resuelto">4. El misterio de C1, resuelto</a></li>
-  <li><a href="#primeros-cálculos" id="toc-primeros-cálculos" class="nav-link" data-scroll-target="#primeros-cálculos">5. Primeros cálculos</a></li>
+  <li><a href="#cv1-mecánica-completa-023-min" id="toc-cv1-mecánica-completa-023-min" class="nav-link active" data-scroll-target="#cv1-mecánica-completa-023-min">CV1: mecánica completa (0–23 min)</a></li>
+  <li><a href="#el-mapa-de-la-i1-2028-min" id="toc-el-mapa-de-la-i1-2028-min" class="nav-link" data-scroll-target="#el-mapa-de-la-i1-2028-min">El mapa de la I1 (20–28 min)</a></li>
+  <li><a href="#ejercicios-de-la-sesión" id="toc-ejercicios-de-la-sesión" class="nav-link" data-scroll-target="#ejercicios-de-la-sesión">Ejercicios de la sesión</a></li>
+  <li><a href="#el-formulario-oficial-y-cómo-estudiar-con-él-6470-min" id="toc-el-formulario-oficial-y-cómo-estudiar-con-él-6470-min" class="nav-link" data-scroll-target="#el-formulario-oficial-y-cómo-estudiar-con-él-6470-min">El formulario oficial y cómo estudiar con él (64–70 min)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-03/c05.html">Semana 3 · Sistemas</a></li><li class="breadcrumb-item"><a href="../../curso/semana-03/c06.html">C6 · LTI ⇒ convolución: el teorema del curso</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-04/c07.html">Semana 4 · Convolución y EDOs</a></li><li class="breadcrumb-item"><a href="../../curso/semana-04/ay04.html">Ay4 · CV1 + Integración U1–U2: rumbo a la I1</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">C6 · LTI ⇒ convolución: el teorema del curso</h1>
-<p class="subtitle lead">Semana 3 · 70 min · U2.2</p>
+<h1 class="title">Ay4 · CV1 + Integración U1–U2: rumbo a la I1</h1>
+<p class="subtitle lead">Semana 4 · 70 min · CV1: Listas 1–2 · pre-I1</p>
 </div>
 
 
@@ -364,99 +363,91 @@ window.Quarto = {
 </header>
 
 
-<section id="la-promesa-sobre-la-mesa" class="level1">
-<h1>1. La promesa sobre la mesa</h1>
-<p><strong>Definición de respuesta al impulso:</strong></p>
-<p><span class="math display">h(t) = </span></p>
-<p><strong>El teorema de hoy</strong> (enúncialo con tus palabras — qué basta conocer, y para qué alcanza):</p>
-<div class="hueco">
-
-</div>
+<section id="cv1-mecánica-completa-023-min" class="level2">
+<h2 class="anchored" data-anchor-id="cv1-mecánica-completa-023-min">CV1: mecánica completa (0–23 min)</h2>
+<p>Primera vez del semestre — explicar el rito antes de repartir, con calma:</p>
+<ol type="1">
+<li><strong>Qué es</strong>: un <strong>checkpoint</strong> de 15 minutos, no una prueba. La pregunta es <strong>uno de los “¿Y si…?” impresos en tus Listas 1–2, con números concretos</strong> — la conoces desde hace días. Tiene dos partes: <strong>(a)</strong> resolver la variante; <strong>(b)</strong> señalar en una frase <strong>qué cambia respecto de tu desarrollo de la lista, y por qué</strong> (el paso exacto donde se bifurca).</li>
+<li><strong>Material permitido</strong>: el <strong>portafolio manuscrito propio</strong>, abierto sobre la mesa. Nada más: ni libros, ni apuntes de otros, ni pantallas. Los ayudantes verifican al pasar que sea manuscrito — no se timbra, no se revisa: <strong>se usa</strong>. (Y la parte (b) explica por qué un portafolio transcrito sin entender no sirve de nada aquí.)</li>
+<li><strong>Sin portafolio</strong>: se rinde igual, sin red. (El portafolio es tu memoria externa, y se construye durante la semana, no la noche antes.)</li>
+<li><strong>Cómo se registra</strong>: al minuto 15 <strong>se recogen los papeles</strong> y ahí mismo <strong>se proyecta la pauta</strong> — sales de la sala sabiendo cómo te fue. Esa tarde tu registro aparece en Canvas: <strong>1 (logrado) · ½ (parcial) · 0 (pendiente)</strong>. Regla clara: sin la frase de la parte (b), el máximo es ½.</li>
+<li><strong>Cómo pesa</strong> (decirlo con el número delante): la nota CV suma los créditos de tus <strong>mejores 5 de 6</strong> checkpoints — el peor se borra solo, sin trámite — con tabla publicada (nota = 1,0 + 1,2·créditos; 5 → 7,0). Y una entrega seria al <strong>concurso de diseño</strong> (semana 13) sube tu peor registro a 1. Un CV vale ~3,3% de la nota final — <em>menos que una pregunta de una interrogación</em>. <strong>El CV te avisa gratis lo que la interrogación te cobraría caro.</strong></li>
+<li><strong>El acople</strong>: 1–2 preguntas de cada CV son variantes del quiz Canvas de la semana. Quien completó el quiz ya ensayó el control.</li>
+</ol>
 </section>
-<section id="toda-señal-es-una-suma-de-impulsos" class="level1">
-<h1>2. Toda señal es una suma de impulsos</h1>
-<p><strong>Mi predicción</strong> (el peso del pulso en <span class="math inline">t = k\Delta</span>, y por qué):</p>
-<div class="hueco">
-
-</div>
-<p><strong>La escalera de pulsos y su límite</strong> (fórmula de la aproximación y fórmula límite):</p>
-<p><span class="math display">x(t) \approx \hspace{6cm}</span></p>
-<p><span class="math display">x(t) = \hspace{6cm}</span></p>
-<p><strong>La relectura clave</strong> (¿qué dice esta fórmula sobre los “ladrillos” de cualquier señal? ¿en qué se diferencia de cómo la leíamos en C4?):</p>
-<div class="hueco">
-
-</div>
-</section>
-<section id="la-derivación-linealidad-reparte-invariancia-traslada" class="level1">
-<h1>3. La derivación: linealidad reparte, invariancia traslada</h1>
-<p><strong>La derivación en 4 líneas</strong> (completa la tabla — entrada, salida y propiedad usada en cada paso):</p>
+<section id="el-mapa-de-la-i1-2028-min" class="level2">
+<h2 class="anchored" data-anchor-id="el-mapa-de-la-i1-2028-min">El mapa de la I1 (20–28 min)</h2>
+<p>Dibujar el temario <strong>por objetivos</strong>, no por clases — así se estudia:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>#</th>
-<th>Entrada</th>
-<th>Salida</th>
-<th>Propiedad usada</th>
+<th>Objetivo</th>
+<th>En una frase</th>
+<th>Dónde entrenar</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td><span class="math inline">\delta(t)</span></td>
-<td></td>
-<td></td>
+<td>U1.1–U1.2</td>
+<td>Clasificar señales (período de sumas, E/P, par/impar)</td>
+<td>Lista 1</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td></td>
-<td></td>
-<td></td>
+<td>U1.3</td>
+<td>Señales elementales y transformaciones de la variable</td>
+<td>Lista 2</td>
 </tr>
 <tr class="odd">
-<td>3</td>
-<td></td>
-<td></td>
-<td></td>
+<td>U1.4</td>
+<td>Impulso: muestreo, <span class="math inline">\delta(g(t))</span>, tren</td>
+<td>Lista 2, Ay2</td>
 </tr>
 <tr class="even">
-<td>4</td>
-<td></td>
-<td></td>
-<td></td>
+<td>U2.1</td>
+<td>Propiedades de sistemas: demostración o contraejemplo</td>
+<td>Lista 3, Ay3</td>
+</tr>
+<tr class="odd">
+<td>U2.2</td>
+<td>Por qué LTI ⇒ convolución (la derivación conceptual)</td>
+<td>C6, Lista 3</td>
+</tr>
+<tr class="even">
+<td>U2.3</td>
+<td>Convolucionar (gráfico + analítico) y anticipar sin calcular</td>
+<td>Lista 4</td>
+</tr>
+<tr class="odd">
+<td>U2.4–U2.5</td>
+<td>EDOs, <span class="math inline">h(t)</span>, causalidad/estabilidad desde <span class="math inline">h</span></td>
+<td>Lista 4</td>
 </tr>
 </tbody>
 </table>
-<p><strong>La integral de convolución</strong> (fórmula + lectura en palabras de cada símbolo):</p>
-<p><span class="math display">y(t) = \hspace{6cm}</span></p>
-<div class="hueco">
-
-</div>
-<p><strong>Las dos lecturas del teorema</strong> (análisis / síntesis):</p>
-<div class="hueco">
-
-</div>
+<p>Recordar el criterio del curso: los complejos son <em>herramienta</em>, no tema central (D1); las variables de estado de C8 <strong>no entran</strong> (D2).</p>
 </section>
-<section id="el-misterio-de-c1-resuelto" class="level1">
-<h1>4. El misterio de C1, resuelto</h1>
-<p><strong>El misterio de C1, en una ecuación</strong> (¿qué es cada término, y cuál se midió con un golpe?):</p>
-<p><span class="math display">\text{voz en la iglesia} = </span></p>
-<div class="hueco">
-
-</div>
-<p><strong>La frase para el bolsillo</strong> (la que ordena la unidad — cópiala completa):</p>
-<div class="hueco">
-
-</div>
-<p><strong>El eco simple</strong>: si <span class="math inline">h(t) = \delta(t) + \alpha\,\delta(t-T)</span>, entonces $y(t) = $</p>
+<section id="ejercicios-de-la-sesión" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios-de-la-sesión">Ejercicios de la sesión</h2>
+<p><strong>Pizarra (28–43 min): propiedades de sistemas.</strong> Determine si los siguientes sistemas son lineales y/o invariantes en el tiempo: <span class="math display">\text{(a) } y(t)=\int_{0}^{t}x(\tau)\,d\tau \qquad \text{(b) } y(t)=x(t)+t \qquad \text{(c) } y(t)=1/x(t)</span></p>
+<p><strong>Parejas (43–56 min): convolución completa.</strong> Sea <span class="math inline">h(t) = e^{-2t}u(t)</span> y <span class="math inline">x(t) = \operatorname{rect}(t - \tfrac12)</span> (un pulso en <span class="math inline">[0,1]</span>). Encuentre <span class="math inline">y = x * h</span> <strong>gráfica y analíticamente</strong>.</p>
+<p><strong>Pizarra (56–64 min): impulso + tren.</strong> Calcule, para <span class="math inline">k \in \mathbb{N}</span>: <span class="math display">\int_{-\infty}^{\infty} \tfrac{1}{k}\,\delta_{1/k}(x)\,\operatorname{tri}(x)\,dx</span></p>
+<p><strong>Si sobra tiempo — emparejamiento</strong>: en la pizarra, tres señales (<span class="math inline">\operatorname{rect}</span> ancho 1, <span class="math inline">\operatorname{rect}</span> ancho 2, <span class="math inline">\operatorname{tri}</span>) y tres resultados (trapecio de soporte 3, tri de soporte 2, campana suave de soporte 3): ¿quién convolucionado con quién da qué? Resolver <strong>solo</strong> con las reglas de C7: soporte suma, suavidad aumenta, área multiplica.</p>
 </section>
-<section id="primeros-cálculos" class="level1">
-<h1>5. Primeros cálculos</h1>
-<p><strong>Las dos convoluciones gratis:</strong></p>
-<p><span class="math display">x(t) * \delta(t) = \hspace{3cm} x(t) * \delta(t - t_0) = </span></p>
-<p><strong>Ejemplo resuelto</strong>: <span class="math inline">u(t) * e^{-2t}u(t)</span> (desarrollo completo: cómo recortan los escalones, la integral, y el chequeo de cordura con el área de <span class="math inline">h</span>):</p>
-<div class="hueco-grande">
-
-</div>
+<section id="el-formulario-oficial-y-cómo-estudiar-con-él-6470-min" class="level2">
+<h2 class="anchored" data-anchor-id="el-formulario-oficial-y-cómo-estudiar-con-él-6470-min">El formulario oficial y cómo estudiar con él (64–70 min)</h2>
+<p>Cerrar con consejería concreta (el formulario se revisa en C8, el lunes siguiente; hoy se adelanta la estrategia de uso para que lleguen con preguntas):</p>
+<ol type="1">
+<li><strong>Qué trae el formulario oficial (U1–U2)</strong>: se entrega impreso junto con la prueba — catálogo de señales, propiedades del impulso, propiedades de la convolución, teoremas causal/estable desde <span class="math inline">h</span>. Es igual para todos: no se aceptan hojas resumen propias ni apuntes adicionales.</li>
+<li><strong>Qué NO trae</strong> (y hay que saber de memoria o saber derivar): los 5 contraejemplos de sistemas y la derivación de C6 en 4 líneas. (La <span class="math inline">h</span> del RC sí está, bajo “Modelado”.) El formulario es un índice de fórmulas, no un sustituto de entender — si no lo entendiste, tenerlo enfrente no ayuda en 90 minutos.</li>
+<li><strong>La estrategia</strong>: conocer el formulario de antemano — abrirlo hoy, marcar qué fórmula está y cuál hay que saber aplicar o derivar sin ayuda, y resolver las Listas 1–4 con él al lado para que el día de la I1 sea un viejo conocido. Está publicado en el sitio del curso desde el día uno.</li>
+<li><strong>El mejor predictor de la I1</strong> no es el formulario: es haber resuelto las Listas 1–4 con la mano. El formulario solo evita que la memoria traicione bajo presión.</li>
+</ol>
+<p><strong>Logística I1</strong> (repetir hasta el bostezo): la próxima semana, en el bloque de ayudantía; hojas separadas por pregunta, nombre en todas; sin consultas — ante ambigüedad, <strong>suposición razonable explícita</strong> (se evalúa como criterio, no se castiga).</p>
 
 
 </section>
@@ -864,13 +855,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/semana-03/c05.html" class="pagination-link" aria-label="C5 · Propiedades de sistemas">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C5 · Propiedades de sistemas</span>
+      <a href="../../curso/semana-04/c08.html" class="pagination-link" aria-label="C8 · Sistemas y ecuaciones diferenciales: h(t) manda">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-03/ay03.html" class="pagination-link" aria-label="Ay3 · Ejercicios U2">
-        <span class="nav-page-text">Ay3 · Ejercicios U2</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/listas/lista-01.html" class="pagination-link" aria-label="Lista 1 · Señales: clasificación, periodicidad, energía, simetrías">
+        <span class="nav-page-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

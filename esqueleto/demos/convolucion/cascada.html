@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>La cascada, al oído</title>
+<style>
+  body{margin:0;font-family:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;background:#fff;color:#222;font-size:13.5px}
+  #bar{display:flex;gap:14px;align-items:center;padding:7px 12px;flex-wrap:wrap;font-size:14px}
+  button{font-size:13px;padding:3px 10px;border:1px solid #999;border-radius:6px;background:#f4f4f4;cursor:pointer}
+  button.sel{background:#0072B2;color:#fff;border-color:#0072B2}
+  button.play{background:#fff;border-color:#0072B2;color:#0072B2;font-weight:600;min-width:34px}
+  select{font-size:13.5px}
+  .fx{display:grid;grid-template-columns:210px 44px 1fr 210px;gap:8px;padding:4px 12px;align-items:center}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;padding:0 12px}
+  .cam{border:1px solid #e3e3e3;border-radius:6px;padding:4px 8px 6px;margin-top:4px}
+  .cam h4{margin:1px 0 3px;font-size:13.5px;color:#0072B2}
+  .cam.b h4{color:#D55E00}
+  .paso{display:grid;grid-template-columns:44px 1fr;gap:6px;align-items:center;margin-top:3px}
+  .paso .et{grid-column:1 / 3;font-size:12.5px;color:#333;display:flex;justify-content:space-between}
+  .paso .et .dur{color:#888}
+  canvas{display:block;width:100%;height:44px;background:#fafafa;border:1px solid #e6e6e6;border-radius:4px}
+  .resta{display:grid;grid-template-columns:210px 44px 1fr 210px;gap:8px;padding:5px 12px;align-items:center;margin-top:4px;border-top:1px solid #eee}
+  .resta b{color:#1b7f2a}
+  #estado{padding:4px 12px;color:#D55E00;min-height:17px}
+</style>
+</head>
+<body>
+<div id="bar">
+  <span>entrada seca <i>x</i>:</span>
+  <button data-x="flamenco" class="sel">guitarra flamenca</button>
+  <button data-x="soprano">soprano</button>
+  <button data-x="impulso">impulso</button>
+  <span style="margin-left:8px">sistemas: h₁ =
+    <select id="h1"><option value="iglesia" selected>iglesia</option><option value="slinky">resorte (slinky)</option><option value="cuchara">cuchara</option><option value="tunel">túnel</option></select>
+    &nbsp; h₂ =
+    <select id="h2"><option value="iglesia">iglesia</option><option value="slinky" selected>resorte (slinky)</option><option value="cuchara">cuchara</option><option value="tunel">túnel</option></select>
+  </span>
+</div>
+<div class="fx">
+  <div><b>x</b> — la entrada, seca</div>
+  <button class="play" data-p="x">▶</button>
+  <div><canvas id="cx" width="900" height="44"></canvas></div>
+  <div class="dur" id="dx" style="font-size:12.5px;color:#888"></div>
+</div>
+<div class="cols">
+  <div class="cam a">
+    <h4 id="tA">Camino A: primero h₁, después h₂</h4>
+    <div class="paso"><div class="et"><span id="eA1"></span><span class="dur" id="dA1"></span></div>
+      <button class="play" data-p="A1">▶</button><canvas id="cA1" width="430" height="44"></canvas></div>
+    <div class="paso"><div class="et"><span id="eA2"></span><span class="dur" id="dA2"></span></div>
+      <button class="play" data-p="A2">▶</button><canvas id="cA2" width="430" height="44"></canvas></div>
+  </div>
+  <div class="cam b">
+    <h4 id="tB">Camino B: primero h₂, después h₁</h4>
+    <div class="paso"><div class="et"><span id="eB1"></span><span class="dur" id="dB1"></span></div>
+      <button class="play" data-p="B1">▶</button><canvas id="cB1" width="430" height="44"></canvas></div>
+    <div class="paso"><div class="et"><span id="eB2"></span><span class="dur" id="dB2"></span></div>
+      <button class="play" data-p="B2">▶</button><canvas id="cB2" width="430" height="44"></canvas></div>
+  </div>
+</div>
+<div class="resta">
+  <div><b>La resta A − B</b><br><span style="font-size:12px;color:#888">si el orden no importa, esto es silencio</span></div>
+  <button class="play" data-p="R">▶</button>
+  <div><canvas id="cR" width="900" height="44"></canvas></div>
+  <div id="dR" style="font-size:13px"></div>
+</div>
+<div id="estado">Elige la entrada; se calculan los dos caminos completos. El primer clic enciende el audio.</div>
+<script src="espacios/ir_data.js"></script>
+<script src="espacios/x_data.js"></script>
+<script>
+(() => {
+const AZUL = "#0072B2", BERM = "#D55E00", VERDE = "#1b7f2a", NEGRO = "#333";
+const NOM = {iglesia: "iglesia", slinky: "resorte", cuchara: "cuchara", tunel: "túnel"};
+let ac = null, playing = null, xSel = "flamenco";
+const buf = {};
+const est = document.getElementById("estado");
+const say = s => est.textContent = s;
+const ctxOf = () => { if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === "suspended") ac.resume(); return ac; };
+const $ = id => document.getElementById(id);
+
+function mkBuf(arr) { const c = ctxOf(); const b = c.createBuffer(1, arr.length, c.sampleRate); b.getChannelData(0).set(arr); return b; }
+function norm(arr, peak = 0.9) { let m = 0; for (const v of arr) m = Math.max(m, Math.abs(v)); if (m > 0) { const g = peak / m; for (let i = 0; i < arr.length; i++) arr[i] *= g; } return arr; }
+async function decodeB64(b64) { const bin = atob(b64), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return await ctxOf().decodeAudioData(u8.buffer); }
+function toca(b) { const c = ctxOf(); if (playing) { try { playing.stop(); } catch (e) {} } const s = c.createBufferSource(); s.buffer = b; s.connect(c.destination); s.start(); playing = s; }
+function dibuja(id, b, color) {
+  const cv = $(id), g = cv.getContext("2d"), W = cv.width, H = cv.height;
+  g.clearRect(0, 0, W, H); g.strokeStyle = "#ccc"; g.beginPath(); g.moveTo(0, H / 2); g.lineTo(W, H / 2); g.stroke();
+  if (!b) return;
+  const d = b.getChannelData(0), n = d.length, per = n / W;
+  g.strokeStyle = color; g.beginPath();
+  for (let px = 0; px < W; px++) {
+    let lo = 1, hi = -1; const i0 = Math.floor(px * per), i1 = Math.min(n, Math.floor((px + 1) * per) + 1);
+    for (let i = i0; i < i1; i++) { const v = d[i]; if (v < lo) lo = v; if (v > hi) hi = v; }
+    if (lo > hi) continue;
+    g.moveTo(px + 0.5, H / 2 - hi * H * 0.46); g.lineTo(px + 0.5, H / 2 - lo * H * 0.46 + 0.5);
+  }
+  g.stroke();
+}
+async function convolve(x, h) {
+  const c = ctxOf(), n = x.length + h.length;
+  const off = new OfflineAudioContext(1, n, c.sampleRate);
+  const src = off.createBufferSource(); src.buffer = x;
+  const cv = off.createConvolver(); cv.normalize = false; cv.buffer = h;
+  src.connect(cv); cv.connect(off.destination); src.start();
+  return (await off.startRendering()).getChannelData(0);
+}
+
+const irs = {}, xs = {};
+function genCuchara() {           // síntesis modal: la misma cuchara de la demo de C6
+  const sr = ctxOf().sampleRate, n = Math.round(0.45 * sr), a = new Float32Array(n);
+  const modos = [[2650, 1, 0.12], [4180, 0.6, 0.09], [6020, 0.45, 0.06], [7900, 0.3, 0.04]];
+  for (let i = 0; i < n; i++) { const t = i / sr; let v = 0; for (const [f, A, tau] of modos) v += A * Math.sin(2 * Math.PI * f * t) * Math.exp(-t / tau); a[i] = v; }
+  const w = Math.round(0.002 * sr); for (let i = 0; i < w; i++) a[i] += 0.8 * (Math.random() * 2 - 1) * (1 - i / w);
+  return mkBuf(norm(a));
+}
+async function getIR(k) { if (!irs[k]) irs[k] = (k === "cuchara") ? genCuchara() : await decodeB64(IR_DATA[k].b64); return irs[k]; }
+async function getX(k) {
+  if (xs[k]) return xs[k];
+  if (k === "impulso") { const sr = ctxOf().sampleRate, a = new Float32Array(Math.round(0.3 * sr)); a[Math.round(0.02 * sr)] = 1; xs[k] = mkBuf(a); }
+  else xs[k] = await decodeB64(X_DATA[k].b64);
+  return xs[k];
+}
+
+async function calcula() {
+  try {
+    ctxOf(); say("Calculando los dos caminos…");
+    const k1 = $("h1").value, k2 = $("h2").value, n1 = NOM[k1], n2 = NOM[k2];
+    const [x, H1, H2] = await Promise.all([getX(xSel), getIR(k1), getIR(k2)]);
+    const sr = ctxOf().sampleRate, s = v => (v / sr).toFixed(2);
+
+    const iA = await convolve(x, H1);                 // x ∗ h1
+    const fA = await convolve(mkBuf(iA), H2);         // (x ∗ h1) ∗ h2
+    const iB = await convolve(x, H2);                 // x ∗ h2
+    const fB = await convolve(mkBuf(iB), H1);         // (x ∗ h2) ∗ h1
+
+    // finales con ganancia COMÚN (para que la resta sea honesta); intermedios, cada uno cómodo de oír
+    let g = 0; for (const v of fA) g = Math.max(g, Math.abs(v)); for (const v of fB) g = Math.max(g, Math.abs(v));
+    const esc = g > 0 ? 0.9 / g : 1;
+    const a = Float32Array.from(fA, v => v * esc), b = Float32Array.from(fB, v => v * esc);
+    const r = new Float32Array(a.length); let pr = 0;
+    for (let i = 0; i < a.length; i++) { r[i] = a[i] - b[i]; pr = Math.max(pr, Math.abs(r[i])); }
+
+    buf.x = x; buf.A1 = mkBuf(norm(iA)); buf.A2 = mkBuf(a); buf.B1 = mkBuf(norm(iB)); buf.B2 = mkBuf(b); buf.R = mkBuf(r);
+
+    dibuja("cx", buf.x, NEGRO); dibuja("cA1", buf.A1, AZUL); dibuja("cA2", buf.A2, AZUL);
+    dibuja("cB1", buf.B1, BERM); dibuja("cB2", buf.B2, BERM); dibuja("cR", buf.R, VERDE);
+
+    $("dx").textContent = `dura ${s(x.length)} s`;
+    $("tA").textContent = `Camino A: primero la ${n1}, después el ${k2 === "slinky" ? "resorte" : n2}`;
+    $("tB").textContent = `Camino B: primero ${k2 === "slinky" ? "el resorte" : "la " + n2}, después la ${n1}`;
+    $("eA1").textContent = `paso 1:  x ∗ h_${n1}`;  $("dA1").textContent = `${s(x.length)} + ${s(H1.length)} = ${s(iA.length)} s`;
+    $("eA2").textContent = `paso 2:  (x ∗ h_${n1}) ∗ h_${n2}`; $("dA2").textContent = `${s(iA.length)} + ${s(H2.length)} = ${s(a.length)} s`;
+    $("eB1").textContent = `paso 1:  x ∗ h_${n2}`;  $("dB1").textContent = `${s(x.length)} + ${s(H2.length)} = ${s(iB.length)} s`;
+    $("eB2").textContent = `paso 2:  (x ∗ h_${n2}) ∗ h_${n1}`; $("dB2").textContent = `${s(iB.length)} + ${s(H1.length)} = ${s(b.length)} s`;
+    const db = pr > 0 ? (20 * Math.log10(pr / 0.9)).toFixed(0) : "-inf";
+    $("dR").innerHTML = `pico: <b>${db} dB</b> — silencio`;
+    say(`Recorrido sugerido: x seca → paso 1 de A (${n1}) → paso 1 de B (${k2 === "slinky" ? "resorte" : n2}), que suenan MUY distintos → los dos pasos 2 → la resta.`);
+  } catch (e) { say("Error: " + e.message); }
+}
+
+document.getElementById("bar").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b || !b.dataset.x) return;
+  xSel = b.dataset.x;
+  document.querySelectorAll("#bar button[data-x]").forEach(x => x.classList.toggle("sel", x === b));
+  calcula();
+});
+$("h1").onchange = calcula; $("h2").onchange = calcula;
+document.body.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b || !b.dataset.p) return;
+  const bb = buf[b.dataset.p];
+  if (bb) toca(bb); else say("Primero elige la entrada (se calcula al elegirla).");
+});
+["cx","cA1","cA2","cB1","cB2","cR"].forEach(id => dibuja(id, null));
+})();
+</script>
+</body>
+</html>

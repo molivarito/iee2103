@@ -359,10 +359,155 @@ proyecciones salen distintas, que es justo el punto. Gráficos originales del pr
 
 O sea: el `?embed` que es obligatorio en 2D **rompe** el 3D. Y hay una limitación mayor:
 
-- **Desmos 3D no funciona dentro de reveal.js**, ni con `?embed` ni sin él, ni con `data-preload`.
+- **Desmos 3D no funciona dentro de reveal.js con `src` normal** ni con `data-preload`.
   Usa WebGL y no inicializa dentro de un contenedor oculto (reveal mantiene las láminas no
   visibles en `display:none`), y no se recupera al mostrarse. Probado con esperas de 30 s.
-- **Solución adoptada**: en las diapositivas, los 3D van como **figura estática + link** para abrir
-  el gráfico vivo. Las figuras están en `assets/img/complejas/`. Es además más robusto para clase:
-  no arriesga una lámina en blanco, y funciona sin internet.
-- Los 2D sí se incrustan bien en reveal, con `?embed`.
+- **RESUELTO (2026-08-21): con `data-src` (sin `data-preload`) SÍ funciona.** La diferencia:
+  `data-preload` carga el iframe cuando la lámina está *cerca* (aún oculta → WebGL muere);
+  `data-src` a secas lo carga recién cuando la lámina **se muestra**, y ahí WebGL inicializa
+  bien. Probado con la gaussiana 3D del profesor (`3d/6bepz8hen6`) dentro de un deck revealjs real,
+  verificado con captura: gráfico completo, lista de expresiones y sliders operativos.
+
+  ```html
+  <iframe width="900" height="520" data-src="https://www.desmos.com/3d/6bepz8hen6"
+          style="border:0"></iframe>
+  ```
+
+  Salvedades para clase: (1) tarda **~15–20 s en dibujar** al entrar a la lámina — o se
+  conversa ese rato, o se visita la lámina antes de que entren los estudiantes (ojo: reveal
+  descarga los iframes lazy al alejarse más de `viewDistance` láminas, así que la precarga
+  se pierde si después saltas lejos); (2) sigue necesitando internet. Con eso, el mismo
+  día se incorporaron **13 gráficos 3D nuevos, uno por clase** (sección siguiente): cada
+  lámina viva va **después** de la lámina estática o de la fórmula que cuenta lo mismo, que
+  queda como plan B sin conexión.
+- Los 2D sí se incrustan bien en reveal, con `?embed` (y `data-src` tampoco les hace daño).
+
+---
+
+# Desmos 3D en las clases: los 13 gráficos (2026-08-21)
+
+Con el `data-src` resuelto, cada clase que tiene un objeto naturalmente tridimensional lo
+muestra **vivo dentro de la diapositiva**, en una lámina propia titulada "…, en 3D" / "…, en
+vivo" que va justo después de la lámina estática (o de la fórmula) que cuenta lo mismo — esa
+lámina anterior es el plan B sin internet. Todos están guardados en la cuenta de Desmos del
+profesor con título `SyS Cnn · …`, y la fuente exacta de cada uno (expresiones, colores,
+sliders, dominios, modo complejo, viewport y rotación) está en **`graficos-3d.json`** en esta
+carpeta, para rehacerlos o modificarlos (ver *Cómo se rehace uno*).
+
+| Clase | Lámina | Qué muestra | Link |
+|---|---|---|---|
+| C3 | La hélice, en vivo | $e^{st}$ como hélice: eje largo $t$, plano (Re, Im); sombras Re (piso) e Im (pared); envolvente $e^{\sigma t}$; sliders $\sigma$, $\omega$, $t_0$ | <https://www.desmos.com/3d/ya0zd8ydvh> |
+| C7 | La convolución, en 3D | la superficie del integrando $x(\tau)h(t-\tau)$ sobre su paralelogramo (con sombra en el piso), el corte en $t_0$ — que *es* el dibujo del método gráfico — su área roja, y $y(t)$ al fondo; slider $d$ para darle relieve | <https://www.desmos.com/3d/psmpaiz8ti> |
+| C9 | La proyección, en 3D | $\mathbf v=(3,4,5)$, plano $W$ inclinable ($\alpha$), proyección $\mathbf p$, error $\mathbf e\perp W$; punto rival $Q=a e_1+b e_2$ con su distancia $D$ ("nadie le gana") | <https://www.desmos.com/3d/ra9vhjayke> |
+| C10 | Tiempo y frecuencia a la vez, en 3D | los armónicos de la cuadrada apilados en láminas $y=k$, la suma adelante, el espectro de línea en la pared del fondo; slider $N$ | <https://www.desmos.com/3d/icumarhroy> |
+| C11 | El espectro es complejo: verlo en 3D | $c_n$ como barras en el plano complejo, anillos $\lvert c_n\rvert$; slider $t_0$ gira cada barra $n t_0$; en $t_0=\pi/2$ todas caen al eje real (cuadrada par) | <https://www.desmos.com/3d/kqvtxmebt3> |
+| C12 | Una sola curva: $X(\omega)$ en 3D | $1/(a+j\omega)$ como curva $(\omega,\mathrm{Re},\mathrm{Im})$; sombras Re par / Im impar (hermitiana), módulo como distancia al eje; sliders $a$, $\omega_0$ | <https://www.desmos.com/3d/lzkr3qcpjf> |
+| C13 | Desplazar es enroscar, en vivo | $S(\omega)e^{-j\omega t_0}$ con $S=2\sin\omega/\omega$: la curva se enrosca como tornillo dentro del tubo $\pm\lvert S\rvert$; slider $t_0$ | <https://www.desmos.com/3d/7w8fj96cg0> |
+| C15 | La costa y el continente, en 3D | superficie $\lvert x(t)e^{-\sigma t}\rvert=e^{-(a+\sigma)t}$ sobre $(\sigma,t)$: ROC (piso verde), muro en el polo, costa $\sigma=0$ (Fourier); sliders $a$, $\sigma_0$ | <https://www.desmos.com/3d/l0td54z1k0> |
+| C17 | La misma superficie, en vivo | el gráfico 3 del recorrido (plano $s$), ahora incrustado | <https://www.desmos.com/3d/ftb7axttio> |
+| C20 | La no-unicidad, en 3D | hélice $e^{j\Omega t}$ muestreada; la hélice alias $\Omega-2\pi$ pasa por los mismos puntos; barras $\cos(\Omega n)$ en el piso; slider $\Omega$ de 0 a $2\pi$ | <https://www.desmos.com/3d/e8qdpourdf> |
+| C23 | El anillo, en 3D | $x[n]=a^{\lvert n\rvert}$: $\lvert X(z)\rvert$ con dos montañas, la ROC pintada de verde sobre la superficie (anillo), el corte del círculo unitario; slider $a$ | <https://www.desmos.com/3d/wgjy1ajrgc> |
+| C25 | El círculo, en vivo | el gráfico 4 del recorrido (plano $z$), ahora incrustado | <https://www.desmos.com/3d/cfs2pt7nfz> |
+| C26 | El notch, en 3D | ceros en $e^{\pm j\Omega_0}$ (hoyos) y polos en $p\,e^{\pm j\Omega_0}$ (carpas), $K=(1+p^2)/2$; el corte del círculo va de la "bofetada" ($p=0$) al "bisturí" ($p=0.95$); sliders $p$, $\Omega_0$ | <https://www.desmos.com/3d/aw9blrqz5s> |
+| C28 | Las $N$ fotos, en 3D | $x=(1,0,-1,0)$, $\lvert 1-z^{-2}\rvert$; el corte del círculo es la DTFT $2\lvert\sin\Omega\rvert$ y las barras son la DFT en $2\pi k/M$: con $M=4$ salen $(0,2,0,2)$; slider $M$ (zero-padding) | <https://www.desmos.com/3d/4wgyafzcvl> |
+| C30 | El compromiso, en 3D | espectrograma de un chirp con ventana gaussiana (fórmula exacta): cresta de ancho $W^2=1/s^2+\alpha^2 s^2$, mínimo en $s=1/\sqrt\alpha$; sliders $\alpha$, $s$, $t_0$ | <https://www.desmos.com/3d/2hlq3hnm0d> |
+
+**Revisión del 24-ago-2026 · C7 rehecho.** El primer gráfico de C7 (`3d/pp83lpz5az`) era
+correcto pero ilegible: siete objetos que se tapaban entre sí (dos bandas en el piso, una
+meseta flotante, la pared del corte, el triángulo al medio) y, peor, con rect∗rect el producto
+solo vale 0 o 1 — la superficie no tiene relieve, así que la tercera dimensión no mostraba
+nada que el dibujo 2D no muestre ya. El reemplazo (`3d/psmpaiz8ti`) deja cuatro objetos —
+superficie sobre su paralelogramo + sombra, corte, área, resultado al fondo — y agrega el
+slider `d`: con `d ≈ 0` es el rect∗rect exacto de la clase, y subiéndolo aparece el relieve.
+El gráfico viejo se conserva sin uso. Lección general: **una superficie 3D solo se gana el
+espacio si tiene relieve**; si el producto es constante, el 2D basta.
+
+Todos verificados en el navegador (21-ago-2026; C7 el 24-ago) con la lista de expresiones visible y sin
+errores. Los números que usan son **los de cada clase** (cuadrada $\pm1$ con $c_n=2/(j\pi n)$;
+$\mathbf v=(3,4,5)$; $a^{\lvert n\rvert}$; notch con $\Omega_0=\pi/2$, $r=0.95$, $K=0.95125$;
+$x=(1,0,-1,0)$ con DFT $(0,2,0,2)$), así que lo que se ve coincide con lo que se acaba de
+calcular en la pizarra.
+
+## El patrón de lámina
+
+```markdown
+## El notch, en 3D {.smaller}
+
+<iframe width="1000" height="500" data-src="https://www.desmos.com/3d/aw9blrqz5s"
+        title="…" style="border:0"></iframe>
+
+Desmos 3D (se carga al entrar a la lámina, ~15 s) · <a href="…" target="_blank">abrir en pestaña propia</a>
+
+::: {.notes}
+qué slider mover, en qué orden, la predicción previa, y el plan B sin internet
+:::
+```
+
+`{.smaller}` + 500 px de alto es lo que cabe en el lienzo con título y una línea de pie. El
+**ancho importa más que en 2D**: la lista de expresiones ocupa ~430 px del iframe, así que con
+900 px el gráfico queda estrecho; con 1000 px queda bien. Sin `?embed` (que en 3D rompe) la
+lista se ve — y es parte de la demo: ahí están los sliders y los valores numéricos (los
+gráficos 3D **no muestran etiquetas** sobre los puntos, ver *Trampas*).
+
+## Cómo se rehace uno
+
+`graficos-3d.json` guarda, por gráfico, `url`, `title`, `complex` (modo complejo), `bounds`
+(viewport), `rotation` (la matriz `worldRotation3D`, si se fijó) y la lista `expressions` con
+el mismo formato que recibe `Calc.setExpression` (id, latex, color, lineWidth, pointSize,
+sliderBounds, parametricDomain, parametricDomain3Du/v, o `type: "text"`). Para reconstruirlo:
+abrir <https://www.desmos.com/3d> con la sesión del profesor, pegar en la consola del navegador
+
+```js
+const g = /* el objeto del gráfico, copiado del JSON */;
+Calc.setBlank();
+g.expressions.forEach(e => Calc.setExpression(e));
+Calc.setMathBounds(g.bounds);
+const st = Calc.getState();
+if (g.complex) st.graph.complex = true;
+if (g.rotation) st.graph.worldRotation3D = g.rotation;
+Calc.setState(st);
+Calc.setExpression({id: g.expressions.find(e => e.latex).id});   // "toca" el gráfico: setState deja el botón Save gris
+```
+
+y apretar **Save** (pide título; el hash nuevo hay que ponerlo en la lámina). Para
+**modificar** uno existente basta abrir su link, editar en la UI y Save: el hash no cambia.
+`Calc` es el objeto global de la calculadora en desmos.com; `Calc.expressionAnalysis` lista los
+errores por id sin tener que leer la pantalla.
+
+## Trampas propias del 3D (todas probadas el 21-ago-2026)
+
+- **Nombres reservados**: `r` y `θ` son las coordenadas esféricas/polares; `r=0.95` dibuja un
+  círculo y `\theta` no se puede usar como slider. Por eso el notch usa `p` (y lo aclara en
+  su texto) y la proyección usa `\alpha`. `z` es el eje vertical (ya documentado). `w` como
+  argumento de función (`H(w)`) sí sirve.
+- **Las etiquetas no se dibujan**: `showLabel`/`label` sobre un punto se aceptan sin error pero
+  no aparecen en el lienzo 3D. Los valores numéricos se leen en la **lista de expresiones**
+  (por eso cada gráfico define variables "de lectura": `A`, `E`, `D`, `G_0`, `W`, `s_{opt}`).
+- **`lineStyle: DASHED` tampoco se dibuja**: las curvas 3D salen siempre como tubos sólidos.
+  Para distinguir guías usar gris y `lineWidth` bajo (0.8–1.2).
+- **Superficies paramétricas de dos parámetros**: las variables son `u` y `v` (y el dominio va
+  en `parametricDomain3Du` / `parametricDomain3Dv`, no en `parametricDomain`). Un tercer
+  parámetro (`w`) pide slider. Los límites **pueden depender de sliders** (`min: "a"`,
+  `max: "\frac{1}{a}"`): así se pinta la ROC como anillo entre los polos.
+- **Curvas de un parámetro**: variable `t`, dominio en `parametricDomain`. Admiten **listas**:
+  `(t, K, \frac{4}{\pi K}\sin(Kt))` con `K=[1,3,...,N]` dibuja una curva por armónico.
+- **Vectores**: `\operatorname{vector}((x_0,y_0,z_0),(x_1,y_1,z_1))` dibuja una flecha, y
+  también acepta listas (las barras de un espectro en una sola expresión).
+- **`z = f(x,y)` sin recortar cubre todo el piso** y tapa lo que haya debajo. Dos salidas:
+  recortar con `\min(k, ·)` (polos) o dibujar solo la región útil como paramétrica (la meseta
+  de la convolución es `(u+v, u, 1)` sobre un cuadrado, no `z=b(y)b(x-y)`). Para "pintar" una
+  región sobre una superficie, repetir la superficie restringida al dominio y sumarle 0.03 de
+  altura (el anillo verde de C23).
+- **Modo complejo**: `Calc.updateSettings({allowComplex:true})` no bastó desde la API;
+  lo que funcionó fue `st = Calc.getState(); st.graph.complex = true; Calc.setState(st)`. Con
+  eso `H(x+iy)` y `e^{iW_0}` evalúan.
+- **`Calc.setState` deja el botón Save deshabilitado** (Desmos cree que no hay cambios). Basta
+  cualquier `setExpression` posterior, aunque no cambie nada visible.
+- **La vista inicial se guarda con el gráfico**: la rotación por defecto mira desde arriba en
+  diagonal. Para una vista de frente conviene arrastrar el lienzo antes de guardar, o fijar
+  `graph.worldRotation3D` (la matriz del JSON `rotation` da una vista oblicua con $x$ hacia la
+  derecha; es la del gráfico de la gaussiana del profesor).
+- **`parametricDomain` de 3D**: el límite es una cadena latex; `3.1416` funciona, `\pi` también.
+- **Render lento**: un gráfico con superficie tarda 10–20 s en aparecer en pantalla incluso en
+  desmos.com; al verificar con capturas hay que esperar. `Calc.expressionAnalysis` responde
+  antes que el dibujo.

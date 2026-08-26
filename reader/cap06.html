@@ -399,7 +399,7 @@ window.Quarto = {
 <p>El tercer miembro de la familia es bilateral — el análogo discreto de <span class="math inline">e^{-a|t|}</span>. Sea <span class="math inline">x[n] = a^{|n|}</span> con <span class="math inline">0 &lt; a &lt; 1</span>; separando en presente/futuro y pasado, <span class="math inline">x[n] = a^n u[n] + a^{-n} u[-n-1]</span>:</p>
 <p><span class="math display">X(z) = \underbrace{\frac{1}{1-az^{-1}}}_{|z|&gt;a} + \underbrace{\frac{az}{1-az}}_{|z| &lt; 1/a} \qquad \text{ROC: } a &lt; |z| &lt; \frac{1}{a}</span></p>
 <p>La ROC es un <strong>anillo</strong>: la parte derecha de la señal exige estar afuera de <span class="math inline">|z| = a</span>, la parte izquierda adentro de <span class="math inline">|z| = 1/a</span>. Y nota el detalle con castigo: si <span class="math inline">a \ge 1</span>, las dos condiciones son incompatibles y la transformada <strong>no existe</strong> para ningún <span class="math inline">z</span> — no toda señal tiene transformada Z.</p>
-<div id="006afbfd" class="cell" data-execution_count="1">
+<div id="b2733d6b" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -474,7 +474,7 @@ window.Quarto = {
 <li><strong>El ángulo de <span class="math inline">z</span> codifica la frecuencia</strong>: <span class="math inline">\Omega = \omega T</span> — exactamente la frecuencia discreta del capítulo 5, ahora con significado geométrico. En el plano <span class="math inline">s</span> la frecuencia se leía “hacia arriba”; en el plano <span class="math inline">z</span> se lee <strong>como ángulo</strong>.</li>
 <li><strong>Dos puntos de referencia</strong> que usaremos sin parar: <span class="math inline">s = 0 \to z = 1</span> (la DC vive en <span class="math inline">z = 1</span>) y <span class="math inline">\omega = \pi/T</span> — ¡la frecuencia de Nyquist! — <span class="math inline">\to z = e^{j\pi} = -1</span> (Nyquist vive en <span class="math inline">z = -1</span>).</li>
 </ul>
-<div id="56537271" class="cell" data-execution_count="2">
+<div id="e6d1d0ac" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -598,7 +598,7 @@ window.Quarto = {
 </table>
 </div>
 </div>
-<div id="575a75c6" class="cell" data-execution_count="3">
+<div id="5df6d205" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -716,7 +716,7 @@ y[n] = \left[\,3\left(\tfrac12\right)^n - \left(\tfrac14\right)^n\right]u[n]</sp
 \mathcal{Z}_u\{y[n+2]\} = z^2 Y(z) - z^2 y[0] - z\,y[1]</span> La deducción es la misma reindexación de siempre, pero mirando hacia el otro lado: al correr la suma hacia adelante, los primeros términos se salen del rango <span class="math inline">n\ge0</span> y hay que descontarlos. En el banco: [DB E0371] (Fibonacci, con la fórmula de Binet y el número áureo saliendo del polo dominante).</p>
 <p><strong>Los atajos de los extremos, versión discreta.</strong> Los teoremas del valor inicial y final del capítulo 4 (<a href="cap04.html#sec-tvi-tvf" class="quarto-xref"><span>Sección 4.5.1</span></a>) se traducen término a término: <span class="math display">y[0] = \lim_{z\to\infty} Y(z)
 \qquad\qquad
-\lim_{n\to\infty} y[n] = \lim_{z\to 1}\,(z-1)\,Y(z)</span> El primero es casi gratis: en <span class="math inline">\sum_{n\ge0} y[n]z^{-n}</span>, cuando <span class="math inline">z\to\infty</span> todas las potencias negativas mueren y sobrevive solo <span class="math inline">y[0]</span>. El segundo sale de la suma telescópica de <span class="math inline">\mathcal{Z}_u\{y[n+1]-y[n]\}</span>, y hereda la misma letra chica que en continuo: vale solo si los polos de <span class="math inline">(z-1)Y(z)</span> están <strong>dentro</strong> del círculo unitario — el papel del eje <span class="math inline">j\omega</span> lo juega ahora la circunferencia <span class="math inline">|z|=1</span>, como siempre en el traslado s→z. Chequeo exprés con el ejemplo de arriba: <span class="math inline">\lim_{z\to\infty} Y(z) = 3-1 = 2 = y[0]</span> ✓, y el valor final da <span class="math inline">0</span> (ambos polos, <span class="math inline">\tfrac12</span> y <span class="math inline">\tfrac14</span>, dentro del círculo; y en efecto <span class="math inline">y[n]\to0</span>) ✓.</p>
+\lim_{n\to\infty} y[n] = \lim_{z\to 1}\,(z-1)\,Y(z)</span> El primero es casi gratis: en <span class="math inline">\sum_{n\ge0} y[n]z^{-n}</span>, cuando <span class="math inline">z\to\infty</span> todas las potencias negativas mueren y sobrevive solo <span class="math inline">y[0]</span>. El segundo sale de la suma telescópica de <span class="math inline">\mathcal{Z}_u\{y[n+1]-y[n]\}</span>, y hereda la misma letra chica que en continuo: vale solo si los polos de <span class="math inline">(z-1)Y(z)</span> están <strong>dentro</strong> del círculo unitario — el papel del eje <span class="math inline">j\omega</span> lo juega ahora la circunferencia <span class="math inline">|z|=1</span>, como siempre en el traslado s→z. Chequeo con el ejemplo de arriba: <span class="math inline">\lim_{z\to\infty} Y(z) = 3-1 = 2 = y[0]</span> ✓, y el valor final da <span class="math inline">0</span> (ambos polos, <span class="math inline">\tfrac12</span> y <span class="math inline">\tfrac14</span>, dentro del círculo; y en efecto <span class="math inline">y[n]\to0</span>) ✓.</p>
 </section>
 <section id="sec-leer-circulo" class="level2" data-number="6.7">
 <h2 data-number="6.7" class="anchored" data-anchor-id="sec-leer-circulo"><span class="header-section-number">6.7</span> Leer el círculo</h2>
@@ -764,7 +764,7 @@ y[n] = \left[\,3\left(\tfrac12\right)^n - \left(\tfrac14\right)^n\right]u[n]</sp
 <p><strong>Solución.</strong> En <span class="math inline">\Omega = 0</span> (<span class="math inline">z = 1</span>): distancia al polo <span class="math inline">= 1 - 0.9 = 0.1</span>, así que <span class="math inline">|H| = \frac{1}{0.1} = 10</span>. En <span class="math inline">\Omega = \pi</span> (<span class="math inline">z = -1</span>): distancia <span class="math inline">= 1 + 0.9 = 1.9</span>, así que <span class="math inline">|H| = \frac{1}{1.9} \approx 0.53</span>. Un factor <strong>19</strong> entre graves y agudos, medido con una regla: es un pasa-bajos, y no hizo falta ni una integral.</p>
 </div>
 </div>
-<div id="823eafd6" class="cell" data-execution_count="4">
+<div id="c8cae7b9" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -785,7 +785,7 @@ y[n] = \left[\,3\left(\tfrac12\right)^n - \left(\tfrac14\right)^n\right]u[n]</sp
 <h3 data-number="6.7.3" class="anchored" data-anchor-id="sec-emparejar"><span class="header-section-number">6.7.3</span> Emparejar <span class="math inline">H(z) \leftrightarrow |H|</span>: el calibre de la I4</h3>
 <p>Este es el formato con que la I4 (y el examen) evalúa la lectura del círculo: se dan diagramas de polos y ceros y curvas de magnitud <em>en desorden</em>, y se pide emparejarlos <strong>justificando por posiciones de polos y ceros</strong> — no calculando. Cuatro sistemas causales y estables:</p>
 <p><span class="math display">\text{(i) } H(z) = 1 - z^{-1} \qquad \text{(ii) } \frac{1}{1-0.9z^{-1}} \qquad \text{(iii) } 0.905\,\frac{1+z^{-2}}{1+0.81z^{-2}} \qquad \text{(iv) } \frac{1}{1+0.9z^{-1}}</span></p>
-<div id="513f1978" class="cell" data-execution_count="5">
+<div id="82888508" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -850,7 +850,7 @@ y[n] = \left[\,3\left(\tfrac12\right)^n - \left(\tfrac14\right)^n\right]u[n]</sp
 <section id="sec-verificar-notch" class="level3" data-number="6.8.2">
 <h3 data-number="6.8.2" class="anchored" data-anchor-id="sec-verificar-notch"><span class="header-section-number">6.8.2</span> Verificar y escuchar</h3>
 <p>En diseño, verificar es parte de la respuesta. La plantilla completa, para llevar (es la misma de la Lista 13, del control de diseño y del concurso):</p>
-<div id="a003f918" class="cell" data-execution_count="6">
+<div id="190277dc" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -878,7 +878,7 @@ y[n] = \left[\,3\left(\tfrac12\right)^n - \left(\tfrac14\right)^n\right]u[n]</sp
 </div>
 </div>
 <p>Lee el código como lo que es: <code>b</code> y <code>a</code> son los coeficientes de los polinomios de <span class="math inline">H(z)</span> — los mismos de la ecuación de diferencias; <code>freqz</code> evalúa <span class="math inline">H</span> sobre el círculo — el método de las distancias hecho función; <code>lfilter</code> ejecuta la ecuación de diferencias sobre la señal. La verificación numérica confirma el diseño: <span class="math inline">|H| = 1.0000</span> en DC, <span class="math inline">|H| \approx 10^{-15}</span> (cero, en aritmética de punto flotante) en <span class="math inline">2000</span> Hz.</p>
-<div id="266f6444" class="cell" data-execution_count="7">
+<div id="9de6bd02" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Espacios imposibles: x ∗ h con cualquier h</title>
+<style>
+  body{margin:0;font-family:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;background:#fff;color:#222;font-size:14px}
+  .fila{display:grid;grid-template-columns:150px 1fr;gap:6px 10px;padding:6px 12px;border-bottom:1px solid #eee;align-items:start}
+  .fila h3{margin:2px 0 0;font-size:15px;font-weight:600}
+  .fila h3 small{display:block;font-weight:400;color:#666;font-size:12px}
+  .btns{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+  .btns .grupo{color:#666;font-size:12px;margin-left:6px}
+  button{font-size:12.5px;padding:2px 7px;border:1px solid #aaa;border-radius:6px;background:#f6f6f6;cursor:pointer}
+  button.sel{background:#0072B2;color:#fff;border-color:#0072B2}
+  button.play{background:#fff;border-color:#0072B2;color:#0072B2;font-weight:600}
+  button.mic{border-color:#D55E00;color:#D55E00}
+  button.mic.rec{background:#D55E00;color:#fff}
+  canvas{display:block;width:100%;height:70px;background:#fafafa;border:1px solid #e3e3e3;border-radius:4px}
+  .y canvas{height:86px}
+  #estado{padding:4px 12px;color:#D55E00;min-height:18px}
+  .lab{position:relative}
+  .lab span{position:absolute;right:6px;top:2px;color:#888;font-size:12px}
+</style>
+</head>
+<body>
+<div class="fila">
+  <h3>x(t) — entrada seca<small>lo que entra al sistema</small></h3>
+  <div>
+    <div class="btns" id="xb">
+      <button class="play" data-play="x">▶</button>
+      <button data-x="impulso">impulso</button>
+      <button data-x="bateria">batería</button>
+      <button data-x="arpegio">clicks + arpegio</button>
+      <button class="mic" data-x="mic">🎤 grabar mi voz (3 s)</button>
+    </div>
+    <div class="lab"><canvas id="cx" width="1000" height="78"></canvas><span id="lx"></span></div>
+  </div>
+</div>
+<div class="fila">
+  <h3>h(t) — respuesta al impulso<small>el sistema entero, en una señal</small></h3>
+  <div>
+    <div class="btns" id="hb">
+      <button class="play" data-play="h">▶</button>
+      <span class="grupo">reales:</span>
+      <button data-h="iglesia">iglesia</button><button data-h="tunel">túnel</button><button data-h="bodega">bodega</button><button data-h="horno">horno de cal</button><button data-h="slinky">resorte</button>
+      <span class="grupo">absurdas:</span>
+      <button data-h="cuchara">cuchara</button><button data-h="olla">olla</button><button data-h="botella">botella</button><button data-h="canon">eco de cañón</button><button data-h="ametralladora">ametralladora</button><button data-h="reves">iglesia al revés</button><button data-h="xmisma">la propia x</button>
+      <button class="mic" data-h="mic">🎤 grabar h (golpear algo, 2 s)</button>
+    </div>
+    <div class="lab"><canvas id="ch" width="1000" height="78"></canvas><span id="lh"></span></div>
+  </div>
+</div>
+<div class="fila y">
+  <h3>y(t) = (x ∗ h)(t)<small>la salida</small></h3>
+  <div>
+    <div class="btns"><button class="play" data-play="y">▶ escuchar la salida</button><span id="ly" style="color:#666"></span></div>
+    <div class="lab"><canvas id="cy" width="1000" height="96"></canvas></div>
+  </div>
+</div>
+<div id="estado">Elige una entrada y una respuesta al impulso. El primer clic enciende el audio.</div>
+<div id="credito" style="padding:0 12px 6px;color:#888;font-size:11px"></div>
+<script src="ir_data.js"></script>
+<script src="x_data.js"></script>
+<script>
+(() => {
+const AZUL = "#0072B2", BERM = "#D55E00", VERDE = "#1b7f2a";
+let ac = null, playing = null;
+const est = document.getElementById("estado");
+const buf = {x: null, h: null, y: null};
+const lab = {x: document.getElementById("lx"), h: document.getElementById("lh"), y: document.getElementById("ly")};
+const nombres = {x: "", h: ""};
+const cache = {};
+const ctxOf = () => { if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === "suspended") ac.resume(); return ac; };
+const say = s => est.textContent = s;
+
+// ---------- utilidades ----------
+function mkBuf(arr) { const c = ctxOf(); const b = c.createBuffer(1, arr.length, c.sampleRate); b.getChannelData(0).set(arr); return b; }
+function normaliza(arr, peak = 0.9) { let m = 0; for (const v of arr) m = Math.max(m, Math.abs(v)); if (m > 0) for (let i = 0; i < arr.length; i++) arr[i] *= peak / m; return arr; }
+function dibuja(canvas, b, color) {
+  const cv = document.getElementById(canvas), g = cv.getContext("2d"), W = cv.width, H = cv.height;
+  g.clearRect(0, 0, W, H); g.strokeStyle = "#ccc"; g.beginPath(); g.moveTo(0, H / 2); g.lineTo(W, H / 2); g.stroke();
+  if (!b) return;
+  const d = b.getChannelData(0), n = d.length, per = n / W;
+  g.strokeStyle = color; g.lineWidth = 1; g.beginPath();
+  for (let px = 0; px < W; px++) {
+    let lo = 1, hi = -1; const i0 = Math.floor(px * per), i1 = Math.min(n, Math.floor((px + 1) * per) + 1);
+    for (let i = i0; i < i1; i++) { const v = d[i]; if (v < lo) lo = v; if (v > hi) hi = v; }
+    if (lo > hi) continue;
+    g.moveTo(px + 0.5, H / 2 - hi * H * 0.47); g.lineTo(px + 0.5, H / 2 - lo * H * 0.47 + 0.5);
+  }
+  g.stroke();
+}
+function toca(b) { const c = ctxOf(); if (playing) { try { playing.stop(); } catch (e) {} } const s = c.createBufferSource(); s.buffer = b; s.connect(c.destination); s.start(); playing = s; }
+async function decodeB64(b64) { const bin = atob(b64), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return await ctxOf().decodeAudioData(u8.buffer); }
+
+// ---------- entradas x ----------
+function genImpulso() { const sr = ctxOf().sampleRate, a = new Float32Array(Math.round(0.3 * sr)); a[Math.round(0.02 * sr)] = 1; return mkBuf(a); }
+function genArpegio() {
+  const sr = ctxOf().sampleRate, out = [];
+  const clicks = new Float32Array(Math.round(0.6 * sr)), w = Math.round(0.003 * sr);
+  for (let c = 0; c < 4; c++) { const p = Math.round(c * 0.18 * sr); for (let i = 0; i < w; i++) clicks[p + i] += Math.exp(-i / (w / 4)); }
+  out.push(clicks);
+  for (const f0 of [261.63, 329.63, 392.0, 523.25]) {
+    const n = Math.round(0.3 * sr), s = new Float32Array(n), at = Math.round(0.01 * sr), rl = Math.round(0.05 * sr);
+    for (let i = 0; i < n; i++) { let env = 1; if (i < at) env = i / at; else if (i > n - rl) env = (n - i) / rl; s[i] = 0.6 * Math.sin(2 * Math.PI * f0 * i / sr) * env; }
+    out.push(s);
+  }
+  const tot = out.reduce((a, b) => a + b.length, 0), a = new Float32Array(tot); let o = 0; for (const s of out) { a.set(s, o); o += s.length; }
+  return mkBuf(normaliza(a));
+}
+function genBateria() {
+  const sr = ctxOf().sampleRate, bpm = 112, corchea = 60 / bpm / 2, n = Math.round(corchea * 16 * sr + 0.5 * sr), a = new Float32Array(n);
+  const kick = (p) => { for (let i = 0; i < 0.25 * sr; i++) { const t = i / sr; a[p + i] += 0.9 * Math.sin(2 * Math.PI * (50 + 110 * Math.exp(-t / 0.03)) * t) * Math.exp(-t / 0.09); } };
+  const snare = (p) => { let lp = 0; for (let i = 0; i < 0.18 * sr; i++) { const t = i / sr; const r = Math.random() * 2 - 1; lp += 0.35 * (r - lp); a[p + i] += (0.5 * lp * Math.exp(-t / 0.05) + 0.3 * Math.sin(2 * Math.PI * 190 * t) * Math.exp(-t / 0.04)); } };
+  const hat = (p) => { let prev = 0; for (let i = 0; i < 0.05 * sr; i++) { const t = i / sr; const r = Math.random() * 2 - 1; const hp = r - prev; prev = r; a[p + i] += 0.18 * hp * Math.exp(-t / 0.012); } };
+  const patron = ["K", "H", "S", "H", "K", "K", "S", "H", "K", "H", "S", "H", "K", "KH", "S", "SH"];
+  patron.forEach((ev, k) => { const p = Math.round(k * corchea * sr); if (ev.includes("K")) kick(p); if (ev.includes("S")) snare(p); if (ev.includes("H")) hat(p); });
+  return mkBuf(normaliza(a));
+}
+
+// ---------- respuestas al impulso sintéticas ----------
+function modal(modos, dur, click = 0) {          // suma de modos amortiguados: [f, amp, tau]
+  const sr = ctxOf().sampleRate, n = Math.round(dur * sr), a = new Float32Array(n);
+  for (let i = 0; i < n; i++) { const t = i / sr; let v = 0; for (const [f, A, tau] of modos) v += A * Math.sin(2 * Math.PI * f * t) * Math.exp(-t / tau); a[i] = v; }
+  if (click) { const w = Math.round(click * sr); for (let i = 0; i < w; i++) a[i] += 0.8 * (Math.random() * 2 - 1) * (1 - i / w); }
+  return mkBuf(normaliza(a));
+}
+const SINT = {
+  cuchara: () => modal([[2650, 1, 0.12], [4180, 0.6, 0.09], [6020, 0.45, 0.06], [7900, 0.3, 0.04]], 0.45, 0.002),
+  olla:    () => modal([[410, 1, 1.1], [662, 0.7, 0.8], [985, 0.5, 0.6], [1430, 0.35, 0.4], [2210, 0.2, 0.25]], 2.0, 0.004),
+  botella: () => { const sr = ctxOf().sampleRate, n = Math.round(1.2 * sr), a = new Float32Array(n); let lp = 0; for (let i = 0; i < n; i++) { const t = i / sr; const r = Math.random() * 2 - 1; lp += 0.03 * (r - lp); a[i] = Math.sin(2 * Math.PI * 185 * t) * Math.exp(-t / 0.45) + 4 * lp * Math.exp(-t / 0.15); } return mkBuf(normaliza(a)); },
+  canon:   () => { const sr = ctxOf().sampleRate, a = new Float32Array(Math.round(1.2 * sr)); a[0] = 1; a[Math.round(0.35 * sr)] = 0.6; a[Math.round(0.7 * sr)] = 0.35; a[Math.round(1.05 * sr)] = 0.2; return mkBuf(a); },
+  ametralladora: () => { const sr = ctxOf().sampleRate, a = new Float32Array(Math.round(0.9 * sr)); for (let k = 0; k < 12; k++) a[Math.round(k * 0.07 * sr)] = Math.pow(0.82, k); return mkBuf(a); },
+};
+async function getIR(key) {
+  if (cache[key]) return cache[key];
+  let b;
+  if (window.IR_DATA && IR_DATA[key]) b = await decodeB64(IR_DATA[key].b64);
+  else if (SINT[key]) b = SINT[key]();
+  else if (key === "reves") { const ig = await getIR("iglesia"); const d = Float32Array.from(ig.getChannelData(0)).reverse(); b = mkBuf(d); }
+  else if (key === "xmisma") { if (!buf.x) throw new Error("primero elige una entrada x"); const d = buf.x.getChannelData(0).slice(0, Math.round(0.4 * ctxOf().sampleRate)); b = mkBuf(normaliza(Float32Array.from(d))); return b; }
+  cache[key] = b; return b;
+}
+const NOMBRE_H = {cuchara: "cuchara (modos metálicos, 0.1 s)", olla: "olla (modos graves, 1 s)", botella: "botella (Helmholtz + soplido)", canon: "eco de cañón (δ + 3 rebotes cada 0.35 s)", ametralladora: "ametralladora (12 impulsos cada 70 ms)", reves: "la iglesia invertida en el tiempo", xmisma: "la propia entrada x, recortada a 0.4 s", mic: "grabada con el micrófono"};
+
+// ---------- micrófono ----------
+async function graba(seg, btn) {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error("micrófono no disponible (hace falta https, localhost o abrir el archivo directo)");
+  const stream = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: false, noiseSuppression: false, autoGainControl: false}});
+  const rec = new MediaRecorder(stream), chunks = [];
+  rec.ondataavailable = e => chunks.push(e.data);
+  btn.classList.add("rec");
+  const done = new Promise(res => rec.onstop = res);
+  rec.start();
+  for (let s = seg; s > 0; s--) { btn.textContent = `● grabando… ${s}`; await new Promise(r => setTimeout(r, 1000)); }
+  rec.stop(); await done; stream.getTracks().forEach(t => t.stop());
+  btn.classList.remove("rec");
+  const blob = new Blob(chunks, {type: rec.mimeType}), ab = await blob.arrayBuffer();
+  const dec = await ctxOf().decodeAudioData(ab);
+  return Float32Array.from(dec.getChannelData(0));
+}
+function recortaIR(d) {          // desde el golpe: 20 ms antes del primer pico, 1.5 s, fade-out
+  const sr = ctxOf().sampleRate; let m = 0; for (const v of d) m = Math.max(m, Math.abs(v));
+  let i0 = 0; while (i0 < d.length && Math.abs(d[i0]) < 0.25 * m) i0++;
+  i0 = Math.max(0, i0 - Math.round(0.02 * sr));
+  const n = Math.min(d.length - i0, Math.round(1.5 * sr)), out = new Float32Array(n);
+  for (let i = 0; i < n; i++) out[i] = d[i0 + i] * (i > n - 0.1 * sr ? (n - i) / (0.1 * sr) : 1);
+  return normaliza(out);
+}
+
+// ---------- convolución ----------
+async function convoluciona() {
+  if (!buf.x || !buf.h) { buf.y = null; dibuja("cy", null); lab.y.textContent = ""; return; }
+  const c = ctxOf(), n = buf.x.length + buf.h.length;
+  const off = new OfflineAudioContext(1, n, c.sampleRate);
+  const src = off.createBufferSource(); src.buffer = buf.x;
+  const conv = off.createConvolver(); conv.normalize = false; conv.buffer = buf.h;
+  src.connect(conv); conv.connect(off.destination); src.start();
+  const r = await off.startRendering();
+  const d = normaliza(Float32Array.from(r.getChannelData(0)));
+  buf.y = mkBuf(d); dibuja("cy", buf.y, VERDE);
+  lab.y.textContent = `${nombres.x} ∗ ${nombres.h}  —  dura ${(n / c.sampleRate).toFixed(2)} s (= ${(buf.x.length / c.sampleRate).toFixed(2)} + ${(buf.h.length / c.sampleRate).toFixed(2)})`;
+  say("Salida lista: ▶ para escucharla. Cambia la h (o la x) y vuelve a comparar.");
+}
+
+// ---------- UI ----------
+function marca(grupo, attr, val) { document.querySelectorAll(`#${grupo} button[data-${attr}]`).forEach(b => b.classList.toggle("sel", b.dataset[attr] === val)); }
+document.getElementById("xb").addEventListener("click", async e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.play) { if (buf.x) toca(buf.x); return; }
+  try {
+    ctxOf(); const k = b.dataset.x;
+    if (k === "impulso") { buf.x = genImpulso(); nombres.x = "impulso"; }
+    else if (k === "bateria") { buf.x = genBateria(); nombres.x = "batería"; }
+    else if (k === "arpegio") { buf.x = genArpegio(); nombres.x = "clicks + arpegio"; }
+    else if (k === "mic") { say("Grabando la voz: habla ahora, 3 segundos."); const d = await graba(3, b); b.textContent = "🎤 grabar mi voz (3 s)"; buf.x = mkBuf(normaliza(d)); nombres.x = "mi voz"; }
+    else if (k.startsWith("emb:")) { const v = X_DATA[k.slice(4)]; say("Decodificando…"); if (!cache[k]) cache[k] = await decodeB64(v.b64); buf.x = cache[k]; nombres.x = v.nombre; }
+    marca("xb", "x", k); dibuja("cx", buf.x, AZUL); lab.x.textContent = `${nombres.x} · ${(buf.x.length / ac.sampleRate).toFixed(2)} s`;
+    say("Entrada lista. Ahora elige una h."); await convoluciona();
+  } catch (err) { say("Error: " + err.message); }
+});
+document.getElementById("hb").addEventListener("click", async e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.play) { if (buf.h) toca(buf.h); return; }
+  try {
+    ctxOf(); const k = b.dataset.h;
+    if (k === "mic") { say("Grabando la h: golpea algo frente al micrófono (una olla, un vaso, un aplauso)."); const d = await graba(2, b); b.textContent = "🎤 grabar h (golpear algo, 2 s)"; buf.h = mkBuf(recortaIR(d)); nombres.h = NOMBRE_H.mic; }
+    else { say("Cargando la respuesta al impulso…"); buf.h = await getIR(k); nombres.h = (window.IR_DATA && IR_DATA[k]) ? IR_DATA[k].nombre : NOMBRE_H[k]; }
+    marca("hb", "h", k); dibuja("ch", buf.h, BERM); lab.h.textContent = `${nombres.h} · ${(buf.h.length / ac.sampleRate).toFixed(2)} s`;
+    await convoluciona();
+  } catch (err) { say("Error: " + err.message); }
+});
+document.querySelector('button[data-play="y"]').onclick = () => { if (buf.y) toca(buf.y); else say("Falta elegir x o h."); };
+// Entradas anecoicas embebidas (x_data.js): grabaciones reales sin sala.
+if (window.X_DATA) {
+  const mic = document.querySelector("#xb .mic"), cred = [];
+  for (const [k, v] of Object.entries(X_DATA)) {
+    const b = document.createElement("button"); b.dataset.x = "emb:" + k; b.textContent = v.nombre; mic.before(b); cred.push(v.credito);
+  }
+  document.getElementById("credito").textContent = "Grabaciones anecoicas: " + cred.join(" · ");
+}
+// Si hay una voz seca real junto a la demo (voz_seca.mp3), aparece como botón.
+fetch("voz_seca.mp3").then(r => r.ok ? r.arrayBuffer() : Promise.reject()).then(ab => {
+  const b = document.createElement("button"); b.dataset.x = "voz"; b.textContent = "voz seca (grabación)";
+  document.querySelector("#xb .mic").before(b);
+  b.addEventListener("click", async () => { try { buf.x = await ctxOf().decodeAudioData(ab.slice(0)); nombres.x = "voz seca"; marca("xb", "x", "voz"); dibuja("cx", buf.x, AZUL); lab.x.textContent = `voz seca · ${(buf.x.length / ac.sampleRate).toFixed(2)} s`; await convoluciona(); } catch (err) { say("Error: " + err.message); } }, true);
+}).catch(() => {});
+dibuja("cx", null); dibuja("ch", null); dibuja("cy", null);
+})();
+</script>
+</body>
+</html>

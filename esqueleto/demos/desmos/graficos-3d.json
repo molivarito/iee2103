@@ -1,0 +1,1726 @@
+{
+  "_nota": "Fuente de los 13 gráficos Desmos 3D de las clases (2026-08-21). Formato = argumentos de Calc.setExpression; cómo rehacer uno: README.md §'Cómo se rehace uno'. ROT_OBL = vista oblicua con x a la derecha.",
+  "ROT_OBL": [
+    -0.20302861643130424,
+    -0.9710516747329189,
+    -0.1258492189424711,
+    0.8253513569775203,
+    -0.2388695145857621,
+    0.5116018887152057,
+    -0.5268534126731815,
+    7.586031788989695e-13,
+    0.8499561644900364
+  ],
+  "graficos": [
+    {
+      "clase": "C3",
+      "url": "https://www.desmos.com/3d/ya0zd8ydvh",
+      "title": "SyS C3 · Hélice e^{st}: Re e Im como sombras",
+      "complex": false,
+      "bounds": {
+        "xmin": -1.5,
+        "xmax": 10.5,
+        "ymin": -1.8,
+        "ymax": 1.8,
+        "zmin": -1.8,
+        "zmax": 1.8
+      },
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "Hélice: f(t) = e^{st}, s = σ + jω. Eje largo t; plano transversal (Re, Im). Mueve σ y ω."
+        },
+        {
+          "id": "sig",
+          "latex": "\\sigma=-0.15",
+          "sliderBounds": {
+            "min": "-0.5",
+            "max": "0.5",
+            "step": "0.01"
+          }
+        },
+        {
+          "id": "om",
+          "latex": "\\omega=3",
+          "sliderBounds": {
+            "min": "0",
+            "max": "10",
+            "step": "0.1"
+          }
+        },
+        {
+          "id": "R",
+          "latex": "R\\left(t\\right)=e^{\\sigma t}\\cos\\left(\\omega t\\right)"
+        },
+        {
+          "id": "I",
+          "latex": "I\\left(t\\right)=e^{\\sigma t}\\sin\\left(\\omega t\\right)"
+        },
+        {
+          "id": "hel",
+          "latex": "\\left(t,R\\left(t\\right),I\\left(t\\right)\\right)",
+          "color": "#000000",
+          "lineWidth": 2.2,
+          "parametricDomain": {
+            "min": "-1",
+            "max": "10"
+          }
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "Sombra en el piso (Re contra t) y en la pared (Im contra t)"
+        },
+        {
+          "id": "shRe",
+          "latex": "\\left(t,R\\left(t\\right),-1.6\\right)",
+          "color": "#c74440",
+          "lineWidth": 2.2,
+          "parametricDomain": {
+            "min": "-1",
+            "max": "10"
+          }
+        },
+        {
+          "id": "shIm",
+          "latex": "\\left(t,1.6,I\\left(t\\right)\\right)",
+          "color": "#2d70b3",
+          "lineWidth": 2.2,
+          "parametricDomain": {
+            "min": "-1",
+            "max": "10"
+          }
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "Un instante t₀ y sus dos sombras"
+        },
+        {
+          "id": "t0",
+          "latex": "t_0=2",
+          "sliderBounds": {
+            "min": "-1",
+            "max": "10",
+            "step": "0.05"
+          }
+        },
+        {
+          "id": "P",
+          "latex": "\\left(t_0,R\\left(t_0\\right),I\\left(t_0\\right)\\right)",
+          "color": "#000000",
+          "pointSize": 9
+        },
+        {
+          "id": "PR",
+          "latex": "\\left(t_0,R\\left(t_0\\right),-1.6\\right)",
+          "color": "#c74440",
+          "pointSize": 9
+        },
+        {
+          "id": "PI",
+          "latex": "\\left(t_0,1.6,I\\left(t_0\\right)\\right)",
+          "color": "#2d70b3",
+          "pointSize": 9
+        },
+        {
+          "id": "legR",
+          "latex": "\\left(t_0,R\\left(t_0\\right),-1.6+u\\left(I\\left(t_0\\right)+1.6\\right)\\right)",
+          "color": "#c74440",
+          "lineWidth": 1.2,
+          "parametricDomain": {
+            "min": "0",
+            "max": "1"
+          }
+        },
+        {
+          "id": "legI",
+          "latex": "\\left(t_0,R\\left(t_0\\right)+u\\left(1.6-R\\left(t_0\\right)\\right),I\\left(t_0\\right)\\right)",
+          "color": "#2d70b3",
+          "lineWidth": 1.2,
+          "parametricDomain": {
+            "min": "0",
+            "max": "1"
+          }
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "text": "Envolvente e^{σt} (módulo), en el piso"
+        },
+        {
+          "id": "envp",
+          "latex": "\\left(t,e^{\\sigma t},-1.6\\right)",
+          "color": "#888888",
+          "lineWidth": 1.2,
+          "parametricDomain": {
+            "min": "-1",
+            "max": "10"
+          }
+        },
+        {
+          "id": "envm",
+          "latex": "\\left(t,-e^{\\sigma t},-1.6\\right)",
+          "color": "#888888",
+          "lineWidth": 1.2,
+          "parametricDomain": {
+            "min": "-1",
+            "max": "10"
+          }
+        }
+      ]
+    },
+    {
+      "clase": "C7",
+      "url": "https://www.desmos.com/3d/pp83lpz5az",
+      "title": "SyS C7 · Convolución rect∗rect como superficie (t, τ)",
+      "complex": false,
+      "bounds": {
+        "xmin": -2,
+        "xmax": 2,
+        "ymin": -1.6,
+        "ymax": 1.8,
+        "zmin": -0.05,
+        "zmax": 1.3
+      },
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "Convolución rect∗rect en 3D. Piso = plano (t, τ). Altura = el producto x(τ)·h(t−τ). Mueve t₀."
+        },
+        {
+          "id": "b",
+          "latex": "b\\left(u\\right)=\\left\\{\\left|u\\right|\\le0.5:1,0\\right\\}"
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "En el piso: donde vive x(τ) (banda gris, |τ| ≤ ½) y donde vive h(t−τ) (banda roja, |t−τ| ≤ ½)"
+        },
+        {
+          "id": "band1",
+          "latex": "\\left(u,v,0\\right)",
+          "color": "#888888",
+          "parametricDomain3Du": {
+            "min": "-2",
+            "max": "2"
+          },
+          "parametricDomain3Dv": {
+            "min": "-0.5",
+            "max": "0.5"
+          }
+        },
+        {
+          "id": "band2",
+          "latex": "\\left(u+v,u,0\\right)",
+          "color": "#c74440",
+          "parametricDomain3Du": {
+            "min": "-1.6",
+            "max": "1.8"
+          },
+          "parametricDomain3Dv": {
+            "min": "-0.5",
+            "max": "0.5"
+          }
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "El producto: una meseta de altura 1 sobre la intersección (paralelogramo)"
+        },
+        {
+          "id": "plat",
+          "latex": "\\left(u+v,u,1\\right)",
+          "color": "#6042a6",
+          "parametricDomain3Du": {
+            "min": "-0.5",
+            "max": "0.5"
+          },
+          "parametricDomain3Dv": {
+            "min": "-0.5",
+            "max": "0.5"
+          }
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "text": "La copia viajera parada en t = t₀: el corte rojo es el integrando; el área sombreada es y(t₀)"
+        },
+        {
+          "id": "t0",
+          "latex": "t_0=-0.3",
+          "sliderBounds": {
+            "min": "-1.5",
+            "max": "1.5",
+            "step": "0.05"
+          }
+        },
+        {
+          "id": "line",
+          "latex": "\\left(t_0,t,0\\right)",
+          "color": "#000000",
+          "lineWidth": 1.5,
+          "parametricDomain": {
+            "min": "-1.6",
+            "max": "1.8"
+          }
+        },
+        {
+          "id": "slice",
+          "latex": "\\left(t_0,t,b\\left(t\\right)b\\left(t_0-t\\right)\\right)",
+          "color": "#c74440",
+          "lineWidth": 2,
+          "parametricDomain": {
+            "min": "-1.5",
+            "max": "1.5"
+          }
+        },
+        {
+          "id": "area",
+          "latex": "\\left(t_0,u,v\\cdot b\\left(u\\right)b\\left(t_0-u\\right)\\right)",
+          "color": "#c74440",
+          "parametricDomain3Du": {
+            "min": "-1.5",
+            "max": "1.5"
+          },
+          "parametricDomain3Dv": {
+            "min": "0",
+            "max": "1"
+          }
+        },
+        {
+          "id": "t5",
+          "type": "text",
+          "text": "El resultado y(t) = tri(t), dibujado atrás (en τ = 1.5): cada punto es el área del corte"
+        },
+        {
+          "id": "out",
+          "latex": "\\left(t,1.5,\\max\\left(0,1-\\left|t\\right|\\right)\\right)",
+          "color": "#388c46",
+          "lineWidth": 2.5,
+          "parametricDomain": {
+            "min": "-2",
+            "max": "2"
+          }
+        },
+        {
+          "id": "A",
+          "latex": "A=\\operatorname{round}\\left(\\max\\left(0,1-\\left|t_0\\right|\\right),2\\right)"
+        },
+        {
+          "id": "pt",
+          "latex": "\\left(t_0,1.5,A\\right)",
+          "color": "#388c46",
+          "pointSize": 9
+        }
+      ]
+    },
+    {
+      "clase": "C9",
+      "url": "https://www.desmos.com/3d/ra9vhjayke",
+      "title": "SyS C9 · Proyección ortogonal sobre un plano: v, p y el error",
+      "complex": false,
+      "bounds": {
+        "xmin": -6,
+        "xmax": 6,
+        "ymin": -6,
+        "ymax": 6,
+        "zmin": -6,
+        "zmax": 6
+      },
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "La mejor aproximación es la proyección ortogonal. v (negro), el plano W, la proyección p (verde) y el error e = v − p (rojo), perpendicular a W."
+        },
+        {
+          "id": "v1",
+          "latex": "v_1=3",
+          "sliderBounds": {
+            "min": "-6",
+            "max": "6",
+            "step": "0.5"
+          }
+        },
+        {
+          "id": "v2",
+          "latex": "v_2=4",
+          "sliderBounds": {
+            "min": "-6",
+            "max": "6",
+            "step": "0.5"
+          }
+        },
+        {
+          "id": "v3",
+          "latex": "v_3=5",
+          "sliderBounds": {
+            "min": "-6",
+            "max": "6",
+            "step": "0.5"
+          }
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "El plano W: α = 0 es el plano xy del ejemplo; α lo inclina (base ortonormal e₁ = (1,0,0), e₂ = (0, cos α, sin α))"
+        },
+        {
+          "id": "th",
+          "latex": "\\alpha=0",
+          "sliderBounds": {
+            "min": "0",
+            "max": "1.57",
+            "step": "0.01"
+          }
+        },
+        {
+          "id": "W",
+          "latex": "\\left(u,v\\cos\\alpha,v\\sin\\alpha\\right)",
+          "color": "#2d70b3",
+          "parametricDomain3Du": {
+            "min": "-6",
+            "max": "6"
+          },
+          "parametricDomain3Dv": {
+            "min": "-6",
+            "max": "6"
+          }
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "Coeficientes = productos punto con la base; la proyección es la suma"
+        },
+        {
+          "id": "c1",
+          "latex": "c_1=v_1"
+        },
+        {
+          "id": "c2",
+          "latex": "c_2=v_2\\cos\\alpha+v_3\\sin\\alpha"
+        },
+        {
+          "id": "vv",
+          "latex": "\\operatorname{vector}\\left(\\left(0,0,0\\right),\\left(v_1,v_2,v_3\\right)\\right)",
+          "color": "#000000",
+          "lineWidth": 3
+        },
+        {
+          "id": "pp",
+          "latex": "\\operatorname{vector}\\left(\\left(0,0,0\\right),\\left(c_1,c_2\\cos\\alpha,c_2\\sin\\alpha\\right)\\right)",
+          "color": "#388c46",
+          "lineWidth": 3
+        },
+        {
+          "id": "ee",
+          "latex": "\\operatorname{vector}\\left(\\left(c_1,c_2\\cos\\alpha,c_2\\sin\\alpha\\right),\\left(v_1,v_2,v_3\\right)\\right)",
+          "color": "#c74440",
+          "lineWidth": 3
+        },
+        {
+          "id": "E",
+          "latex": "E=\\sqrt{\\left(v_1-c_1\\right)^2+\\left(v_2-c_2\\cos\\alpha\\right)^2+\\left(v_3-c_2\\sin\\alpha\\right)^2}"
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "text": "Desafío: elige otro punto Q = a·e₁ + b·e₂ del plano e intenta que D = |v − Q| sea menor que E. Nadie en W le gana a p."
+        },
+        {
+          "id": "a",
+          "latex": "a=1.5",
+          "sliderBounds": {
+            "min": "-6",
+            "max": "6",
+            "step": "0.1"
+          }
+        },
+        {
+          "id": "b",
+          "latex": "b=2",
+          "sliderBounds": {
+            "min": "-6",
+            "max": "6",
+            "step": "0.1"
+          }
+        },
+        {
+          "id": "Q",
+          "latex": "\\left(a,b\\cos\\alpha,b\\sin\\alpha\\right)",
+          "color": "#fa7e19",
+          "pointSize": 9
+        },
+        {
+          "id": "qq",
+          "latex": "\\left(a+t\\left(v_1-a\\right),b\\cos\\alpha+t\\left(v_2-b\\cos\\alpha\\right),b\\sin\\alpha+t\\left(v_3-b\\sin\\alpha\\right)\\right)",
+          "color": "#fa7e19",
+          "lineWidth": 1.5,
+          "parametricDomain": {
+            "min": "0",
+            "max": "1"
+          }
+        },
+        {
+          "id": "D",
+          "latex": "D=\\sqrt{\\left(v_1-a\\right)^2+\\left(v_2-b\\cos\\alpha\\right)^2+\\left(v_3-b\\sin\\alpha\\right)^2}"
+        }
+      ]
+    },
+    {
+      "clase": "C10",
+      "url": "https://www.desmos.com/3d/icumarhroy",
+      "title": "SyS C10 · Serie de Fourier en 3D: tiempo, armónicos y espectro",
+      "complex": false,
+      "bounds": {
+        "xmin": -3.6,
+        "xmax": 3.4,
+        "ymin": -3,
+        "ymax": 22,
+        "zmin": -1.5,
+        "zmax": 1.5
+      },
+      "rotation_nota": "vista de frente, fijada arrastrando el lienzo antes de guardar",
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "Serie de Fourier en 3D. Eje x = tiempo t, eje y = armónico k, eje z = amplitud. La onda cuadrada impar (±1, T₀ = 2π) es la suma (4/π)·Σ sin(kt)/k, k impar. Sube N."
+        },
+        {
+          "id": "N",
+          "latex": "N=5",
+          "sliderBounds": {
+            "min": "1",
+            "max": "21",
+            "step": "2"
+          }
+        },
+        {
+          "id": "K",
+          "latex": "K=\\left[1,3,...,N\\right]"
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "Cada armónico vive en su propia “lámina” y = k. Mirado de frente (eje t) se ve el tiempo; mirado de lado (eje k) se ve el espectro."
+        },
+        {
+          "id": "harm",
+          "latex": "\\left(t,K,\\frac{4}{\\pi K}\\sin\\left(Kt\\right)\\right)",
+          "color": "#2d70b3",
+          "lineWidth": 2,
+          "parametricDomain": {
+            "min": "-3.1416",
+            "max": "3.1416"
+          }
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "La suma de los N primeros, adelante (en y = −2): la onda cuadrada armándose"
+        },
+        {
+          "id": "sum",
+          "latex": "\\left(t,-2,\\sum_{m=1}^{\\frac{N+1}{2}}\\frac{4}{\\pi\\left(2m-1\\right)}\\sin\\left(\\left(2m-1\\right)t\\right)\\right)",
+          "color": "#000000",
+          "lineWidth": 2.5,
+          "parametricDomain": {
+            "min": "-3.1416",
+            "max": "3.1416"
+          }
+        },
+        {
+          "id": "sq",
+          "latex": "\\left(t,-2,\\operatorname{sign}\\left(\\sin\\left(t\\right)\\right)\\right)",
+          "color": "#c74440",
+          "lineWidth": 1.5,
+          "parametricDomain": {
+            "min": "-3.1416",
+            "max": "3.1416"
+          }
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "text": "El espectro de línea, en la pared del fondo (t = −π): una barra por armónico, altura 4/(πk). Los pares no están."
+        },
+        {
+          "id": "stem",
+          "latex": "\\operatorname{vector}\\left(\\left(-3.4,K,0\\right),\\left(-3.4,K,\\frac{4}{\\pi K}\\right)\\right)",
+          "color": "#388c46",
+          "lineWidth": 3
+        },
+        {
+          "id": "base",
+          "latex": "\\left(-3.4,t,0\\right)",
+          "color": "#888888",
+          "lineWidth": 1,
+          "parametricDomain": {
+            "min": "0",
+            "max": "22"
+          }
+        }
+      ]
+    },
+    {
+      "clase": "C11",
+      "url": "https://www.desmos.com/3d/kqvtxmebt3",
+      "title": "SyS C11 · El espectro es complejo: c_n en 3D y el desplazamiento que lo gira",
+      "complex": false,
+      "bounds": {
+        "xmin": -12,
+        "xmax": 12,
+        "ymin": -0.8,
+        "ymax": 0.8,
+        "zmin": -0.8,
+        "zmax": 0.8
+      },
+      "rotation": "ROT_OBL",
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "El espectro es complejo: cₙ vive en el plano (Re, Im). Eje x = n, eje y = Re cₙ, eje z = Im cₙ. Onda cuadrada impar (±1, T₀ = 2π): cₙ = 2/(jπn), n impar."
+        },
+        {
+          "id": "N",
+          "latex": "N=9",
+          "sliderBounds": {
+            "min": "1",
+            "max": "21",
+            "step": "2"
+          }
+        },
+        {
+          "id": "K",
+          "latex": "K=\\left[-N,-N+2,...,N\\right]"
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "Desplazar la señal en t₀ multiplica cada cₙ por e^{−jnt₀}: el módulo no cambia, cada barra gira n·t₀. Prueba t₀ = π/2 ≈ 1.571: la cuadrada queda par y todas las barras caen sobre el eje real."
+        },
+        {
+          "id": "t0",
+          "latex": "t_0=0",
+          "sliderBounds": {
+            "min": "0",
+            "max": "3.1416",
+            "step": "0.0262"
+          }
+        },
+        {
+          "id": "R",
+          "latex": "R\\left(n\\right)=-\\frac{2}{\\pi n}\\sin\\left(nt_0\\right)"
+        },
+        {
+          "id": "I",
+          "latex": "I\\left(n\\right)=-\\frac{2}{\\pi n}\\cos\\left(nt_0\\right)"
+        },
+        {
+          "id": "stem",
+          "latex": "\\operatorname{vector}\\left(\\left(K,0,0\\right),\\left(K,R\\left(K\\right),I\\left(K\\right)\\right)\\right)",
+          "color": "#2d70b3",
+          "lineWidth": 2
+        },
+        {
+          "id": "tips",
+          "latex": "\\left(K,R\\left(K\\right),I\\left(K\\right)\\right)",
+          "color": "#2d70b3",
+          "pointSize": 6
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "Simetría conjugada (señal real): c₋ₙ = cₙ* — la barra en −n es el espejo de la barra en n respecto del plano Im = 0."
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "text": "El módulo |cₙ| = 2/(π|n|), como anillo gris en cada n: la barra siempre termina sobre su anillo, gire lo que gire."
+        },
+        {
+          "id": "ring",
+          "latex": "\\left(K,\\frac{2}{\\pi\\left|K\\right|}\\cos\\left(t\\right),\\frac{2}{\\pi\\left|K\\right|}\\sin\\left(t\\right)\\right)",
+          "color": "#888888",
+          "lineWidth": 0.8,
+          "parametricDomain": {
+            "min": "0",
+            "max": "6.2832"
+          }
+        },
+        {
+          "id": "axis",
+          "latex": "\\left(t,0,0\\right)",
+          "color": "#000000",
+          "lineWidth": 1,
+          "parametricDomain": {
+            "min": "-12",
+            "max": "12"
+          }
+        },
+        {
+          "id": "mod",
+          "latex": "M=\\frac{2}{\\pi\\left|K\\right|}"
+        }
+      ]
+    },
+    {
+      "clase": "C12",
+      "url": "https://www.desmos.com/3d/lzkr3qcpjf",
+      "title": "SyS C12 · X(ω) como curva en 3D: Re par, Im impar, módulo y fase",
+      "complex": false,
+      "bounds": {
+        "xmin": -8,
+        "xmax": 8,
+        "ymin": -0.8,
+        "ymax": 1.4,
+        "zmin": -0.8,
+        "zmax": 0.8
+      },
+      "rotation": "ROT_OBL",
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "X(ω) es complejo: una sola curva en 3D. Eje x = ω, eje y = Re X, eje z = Im X. Aquí x(t) = e^{−at}u(t) ↔ X(ω) = 1/(a + jω). Mueve a."
+        },
+        {
+          "id": "a",
+          "latex": "a=1",
+          "sliderBounds": {
+            "min": "0.8",
+            "max": "3",
+            "step": "0.05"
+          }
+        },
+        {
+          "id": "R",
+          "latex": "R\\left(w\\right)=\\frac{a}{a^2+w^2}"
+        },
+        {
+          "id": "I",
+          "latex": "I\\left(w\\right)=\\frac{-w}{a^2+w^2}"
+        },
+        {
+          "id": "curve",
+          "latex": "\\left(t,R\\left(t\\right),I\\left(t\\right)\\right)",
+          "color": "#000000",
+          "lineWidth": 2,
+          "parametricDomain": {
+            "min": "-8",
+            "max": "8"
+          }
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "Sombras: Re X en el piso (roja, PAR) e Im X en la pared (azul, IMPAR). Esa es la simetría hermitiana: X(−ω) = X*(ω)."
+        },
+        {
+          "id": "shRe",
+          "latex": "\\left(t,R\\left(t\\right),-0.7\\right)",
+          "color": "#c74440",
+          "lineWidth": 1.6,
+          "parametricDomain": {
+            "min": "-8",
+            "max": "8"
+          }
+        },
+        {
+          "id": "shIm",
+          "latex": "\\left(t,1.3,I\\left(t\\right)\\right)",
+          "color": "#2d70b3",
+          "lineWidth": 1.6,
+          "parametricDomain": {
+            "min": "-8",
+            "max": "8"
+          }
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "El módulo |X| = 1/√(a²+ω²) (gris, en el piso) es la distancia de la curva al eje ω; la fase es el ángulo de giro alrededor de ese eje."
+        },
+        {
+          "id": "mod",
+          "latex": "\\left(t,\\frac{1}{\\sqrt{a^2+t^2}},-0.7\\right)",
+          "color": "#888888",
+          "lineWidth": 1.5,
+          "parametricDomain": {
+            "min": "-8",
+            "max": "8"
+          }
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "text": "Un ω₀ y sus dos sombras"
+        },
+        {
+          "id": "w0",
+          "latex": "w_0=1.5",
+          "sliderBounds": {
+            "min": "-8",
+            "max": "8",
+            "step": "0.1"
+          }
+        },
+        {
+          "id": "P",
+          "latex": "\\left(w_0,R\\left(w_0\\right),I\\left(w_0\\right)\\right)",
+          "color": "#000000",
+          "pointSize": 9
+        },
+        {
+          "id": "PR",
+          "latex": "\\left(w_0,R\\left(w_0\\right),-0.7\\right)",
+          "color": "#c74440",
+          "pointSize": 7
+        },
+        {
+          "id": "PI",
+          "latex": "\\left(w_0,1.3,I\\left(w_0\\right)\\right)",
+          "color": "#2d70b3",
+          "pointSize": 7
+        },
+        {
+          "id": "legR",
+          "latex": "\\left(w_0,R\\left(w_0\\right),-0.7+u\\left(I\\left(w_0\\right)+0.7\\right)\\right)",
+          "color": "#c74440",
+          "lineWidth": 1.2,
+          "parametricDomain": {
+            "min": "0",
+            "max": "1"
+          }
+        },
+        {
+          "id": "legI",
+          "latex": "\\left(w_0,R\\left(w_0\\right)+u\\left(1.3-R\\left(w_0\\right)\\right),I\\left(w_0\\right)\\right)",
+          "color": "#2d70b3",
+          "lineWidth": 1.2,
+          "parametricDomain": {
+            "min": "0",
+            "max": "1"
+          }
+        },
+        {
+          "id": "ax",
+          "latex": "\\left(t,0,0\\right)",
+          "color": "#000000",
+          "lineWidth": 0.8,
+          "parametricDomain": {
+            "min": "-8",
+            "max": "8"
+          }
+        },
+        {
+          "id": "M0",
+          "latex": "M_0=\\frac{1}{\\sqrt{a^2+w_0^2}}"
+        },
+        {
+          "id": "F0",
+          "latex": "F_0=-\\arctan\\left(\\frac{w_0}{a}\\right)"
+        }
+      ]
+    },
+    {
+      "clase": "C13",
+      "url": "https://www.desmos.com/3d/7w8fj96cg0",
+      "title": "SyS C13 · Desplazamiento = fase lineal: el tornillo de X(ω)",
+      "complex": false,
+      "bounds": {
+        "xmin": -10,
+        "xmax": 10,
+        "ymin": -2.4,
+        "ymax": 2.4,
+        "zmin": -2.4,
+        "zmax": 2.4
+      },
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "Desplazar en el tiempo = fase lineal. x(t) = rect(t/2) ↔ S(ω) = 2 sin(ω)/ω, real. Desplazada t₀: X(ω) = S(ω)·e^{−jωt₀}. Eje x = ω, y = Re X, z = Im X. Sube t₀ y mira cómo la curva se enrosca como un tornillo."
+        },
+        {
+          "id": "t0",
+          "latex": "t_0=0",
+          "sliderBounds": {
+            "min": "0",
+            "max": "3",
+            "step": "0.05"
+          }
+        },
+        {
+          "id": "S",
+          "latex": "S\\left(w\\right)=\\frac{2\\sin\\left(w\\right)}{w}"
+        },
+        {
+          "id": "R",
+          "latex": "R\\left(w\\right)=S\\left(w\\right)\\cos\\left(wt_0\\right)"
+        },
+        {
+          "id": "I",
+          "latex": "I\\left(w\\right)=-S\\left(w\\right)\\sin\\left(wt_0\\right)"
+        },
+        {
+          "id": "curve",
+          "latex": "\\left(t,R\\left(t\\right),I\\left(t\\right)\\right)",
+          "color": "#000000",
+          "lineWidth": 2.2,
+          "parametricDomain": {
+            "min": "-10",
+            "max": "10"
+          }
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "El módulo |X| = |S(ω)| no cambia: la curva siempre vive dentro del mismo “tubo” (gris, ±|S| en el piso y en la pared)."
+        },
+        {
+          "id": "tubeA",
+          "latex": "\\left(t,\\left|S\\left(t\\right)\\right|,-2.3\\right)",
+          "color": "#888888",
+          "lineWidth": 1.2,
+          "parametricDomain": {
+            "min": "-10",
+            "max": "10"
+          }
+        },
+        {
+          "id": "tubeB",
+          "latex": "\\left(t,-\\left|S\\left(t\\right)\\right|,-2.3\\right)",
+          "color": "#888888",
+          "lineWidth": 1.2,
+          "parametricDomain": {
+            "min": "-10",
+            "max": "10"
+          }
+        },
+        {
+          "id": "tubeC",
+          "latex": "\\left(t,2.3,\\left|S\\left(t\\right)\\right|\\right)",
+          "color": "#888888",
+          "lineWidth": 1.2,
+          "parametricDomain": {
+            "min": "-10",
+            "max": "10"
+          }
+        },
+        {
+          "id": "tubeD",
+          "latex": "\\left(t,2.3,-\\left|S\\left(t\\right)\\right|\\right)",
+          "color": "#888888",
+          "lineWidth": 1.2,
+          "parametricDomain": {
+            "min": "-10",
+            "max": "10"
+          }
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "Sombras: Re X en el piso (roja) e Im X en la pared (azul). Con t₀ = 0 la curva es plana (X real); al crecer t₀ las sombras oscilan cada vez más rápido, pero el tubo es el mismo."
+        },
+        {
+          "id": "shRe",
+          "latex": "\\left(t,R\\left(t\\right),-2.3\\right)",
+          "color": "#c74440",
+          "lineWidth": 1.6,
+          "parametricDomain": {
+            "min": "-10",
+            "max": "10"
+          }
+        },
+        {
+          "id": "shIm",
+          "latex": "\\left(t,2.3,I\\left(t\\right)\\right)",
+          "color": "#2d70b3",
+          "lineWidth": 1.6,
+          "parametricDomain": {
+            "min": "-10",
+            "max": "10"
+          }
+        },
+        {
+          "id": "ax",
+          "latex": "\\left(t,0,0\\right)",
+          "color": "#000000",
+          "lineWidth": 0.8,
+          "parametricDomain": {
+            "min": "-10",
+            "max": "10"
+          }
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "text": "La fase: ∠X(ω) = −ωt₀ (más los saltos de π donde S cambia de signo). Una recta de pendiente −t₀: por eso se llama fase lineal."
+        }
+      ]
+    },
+    {
+      "clase": "C15",
+      "url": "https://www.desmos.com/3d/l0td54z1k0",
+      "title": "SyS C15 · La ROC como superficie: |x(t)e^{-σt}| y la costa de Fourier",
+      "complex": false,
+      "bounds": {
+        "xmin": -3,
+        "xmax": 3,
+        "ymin": 0,
+        "ymax": 6,
+        "zmin": 0,
+        "zmax": 3
+      },
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "La ROC como superficie. x(t) = e^{−at}u(t). Laplace = Fourier de x(t)·e^{−σt}. Eje x = σ, eje y = t, eje z = |x(t)e^{−σt}| = e^{−(a+σ)t}. Mueve a (el polo está en σ = −a)."
+        },
+        {
+          "id": "a",
+          "latex": "a=1",
+          "sliderBounds": {
+            "min": "-1",
+            "max": "2",
+            "step": "0.05"
+          }
+        },
+        {
+          "id": "surf",
+          "latex": "\\left(u,v,\\min\\left(3,e^{-\\left(a+u\\right)v}\\right)\\right)",
+          "color": "#6042a6",
+          "parametricDomain3Du": {
+            "min": "-3",
+            "max": "3"
+          },
+          "parametricDomain3Dv": {
+            "min": "0",
+            "max": "6"
+          }
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "A la derecha del polo (σ > −a) la señal amortiguada decae y la integral existe: eso es la ROC (piso verde). A la izquierda explota (techo recortado en 3)."
+        },
+        {
+          "id": "roc",
+          "latex": "\\left(u,v,0\\right)",
+          "color": "#388c46",
+          "parametricDomain3Du": {
+            "min": "-a",
+            "max": "3"
+          },
+          "parametricDomain3Dv": {
+            "min": "0",
+            "max": "6"
+          }
+        },
+        {
+          "id": "wall",
+          "latex": "\\left(-a,u,v\\right)",
+          "color": "#c74440",
+          "parametricDomain3Du": {
+            "min": "0",
+            "max": "6"
+          },
+          "parametricDomain3Dv": {
+            "min": "0",
+            "max": "3"
+          }
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "La costa: σ = 0 es el eje jω, donde vive Fourier (curva azul). Si el polo está a la izquierda (a > 0), la costa cae dentro de la ROC y la transformada de Fourier existe; con a < 0, no."
+        },
+        {
+          "id": "four",
+          "latex": "\\left(0,t,\\min\\left(3,e^{-at}\\right)\\right)",
+          "color": "#2d70b3",
+          "lineWidth": 3,
+          "parametricDomain": {
+            "min": "0",
+            "max": "6"
+          }
+        },
+        {
+          "id": "pole",
+          "latex": "\\left(-a,0,0\\right)",
+          "color": "#c74440",
+          "pointSize": 10
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "text": "Un corte σ = σ₀: la señal que Fourier ve en ese punto del plano s"
+        },
+        {
+          "id": "s0",
+          "latex": "s_0=0.5",
+          "sliderBounds": {
+            "min": "-3",
+            "max": "3",
+            "step": "0.05"
+          }
+        },
+        {
+          "id": "cut",
+          "latex": "\\left(s_0,t,\\min\\left(3,e^{-\\left(a+s_0\\right)t}\\right)\\right)",
+          "color": "#000000",
+          "lineWidth": 2.5,
+          "parametricDomain": {
+            "min": "0",
+            "max": "6"
+          }
+        }
+      ]
+    },
+    {
+      "clase": "C20",
+      "url": "https://www.desmos.com/3d/e8qdpourdf",
+      "title": "SyS C20 · Sinusoides discretas: la hélice muestreada y su alias",
+      "complex": false,
+      "bounds": {
+        "xmin": -0.5,
+        "xmax": 12.5,
+        "ymin": -1.6,
+        "ymax": 1.6,
+        "zmin": -1.6,
+        "zmax": 1.6
+      },
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "Sinusoides discretas: la hélice muestreada. Eje x = n, plano (Re, Im). Los puntos negros son e^{jΩn}; la hélice gris es e^{jΩt} (tiempo continuo). Sube Ω desde 0 hasta 2π."
+        },
+        {
+          "id": "W",
+          "latex": "W=0.6",
+          "sliderBounds": {
+            "min": "0",
+            "max": "6.2832",
+            "step": "0.02"
+          }
+        },
+        {
+          "id": "n",
+          "latex": "n=\\left[0,...,12\\right]"
+        },
+        {
+          "id": "hel",
+          "latex": "\\left(t,\\cos\\left(Wt\\right),\\sin\\left(Wt\\right)\\right)",
+          "color": "#888888",
+          "lineWidth": 1.5,
+          "parametricDomain": {
+            "min": "0",
+            "max": "12"
+          }
+        },
+        {
+          "id": "pts",
+          "latex": "\\left(n,\\cos\\left(Wn\\right),\\sin\\left(Wn\\right)\\right)",
+          "color": "#000000",
+          "pointSize": 6
+        },
+        {
+          "id": "stems",
+          "latex": "\\operatorname{vector}\\left(\\left(n,0,0\\right),\\left(n,\\cos\\left(Wn\\right),\\sin\\left(Wn\\right)\\right)\\right)",
+          "color": "#2d70b3",
+          "lineWidth": 1.2
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "La no-unicidad: la hélice naranja tiene frecuencia Ω − 2π (gira al revés) y pasa EXACTAMENTE por los mismos puntos. Entre muestras no hay nadie que las distinga."
+        },
+        {
+          "id": "alias",
+          "latex": "\\left(t,\\cos\\left(\\left(W-2\\pi\\right)t\\right),\\sin\\left(\\left(W-2\\pi\\right)t\\right)\\right)",
+          "color": "#fa7e19",
+          "lineWidth": 1,
+          "parametricDomain": {
+            "min": "0",
+            "max": "12"
+          }
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "En el piso, lo que se ve en un gráfico de barras: Re{e^{jΩn}} = cos(Ωn). Más rápido hasta Ω = π (alternancia pura), y de ahí en adelante cada vez más lento hasta quedar constante en 2π."
+        },
+        {
+          "id": "floor",
+          "latex": "\\operatorname{vector}\\left(\\left(n,0,-1.5\\right),\\left(n,\\cos\\left(Wn\\right),-1.5\\right)\\right)",
+          "color": "#c74440",
+          "lineWidth": 1.5
+        },
+        {
+          "id": "floorpts",
+          "latex": "\\left(n,\\cos\\left(Wn\\right),-1.5\\right)",
+          "color": "#c74440",
+          "pointSize": 4
+        },
+        {
+          "id": "ax",
+          "latex": "\\left(t,0,0\\right)",
+          "color": "#000000",
+          "lineWidth": 0.8,
+          "parametricDomain": {
+            "min": "0",
+            "max": "12"
+          }
+        },
+        {
+          "id": "ax2",
+          "latex": "\\left(t,0,-1.5\\right)",
+          "color": "#888888",
+          "lineWidth": 0.8,
+          "parametricDomain": {
+            "min": "0",
+            "max": "12"
+          }
+        }
+      ]
+    },
+    {
+      "clase": "C23",
+      "url": "https://www.desmos.com/3d/wgjy1ajrgc",
+      "title": "SyS C23 · La ROC en el plano z: el anillo entre las montañas",
+      "complex": true,
+      "bounds": {
+        "xmin": -2.6,
+        "xmax": 2.6,
+        "ymin": -2.6,
+        "ymax": 2.6,
+        "zmin": 0,
+        "zmax": 4
+      },
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "La ROC en el plano z es un anillo. x[n] = a^{|n|} (bilateral) ↔ X(z) = z/(z−a) − z/(z−1/a), polos en a y en 1/a. Piso = plano z (x = Re z, y = Im z); altura = |X(z)| (recortada en 4). Mueve a."
+        },
+        {
+          "id": "a",
+          "latex": "a=0.5",
+          "sliderBounds": {
+            "min": "0.3",
+            "max": "0.9",
+            "step": "0.01"
+          }
+        },
+        {
+          "id": "H",
+          "latex": "H\\left(w\\right)=\\frac{w}{w-a}-\\frac{w}{w-\\frac{1}{a}}"
+        },
+        {
+          "id": "surf",
+          "latex": "z=\\min\\left(4,\\left|H\\left(x+iy\\right)\\right|\\right)",
+          "color": "#6042a6"
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "La ROC pintada de verde sobre la superficie: a < |z| < 1/a, el anillo entre las dos montañas (los polos). Contiene el círculo unitario, así que la DTFT existe: es el corte rojo."
+        },
+        {
+          "id": "roc",
+          "latex": "\\left(v\\cos u,v\\sin u,0.04+\\min\\left(4,\\left|H\\left(v\\cos u+iv\\sin u\\right)\\right|\\right)\\right)",
+          "color": "#388c46",
+          "parametricDomain3Du": {
+            "min": "0",
+            "max": "6.2832"
+          },
+          "parametricDomain3Dv": {
+            "min": "a",
+            "max": "\\frac{1}{a}"
+          }
+        },
+        {
+          "id": "cut",
+          "latex": "\\left(\\cos t,\\sin t,\\min\\left(4,\\left|H\\left(\\cos t+i\\sin t\\right)\\right|\\right)\\right)",
+          "color": "#c74440",
+          "lineWidth": 3,
+          "parametricDomain": {
+            "min": "0",
+            "max": "6.2832"
+          }
+        },
+        {
+          "id": "p1",
+          "latex": "\\left(a,0,0\\right)",
+          "color": "#000000",
+          "pointSize": 9
+        },
+        {
+          "id": "p2",
+          "latex": "\\left(\\frac{1}{a},0,0\\right)",
+          "color": "#000000",
+          "pointSize": 8
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "Regla: la ROC nunca contiene un polo y es un anillo conexo. Derecha sola (a^n u[n]) sería el exterior del polo interno; izquierda sola, el interior del polo externo."
+        }
+      ]
+    },
+    {
+      "clase": "C26",
+      "url": "https://www.desmos.com/3d/aw9blrqz5s",
+      "title": "SyS C26 · El notch en 3D: ceros sobre el círculo, polos justo adentro",
+      "complex": true,
+      "bounds": {
+        "xmin": -1.6,
+        "xmax": 1.6,
+        "ymin": -1.6,
+        "ymax": 1.6,
+        "zmin": 0,
+        "zmax": 3
+      },
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "Diseño por polos y ceros: el notch de la clase. Ceros en e^{±jΩ₀} (sobre el círculo: hoyos), polos en p·e^{±jΩ₀} (justo adentro: carpas; p es el r de la clase — Desmos reserva la letra r). Piso = plano z; altura = |H(z)| recortada en 3. Mueve p desde 0 (el FIR) hasta 0.98."
+        },
+        {
+          "id": "W0",
+          "latex": "W_0=\\frac{\\pi}{2}",
+          "sliderBounds": {
+            "min": "0.2",
+            "max": "2.9",
+            "step": "0.01"
+          }
+        },
+        {
+          "id": "rr",
+          "latex": "p=0.95",
+          "sliderBounds": {
+            "min": "0",
+            "max": "0.98",
+            "step": "0.01"
+          }
+        },
+        {
+          "id": "K",
+          "latex": "K=\\frac{1+p^2}{2}"
+        },
+        {
+          "id": "H",
+          "latex": "H\\left(w\\right)=K\\frac{\\left(w-e^{iW_0}\\right)\\left(w-e^{-iW_0}\\right)}{\\left(w-p\\cdot e^{iW_0}\\right)\\left(w-p\\cdot e^{-iW_0}\\right)}"
+        },
+        {
+          "id": "surf",
+          "latex": "z=\\min\\left(3,\\left|H\\left(x+iy\\right)\\right|\\right)",
+          "color": "#6042a6"
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "La respuesta en frecuencia es el corte rojo sobre el círculo unitario. Con p = 0 el hoyo es ancho (“bofetada”, |cos Ω|); con p → 1 la carpa se pega al hoyo y el corte queda plano en 1 salvo una muesca finísima en Ω₀ (“bisturí”). Ancho a −3 dB ≈ 2(1−p)."
+        },
+        {
+          "id": "cut",
+          "latex": "\\left(\\cos t,\\sin t,0.02+\\min\\left(3,\\left|H\\left(\\cos t+i\\sin t\\right)\\right|\\right)\\right)",
+          "color": "#c74440",
+          "lineWidth": 3,
+          "parametricDomain": {
+            "min": "0",
+            "max": "6.2832"
+          }
+        },
+        {
+          "id": "z1",
+          "latex": "\\left(\\cos W_0,\\sin W_0,0\\right)",
+          "color": "#2d70b3",
+          "pointSize": 9
+        },
+        {
+          "id": "z2",
+          "latex": "\\left(\\cos W_0,-\\sin W_0,0\\right)",
+          "color": "#2d70b3",
+          "pointSize": 9
+        },
+        {
+          "id": "p1",
+          "latex": "\\left(p\\cos W_0,p\\sin W_0,0\\right)",
+          "color": "#000000",
+          "pointSize": 10
+        },
+        {
+          "id": "p2",
+          "latex": "\\left(p\\cos W_0,-p\\sin W_0,0\\right)",
+          "color": "#000000",
+          "pointSize": 10
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "La ganancia K = (1+p²)/2 deja |H(1)| = 1 (DC intacta). Lejos de Ω₀, cero y polo están casi a la misma distancia del círculo y el cociente vale ≈ 1."
+        },
+        {
+          "id": "Hdc",
+          "latex": "G_0=\\left|H\\left(1\\right)\\right|"
+        }
+      ]
+    },
+    {
+      "clase": "C28",
+      "url": "https://www.desmos.com/3d/4wgyafzcvl",
+      "title": "SyS C28 · DFT = muestras de la DTFT sobre el círculo",
+      "complex": true,
+      "bounds": {
+        "xmin": -1.6,
+        "xmax": 1.6,
+        "ymin": -1.6,
+        "ymax": 1.6,
+        "zmin": 0,
+        "zmax": 2.4
+      },
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "DFT = muestras de la DTFT. La secuencia del ejemplo, x = (1, 0, −1, 0), tiene X(z) = 1 − z^{−2}. Piso = plano z; altura = |X(z)| (recortada en 2.3: el polo doble en z = 0 es la meseta del centro). El corte rojo sobre el círculo unitario es la DTFT: |2 sin Ω|."
+        },
+        {
+          "id": "H",
+          "latex": "H\\left(w\\right)=1-w^{-2}"
+        },
+        {
+          "id": "surf",
+          "latex": "z=\\min\\left(2.3,\\left|H\\left(x+iy\\right)\\right|\\right)",
+          "color": "#6042a6"
+        },
+        {
+          "id": "cut",
+          "latex": "\\left(\\cos t,\\sin t,0.02+\\min\\left(3,\\left|H\\left(\\cos t+i\\sin t\\right)\\right|\\right)\\right)",
+          "color": "#c74440",
+          "lineWidth": 3,
+          "parametricDomain": {
+            "min": "0",
+            "max": "6.2832"
+          }
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "La DFT de tamaño M son M fotos equiespaciadas de ese corte: Ω = 2πk/M. Con M = 4 salen (0, 2, 0, 2): la DFT del ejemplo. Sube M (zero-padding): más fotos de la MISMA curva, ninguna información nueva."
+        },
+        {
+          "id": "M",
+          "latex": "M=4",
+          "sliderBounds": {
+            "min": "4",
+            "max": "32",
+            "step": "4"
+          }
+        },
+        {
+          "id": "k",
+          "latex": "k=\\left[0,...,M-1\\right]"
+        },
+        {
+          "id": "A",
+          "latex": "A=\\left|H\\left(\\cos\\left(\\frac{2\\pi k}{M}\\right)+i\\sin\\left(\\frac{2\\pi k}{M}\\right)\\right)\\right|"
+        },
+        {
+          "id": "stems",
+          "latex": "\\operatorname{vector}\\left(\\left(\\cos\\left(\\frac{2\\pi k}{M}\\right),\\sin\\left(\\frac{2\\pi k}{M}\\right),0\\right),\\left(\\cos\\left(\\frac{2\\pi k}{M}\\right),\\sin\\left(\\frac{2\\pi k}{M}\\right),A\\right)\\right)",
+          "color": "#388c46",
+          "lineWidth": 3
+        },
+        {
+          "id": "pts",
+          "latex": "\\left(\\cos\\left(\\frac{2\\pi k}{M}\\right),\\sin\\left(\\frac{2\\pi k}{M}\\right),A\\right)",
+          "color": "#388c46",
+          "pointSize": 8
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "k = 0 es DC (z = 1); k = M/2 es Nyquist (z = −1); k > M/2 son las frecuencias negativas (mitad inferior del círculo). Las muestras en z = ±1 caen justo en los ceros de X(z): por eso X[0] = X[2] = 0."
+        },
+        {
+          "id": "dc",
+          "latex": "\\left(1,0,0\\right)",
+          "color": "#000000",
+          "pointSize": 8
+        },
+        {
+          "id": "ny",
+          "latex": "\\left(-1,0,0\\right)",
+          "color": "#000000",
+          "pointSize": 7
+        }
+      ]
+    },
+    {
+      "clase": "C30",
+      "url": "https://www.desmos.com/3d/2hlq3hnm0d",
+      "title": "SyS C30 · El espectrograma como superficie: el compromiso tiempo-frecuencia",
+      "complex": false,
+      "bounds": {
+        "xmin": 0,
+        "xmax": 10,
+        "ymin": 0,
+        "ymax": 10,
+        "zmin": 0,
+        "zmax": 1.3
+      },
+      "rotation": "ROT_OBL",
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "El espectrograma como superficie. Eje x = tiempo t, eje y = frecuencia ω, altura = |STFT|. Señal: un chirp lineal (frecuencia instantánea ω = αt, línea roja) analizado con ventana gaussiana de ancho s. Este caso tiene fórmula exacta: una cresta gaussiana centrada en ω = αt."
+        },
+        {
+          "id": "al",
+          "latex": "\\alpha=1",
+          "sliderBounds": {
+            "min": "0.2",
+            "max": "2",
+            "step": "0.05"
+          }
+        },
+        {
+          "id": "s",
+          "latex": "s=1",
+          "sliderBounds": {
+            "min": "0.3",
+            "max": "3",
+            "step": "0.05"
+          }
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "El ancho de la cresta (en ω) es W² = 1/s² + α²s². Ventana corta (s chico): el primer término la engorda (mala resolución en frecuencia). Ventana larga (s grande): el chirp cambia de nota DENTRO de la ventana y el segundo término la engorda (mala resolución en tiempo). Mínimo en s = 1/√α."
+        },
+        {
+          "id": "W",
+          "latex": "W=\\sqrt{\\frac{1}{s^2}+\\alpha^2s^2}"
+        },
+        {
+          "id": "surf",
+          "latex": "z=e^{-\\frac{\\left(y-\\alpha x\\right)^2}{2W^2}}",
+          "color": "#2d70b3"
+        },
+        {
+          "id": "ridge",
+          "latex": "\\left(t,\\alpha t,1.03\\right)",
+          "color": "#c74440",
+          "lineWidth": 2.6,
+          "parametricDomain": {
+            "min": "0",
+            "max": "10"
+          }
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "Un instante t₀: el corte negro es el espectro de esa ventana (una campana de ancho W alrededor de αt₀). Mueve s y mira cómo la campana se angosta y luego vuelve a engordar."
+        },
+        {
+          "id": "t0",
+          "latex": "t_0=5",
+          "sliderBounds": {
+            "min": "0",
+            "max": "10",
+            "step": "0.1"
+          }
+        },
+        {
+          "id": "cut",
+          "latex": "\\left(t_0,t,0.02+e^{-\\frac{\\left(t-\\alpha t_0\\right)^2}{2W^2}}\\right)",
+          "color": "#000000",
+          "lineWidth": 2.5,
+          "parametricDomain": {
+            "min": "0",
+            "max": "10"
+          }
+        },
+        {
+          "id": "sopt",
+          "latex": "s_{opt}=\\frac{1}{\\sqrt{\\alpha}}"
+        }
+      ]
+    },
+    {
+      "clase": "C7",
+      "url": "https://www.desmos.com/3d/psmpaiz8ti",
+      "title": "SyS C7 · La superficie de la convolución: el corte y su área",
+      "_por_que": "Revisión del 24-ago-2026: el gráfico C7 vigente (pp83lpz5az) es correcto pero ilegible — siete objetos que se tapan (dos bandas en el piso, meseta flotante, pared del corte, tri(t) al medio) y, sobre todo, con rect∗rect el producto vale 0 o 1, así que la superficie no tiene relieve y la tercera dimensión no muestra nada que el dibujo 2D no muestre ya. Esta versión deja cuatro objetos (superficie sobre su paralelogramo + sombra, corte, área, resultado al fondo) y agrega el slider d: con d≈0 es el rect∗rect exacto de la clase, y subiéndolo aparece el relieve — el integrando deja de ser plano y el área se ve como área.",
+      "complex": false,
+      "bounds": {
+        "xmin": -1.7,
+        "xmax": 2.3,
+        "ymin": -1.3,
+        "ymax": 2.0,
+        "zmin": 0,
+        "zmax": 1.7
+      },
+      "rotation": "ROT_OBL",
+      "expressions": [
+        {
+          "id": "t1",
+          "type": "text",
+          "text": "La superficie de la convolución. El piso es el plano (t, τ): t hacia la derecha, τ hacia el fondo. La ALTURA es el integrando x(τ)·h(t−τ). Convolucionar = pararse en t = t₀, cortar, y medir el ÁREA del corte."
+        },
+        {
+          "id": "b",
+          "latex": "b\\left(u\\right)=\\left\\{\\left|u\\right|\\le0.5:1,0\\right\\}"
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "text": "x(τ) = rect(τ). Y h con un decaimiento d que se puede subir: con d ≈ 0 es el rect∗rect de la clase; subirlo le da relieve a la superficie."
+        },
+        {
+          "id": "d",
+          "latex": "d=0.01",
+          "sliderBounds": {
+            "min": "0.01",
+            "max": "3",
+            "step": "0.01"
+          }
+        },
+        {
+          "id": "h",
+          "latex": "g\\left(u\\right)=b\\left(u\\right)e^{-d\\left(u+0.5\\right)}"
+        },
+        {
+          "id": "t2b",
+          "type": "text",
+          "text": "La superficie morada vive sólo sobre el PARALELOGRAMO donde las dos señales se traslapan (su sombra gris en el piso): |τ| ≤ ½ y |t−τ| ≤ ½."
+        },
+        {
+          "id": "surf",
+          "latex": "\\left(u+v,u,g\\left(v\\right)\\right)",
+          "color": "#6042a6",
+          "parametricDomain3Du": {
+            "min": "-0.5",
+            "max": "0.5"
+          },
+          "parametricDomain3Dv": {
+            "min": "-0.5",
+            "max": "0.5"
+          }
+        },
+        {
+          "id": "sombra",
+          "latex": "\\left(u+v,u,0\\right)",
+          "color": "#cfcfcf",
+          "parametricDomain3Du": {
+            "min": "-0.5",
+            "max": "0.5"
+          },
+          "parametricDomain3Dv": {
+            "min": "-0.5",
+            "max": "0.5"
+          }
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "text": "El corte en t = t₀ (curva negra) es EXACTAMENTE el integrando del método gráfico: x(τ) por h invertida y desplazada. El área roja bajo él es y(t₀)."
+        },
+        {
+          "id": "t0",
+          "latex": "t_0=-0.3",
+          "sliderBounds": {
+            "min": "-1.2",
+            "max": "1.2",
+            "step": "0.02"
+          }
+        },
+        {
+          "id": "corte",
+          "latex": "\\left(t_0,t,b\\left(t\\right)g\\left(t_0-t\\right)\\right)",
+          "color": "#000000",
+          "lineWidth": 3,
+          "parametricDomain": {
+            "min": "-1.3",
+            "max": "1.8"
+          }
+        },
+        {
+          "id": "area",
+          "latex": "\\left(t_0,u,v\\cdot b\\left(u\\right)g\\left(t_0-u\\right)\\right)",
+          "color": "#c74440",
+          "parametricDomain3Du": {
+            "min": "-1.3",
+            "max": "1.8"
+          },
+          "parametricDomain3Dv": {
+            "min": "0",
+            "max": "1"
+          }
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "text": "El resultado y(t), dibujado al fondo (en τ = 1.45): cada altura de la curva verde ES el área de un corte. El punto verde sigue a t₀ y la línea fina lo conecta con su corte."
+        },
+        {
+          "id": "Y",
+          "latex": "Y\\left(w\\right)=\\left\\{w<-1:0,w\\le0:\\frac{1-e^{-d\\left(w+1\\right)}}{d},w\\le1:\\frac{e^{-dw}-e^{-d}}{d},0\\right\\}"
+        },
+        {
+          "id": "res",
+          "latex": "\\left(t,1.45,Y\\left(t\\right)\\right)",
+          "color": "#388c46",
+          "lineWidth": 2.5,
+          "parametricDomain": {
+            "min": "-1.2",
+            "max": "1.2"
+          }
+        },
+        {
+          "id": "pt",
+          "latex": "\\left(t_0,1.45,Y\\left(t_0\\right)\\right)",
+          "color": "#388c46",
+          "pointSize": 9
+        },
+        {
+          "id": "guia",
+          "latex": "\\left(t_0,1.45-u,Y\\left(t_0\\right)\\right)",
+          "color": "#388c46",
+          "lineWidth": 1,
+          "parametricDomain": {
+            "min": "0",
+            "max": "1.45"
+          }
+        },
+        {
+          "id": "A",
+          "latex": "A=\\operatorname{round}\\left(Y\\left(t_0\\right),3\\right)"
+        },
+        {
+          "id": "ejeT",
+          "latex": "\\left(t,1.45,0\\right)",
+          "color": "#888888",
+          "lineWidth": 1,
+          "parametricDomain": {
+            "min": "-1.3",
+            "max": "1.8"
+          }
+        }
+      ],
+      "_reemplaza_a": "https://www.desmos.com/3d/pp83lpz5az (versión anterior, se conserva sin uso)"
+    }
+  ]
+}

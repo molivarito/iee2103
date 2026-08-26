@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>La convolución: los ecos se superponen</title>
+<style>
+  body{margin:0;font-family:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;background:#fff;color:#222}
+  #bar{display:flex;gap:12px;align-items:center;padding:8px 14px;flex-wrap:wrap;font-size:15px}
+  button{font-size:15px;padding:5px 12px;border:1px solid #999;border-radius:6px;background:#f4f4f4;cursor:pointer}
+  button.primary{background:#0072B2;color:#fff;border-color:#0072B2}
+  button:disabled{opacity:.45;cursor:default}
+  select{font-size:15px}
+  #msg{font-size:15px;color:#D55E00;padding:0 14px 4px;min-height:20px}
+  canvas{display:block}
+</style>
+</head>
+<body>
+<div id="bar">
+  <button id="next" class="primary">▶ siguiente eco</button>
+  <button id="play">▶▶ todos, uno a uno</button>
+  <button id="reset">↺ reiniciar</button>
+  <label>Δ = <select id="delta">
+    <option value="0.5">0.5</option><option value="0.35" selected>0.35</option>
+    <option value="0.2">0.2</option><option value="0.1">0.1</option><option value="0.05">0.05</option></select></label>
+  <label>h(t) = <select id="hsel">
+    <option value="exp">e^(−1.2t)·u(t)</option><option value="rebote">dos rebotes</option><option value="rect">rect corto</option></select></label>
+  <label><input type="checkbox" id="exact" checked> mostrar y(t) exacta (Δ→0)</label>
+</div>
+<div id="msg"></div>
+<canvas id="c" width="1000" height="400"></canvas>
+<script>
+(() => {
+const AZUL = "#0072B2", BERM = "#D55E00", NAR = "#f2b07a", GRIS = "#8a8a8a";
+const T = 3.0;                       // x vive en [0, T]
+const x = t => (t >= 0 && t <= T) ? 1 + 0.5 * Math.sin(2 * Math.PI * t / 2.8 + 0.3) : 0;
+const HS = {
+  exp:    t => t >= 0 ? Math.exp(-1.2 * t) : 0,
+  rebote: t => t >= 0 ? Math.exp(-4 * t) + (t >= 1 ? 0.6 * Math.exp(-4 * (t - 1)) : 0) : 0,
+  rect:   t => (t >= 0 && t < 0.6) ? 1.2 : 0,
+};
+const tmin = -0.3, tmax = 6.0, dt = 0.01;
+const tg = []; for (let t = tmin; t <= tmax + 1e-9; t += dt) tg.push(t);
+
+const cv = document.getElementById("c"), ctx = cv.getContext("2d");
+const W = cv.width, H = cv.height;
+const selD = document.getElementById("delta"), selH = document.getElementById("hsel"),
+      chkE = document.getElementById("exact"), msg = document.getElementById("msg"),
+      bNext = document.getElementById("next"), bPlay = document.getElementById("play"), bReset = document.getElementById("reset");
+
+let D, h, taus, pesos, ecos, exact, ymax, m = 0, anim = 0, timer = null;
+
+function setup() {
+  D = parseFloat(selD.value); h = HS[selH.value];
+  const N = Math.floor(T / D + 1e-9) + 1;
+  taus = []; pesos = []; ecos = [];
+  for (let k = 0; k < N; k++) {
+    const tau = k * D, w = x(tau) * D;
+    taus.push(tau); pesos.push(w);
+    ecos.push(tg.map(t => w * h(t - tau)));
+  }
+  // y exacta: integral numérica fina
+  const dtau = 0.005; exact = tg.map(t => { let s = 0; for (let tau = 0; tau <= T; tau += dtau) s += x(tau) * h(t - tau); return s * dtau; });
+  const full = tg.map((_, i) => ecos.reduce((s, e) => s + e[i], 0));
+  ymax = Math.max(...full, ...exact) * 1.15;
+  m = 0; anim = 1; stopPlay(); draw();
+}
+
+// mapeo de coordenadas
+const top = {y0: 30, y1: 160}, bot = {y0: 205, y1: 370};
+const px = t => 60 + (t - tmin) / (tmax - tmin) * (W - 80);
+const pyTop = v => top.y1 - v / 1.7 * (top.y1 - top.y0);
+const pyBot = v => bot.y1 - v / ymax * (bot.y1 - bot.y0);
+
+function line(pts, color, width, dash) {
+  ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.setLineDash(dash || []);
+  ctx.beginPath(); pts.forEach(([a, b], i) => i ? ctx.lineTo(a, b) : ctx.moveTo(a, b)); ctx.stroke(); ctx.restore();
+}
+function axis(y, label) {
+  line([[px(tmin), y], [px(tmax), y]], "#444", 1);
+  ctx.fillStyle = "#444"; ctx.font = "13px sans-serif"; ctx.textAlign = "center";
+  for (let t = 0; t <= 6; t++) { line([[px(t), y], [px(t), y + 5]], "#444", 1); ctx.fillText(t, px(t), y + 18); }
+  ctx.textAlign = "left"; ctx.font = "15px sans-serif"; ctx.fillText(label, px(tmax) - 2, y - 6);
+}
+function arrow(xp, y0, y1, color, width) {
+  line([[xp, y0], [xp, y1]], color, width);
+  ctx.save(); ctx.fillStyle = color; ctx.beginPath();
+  ctx.moveTo(xp, y1); ctx.lineTo(xp - 4 - width, y1 + 9); ctx.lineTo(xp + 4 + width, y1 + 9); ctx.closePath(); ctx.fill(); ctx.restore();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  // --- panel superior: x(τ) hecha impulsos ---
+  axis(top.y1, "τ");
+  line(tg.filter(t => t >= 0 && t <= T).map(t => [px(t), pyTop(x(t))]), "#9ecae1", 2.5);
+  ctx.font = "15px sans-serif"; ctx.fillStyle = AZUL; ctx.textAlign = "left";
+  ctx.fillText("x(τ): impulsos de peso x(kΔ)·Δ, uno cada Δ", px(3.3), top.y0 + 8);
+  taus.forEach((tau, k) => {
+    const fired = k < m, cur = (k === m - 1);
+    const col = cur ? BERM : fired ? NAR : "#cfcfcf";
+    arrow(px(tau), top.y1, pyTop(x(tau)), col, cur ? 3.5 : 2);
+  });
+  // --- panel inferior: los ecos y su suma ---
+  axis(bot.y1, "t");
+  const a = anim;                                    // 0→1 mientras entra el eco nuevo
+  for (let k = 0; k < m - 1; k++) line(tg.map((t, i) => [px(t), pyBot(ecos[k][i])]), NAR, 1.2);
+  if (m > 0) {
+    ctx.save(); ctx.globalAlpha = a;
+    line(tg.map((t, i) => [px(t), pyBot(ecos[m - 1][i])]), BERM, 3); ctx.restore();
+  }
+  if (chkE.checked) line(tg.map((t, i) => [px(t), pyBot(exact[i])]), GRIS, 1.5, [6, 5]);
+  const suma = tg.map((_, i) => { let s = 0; for (let k = 0; k < m - 1; k++) s += ecos[k][i]; if (m > 0) s += a * ecos[m - 1][i]; return s; });
+  if (m > 0) line(tg.map((t, i) => [px(t), pyBot(suma[i])]), AZUL, 3);
+  ctx.fillStyle = AZUL; ctx.font = "15px sans-serif"; ctx.textAlign = "left";
+  ctx.fillText(m > 0 ? `y(t) = suma de los ${m} eco${m > 1 ? "s" : ""} disparados hasta ahora` : "y(t): todavía no entra ningún impulso", px(3.3), bot.y0 + 8);
+  ctx.fillStyle = BERM; ctx.fillText("cada impulso dispara su eco  x(kΔ)·Δ · h(t − kΔ)", px(3.3), bot.y0 + 30);
+  if (chkE.checked) { ctx.fillStyle = GRIS; ctx.fillText("- - -  y(t) exacta, Δ → 0", px(3.3), bot.y0 + 52); }
+  // mensaje
+  if (m === 0) msg.textContent = `Δ = ${D}: ${taus.length} impulsos. Aprieta "siguiente eco".`;
+  else if (m < taus.length) msg.textContent = `Eco ${m} de ${taus.length}: el impulso en τ = ${taus[m - 1].toFixed(2)}, de peso x(kΔ)·Δ = ${pesos[m - 1].toFixed(3)}, aporta ${pesos[m - 1].toFixed(3)}·h(t − ${taus[m - 1].toFixed(2)}). La suma crece hacia la derecha de él.`;
+  else msg.textContent = `Los ${taus.length} ecos están. Con Δ = ${D} la suma aún muestra costuras; bajar Δ (y volver a reproducir) la pega a la curva exacta.`;
+  bNext.disabled = (m >= taus.length);
+}
+
+function step() {
+  if (m >= taus.length) return;
+  m++; anim = 0; const t0 = performance.now();
+  (function tick(now) { anim = Math.min(1, (now - t0) / 350); draw(); if (anim < 1) requestAnimationFrame(tick); })(t0);
+}
+function stopPlay() { if (timer) { clearInterval(timer); timer = null; } bPlay.textContent = "▶▶ todos, uno a uno"; }
+bNext.onclick = step;
+bPlay.onclick = () => { if (timer) { stopPlay(); return; } if (m >= taus.length) m = 0; bPlay.textContent = "⏸ pausa"; step(); timer = setInterval(() => { if (m >= taus.length) stopPlay(); else step(); }, Math.max(180, 650 * Math.min(1, D / 0.35))); };
+bReset.onclick = setup;
+selD.onchange = setup; selH.onchange = setup; chkE.onchange = draw;
+setup();
+})();
+</script>
+</body>
+</html>

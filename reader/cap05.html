@@ -254,7 +254,7 @@ window.Quarto = {
   <li><a href="#sec-cambio-tasa" id="toc-sec-cambio-tasa" class="nav-link" data-scroll-target="#sec-cambio-tasa"><span class="header-section-number">5.4</span> Cambio de tasa: diezmar e interpolar</a></li>
   <li><a href="#sec-convolucion-discreta" id="toc-sec-convolucion-discreta" class="nav-link" data-scroll-target="#sec-convolucion-discreta"><span class="header-section-number">5.5</span> Convolución discreta: lineal y cíclica</a>
   <ul class="collapse">
-  <li><a href="#sec-deduccion-expres" id="toc-sec-deduccion-expres" class="nav-link" data-scroll-target="#sec-deduccion-expres"><span class="header-section-number">5.5.1</span> La deducción exprés</a></li>
+  <li><a href="#sec-deduccion-expres" id="toc-sec-deduccion-expres" class="nav-link" data-scroll-target="#sec-deduccion-expres"><span class="header-section-number">5.5.1</span> La deducción</a></li>
   <li><a href="#sec-calculo-convolucion" id="toc-sec-calculo-convolucion" class="nav-link" data-scroll-target="#sec-calculo-convolucion"><span class="header-section-number">5.5.2</span> Cálculo: tabla, soporte y suma geométrica</a></li>
   <li><a href="#sec-conv-ciclica-definicion" id="toc-sec-conv-ciclica-definicion" class="nav-link" data-scroll-target="#sec-conv-ciclica-definicion"><span class="header-section-number">5.5.3</span> La convolución cíclica</a></li>
   </ul></li>
@@ -340,7 +340,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Este es <em>el</em> dibujo del capítulo. Míralo con calma, porque contiene el teorema completo:</p>
-<div id="3f95e473" class="cell" data-execution_count="1">
+<div id="376186a3" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -374,7 +374,7 @@ window.Quarto = {
 <section id="sec-nyquist-aliasing" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="sec-nyquist-aliasing"><span class="header-section-number">5.2.3</span> Aliasing: frecuencias disfrazadas</h3>
 <p>¿Y si se viola la condición? Una componente con <span class="math inline">f &gt; f_s/2</span> hace que la réplica vecina invada la banda base: esa componente aparece <strong>disfrazada</strong> de una frecuencia más baja. El fenómeno se llama <strong>aliasing</strong> (de <em>alias</em>: otro nombre para la misma cosa). Para sinusoides hay una regla práctica que conviene tatuarse: la frecuencia aparente es <span class="math inline">\lvert f - k f_s\rvert</span>, con el entero <span class="math inline">k</span> que la deje en <span class="math inline">[0, f_s/2]</span>.</p>
-<div id="c59d8eff" class="cell" data-execution_count="2">
+<div id="edd3eb9b" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -420,7 +420,7 @@ window.Quarto = {
 <p><span class="math display">x_r(t) = \sum_{n=-\infty}^{\infty} x(nT)\,\operatorname{sinc}\!\Big(\frac{t - nT}{T}\Big)</span> Cada muestra iza su sinc; la suma de todas reconstruye la señal — no una aproximación: <strong>la señal</strong>.</p>
 </div>
 </div>
-<div id="78de99f4" class="cell" data-execution_count="3">
+<div id="6c66f10e" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -498,7 +498,7 @@ window.Quarto = {
 <p><strong>(d)</strong> <span class="math inline">\cos\big(\tfrac{\pi}{3}n\big) + \sin\big(\tfrac{\pi}{4}n\big)</span>: períodos individuales <span class="math inline">N_1 = 6</span> y <span class="math inline">N_2 = 8</span>; la suma se repite en el mínimo común múltiplo: <span class="math inline">N = 24</span>.</p>
 </div>
 </div>
-<div id="c4438a25" class="cell" data-execution_count="4">
+<div id="65623e4d" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -576,7 +576,7 @@ window.Quarto = {
 <section id="sec-convolucion-discreta" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="sec-convolucion-discreta"><span class="header-section-number">5.5</span> Convolución discreta: lineal y cíclica</h2>
 <section id="sec-deduccion-expres" class="level3" data-number="5.5.1">
-<h3 data-number="5.5.1" class="anchored" data-anchor-id="sec-deduccion-expres"><span class="header-section-number">5.5.1</span> La deducción exprés</h3>
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="sec-deduccion-expres"><span class="header-section-number">5.5.1</span> La deducción</h3>
 <p>En el capítulo 2, deducir la convolución costó una construcción entera: aproximar la señal con pulsos, tomar el límite. En discreto, el primer paso es una identidad <strong>evidente</strong> — una secuencia <em>es</em> una lista de valores, cada uno parado en su índice:</p>
 <p><span class="math display">x[n] = \sum_{k=-\infty}^{\infty} x[k]\,\delta[n-k]</span></p>
 <p>(con <span class="math inline">\delta[n]</span> el impulso discreto del capítulo 1: un uno humilde, sin distribuciones ni límites). La cadena LTI de siempre, ahora sin integrales: si <span class="math inline">h[n]</span> es la respuesta al impulso, la invariancia da <span class="math inline">\delta[n-k] \mapsto h[n-k]</span> y la linealidad remata:</p>
@@ -669,7 +669,7 @@ window.Quarto = {
 </tbody>
 </table>
 <p>Seis muestras, como predice <span class="math inline">4 + 3 - 1</span>. La lectura física de las filas es la deducción hecha tabla: <em>cada muestra de la entrada dispara una copia de <span class="math inline">h</span>, retardada y escalada; la salida es la superposición.</em></p>
-<div id="6cec8fb4" class="cell" data-execution_count="5">
+<div id="c77e51eb" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -754,7 +754,7 @@ window.Quarto = {
 y_c(t) = 2\sqrt{2}\,\cos\big(500\pi t - \tfrac{\pi}{4}\big)</span></p>
 </div>
 </div>
-<div id="88e6db66" class="cell" data-execution_count="6">
+<div id="40b6d47d" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

@@ -33,6 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../curso/listas/lista-04.html" rel="next">
 <link href="../../curso/listas/lista-02.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -261,12 +262,41 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Listas de ejercicios</span></a>
+ <span class="menu-text">Semana 4 · Convolución y EDOs</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-04/c07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C7 · La convolución en la práctica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-04/c08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-04/ay04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay4 · CV1 + Integración U1–U2: rumbo a la I1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Listas de ejercicios</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
@@ -283,6 +313,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../curso/listas/lista-03.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 4 · Convolución, EDOs y la respuesta al impulso</span></a>
   </div>
 </li>
       </ul>
@@ -341,7 +377,7 @@ window.Quarto = {
 <p><strong>Referencias de estudio</strong>: [Oppenheim] §1.5–1.6 (propiedades de sistemas), §2.2 (la derivación de la convolución); [Alvarado] §3.4.</p>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<p><strong>L3.1</strong> [DB E0185] — Determine si los siguientes sistemas <span class="math inline">y(t) = T\{x(t)\}</span> son lineales: <span class="math display">\text{(a) } y(t) = \frac{d}{dt}x(t) \qquad \text{(b) } y(t) = x(-t) \qquad \text{(c) } y(t) = x(t) + 1</span></p>
+<p><strong>L3.1</strong> [DB E0185] — Determine si los siguientes sistemas <span class="math inline">y(t) = \mathcal{T}[x(t)]</span> son lineales: <span class="math display">\text{(a) } y(t) = \frac{d}{dt}x(t) \qquad \text{(b) } y(t) = x(-t) \qquad \text{(c) } y(t) = x(t) + 1</span></p>
 <p><strong>¿Y si…?</strong> ¿Y si en (b) preguntamos por invariancia en el tiempo en vez de linealidad? ¿el sistema <span class="math inline">y(t)=x(-t)</span> sigue teniendo esa propiedad?</p>
 <p><strong>L3.2</strong> [DB E0013] — Determine si los siguientes sistemas son causales: <span class="math display">\text{(a) } g(t) = f(t-2) \qquad \text{(b) } g(t) = f(-t) \qquad \text{(c) } g(t) = \int_{-5}^{5} f(\tau)\,d\tau \qquad \text{(d) } g(t) = \frac{f^2(t)}{df(t)/dt}</span></p>
 <p><strong>¿Y si…?</strong> ¿Y si en (c) el límite superior fuera <span class="math inline">t</span> en vez de <span class="math inline">5</span> fijo — <span class="math inline">g(t)=\int_{-5}^{t} f(\tau)\,d\tau</span>? ¿sigue siendo no causal?</p>
@@ -775,6 +811,9 @@ window.Quarto = {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../curso/listas/lista-04.html" class="pagination-link" aria-label="Lista 4 · Convolución, EDOs y la respuesta al impulso">
+        <span class="nav-page-text">Lista 4 · Convolución, EDOs y la respuesta al impulso</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

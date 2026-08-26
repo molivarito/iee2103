@@ -1,46 +1,112 @@
 [
   {
-    "objectID": "curso/listas/lista-03.html",
-    "href": "curso/listas/lista-03.html",
-    "title": "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución",
+    "objectID": "curso/listas/lista-04.html",
+    "href": "curso/listas/lista-04.html",
+    "title": "Lista 4 · Convolución, EDOs y la respuesta al impulso",
     "section": "",
-    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo. El próximo control es el CV2 (semana 6, en ayudantía): una de las preguntas ¿Y si…? de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido. Y antes de eso viene la I1 (semana 5, materia U1–U2): esta lista es parte directa de ese entrenamiento.\nRegla de la casa para toda la unidad 2: propiedad que se cumple → demostración con entradas genéricas; propiedad que falla → contraejemplo concreto. “Se ve lineal” vale cero.\nReferencias de estudio: [Oppenheim] §1.5–1.6 (propiedades de sistemas), §2.2 (la derivación de la convolución); [Alvarado] §3.4.",
+    "text": "ImportanteRecordatorio\n\n\n\nLa I1 es esta semana: materia U1–U2, con el formulario oficial (U1–U2), que se entrega impreso con la prueba. Esta lista es el entrenamiento directo — el ejercicio L4.1 fue, textual, una pregunta de la I1 2025. Después de la I1, esta lista sigue viva: el CV2 (semana 6) será una de las preguntas ¿Y si…? de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control, con el portafolio sobre la mesa.\nHábito no negociable en toda convolución: al terminar, chequear soporte y área (C7). Un resultado que no pasa esos chequeos está malo, siempre.\nReferencias de estudio: [Oppenheim] §2.2–2.3 (convolución y propiedades), §2.4.1 (EDOs), §2.3.5–2.3.7 (causalidad/estabilidad desde h); [Alvarado] §3.4.",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución"
+      "Lista 4 · Convolución, EDOs y la respuesta al impulso"
     ]
   },
   {
-    "objectID": "curso/listas/lista-03.html#ejercicios",
-    "href": "curso/listas/lista-03.html#ejercicios",
-    "title": "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución",
+    "objectID": "curso/listas/lista-04.html#ejercicios",
+    "href": "curso/listas/lista-04.html#ejercicios",
+    "title": "Lista 4 · Convolución, EDOs y la respuesta al impulso",
     "section": "Ejercicios",
-    "text": "Ejercicios\nL3.1 [DB E0185] — Determine si los siguientes sistemas y(t) = T\\{x(t)\\} son lineales: \\text{(a) } y(t) = \\frac{d}{dt}x(t) \\qquad \\text{(b) } y(t) = x(-t) \\qquad \\text{(c) } y(t) = x(t) + 1\n¿Y si…? ¿Y si en (b) preguntamos por invariancia en el tiempo en vez de linealidad? ¿el sistema y(t)=x(-t) sigue teniendo esa propiedad?\nL3.2 [DB E0013] — Determine si los siguientes sistemas son causales: \\text{(a) } g(t) = f(t-2) \\qquad \\text{(b) } g(t) = f(-t) \\qquad \\text{(c) } g(t) = \\int_{-5}^{5} f(\\tau)\\,d\\tau \\qquad \\text{(d) } g(t) = \\frac{f^2(t)}{df(t)/dt}\n¿Y si…? ¿Y si en (c) el límite superior fuera t en vez de 5 fijo — g(t)=\\int_{-5}^{t} f(\\tau)\\,d\\tau? ¿sigue siendo no causal?\nL3.3 [DB E0029] — Determine si el sistema g(t) = f(t)^{1/5} + 4 es LTI.\n¿Y si…? ¿Y si quitamos el “+4” (queda g(t)=f(t)^{1/5})? ¿el sistema pasa a ser lineal?\nL3.4 [DB E0030] — Determine si el sistema g(t) = m(t)\\,f(t) es LTI, donde f(t) es la entrada y m(t) es una función fija, independiente de la entrada.\n¿Y si…? ¿Y si m(t) fuera una constante (no una función del tiempo)? ¿el sistema sigue siendo variante en el tiempo?\nL3.5 [DB E0056] — Dos sistemas S_1 y S_2 se conectan en cascada en ambos órdenes: p(t) es la salida de f \\to S_1 \\to S_2, y q(t) la de f \\to S_2 \\to S_1.\n\n¿Es p(t) = q(t) para todo f(t) si S_1 y S_2 son lineales e invariantes en el tiempo? Demuestre su respuesta.\n¿Es p(t) = q(t) para todo f(t) si S_1 y S_2 son solo invariantes en el tiempo? Demuestre su respuesta.\n\n¿Y si…? ¿Y si S_1 y S_2 son solo lineales (no necesariamente invariantes)? ¿sigue garantizada la conmutatividad p(t)=q(t)?\nL3.6 [DB E0035] — Sea \\mathcal{P} un sistema LTI. Demuestre que si \\mathcal{P}\\{f(x)\\} = g(x), entonces \\mathcal{P}\\{f'(x)\\} = g'(x). Hint: escriba la derivada como límite de un cociente de diferencias y use una propiedad en cada paso.\n¿Y si…? ¿Y si \\mathcal{P} fuera solo invariante en el tiempo (pero no lineal)? ¿sigue siendo válida la demostración de que \\mathcal{P}\\{f'\\}=g'?\nL3.7 [DB E0060] — Se tiene el sistema g(x) = \\displaystyle\\int_0^x f(\\eta)\\,d\\eta.\n\nEncuentre la salida cuando la entrada es \\delta(\\eta - \\xi), con \\xi \\in \\mathbb{R}.\nA la luz del resultado (compare los casos \\xi &gt; 0 y \\xi &lt; 0), ¿es este sistema invariante en el tiempo? ¿Qué dice eso sobre hablar de “la” respuesta al impulso de este sistema?\n\n¿Y si…? ¿Y si el límite inferior fuera -\\infty en vez de 0? ¿el sistema sigue siendo variante en el tiempo?",
+    "text": "Ejercicios\nL4.1 (nuevo — I1 2025; incorporar al banco) — Dadas las funciones h(t) = 3e^{-3t}u(t) y f(t) = 2\\big(u(t) - u(t-1)\\big), encuentre la convolución entre h(t) y f(t) gráfica y analíticamente.\n¿Y si…? ¿Y si h(t) = 3e^{-3|t|} (dos lados, en vez de causal con u(t))? ¿la convolución sigue siendo cero para t&lt;0?\nL4.2 [DB E0038] — Un sistema LTI tiene respuesta al impulso h(t) = e^{-t}\\operatorname{rect}(t). ¿Cuál es la salida del sistema si la entrada es f(t) = e^{-t}\\operatorname{rect}(t)? Encuentre una expresión analítica. Hint: dentro de la integral, las exponenciales conspiran para dejarle una convolución que ya conoce de C7.\n¿Y si…? ¿Y si f(t) = e^{+t}\\operatorname{rect}(t) (signo del exponente cambia) en vez de e^{-t}\\operatorname{rect}(t)? ¿siguen “conspirando” las exponenciales para dejar \\operatorname{rect}*\\operatorname{rect} puro?\nL4.3 [DB E0044] — Demuestre la “ley de conservación del área” enunciada en C7: \\int_{-\\infty}^{\\infty} (f * g)(x)\\,dx = \\int_{-\\infty}^{\\infty} f(x)\\,dx \\cdot \\int_{-\\infty}^{\\infty} g(x)\\,dx\n¿Y si…? ¿Y si f o g no fueran absolutamente integrables (p. ej. f(x)=1 para todo x)? ¿sigue siendo válido intercambiar el orden de integración?\nL4.4 [DB E0062] — Un sistema LTI presenta una respuesta a la rampa f_1(x) = x\\,u(x) dada por g_1(x) = u(x-1). ¿Cuál es la respuesta del sistema si la entrada es f_2(x) = (e^x - x - 1)\\,u(x)? Hint: ¿qué operación convierte la rampa en un impulso? (L3.6 es su amiga).\n¿Y si…? ¿Y si f_2(x) = (e^x-1)u(x) (sin el término -x) en vez de (e^x-x-1)u(x)? ¿su segunda derivada sigue siendo e^x u(x) sin deltas extra?\nL4.5 [DB E0061] — Sea un sistema cuya respuesta al impulso es h(t) = u(t) - u(t-\\tau). Determine un valor de \\tau de modo que la salida del sistema sea 0 para todo t cuando la entrada es \\cos(2\\pi f_0 t).\n¿Y si…? ¿Y si \\tau no fuera un múltiplo exacto de 1/f_0, digamos \\tau = 1.5/f_0? ¿la salida sigue siendo cero para todo t?\nL4.6 [DB E0037] — Se tiene el sistema descrito por \\frac{dy(t)}{dt} + 2\\,y(t) = x(t)\n\nVerifique que h(t) = e^{-2t}u(t) es la respuesta al impulso del sistema.\nDetermine si el sistema tiene memoria, es causal y es estable.\n\n¿Y si…? ¿Y si la ecuación fuera \\frac{dy}{dt} - 2y(t) = x(t) (signo del segundo término cambia)? ¿la respuesta al impulso sigue siendo estable?\nL4.7 [DB E0032] — Un circuito eléctrico se modela como un sistema LTI con respuesta al impulso h(t) = \\frac{1}{RC}\\,e^{-t/RC}\\,u(t) donde R y C son parámetros del circuito. El circuito opera sobre entradas de la forma x(t) = A\\cos(k\\omega_0 t), con \\omega_0 = \\frac{1}{RC} y A, k constantes. El objetivo es deducir el efecto del sistema sobre una sinusoide a medida que aumenta su frecuencia k\\omega_0:\n\nIndique si el sistema es estable, causal y si tiene memoria. Justifique.\nEncuentre la salida analítica para las entradas: (a) x_1(t) = A; (b) x_2(t) = A\\cos(0.01\\,\\omega_0 t); (c) x_3(t) = A\\cos(100\\,\\omega_0 t). Hint: haga el cálculo para la frecuencia genérica k\\omega_0 (con \\cos\\theta = \\frac{e^{j\\theta}+e^{-j\\theta}}{2}, como en la Ay1) y evalúe después.\nA partir de los resultados, ¿qué efecto tiene el sistema sobre sinusoides de frecuencia creciente?\n\n¿Y si…? ¿Y si h(t) = \\frac{1}{RC}e^{-t/RC}u(-t) (anti-causal, con u(-t)) en vez de u(t)? ¿el sistema sigue siendo estable?",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución"
+      "Lista 4 · Convolución, EDOs y la respuesta al impulso"
     ]
   },
   {
-    "objectID": "curso/listas/lista-01.html",
-    "href": "curso/listas/lista-01.html",
-    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "objectID": "curso/listas/lista-02.html",
+    "href": "curso/listas/lista-02.html",
+    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
     "section": "",
-    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para entender; el desarrollo escrito debe ser tuyo. El CV1 (semana 4) será una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido.\nReferencias de estudio: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.",
+    "text": "ImportanteRecordatorio\n\n\n\nEl CV1 es en dos semanas más (semana 4, primeros 20 min de la ayudantía): una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio manuscrito será tu único material permitido. El quiz Canvas de esta semana es el ensayo directo.\nReferencias de estudio: [Oppenheim] §1.2.1, §1.3–1.4, §2.5; [Alvarado] cap. 1.",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+      "Lista 2 · Señales elementales, transformaciones y el impulso"
     ]
   },
   {
-    "objectID": "curso/listas/lista-01.html#ejercicios",
-    "href": "curso/listas/lista-01.html#ejercicios",
-    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "objectID": "curso/listas/lista-02.html#ejercicios",
+    "href": "curso/listas/lista-02.html#ejercicios",
+    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
     "section": "Ejercicios",
-    "text": "Ejercicios\nL1.1 — Clasifique cada señal como de energía, de potencia, o ninguna; calcule E o P según corresponda: \\text{(a) } x(t) = e^{-3t}u(t) \\qquad \\text{(b) } x(t) = 4\\cos(2\\pi t) \\qquad \\text{(c) } x[n] = \\left(\\tfrac{1}{2}\\right)^{n} u[n] \\qquad \\text{(d) } x(t) = t\\,u(t)\n¿Y si…? ¿Y si la señal (b) se truncara a un intervalo finito, digamos t\\in[0,5], en vez de estar definida para todo t? ¿sigue siendo señal de potencia?\nL1.2 [DB E0010] — Sea x(t) = \\cos(\\omega_x(t+\\tau_x)+\\theta_x):\n\nDetermine la frecuencia en Hz y el período de x(t) para: (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4.\nCon y(t) = \\sin(\\omega_y(t+\\tau_y)+\\theta_y), determine en qué casos x(t) = y(t): (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi y \\omega_y = \\pi/3, \\tau_y = 1, \\theta_y = -\\pi/3; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4 y \\omega_y = 11\\pi/4, \\tau_y = 1, \\theta_y = 3\\pi/8; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4 y \\omega_y = 3/4, \\tau_y = 1, \\theta_y = 3/8.\n\n¿Y si…? ¿Y si en el caso (a) fuera \\omega_x = 0 (en vez de \\pi/3)? ¿sigue teniendo una frecuencia y un período fundamental bien definidos?\nL1.3 — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: \\text{(a) } 2\\cos(10t+1) - \\sin(4t-1) \\qquad \\text{(b) } \\cos(6t) + \\sin(15t) \\qquad \\text{(c) } \\cos(t) + \\cos(\\pi t)\n¿Y si…? ¿Y si en (b) la frecuencia 15 se reemplazara por 15\\pi (razón irracional con 6)? ¿la suma sigue siendo periódica?\nL1.4 [DB E0021] — Demuestre que \\ln(x) se puede descomponer en una parte par P(x) y una impar I(x) dadas por P(x) = \\ln(|x|) + j\\frac{\\pi}{2}, \\qquad I(x) = -\\frac{j\\pi}{2}\\operatorname{sgn}(x) Hint: considere x = |x|\\operatorname{sgn}(x).\n¿Y si…? ¿Y si x=0? ¿sigue siendo válida ahí la descomposición en partes par e impar de \\ln(x)?\nL1.5 [DB E0022] — Una señal f(x) se descompone en parte par P(x) e impar I(x). Demuestre que \\int_{-\\infty}^{\\infty} f^2(x)\\,dx = \\int_{-\\infty}^{\\infty} P^2(x)\\,dx + \\int_{-\\infty}^{\\infty} I^2(x)\\,dx\n¿Y si…? ¿Y si el dominio de integración no fuera simétrico respecto del origen (p. ej. de 0 a \\infty)? ¿sigue siendo válida la identidad \\int f^2 = \\int P^2 + \\int I^2?",
+    "text": "Ejercicios\nL2.1 [DB E0018] — Con f(x) = x^3 restringida al tramo x \\in [-2, 2] (el trozo de cúbica que va de (-2,-8) a (2,8); restringirla a un tramo es lo que hace visibles los cambios de escala horizontal: se ve moverse los extremos), grafique: \\text{(a) } f(2x) \\text{ y } f(x/2) \\qquad \\text{(b) } f(-(x-3)) \\qquad \\text{(c) } 3 + f(2(x-3))\n¿Y si…? ¿Y si en (b) invertimos el orden de las operaciones — graficamos f(-x-3) en vez de f(-(x-3))? ¿es la misma curva?\nL2.2 — Grafique x(t) = \\operatorname{rect}\\!\\big(\\tfrac{t-1}{2}\\big) - 2\\,\\operatorname{tri}(t+1), indicando todos los puntos relevantes de los ejes.\n¿Y si…? ¿Y si el triángulo estuviera centrado en t=1 (mismo centro que el rect) en vez de t=-1? ¿cambia cualitativamente la forma resultante?\nL2.3 [DB E0020] — La señal f(x) vale -1 para x &lt; -\\tfrac12, 0 en -\\tfrac12 &lt; x &lt; \\tfrac12, y +1 para x &gt; \\tfrac12 (un escalón partido, impar). Exprésela como suma de señales elementales de dos maneras distintas — por ejemplo con escalones, y con \\operatorname{sgn} y \\operatorname{rect}.\n¿Y si…? ¿Y si el pulso rectangular no estuviera centrado en el origen (p. ej. entre x=0 y x=1)? ¿sigue funcionando la segunda forma \\operatorname{sgn}(x)(1-\\operatorname{rect}(x))?\nL2.4 [DB E0023] — Calcule el área de \\alpha^2 \\operatorname{rect}(\\alpha x), con \\alpha \\in \\mathbb{R}^+.\n¿Y si…? ¿Y si \\alpha pudiera ser negativo (en vez de estar restringido a \\mathbb{R}^+)? ¿sigue siendo válida la fórmula del área =\\alpha?\nL2.5 — Simplifique usando las propiedades del impulso: \\text{(a) } \\int_{-\\infty}^{\\infty} (t^2+2)\\,\\delta(t-3)\\,dt \\qquad \\text{(b) } 6\\,\\delta(t^2-9) \\qquad \\text{(c) } \\delta(4t^3-3t) \\qquad \\text{(d) } e^{-t}\\,\\delta(2t-4)\n¿Y si…? ¿Y si en (c) el argumento fuera 4t^3 en vez de 4t^3-3t (raíz triple en t=0)? ¿sigue aplicando la fórmula usual \\delta(g(t))=\\sum \\delta(t-t_i)/|g'(t_i)|?\nL2.6 [DB E0036] — Calcule (sin aproximar): \\displaystyle\\int_{-\\infty}^{\\infty} \\delta'(x)\\,dx.\n¿Y si…? ¿Y si en vez de \\int\\delta'(x)\\,dx calculamos \\int \\delta'(x)\\,x\\,dx (función de prueba no constante)? ¿sigue dando cero?\nL2.7 — Con el tren de impulsos \\delta_2(t) = \\sum_n \\delta(t-2n), calcule \\displaystyle\\int_{-1}^{5} e^{-|t|}\\,\\delta_2(t)\\,dt y grafique \\cos(\\pi t)\\,\\delta_2(t) (impulsos con sus pesos).\n¿Y si…? ¿Y si el intervalo de integración fuera [-2,5] en vez de [-1,5]? ¿el impulso justo en t=-2 cuenta completo, o queda ambiguo?",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+      "Lista 2 · Señales elementales, transformaciones y el impulso"
+    ]
+  },
+  {
+    "objectID": "curso/semana-04/ay04.html",
+    "href": "curso/semana-04/ay04.html",
+    "title": "Ay4 · CV1 + Integración U1–U2: rumbo a la I1",
+    "section": "",
+    "text": "Primera vez del semestre — explicar el rito antes de repartir, con calma:\n\nQué es: un checkpoint de 15 minutos, no una prueba. La pregunta es uno de los “¿Y si…?” impresos en tus Listas 1–2, con números concretos — la conoces desde hace días. Tiene dos partes: (a) resolver la variante; (b) señalar en una frase qué cambia respecto de tu desarrollo de la lista, y por qué (el paso exacto donde se bifurca).\nMaterial permitido: el portafolio manuscrito propio, abierto sobre la mesa. Nada más: ni libros, ni apuntes de otros, ni pantallas. Los ayudantes verifican al pasar que sea manuscrito — no se timbra, no se revisa: se usa. (Y la parte (b) explica por qué un portafolio transcrito sin entender no sirve de nada aquí.)\nSin portafolio: se rinde igual, sin red. (El portafolio es tu memoria externa, y se construye durante la semana, no la noche antes.)\nCómo se registra: al minuto 15 se recogen los papeles y ahí mismo se proyecta la pauta — sales de la sala sabiendo cómo te fue. Esa tarde tu registro aparece en Canvas: 1 (logrado) · ½ (parcial) · 0 (pendiente). Regla clara: sin la frase de la parte (b), el máximo es ½.\nCómo pesa (decirlo con el número delante): la nota CV suma los créditos de tus mejores 5 de 6 checkpoints — el peor se borra solo, sin trámite — con tabla publicada (nota = 1,0 + 1,2·créditos; 5 → 7,0). Y una entrega seria al concurso de diseño (semana 13) sube tu peor registro a 1. Un CV vale ~3,3% de la nota final — menos que una pregunta de una interrogación. El CV te avisa gratis lo que la interrogación te cobraría caro.\nEl acople: 1–2 preguntas de cada CV son variantes del quiz Canvas de la semana. Quien completó el quiz ya ensayó el control.",
+    "crumbs": [
+      "Semana 4 · Convolución y EDOs",
+      "Ay4 · CV1 + Integración U1–U2: rumbo a la I1"
+    ]
+  },
+  {
+    "objectID": "curso/semana-04/ay04.html#cv1-mecánica-completa-023-min",
+    "href": "curso/semana-04/ay04.html#cv1-mecánica-completa-023-min",
+    "title": "Ay4 · CV1 + Integración U1–U2: rumbo a la I1",
+    "section": "",
+    "text": "Primera vez del semestre — explicar el rito antes de repartir, con calma:\n\nQué es: un checkpoint de 15 minutos, no una prueba. La pregunta es uno de los “¿Y si…?” impresos en tus Listas 1–2, con números concretos — la conoces desde hace días. Tiene dos partes: (a) resolver la variante; (b) señalar en una frase qué cambia respecto de tu desarrollo de la lista, y por qué (el paso exacto donde se bifurca).\nMaterial permitido: el portafolio manuscrito propio, abierto sobre la mesa. Nada más: ni libros, ni apuntes de otros, ni pantallas. Los ayudantes verifican al pasar que sea manuscrito — no se timbra, no se revisa: se usa. (Y la parte (b) explica por qué un portafolio transcrito sin entender no sirve de nada aquí.)\nSin portafolio: se rinde igual, sin red. (El portafolio es tu memoria externa, y se construye durante la semana, no la noche antes.)\nCómo se registra: al minuto 15 se recogen los papeles y ahí mismo se proyecta la pauta — sales de la sala sabiendo cómo te fue. Esa tarde tu registro aparece en Canvas: 1 (logrado) · ½ (parcial) · 0 (pendiente). Regla clara: sin la frase de la parte (b), el máximo es ½.\nCómo pesa (decirlo con el número delante): la nota CV suma los créditos de tus mejores 5 de 6 checkpoints — el peor se borra solo, sin trámite — con tabla publicada (nota = 1,0 + 1,2·créditos; 5 → 7,0). Y una entrega seria al concurso de diseño (semana 13) sube tu peor registro a 1. Un CV vale ~3,3% de la nota final — menos que una pregunta de una interrogación. El CV te avisa gratis lo que la interrogación te cobraría caro.\nEl acople: 1–2 preguntas de cada CV son variantes del quiz Canvas de la semana. Quien completó el quiz ya ensayó el control.",
+    "crumbs": [
+      "Semana 4 · Convolución y EDOs",
+      "Ay4 · CV1 + Integración U1–U2: rumbo a la I1"
+    ]
+  },
+  {
+    "objectID": "curso/semana-04/ay04.html#el-mapa-de-la-i1-2028-min",
+    "href": "curso/semana-04/ay04.html#el-mapa-de-la-i1-2028-min",
+    "title": "Ay4 · CV1 + Integración U1–U2: rumbo a la I1",
+    "section": "El mapa de la I1 (20–28 min)",
+    "text": "El mapa de la I1 (20–28 min)\nDibujar el temario por objetivos, no por clases — así se estudia:\n\n\n\n\n\n\n\n\nObjetivo\nEn una frase\nDónde entrenar\n\n\n\n\nU1.1–U1.2\nClasificar señales (período de sumas, E/P, par/impar)\nLista 1\n\n\nU1.3\nSeñales elementales y transformaciones de la variable\nLista 2\n\n\nU1.4\nImpulso: muestreo, \\delta(g(t)), tren\nLista 2, Ay2\n\n\nU2.1\nPropiedades de sistemas: demostración o contraejemplo\nLista 3, Ay3\n\n\nU2.2\nPor qué LTI ⇒ convolución (la derivación conceptual)\nC6, Lista 3\n\n\nU2.3\nConvolucionar (gráfico + analítico) y anticipar sin calcular\nLista 4\n\n\nU2.4–U2.5\nEDOs, h(t), causalidad/estabilidad desde h\nLista 4\n\n\n\nRecordar el criterio del curso: los complejos son herramienta, no tema central (D1); las variables de estado de C8 no entran (D2).",
+    "crumbs": [
+      "Semana 4 · Convolución y EDOs",
+      "Ay4 · CV1 + Integración U1–U2: rumbo a la I1"
+    ]
+  },
+  {
+    "objectID": "curso/semana-04/ay04.html#ejercicios-de-la-sesión",
+    "href": "curso/semana-04/ay04.html#ejercicios-de-la-sesión",
+    "title": "Ay4 · CV1 + Integración U1–U2: rumbo a la I1",
+    "section": "Ejercicios de la sesión",
+    "text": "Ejercicios de la sesión\nPizarra (28–43 min): propiedades de sistemas. Determine si los siguientes sistemas son lineales y/o invariantes en el tiempo: \\text{(a) } y(t)=\\int_{0}^{t}x(\\tau)\\,d\\tau \\qquad \\text{(b) } y(t)=x(t)+t \\qquad \\text{(c) } y(t)=1/x(t)\nParejas (43–56 min): convolución completa. Sea h(t) = e^{-2t}u(t) y x(t) = \\operatorname{rect}(t - \\tfrac12) (un pulso en [0,1]). Encuentre y = x * h gráfica y analíticamente.\nPizarra (56–64 min): impulso + tren. Calcule, para k \\in \\mathbb{N}: \\int_{-\\infty}^{\\infty} \\tfrac{1}{k}\\,\\delta_{1/k}(x)\\,\\operatorname{tri}(x)\\,dx\nSi sobra tiempo — emparejamiento: en la pizarra, tres señales (\\operatorname{rect} ancho 1, \\operatorname{rect} ancho 2, \\operatorname{tri}) y tres resultados (trapecio de soporte 3, tri de soporte 2, campana suave de soporte 3): ¿quién convolucionado con quién da qué? Resolver solo con las reglas de C7: soporte suma, suavidad aumenta, área multiplica.",
+    "crumbs": [
+      "Semana 4 · Convolución y EDOs",
+      "Ay4 · CV1 + Integración U1–U2: rumbo a la I1"
+    ]
+  },
+  {
+    "objectID": "curso/semana-04/ay04.html#el-formulario-oficial-y-cómo-estudiar-con-él-6470-min",
+    "href": "curso/semana-04/ay04.html#el-formulario-oficial-y-cómo-estudiar-con-él-6470-min",
+    "title": "Ay4 · CV1 + Integración U1–U2: rumbo a la I1",
+    "section": "El formulario oficial y cómo estudiar con él (64–70 min)",
+    "text": "El formulario oficial y cómo estudiar con él (64–70 min)\nCerrar con consejería concreta (el formulario se revisa en C8, el lunes siguiente; hoy se adelanta la estrategia de uso para que lleguen con preguntas):\n\nQué trae el formulario oficial (U1–U2): se entrega impreso junto con la prueba — catálogo de señales, propiedades del impulso, propiedades de la convolución, teoremas causal/estable desde h. Es igual para todos: no se aceptan hojas resumen propias ni apuntes adicionales.\nQué NO trae (y hay que saber de memoria o saber derivar): los 5 contraejemplos de sistemas y la derivación de C6 en 4 líneas. (La h del RC sí está, bajo “Modelado”.) El formulario es un índice de fórmulas, no un sustituto de entender — si no lo entendiste, tenerlo enfrente no ayuda en 90 minutos.\nLa estrategia: conocer el formulario de antemano — abrirlo hoy, marcar qué fórmula está y cuál hay que saber aplicar o derivar sin ayuda, y resolver las Listas 1–4 con él al lado para que el día de la I1 sea un viejo conocido. Está publicado en el sitio del curso desde el día uno.\nEl mejor predictor de la I1 no es el formulario: es haber resuelto las Listas 1–4 con la mano. El formulario solo evita que la memoria traicione bajo presión.\n\nLogística I1 (repetir hasta el bostezo): la próxima semana, en el bloque de ayudantía; hojas separadas por pregunta, nombre en todas; sin consultas — ante ambigüedad, suposición razonable explícita (se evalúa como criterio, no se castiga).",
+    "crumbs": [
+      "Semana 4 · Convolución y EDOs",
+      "Ay4 · CV1 + Integración U1–U2: rumbo a la I1"
+    ]
+  },
+  {
+    "objectID": "curso/semana-04/c07.html",
+    "href": "curso/semana-04/c07.html",
+    "title": "C7 · La convolución en la práctica",
+    "section": "",
+    "text": "1. El método gráfico: invertir, desplazar, multiplicar, integrar\nLa receta en 4 pasos (con el rol de \\tau y de t bien claro):\n\n\n\n\n\n\n¿Por qué la copia queda parada en \\tau = t y viaja a la derecha? (el punto cero):\n\n\n\nEjemplo completo: \\operatorname{rect}(t) * \\operatorname{rect}(t) — dibuja x(\\tau) y h(t-\\tau), identifica los 4 casos, resuelve cada uno:\n\n\n\nResultado y gráfico:\n\\operatorname{rect}(t) * \\operatorname{rect}(t) = \n¿Por qué la inversión “no se ve” en este ejemplo? ¿Cuál es el error número uno con señales asimétricas?\n\n\n\n\n\n2. Propiedades: la caja de herramientas\nLa tabla de propiedades (fórmula + qué significa para sistemas):\n\n\n\nPropiedad\nFórmula\nLectura de sistemas\n\n\n\n\nConmutativa\n\n\n\n\nAsociativa\n\n\n\n\nDistributiva\n\n\n\n\nNeutro\n\n\n\n\nDesplazamiento\n\n\n\n\nDerivada\n\n\n\n\n\nDemostración de la conmutativa (el cambio de variable):\n\n\n\nLas dos leyes de conservación (soporte y área) — y su verificación en rect∗rect:\n\n\n\n\n\n3. Autocorrelación: la señal comparada consigo misma\nDefinición de autocorrelación (fórmula + su lectura en una frase):\n\n\n\nSus tres propiedades (valor en \\tau=0, paridad, cota):\n\n\n\n¿Por qué el rect∗rect del Bloque 1 ya era una autocorrelación?\n\n\n\n\n\n4. Anticipar sin calcular\nLas 4 reglas para anticipar una convolución sin calcular:\n\n\n\n\n\n\nMis predicciones (antes de la votación):\n\n\n\nConvolución\nSoporte\nForma / resultado\n\n\n\n\n\\operatorname{rect}(t) * \\operatorname{tri}(t)\n\n\n\n\nu(t) * e^{-t}u(t)\n\n\n\n\n\\operatorname{rect}(t) * [\\delta(t+2) - \\delta(t-2)]\n\n\n\n\n\n\n\n5. Demo: la cascada, al oído\nMi predicción antes de la demo (iglesia y resorte en serie, ¿importa el orden?, y cuánto dura la salida):\n\n\n\nQué escuché, y por qué la resta A − B da silencio (usar: asociativa, conmutativa, ley de soporte):",
+    "crumbs": [
+      "Semana 4 · Convolución y EDOs",
+      "C7 · La convolución en la práctica"
     ]
   },
   {
@@ -229,7 +295,7 @@
     "href": "curso/semana-02/c04.html",
     "title": "C4 · El impulso",
     "section": "",
-    "text": "1. Construcción: el límite de pulsos\nMi predicción (área y altura del pulso cuando \\epsilon \\to 0):\n\n\n\nDefinición del impulso (las dos condiciones + el gráfico con su flecha):\n\n\n\n\n\n2. Lo que δ hace: la propiedad de muestreo\nPropiedad de muestreo (fórmula + explicación con tus palabras):\n\\int_{-\\infty}^{\\infty} f(t)\\,\\delta(t-t_0)\\,dt = \n\n\n\nDemostración (reemplazando \\delta por el pulso p_\\epsilon y tomando el límite):\n\n\n\nEjercicio exprés hecho en clase: $_{-}^{} e^{-2t}(t),(t-1),dt = $\n\n\n2b. La misma fórmula, leída al revés\nLa propiedad de muestreo leída al revés (fórmula + qué dice ahora):\nx(t) = \n\n\n\nPor qué esto será la llave de la próxima clase:\n\n\n\n\n\n3. Propiedades\nEscalado: $(at) = $\nLa fórmula para \\delta(g(t)):\n\\delta\\big(g(t)\\big) = \n¿Por qué |g'| va en el denominador? (la idea geométrica, con un dibujo):\n\n\n\nEjemplo resuelto: \\delta(t^2-9) (desarrollo completo):\n\n\n\nRelación escalón ↔︎ impulso (en ambas direcciones):\n\n\n\n\n\n4. El impulso en el mundo real\nLo que escuchamos en el audio de la iglesia y qué representa:\n\n\n\nLa pregunta que queda abierta para la próxima semana:\n\n\n\n\n\n5. El tren de impulsos\nDefinición del tren de impulsos (fórmula + gráfico):\n\n\n\nPara qué servirá (la frase que ordena el curso):",
+    "text": "1. Construcción: el límite de pulsos\nMi predicción (área y altura del pulso cuando \\epsilon \\to 0):\n\n\n\nDefinición del impulso (las dos condiciones + el gráfico con su flecha):\n\n\n\n\n\n2. Lo que δ hace: la propiedad de muestreo\nPropiedad de muestreo (fórmula + explicación con tus palabras):\n\\int_{-\\infty}^{\\infty} f(t)\\,\\delta(t-t_0)\\,dt = \n\n\n\nDemostración (reemplazando \\delta por el pulso p_\\epsilon y tomando el límite):\n\n\n\nEjercicio hecho en clase: $_{-}^{} e^{-2t}(t),(t-1),dt = $\n\n\n2b. La misma fórmula, leída al revés\nLa propiedad de muestreo leída al revés (fórmula + qué dice ahora):\nx(t) = \n\n\n\nPor qué esto será la llave de la próxima clase:\n\n\n\n\n\n3. Propiedades\nEscalado: $(at) = $\nLa fórmula para \\delta(g(t)):\n\\delta\\big(g(t)\\big) = \n¿Por qué |g'| va en el denominador? (la idea geométrica, con un dibujo):\n\n\n\nEjemplo resuelto: \\delta(t^2-9) (desarrollo completo):\n\n\n\nRelación escalón ↔︎ impulso (en ambas direcciones):\n\n\n\n\n\n4. El impulso en el mundo real\nLo que escuchamos en el audio de la iglesia y qué representa:\n\n\n\nLa pregunta que queda abierta para la próxima semana:\n\n\n\n\n\n5. El tren de impulsos\nDefinición del tren de impulsos (fórmula + gráfico):\n\n\n\nPara qué servirá (la frase que ordena el curso):",
     "crumbs": [
       "Semana 2 · Elementales e impulso",
       "C4 · El impulso"
@@ -258,8 +324,8 @@
     ]
   },
   {
-    "objectID": "curso/semana-03/ay03.html#cierre-6070-min",
-    "href": "curso/semana-03/ay03.html#cierre-6070-min",
+    "objectID": "curso/semana-03/ay03.html#cierre-6370-min",
+    "href": "curso/semana-03/ay03.html#cierre-6370-min",
     "title": "Ay3 · Ejercicios U2",
     "section": "",
     "text": "Anuncios: Lista 3 publicada (propiedades + nacimiento de la convolución — al portafolio); quiz Canvas; CV1 la próxima semana en la Ay4 (con portafolio, Listas 1–2); I1 en la semana 5 (U1–U2; la materia se cierra en C8). La Ay4 combinará el CV1 con integración pre-I1.",
@@ -269,25 +335,58 @@
     ]
   },
   {
-    "objectID": "curso/listas/lista-02.html",
-    "href": "curso/listas/lista-02.html",
-    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
+    "objectID": "curso/semana-04/c08.html",
+    "href": "curso/semana-04/c08.html",
+    "title": "C8 · Sistemas y ecuaciones diferenciales: h(t) manda",
     "section": "",
-    "text": "ImportanteRecordatorio\n\n\n\nEl CV1 es en dos semanas más (semana 4, primeros 20 min de la ayudantía): una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio manuscrito será tu único material permitido. El quiz Canvas de esta semana es el ensayo directo.\nReferencias de estudio: [Oppenheim] §1.2.1, §1.3–1.4, §2.5; [Alvarado] cap. 1.",
+    "text": "1. Modelar con EDOs: de la física al sistema\nEl circuito RC (dibujo + deducción de la EDO desde Kirchhoff):\n\n\n\nEl masa-resorte-amortiguador (dibujo + EDO desde Newton):\nm\\,\\ddot{y} + \\hspace{1cm}\\dot{y} + \\hspace{1cm}y = x(t)\n¿Por qué una EDO lineal de coeficientes constantes define un sistema LTI? (una razón por cada palabra clave — y la letra chica del reposo inicial):\n\n\n\n\n\n2. La respuesta al impulso de un sistema de primer orden\nEl problema: RC\\,h' + h = \\delta(t), reposo inicial. Paso 1 (la solución para t&gt;0):\n\n\n\nPaso 2 (integrar alrededor del golpe: ¿cuánto salta h en t=0 y por qué?):\n\n\n\nResultado y verificación por sustitución:\nh(t) = \\hspace{5cm}\n\n\n\nLos dos chequeos de cordura (área de h; respuesta al escalón y su conexión con C6):\n\n\n\n\n\n3. Causalidad y estabilidad, leídas desde h(t)\nLos dos teoremas (condición sobre h(t) + justificación en una línea cada una):\n\nCausal \\iff\nEstable BIBO \\iff\n\nLa demostración de dos líneas de la suficiencia de estabilidad:\n\n\n\nMi voto para cada h(t):\n\n\n\nh(t)\n¿Causal?\n¿Estable?\n\n\n\n\ne^{-2t}\\,u(t)\n\n\n\n\nu(t)\n\n\n\n\ne^{t}\\,u(t)\n\n\n\n\n\\operatorname{rect}(t)\n\n\n\n\n\\delta(t-1)\n\n\n\n\n\n\n\n4. Variables de estado: la idea, en 10 minutos (no evaluable)\n(Sección conceptual — no evaluable. Solo la idea:)\n¿Qué es el “estado” de un sistema? (la definición-foto + qué es para el masa-resorte y para el RC):\n\n\n\nLa plantilla \\dot{\\mathbf{x}} = A\\mathbf{x} + Bu, y = C\\mathbf{x} + Du — ¿en qué curso reaparece y por qué les va a importar?\n\n\n\n\n\n5. Conoce tu formulario (5 min)\nMi checklist del formulario (de U1 y de U2 — comparar con las sugerencias de la pizarra):",
     "crumbs": [
-      "Listas de ejercicios",
-      "Lista 2 · Señales elementales, transformaciones y el impulso"
+      "Semana 4 · Convolución y EDOs",
+      "C8 · Sistemas y ecuaciones diferenciales: h(t) manda"
     ]
   },
   {
-    "objectID": "curso/listas/lista-02.html#ejercicios",
-    "href": "curso/listas/lista-02.html#ejercicios",
-    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
-    "section": "Ejercicios",
-    "text": "Ejercicios\nL2.1 [DB E0018] — Con f(x) = x^3 restringida al tramo x \\in [-2, 2] (el trozo de cúbica que va de (-2,-8) a (2,8); restringirla a un tramo es lo que hace visibles los cambios de escala horizontal: se ve moverse los extremos), grafique: \\text{(a) } f(2x) \\text{ y } f(x/2) \\qquad \\text{(b) } f(-(x-3)) \\qquad \\text{(c) } 3 + f(2(x-3))\n¿Y si…? ¿Y si en (b) invertimos el orden de las operaciones — graficamos f(-x-3) en vez de f(-(x-3))? ¿es la misma curva?\nL2.2 — Grafique x(t) = \\operatorname{rect}\\!\\big(\\tfrac{t-1}{2}\\big) - 2\\,\\operatorname{tri}(t+1), indicando todos los puntos relevantes de los ejes.\n¿Y si…? ¿Y si el triángulo estuviera centrado en t=1 (mismo centro que el rect) en vez de t=-1? ¿cambia cualitativamente la forma resultante?\nL2.3 [DB E0020] — La señal f(x) vale -1 para x &lt; -\\tfrac12, 0 en -\\tfrac12 &lt; x &lt; \\tfrac12, y +1 para x &gt; \\tfrac12 (un escalón partido, impar). Exprésela como suma de señales elementales de dos maneras distintas — por ejemplo con escalones, y con \\operatorname{sgn} y \\operatorname{rect}.\n¿Y si…? ¿Y si el pulso rectangular no estuviera centrado en el origen (p. ej. entre x=0 y x=1)? ¿sigue funcionando la segunda forma \\operatorname{sgn}(x)(1-\\operatorname{rect}(x))?\nL2.4 [DB E0023] — Calcule el área de \\alpha^2 \\operatorname{rect}(\\alpha x), con \\alpha \\in \\mathbb{R}^+.\n¿Y si…? ¿Y si \\alpha pudiera ser negativo (en vez de estar restringido a \\mathbb{R}^+)? ¿sigue siendo válida la fórmula del área =\\alpha?\nL2.5 — Simplifique usando las propiedades del impulso: \\text{(a) } \\int_{-\\infty}^{\\infty} (t^2+2)\\,\\delta(t-3)\\,dt \\qquad \\text{(b) } 6\\,\\delta(t^2-9) \\qquad \\text{(c) } \\delta(4t^3-3t) \\qquad \\text{(d) } e^{-t}\\,\\delta(2t-4)\n¿Y si…? ¿Y si en (c) el argumento fuera 4t^3 en vez de 4t^3-3t (raíz triple en t=0)? ¿sigue aplicando la fórmula usual \\delta(g(t))=\\sum \\delta(t-t_i)/|g'(t_i)|?\nL2.6 [DB E0036] — Calcule (sin aproximar): \\displaystyle\\int_{-\\infty}^{\\infty} \\delta'(x)\\,dx.\n¿Y si…? ¿Y si en vez de \\int\\delta'(x)\\,dx calculamos \\int \\delta'(x)\\,x\\,dx (función de prueba no constante)? ¿sigue dando cero?\nL2.7 — Con el tren de impulsos \\delta_2(t) = \\sum_n \\delta(t-2n), calcule \\displaystyle\\int_{-1}^{5} e^{-|t|}\\,\\delta_2(t)\\,dt y grafique \\cos(\\pi t)\\,\\delta_2(t) (impulsos con sus pesos).\n¿Y si…? ¿Y si el intervalo de integración fuera [-2,5] en vez de [-1,5]? ¿el impulso justo en t=-2 cuenta completo, o queda ambiguo?",
+    "objectID": "curso/listas/lista-01.html",
+    "href": "curso/listas/lista-01.html",
+    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "section": "",
+    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para entender; el desarrollo escrito debe ser tuyo. El CV1 (semana 4) será una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido.\nReferencias de estudio: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 2 · Señales elementales, transformaciones y el impulso"
+      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-01.html#ejercicios",
+    "href": "curso/listas/lista-01.html#ejercicios",
+    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "section": "Ejercicios",
+    "text": "Ejercicios\nL1.1 — Clasifique cada señal como de energía, de potencia, o ninguna; calcule E o P según corresponda: \\text{(a) } x(t) = e^{-3t}u(t) \\qquad \\text{(b) } x(t) = 4\\cos(2\\pi t) \\qquad \\text{(c) } x[n] = \\left(\\tfrac{1}{2}\\right)^{n} u[n] \\qquad \\text{(d) } x(t) = t\\,u(t)\n¿Y si…? ¿Y si la señal (b) se truncara a un intervalo finito, digamos t\\in[0,5], en vez de estar definida para todo t? ¿sigue siendo señal de potencia?\nL1.2 [DB E0010] — Sea x(t) = \\cos(\\omega_x(t+\\tau_x)+\\theta_x):\n\nDetermine la frecuencia en Hz y el período de x(t) para: (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4.\nCon y(t) = \\sin(\\omega_y(t+\\tau_y)+\\theta_y), determine en qué casos x(t) = y(t): (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi y \\omega_y = \\pi/3, \\tau_y = 1, \\theta_y = -\\pi/3; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4 y \\omega_y = 11\\pi/4, \\tau_y = 1, \\theta_y = 3\\pi/8; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4 y \\omega_y = 3/4, \\tau_y = 1, \\theta_y = 3/8.\n\n¿Y si…? ¿Y si en el caso (a) fuera \\omega_x = 0 (en vez de \\pi/3)? ¿sigue teniendo una frecuencia y un período fundamental bien definidos?\nL1.3 — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: \\text{(a) } 2\\cos(10t+1) - \\sin(4t-1) \\qquad \\text{(b) } \\cos(6t) + \\sin(15t) \\qquad \\text{(c) } \\cos(t) + \\cos(\\pi t)\n¿Y si…? ¿Y si en (b) la frecuencia 15 se reemplazara por 15\\pi (razón irracional con 6)? ¿la suma sigue siendo periódica?\nL1.4 [DB E0021] — Demuestre que \\ln(x) se puede descomponer en una parte par P(x) y una impar I(x) dadas por P(x) = \\ln(|x|) + j\\frac{\\pi}{2}, \\qquad I(x) = -\\frac{j\\pi}{2}\\operatorname{sgn}(x) Hint: considere x = |x|\\operatorname{sgn}(x).\n¿Y si…? ¿Y si x=0? ¿sigue siendo válida ahí la descomposición en partes par e impar de \\ln(x)?\nL1.5 [DB E0022] — Una señal f(x) se descompone en parte par P(x) e impar I(x). Demuestre que \\int_{-\\infty}^{\\infty} f^2(x)\\,dx = \\int_{-\\infty}^{\\infty} P^2(x)\\,dx + \\int_{-\\infty}^{\\infty} I^2(x)\\,dx\n¿Y si…? ¿Y si el dominio de integración no fuera simétrico respecto del origen (p. ej. de 0 a \\infty)? ¿sigue siendo válida la identidad \\int f^2 = \\int P^2 + \\int I^2?",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-03.html",
+    "href": "curso/listas/lista-03.html",
+    "title": "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución",
+    "section": "",
+    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo. El próximo control es el CV2 (semana 6, en ayudantía): una de las preguntas ¿Y si…? de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido. Y antes de eso viene la I1 (semana 5, materia U1–U2): esta lista es parte directa de ese entrenamiento.\nRegla de la casa para toda la unidad 2: propiedad que se cumple → demostración con entradas genéricas; propiedad que falla → contraejemplo concreto. “Se ve lineal” vale cero.\nReferencias de estudio: [Oppenheim] §1.5–1.6 (propiedades de sistemas), §2.2 (la derivación de la convolución); [Alvarado] §3.4.",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-03.html#ejercicios",
+    "href": "curso/listas/lista-03.html#ejercicios",
+    "title": "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución",
+    "section": "Ejercicios",
+    "text": "Ejercicios\nL3.1 [DB E0185] — Determine si los siguientes sistemas y(t) = \\mathcal{T}[x(t)] son lineales: \\text{(a) } y(t) = \\frac{d}{dt}x(t) \\qquad \\text{(b) } y(t) = x(-t) \\qquad \\text{(c) } y(t) = x(t) + 1\n¿Y si…? ¿Y si en (b) preguntamos por invariancia en el tiempo en vez de linealidad? ¿el sistema y(t)=x(-t) sigue teniendo esa propiedad?\nL3.2 [DB E0013] — Determine si los siguientes sistemas son causales: \\text{(a) } g(t) = f(t-2) \\qquad \\text{(b) } g(t) = f(-t) \\qquad \\text{(c) } g(t) = \\int_{-5}^{5} f(\\tau)\\,d\\tau \\qquad \\text{(d) } g(t) = \\frac{f^2(t)}{df(t)/dt}\n¿Y si…? ¿Y si en (c) el límite superior fuera t en vez de 5 fijo — g(t)=\\int_{-5}^{t} f(\\tau)\\,d\\tau? ¿sigue siendo no causal?\nL3.3 [DB E0029] — Determine si el sistema g(t) = f(t)^{1/5} + 4 es LTI.\n¿Y si…? ¿Y si quitamos el “+4” (queda g(t)=f(t)^{1/5})? ¿el sistema pasa a ser lineal?\nL3.4 [DB E0030] — Determine si el sistema g(t) = m(t)\\,f(t) es LTI, donde f(t) es la entrada y m(t) es una función fija, independiente de la entrada.\n¿Y si…? ¿Y si m(t) fuera una constante (no una función del tiempo)? ¿el sistema sigue siendo variante en el tiempo?\nL3.5 [DB E0056] — Dos sistemas S_1 y S_2 se conectan en cascada en ambos órdenes: p(t) es la salida de f \\to S_1 \\to S_2, y q(t) la de f \\to S_2 \\to S_1.\n\n¿Es p(t) = q(t) para todo f(t) si S_1 y S_2 son lineales e invariantes en el tiempo? Demuestre su respuesta.\n¿Es p(t) = q(t) para todo f(t) si S_1 y S_2 son solo invariantes en el tiempo? Demuestre su respuesta.\n\n¿Y si…? ¿Y si S_1 y S_2 son solo lineales (no necesariamente invariantes)? ¿sigue garantizada la conmutatividad p(t)=q(t)?\nL3.6 [DB E0035] — Sea \\mathcal{P} un sistema LTI. Demuestre que si \\mathcal{P}\\{f(x)\\} = g(x), entonces \\mathcal{P}\\{f'(x)\\} = g'(x). Hint: escriba la derivada como límite de un cociente de diferencias y use una propiedad en cada paso.\n¿Y si…? ¿Y si \\mathcal{P} fuera solo invariante en el tiempo (pero no lineal)? ¿sigue siendo válida la demostración de que \\mathcal{P}\\{f'\\}=g'?\nL3.7 [DB E0060] — Se tiene el sistema g(x) = \\displaystyle\\int_0^x f(\\eta)\\,d\\eta.\n\nEncuentre la salida cuando la entrada es \\delta(\\eta - \\xi), con \\xi \\in \\mathbb{R}.\nA la luz del resultado (compare los casos \\xi &gt; 0 y \\xi &lt; 0), ¿es este sistema invariante en el tiempo? ¿Qué dice eso sobre hablar de “la” respuesta al impulso de este sistema?\n\n¿Y si…? ¿Y si el límite inferior fuera -\\infty en vez de 0? ¿el sistema sigue siendo variante en el tiempo?",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución"
     ]
   }
 ]

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C6 · LTI ⇒ convolución: el teorema del curso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>C8 · Sistemas y ecuaciones diferenciales: h(t) manda – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-03/ay03.html" rel="next">
-<link href="../../curso/semana-03/c05.html" rel="prev">
+<link href="../../curso/semana-04/ay04.html" rel="next">
+<link href="../../curso/semana-04/c07.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-03/c05.html">Semana 3 · Sistemas</a></li><li class="breadcrumb-item"><a href="../../curso/semana-03/c06.html">C6 · LTI ⇒ convolución: el teorema del curso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-04/c07.html">Semana 4 · Convolución y EDOs</a></li><li class="breadcrumb-item"><a href="../../curso/semana-04/c08.html">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -247,7 +247,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-03/c06.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-03/c06.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C6 · LTI ⇒ convolución: el teorema del curso</span></a>
   </div>
 </li>
@@ -276,7 +276,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-04/c08.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-04/c08.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</span></a>
   </div>
 </li>
@@ -333,21 +333,21 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#la-promesa-sobre-la-mesa" id="toc-la-promesa-sobre-la-mesa" class="nav-link active" data-scroll-target="#la-promesa-sobre-la-mesa">1. La promesa sobre la mesa</a></li>
-  <li><a href="#toda-señal-es-una-suma-de-impulsos" id="toc-toda-señal-es-una-suma-de-impulsos" class="nav-link" data-scroll-target="#toda-señal-es-una-suma-de-impulsos">2. Toda señal es una suma de impulsos</a></li>
-  <li><a href="#la-derivación-linealidad-reparte-invariancia-traslada" id="toc-la-derivación-linealidad-reparte-invariancia-traslada" class="nav-link" data-scroll-target="#la-derivación-linealidad-reparte-invariancia-traslada">3. La derivación: linealidad reparte, invariancia traslada</a></li>
-  <li><a href="#el-misterio-de-c1-resuelto" id="toc-el-misterio-de-c1-resuelto" class="nav-link" data-scroll-target="#el-misterio-de-c1-resuelto">4. El misterio de C1, resuelto</a></li>
-  <li><a href="#primeros-cálculos" id="toc-primeros-cálculos" class="nav-link" data-scroll-target="#primeros-cálculos">5. Primeros cálculos</a></li>
+  <li><a href="#modelar-con-edos-de-la-física-al-sistema" id="toc-modelar-con-edos-de-la-física-al-sistema" class="nav-link active" data-scroll-target="#modelar-con-edos-de-la-física-al-sistema">1. Modelar con EDOs: de la física al sistema</a></li>
+  <li><a href="#la-respuesta-al-impulso-de-un-sistema-de-primer-orden" id="toc-la-respuesta-al-impulso-de-un-sistema-de-primer-orden" class="nav-link" data-scroll-target="#la-respuesta-al-impulso-de-un-sistema-de-primer-orden">2. La respuesta al impulso de un sistema de primer orden</a></li>
+  <li><a href="#causalidad-y-estabilidad-leídas-desde-ht" id="toc-causalidad-y-estabilidad-leídas-desde-ht" class="nav-link" data-scroll-target="#causalidad-y-estabilidad-leídas-desde-ht">3. Causalidad y estabilidad, leídas desde h(t)</a></li>
+  <li><a href="#variables-de-estado-la-idea-en-10-minutos-no-evaluable" id="toc-variables-de-estado-la-idea-en-10-minutos-no-evaluable" class="nav-link" data-scroll-target="#variables-de-estado-la-idea-en-10-minutos-no-evaluable">4. Variables de estado: la idea, en 10 minutos (no evaluable)</a></li>
+  <li><a href="#conoce-tu-formulario-5-min" id="toc-conoce-tu-formulario-5-min" class="nav-link" data-scroll-target="#conoce-tu-formulario-5-min">5. Conoce tu formulario (5 min)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-03/c05.html">Semana 3 · Sistemas</a></li><li class="breadcrumb-item"><a href="../../curso/semana-03/c06.html">C6 · LTI ⇒ convolución: el teorema del curso</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-04/c07.html">Semana 4 · Convolución y EDOs</a></li><li class="breadcrumb-item"><a href="../../curso/semana-04/c08.html">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">C6 · LTI ⇒ convolución: el teorema del curso</h1>
-<p class="subtitle lead">Semana 3 · 70 min · U2.2</p>
+<h1 class="title">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</h1>
+<p class="subtitle lead">Semana 4 · 70 min · U2.4, U2.5 — cierre de la materia de I1</p>
 </div>
 
 
@@ -364,96 +364,103 @@ window.Quarto = {
 </header>
 
 
-<section id="la-promesa-sobre-la-mesa" class="level1">
-<h1>1. La promesa sobre la mesa</h1>
-<p><strong>Definición de respuesta al impulso:</strong></p>
-<p><span class="math display">h(t) = </span></p>
-<p><strong>El teorema de hoy</strong> (enúncialo con tus palabras — qué basta conocer, y para qué alcanza):</p>
+<section id="modelar-con-edos-de-la-física-al-sistema" class="level1">
+<h1>1. Modelar con EDOs: de la física al sistema</h1>
+<p><strong>El circuito RC</strong> (dibujo + deducción de la EDO desde Kirchhoff):</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>El masa-resorte-amortiguador</strong> (dibujo + EDO desde Newton):</p>
+<p><span class="math display">m\,\ddot{y} + \hspace{1cm}\dot{y} + \hspace{1cm}y = x(t)</span></p>
+<p><strong>¿Por qué una EDO lineal de coeficientes constantes define un sistema LTI?</strong> (una razón por cada palabra clave — y la letra chica del reposo inicial):</p>
 <div class="hueco">
 
 </div>
 </section>
-<section id="toda-señal-es-una-suma-de-impulsos" class="level1">
-<h1>2. Toda señal es una suma de impulsos</h1>
-<p><strong>Mi predicción</strong> (el peso del pulso en <span class="math inline">t = k\Delta</span>, y por qué):</p>
+<section id="la-respuesta-al-impulso-de-un-sistema-de-primer-orden" class="level1">
+<h1>2. La respuesta al impulso de un sistema de primer orden</h1>
+<p><strong>El problema</strong>: <span class="math inline">RC\,h' + h = \delta(t)</span>, reposo inicial. <strong>Paso 1</strong> (la solución para <span class="math inline">t&gt;0</span>):</p>
 <div class="hueco">
 
 </div>
-<p><strong>La escalera de pulsos y su límite</strong> (fórmula de la aproximación y fórmula límite):</p>
-<p><span class="math display">x(t) \approx \hspace{6cm}</span></p>
-<p><span class="math display">x(t) = \hspace{6cm}</span></p>
-<p><strong>La relectura clave</strong> (¿qué dice esta fórmula sobre los “ladrillos” de cualquier señal? ¿en qué se diferencia de cómo la leíamos en C4?):</p>
+<p><strong>Paso 2</strong> (integrar alrededor del golpe: ¿cuánto salta <span class="math inline">h</span> en <span class="math inline">t=0</span> y por qué?):</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>Resultado y verificación por sustitución:</strong></p>
+<p><span class="math display">h(t) = \hspace{5cm}</span></p>
+<div class="hueco">
+
+</div>
+<p><strong>Los dos chequeos de cordura</strong> (área de <span class="math inline">h</span>; respuesta al escalón y su conexión con C6):</p>
 <div class="hueco">
 
 </div>
 </section>
-<section id="la-derivación-linealidad-reparte-invariancia-traslada" class="level1">
-<h1>3. La derivación: linealidad reparte, invariancia traslada</h1>
-<p><strong>La derivación en 4 líneas</strong> (completa la tabla — entrada, salida y propiedad usada en cada paso):</p>
+<section id="causalidad-y-estabilidad-leídas-desde-ht" class="level1">
+<h1>3. Causalidad y estabilidad, leídas desde h(t)</h1>
+<p><strong>Los dos teoremas</strong> (condición sobre <span class="math inline">h(t)</span> + justificación en una línea cada una):</p>
+<ul>
+<li>Causal <span class="math inline">\iff</span></li>
+<li>Estable BIBO <span class="math inline">\iff</span></li>
+</ul>
+<p><strong>La demostración de dos líneas de la suficiencia de estabilidad:</strong></p>
+<div class="hueco">
+
+</div>
+<p><strong>Mi voto para cada <span class="math inline">h(t)</span>:</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>#</th>
-<th>Entrada</th>
-<th>Salida</th>
-<th>Propiedad usada</th>
+<th><span class="math inline">h(t)</span></th>
+<th>¿Causal?</th>
+<th>¿Estable?</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td><span class="math inline">\delta(t)</span></td>
+<td><span class="math inline">e^{-2t}\,u(t)</span></td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td></td>
+<td><span class="math inline">u(t)</span></td>
 <td></td>
 <td></td>
 </tr>
 <tr class="odd">
-<td>3</td>
-<td></td>
+<td><span class="math inline">e^{t}\,u(t)</span></td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>4</td>
+<td><span class="math inline">\operatorname{rect}(t)</span></td>
 <td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\delta(t-1)</span></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>La integral de convolución</strong> (fórmula + lectura en palabras de cada símbolo):</p>
-<p><span class="math display">y(t) = \hspace{6cm}</span></p>
+</section>
+<section id="variables-de-estado-la-idea-en-10-minutos-no-evaluable" class="level1">
+<h1>4. Variables de estado: la idea, en 10 minutos (no evaluable)</h1>
+<p><em>(Sección conceptual — <strong>no evaluable</strong>. Solo la idea:)</em></p>
+<p><strong>¿Qué es el “estado” de un sistema?</strong> (la definición-foto + qué es para el masa-resorte y para el RC):</p>
 <div class="hueco">
 
 </div>
-<p><strong>Las dos lecturas del teorema</strong> (análisis / síntesis):</p>
+<p><strong>La plantilla</strong> <span class="math inline">\dot{\mathbf{x}} = A\mathbf{x} + Bu</span>, <span class="math inline">y = C\mathbf{x} + Du</span> — ¿en qué curso reaparece y por qué les va a importar?</p>
 <div class="hueco">
 
 </div>
 </section>
-<section id="el-misterio-de-c1-resuelto" class="level1">
-<h1>4. El misterio de C1, resuelto</h1>
-<p><strong>El misterio de C1, en una ecuación</strong> (¿qué es cada término, y cuál se midió con un golpe?):</p>
-<p><span class="math display">\text{voz en la iglesia} = </span></p>
-<div class="hueco">
-
-</div>
-<p><strong>La frase para el bolsillo</strong> (la que ordena la unidad — cópiala completa):</p>
-<div class="hueco">
-
-</div>
-<p><strong>El eco simple</strong>: si <span class="math inline">h(t) = \delta(t) + \alpha\,\delta(t-T)</span>, entonces $y(t) = $</p>
-</section>
-<section id="primeros-cálculos" class="level1">
-<h1>5. Primeros cálculos</h1>
-<p><strong>Las dos convoluciones gratis:</strong></p>
-<p><span class="math display">x(t) * \delta(t) = \hspace{3cm} x(t) * \delta(t - t_0) = </span></p>
-<p><strong>Ejemplo resuelto</strong>: <span class="math inline">u(t) * e^{-2t}u(t)</span> (desarrollo completo: cómo recortan los escalones, la integral, y el chequeo de cordura con el área de <span class="math inline">h</span>):</p>
+<section id="conoce-tu-formulario-5-min" class="level1">
+<h1>5. Conoce tu formulario (5 min)</h1>
+<p><strong>Mi checklist del formulario</strong> (de U1 y de U2 — comparar con las sugerencias de la pizarra):</p>
 <div class="hueco-grande">
 
 </div>
@@ -864,13 +871,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/semana-03/c05.html" class="pagination-link" aria-label="C5 · Propiedades de sistemas">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C5 · Propiedades de sistemas</span>
+      <a href="../../curso/semana-04/c07.html" class="pagination-link" aria-label="C7 · La convolución en la práctica">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C7 · La convolución en la práctica</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-03/ay03.html" class="pagination-link" aria-label="Ay3 · Ejercicios U2">
-        <span class="nav-page-text">Ay3 · Ejercicios U2</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/semana-04/ay04.html" class="pagination-link" aria-label="Ay4 · CV1 + Integración U1–U2: rumbo a la I1">
+        <span class="nav-page-text">Ay4 · CV1 + Integración U1–U2: rumbo a la I1</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
