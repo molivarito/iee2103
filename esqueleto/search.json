@@ -1,46 +1,79 @@
 [
   {
-    "objectID": "curso/listas/lista-04.html",
-    "href": "curso/listas/lista-04.html",
-    "title": "Lista 4 · Convolución, EDOs y la respuesta al impulso",
+    "objectID": "curso/listas/lista-05.html",
+    "href": "curso/listas/lista-05.html",
+    "title": "Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier",
     "section": "",
-    "text": "ImportanteRecordatorio\n\n\n\nLa I1 es esta semana: materia U1–U2, con el formulario oficial (U1–U2), que se entrega impreso con la prueba. Esta lista es el entrenamiento directo — el ejercicio L4.1 fue, textual, una pregunta de la I1 2025. Después de la I1, esta lista sigue viva: el CV2 (semana 6) será una de las preguntas ¿Y si…? de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control, con el portafolio sobre la mesa.\nHábito no negociable en toda convolución: al terminar, chequear soporte y área (C7). Un resultado que no pasa esos chequeos está malo, siempre.\nReferencias de estudio: [Oppenheim] §2.2–2.3 (convolución y propiedades), §2.4.1 (EDOs), §2.3.5–2.3.7 (causalidad/estabilidad desde h); [Alvarado] §3.4.",
+    "text": "ImportanteRecordatorio\n\n\n\nEl CV2 es esta semana (primeros 15 min de la ayudantía): una de las preguntas ¿Y si…? de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio manuscrito será tu único material permitido. El quiz Canvas de esta semana es el ensayo directo.\nReferencias de estudio: [Alvarado] §3.1–3.2; [Oppenheim] §3.3; apunte del curso “Series de Fourier” (Canvas), módulos 1–5.",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 4 · Convolución, EDOs y la respuesta al impulso"
+      "Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier"
     ]
   },
   {
-    "objectID": "curso/listas/lista-04.html#ejercicios",
-    "href": "curso/listas/lista-04.html#ejercicios",
-    "title": "Lista 4 · Convolución, EDOs y la respuesta al impulso",
+    "objectID": "curso/listas/lista-05.html#ejercicios",
+    "href": "curso/listas/lista-05.html#ejercicios",
+    "title": "Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier",
     "section": "Ejercicios",
-    "text": "Ejercicios\nL4.1 (nuevo — I1 2025; incorporar al banco) — Dadas las funciones h(t) = 3e^{-3t}u(t) y f(t) = 2\\big(u(t) - u(t-1)\\big), encuentre la convolución entre h(t) y f(t) gráfica y analíticamente.\n¿Y si…? ¿Y si h(t) = 3e^{-3|t|} (dos lados, en vez de causal con u(t))? ¿la convolución sigue siendo cero para t&lt;0?\nL4.2 [DB E0038] — Un sistema LTI tiene respuesta al impulso h(t) = e^{-t}\\operatorname{rect}(t). ¿Cuál es la salida del sistema si la entrada es f(t) = e^{-t}\\operatorname{rect}(t)? Encuentre una expresión analítica. Hint: dentro de la integral, las exponenciales conspiran para dejarle una convolución que ya conoce de C7.\n¿Y si…? ¿Y si f(t) = e^{+t}\\operatorname{rect}(t) (signo del exponente cambia) en vez de e^{-t}\\operatorname{rect}(t)? ¿siguen “conspirando” las exponenciales para dejar \\operatorname{rect}*\\operatorname{rect} puro?\nL4.3 [DB E0044] — Demuestre la “ley de conservación del área” enunciada en C7: \\int_{-\\infty}^{\\infty} (f * g)(x)\\,dx = \\int_{-\\infty}^{\\infty} f(x)\\,dx \\cdot \\int_{-\\infty}^{\\infty} g(x)\\,dx\n¿Y si…? ¿Y si f o g no fueran absolutamente integrables (p. ej. f(x)=1 para todo x)? ¿sigue siendo válido intercambiar el orden de integración?\nL4.4 [DB E0062] — Un sistema LTI presenta una respuesta a la rampa f_1(x) = x\\,u(x) dada por g_1(x) = u(x-1). ¿Cuál es la respuesta del sistema si la entrada es f_2(x) = (e^x - x - 1)\\,u(x)? Hint: ¿qué operación convierte la rampa en un impulso? (L3.6 es su amiga).\n¿Y si…? ¿Y si f_2(x) = (e^x-1)u(x) (sin el término -x) en vez de (e^x-x-1)u(x)? ¿su segunda derivada sigue siendo e^x u(x) sin deltas extra?\nL4.5 [DB E0061] — Sea un sistema cuya respuesta al impulso es h(t) = u(t) - u(t-\\tau). Determine un valor de \\tau de modo que la salida del sistema sea 0 para todo t cuando la entrada es \\cos(2\\pi f_0 t).\n¿Y si…? ¿Y si \\tau no fuera un múltiplo exacto de 1/f_0, digamos \\tau = 1.5/f_0? ¿la salida sigue siendo cero para todo t?\nL4.6 [DB E0037] — Se tiene el sistema descrito por \\frac{dy(t)}{dt} + 2\\,y(t) = x(t)\n\nVerifique que h(t) = e^{-2t}u(t) es la respuesta al impulso del sistema.\nDetermine si el sistema tiene memoria, es causal y es estable.\n\n¿Y si…? ¿Y si la ecuación fuera \\frac{dy}{dt} - 2y(t) = x(t) (signo del segundo término cambia)? ¿la respuesta al impulso sigue siendo estable?\nL4.7 [DB E0032] — Un circuito eléctrico se modela como un sistema LTI con respuesta al impulso h(t) = \\frac{1}{RC}\\,e^{-t/RC}\\,u(t) donde R y C son parámetros del circuito. El circuito opera sobre entradas de la forma x(t) = A\\cos(k\\omega_0 t), con \\omega_0 = \\frac{1}{RC} y A, k constantes. El objetivo es deducir el efecto del sistema sobre una sinusoide a medida que aumenta su frecuencia k\\omega_0:\n\nIndique si el sistema es estable, causal y si tiene memoria. Justifique.\nEncuentre la salida analítica para las entradas: (a) x_1(t) = A; (b) x_2(t) = A\\cos(0.01\\,\\omega_0 t); (c) x_3(t) = A\\cos(100\\,\\omega_0 t). Hint: haga el cálculo para la frecuencia genérica k\\omega_0 (con \\cos\\theta = \\frac{e^{j\\theta}+e^{-j\\theta}}{2}, como en la Ay1) y evalúe después.\nA partir de los resultados, ¿qué efecto tiene el sistema sobre sinusoides de frecuencia creciente?\n\n¿Y si…? ¿Y si h(t) = \\frac{1}{RC}e^{-t/RC}u(-t) (anti-causal, con u(-t)) en vez de u(t)? ¿el sistema sigue siendo estable?",
+    "text": "Ejercicios\nL5.1 (nuevo — incorporar al banco) — Sea \\mathbf{v} = (3,4,5) y W = \\operatorname{span}\\{(1,0,0), (0,1,0)\\} (el plano xy).\n\nVerifique que la base dada de W es ortonormal.\nCalcule la proyección P_W\\mathbf{v}.\nCalcule el vector de error \\mathbf{e} = \\mathbf{v} - P_W\\mathbf{v} y verifique que es ortogonal a W. ¿Qué representa \\|\\mathbf{e}\\| geométricamente?\nAhora la versión con señales: en [-\\pi,\\pi] con \\langle f,g\\rangle = \\int_{-\\pi}^{\\pi} f\\,g^*\\,dt, verifique que \\big\\{\\tfrac{1}{\\sqrt{2\\pi}},\\, \\tfrac{1}{\\sqrt{\\pi}}\\cos t,\\, \\tfrac{1}{\\sqrt{\\pi}}\\sin t\\big\\} es un conjunto ortonormal, y calcule la mejor aproximación de x(t) = t usando solo esas tres “direcciones”.\n\n¿Y si…? ¿Y si aproximamos x(t)=t^2 (par) en vez de x(t)=t (impar)? ¿qué coeficientes de la proyección se anulan ahora — los mismos, u otros?\nL5.2 [DB E0166] — Se define la potencia promedio \\bar{P}_{x} de una señal continua periódica x(t) como \\bar{P}_{x} = \\frac{1}{T}\\int_{T} |x(t)|^2\\,dt donde la integral se realiza sobre un período T. Encuentre \\bar{P}_{x} en función de los coeficientes c_k de la serie de Fourier exponencial de x(t). (Hint: |x|^2 = x\\,x^*; sustituya las series y use la ortogonalidad de las exponenciales.)\n¿Y si…? ¿Y si la integral se hiciera sobre medio período (no sobre T completo)? ¿sigue siendo válida la identidad \\bar P_x=\\sum_k|C_k|^2?\nL5.3 [DB E0072] — Una señal x(t) se puede expresar en serie de Fourier como x(t) = 7\\cos(10\\pi t) + \\cos(20\\pi t) + 2\\cos(40\\pi t) Determine la potencia media de la señal.\n¿Y si…? ¿Y si el segundo término fuera \\cos(10\\pi t) (misma frecuencia que el primero) en vez de \\cos(20\\pi t)? ¿sigue siendo válido sumar las potencias de cada término por separado?\nL5.4 [DB E0075] — Encuentre los coeficientes de la serie de Fourier de las siguientes señales (sin integrar cuando sea posible):\n\nx(t) = \\sin\\!\\big(10\\pi t + \\tfrac{\\pi}{6}\\big)\nx(t) = 1 + \\cos(2\\pi t)\nx(t) = \\sin\\!\\big(10\\pi t + \\tfrac{\\pi}{6}\\big)\\,\\big(1 + \\cos(2\\pi t)\\big)\n\nSugerencia: identidades de Euler y, en (3), producto a suma antes de identificar armónicos.\n¿Y si…? ¿Y si las frecuencias 10\\pi y 2\\pi no tuvieran razón racional entre sí (por ejemplo 10\\pi y 2)? ¿la señal sigue siendo periódica y con serie de Fourier discreta?\nL5.5 [DB E0077] — Determine los coeficientes de la serie de Fourier exponencial de la señal periódica f(t) con período T = 10 definida por f(t) = \\begin{cases} 1, & 0 &lt; t &lt; 1\\\\ 0, & 1 &lt; t &lt; 10 \\end{cases}\n¿Y si…? ¿Y si el ancho del pulso fuera igual al período completo (T=10, ancho =10)? ¿siguen existiendo armónicos no nulos, o la señal se vuelve DC pura?\nL5.6 [DB E0082] — Determine la serie de Fourier (forma trigonométrica) de la señal diente de sierra periódica f(t) = \\frac{A}{T}\\,t para 0 \\le t &lt; T, con T = 3 y A = 3.\n¿Y si…? ¿Y si la señal se desplazara T/4 en el tiempo? ¿siguen siendo cero todos los coeficientes a_n (n\\neq0)?",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 4 · Convolución, EDOs y la respuesta al impulso"
+      "Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier"
     ]
   },
   {
-    "objectID": "curso/listas/lista-02.html",
-    "href": "curso/listas/lista-02.html",
-    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
+    "objectID": "curso/listas/lista-03.html",
+    "href": "curso/listas/lista-03.html",
+    "title": "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución",
     "section": "",
-    "text": "ImportanteRecordatorio\n\n\n\nEl CV1 es en dos semanas más (semana 4, primeros 20 min de la ayudantía): una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio manuscrito será tu único material permitido. El quiz Canvas de esta semana es el ensayo directo.\nReferencias de estudio: [Oppenheim] §1.2.1, §1.3–1.4, §2.5; [Alvarado] cap. 1.",
+    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo. El próximo control es el CV2 (semana 6, en ayudantía): una de las preguntas ¿Y si…? de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido. Y antes de eso viene la I1 (semana 5, materia U1–U2): esta lista es parte directa de ese entrenamiento.\nRegla de la casa para toda la unidad 2: propiedad que se cumple → demostración con entradas genéricas; propiedad que falla → contraejemplo concreto. “Se ve lineal” vale cero.\nReferencias de estudio: [Oppenheim] §1.5–1.6 (propiedades de sistemas), §2.2 (la derivación de la convolución); [Alvarado] §3.4.",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 2 · Señales elementales, transformaciones y el impulso"
+      "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución"
     ]
   },
   {
-    "objectID": "curso/listas/lista-02.html#ejercicios",
-    "href": "curso/listas/lista-02.html#ejercicios",
-    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
+    "objectID": "curso/listas/lista-03.html#ejercicios",
+    "href": "curso/listas/lista-03.html#ejercicios",
+    "title": "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución",
     "section": "Ejercicios",
-    "text": "Ejercicios\nL2.1 [DB E0018] — Con f(x) = x^3 restringida al tramo x \\in [-2, 2] (el trozo de cúbica que va de (-2,-8) a (2,8); restringirla a un tramo es lo que hace visibles los cambios de escala horizontal: se ve moverse los extremos), grafique: \\text{(a) } f(2x) \\text{ y } f(x/2) \\qquad \\text{(b) } f(-(x-3)) \\qquad \\text{(c) } 3 + f(2(x-3))\n¿Y si…? ¿Y si en (b) invertimos el orden de las operaciones — graficamos f(-x-3) en vez de f(-(x-3))? ¿es la misma curva?\nL2.2 — Grafique x(t) = \\operatorname{rect}\\!\\big(\\tfrac{t-1}{2}\\big) - 2\\,\\operatorname{tri}(t+1), indicando todos los puntos relevantes de los ejes.\n¿Y si…? ¿Y si el triángulo estuviera centrado en t=1 (mismo centro que el rect) en vez de t=-1? ¿cambia cualitativamente la forma resultante?\nL2.3 [DB E0020] — La señal f(x) vale -1 para x &lt; -\\tfrac12, 0 en -\\tfrac12 &lt; x &lt; \\tfrac12, y +1 para x &gt; \\tfrac12 (un escalón partido, impar). Exprésela como suma de señales elementales de dos maneras distintas — por ejemplo con escalones, y con \\operatorname{sgn} y \\operatorname{rect}.\n¿Y si…? ¿Y si el pulso rectangular no estuviera centrado en el origen (p. ej. entre x=0 y x=1)? ¿sigue funcionando la segunda forma \\operatorname{sgn}(x)(1-\\operatorname{rect}(x))?\nL2.4 [DB E0023] — Calcule el área de \\alpha^2 \\operatorname{rect}(\\alpha x), con \\alpha \\in \\mathbb{R}^+.\n¿Y si…? ¿Y si \\alpha pudiera ser negativo (en vez de estar restringido a \\mathbb{R}^+)? ¿sigue siendo válida la fórmula del área =\\alpha?\nL2.5 — Simplifique usando las propiedades del impulso: \\text{(a) } \\int_{-\\infty}^{\\infty} (t^2+2)\\,\\delta(t-3)\\,dt \\qquad \\text{(b) } 6\\,\\delta(t^2-9) \\qquad \\text{(c) } \\delta(4t^3-3t) \\qquad \\text{(d) } e^{-t}\\,\\delta(2t-4)\n¿Y si…? ¿Y si en (c) el argumento fuera 4t^3 en vez de 4t^3-3t (raíz triple en t=0)? ¿sigue aplicando la fórmula usual \\delta(g(t))=\\sum \\delta(t-t_i)/|g'(t_i)|?\nL2.6 [DB E0036] — Calcule (sin aproximar): \\displaystyle\\int_{-\\infty}^{\\infty} \\delta'(x)\\,dx.\n¿Y si…? ¿Y si en vez de \\int\\delta'(x)\\,dx calculamos \\int \\delta'(x)\\,x\\,dx (función de prueba no constante)? ¿sigue dando cero?\nL2.7 — Con el tren de impulsos \\delta_2(t) = \\sum_n \\delta(t-2n), calcule \\displaystyle\\int_{-1}^{5} e^{-|t|}\\,\\delta_2(t)\\,dt y grafique \\cos(\\pi t)\\,\\delta_2(t) (impulsos con sus pesos).\n¿Y si…? ¿Y si el intervalo de integración fuera [-2,5] en vez de [-1,5]? ¿el impulso justo en t=-2 cuenta completo, o queda ambiguo?",
+    "text": "Ejercicios\nL3.1 [DB E0185] — Determine si los siguientes sistemas y(t) = \\mathcal{T}[x(t)] son lineales: \\text{(a) } y(t) = \\frac{d}{dt}x(t) \\qquad \\text{(b) } y(t) = x(-t) \\qquad \\text{(c) } y(t) = x(t) + 1\n¿Y si…? ¿Y si en (b) preguntamos por invariancia en el tiempo en vez de linealidad? ¿el sistema y(t)=x(-t) sigue teniendo esa propiedad?\nL3.2 [DB E0013] — Determine si los siguientes sistemas son causales: \\text{(a) } g(t) = f(t-2) \\qquad \\text{(b) } g(t) = f(-t) \\qquad \\text{(c) } g(t) = \\int_{-5}^{5} f(\\tau)\\,d\\tau \\qquad \\text{(d) } g(t) = \\frac{f^2(t)}{df(t)/dt}\n¿Y si…? ¿Y si en (c) el límite superior fuera t en vez de 5 fijo — g(t)=\\int_{-5}^{t} f(\\tau)\\,d\\tau? ¿sigue siendo no causal?\nL3.3 [DB E0029] — Determine si el sistema g(t) = f(t)^{1/5} + 4 es LTI.\n¿Y si…? ¿Y si quitamos el “+4” (queda g(t)=f(t)^{1/5})? ¿el sistema pasa a ser lineal?\nL3.4 [DB E0030] — Determine si el sistema g(t) = m(t)\\,f(t) es LTI, donde f(t) es la entrada y m(t) es una función fija, independiente de la entrada.\n¿Y si…? ¿Y si m(t) fuera una constante (no una función del tiempo)? ¿el sistema sigue siendo variante en el tiempo?\nL3.5 [DB E0056] — Dos sistemas S_1 y S_2 se conectan en cascada en ambos órdenes: p(t) es la salida de f \\to S_1 \\to S_2, y q(t) la de f \\to S_2 \\to S_1.\n\n¿Es p(t) = q(t) para todo f(t) si S_1 y S_2 son lineales e invariantes en el tiempo? Demuestre su respuesta.\n¿Es p(t) = q(t) para todo f(t) si S_1 y S_2 son solo invariantes en el tiempo? Demuestre su respuesta.\n\n¿Y si…? ¿Y si S_1 y S_2 son solo lineales (no necesariamente invariantes)? ¿sigue garantizada la conmutatividad p(t)=q(t)?\nL3.6 [DB E0035] — Sea \\mathcal{P} un sistema LTI. Demuestre que si \\mathcal{P}\\{f(x)\\} = g(x), entonces \\mathcal{P}\\{f'(x)\\} = g'(x). Hint: escriba la derivada como límite de un cociente de diferencias y use una propiedad en cada paso.\n¿Y si…? ¿Y si \\mathcal{P} fuera solo invariante en el tiempo (pero no lineal)? ¿sigue siendo válida la demostración de que \\mathcal{P}\\{f'\\}=g'?\nL3.7 [DB E0060] — Se tiene el sistema g(x) = \\displaystyle\\int_0^x f(\\eta)\\,d\\eta.\n\nEncuentre la salida cuando la entrada es \\delta(\\eta - \\xi), con \\xi \\in \\mathbb{R}.\nA la luz del resultado (compare los casos \\xi &gt; 0 y \\xi &lt; 0), ¿es este sistema invariante en el tiempo? ¿Qué dice eso sobre hablar de “la” respuesta al impulso de este sistema?\n\n¿Y si…? ¿Y si el límite inferior fuera -\\infty en vez de 0? ¿el sistema sigue siendo variante en el tiempo?",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 2 · Señales elementales, transformaciones y el impulso"
+      "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-01.html",
+    "href": "curso/listas/lista-01.html",
+    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "section": "",
+    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para entender; el desarrollo escrito debe ser tuyo. El CV1 (semana 4) será una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido.\nReferencias de estudio: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-01.html#ejercicios",
+    "href": "curso/listas/lista-01.html#ejercicios",
+    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "section": "Ejercicios",
+    "text": "Ejercicios\nL1.1 — Clasifique cada señal como de energía, de potencia, o ninguna; calcule E o P según corresponda: \\text{(a) } x(t) = e^{-3t}u(t) \\qquad \\text{(b) } x(t) = 4\\cos(2\\pi t) \\qquad \\text{(c) } x[n] = \\left(\\tfrac{1}{2}\\right)^{n} u[n] \\qquad \\text{(d) } x(t) = t\\,u(t)\n¿Y si…? ¿Y si la señal (b) se truncara a un intervalo finito, digamos t\\in[0,5], en vez de estar definida para todo t? ¿sigue siendo señal de potencia?\nL1.2 [DB E0010] — Sea x(t) = \\cos(\\omega_x(t+\\tau_x)+\\theta_x):\n\nDetermine la frecuencia en Hz y el período de x(t) para: (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4.\nCon y(t) = \\sin(\\omega_y(t+\\tau_y)+\\theta_y), determine en qué casos x(t) = y(t): (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi y \\omega_y = \\pi/3, \\tau_y = 1, \\theta_y = -\\pi/3; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4 y \\omega_y = 11\\pi/4, \\tau_y = 1, \\theta_y = 3\\pi/8; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4 y \\omega_y = 3/4, \\tau_y = 1, \\theta_y = 3/8.\n\n¿Y si…? ¿Y si en el caso (a) fuera \\omega_x = 0 (en vez de \\pi/3)? ¿sigue teniendo una frecuencia y un período fundamental bien definidos?\nL1.3 — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: \\text{(a) } 2\\cos(10t+1) - \\sin(4t-1) \\qquad \\text{(b) } \\cos(6t) + \\sin(15t) \\qquad \\text{(c) } \\cos(t) + \\cos(\\pi t)\n¿Y si…? ¿Y si en (b) la frecuencia 15 se reemplazara por 15\\pi (razón irracional con 6)? ¿la suma sigue siendo periódica?\nL1.4 [DB E0021] — Demuestre que \\ln(x) se puede descomponer en una parte par P(x) y una impar I(x) dadas por P(x) = \\ln(|x|) + j\\frac{\\pi}{2}, \\qquad I(x) = -\\frac{j\\pi}{2}\\operatorname{sgn}(x) Hint: considere x = |x|\\operatorname{sgn}(x).\n¿Y si…? ¿Y si x=0? ¿sigue siendo válida ahí la descomposición en partes par e impar de \\ln(x)?\nL1.5 [DB E0022] — Una señal f(x) se descompone en parte par P(x) e impar I(x). Demuestre que \\int_{-\\infty}^{\\infty} f^2(x)\\,dx = \\int_{-\\infty}^{\\infty} P^2(x)\\,dx + \\int_{-\\infty}^{\\infty} I^2(x)\\,dx\n¿Y si…? ¿Y si el dominio de integración no fuera simétrico respecto del origen (p. ej. de 0 a \\infty)? ¿sigue siendo válida la identidad \\int f^2 = \\int P^2 + \\int I^2?",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+    ]
+  },
+  {
+    "objectID": "curso/semana-05/c10.html",
+    "href": "curso/semana-05/c10.html",
+    "title": "C10 · Series de Fourier",
+    "section": "",
+    "text": "1. ¿Por qué la flauta no suena a violín?\nLa pregunta del día (misma nota, distinto sonido — ¿dónde vive la diferencia?):\n\n\n\n\n\n2. La base estrella: exponenciales armónicas\nLa base y su producto interno:\n\\phi_n(t) = \\hspace{3cm} \\qquad \\langle f,g\\rangle = \\hspace{5cm}\nVerificación de ortonormalidad (n\\neq m: ¿por qué da 0? — el argumento del fasor que da vueltas):\n\n\n\nLas dos fórmulas de la serie de Fourier (síntesis y análisis — ¿cuál es cuál y qué es c_n geométricamente?):\nx(t) = \\hspace{6cm}\nc_n = \\hspace{6cm}\n\n\n3. Forma trigonométrica: la versión con senos y cosenos\nPara señales reales, $c_{-n} = $ \\hspace{2cm} (¿por qué?)\nForma trigonométrica y sus tres fórmulas de coeficientes:\n\n\n\nDiccionario exponencial ↔︎ trigonométrica:\na_0 = \\hspace{1.5cm} \\qquad a_n = \\hspace{2.5cm} \\qquad b_n = \\hspace{2.5cm}\nEjercicio hecho en clase — coeficientes de x(t) = 1+\\cos(2\\pi t) sin integrar:\n\n\n\n\n\n4. Ejemplo completo (calibre I2): la onda cuadrada\nMi voto y por qué (¿qué armónicos tiene la cuadrada?):\n\n\n\nCálculo completo de c_n de la onda cuadrada impar (desarrollo entero, calibre I2):\n\n\n\nResultado y forma trigonométrica:\nc_n = \\hspace{4cm} \\qquad x(t) = \\hspace{6cm}\nEl espectro de línea (dibujar |c_n| vs n\\omega_0):\n\n\n\n¿Qué fracción de la potencia carga la fundamental? (usar Parseval):\n\n\n\n\n\n5. El pago del gancho: el timbre ES |c_n|\nLa respuesta a la pregunta del día, en una frase (¿qué es el timbre?):\n\n\n\n¿Qué comparten la flauta y el violín tocando La₄, y en qué difieren sus espectros?",
+    "crumbs": [
+      "Semana 5 · Señales como vectores",
+      "C10 · Series de Fourier"
     ]
   },
   {
@@ -416,47 +449,102 @@
     ]
   },
   {
-    "objectID": "curso/listas/lista-01.html",
-    "href": "curso/listas/lista-01.html",
-    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
+    "objectID": "curso/semana-05/c09.html",
+    "href": "curso/semana-05/c09.html",
+    "title": "C9 · Señales como vectores",
     "section": "",
-    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo — no solo el resultado. Puedes usar apuntes, libros, compañeros e IA para entender; el desarrollo escrito debe ser tuyo. El CV1 (semana 4) será una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido.\nReferencias de estudio: [Alvarado] §1.1; [Oppenheim] §1.1–1.2.",
+    "text": "1. Proyectar, lo de siempre, con lupa\nLo que ya sabíamos hacer (¿qué operación es “sacar una componente”? ¿qué usa?):\n\n\n\nEl producto punto en sus dos formas, y qué mide:\n\\mathbf{v}\\cdot\\mathbf{b} = \\hspace{5cm} = \\hspace{5cm}\nFórmula de la proyección de \\mathbf{v} sobre \\mathbf{b} (con el dibujo de la sombra y el error):\n\n\n\n\\mathbf{v} = (3,4) sobre \\mathbf{b}_1 = (1,1) y \\mathbf{b}_2 = (1,-1) (los dos coeficientes, la comprobación, y qué pasa si los ejes no son perpendiculares):\n\n\n\n\n\n2. El salto: las funciones también\n¿Por qué la integral del producto es un producto punto? (el dibujo de las barras y el paso de la suma a la integral):\n\n\n\nProducto interno de dos señales (definición, y para qué está el conjugado):\n\\langle f, g\\rangle = \\hspace{6cm}\nLas tres reglas que cumple (lineal, simétrico conjugado, positivo). ¿Qué es \\|f\\|^2 físicamente?\n\n\n\nProyectar f sobre la constante 1 en [0,T] (el coeficiente, qué es, y por qué el error es perpendicular):\n\n\n\nLa descomposición par/impar de C2, leída como proyección (proyección, error, y qué integral de la Ay2 dice que el error es perpendicular):\n\n\n\nMi voto y por qué — ¿ortogonales en [-\\pi,\\pi]?: (a) \\sin t y \\cos t; (b) t y t^2; (c) \\cos t y \\cos 2t:\n\n\n\n\n\n3. Proyectar sobre una familia\nDe dónde sale c_k (producto interno con u_k a ambos lados; la fórmula general con \\|u_k\\|^2; qué es análisis y qué es síntesis):\n\n\n\nEl teorema de la mejor aproximación (si x no está en el subespacio, ¿qué dan los mismos c_k? ¿cómo se reconoce? “cercano” ¿en qué sentido?):\n\n\n\nSobre qué se puede proyectar (las cuatro exigencias a la base, y un ejemplo que falla):\n\n\n\nLos procedimientos (dirección / base ortogonal / base ortonormal; cómo se comprueba; qué es una “serie generalizada”):\n\n\n\nLo que toda proyección cumple (las cuatro propiedades, y en qué ejemplo vi cada una):\n\n\n\n\n\n4. Bessel y Parseval: la energía se reparte\nBessel (desigualdad y su lectura energética):\n\\sum_k |\\langle x,\\phi_k\\rangle|^2 \\;\\;\\square\\;\\; \\|x\\|^2 \\qquad \\text{porque…}\n\n\n\nParseval (cuándo se vuelve igualdad y qué significa “completa”):\n\n\n\nQué ejercicio de la Lista 1 era secretamente Parseval, y con qué “base”:",
     "crumbs": [
-      "Listas de ejercicios",
-      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
+      "Semana 5 · Señales como vectores",
+      "C9 · Señales como vectores"
     ]
   },
   {
-    "objectID": "curso/listas/lista-01.html#ejercicios",
-    "href": "curso/listas/lista-01.html#ejercicios",
-    "title": "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías",
-    "section": "Ejercicios",
-    "text": "Ejercicios\nL1.1 — Clasifique cada señal como de energía, de potencia, o ninguna; calcule E o P según corresponda: \\text{(a) } x(t) = e^{-3t}u(t) \\qquad \\text{(b) } x(t) = 4\\cos(2\\pi t) \\qquad \\text{(c) } x[n] = \\left(\\tfrac{1}{2}\\right)^{n} u[n] \\qquad \\text{(d) } x(t) = t\\,u(t)\n¿Y si…? ¿Y si la señal (b) se truncara a un intervalo finito, digamos t\\in[0,5], en vez de estar definida para todo t? ¿sigue siendo señal de potencia?\nL1.2 [DB E0010] — Sea x(t) = \\cos(\\omega_x(t+\\tau_x)+\\theta_x):\n\nDetermine la frecuencia en Hz y el período de x(t) para: (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4.\nCon y(t) = \\sin(\\omega_y(t+\\tau_y)+\\theta_y), determine en qué casos x(t) = y(t): (a) \\omega_x = \\pi/3, \\tau_x = 0, \\theta_x = 2\\pi y \\omega_y = \\pi/3, \\tau_y = 1, \\theta_y = -\\pi/3; (b) \\omega_x = 3\\pi/4, \\tau_x = 1/2, \\theta_x = \\pi/4 y \\omega_y = 11\\pi/4, \\tau_y = 1, \\theta_y = 3\\pi/8; (c) \\omega_x = 3/4, \\tau_x = 1/2, \\theta_x = 1/4 y \\omega_y = 3/4, \\tau_y = 1, \\theta_y = 3/8.\n\n¿Y si…? ¿Y si en el caso (a) fuera \\omega_x = 0 (en vez de \\pi/3)? ¿sigue teniendo una frecuencia y un período fundamental bien definidos?\nL1.3 — Determine si cada señal es periódica y, si lo es, encuentre su período fundamental: \\text{(a) } 2\\cos(10t+1) - \\sin(4t-1) \\qquad \\text{(b) } \\cos(6t) + \\sin(15t) \\qquad \\text{(c) } \\cos(t) + \\cos(\\pi t)\n¿Y si…? ¿Y si en (b) la frecuencia 15 se reemplazara por 15\\pi (razón irracional con 6)? ¿la suma sigue siendo periódica?\nL1.4 [DB E0021] — Demuestre que \\ln(x) se puede descomponer en una parte par P(x) y una impar I(x) dadas por P(x) = \\ln(|x|) + j\\frac{\\pi}{2}, \\qquad I(x) = -\\frac{j\\pi}{2}\\operatorname{sgn}(x) Hint: considere x = |x|\\operatorname{sgn}(x).\n¿Y si…? ¿Y si x=0? ¿sigue siendo válida ahí la descomposición en partes par e impar de \\ln(x)?\nL1.5 [DB E0022] — Una señal f(x) se descompone en parte par P(x) e impar I(x). Demuestre que \\int_{-\\infty}^{\\infty} f^2(x)\\,dx = \\int_{-\\infty}^{\\infty} P^2(x)\\,dx + \\int_{-\\infty}^{\\infty} I^2(x)\\,dx\n¿Y si…? ¿Y si el dominio de integración no fuera simétrico respecto del origen (p. ej. de 0 a \\infty)? ¿sigue siendo válida la identidad \\int f^2 = \\int P^2 + \\int I^2?",
-    "crumbs": [
-      "Listas de ejercicios",
-      "Lista 1 · Señales: clasificación, periodicidad, energía, simetrías"
-    ]
-  },
-  {
-    "objectID": "curso/listas/lista-03.html",
-    "href": "curso/listas/lista-03.html",
-    "title": "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución",
+    "objectID": "curso/semana-05/ay05.html",
+    "href": "curso/semana-05/ay05.html",
+    "title": "Ay5 · Interrogación 1 (I1)",
     "section": "",
-    "text": "ImportanteCómo trabajar esta lista\n\n\n\nResuélvela a mano, en tu portafolio, con desarrollo completo. El próximo control es el CV2 (semana 6, en ayudantía): una de las preguntas ¿Y si…? de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio será tu único material permitido. Y antes de eso viene la I1 (semana 5, materia U1–U2): esta lista es parte directa de ese entrenamiento.\nRegla de la casa para toda la unidad 2: propiedad que se cumple → demostración con entradas genéricas; propiedad que falla → contraejemplo concreto. “Se ve lineal” vale cero.\nReferencias de estudio: [Oppenheim] §1.5–1.6 (propiedades de sistemas), §2.2 (la derivación de la convolución); [Alvarado] §3.4.",
+    "text": "ImportanteEsta semana no hay ayudantía regular: es la I1\n\n\n\nMateria: unidades 1 y 2 completas, cerradas en la semana 4 (C1–C8). Nada de la semana 5 entra — regla de integración del curso: una interrogación nunca evalúa materia de su misma semana.",
     "crumbs": [
-      "Listas de ejercicios",
-      "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución"
+      "Semana 5 · Señales como vectores",
+      "Ay5 · Interrogación 1 (I1)"
     ]
   },
   {
-    "objectID": "curso/listas/lista-03.html#ejercicios",
-    "href": "curso/listas/lista-03.html#ejercicios",
-    "title": "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución",
-    "section": "Ejercicios",
-    "text": "Ejercicios\nL3.1 [DB E0185] — Determine si los siguientes sistemas y(t) = \\mathcal{T}[x(t)] son lineales: \\text{(a) } y(t) = \\frac{d}{dt}x(t) \\qquad \\text{(b) } y(t) = x(-t) \\qquad \\text{(c) } y(t) = x(t) + 1\n¿Y si…? ¿Y si en (b) preguntamos por invariancia en el tiempo en vez de linealidad? ¿el sistema y(t)=x(-t) sigue teniendo esa propiedad?\nL3.2 [DB E0013] — Determine si los siguientes sistemas son causales: \\text{(a) } g(t) = f(t-2) \\qquad \\text{(b) } g(t) = f(-t) \\qquad \\text{(c) } g(t) = \\int_{-5}^{5} f(\\tau)\\,d\\tau \\qquad \\text{(d) } g(t) = \\frac{f^2(t)}{df(t)/dt}\n¿Y si…? ¿Y si en (c) el límite superior fuera t en vez de 5 fijo — g(t)=\\int_{-5}^{t} f(\\tau)\\,d\\tau? ¿sigue siendo no causal?\nL3.3 [DB E0029] — Determine si el sistema g(t) = f(t)^{1/5} + 4 es LTI.\n¿Y si…? ¿Y si quitamos el “+4” (queda g(t)=f(t)^{1/5})? ¿el sistema pasa a ser lineal?\nL3.4 [DB E0030] — Determine si el sistema g(t) = m(t)\\,f(t) es LTI, donde f(t) es la entrada y m(t) es una función fija, independiente de la entrada.\n¿Y si…? ¿Y si m(t) fuera una constante (no una función del tiempo)? ¿el sistema sigue siendo variante en el tiempo?\nL3.5 [DB E0056] — Dos sistemas S_1 y S_2 se conectan en cascada en ambos órdenes: p(t) es la salida de f \\to S_1 \\to S_2, y q(t) la de f \\to S_2 \\to S_1.\n\n¿Es p(t) = q(t) para todo f(t) si S_1 y S_2 son lineales e invariantes en el tiempo? Demuestre su respuesta.\n¿Es p(t) = q(t) para todo f(t) si S_1 y S_2 son solo invariantes en el tiempo? Demuestre su respuesta.\n\n¿Y si…? ¿Y si S_1 y S_2 son solo lineales (no necesariamente invariantes)? ¿sigue garantizada la conmutatividad p(t)=q(t)?\nL3.6 [DB E0035] — Sea \\mathcal{P} un sistema LTI. Demuestre que si \\mathcal{P}\\{f(x)\\} = g(x), entonces \\mathcal{P}\\{f'(x)\\} = g'(x). Hint: escriba la derivada como límite de un cociente de diferencias y use una propiedad en cada paso.\n¿Y si…? ¿Y si \\mathcal{P} fuera solo invariante en el tiempo (pero no lineal)? ¿sigue siendo válida la demostración de que \\mathcal{P}\\{f'\\}=g'?\nL3.7 [DB E0060] — Se tiene el sistema g(x) = \\displaystyle\\int_0^x f(\\eta)\\,d\\eta.\n\nEncuentre la salida cuando la entrada es \\delta(\\eta - \\xi), con \\xi \\in \\mathbb{R}.\nA la luz del resultado (compare los casos \\xi &gt; 0 y \\xi &lt; 0), ¿es este sistema invariante en el tiempo? ¿Qué dice eso sobre hablar de “la” respuesta al impulso de este sistema?\n\n¿Y si…? ¿Y si el límite inferior fuera -\\infty en vez de 0? ¿el sistema sigue siendo variante en el tiempo?",
+    "objectID": "curso/semana-05/ay05.html#temario-por-objetivos",
+    "href": "curso/semana-05/ay05.html#temario-por-objetivos",
+    "title": "Ay5 · Interrogación 1 (I1)",
+    "section": "Temario por objetivos",
+    "text": "Temario por objetivos\nUnidad 1 — Señales y el impulso\n\nU1.1 Clasificar señales: continuas/discretas, periodicidad (período fundamental de sumas de sinusoides), energía/potencia, simetrías.\nU1.2 Descomposición par/impar y propiedades de simetría.\nU1.3 Señales elementales (u, \\operatorname{rect}, \\operatorname{tri}, \\operatorname{sinc}, exponencial compleja) y transformaciones de la variable (desplazar, escalar, invertir).\nU1.4 El impulso: propiedad de muestreo, \\delta(g(t)), relación con el escalón, tren de impulsos.\n\nUnidad 2 — Sistemas y convolución\n\nU2.1 Propiedades de sistemas: linealidad, invariancia, causalidad, estabilidad, memoria (demostración o contraejemplo).\nU2.2 Por qué LTI ⇒ convolución con h(t) caracteriza al sistema (derivación conceptual).\nU2.3 Convolución analítica y gráfica; anticipar soporte y forma sin calcular.\nU2.4 Modelar sistemas físicos con EDOs lineales. (Variables de estado: no evaluable.)\nU2.5 Causalidad y estabilidad BIBO desde h(t).\n\nLos complejos son prerrequisito: pueden aparecer como herramienta, no como pregunta en sí.",
+    "crumbs": [
+      "Semana 5 · Señales como vectores",
+      "Ay5 · Interrogación 1 (I1)"
+    ]
+  },
+  {
+    "objectID": "curso/semana-05/ay05.html#logística",
+    "href": "curso/semana-05/ay05.html#logística",
+    "title": "Ay5 · Interrogación 1 (I1)",
+    "section": "Logística",
+    "text": "Logística\n\nAsistir a la sala y horario habitual de la ayudantía. Traer lápiz pasta, cédula/TUC.\nMaterial permitido: el formulario oficial del curso (U1–U2), que se entrega impreso junto con la prueba. No se aceptan hojas resumen propias ni apuntes adicionales.\nSin calculadora; los números estarán elegidos para trabajar a mano.\nDuración y puntajes: en el enunciado; instrucciones estándar del curso (si un enunciado te parece ambiguo, explicita tu suposición y resuelve — se corrige con ella).",
+    "crumbs": [
+      "Semana 5 · Señales como vectores",
+      "Ay5 · Interrogación 1 (I1)"
+    ]
+  },
+  {
+    "objectID": "curso/semana-05/ay05.html#cómo-preparar-esta-semana",
+    "href": "curso/semana-05/ay05.html#cómo-preparar-esta-semana",
+    "title": "Ay5 · Interrogación 1 (I1)",
+    "section": "Cómo preparar (esta semana)",
+    "text": "Cómo preparar (esta semana)\n\nRehacer los controles CV1 y las Listas 1–4 del portafolio, sin mirar — el portafolio es tu mejor predictor.\nInterrogaciones I1 de años anteriores (Canvas): mismo calibre que los ejemplos resueltos en clase.\nEl quiz Canvas de la semana es repaso de U1–U2: úsalo como ensayo cronometrado.\n\n\n\n\n\n\n\nNotaMientras tanto, la unidad 3 ya partió\n\n\n\nLa Lista 5 (ortogonalidad y coeficientes de Fourier) se publica esta semana; entra al CV2 de la próxima semana junto con las Listas 3 y 4. No la dejes para después de la I1… bueno, sí: para el sábado.",
+    "crumbs": [
+      "Semana 5 · Señales como vectores",
+      "Ay5 · Interrogación 1 (I1)"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-02.html",
+    "href": "curso/listas/lista-02.html",
+    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
+    "section": "",
+    "text": "ImportanteRecordatorio\n\n\n\nEl CV1 es en dos semanas más (semana 4, primeros 20 min de la ayudantía): una de las preguntas ¿Y si…? de las Listas 1–2, con números concretos — resolverlas en tu portafolio ES preparar el control. Tu portafolio manuscrito será tu único material permitido. El quiz Canvas de esta semana es el ensayo directo.\nReferencias de estudio: [Oppenheim] §1.2.1, §1.3–1.4, §2.5; [Alvarado] cap. 1.",
     "crumbs": [
       "Listas de ejercicios",
-      "Lista 3 · Propiedades de sistemas y el nacimiento de la convolución"
+      "Lista 2 · Señales elementales, transformaciones y el impulso"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-02.html#ejercicios",
+    "href": "curso/listas/lista-02.html#ejercicios",
+    "title": "Lista 2 · Señales elementales, transformaciones y el impulso",
+    "section": "Ejercicios",
+    "text": "Ejercicios\nL2.1 [DB E0018] — Con f(x) = x^3 restringida al tramo x \\in [-2, 2] (el trozo de cúbica que va de (-2,-8) a (2,8); restringirla a un tramo es lo que hace visibles los cambios de escala horizontal: se ve moverse los extremos), grafique: \\text{(a) } f(2x) \\text{ y } f(x/2) \\qquad \\text{(b) } f(-(x-3)) \\qquad \\text{(c) } 3 + f(2(x-3))\n¿Y si…? ¿Y si en (b) invertimos el orden de las operaciones — graficamos f(-x-3) en vez de f(-(x-3))? ¿es la misma curva?\nL2.2 — Grafique x(t) = \\operatorname{rect}\\!\\big(\\tfrac{t-1}{2}\\big) - 2\\,\\operatorname{tri}(t+1), indicando todos los puntos relevantes de los ejes.\n¿Y si…? ¿Y si el triángulo estuviera centrado en t=1 (mismo centro que el rect) en vez de t=-1? ¿cambia cualitativamente la forma resultante?\nL2.3 [DB E0020] — La señal f(x) vale -1 para x &lt; -\\tfrac12, 0 en -\\tfrac12 &lt; x &lt; \\tfrac12, y +1 para x &gt; \\tfrac12 (un escalón partido, impar). Exprésela como suma de señales elementales de dos maneras distintas — por ejemplo con escalones, y con \\operatorname{sgn} y \\operatorname{rect}.\n¿Y si…? ¿Y si el pulso rectangular no estuviera centrado en el origen (p. ej. entre x=0 y x=1)? ¿sigue funcionando la segunda forma \\operatorname{sgn}(x)(1-\\operatorname{rect}(x))?\nL2.4 [DB E0023] — Calcule el área de \\alpha^2 \\operatorname{rect}(\\alpha x), con \\alpha \\in \\mathbb{R}^+.\n¿Y si…? ¿Y si \\alpha pudiera ser negativo (en vez de estar restringido a \\mathbb{R}^+)? ¿sigue siendo válida la fórmula del área =\\alpha?\nL2.5 — Simplifique usando las propiedades del impulso: \\text{(a) } \\int_{-\\infty}^{\\infty} (t^2+2)\\,\\delta(t-3)\\,dt \\qquad \\text{(b) } 6\\,\\delta(t^2-9) \\qquad \\text{(c) } \\delta(4t^3-3t) \\qquad \\text{(d) } e^{-t}\\,\\delta(2t-4)\n¿Y si…? ¿Y si en (c) el argumento fuera 4t^3 en vez de 4t^3-3t (raíz triple en t=0)? ¿sigue aplicando la fórmula usual \\delta(g(t))=\\sum \\delta(t-t_i)/|g'(t_i)|?\nL2.6 [DB E0036] — Calcule (sin aproximar): \\displaystyle\\int_{-\\infty}^{\\infty} \\delta'(x)\\,dx.\n¿Y si…? ¿Y si en vez de \\int\\delta'(x)\\,dx calculamos \\int \\delta'(x)\\,x\\,dx (función de prueba no constante)? ¿sigue dando cero?\nL2.7 — Con el tren de impulsos \\delta_2(t) = \\sum_n \\delta(t-2n), calcule \\displaystyle\\int_{-1}^{5} e^{-|t|}\\,\\delta_2(t)\\,dt y grafique \\cos(\\pi t)\\,\\delta_2(t) (impulsos con sus pesos).\n¿Y si…? ¿Y si el intervalo de integración fuera [-2,5] en vez de [-1,5]? ¿el impulso justo en t=-2 cuenta completo, o queda ambiguo?",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 2 · Señales elementales, transformaciones y el impulso"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-04.html",
+    "href": "curso/listas/lista-04.html",
+    "title": "Lista 4 · Convolución, EDOs y la respuesta al impulso",
+    "section": "",
+    "text": "ImportanteRecordatorio\n\n\n\nLa I1 es esta semana: materia U1–U2, con el formulario oficial (U1–U2), que se entrega impreso con la prueba. Esta lista es el entrenamiento directo — el ejercicio L4.1 fue, textual, una pregunta de la I1 2025. Después de la I1, esta lista sigue viva: el CV2 (semana 6) será una de las preguntas ¿Y si…? de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control, con el portafolio sobre la mesa.\nHábito no negociable en toda convolución: al terminar, chequear soporte y área (C7). Un resultado que no pasa esos chequeos está malo, siempre.\nReferencias de estudio: [Oppenheim] §2.2–2.3 (convolución y propiedades), §2.4.1 (EDOs), §2.3.5–2.3.7 (causalidad/estabilidad desde h); [Alvarado] §3.4.",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 4 · Convolución, EDOs y la respuesta al impulso"
+    ]
+  },
+  {
+    "objectID": "curso/listas/lista-04.html#ejercicios",
+    "href": "curso/listas/lista-04.html#ejercicios",
+    "title": "Lista 4 · Convolución, EDOs y la respuesta al impulso",
+    "section": "Ejercicios",
+    "text": "Ejercicios\nL4.1 (nuevo — I1 2025; incorporar al banco) — Dadas las funciones h(t) = 3e^{-3t}u(t) y f(t) = 2\\big(u(t) - u(t-1)\\big), encuentre la convolución entre h(t) y f(t) gráfica y analíticamente.\n¿Y si…? ¿Y si h(t) = 3e^{-3|t|} (dos lados, en vez de causal con u(t))? ¿la convolución sigue siendo cero para t&lt;0?\nL4.2 [DB E0038] — Un sistema LTI tiene respuesta al impulso h(t) = e^{-t}\\operatorname{rect}(t). ¿Cuál es la salida del sistema si la entrada es f(t) = e^{-t}\\operatorname{rect}(t)? Encuentre una expresión analítica. Hint: dentro de la integral, las exponenciales conspiran para dejarle una convolución que ya conoce de C7.\n¿Y si…? ¿Y si f(t) = e^{+t}\\operatorname{rect}(t) (signo del exponente cambia) en vez de e^{-t}\\operatorname{rect}(t)? ¿siguen “conspirando” las exponenciales para dejar \\operatorname{rect}*\\operatorname{rect} puro?\nL4.3 [DB E0044] — Demuestre la “ley de conservación del área” enunciada en C7: \\int_{-\\infty}^{\\infty} (f * g)(x)\\,dx = \\int_{-\\infty}^{\\infty} f(x)\\,dx \\cdot \\int_{-\\infty}^{\\infty} g(x)\\,dx\n¿Y si…? ¿Y si f o g no fueran absolutamente integrables (p. ej. f(x)=1 para todo x)? ¿sigue siendo válido intercambiar el orden de integración?\nL4.4 [DB E0062] — Un sistema LTI presenta una respuesta a la rampa f_1(x) = x\\,u(x) dada por g_1(x) = u(x-1). ¿Cuál es la respuesta del sistema si la entrada es f_2(x) = (e^x - x - 1)\\,u(x)? Hint: ¿qué operación convierte la rampa en un impulso? (L3.6 es su amiga).\n¿Y si…? ¿Y si f_2(x) = (e^x-1)u(x) (sin el término -x) en vez de (e^x-x-1)u(x)? ¿su segunda derivada sigue siendo e^x u(x) sin deltas extra?\nL4.5 [DB E0061] — Sea un sistema cuya respuesta al impulso es h(t) = u(t) - u(t-\\tau). Determine un valor de \\tau de modo que la salida del sistema sea 0 para todo t cuando la entrada es \\cos(2\\pi f_0 t).\n¿Y si…? ¿Y si \\tau no fuera un múltiplo exacto de 1/f_0, digamos \\tau = 1.5/f_0? ¿la salida sigue siendo cero para todo t?\nL4.6 [DB E0037] — Se tiene el sistema descrito por \\frac{dy(t)}{dt} + 2\\,y(t) = x(t)\n\nVerifique que h(t) = e^{-2t}u(t) es la respuesta al impulso del sistema.\nDetermine si el sistema tiene memoria, es causal y es estable.\n\n¿Y si…? ¿Y si la ecuación fuera \\frac{dy}{dt} - 2y(t) = x(t) (signo del segundo término cambia)? ¿la respuesta al impulso sigue siendo estable?\nL4.7 [DB E0032] — Un circuito eléctrico se modela como un sistema LTI con respuesta al impulso h(t) = \\frac{1}{RC}\\,e^{-t/RC}\\,u(t) donde R y C son parámetros del circuito. El circuito opera sobre entradas de la forma x(t) = A\\cos(k\\omega_0 t), con \\omega_0 = \\frac{1}{RC} y A, k constantes. El objetivo es deducir el efecto del sistema sobre una sinusoide a medida que aumenta su frecuencia k\\omega_0:\n\nIndique si el sistema es estable, causal y si tiene memoria. Justifique.\nEncuentre la salida analítica para las entradas: (a) x_1(t) = A; (b) x_2(t) = A\\cos(0.01\\,\\omega_0 t); (c) x_3(t) = A\\cos(100\\,\\omega_0 t). Hint: haga el cálculo para la frecuencia genérica k\\omega_0 (con \\cos\\theta = \\frac{e^{j\\theta}+e^{-j\\theta}}{2}, como en la Ay1) y evalúe después.\nA partir de los resultados, ¿qué efecto tiene el sistema sobre sinusoides de frecuencia creciente?\n\n¿Y si…? ¿Y si h(t) = \\frac{1}{RC}e^{-t/RC}u(-t) (anti-causal, con u(-t)) en vez de u(t)? ¿el sistema sigue siendo estable?",
+    "crumbs": [
+      "Listas de ejercicios",
+      "Lista 4 · Convolución, EDOs y la respuesta al impulso"
     ]
   }
 ]

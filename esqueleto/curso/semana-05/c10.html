@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C8 · Sistemas y ecuaciones diferenciales: h(t) manda – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>C10 · Series de Fourier – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-04/ay04.html" rel="next">
-<link href="../../curso/semana-04/c07.html" rel="prev">
+<link href="../../curso/semana-05/ay05.html" rel="next">
+<link href="../../curso/semana-05/c09.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-04/c07.html">Semana 4 · Convolución y EDOs</a></li><li class="breadcrumb-item"><a href="../../curso/semana-04/c08.html">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-05/c09.html">Semana 5 · Señales como vectores</a></li><li class="breadcrumb-item"><a href="../../curso/semana-05/c10.html">C10 · Series de Fourier</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -282,7 +282,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-04/c08.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-04/c08.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</span></a>
   </div>
 </li>
@@ -311,7 +311,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-05/c10.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-05/c10.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">C10 · Series de Fourier</span></a>
   </div>
 </li>
@@ -374,21 +374,21 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#modelar-con-edos-de-la-física-al-sistema" id="toc-modelar-con-edos-de-la-física-al-sistema" class="nav-link active" data-scroll-target="#modelar-con-edos-de-la-física-al-sistema">1. Modelar con EDOs: de la física al sistema</a></li>
-  <li><a href="#la-respuesta-al-impulso-de-un-sistema-de-primer-orden" id="toc-la-respuesta-al-impulso-de-un-sistema-de-primer-orden" class="nav-link" data-scroll-target="#la-respuesta-al-impulso-de-un-sistema-de-primer-orden">2. La respuesta al impulso de un sistema de primer orden</a></li>
-  <li><a href="#causalidad-y-estabilidad-leídas-desde-ht" id="toc-causalidad-y-estabilidad-leídas-desde-ht" class="nav-link" data-scroll-target="#causalidad-y-estabilidad-leídas-desde-ht">3. Causalidad y estabilidad, leídas desde h(t)</a></li>
-  <li><a href="#variables-de-estado-la-idea-en-10-minutos-no-evaluable" id="toc-variables-de-estado-la-idea-en-10-minutos-no-evaluable" class="nav-link" data-scroll-target="#variables-de-estado-la-idea-en-10-minutos-no-evaluable">4. Variables de estado: la idea, en 10 minutos (no evaluable)</a></li>
-  <li><a href="#conoce-tu-formulario-5-min" id="toc-conoce-tu-formulario-5-min" class="nav-link" data-scroll-target="#conoce-tu-formulario-5-min">5. Conoce tu formulario (5 min)</a></li>
+  <li><a href="#por-qué-la-flauta-no-suena-a-violín" id="toc-por-qué-la-flauta-no-suena-a-violín" class="nav-link active" data-scroll-target="#por-qué-la-flauta-no-suena-a-violín">1. ¿Por qué la flauta no suena a violín?</a></li>
+  <li><a href="#la-base-estrella-exponenciales-armónicas" id="toc-la-base-estrella-exponenciales-armónicas" class="nav-link" data-scroll-target="#la-base-estrella-exponenciales-armónicas">2. La base estrella: exponenciales armónicas</a></li>
+  <li><a href="#forma-trigonométrica-la-versión-con-senos-y-cosenos" id="toc-forma-trigonométrica-la-versión-con-senos-y-cosenos" class="nav-link" data-scroll-target="#forma-trigonométrica-la-versión-con-senos-y-cosenos">3. Forma trigonométrica: la versión con senos y cosenos</a></li>
+  <li><a href="#ejemplo-completo-calibre-i2-la-onda-cuadrada" id="toc-ejemplo-completo-calibre-i2-la-onda-cuadrada" class="nav-link" data-scroll-target="#ejemplo-completo-calibre-i2-la-onda-cuadrada">4. Ejemplo completo (calibre I2): la onda cuadrada</a></li>
+  <li><a href="#el-pago-del-gancho-el-timbre-es-c_n" id="toc-el-pago-del-gancho-el-timbre-es-c_n" class="nav-link" data-scroll-target="#el-pago-del-gancho-el-timbre-es-c_n">5. El pago del gancho: el timbre ES <span class="math inline">|c_n|</span></a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-04/c07.html">Semana 4 · Convolución y EDOs</a></li><li class="breadcrumb-item"><a href="../../curso/semana-04/c08.html">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-05/c09.html">Semana 5 · Señales como vectores</a></li><li class="breadcrumb-item"><a href="../../curso/semana-05/c10.html">C10 · Series de Fourier</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</h1>
-<p class="subtitle lead">Semana 4 · 70 min · U2.4, U2.5 — cierre de la materia de I1</p>
+<h1 class="title">C10 · Series de Fourier</h1>
+<p class="subtitle lead">Semana 5 · 70 min · U3.2</p>
 </div>
 
 
@@ -405,104 +405,68 @@ window.Quarto = {
 </header>
 
 
-<section id="modelar-con-edos-de-la-física-al-sistema" class="level1">
-<h1>1. Modelar con EDOs: de la física al sistema</h1>
-<p><strong>El circuito RC</strong> (dibujo + deducción de la EDO desde Kirchhoff):</p>
+<section id="por-qué-la-flauta-no-suena-a-violín" class="level1">
+<h1>1. ¿Por qué la flauta no suena a violín?</h1>
+<p><strong>La pregunta del día</strong> (misma nota, distinto sonido — ¿dónde vive la diferencia?):</p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="la-base-estrella-exponenciales-armónicas" class="level1">
+<h1>2. La base estrella: exponenciales armónicas</h1>
+<p><strong>La base y su producto interno:</strong></p>
+<p><span class="math display">\phi_n(t) = \hspace{3cm} \qquad \langle f,g\rangle = \hspace{5cm}</span></p>
+<p><strong>Verificación de ortonormalidad</strong> (<span class="math inline">n\neq m</span>: ¿por qué da 0? — el argumento del fasor que da vueltas):</p>
 <div class="hueco-grande">
 
 </div>
-<p><strong>El masa-resorte-amortiguador</strong> (dibujo + EDO desde Newton):</p>
-<p><span class="math display">m\,\ddot{y} + \hspace{1cm}\dot{y} + \hspace{1cm}y = x(t)</span></p>
-<p><strong>¿Por qué una EDO lineal de coeficientes constantes define un sistema LTI?</strong> (una razón por cada palabra clave — y la letra chica del reposo inicial):</p>
-<div class="hueco">
-
-</div>
+<p><strong>Las dos fórmulas de la serie de Fourier</strong> (síntesis y análisis — ¿cuál es cuál y qué es <span class="math inline">c_n</span> geométricamente?):</p>
+<p><span class="math display">x(t) = \hspace{6cm}</span></p>
+<p><span class="math display">c_n = \hspace{6cm}</span></p>
 </section>
-<section id="la-respuesta-al-impulso-de-un-sistema-de-primer-orden" class="level1">
-<h1>2. La respuesta al impulso de un sistema de primer orden</h1>
-<p><strong>El problema</strong>: <span class="math inline">RC\,h' + h = \delta(t)</span>, reposo inicial. <strong>Paso 1</strong> (la solución para <span class="math inline">t&gt;0</span>):</p>
-<div class="hueco">
-
-</div>
-<p><strong>Paso 2</strong> (integrar alrededor del golpe: ¿cuánto salta <span class="math inline">h</span> en <span class="math inline">t=0</span> y por qué?):</p>
+<section id="forma-trigonométrica-la-versión-con-senos-y-cosenos" class="level1">
+<h1>3. Forma trigonométrica: la versión con senos y cosenos</h1>
+<p><strong>Para señales reales, $c_{-n} = $</strong> <span class="math inline">\hspace{2cm}</span> <strong>(¿por qué?)</strong></p>
+<p><strong>Forma trigonométrica y sus tres fórmulas de coeficientes:</strong></p>
 <div class="hueco-grande">
 
 </div>
-<p><strong>Resultado y verificación por sustitución:</strong></p>
-<p><span class="math display">h(t) = \hspace{5cm}</span></p>
-<div class="hueco">
-
-</div>
-<p><strong>Los dos chequeos de cordura</strong> (área de <span class="math inline">h</span>; respuesta al escalón y su conexión con C6):</p>
-<div class="hueco">
-
-</div>
-</section>
-<section id="causalidad-y-estabilidad-leídas-desde-ht" class="level1">
-<h1>3. Causalidad y estabilidad, leídas desde h(t)</h1>
-<p><strong>Los dos teoremas</strong> (condición sobre <span class="math inline">h(t)</span> + justificación en una línea cada una):</p>
-<ul>
-<li>Causal <span class="math inline">\iff</span></li>
-<li>Estable BIBO <span class="math inline">\iff</span></li>
-</ul>
-<p><strong>La demostración de dos líneas de la suficiencia de estabilidad:</strong></p>
-<div class="hueco">
-
-</div>
-<p><strong>Mi voto para cada <span class="math inline">h(t)</span>:</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th><span class="math inline">h(t)</span></th>
-<th>¿Causal?</th>
-<th>¿Estable?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">e^{-2t}\,u(t)</span></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">u(t)</span></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">e^{t}\,u(t)</span></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\operatorname{rect}(t)</span></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\delta(t-1)</span></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="variables-de-estado-la-idea-en-10-minutos-no-evaluable" class="level1">
-<h1>4. Variables de estado: la idea, en 10 minutos (no evaluable)</h1>
-<p><em>(Sección conceptual — <strong>no evaluable</strong>. Solo la idea:)</em></p>
-<p><strong>¿Qué es el “estado” de un sistema?</strong> (la definición-foto + qué es para el masa-resorte y para el RC):</p>
-<div class="hueco">
-
-</div>
-<p><strong>La plantilla</strong> <span class="math inline">\dot{\mathbf{x}} = A\mathbf{x} + Bu</span>, <span class="math inline">y = C\mathbf{x} + Du</span> — ¿en qué curso reaparece y por qué les va a importar?</p>
+<p><strong>Diccionario exponencial ↔︎ trigonométrica:</strong></p>
+<p><span class="math display">a_0 = \hspace{1.5cm} \qquad a_n = \hspace{2.5cm} \qquad b_n = \hspace{2.5cm}</span></p>
+<p><strong>Ejercicio hecho en clase</strong> — coeficientes de <span class="math inline">x(t) = 1+\cos(2\pi t)</span> <em>sin integrar</em>:</p>
 <div class="hueco">
 
 </div>
 </section>
-<section id="conoce-tu-formulario-5-min" class="level1">
-<h1>5. Conoce tu formulario (5 min)</h1>
-<p><strong>Mi checklist del formulario</strong> (de U1 y de U2 — comparar con las sugerencias de la pizarra):</p>
+<section id="ejemplo-completo-calibre-i2-la-onda-cuadrada" class="level1">
+<h1>4. Ejemplo completo (calibre I2): la onda cuadrada</h1>
+<p><strong>Mi voto y por qué</strong> (¿qué armónicos tiene la cuadrada?):</p>
+<div class="hueco">
+
+</div>
+<p><strong>Cálculo completo de <span class="math inline">c_n</span> de la onda cuadrada impar</strong> (desarrollo entero, calibre I2):</p>
 <div class="hueco-grande">
+
+</div>
+<p><strong>Resultado y forma trigonométrica:</strong></p>
+<p><span class="math display">c_n = \hspace{4cm} \qquad x(t) = \hspace{6cm}</span></p>
+<p><strong>El espectro de línea</strong> (dibujar <span class="math inline">|c_n|</span> vs <span class="math inline">n\omega_0</span>):</p>
+<div class="hueco">
+
+</div>
+<p><strong>¿Qué fracción de la potencia carga la fundamental?</strong> (usar Parseval):</p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="el-pago-del-gancho-el-timbre-es-c_n" class="level1">
+<h1>5. El pago del gancho: el timbre ES <span class="math inline">|c_n|</span></h1>
+<p><strong>La respuesta a la pregunta del día, en una frase</strong> (¿qué es el timbre?):</p>
+<div class="hueco">
+
+</div>
+<p><strong>¿Qué comparten la flauta y el violín tocando La₄, y en qué difieren sus espectros?</strong></p>
+<div class="hueco">
 
 </div>
 
@@ -912,13 +876,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/semana-04/c07.html" class="pagination-link" aria-label="C7 · La convolución en la práctica">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C7 · La convolución en la práctica</span>
+      <a href="../../curso/semana-05/c09.html" class="pagination-link" aria-label="C9 · Señales como vectores">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C9 · Señales como vectores</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-04/ay04.html" class="pagination-link" aria-label="Ay4 · CV1 + Integración U1–U2: rumbo a la I1">
-        <span class="nav-page-text">Ay4 · CV1 + Integración U1–U2: rumbo a la I1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/semana-05/ay05.html" class="pagination-link" aria-label="Ay5 · Interrogación 1 (I1)">
+        <span class="nav-page-text">Ay5 · Interrogación 1 (I1)</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

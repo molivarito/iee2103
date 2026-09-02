@@ -238,13 +238,21 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#sec-deuda-integral" id="toc-sec-deuda-integral" class="nav-link active" data-scroll-target="#sec-deuda-integral"><span class="header-section-number">3.1</span> Una integral que se anula</a></li>
+  <li><a href="#sec-motivacion-proyeccion" id="toc-sec-motivacion-proyeccion" class="nav-link active" data-scroll-target="#sec-motivacion-proyeccion"><span class="header-section-number">3.1</span> Ustedes ya proyectan</a></li>
   <li><a href="#sec-senales-vectores" id="toc-sec-senales-vectores" class="nav-link" data-scroll-target="#sec-senales-vectores"><span class="header-section-number">3.2</span> Señales como vectores</a>
   <ul class="collapse">
   <li><a href="#sec-sombra" id="toc-sec-sombra" class="nav-link" data-scroll-target="#sec-sombra"><span class="header-section-number">3.2.1</span> La proyección como sombra</a></li>
-  <li><a href="#sec-producto-interno" id="toc-sec-producto-interno" class="nav-link" data-scroll-target="#sec-producto-interno"><span class="header-section-number">3.2.2</span> El salto: las funciones son vectores</a></li>
-  <li><a href="#sec-mejor-aproximacion" id="toc-sec-mejor-aproximacion" class="nav-link" data-scroll-target="#sec-mejor-aproximacion"><span class="header-section-number">3.2.3</span> Proyección = la mejor aproximación posible</a></li>
-  <li><a href="#sec-bessel-parseval" id="toc-sec-bessel-parseval" class="nav-link" data-scroll-target="#sec-bessel-parseval"><span class="header-section-number">3.2.4</span> Bessel y Parseval: la energía se reparte</a></li>
+  <li><a href="#sec-otra-base" id="toc-sec-otra-base" class="nav-link" data-scroll-target="#sec-otra-base"><span class="header-section-number">3.2.2</span> Otra familia de ejes</a></li>
+  <li><a href="#sec-definicion-producto-interno" id="toc-sec-definicion-producto-interno" class="nav-link" data-scroll-target="#sec-definicion-producto-interno"><span class="header-section-number">3.2.3</span> El salto: las funciones son vectores</a></li>
+  <li><a href="#sec-promedio" id="toc-sec-promedio" class="nav-link" data-scroll-target="#sec-promedio"><span class="header-section-number">3.2.4</span> Primera proyección sobre una función: el promedio</a></li>
+  <li><a href="#sec-deuda-integral" id="toc-sec-deuda-integral" class="nav-link" data-scroll-target="#sec-deuda-integral"><span class="header-section-number">3.2.5</span> Una integral que se anula</a></li>
+  <li><a href="#sec-producto-interno" id="toc-sec-producto-interno" class="nav-link" data-scroll-target="#sec-producto-interno"><span class="header-section-number">3.2.6</span> Ortogonalidad de senos y cosenos</a></li>
+  <li><a href="#sec-mejor-aproximacion" id="toc-sec-mejor-aproximacion" class="nav-link" data-scroll-target="#sec-mejor-aproximacion"><span class="header-section-number">3.2.7</span> Proyección = la mejor aproximación posible</a></li>
+  <li><a href="#sec-deduccion-coeficientes" id="toc-sec-deduccion-coeficientes" class="nav-link" data-scroll-target="#sec-deduccion-coeficientes"><span class="header-section-number">3.2.8</span> De dónde sale la fórmula</a></li>
+  <li><a href="#sec-la-base" id="toc-sec-la-base" class="nav-link" data-scroll-target="#sec-la-base"><span class="header-section-number">3.2.9</span> Sobre qué proyectar: la base</a></li>
+  <li><a href="#sec-tabla-procedimientos" id="toc-sec-tabla-procedimientos" class="nav-link" data-scroll-target="#sec-tabla-procedimientos"><span class="header-section-number">3.2.10</span> Los procedimientos</a></li>
+  <li><a href="#sec-resumen-proyeccion" id="toc-sec-resumen-proyeccion" class="nav-link" data-scroll-target="#sec-resumen-proyeccion"><span class="header-section-number">3.2.11</span> Lo que toda proyección cumple</a></li>
+  <li><a href="#sec-bessel-parseval" id="toc-sec-bessel-parseval" class="nav-link" data-scroll-target="#sec-bessel-parseval"><span class="header-section-number">3.2.12</span> Bessel y Parseval: la energía se reparte</a></li>
   </ul></li>
   <li><a href="#sec-serie-fourier" id="toc-sec-serie-fourier" class="nav-link" data-scroll-target="#sec-serie-fourier"><span class="header-section-number">3.3</span> La serie de Fourier</a>
   <ul class="collapse">
@@ -316,10 +324,16 @@ window.Quarto = {
 <p><strong>Prerrequisitos</strong>: las señales del capítulo 1 (en particular la exponencial compleja de la <a href="cap01.html#sec-exp-compleja" class="quarto-xref"><span>Sección 1.4.1</span></a> y el impulso de la <a href="cap01.html#sec-impulso" class="quarto-xref"><span>Sección 1.5</span></a>) y la convolución del capítulo 2. Este capítulo cobra varias promesas plantadas allá.</p>
 </div>
 </div>
-<section id="sec-deuda-integral" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="sec-deuda-integral"><span class="header-section-number">3.1</span> Una integral que se anula</h2>
-<p>En el capítulo 1, al demostrar que la energía se reparte entre las partes par e impar de una señal (<a href="cap01.html#sec-par-impar" class="quarto-xref"><span>Sección 1.2.4</span></a>), apareció un hecho aparentemente menor: <span class="math display">\int_{-\infty}^{\infty} \underbrace{P(t)}_{\text{par}}\,\underbrace{I(t)}_{\text{impar}}\,dt = 0</span> — la integral de par por impar se anula, y por eso los términos cruzados desaparecen. Dijimos entonces que esa integral “pagaría el sueldo” más adelante. Este es el capítulo donde paga: esa integral nula significa algo <strong>geométrico</strong> — la parte par y la parte impar de una señal son <em>perpendiculares</em> — y esa geometría, tomada en serio, produce la herramienta más importante de la ingeniería eléctrica: el análisis de Fourier.</p>
-<p>Y una segunda pregunta para dejar picando, esta vez musical. Una flauta y un violín tocan el mismo La₄ (440 Hz): misma nota, misma altura — y nadie en la sala los confunde. La diferencia se llama <strong>timbre</strong>, y por ahora es una palabra de músicos. Al final de la <a href="#sec-serie-fourier" class="quarto-xref"><span>Sección 3.3</span></a> será una fórmula.</p>
+<section id="sec-motivacion-proyeccion" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-motivacion-proyeccion"><span class="header-section-number">3.1</span> Ustedes ya proyectan</h2>
+<p>Ya conoces esta operación, aunque nunca la hayas visto con este nombre. Cuando escribes <span class="math inline">\mathbf{v} = (3,4) = 3\,\hat{e}_x + 4\,\hat{e}_y</span>, en realidad calculaste <span class="math inline">3 = \mathbf{v}\cdot\hat{e}_x</span> y <span class="math inline">4 = \mathbf{v}\cdot\hat{e}_y</span>. Cuando en Física 1 partiste el peso en el plano inclinado, <span class="math inline">m\mathbf{g} = (m\mathbf{g}\cdot\hat{e}_\parallel)\,\hat{e}_\parallel + (m\mathbf{g}\cdot\hat{e}_\perp)\,\hat{e}_\perp</span>, hiciste exactamente lo mismo. En los dos casos cada componente es <strong>un producto punto con un vector unitario</strong>, sobre un par de ejes perpendiculares entre sí. Lo has hecho cientos de veces sin mirarlo con lupa.</p>
+<p>Este capítulo lo mira con lupa, y hace tres preguntas seguidas:</p>
+<ul>
+<li>¿Y si el eje no es unitario?</li>
+<li>¿Y si los ejes no son los coordenados, sino cualquier familia perpendicular?</li>
+<li>¿Y si <span class="math inline">\mathbf{v}</span> es una función?</li>
+</ul>
+<p>Las dos primeras se contestan enseguida. La tercera es la idea contraintuitiva de todo el capítulo — conviene ganársela con calma, no decretarla — y de ella sale, al final, la serie de Fourier.</p>
 </section>
 <section id="sec-senales-vectores" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="sec-senales-vectores"><span class="header-section-number">3.2</span> Señales como vectores</h2>
@@ -327,9 +341,16 @@ window.Quarto = {
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="sec-sombra"><span class="header-section-number">3.2.1</span> La proyección como sombra</h3>
 <p>Volvamos al lugar donde “perpendicular” es obvio: las flechas. Un vector <span class="math inline">\mathbf{v}</span> y una dirección <span class="math inline">\mathbf{b}</span>. Si iluminamos perpendicular a <span class="math inline">\mathbf{b}</span>, la sombra de <span class="math inline">\mathbf{v}</span> sobre la línea de <span class="math inline">\mathbf{b}</span> es su <strong>proyección</strong>: la componente de <span class="math inline">\mathbf{v}</span> “en la dirección de” <span class="math inline">\mathbf{b}</span>. La herramienta que la calcula es el producto punto, <span class="math display">\mathbf{v}\cdot\mathbf{b} = \|\mathbf{v}\|\,\|\mathbf{b}\|\cos\theta = v_x b_x + v_y b_y,</span> cuyas dos formas son la misma (la ley de los cosenos las conecta — ejercicio de dos líneas si quieres verificarlo). La lectura importante: <span class="math inline">\cos\theta</span> es un <strong>medidor de parecido</strong>. Máximo si los vectores apuntan igual, cero si son perpendiculares. Con él, la fórmula de la sombra: <span class="math display">\operatorname{proy}_{\mathbf{b}}(\mathbf{v}) = \left(\frac{\mathbf{v}\cdot\mathbf{b}}{\|\mathbf{b}\|^2}\right)\mathbf{b}</span></p>
 </section>
-<section id="sec-producto-interno" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="sec-producto-interno"><span class="header-section-number">3.2.2</span> El salto: las funciones son vectores</h3>
-<p>Las funciones se suman y se multiplican por escalar igual que las flechas — cumplen los mismos axiomas, así que <em>son</em> vectores de un espacio vectorial. Solo les falta un producto punto. En <span class="math inline">\mathbb{R}^n</span> era “multiplicar componente a componente y sumar”; el análogo continuo de la suma es la <strong>integral</strong>:</p>
+<section id="sec-otra-base" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="sec-otra-base"><span class="header-section-number">3.2.2</span> Otra familia de ejes</h3>
+<p>La primera pregunta ya quedó contestada: si el eje no es unitario, aparece el denominador <span class="math inline">\|\mathbf{b}\|^2</span>. La segunda se responde con números. Proyecta <span class="math inline">\mathbf{v}=(3,4)</span> sobre <span class="math inline">\mathbf{b}_1=(1,1)</span> y <span class="math inline">\mathbf{b}_2=(1,-1)</span>: perpendiculares entre sí, pero ninguno unitario. Aplicando la misma fórmula de la sombra, una vez por eje: <span class="math display">c_1 = \frac{\mathbf{v}\cdot\mathbf{b}_1}{\|\mathbf{b}_1\|^2} = \frac{7}{2}, \qquad c_2 = \frac{\mathbf{v}\cdot\mathbf{b}_2}{\|\mathbf{b}_2\|^2} = -\frac{1}{2}</span> y la comprobación cierra sola: <span class="math inline">\tfrac{7}{2}(1,1) - \tfrac{1}{2}(1,-1) = (3,4)</span>. Lo importante: <strong>cada coeficiente se calculó solo</strong>, mirando únicamente su propio eje.</p>
+<p>Eso lo compra la perpendicularidad, y no es gratis. Prueba con <span class="math inline">\mathbf{b}_1=(1,0)</span> y <span class="math inline">\mathbf{b}_2=(1,1)</span> — no perpendiculares — y la misma receta da <span class="math inline">c_1=3</span>, <span class="math inline">c_2=\tfrac{7}{2}</span>, es decir <span class="math inline">3(1,0)+\tfrac{7}{2}(1,1) = (6.5,\,3.5) \neq \mathbf{v}</span>. Sin perpendicularidad los coeficientes se acoplan: hay que resolver un sistema de ecuaciones.</p>
+<p>Mira qué usó realmente esta operación: un producto punto, y ejes perpendiculares. Nada de eso usa que <span class="math inline">\mathbf{v}</span> sea una flecha. Entonces, la tercera pregunta: ¿y si <span class="math inline">\mathbf{v}</span> es una función?</p>
+</section>
+<section id="sec-definicion-producto-interno" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="sec-definicion-producto-interno"><span class="header-section-number">3.2.3</span> El salto: las funciones son vectores</h3>
+<p>Un vector de <span class="math inline">\mathbb{R}^2</span>, dibujado como gráfico de barras, son dos barras: una por componente. Una función muestreada en doce instantes es un gráfico de doce barras: un vector de <span class="math inline">\mathbb{R}^{12}</span>. Una función continua es el caso límite — imagina que el muestreo se afina hasta que las barras se juntan en una curva: una barra por cada instante, infinitas componentes.</p>
+<p>Bajo esa mirada, las funciones se suman y se multiplican por escalar igual que las flechas: son vectores de un espacio vectorial. Solo falta el producto punto. En <span class="math inline">\mathbb{R}^n</span> era “multiplicar componente a componente y sumar”; con <span class="math inline">N</span> muestras eso es <span class="math inline">\sum_i f(t_i)\,g(t_i)\,\Delta t</span>, y al afinar el muestreo la suma se vuelve integral: <span class="math display">\sum_i f(t_i)\,g(t_i)\,\Delta t \;\longrightarrow\; \int f(t)\,g(t)\,dt</span> La integral no es una definición que cae del cielo: es el mismo producto punto de siempre, con infinitas componentes.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -343,36 +364,108 @@ window.Quarto = {
 <p>Para señales <span class="math inline">f, g</span> en un intervalo <span class="math inline">[T_1, T_2]</span>: <span class="math display">\langle f, g\rangle = \int_{T_1}^{T_2} f(t)\,g^*(t)\,dt</span> (el conjugado hace que funcione también con señales complejas). Dos señales son <strong>ortogonales</strong> si <span class="math inline">\langle f, g\rangle = 0</span>.</p>
 </div>
 </div>
-<p>Dos consecuencias inmediatas, y las dos importan:</p>
+<p>El conjugado es la única novedad respecto de las flechas, y no es capricho: sin él, <span class="math inline">\langle f,f\rangle</span> de una señal compleja no sería ni real ni positivo (<span class="math inline">e^{jt}</span> por <span class="math inline">e^{jt}</span> integra cero en un período; <span class="math inline">e^{jt}</span> por su conjugado integra <span class="math inline">2\pi</span>). Esa es, adelantada, la razón del signo menos en el <span class="math inline">e^{-jn\omega_0 t}</span> de la fórmula de análisis de Fourier: se proyecta multiplicando por el conjugado del eje. Tres reglas son toda la axiomática que hace falta, y la integral las cumple:</p>
 <ul>
-<li><strong>Norma al cuadrado = energía</strong>: <span class="math inline">\|f\|^2 = \langle f, f\rangle = \int |f(t)|^2\,dt</span> — ¡la energía del capítulo 1! La geometría y la física acaban de darse la mano.</li>
-<li>La integral que abrió el capítulo dice ahora, con todas sus letras: <strong>toda señal par es ortogonal a toda señal impar</strong>.</li>
+<li><strong>Lineal</strong>: <span class="math inline">\langle af+bg,h\rangle = a\langle f,h\rangle + b\langle g,h\rangle</span></li>
+<li><strong>Simétrica conjugada</strong>: <span class="math inline">\langle g,f\rangle = \langle f,g\rangle^*</span></li>
+<li><strong>Positiva</strong>: <span class="math inline">\langle f,f\rangle \ge 0</span>, y vale <span class="math inline">0</span> solo si <span class="math inline">f=0</span></li>
 </ul>
-<p>Verificación de un caso famoso, en dos líneas: <span class="math display">\langle \sin t, \cos t\rangle = \int_{-\pi}^{\pi} \sin t \cos t \,dt = \frac{1}{2}\int_{-\pi}^{\pi}\sin(2t)\,dt = 0</span> Senos y cosenos son ortogonales — otra vez par por impar. Menos obvio y más importante: <span class="math inline">\cos t</span> y <span class="math inline">\cos 2t</span> <em>también</em> son ortogonales en <span class="math inline">[-\pi,\pi]</span>, y ahí la paridad no ayuda — hay que integrar (producto a suma: <span class="math inline">\cos t\cos 2t = \tfrac12[\cos t + \cos 3t]</span>, y ambas integran cero en el período). Esa segunda ortogonalidad, la de armónicos distintos entre sí, es la que hará funcionar todo lo que sigue.</p>
+<p>Dos consecuencias inmediatas: <strong>norma al cuadrado = energía</strong>, <span class="math inline">\|f\|^2 = \langle f, f\rangle = \int |f(t)|^2\,dt</span> — ¡la energía del capítulo 1! La geometría y la física acaban de darse la mano. Y quedan definidas <strong>ortogonales</strong> (<span class="math inline">\langle f,g\rangle = 0</span>) y <strong>parecido</strong> (<span class="math inline">\cos\theta = \langle f,g\rangle/(\|f\|\,\|g\|)</span>), igual que con flechas.</p>
 </section>
-<section id="sec-mejor-aproximacion" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="sec-mejor-aproximacion"><span class="header-section-number">3.2.3</span> Proyección = la mejor aproximación posible</h3>
+<section id="sec-promedio" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="sec-promedio"><span class="header-section-number">3.2.4</span> Primera proyección sobre una función: el promedio</h3>
+<p>Proyecta <span class="math inline">f</span> sobre la función constante <span class="math inline">1</span> en <span class="math inline">[0,T]</span>: <span class="math display">c = \frac{\langle f, 1\rangle}{\|1\|^2} = \frac{\int_0^T f(t)\,dt}{T} = \text{el promedio de } f</span> “Cuánto de constante hay en <span class="math inline">f</span>” es, ni más ni menos, su promedio. Dibuja <span class="math inline">f(t)</span> y la recta horizontal <span class="math inline">c</span>: el área donde <span class="math inline">f</span> queda por encima de <span class="math inline">c</span> iguala exactamente al área donde queda por debajo. El error <span class="math inline">f - c</span> tiene integral cero — es perpendicular a la constante — y el promedio es, de todas las constantes posibles, la más cercana a <span class="math inline">f</span> en energía. Adelanto: en la serie de Fourier este promedio será <span class="math inline">c_0</span>, el “nivel DC”.</p>
+</section>
+<section id="sec-deuda-integral" class="level3" data-number="3.2.5">
+<h3 data-number="3.2.5" class="anchored" data-anchor-id="sec-deuda-integral"><span class="header-section-number">3.2.5</span> Una integral que se anula</h3>
+<p>Una segunda proyección sobre una función, y esta ya la hiciste. En el capítulo 1 (<a href="cap01.html#sec-par-impar" class="quarto-xref"><span>Sección 1.2.4</span></a>) partiste toda señal en su parte par <span class="math inline">P</span> más su parte impar <span class="math inline">I</span>. Con el lenguaje de hoy: <span class="math inline">P</span> es la <strong>proyección de <span class="math inline">f</span> sobre las señales pares</strong>, e <span class="math inline">I</span> es el error. Y el error queda perpendicular: <span class="math display">\langle P,I\rangle = \int_{-\infty}^{\infty} P(t)\,I(t)\,dt = 0 \qquad (\text{par}\times\text{impar} = \text{impar})</span> Es la integral que resolviste en la Ay2 [DB E0022], de la que dijimos que “pagaría el sueldo” más adelante. Primera cuota: esa integral nula es un hecho geométrico — parte par y parte impar son <em>perpendiculares</em> — y Pitágoras suma las energías, <span class="math inline">\int f^2 = \int P^2 + \int I^2</span>.</p>
+<p>Una advertencia antes de seguir: la paridad es <strong>una</strong> forma de ser ortogonal, no la definición. La sección siguiente lo confirma con un caso que la paridad no alcanza a explicar.</p>
+</section>
+<section id="sec-producto-interno" class="level3" data-number="3.2.6">
+<h3 data-number="3.2.6" class="anchored" data-anchor-id="sec-producto-interno"><span class="header-section-number">3.2.6</span> Ortogonalidad de senos y cosenos</h3>
+<p>Verificación en dos líneas: <span class="math inline">\langle \sin t, \cos t\rangle = \int_{-\pi}^{\pi} \sin t \cos t \,dt = \frac{1}{2}\int_{-\pi}^{\pi}\sin(2t)\,dt = 0</span>. Senos y cosenos son ortogonales — otra vez par por impar. Menos obvio y más importante: <span class="math inline">\cos t</span> y <span class="math inline">\cos 2t</span> <em>también</em> son ortogonales en <span class="math inline">[-\pi,\pi]</span>, y ahí la paridad no ayuda (ambas son pares) — hay que integrar (producto a suma: <span class="math inline">\cos t\cos 2t = \tfrac12[\cos t + \cos 3t]</span>, y ambas integran cero en el período). Esa segunda ortogonalidad, la de armónicos distintos entre sí, es la que hará funcionar todo lo que sigue.</p>
+</section>
+<section id="sec-mejor-aproximacion" class="level3" data-number="3.2.7">
+<h3 data-number="3.2.7" class="anchored" data-anchor-id="sec-mejor-aproximacion"><span class="header-section-number">3.2.7</span> Proyección = la mejor aproximación posible</h3>
 <p>Supón que quieres aproximar <span class="math inline">\mathbf{v} = (3, 4)</span> usando solo múltiplos del eje <span class="math inline">x</span>: <span class="math inline">\tilde{\mathbf{v}} = (c, 0)</span>. ¿Qué <span class="math inline">c</span> minimiza el error <span class="math inline">\|\mathbf{v}-\tilde{\mathbf{v}}\|</span>? La respuesta es <span class="math inline">c = 3</span> — la proyección — y la <em>firma</em> de esa respuesta es que el error resultante <span class="math inline">(0,4)</span> queda <strong>perpendicular</strong> al eje: cualquier otro <span class="math inline">c</span> agrega error a lo largo del eje sin quitar nada. Ese es el patrón general:</p>
-<p><strong>Teorema de la mejor aproximación.</strong> La proyección ortogonal de <span class="math inline">x</span> sobre un subespacio <span class="math inline">W</span> es el elemento de <span class="math inline">W</span> más cercano a <span class="math inline">x</span> (mínima norma del error), y se reconoce porque el error queda ortogonal a todo <span class="math inline">W</span>. Si <span class="math inline">W</span> tiene una base <strong>ortonormal</strong> <span class="math inline">\{\phi_1,\dots,\phi_N\}</span> — ejes perpendiculares de largo 1, <span class="math inline">\langle\phi_k,\phi_\ell\rangle = \delta_{k\ell}</span> —, la proyección es una suma de sombras independientes: <span class="math display">P_W\,x = \sum_{k=1}^{N} \underbrace{\langle x, \phi_k\rangle}_{\text{cuánto de } x \text{ hay en } \phi_k}\,\phi_k</span></p>
+<p><strong>Teorema de la mejor aproximación.</strong> La proyección ortogonal de <span class="math inline">x</span> sobre un subespacio <span class="math inline">W</span> es el elemento de <span class="math inline">W</span> más cercano a <span class="math inline">x</span> (mínima norma del error), y se reconoce porque el error queda ortogonal a todo <span class="math inline">W</span>. Si <span class="math inline">W</span> tiene una base <strong>ortonormal</strong> <span class="math inline">\{\phi_1,\dots,\phi_N\}</span> — ejes perpendiculares de largo 1, <span class="math inline">\langle\phi_k,\phi_\ell\rangle = \delta_{k\ell}</span> —, la proyección es una suma de sombras independientes: <span class="math display">P_W\,x = \sum_{k=1}^{N} \underbrace{\langle x, \phi_k\rangle}_{\text{cuánto de } x \text{ hay en } \phi_k}\,\phi_k</span> Una aclaración que vale para todo el capítulo: “más cercano” es en energía, no punto a punto — la mejor aproximación puede seguir errando en puntos aislados (caso extremo en la <a href="#sec-gibbs" class="quarto-xref"><span>Sección 3.4.4</span></a>).</p>
+</section>
+<section id="sec-deduccion-coeficientes" class="level3" data-number="3.2.8">
+<h3 data-number="3.2.8" class="anchored" data-anchor-id="sec-deduccion-coeficientes"><span class="header-section-number">3.2.8</span> De dónde sale la fórmula</h3>
+<p>¿De dónde sale <span class="math inline">c_k = \langle x,\phi_k\rangle</span>? Toma una base ortogonal <span class="math inline">\{u_k\}</span>, no necesariamente de largo 1, y supón <span class="math inline">x = \sum_i c_i\,u_i</span>. Aplica el producto interno con <span class="math inline">u_k</span> a ambos lados; la ortogonalidad mata todos los términos menos uno: <span class="math display">\langle x,u_k\rangle = \Big\langle\sum_i c_i u_i,\,u_k\Big\rangle = \sum_i c_i\langle u_i,u_k\rangle = c_k\|u_k\|^2 \quad\Longrightarrow\quad c_k = \frac{\langle x,u_k\rangle}{\|u_k\|^2}</span> Con base ortonormal, el denominador desaparece: <span class="math inline">c_k = \langle x,u_k\rangle</span>. A la igualdad <span class="math inline">x = \sum_k c_k u_k</span> se le llama <strong>síntesis</strong> (reconstruir la señal); a la fórmula de <span class="math inline">c_k</span>, <strong>análisis</strong> (descomponerla). Ese par, síntesis y análisis, es el que usa toda transformada de este curso.</p>
+</section>
+<section id="sec-la-base" class="level3" data-number="3.2.9">
+<h3 data-number="3.2.9" class="anchored" data-anchor-id="sec-la-base"><span class="header-section-number">3.2.9</span> Sobre qué proyectar: la base</h3>
+<p>Para que todo lo anterior funcione, la familia <span class="math inline">\{u_k\}</span> tiene que cumplir cuatro exigencias:</p>
+<ul>
+<li><strong>Ortogonales entre sí</strong>: <span class="math inline">\langle u_i,u_k\rangle=0</span> si <span class="math inline">i\neq k</span>. Si no, los <span class="math inline">c_k</span> se acoplan y hay que resolver un sistema <span class="math inline">N\times N</span>.</li>
+<li><strong>Ninguna nula</strong>: <span class="math inline">\|u_k\|&gt;0</span> (se divide por ella). Si además <span class="math inline">\|u_k\|=1</span>, la base es <strong>ortonormal</strong>.</li>
+<li><strong>Del mismo espacio que <span class="math inline">x</span></strong>: mismo intervalo, energía finita. <span class="math inline">t</span> y <span class="math inline">t^2</span> son ortogonales en <span class="math inline">[-1,1]</span> pero no en <span class="math inline">[0,1]</span>.</li>
+<li><strong>Completa</strong>, si además de aproximar quieres igualdad: ninguna señal no nula puede quedar perpendicular a todos los ejes.</li>
+</ul>
+<p>Ejemplos: <span class="math inline">\{\hat e_x,\hat e_y,\hat e_z\}</span> cumple las cuatro. <span class="math inline">\{1,\cos t,\sin t\}</span> en <span class="math inline">[-\pi,\pi]</span> es ortogonal pero no completa — <span class="math inline">\cos 2t</span> queda perpendicular a los tres. <span class="math inline">\{1,t,t^2\}</span> en <span class="math inline">[-1,1]</span> ni siquiera es ortogonal: <span class="math inline">\langle 1,t^2\rangle = \int_{-1}^{1} t^2\,dt = \tfrac{2}{3} \neq 0</span>.</p>
+</section>
+<section id="sec-tabla-procedimientos" class="level3" data-number="3.2.10">
+<h3 data-number="3.2.10" class="anchored" data-anchor-id="sec-tabla-procedimientos"><span class="header-section-number">3.2.10</span> Los procedimientos</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sobre…</th>
+<th>Análisis (coeficiente)</th>
+<th>Síntesis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>una dirección <span class="math inline">u</span></td>
+<td><span class="math inline">c=\dfrac{\langle x,u\rangle}{\|u\|^2}</span></td>
+<td><span class="math inline">c\,u</span></td>
+</tr>
+<tr class="even">
+<td>una base ortogonal <span class="math inline">\{u_k\}</span></td>
+<td><span class="math inline">c_k=\dfrac{\langle x,u_k\rangle}{\|u_k\|^2}</span>, cada uno por su cuenta</td>
+<td><span class="math inline">\sum_k c_k\,u_k</span></td>
+</tr>
+<tr class="odd">
+<td>una base ortonormal <span class="math inline">\{\phi_k\}</span></td>
+<td><span class="math inline">c_k=\langle x,\phi_k\rangle</span></td>
+<td><span class="math inline">\sum_k c_k\,\phi_k</span></td>
+</tr>
+</tbody>
+</table>
+<p>Comprobación siempre disponible: el error <span class="math inline">x - \sum_k c_k u_k</span> debe quedar perpendicular a cada <span class="math inline">u_k</span>. A esto se le llama <strong>serie generalizada de Fourier</strong>: cambiar la base cambia el nombre. Con <span class="math inline">u_k = e^{jk\omega_0 t}</span> — la próxima sección — se llama, sin apellido, <strong>serie de Fourier</strong>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejemplo resuelto: el prototipo de todo el capítulo
+<span class="screen-reader-only">Tip</span>Ejemplo: proyectar sobre un plano
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Proyecta <span class="math inline">\mathbf{v}=(3,4,5)</span> sobre el plano <span class="math inline">xy</span>, con base ortonormal <span class="math inline">\{\hat{e}_x, \hat{e}_y\}</span>.</p>
-<p><strong>Solución.</strong> <span class="math display">P_W\mathbf{v} = \langle\mathbf{v},\hat{e}_x\rangle\,\hat{e}_x + \langle\mathbf{v},\hat{e}_y\rangle\,\hat{e}_y = 3\,\hat{e}_x + 4\,\hat{e}_y = (3,4,0)</span> El error es <span class="math inline">\mathbf{e} = (0,0,5)</span>, perpendicular al plano ✓, y <span class="math inline">\|\mathbf{e}\| = 5</span> es la distancia de <span class="math inline">\mathbf{v}</span> al plano: nadie en <span class="math inline">W</span> le gana a <span class="math inline">(3,4,0)</span>.</p>
-<p>La traducción a señales — léela despacio, es la frase del capítulo: aproximar una señal <span class="math inline">x(t)</span> con una suma de funciones base <span class="math inline">\phi_k(t)</span> es <em>exactamente esto</em>. Los coeficientes <span class="math inline">\langle x,\phi_k\rangle</span> son sombras; la aproximación es la proyección; y es la mejor posible en el sentido de mínima energía del error. En la sección siguiente las <span class="math inline">\phi_k</span> serán sinusoides — y los coeficientes se llamarán <em>de Fourier</em>.</p>
+<p>Proyecta <span class="math inline">\mathbf{v}=(3,4,5)</span> sobre el plano <span class="math inline">xy</span>, base ortonormal <span class="math inline">\{\hat e_x, \hat e_y\}</span>: <span class="math inline">P_W\mathbf{v} = (3,4,0)</span>, error <span class="math inline">\mathbf{e}=(0,0,5)</span> perpendicular al plano, <span class="math inline">\|\mathbf{e}\|=5</span> la distancia mínima. Con <span class="math inline">\phi_k</span> sinusoides, la misma cuenta se llamará serie de Fourier.</p>
 </div>
 </div>
 </section>
-<section id="sec-bessel-parseval" class="level3" data-number="3.2.4">
-<h3 data-number="3.2.4" class="anchored" data-anchor-id="sec-bessel-parseval"><span class="header-section-number">3.2.4</span> Bessel y Parseval: la energía se reparte</h3>
-<p>Como los ejes ortonormales no compiten entre sí (Pitágoras generalizado), la energía de la proyección es la suma de las energías por eje:</p>
+<section id="sec-resumen-proyeccion" class="level3" data-number="3.2.11">
+<h3 data-number="3.2.11" class="anchored" data-anchor-id="sec-resumen-proyeccion"><span class="header-section-number">3.2.11</span> Lo que toda proyección cumple</h3>
+<p>Ya lo viste cuatro veces — la sombra, el promedio, la parte par, la base girada:</p>
+<ol type="1">
+<li>Se calcula con un <strong>producto interno</strong>.</li>
+<li>El <strong>error queda perpendicular</strong> a donde proyectaste (la comprobación).</li>
+<li>Es <strong>lo más cercano</strong> en energía: ninguna otra combinación deja un error más corto.</li>
+<li>Sobre ejes perpendiculares, <strong>cada coeficiente se calcula solo</strong>, y Pitágoras suma las energías.</li>
+</ol>
+</section>
+<section id="sec-bessel-parseval" class="level3" data-number="3.2.12">
+<h3 data-number="3.2.12" class="anchored" data-anchor-id="sec-bessel-parseval"><span class="header-section-number">3.2.12</span> Bessel y Parseval: la energía se reparte</h3>
+<p>La cuarta propiedad, con infinitos ejes: como los ortonormales no compiten entre sí (Pitágoras generalizado), la energía de la proyección es la suma de las energías por eje:</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -386,15 +479,16 @@ window.Quarto = {
 <p>Para cualquier conjunto ortonormal <span class="math inline">\{\phi_k\}</span> (<strong>desigualdad de Bessel</strong>): las sombras nunca acumulan más energía que la señal, <span class="math display">\sum_k |\langle x,\phi_k\rangle|^2 \le \|x\|^2.</span> Si además la base es <strong>completa</strong> — nada no-nulo queda perpendicular a todos los ejes — la desigualdad se vuelve <strong>igualdad de Parseval</strong>: <span class="math display">\sum_k |\langle x,\phi_k\rangle|^2 = \|x\|^2.</span> La representación no pierde ni inventa energía.</p>
 </div>
 </div>
-<p>Y una relectura sorpresa: la identidad <span class="math inline">E_x = E_{x_p} + E_{x_i}</span> del capítulo 1 (<a href="cap01.html#sec-par-impar" class="quarto-xref"><span>Sección 1.2.4</span></a>) <em>es</em> Parseval, con la “base” de dos subespacios ortogonales {señales pares, señales impares}. La demostraste en la primera semana del curso sin saber que era un teorema de geometría infinito-dimensional [DB E0022 entonces; DB E0166 lo generaliza].</p>
+<p>Y una relectura sorpresa: la identidad <span class="math inline">E_x = E_{x_p} + E_{x_i}</span> del capítulo 1 (<a href="cap01.html#sec-par-impar" class="quarto-xref"><span>Sección 1.2.4</span></a>) — la misma que releíste en la <a href="#sec-deuda-integral" class="quarto-xref"><span>Sección 3.2.5</span></a> como una perpendicularidad — <em>es</em> Parseval, con la base de dos subespacios ortogonales {señales pares, señales impares}, completa porque toda señal es su parte par más su parte impar. La demostraste en la primera semana del curso sin saber que era un teorema de geometría infinito-dimensional [DB E0022 entonces; DB E0166 lo generaliza]. Segunda cuota del sueldo.</p>
 <p><strong>Honestidad matemática</strong> (treinta segundos y seguimos): la completitud de las bases que usaremos no la demostraremos — es un teorema serio de análisis. La usaremos con la conciencia tranquila de que es cierta.</p>
+<p>Y una pregunta para dejar picando, esta vez musical. Una flauta y un violín tocan el mismo La₄ (440 Hz): misma nota, misma altura — y nadie en la sala los confunde. La diferencia se llama <strong>timbre</strong>, y por ahora es una palabra de músicos. Al final de la <a href="#sec-serie-fourier" class="quarto-xref"><span>Sección 3.3</span></a> será una fórmula.</p>
 </section>
 </section>
 <section id="sec-serie-fourier" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="sec-serie-fourier"><span class="header-section-number">3.3</span> La serie de Fourier</h2>
 <section id="sec-base-estrella" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="sec-base-estrella"><span class="header-section-number">3.3.1</span> La base estrella</h3>
-<p>Sea <span class="math inline">x(t)</span> periódica de período <span class="math inline">T_0</span>, con frecuencia fundamental <span class="math inline">\omega_0 = 2\pi/T_0</span>. Los “ejes” que propuso Fourier: <strong>todos los armónicos de la fundamental</strong>, en versión fasor (<a href="cap01.html#sec-exp-compleja" class="quarto-xref"><span>Sección 1.4.1</span></a>), <span class="math display">\phi_n(t) = e^{jn\omega_0 t}, \qquad n \in \mathbb{Z},</span> con el producto interno de un período, normalizado: <span class="math inline">\langle f,g\rangle = \frac{1}{T_0}\int_{T_0} f(t)\,g^*(t)\,dt</span>. Son <strong>ortonormales</strong> — esta es la integral del capítulo, vale la pena mirarla dos veces: <span class="math display">\langle \phi_n, \phi_m\rangle = \frac{1}{T_0}\int_{T_0} e^{j(n-m)\omega_0 t}\,dt = \begin{cases} 1 &amp; n = m\\ 0 &amp; n \neq m\end{cases}</span> El caso <span class="math inline">n\neq m</span> es cero porque el integrando es un fasor que da <span class="math inline">|n-m|</span> vueltas <em>completas</em> al círculo en un período: su promedio es el centro, cero. Es la ortogonalidad de senos y cosenos de la <a href="#sec-producto-interno" class="quarto-xref"><span>Sección 3.2.2</span></a>, empaquetada en una sola familia compleja. Y la base es completa (lo aceptamos sin demostrar): proyectar sobre ella no pierde nada. Aplicando <em>literalmente</em> la fórmula de proyección con infinitos ejes:</p>
+<p>Sea <span class="math inline">x(t)</span> periódica de período <span class="math inline">T_0</span>, con frecuencia fundamental <span class="math inline">\omega_0 = 2\pi/T_0</span>. Los “ejes” que propuso Fourier: <strong>todos los armónicos de la fundamental</strong>, en versión fasor (<a href="cap01.html#sec-exp-compleja" class="quarto-xref"><span>Sección 1.4.1</span></a>), <span class="math display">\phi_n(t) = e^{jn\omega_0 t}, \qquad n \in \mathbb{Z},</span> con el producto interno de un período, normalizado: <span class="math inline">\langle f,g\rangle = \frac{1}{T_0}\int_{T_0} f(t)\,g^*(t)\,dt</span>. Son <strong>ortonormales</strong> — esta es la integral del capítulo, vale la pena mirarla dos veces: <span class="math display">\langle \phi_n, \phi_m\rangle = \frac{1}{T_0}\int_{T_0} e^{j(n-m)\omega_0 t}\,dt = \begin{cases} 1 &amp; n = m\\ 0 &amp; n \neq m\end{cases}</span> El caso <span class="math inline">n\neq m</span> es cero porque el integrando es un fasor que da <span class="math inline">|n-m|</span> vueltas <em>completas</em> al círculo en un período: su promedio es el centro, cero. Es la ortogonalidad de senos y cosenos de la <a href="#sec-producto-interno" class="quarto-xref"><span>Sección 3.2.6</span></a>, empaquetada en una sola familia compleja. Y la base es completa (lo aceptamos sin demostrar): proyectar sobre ella no pierde nada. Aplicando <em>literalmente</em> la fórmula de proyección con infinitos ejes:</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -434,7 +528,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Mira la reconstrucción en acción — la suma parcial con <span class="math inline">N</span> términos es la <em>proyección</em> de la cuadrada sobre los primeros <span class="math inline">N</span> armónicos, es decir, la mejor aproximación posible con ese presupuesto:</p>
-<div id="c177da6a" class="cell" data-execution_count="1">
+<div id="5347e3a3" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -530,7 +624,7 @@ window.Quarto = {
 <li><strong>Onda cuadrada</strong> (discontinua — tiene <em>saltos</em>): <span class="math inline">|c_n| = \frac{2}{\pi n}</span> en los impares — decae como <span class="math inline">1/n</span>.</li>
 <li><strong>Onda triangular</strong> par de amplitud <span class="math inline">\pm 1</span> (continua, pero con <em>puntas</em>: derivada discontinua): <span class="math inline">c_n = \frac{4}{\pi^2 n^2}</span> en los impares — decae como <span class="math inline">1/n^2</span>.</li>
 </ul>
-<div id="a97bd28f" class="cell" data-execution_count="2">
+<div id="30450294" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -546,7 +640,7 @@ window.Quarto = {
 <section id="sec-gibbs" class="level3" data-number="3.4.4">
 <h3 data-number="3.4.4" class="anchored" data-anchor-id="sec-gibbs"><span class="header-section-number">3.4.4</span> Truncar la serie: el fenómeno de Gibbs</h3>
 <p>En la práctica nadie suma infinitos armónicos: se <strong>trunca</strong> la serie en <span class="math inline">N</span> términos. Ya viste en la figura de la cuadrada que junto al salto asoma una “oreja”. La pregunta natural — ¿desaparece al subir <span class="math inline">N</span>? — tiene una respuesta sorprendente: <strong>no</strong>.</p>
-<div id="f09ea840" class="cell" data-execution_count="3">
+<div id="bd7dbeb9" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -605,7 +699,7 @@ window.Quarto = {
 = \frac{2\sin(\omega\tau/2)}{\omega}</span> Multiplicando y dividiendo por <span class="math inline">\tau/2</span> para reconocer la sinc normalizada: <span class="math display">\operatorname{rect}\!\left(\frac{t}{\tau}\right) \;\longleftrightarrow\; \tau\,\operatorname{sinc}\!\left(\frac{\omega\tau}{2\pi}\right)</span> Los tres chequeos de rigor (hábito que vale puntos en toda interrogación): (i) <span class="math inline">X(0) = \tau</span> = área del pulso ✓; (ii) primer cero en <span class="math inline">\omega = 2\pi/\tau</span> ✓; (iii) <span class="math inline">X</span> real y par, como corresponde a una señal real y par ✓.</p>
 </div>
 </div>
-<div id="15bf4848" class="cell" data-execution_count="4">
+<div id="90ce0d8f" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -733,7 +827,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-filtros" class="level3" data-number="3.6.2">
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="sec-filtros"><span class="header-section-number">3.6.2</span> Filtros: moldear el espectro</h3>
 <p><strong>Filtrar = multiplicar el espectro por la <span class="math inline">H(\omega)</span> que convenga.</strong> El ejemplo de carne y hueso: el circuito RC con salida en el condensador, <span class="math inline">RC\,\dot{v}_c + v_c = v_{in}</span>. La propiedad de derivación (<span class="math inline">\dot{x} \leftrightarrow j\omega X</span>) convierte la EDO en álgebra: <span class="math display">(1 + j\omega RC)\,V_c(\omega) = V_{in}(\omega) \qquad\Longrightarrow\qquad H(\omega) = \frac{1}{1 + j\omega RC}</span> <span class="math display">|H(\omega)| = \frac{1}{\sqrt{1+(\omega RC)^2}}: \quad \text{deja pasar } \omega \ll \tfrac{1}{RC},\ \text{atenúa } \omega \gg \tfrac{1}{RC}</span> Un <strong>pasa-bajos</strong>: con dos componentes ya estás <em>diseñando</em> qué frecuencias viven y cuáles mueren. (Y nota el gesto: la EDO se volvió álgebra. Ese gesto es media unidad 4.)</p>
-<div id="0ac41760" class="cell" data-execution_count="5">
+<div id="f1b529f5" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -767,7 +861,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-teaser-muestreo" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="sec-teaser-muestreo"><span class="header-section-number">3.7</span> Cierre: ¿y si multiplicamos por un tren de impulsos?</h2>
 <p>Una última jugada, para dejar el final abierto. En el capítulo 1 definimos el tren de impulsos <span class="math inline">\delta_T(t)</span> (<a href="cap01.html#sec-tren-impulsos" class="quarto-xref"><span>Sección 1.5.5</span></a>) y pedimos guardar una frase: <em>“muestrear una señal es multiplicarla por un tren de impulsos”</em>. Recién ahora tenemos las herramientas para preguntar qué le hace eso al <strong>espectro</strong>: <span class="math display">x_s(t) = x(t)\cdot\delta_T(t) = \sum_n x(nT)\,\delta(t-nT)</span> — de la señal solo sobreviven sus <em>muestras</em> cada <span class="math inline">T</span> segundos. Multiplicar en el tiempo ⇒ convolucionar los espectros (la propiedad espejo). Y la TF de un tren de impulsos es… ¡otro tren de impulsos!, espaciado <span class="math inline">\omega_s = 2\pi/T</span> (la demostración queda debiéndose para el capítulo 5). Convolucionar con un tren de impulsos <strong>copia y pega</strong>: <span class="math display">X_s(\omega) = \frac{1}{T}\sum_{k=-\infty}^{\infty} X(\omega - k\omega_s)</span></p>
-<div id="74319918" class="cell" data-execution_count="6">
+<div id="9dbea490" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

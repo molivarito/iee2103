@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C8 · Sistemas y ecuaciones diferenciales: h(t) manda – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>C9 · Señales como vectores – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-04/ay04.html" rel="next">
-<link href="../../curso/semana-04/c07.html" rel="prev">
+<link href="../../curso/semana-05/c10.html" rel="next">
+<link href="../../curso/semana-04/ay04.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-04/c07.html">Semana 4 · Convolución y EDOs</a></li><li class="breadcrumb-item"><a href="../../curso/semana-04/c08.html">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-05/c09.html">Semana 5 · Señales como vectores</a></li><li class="breadcrumb-item"><a href="../../curso/semana-05/c09.html">C9 · Señales como vectores</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -282,7 +282,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-04/c08.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-04/c08.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</span></a>
   </div>
 </li>
@@ -305,7 +305,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-05/c09.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-05/c09.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">C9 · Señales como vectores</span></a>
   </div>
 </li>
@@ -374,21 +374,20 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#modelar-con-edos-de-la-física-al-sistema" id="toc-modelar-con-edos-de-la-física-al-sistema" class="nav-link active" data-scroll-target="#modelar-con-edos-de-la-física-al-sistema">1. Modelar con EDOs: de la física al sistema</a></li>
-  <li><a href="#la-respuesta-al-impulso-de-un-sistema-de-primer-orden" id="toc-la-respuesta-al-impulso-de-un-sistema-de-primer-orden" class="nav-link" data-scroll-target="#la-respuesta-al-impulso-de-un-sistema-de-primer-orden">2. La respuesta al impulso de un sistema de primer orden</a></li>
-  <li><a href="#causalidad-y-estabilidad-leídas-desde-ht" id="toc-causalidad-y-estabilidad-leídas-desde-ht" class="nav-link" data-scroll-target="#causalidad-y-estabilidad-leídas-desde-ht">3. Causalidad y estabilidad, leídas desde h(t)</a></li>
-  <li><a href="#variables-de-estado-la-idea-en-10-minutos-no-evaluable" id="toc-variables-de-estado-la-idea-en-10-minutos-no-evaluable" class="nav-link" data-scroll-target="#variables-de-estado-la-idea-en-10-minutos-no-evaluable">4. Variables de estado: la idea, en 10 minutos (no evaluable)</a></li>
-  <li><a href="#conoce-tu-formulario-5-min" id="toc-conoce-tu-formulario-5-min" class="nav-link" data-scroll-target="#conoce-tu-formulario-5-min">5. Conoce tu formulario (5 min)</a></li>
+  <li><a href="#proyectar-lo-de-siempre-con-lupa" id="toc-proyectar-lo-de-siempre-con-lupa" class="nav-link active" data-scroll-target="#proyectar-lo-de-siempre-con-lupa">1. Proyectar, lo de siempre, con lupa</a></li>
+  <li><a href="#el-salto-las-funciones-también" id="toc-el-salto-las-funciones-también" class="nav-link" data-scroll-target="#el-salto-las-funciones-también">2. El salto: las funciones también</a></li>
+  <li><a href="#proyectar-sobre-una-familia" id="toc-proyectar-sobre-una-familia" class="nav-link" data-scroll-target="#proyectar-sobre-una-familia">3. Proyectar sobre una familia</a></li>
+  <li><a href="#bessel-y-parseval-la-energía-se-reparte" id="toc-bessel-y-parseval-la-energía-se-reparte" class="nav-link" data-scroll-target="#bessel-y-parseval-la-energía-se-reparte">4. Bessel y Parseval: la energía se reparte</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-04/c07.html">Semana 4 · Convolución y EDOs</a></li><li class="breadcrumb-item"><a href="../../curso/semana-04/c08.html">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-05/c09.html">Semana 5 · Señales como vectores</a></li><li class="breadcrumb-item"><a href="../../curso/semana-05/c09.html">C9 · Señales como vectores</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">C8 · Sistemas y ecuaciones diferenciales: h(t) manda</h1>
-<p class="subtitle lead">Semana 4 · 70 min · U2.4, U2.5 — cierre de la materia de I1</p>
+<h1 class="title">C9 · Señales como vectores</h1>
+<p class="subtitle lead">Semana 5 · 70 min · U3.1</p>
 </div>
 
 
@@ -405,104 +404,84 @@ window.Quarto = {
 </header>
 
 
-<section id="modelar-con-edos-de-la-física-al-sistema" class="level1">
-<h1>1. Modelar con EDOs: de la física al sistema</h1>
-<p><strong>El circuito RC</strong> (dibujo + deducción de la EDO desde Kirchhoff):</p>
+<section id="proyectar-lo-de-siempre-con-lupa" class="level1">
+<h1>1. Proyectar, lo de siempre, con lupa</h1>
+<p><strong>Lo que ya sabíamos hacer</strong> (¿qué operación es “sacar una componente”? ¿qué usa?):</p>
+<div class="hueco">
+
+</div>
+<p><strong>El producto punto en sus dos formas, y qué mide:</strong></p>
+<p><span class="math display">\mathbf{v}\cdot\mathbf{b} = \hspace{5cm} = \hspace{5cm}</span></p>
+<p><strong>Fórmula de la proyección de <span class="math inline">\mathbf{v}</span> sobre <span class="math inline">\mathbf{b}</span></strong> (con el dibujo de la sombra y el error):</p>
 <div class="hueco-grande">
 
 </div>
-<p><strong>El masa-resorte-amortiguador</strong> (dibujo + EDO desde Newton):</p>
-<p><span class="math display">m\,\ddot{y} + \hspace{1cm}\dot{y} + \hspace{1cm}y = x(t)</span></p>
-<p><strong>¿Por qué una EDO lineal de coeficientes constantes define un sistema LTI?</strong> (una razón por cada palabra clave — y la letra chica del reposo inicial):</p>
+<p><strong><span class="math inline">\mathbf{v} = (3,4)</span> sobre <span class="math inline">\mathbf{b}_1 = (1,1)</span> y <span class="math inline">\mathbf{b}_2 = (1,-1)</span></strong> (los dos coeficientes, la comprobación, y qué pasa si los ejes no son perpendiculares):</p>
 <div class="hueco">
 
 </div>
 </section>
-<section id="la-respuesta-al-impulso-de-un-sistema-de-primer-orden" class="level1">
-<h1>2. La respuesta al impulso de un sistema de primer orden</h1>
-<p><strong>El problema</strong>: <span class="math inline">RC\,h' + h = \delta(t)</span>, reposo inicial. <strong>Paso 1</strong> (la solución para <span class="math inline">t&gt;0</span>):</p>
+<section id="el-salto-las-funciones-también" class="level1">
+<h1>2. El salto: las funciones también</h1>
+<p><strong>¿Por qué la integral del producto es un producto punto?</strong> (el dibujo de las barras y el paso de la suma a la integral):</p>
 <div class="hueco">
 
 </div>
-<p><strong>Paso 2</strong> (integrar alrededor del golpe: ¿cuánto salta <span class="math inline">h</span> en <span class="math inline">t=0</span> y por qué?):</p>
-<div class="hueco-grande">
-
-</div>
-<p><strong>Resultado y verificación por sustitución:</strong></p>
-<p><span class="math display">h(t) = \hspace{5cm}</span></p>
+<p><strong>Producto interno de dos señales</strong> (definición, y para qué está el conjugado):</p>
+<p><span class="math display">\langle f, g\rangle = \hspace{6cm}</span></p>
+<p><strong>Las tres reglas que cumple</strong> (lineal, simétrico conjugado, positivo). <strong>¿Qué es <span class="math inline">\|f\|^2</span> físicamente?</strong></p>
 <div class="hueco">
 
 </div>
-<p><strong>Los dos chequeos de cordura</strong> (área de <span class="math inline">h</span>; respuesta al escalón y su conexión con C6):</p>
+<p><strong>Proyectar <span class="math inline">f</span> sobre la constante <span class="math inline">1</span> en <span class="math inline">[0,T]</span></strong> (el coeficiente, qué es, y por qué el error es perpendicular):</p>
 <div class="hueco">
 
 </div>
-</section>
-<section id="causalidad-y-estabilidad-leídas-desde-ht" class="level1">
-<h1>3. Causalidad y estabilidad, leídas desde h(t)</h1>
-<p><strong>Los dos teoremas</strong> (condición sobre <span class="math inline">h(t)</span> + justificación en una línea cada una):</p>
-<ul>
-<li>Causal <span class="math inline">\iff</span></li>
-<li>Estable BIBO <span class="math inline">\iff</span></li>
-</ul>
-<p><strong>La demostración de dos líneas de la suficiencia de estabilidad:</strong></p>
+<p><strong>La descomposición par/impar de C2, leída como proyección</strong> (proyección, error, y qué integral de la Ay2 dice que el error es perpendicular):</p>
 <div class="hueco">
 
 </div>
-<p><strong>Mi voto para cada <span class="math inline">h(t)</span>:</strong></p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th><span class="math inline">h(t)</span></th>
-<th>¿Causal?</th>
-<th>¿Estable?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">e^{-2t}\,u(t)</span></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">u(t)</span></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">e^{t}\,u(t)</span></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\operatorname{rect}(t)</span></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\delta(t-1)</span></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="variables-de-estado-la-idea-en-10-minutos-no-evaluable" class="level1">
-<h1>4. Variables de estado: la idea, en 10 minutos (no evaluable)</h1>
-<p><em>(Sección conceptual — <strong>no evaluable</strong>. Solo la idea:)</em></p>
-<p><strong>¿Qué es el “estado” de un sistema?</strong> (la definición-foto + qué es para el masa-resorte y para el RC):</p>
-<div class="hueco">
-
-</div>
-<p><strong>La plantilla</strong> <span class="math inline">\dot{\mathbf{x}} = A\mathbf{x} + Bu</span>, <span class="math inline">y = C\mathbf{x} + Du</span> — ¿en qué curso reaparece y por qué les va a importar?</p>
+<p><strong>Mi voto y por qué</strong> — ¿ortogonales en <span class="math inline">[-\pi,\pi]</span>?: (a) <span class="math inline">\sin t</span> y <span class="math inline">\cos t</span>; (b) <span class="math inline">t</span> y <span class="math inline">t^2</span>; (c) <span class="math inline">\cos t</span> y <span class="math inline">\cos 2t</span>:</p>
 <div class="hueco">
 
 </div>
 </section>
-<section id="conoce-tu-formulario-5-min" class="level1">
-<h1>5. Conoce tu formulario (5 min)</h1>
-<p><strong>Mi checklist del formulario</strong> (de U1 y de U2 — comparar con las sugerencias de la pizarra):</p>
-<div class="hueco-grande">
+<section id="proyectar-sobre-una-familia" class="level1">
+<h1>3. Proyectar sobre una familia</h1>
+<p><strong>De dónde sale <span class="math inline">c_k</span></strong> (producto interno con <span class="math inline">u_k</span> a ambos lados; la fórmula general con <span class="math inline">\|u_k\|^2</span>; qué es análisis y qué es síntesis):</p>
+<div class="hueco">
+
+</div>
+<p><strong>El teorema de la mejor aproximación</strong> (si <span class="math inline">x</span> no está en el subespacio, ¿qué dan los mismos <span class="math inline">c_k</span>? ¿cómo se reconoce? “cercano” ¿en qué sentido?):</p>
+<div class="hueco">
+
+</div>
+<p><strong>Sobre qué se puede proyectar</strong> (las cuatro exigencias a la base, y un ejemplo que falla):</p>
+<div class="hueco">
+
+</div>
+<p><strong>Los procedimientos</strong> (dirección / base ortogonal / base ortonormal; cómo se comprueba; qué es una “serie generalizada”):</p>
+<div class="hueco">
+
+</div>
+<p><strong>Lo que toda proyección cumple</strong> (las cuatro propiedades, y en qué ejemplo vi cada una):</p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="bessel-y-parseval-la-energía-se-reparte" class="level1">
+<h1>4. Bessel y Parseval: la energía se reparte</h1>
+<p><strong>Bessel</strong> (desigualdad y su lectura energética):</p>
+<p><span class="math display">\sum_k |\langle x,\phi_k\rangle|^2 \;\;\square\;\; \|x\|^2 \qquad \text{porque…}</span></p>
+<div class="hueco">
+
+</div>
+<p><strong>Parseval</strong> (cuándo se vuelve igualdad y qué significa “completa”):</p>
+<div class="hueco">
+
+</div>
+<p><strong>Qué ejercicio de la Lista 1 era secretamente Parseval, y con qué “base”:</strong></p>
+<div class="hueco">
 
 </div>
 
@@ -912,13 +891,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/semana-04/c07.html" class="pagination-link" aria-label="C7 · La convolución en la práctica">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C7 · La convolución en la práctica</span>
+      <a href="../../curso/semana-04/ay04.html" class="pagination-link" aria-label="Ay4 · CV1 + Integración U1–U2: rumbo a la I1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Ay4 · CV1 + Integración U1–U2: rumbo a la I1</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-04/ay04.html" class="pagination-link" aria-label="Ay4 · CV1 + Integración U1–U2: rumbo a la I1">
-        <span class="nav-page-text">Ay4 · CV1 + Integración U1–U2: rumbo a la I1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/semana-05/c10.html" class="pagination-link" aria-label="C10 · Series de Fourier">
+        <span class="nav-page-text">C10 · Series de Fourier</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
