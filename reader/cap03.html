@@ -262,7 +262,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#sec-espectro-cualitativo" id="toc-sec-espectro-cualitativo" class="nav-link" data-scroll-target="#sec-espectro-cualitativo"><span class="header-section-number">3.4</span> El espectro se lee sin integrar</a>
   <ul class="collapse">
-  <li><a href="#sec-propiedades-serie" id="toc-sec-propiedades-serie" class="nav-link" data-scroll-target="#sec-propiedades-serie"><span class="header-section-number">3.4.1</span> Tres propiedades que ahorran integrales</a></li>
+  <li><a href="#sec-propiedades-serie" id="toc-sec-propiedades-serie" class="nav-link" data-scroll-target="#sec-propiedades-serie"><span class="header-section-number">3.4.1</span> Las propiedades: la tabla que se hereda</a></li>
   <li><a href="#sec-simetrias" id="toc-sec-simetrias" class="nav-link" data-scroll-target="#sec-simetrias"><span class="header-section-number">3.4.2</span> Simetrías: la promesa del capítulo 1, pagada</a></li>
   <li><a href="#sec-decaimiento" id="toc-sec-decaimiento" class="nav-link" data-scroll-target="#sec-decaimiento"><span class="header-section-number">3.4.3</span> Suavidad y decaimiento: el espectro delata las esquinas</a></li>
   <li><a href="#sec-gibbs" id="toc-sec-gibbs" class="nav-link" data-scroll-target="#sec-gibbs"><span class="header-section-number">3.4.4</span> Truncar la serie: el fenómeno de Gibbs</a></li>
@@ -488,7 +488,7 @@ window.Quarto = {
 <h2 data-number="3.3" class="anchored" data-anchor-id="sec-serie-fourier"><span class="header-section-number">3.3</span> La serie de Fourier</h2>
 <section id="sec-base-estrella" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="sec-base-estrella"><span class="header-section-number">3.3.1</span> La base estrella</h3>
-<p>Sea <span class="math inline">x(t)</span> periódica de período <span class="math inline">T_0</span>, con frecuencia fundamental <span class="math inline">\omega_0 = 2\pi/T_0</span>. Los “ejes” que propuso Fourier: <strong>todos los armónicos de la fundamental</strong>, en versión fasor (<a href="cap01.html#sec-exp-compleja" class="quarto-xref"><span>Sección 1.4.1</span></a>), <span class="math display">\phi_n(t) = e^{jn\omega_0 t}, \qquad n \in \mathbb{Z},</span> con el producto interno de un período, normalizado: <span class="math inline">\langle f,g\rangle = \frac{1}{T_0}\int_{T_0} f(t)\,g^*(t)\,dt</span>. Son <strong>ortonormales</strong> — esta es la integral del capítulo, vale la pena mirarla dos veces: <span class="math display">\langle \phi_n, \phi_m\rangle = \frac{1}{T_0}\int_{T_0} e^{j(n-m)\omega_0 t}\,dt = \begin{cases} 1 &amp; n = m\\ 0 &amp; n \neq m\end{cases}</span> El caso <span class="math inline">n\neq m</span> es cero porque el integrando es un fasor que da <span class="math inline">|n-m|</span> vueltas <em>completas</em> al círculo en un período: su promedio es el centro, cero. Es la ortogonalidad de senos y cosenos de la <a href="#sec-producto-interno" class="quarto-xref"><span>Sección 3.2.6</span></a>, empaquetada en una sola familia compleja. Y la base es completa (lo aceptamos sin demostrar): proyectar sobre ella no pierde nada. Aplicando <em>literalmente</em> la fórmula de proyección con infinitos ejes:</p>
+<p>Sea <span class="math inline">x(t)</span> periódica de período <span class="math inline">T_0</span>, con frecuencia fundamental <span class="math inline">\omega_0 = 2\pi/T_0</span>. Los “ejes” que propuso Fourier: <strong>todos los armónicos de la fundamental</strong>, en versión fasor (<a href="cap01.html#sec-exp-compleja" class="quarto-xref"><span>Sección 1.4.1</span></a>), <span class="math display">\phi_n(t) = e^{jn\omega_0 t}, \qquad n \in \mathbb{Z},</span> con el producto interno de un período, el mismo de la <a href="#sec-producto-interno" class="quarto-xref"><span>Sección 3.2.6</span></a>: <span class="math inline">\langle f,g\rangle = \int_{T_0} f(t)\,g^*(t)\,dt</span>. Son <strong>ortogonales, todos con norma al cuadrado <span class="math inline">T_0</span></strong> — esta es la integral del capítulo, vale la pena mirarla dos veces: <span class="math display">\langle \phi_n, \phi_m\rangle = \int_{T_0} e^{j(n-m)\omega_0 t}\,dt = \begin{cases} T_0 &amp; n = m\\ 0 &amp; n \neq m\end{cases}</span> El caso <span class="math inline">n\neq m</span> es cero porque el integrando es un fasor que da <span class="math inline">|n-m|</span> vueltas <em>completas</em> al círculo en un período: su integral es cero (el fasor promedia el centro del círculo). El caso <span class="math inline">n = m</span> integra la constante 1 sobre un período: <span class="math inline">\|\phi_n\|^2 = T_0</span>. Es la ortogonalidad de senos y cosenos de la <a href="#sec-producto-interno" class="quarto-xref"><span>Sección 3.2.6</span></a>, empaquetada en una sola familia compleja. Y la base es completa (lo aceptamos sin demostrar): proyectar sobre ella no pierde nada. Aplicando <em>literalmente</em> la fórmula de proyección (fila del medio de la tabla de la <a href="#sec-tabla-procedimientos" class="quarto-xref"><span>Sección 3.2.10</span></a>: ejes ortogonales, dividir por la norma al cuadrado) con infinitos ejes:</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -499,10 +499,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Síntesis</strong> (reconstruir la señal sumando sus componentes): <span class="math display">x(t) = \sum_{n=-\infty}^{\infty} c_n\, e^{jn\omega_0 t}</span> <strong>Análisis</strong> (cada coeficiente es una sombra: <span class="math inline">c_n = \langle x, \phi_n\rangle</span>): <span class="math display">c_n = \frac{1}{T_0}\int_{T_0} x(t)\, e^{-jn\omega_0 t}\,dt</span> El intervalo <span class="math inline">\int_{T_0}</span> es cualquier período completo — <span class="math inline">[0,T_0]</span> o <span class="math inline">[-T_0/2, T_0/2]</span>, el que convenga.</p>
+<p><strong>Síntesis</strong> (reconstruir la señal sumando sus componentes): <span class="math display">x(t) = \sum_{n=-\infty}^{\infty} c_n\, e^{jn\omega_0 t}</span> <strong>Análisis</strong> (cada coeficiente es una sombra: <span class="math inline">c_n = \langle x, \phi_n\rangle/\|\phi_n\|^2</span>, con <span class="math inline">\|\phi_n\|^2 = T_0</span>): <span class="math display">c_n = \frac{1}{T_0}\int_{T_0} x(t)\, e^{-jn\omega_0 t}\,dt</span> El <span class="math inline">1/T_0</span> es la norma al cuadrado del eje: el denominador de la sombra, el mismo <span class="math inline">1/T</span> del promedio. El intervalo <span class="math inline">\int_{T_0}</span> es cualquier período completo — <span class="math inline">[0,T_0]</span> o <span class="math inline">[-T_0/2, T_0/2]</span>, el que convenga.</p>
 </div>
 </div>
 <p>No hay receta mágica: <span class="math inline">c_n</span> es la <strong>proyección de <span class="math inline">x</span> sobre el armónico <span class="math inline">n</span></strong> — cuánto de <span class="math inline">x</span> “apunta en la dirección” del fasor que gira a <span class="math inline">n\omega_0</span> rad/s. Todo lo que sabes de proyecciones (mejor aproximación, error ortogonal, Parseval) aplica automáticamente.</p>
+<p><strong>Nota sobre la normalización.</strong> Algunos textos definen el producto interno con un <span class="math inline">1/T_0</span> adelante (un <em>promedio</em> en vez de una integral); con él la base queda ortonormal y <span class="math inline">c_n = \langle x,\phi_n\rangle</span> sin denominador. Es exactamente lo mismo que usar los ejes unitarios <span class="math inline">\phi_n/\sqrt{T_0}</span>: los <span class="math inline">c_n</span> no cambian. Aquí se usa el producto interno sin normalizar, el mismo de la <a href="#sec-producto-interno" class="quarto-xref"><span>Sección 3.2.6</span></a> y de la Lista 5, para que el <span class="math inline">1/T_0</span> aparezca donde la geometría lo pone: en la norma del eje.</p>
 </section>
 <section id="sec-forma-trigonometrica" class="level3" data-number="3.3.2">
 <h3 data-number="3.3.2" class="anchored" data-anchor-id="sec-forma-trigonometrica"><span class="header-section-number">3.3.2</span> Forma trigonométrica</h3>
@@ -528,7 +529,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Mira la reconstrucción en acción — la suma parcial con <span class="math inline">N</span> términos es la <em>proyección</em> de la cuadrada sobre los primeros <span class="math inline">N</span> armónicos, es decir, la mejor aproximación posible con ese presupuesto:</p>
-<div id="5347e3a3" class="cell" data-execution_count="1">
+<div id="d0790777" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -538,7 +539,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><strong>Y Parseval paga de inmediato.</strong> La potencia de la cuadrada es <span class="math inline">1</span> (vale <span class="math inline">\pm 1</span> en todas partes). La que carga el par fundamental <span class="math inline">n=\pm1</span> es <span class="math inline">2\left|\frac{2}{j\pi}\right|^2 = \frac{8}{\pi^2} \approx 0.81</span>: <strong>el 81 % de la potencia de una onda cuadrada vive en su fundamental</strong>. Por eso una cuadrada “se oye” como una nota con esa altura.</p>
+<p><strong>Y Parseval paga de inmediato.</strong> Con <span class="math inline">\|\phi_n\|^2 = T_0</span>, Pitágoras da <span class="math inline">\|x\|^2 = \sum_n |c_n|^2\,T_0</span>, y dividiendo por <span class="math inline">T_0</span>, <strong>la potencia media es <span class="math inline">\sum_n |c_n|^2</span></strong>. La potencia de la cuadrada es <span class="math inline">1</span> (vale <span class="math inline">\pm 1</span> en todas partes). La que carga el par fundamental <span class="math inline">n=\pm1</span> es <span class="math inline">2\left|\frac{2}{j\pi}\right|^2 = \frac{8}{\pi^2} \approx 0.81</span>: <strong>el 81 % de la potencia de una onda cuadrada vive en su fundamental</strong>. Por eso una cuadrada “se oye” como una nota con esa altura.</p>
 <p>Lo que responde por fin la pregunta de la flauta y el violín. Ambos tocan La₄: misma <span class="math inline">\omega_0</span>, por eso son la misma <em>nota</em>. Pero sus espectros reparten la energía distinto: la flauta concentra casi todo en los primeros armónicos (sonido “puro”, redondo); el violín reparte energía hasta armónicos altos (sonido “brillante” — la cuerda frotada tiene esquinas, como la cuadrada). <strong>El timbre es el módulo de los coeficientes de Fourier</strong>: la altura es <span class="math inline">\omega_0</span>; el color del sonido es cómo decae <span class="math inline">|c_n|</span>.</p>
 </section>
 </section>
@@ -546,7 +547,8 @@ window.Quarto = {
 <h2 data-number="3.4" class="anchored" data-anchor-id="sec-espectro-cualitativo"><span class="header-section-number">3.4</span> El espectro se lee sin integrar</h2>
 <p>La fórmula de análisis funciona siempre — pero integrar cada vez es de peón. Esta sección es el oficio: propiedades y reglas de lectura que entregan la estructura del espectro <em>antes</em> de calcular nada. Notación: <span class="math inline">x(t) \leftrightarrow c_n</span>.</p>
 <section id="sec-propiedades-serie" class="level3" data-number="3.4.1">
-<h3 data-number="3.4.1" class="anchored" data-anchor-id="sec-propiedades-serie"><span class="header-section-number">3.4.1</span> Tres propiedades que ahorran integrales</h3>
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="sec-propiedades-serie"><span class="header-section-number">3.4.1</span> Las propiedades: la tabla que se hereda</h3>
+<p>Tres primero, las que más integrales ahorran:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -578,7 +580,75 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Las tres demostraciones son de una línea (linealidad de la integral; cambio de variable; derivar la síntesis término a término) — hazlas una vez y quédatelas. La segunda tiene una lectura musical que conviene guardar: retrasar una canción no le cambia el timbre. El oído es, en primera aproximación, sordo a la fase y sensible a <span class="math inline">|c_n|</span>.</p>
+<p>Las tres demostraciones son de una línea (linealidad de la integral; cambio de variable; derivar la síntesis término a término) — hazlas una vez y quédatelas. La segunda tiene una lectura que conviene guardar: el módulo es propiedad de la señal y la fase registra dónde pusiste el origen del tiempo; por eso retrasar una canción no le cambia el timbre, que vive en <span class="math inline">|c_n|</span>.</p>
+<p>Y el resto de la tabla. Ninguna de estas usa la integral de análisis: salen de la <strong>síntesis</strong>, y por eso son propiedades de <em>proyectar sobre fasores</em>, no de la serie. Las mismas filas vuelven, con otra notación, en la transformada de Fourier (<a href="#sec-propiedades-tf" class="quarto-xref"><span>Sección 3.5.4</span></a>) y en la DFT de la unidad 5. Notación: <span class="math inline">x \leftrightarrow c_n</span>, <span class="math inline">y \leftrightarrow d_n</span>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Propiedad</th>
+<th>Fórmula</th>
+<th>Lectura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inversión</strong></td>
+<td><span class="math inline">x(-t) \leftrightarrow c_{-n}</span></td>
+<td>el espectro se refleja</td>
+</tr>
+<tr class="even">
+<td><strong>Conjugación</strong></td>
+<td><span class="math inline">x^*(t) \leftrightarrow c_{-n}^{*}</span></td>
+<td><span class="math inline">x</span> real ⇒ <span class="math inline">c_{-n} = c_n^*</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Escalamiento</strong></td>
+<td><span class="math inline">x(\alpha t) \leftrightarrow c_n</span>, con fundamental <span class="math inline">\alpha\omega_0</span></td>
+<td>mismos coeficientes, otra fundamental: sube la altura, no cambia <span class="math inline">\lvert c_n\rvert</span></td>
+</tr>
+<tr class="even">
+<td><strong>Integración</strong></td>
+<td><span class="math inline">\int_0^t x \leftrightarrow c_n/(jn\omega_0)</span>, <span class="math inline">n\neq0</span>, <strong>solo si</strong> <span class="math inline">c_0 = 0</span></td>
+<td>pasa-bajos; con DC la integral no es periódica</td>
+</tr>
+<tr class="odd">
+<td><strong>Multiplicación</strong></td>
+<td><span class="math inline">x\,y \leftrightarrow \sum_k c_k\, d_{n-k}</span></td>
+<td>producto en el tiempo ↔︎ <strong>convolución</strong> de coeficientes</td>
+</tr>
+<tr class="even">
+<td><strong>Convolución periódica</strong></td>
+<td><span class="math inline">\frac{1}{T_0}\int_{T_0} x(\tau)\,y(t-\tau)\,d\tau \leftrightarrow c_n\, d_n</span></td>
+<td>convolución en el tiempo ↔︎ <strong>producto</strong> de coeficientes</td>
+</tr>
+<tr class="odd">
+<td><strong>Cambio de período</strong></td>
+<td>con período <span class="math inline">mT_0</span>: <span class="math inline">c'_l = c_{l/m}</span> si <span class="math inline">m \mid l</span>, <span class="math inline">0</span> si no</td>
+<td>ceros intercalados; contra <span class="math inline">\omega</span> el espectro no cambia</td>
+</tr>
+<tr class="even">
+<td><strong>Parseval</strong></td>
+<td><span class="math inline">\frac{1}{T_0}\int_{T_0}\lvert x\rvert^2\,dt = \sum_n \lvert c_n\rvert^2</span></td>
+<td>la potencia media se reparte entre los armónicos</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Las demostraciones</strong>, todas sobre <span class="math inline">x(t) = \sum_n c_n e^{jn\omega_0 t}</span>:</p>
+<ul>
+<li><em>Inversión</em>: sustituir <span class="math inline">t \to -t</span> y reindexar <span class="math inline">n \to -n</span>: <span class="math inline">x(-t) = \sum_n c_n e^{-jn\omega_0 t} = \sum_n c_{-n} e^{jn\omega_0 t}</span>.</li>
+<li><em>Conjugación</em>: conjugar la suma, <span class="math inline">x^*(t) = \sum_n c_n^* e^{-jn\omega_0 t} = \sum_n c_{-n}^* e^{jn\omega_0 t}</span>. Si <span class="math inline">x</span> es real, <span class="math inline">x^* = x</span>, y como los coeficientes son únicos, <span class="math inline">c_{-n}^* = c_n</span>: la simetría hermítica que la <a href="#sec-forma-trigonometrica" class="quarto-xref"><span>Sección 3.3.2</span></a> usó para armar senos y cosenos [DB E0080]. Con la inversión, esto demuestra la tabla de simetrías de la sección siguiente en una línea.</li>
+<li><em>Escalamiento</em>: sustituir <span class="math inline">t \to \alpha t</span> (<span class="math inline">\alpha &gt; 0</span>): <span class="math inline">x(\alpha t) = \sum_n c_n e^{jn(\alpha\omega_0)t}</span>, una serie con los mismos coeficientes sobre la base de fundamental <span class="math inline">\alpha\omega_0</span> y período <span class="math inline">T_0/\alpha</span>. Contra <span class="math inline">n</span> el espectro es el mismo; contra <span class="math inline">\omega</span> se estira por <span class="math inline">\alpha</span>. Una canción al doble de velocidad sube una octava y conserva su <span class="math inline">|c_n|</span> [DB E0375].</li>
+<li><em>Integración</em>: si <span class="math inline">y(t) = \int_0^t x(\tau)\,d\tau</span>, entonces <span class="math inline">y(t+T_0) - y(t) = \int_{T_0} x = T_0 c_0</span>; así que <span class="math inline">y</span> es periódica <strong>si y solo si</strong> <span class="math inline">c_0 = 0</span>. En ese caso <span class="math inline">y' = x</span> y la propiedad de derivación, leída al revés, da <span class="math inline">d_n = c_n/(jn\omega_0)</span> para <span class="math inline">n \neq 0</span>; <span class="math inline">d_0</span> es el promedio de <span class="math inline">y</span> y depende de dónde parte la integral (la constante de integración, en versión espectral). Integrar la cuadrada da la triangular, y sus coeficientes decaen como <span class="math inline">1/n^2</span>: un <span class="math inline">1/n</span> más por cada integración [DB E0376].</li>
+<li><em>Multiplicación</em> (tres líneas): <span class="math inline">x(t)\,y(t) = \sum_k \sum_l c_k\, d_l\, e^{j(k+l)\omega_0 t}</span>; agrupando los términos con <span class="math inline">k + l = n</span>, <span class="math display">x(t)\,y(t) = \sum_n \Big(\underbrace{\sum_k c_k\, d_{n-k}}_{\text{convolución discreta}}\Big)\, e^{jn\omega_0 t}.</span> Es el teorema de convolución en su versión más simple, con sumas; en la <a href="#sec-propiedades-tf" class="quarto-xref"><span>Sección 3.5.4</span></a> vuelve con integrales y en el capítulo de sistemas se cobra.</li>
+<li><em>Convolución periódica</em>: con <span class="math inline">z(t) = \frac{1}{T_0}\int_{T_0} x(\tau)\,y(t-\tau)\,d\tau</span>, sustituir las dos síntesis: <span class="math inline">z(t) = \sum_k\sum_l c_k d_l\, e^{jl\omega_0 t}\cdot\frac{1}{T_0}\int_{T_0} e^{j(k-l)\omega_0\tau}\,d\tau</span>, y la integral es la ortogonalidad de la <a href="#sec-base-estrella" class="quarto-xref"><span>Sección 3.3.1</span></a>: vale <span class="math inline">1</span> si <span class="math inline">k = l</span> y <span class="math inline">0</span> si no. Queda <span class="math inline">z(t) = \sum_k c_k d_k\, e^{jk\omega_0 t}</span>. El <span class="math inline">1/T_0</span> de la definición es el que hace que salga el producto limpio.</li>
+<li><em>Cambio de período</em>: con período <span class="math inline">mT_0</span> la fundamental es <span class="math inline">\omega_0/m</span> y <span class="math inline">e^{jn\omega_0 t} = e^{j(mn)(\omega_0/m)t}</span>: el armónico <span class="math inline">n</span> ocupa el índice <span class="math inline">l = mn</span> de la serie nueva, y los índices que no son múltiplos de <span class="math inline">m</span> no reciben nada. La señal, el espectro contra <span class="math inline">\omega</span> y Parseval no cambian; solo la indexación [DB E0377]. Es la semilla de “rellenar con ceros” en la DFT.</li>
+<li><em>Parseval</em>: demostrada en la <a href="#sec-bessel-parseval" class="quarto-xref"><span>Sección 3.2.12</span></a>; aquí solo cambia el nombre de los ejes.</li>
+</ul>
 </section>
 <section id="sec-simetrias" class="level3" data-number="3.4.2">
 <h3 data-number="3.4.2" class="anchored" data-anchor-id="sec-simetrias"><span class="header-section-number">3.4.2</span> Simetrías: la promesa del capítulo 1, pagada</h3>
@@ -614,7 +684,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Las dos primeras: en <span class="math inline">c_n = \frac{1}{T_0}\int x(t)\,[\cos(n\omega_0 t) - j\sin(n\omega_0 t)]\,dt</span>, si <span class="math inline">x</span> es par la parte con <span class="math inline">\sin</span> multiplica par×impar e integra cero (queda solo lo real); si es impar, al revés. La tercera se demuestra con la propiedad de desplazamiento — una propiedad demostrando otra, así se trabaja en esta unidad: si <span class="math inline">y(t) = x(t-\tfrac{T_0}{2})</span>, entonces <span class="math inline">d_n = c_n e^{-jn\pi} = (-1)^n c_n</span>; imponer <span class="math inline">y = -x</span> da <span class="math inline">(-1)^n c_n = -c_n</span>, que obliga <span class="math inline">c_n = 0</span> para <span class="math inline">n</span> par. La onda cuadrada es impar <em>y</em> de media onda: solo senos, solo impares — exactamente lo que calculamos.</p>
+<p>Las dos primeras: en <span class="math inline">c_n = \frac{1}{T_0}\int x(t)\,[\cos(n\omega_0 t) - j\sin(n\omega_0 t)]\,dt</span>, si <span class="math inline">x</span> es par la parte con <span class="math inline">\sin</span> multiplica par×impar e integra cero (queda solo lo real); si es impar, al revés. (Con inversión y conjugación, <a href="#sec-propiedades-serie" class="quarto-xref"><span>Sección 3.4.1</span></a>, es una línea: real da <span class="math inline">c_{-n} = c_n^*</span>; par da además <span class="math inline">c_{-n} = c_n</span>, así que <span class="math inline">c_n = c_n^*</span> es real; impar da <span class="math inline">c_{-n} = -c_n</span>, así que <span class="math inline">c_n = -c_n^*</span> es imaginario puro.) La tercera se demuestra con la propiedad de desplazamiento — una propiedad demostrando otra, así se trabaja en esta unidad: si <span class="math inline">y(t) = x(t-\tfrac{T_0}{2})</span>, entonces <span class="math inline">d_n = c_n e^{-jn\pi} = (-1)^n c_n</span>; imponer <span class="math inline">y = -x</span> da <span class="math inline">(-1)^n c_n = -c_n</span>, que obliga <span class="math inline">c_n = 0</span> para <span class="math inline">n</span> par. La onda cuadrada es impar <em>y</em> de media onda: solo senos, solo impares — exactamente lo que calculamos.</p>
 <p>En las interrogaciones esta tabla también se usa al revés: de “la señal solo tiene armónicos impares y es par” a <em>dibujar</em> la forma de onda. Dominar ambas direcciones es calibre I2 exacto [DB E0076].</p>
 </section>
 <section id="sec-decaimiento" class="level3" data-number="3.4.3">
@@ -624,7 +694,7 @@ window.Quarto = {
 <li><strong>Onda cuadrada</strong> (discontinua — tiene <em>saltos</em>): <span class="math inline">|c_n| = \frac{2}{\pi n}</span> en los impares — decae como <span class="math inline">1/n</span>.</li>
 <li><strong>Onda triangular</strong> par de amplitud <span class="math inline">\pm 1</span> (continua, pero con <em>puntas</em>: derivada discontinua): <span class="math inline">c_n = \frac{4}{\pi^2 n^2}</span> en los impares — decae como <span class="math inline">1/n^2</span>.</li>
 </ul>
-<div id="30450294" class="cell" data-execution_count="2">
+<div id="09cf3b66" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -640,7 +710,7 @@ window.Quarto = {
 <section id="sec-gibbs" class="level3" data-number="3.4.4">
 <h3 data-number="3.4.4" class="anchored" data-anchor-id="sec-gibbs"><span class="header-section-number">3.4.4</span> Truncar la serie: el fenómeno de Gibbs</h3>
 <p>En la práctica nadie suma infinitos armónicos: se <strong>trunca</strong> la serie en <span class="math inline">N</span> términos. Ya viste en la figura de la cuadrada que junto al salto asoma una “oreja”. La pregunta natural — ¿desaparece al subir <span class="math inline">N</span>? — tiene una respuesta sorprendente: <strong>no</strong>.</p>
-<div id="bd7dbeb9" class="cell" data-execution_count="3">
+<div id="f8a40a1e" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -699,7 +769,7 @@ window.Quarto = {
 = \frac{2\sin(\omega\tau/2)}{\omega}</span> Multiplicando y dividiendo por <span class="math inline">\tau/2</span> para reconocer la sinc normalizada: <span class="math display">\operatorname{rect}\!\left(\frac{t}{\tau}\right) \;\longleftrightarrow\; \tau\,\operatorname{sinc}\!\left(\frac{\omega\tau}{2\pi}\right)</span> Los tres chequeos de rigor (hábito que vale puntos en toda interrogación): (i) <span class="math inline">X(0) = \tau</span> = área del pulso ✓; (ii) primer cero en <span class="math inline">\omega = 2\pi/\tau</span> ✓; (iii) <span class="math inline">X</span> real y par, como corresponde a una señal real y par ✓.</p>
 </div>
 </div>
-<div id="90ce0d8f" class="cell" data-execution_count="4">
+<div id="4ebe3335" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -827,7 +897,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-filtros" class="level3" data-number="3.6.2">
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="sec-filtros"><span class="header-section-number">3.6.2</span> Filtros: moldear el espectro</h3>
 <p><strong>Filtrar = multiplicar el espectro por la <span class="math inline">H(\omega)</span> que convenga.</strong> El ejemplo de carne y hueso: el circuito RC con salida en el condensador, <span class="math inline">RC\,\dot{v}_c + v_c = v_{in}</span>. La propiedad de derivación (<span class="math inline">\dot{x} \leftrightarrow j\omega X</span>) convierte la EDO en álgebra: <span class="math display">(1 + j\omega RC)\,V_c(\omega) = V_{in}(\omega) \qquad\Longrightarrow\qquad H(\omega) = \frac{1}{1 + j\omega RC}</span> <span class="math display">|H(\omega)| = \frac{1}{\sqrt{1+(\omega RC)^2}}: \quad \text{deja pasar } \omega \ll \tfrac{1}{RC},\ \text{atenúa } \omega \gg \tfrac{1}{RC}</span> Un <strong>pasa-bajos</strong>: con dos componentes ya estás <em>diseñando</em> qué frecuencias viven y cuáles mueren. (Y nota el gesto: la EDO se volvió álgebra. Ese gesto es media unidad 4.)</p>
-<div id="f1b529f5" class="cell" data-execution_count="5">
+<div id="8b19e1c5" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -861,7 +931,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-teaser-muestreo" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="sec-teaser-muestreo"><span class="header-section-number">3.7</span> Cierre: ¿y si multiplicamos por un tren de impulsos?</h2>
 <p>Una última jugada, para dejar el final abierto. En el capítulo 1 definimos el tren de impulsos <span class="math inline">\delta_T(t)</span> (<a href="cap01.html#sec-tren-impulsos" class="quarto-xref"><span>Sección 1.5.5</span></a>) y pedimos guardar una frase: <em>“muestrear una señal es multiplicarla por un tren de impulsos”</em>. Recién ahora tenemos las herramientas para preguntar qué le hace eso al <strong>espectro</strong>: <span class="math display">x_s(t) = x(t)\cdot\delta_T(t) = \sum_n x(nT)\,\delta(t-nT)</span> — de la señal solo sobreviven sus <em>muestras</em> cada <span class="math inline">T</span> segundos. Multiplicar en el tiempo ⇒ convolucionar los espectros (la propiedad espejo). Y la TF de un tren de impulsos es… ¡otro tren de impulsos!, espaciado <span class="math inline">\omega_s = 2\pi/T</span> (la demostración queda debiéndose para el capítulo 5). Convolucionar con un tren de impulsos <strong>copia y pega</strong>: <span class="math display">X_s(\omega) = \frac{1}{T}\sum_{k=-\infty}^{\infty} X(\omega - k\omega_s)</span></p>
-<div id="9dbea490" class="cell" data-execution_count="6">
+<div id="5822dcba" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

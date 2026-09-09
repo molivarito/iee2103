@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C5 · Propiedades de sistemas – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Lista 6 · Propiedades de la serie y transformada de Fourier básica – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-03/c06.html" rel="next">
-<link href="../../curso/semana-02/ay02.html" rel="prev">
+<link href="../../curso/listas/lista-05.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +128,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-03/c05.html">Semana 3 · Sistemas</a></li><li class="breadcrumb-item"><a href="../../curso/semana-03/c05.html">C5 · Propiedades de sistemas</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-06.html">Lista 6 · Propiedades de la serie y transformada de Fourier básica</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -247,7 +246,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-03/c05.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-03/c05.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C5 · Propiedades de sistemas</span></a>
   </div>
 </li>
@@ -393,7 +392,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/listas/lista-06.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-06.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lista 6 · Propiedades de la serie y transformada de Fourier básica</span></a>
   </div>
 </li>
@@ -409,20 +408,17 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#la-caja-bajo-interrogatorio" id="toc-la-caja-bajo-interrogatorio" class="nav-link active" data-scroll-target="#la-caja-bajo-interrogatorio">1. La caja bajo interrogatorio</a></li>
-  <li><a href="#linealidad-e-invariancia-las-dos-que-valen-oro" id="toc-linealidad-e-invariancia-las-dos-que-valen-oro" class="nav-link" data-scroll-target="#linealidad-e-invariancia-las-dos-que-valen-oro">2. Linealidad e invariancia: las dos que valen oro</a></li>
-  <li><a href="#votación-cuáles-de-estos-4-sistemas-son-lineales" id="toc-votación-cuáles-de-estos-4-sistemas-son-lineales" class="nav-link" data-scroll-target="#votación-cuáles-de-estos-4-sistemas-son-lineales">3. Votación: ¿cuáles de estos 4 sistemas son lineales?</a></li>
-  <li><a href="#causalidad-estabilidad-y-memoria" id="toc-causalidad-estabilidad-y-memoria" class="nav-link" data-scroll-target="#causalidad-estabilidad-y-memoria">4. Causalidad, estabilidad y memoria</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link active" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-03/c05.html">Semana 3 · Sistemas</a></li><li class="breadcrumb-item"><a href="../../curso/semana-03/c05.html">C5 · Propiedades de sistemas</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-06.html">Lista 6 · Propiedades de la serie y transformada de Fourier básica</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">C5 · Propiedades de sistemas</h1>
-<p class="subtitle lead">Semana 3 · 70 min · U2.1</p>
+<h1 class="title">Lista 6 · Propiedades de la serie y transformada de Fourier básica</h1>
+<p class="subtitle lead">Se publica al cierre de la semana 6 · Materia: C11–C12 · Al portafolio</p>
 </div>
 
 
@@ -439,129 +435,49 @@ window.Quarto = {
 </header>
 
 
-<section id="la-caja-bajo-interrogatorio" class="level1">
-<h1>1. La caja bajo interrogatorio</h1>
-<p><strong>Las cinco preguntas que le haremos a todo sistema</strong> (una frase cada una):</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Cómo trabajar esta lista
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Al portafolio, a mano, con desarrollo completo. Esta lista es el mejor entrenamiento directo para la <strong>I2</strong> (semana 8); su control asociado es el <strong>CV3</strong> (semana 9, Listas 6–8). El quiz Canvas semanal es el ensayo. El CV3 será una variante numérica de una de las preguntas <strong>¿Y si…?</strong> de las Listas 6–8: resolverlas en tu portafolio ES preparar el control.</p>
+</div>
+</div>
+<p><strong>Referencias de estudio</strong>: [Oppenheim] §3.4–3.5, §4.0–4.3; [Alvarado] §3.2–3.3; apunte del curso “Propiedades de las Series de Fourier” (Canvas).</p>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<p><strong>L6.1</strong> [DB E0076, adaptado] — Sin calcular ninguna integral, determine si los coeficientes de Fourier <span class="math inline">c_n</span> de cada señal son puramente reales, puramente imaginarios, o complejos:</p>
 <ol type="1">
-<li>Linealidad:</li>
-<li>Invariancia:</li>
-<li>Causalidad:</li>
-<li>Estabilidad:</li>
-<li>Memoria:</li>
+<li>Onda cuadrada <strong>par</strong> de amplitud <span class="math inline">\pm1</span> (vale <span class="math inline">+1</span> en <span class="math inline">|t| &lt; T_0/4</span>, <span class="math inline">-1</span> en el resto del período).</li>
+<li>Diente de sierra <strong>impar</strong> (<span class="math inline">x(t) = t</span> en <span class="math inline">-\tfrac{T_0}{2} &lt; t &lt; \tfrac{T_0}{2}</span>, repetido).</li>
+<li>La señal de (1) desplazada en <span class="math inline">T_0/8</span>.</li>
 </ol>
-<p><strong>La promesa para la próxima clase</strong> (¿qué ganamos si el sistema cumple las dos primeras?):</p>
-<div class="hueco">
-
-</div>
-</section>
-<section id="linealidad-e-invariancia-las-dos-que-valen-oro" class="level1">
-<h1>2. Linealidad e invariancia: las dos que valen oro</h1>
-<p><strong>Linealidad</strong> — las dos condiciones, con sus fórmulas:</p>
-<ul>
-<li>Homogeneidad:</li>
-<li>Aditividad:</li>
-</ul>
-<p><strong>El chequeo rápido que descarta sin calcular:</strong></p>
-<div class="hueco">
-
-</div>
-<p><strong>El cuadrador <span class="math inline">y = x^2(t)</span> no es lineal</strong> (desarrollo de las dos fallas; ¿cómo se llama el término cruzado y cómo se escucha?):</p>
-<div class="hueco-grande">
-
-</div>
-<p><strong>Invariancia</strong> — definición y la receta de los dos caminos:</p>
-<div class="hueco">
-
-</div>
-<p><strong>Ejemplo resuelto (calibre I1): <span class="math inline">y(t) = x(t)\cos(\omega_0 t)</span></strong> — ¿lineal? ¿invariante? (desarrollo completo, con el contraejemplo concreto):</p>
-<div class="hueco-grande">
-
-</div>
-<p><strong>La tabla de las cuatro combinaciones</strong> (un ejemplo por casilla):</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th>Invariante</th>
-<th>Variante</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Lineal</strong></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>No lineal</strong></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="votación-cuáles-de-estos-4-sistemas-son-lineales" class="level1">
-<h1>3. Votación: ¿cuáles de estos 4 sistemas son lineales?</h1>
-<p><strong>Mi voto</strong> para cada sistema (antes de la discusión), <strong>y por qué</strong>:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Sistema</th>
-<th>¿Lineal? (mi voto)</th>
-<th>¿Lineal? (final)</th>
-<th>¿Invariante?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>(A) <span class="math inline">y = x^2(t)</span></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>(B) <span class="math inline">y = t\,x(t)</span></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>(C) <span class="math inline">y = x(t)+1</span></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>(D) <span class="math inline">y = dx/dt</span></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Lo que aprendí de la discusión</strong> (en una frase):</p>
-<div class="hueco">
-
-</div>
-</section>
-<section id="causalidad-estabilidad-y-memoria" class="level1">
-<h1>4. Causalidad, estabilidad y memoria</h1>
-<p><strong>Causalidad</strong> — definición + un sistema causal y uno no causal:</p>
-<div class="hueco">
-
-</div>
-<p><strong>Estabilidad BIBO</strong> — definición + el contraejemplo que demuestra que el integrador es inestable:</p>
-<div class="hueco">
-
-</div>
-<p><strong>Memoria</strong> — definición + un sistema con memoria y uno sin:</p>
-<div class="hueco">
-
-</div>
-<p><strong>La regla de oro para responder en la I1:</strong></p>
-<div class="hueco">
-
-</div>
+<p><strong>¿Y si…?</strong> ¿Y si al diente de sierra impar de (2) le sumamos una constante DC (deja de ser impar puro)? ¿siguen siendo puramente imaginarios todos los coeficientes?</p>
+<p><strong>L6.2</strong> [DB E0080] — Considere la forma exponencial de la serie de Fourier, <span class="math inline">f(x) = \sum_{k=-\infty}^{\infty} c_k\,e^{jk\omega_0 x}</span>. Demuestre que si <span class="math inline">f(x)</span> es una función real y periódica, sus coeficientes cumplen <span class="math display">c_{-k} = c_k^*</span></p>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">f(x)</span> fuera puramente imaginaria en vez de real? ¿sigue cumpliéndose <span class="math inline">c_{-k}=c_k^*</span>, o cambia la relación?</p>
+<p><strong>L6.3</strong> [DB E0088] — ¿Cuántas frecuencias tiene un coseno? ¿Cuál es o cuáles son? Justifique con la transformada de Fourier de <span class="math inline">\cos(\omega_0 t)</span>. <em>(Hint: la propiedad de desplazamiento en frecuencia puede ser útil.)</em></p>
+<p><strong>¿Y si…?</strong> ¿Y si en vez de <span class="math inline">\cos(\omega_0 t)</span> preguntamos por las frecuencias de <span class="math inline">e^{j\omega_0 t}</span>? ¿sigue teniendo dos?</p>
+<p><strong>L6.4</strong> [DB E0091] — Calcule el valor de la integral <span class="math display">\int_{-\infty}^{\infty} \operatorname{sinc}(x)\,dx</span> <em>(Hint: no intente la primitiva — no existe en forma cerrada. ¿Qué valor de qué transformada es esta integral?)</em></p>
+<p><strong>¿Y si…?</strong> ¿Y si la integral fuera <span class="math inline">\int_{-\infty}^{\infty}\operatorname{sinc}(x)\cos(\pi x)\,dx</span> (evaluar <span class="math inline">X(u)</span> en <span class="math inline">u=\tfrac12</span> en vez de <span class="math inline">u=0</span>)? ¿el mismo truco sigue dando un valor limpio?</p>
+<p><strong>L6.5</strong> [DB E0102] — Sea <span class="math inline">X(\omega)</span> la transformada de Fourier de <span class="math display">x(t) = \begin{cases} e^{-t}, &amp; 0 &lt; t &lt; 1\\ 0, &amp; \text{e.o.c.} \end{cases}</span></p>
+<ol type="1">
+<li>Grafique <span class="math inline">x(t)</span> y calcule <span class="math inline">X(\omega)</span>.</li>
+<li>Exprese en términos de <span class="math inline">X(\omega)</span> las transformadas de <span class="math inline">x_2(t) = x(t) + x(-t)</span> y <span class="math inline">x_3(t) = x(t) - x(-t)</span>. ¿Qué simetría tiene cada resultado?</li>
+</ol>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">x(t)</span> ya fuera una función par (en vez de la exponencial truncada del enunciado)? ¿qué le pasa a <span class="math inline">x_3(t)</span> y a su transformada?</p>
+<p><strong>L6.6</strong> [DB E0090] — Sea <span class="math inline">f(x)</span> periódica con <span class="math inline">f(x) = f(x-1)</span> y coeficientes de Fourier <span class="math inline">c_k = e^{-|k|}</span>. Calcule <span class="math inline">F(\omega)</span>, la transformada de Fourier de <span class="math inline">f(x)</span>, e interprétela como un tren de impulsos pesado por una envolvente <span class="math inline">G(\omega)</span>. <em>(El tren de impulsos aparece aquí en su rol espectral por primera vez — en C14 será protagonista.)</em></p>
+<p><strong>¿Y si…?</strong> ¿Y si en vez de <span class="math inline">f(x)=f(x-1)</span> tomamos el límite <span class="math inline">T_0\to\infty</span> (misma envolvente <span class="math inline">G(\omega)</span>)? ¿qué le pasa al tren de impulsos?</p>
+<p><strong>L6.7</strong> [DB E0375] — Una señal periódica <span class="math inline">x(t)</span> de período <span class="math inline">T_0</span> tiene coeficientes <span class="math inline">c_n</span>. Se reproduce al doble de velocidad: <span class="math inline">y(t) = x(2t)</span>. (a) Período y fundamental de <span class="math inline">y</span>. (b) Sus coeficientes <span class="math inline">d_n</span> en función de los <span class="math inline">c_n</span>, demostrado desde la síntesis. (c) Dibuje <span class="math inline">|c_n|</span> y <span class="math inline">|d_n|</span> <strong>contra <span class="math inline">\omega</span></strong>: ¿qué cambió y qué no? (d) Si <span class="math inline">x</span> es una nota, ¿qué le pasa a la altura? ¿y al timbre?</p>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">y(t) = x(-t)</span> en vez de <span class="math inline">x(2t)</span> (escalamiento con <span class="math inline">\alpha = -1</span>)? ¿qué le pasa a los coeficientes, y qué tiene que ver con la tabla de simetrías?</p>
+<p><strong>L6.8</strong> [DB E0376] — Sea <span class="math inline">x(t)</span> periódica con coeficientes <span class="math inline">c_n</span> y <span class="math inline">y(t) = \int_0^t x(\tau)\,d\tau</span>. (a) Demuestre que <span class="math inline">y</span> es periódica <strong>si y solo si</strong> <span class="math inline">c_0 = 0</span>. (b) En ese caso, obtenga <span class="math inline">d_n</span> para <span class="math inline">n \neq 0</span> desde la propiedad de derivación; ¿qué pasa con <span class="math inline">d_0</span>? (c) Aplíquelo a la onda cuadrada impar de <span class="math inline">\pm 1</span>: ¿qué señal es <span class="math inline">y</span> y cómo decaen sus coeficientes? (d) ¿Y si <span class="math inline">c_0 \neq 0</span>? Describa <span class="math inline">y</span> como suma de dos partes.</p>
+<p><strong>¿Y si…?</strong> ¿Y si integramos dos veces? ¿Qué condición hace falta ahora, y cómo decaen los coeficientes de la señal resultante?</p>
+<p><strong>L6.9</strong> [DB E0377] — <span class="math inline">x(t) = \cos(\omega_0 t)</span> tiene <span class="math inline">c_{\pm1} = \tfrac12</span>. Un compañero la desarrolla con período <span class="math inline">2T_0</span>. (a) ¿Cuál es su fundamental y su base? (b) Calcule sus coeficientes <span class="math inline">c'_l</span> sin integrar y compárelos con los <span class="math inline">c_n</span>. (c) Generalice a período <span class="math inline">mT_0</span>. (d) Dibuje los dos espectros <strong>contra <span class="math inline">\omega</span></strong>: ¿cambia la señal, el espectro o Parseval?</p>
+<p><strong>¿Y si…?</strong> ¿Y si la señal fuera <span class="math inline">\cos(\omega_0 t) + \cos(\tfrac32\omega_0 t)</span>? ¿Cuál es su período fundamental, y qué pasa si alguien insiste en usar <span class="math inline">T_0</span>?</p>
 
 
 </section>
@@ -969,14 +885,11 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/semana-02/ay02.html" class="pagination-link" aria-label="Ay2 · Ejercicios U1: señales, simetrías, impulso">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Ay2 · Ejercicios U1: señales, simetrías, impulso</span>
+      <a href="../../curso/listas/lista-05.html" class="pagination-link" aria-label="Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-03/c06.html" class="pagination-link" aria-label="C6 · LTI ⇒ convolución: el teorema del curso">
-        <span class="nav-page-text">C6 · LTI ⇒ convolución: el teorema del curso</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
