@@ -269,11 +269,13 @@ window.Quarto = {
   </ul></li>
   <li><a href="#sec-tf" id="toc-sec-tf" class="nav-link" data-scroll-target="#sec-tf"><span class="header-section-number">3.5</span> La transformada de Fourier</a>
   <ul class="collapse">
-  <li><a href="#sec-serie-a-tf" id="toc-sec-serie-a-tf" class="nav-link" data-scroll-target="#sec-serie-a-tf"><span class="header-section-number">3.5.1</span> El período se va a infinito</a></li>
+  <li><a href="#sec-serie-a-tf" id="toc-sec-serie-a-tf" class="nav-link" data-scroll-target="#sec-serie-a-tf"><span class="header-section-number">3.5.1</span> De la serie a la transformada: la extensión periódica</a></li>
   <li><a href="#sec-rect-sinc" id="toc-sec-rect-sinc" class="nav-link" data-scroll-target="#sec-rect-sinc"><span class="header-section-number">3.5.2</span> El par estrella: rect ↔︎ sinc</a></li>
-  <li><a href="#sec-pares-canonicos" id="toc-sec-pares-canonicos" class="nav-link" data-scroll-target="#sec-pares-canonicos"><span class="header-section-number">3.5.3</span> Los pares canónicos</a></li>
-  <li><a href="#sec-propiedades-tf" id="toc-sec-propiedades-tf" class="nav-link" data-scroll-target="#sec-propiedades-tf"><span class="header-section-number">3.5.4</span> Las propiedades: el oficio</a></li>
-  <li><a href="#sec-teorema-autocorrelacion" id="toc-sec-teorema-autocorrelacion" class="nav-link" data-scroll-target="#sec-teorema-autocorrelacion"><span class="header-section-number">3.5.5</span> El teorema de autocorrelación</a></li>
+  <li><a href="#sec-dirichlet" id="toc-sec-dirichlet" class="nav-link" data-scroll-target="#sec-dirichlet"><span class="header-section-number">3.5.3</span> ¿Cuándo existe <span class="math inline">X(\omega)</span>? Condiciones de Dirichlet</a></li>
+  <li><a href="#sec-pares-canonicos" id="toc-sec-pares-canonicos" class="nav-link" data-scroll-target="#sec-pares-canonicos"><span class="header-section-number">3.5.4</span> Los pares canónicos</a></li>
+  <li><a href="#sec-simetrias-tf" id="toc-sec-simetrias-tf" class="nav-link" data-scroll-target="#sec-simetrias-tf"><span class="header-section-number">3.5.5</span> Leer un espectro: simetrías</a></li>
+  <li><a href="#sec-propiedades-tf" id="toc-sec-propiedades-tf" class="nav-link" data-scroll-target="#sec-propiedades-tf"><span class="header-section-number">3.5.6</span> Las propiedades: el oficio</a></li>
+  <li><a href="#sec-teorema-autocorrelacion" id="toc-sec-teorema-autocorrelacion" class="nav-link" data-scroll-target="#sec-teorema-autocorrelacion"><span class="header-section-number">3.5.7</span> El teorema de autocorrelación</a></li>
   </ul></li>
   <li><a href="#sec-lti-frecuencia" id="toc-sec-lti-frecuencia" class="nav-link" data-scroll-target="#sec-lti-frecuencia"><span class="header-section-number">3.6</span> Sistemas LTI en frecuencia</a>
   <ul class="collapse">
@@ -320,7 +322,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Al terminar este capítulo podrás: <strong>explicar</strong> la serie de Fourier como una proyección ortogonal — producto interno, mejor aproximación, Bessel y Parseval [U3.1]; <strong>calcular</strong> coeficientes de señales estándar en forma exponencial y trigonométrica, y transformadas por definición y por propiedades [U3.2, U3.4]; <strong>leer</strong> un espectro cualitativamente: simetrías, decaimiento según suavidad, Gibbs [U3.3]; <strong>manejar</strong> los pares canónicos y las propiedades de la transformada, en especial convolución ↔︎ multiplicación [U3.4]; <strong>analizar</strong> sistemas LTI en frecuencia: <span class="math inline">H(\omega)</span>, filtrado, respuesta a señales periódicas [U3.5]; <strong>identificar</strong> <span class="math inline">e^{j\omega t}</span> como autofunción de los sistemas LTI — el origen de <span class="math inline">H(\omega)</span> [U3.6]; y <strong>aplicar</strong> el teorema de autocorrelación <span class="math inline">R_x \leftrightarrow |X(\omega)|^2</span>, con Parseval como su caso particular [U3.7].</p>
+<p>Al terminar este capítulo podrás: <strong>explicar</strong> la serie de Fourier como una proyección ortogonal — producto interno, mejor aproximación, Bessel y Parseval [U3.1]; <strong>calcular</strong> coeficientes de señales estándar en forma exponencial y trigonométrica, y transformadas por definición y por propiedades [U3.2, U3.4]; <strong>leer</strong> un espectro cualitativamente: simetrías (de la serie y de la TF, condiciones de Dirichlet incluidas), decaimiento según suavidad, Gibbs [U3.3]; <strong>manejar</strong> los pares canónicos y las propiedades de la transformada, en especial convolución ↔︎ multiplicación [U3.4]; <strong>analizar</strong> sistemas LTI en frecuencia: <span class="math inline">H(\omega)</span>, filtrado, respuesta a señales periódicas [U3.5]; <strong>identificar</strong> <span class="math inline">e^{j\omega t}</span> como autofunción de los sistemas LTI — el origen de <span class="math inline">H(\omega)</span> [U3.6]; y <strong>aplicar</strong> el teorema de autocorrelación <span class="math inline">R_x \leftrightarrow |X(\omega)|^2</span>, con Parseval como su caso particular [U3.7].</p>
 <p><strong>Prerrequisitos</strong>: las señales del capítulo 1 (en particular la exponencial compleja de la <a href="cap01.html#sec-exp-compleja" class="quarto-xref"><span>Sección 1.4.1</span></a> y el impulso de la <a href="cap01.html#sec-impulso" class="quarto-xref"><span>Sección 1.5</span></a>) y la convolución del capítulo 2. Este capítulo cobra varias promesas plantadas allá.</p>
 </div>
 </div>
@@ -529,7 +531,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Mira la reconstrucción en acción — la suma parcial con <span class="math inline">N</span> términos es la <em>proyección</em> de la cuadrada sobre los primeros <span class="math inline">N</span> armónicos, es decir, la mejor aproximación posible con ese presupuesto:</p>
-<div id="d0790777" class="cell" data-execution_count="1">
+<div id="b423d5a3" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -581,7 +583,7 @@ window.Quarto = {
 </tbody>
 </table>
 <p>Las tres demostraciones son de una línea (linealidad de la integral; cambio de variable; derivar la síntesis término a término) — hazlas una vez y quédatelas. La segunda tiene una lectura que conviene guardar: el módulo es propiedad de la señal y la fase registra dónde pusiste el origen del tiempo; por eso retrasar una canción no le cambia el timbre, que vive en <span class="math inline">|c_n|</span>.</p>
-<p>Y el resto de la tabla. Ninguna de estas usa la integral de análisis: salen de la <strong>síntesis</strong>, y por eso son propiedades de <em>proyectar sobre fasores</em>, no de la serie. Las mismas filas vuelven, con otra notación, en la transformada de Fourier (<a href="#sec-propiedades-tf" class="quarto-xref"><span>Sección 3.5.4</span></a>) y en la DFT de la unidad 5. Notación: <span class="math inline">x \leftrightarrow c_n</span>, <span class="math inline">y \leftrightarrow d_n</span>.</p>
+<p>Y el resto de la tabla. Ninguna de estas usa la integral de análisis: salen de la <strong>síntesis</strong>, y por eso son propiedades de <em>proyectar sobre fasores</em>, no de la serie. Las mismas filas vuelven, con otra notación, en la transformada de Fourier (<a href="#sec-propiedades-tf" class="quarto-xref"><span>Sección 3.5.6</span></a>) y en la DFT de la unidad 5. Notación: <span class="math inline">x \leftrightarrow c_n</span>, <span class="math inline">y \leftrightarrow d_n</span>.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -644,7 +646,7 @@ window.Quarto = {
 <li><em>Conjugación</em>: conjugar la suma, <span class="math inline">x^*(t) = \sum_n c_n^* e^{-jn\omega_0 t} = \sum_n c_{-n}^* e^{jn\omega_0 t}</span>. Si <span class="math inline">x</span> es real, <span class="math inline">x^* = x</span>, y como los coeficientes son únicos, <span class="math inline">c_{-n}^* = c_n</span>: la simetría hermítica que la <a href="#sec-forma-trigonometrica" class="quarto-xref"><span>Sección 3.3.2</span></a> usó para armar senos y cosenos [DB E0080]. Con la inversión, esto demuestra la tabla de simetrías de la sección siguiente en una línea.</li>
 <li><em>Escalamiento</em>: sustituir <span class="math inline">t \to \alpha t</span> (<span class="math inline">\alpha &gt; 0</span>): <span class="math inline">x(\alpha t) = \sum_n c_n e^{jn(\alpha\omega_0)t}</span>, una serie con los mismos coeficientes sobre la base de fundamental <span class="math inline">\alpha\omega_0</span> y período <span class="math inline">T_0/\alpha</span>. Contra <span class="math inline">n</span> el espectro es el mismo; contra <span class="math inline">\omega</span> se estira por <span class="math inline">\alpha</span>. Una canción al doble de velocidad sube una octava y conserva su <span class="math inline">|c_n|</span> [DB E0375].</li>
 <li><em>Integración</em>: si <span class="math inline">y(t) = \int_0^t x(\tau)\,d\tau</span>, entonces <span class="math inline">y(t+T_0) - y(t) = \int_{T_0} x = T_0 c_0</span>; así que <span class="math inline">y</span> es periódica <strong>si y solo si</strong> <span class="math inline">c_0 = 0</span>. En ese caso <span class="math inline">y' = x</span> y la propiedad de derivación, leída al revés, da <span class="math inline">d_n = c_n/(jn\omega_0)</span> para <span class="math inline">n \neq 0</span>; <span class="math inline">d_0</span> es el promedio de <span class="math inline">y</span> y depende de dónde parte la integral (la constante de integración, en versión espectral). Integrar la cuadrada da la triangular, y sus coeficientes decaen como <span class="math inline">1/n^2</span>: un <span class="math inline">1/n</span> más por cada integración [DB E0376].</li>
-<li><em>Multiplicación</em> (tres líneas): <span class="math inline">x(t)\,y(t) = \sum_k \sum_l c_k\, d_l\, e^{j(k+l)\omega_0 t}</span>; agrupando los términos con <span class="math inline">k + l = n</span>, <span class="math display">x(t)\,y(t) = \sum_n \Big(\underbrace{\sum_k c_k\, d_{n-k}}_{\text{convolución discreta}}\Big)\, e^{jn\omega_0 t}.</span> Es el teorema de convolución en su versión más simple, con sumas; en la <a href="#sec-propiedades-tf" class="quarto-xref"><span>Sección 3.5.4</span></a> vuelve con integrales y en el capítulo de sistemas se cobra.</li>
+<li><em>Multiplicación</em> (tres líneas): <span class="math inline">x(t)\,y(t) = \sum_k \sum_l c_k\, d_l\, e^{j(k+l)\omega_0 t}</span>; agrupando los términos con <span class="math inline">k + l = n</span>, <span class="math display">x(t)\,y(t) = \sum_n \Big(\underbrace{\sum_k c_k\, d_{n-k}}_{\text{convolución discreta}}\Big)\, e^{jn\omega_0 t}.</span> Es el teorema de convolución en su versión más simple, con sumas; en la <a href="#sec-propiedades-tf" class="quarto-xref"><span>Sección 3.5.6</span></a> vuelve con integrales y en el capítulo de sistemas se cobra.</li>
 <li><em>Convolución periódica</em>: con <span class="math inline">z(t) = \frac{1}{T_0}\int_{T_0} x(\tau)\,y(t-\tau)\,d\tau</span>, sustituir las dos síntesis: <span class="math inline">z(t) = \sum_k\sum_l c_k d_l\, e^{jl\omega_0 t}\cdot\frac{1}{T_0}\int_{T_0} e^{j(k-l)\omega_0\tau}\,d\tau</span>, y la integral es la ortogonalidad de la <a href="#sec-base-estrella" class="quarto-xref"><span>Sección 3.3.1</span></a>: vale <span class="math inline">1</span> si <span class="math inline">k = l</span> y <span class="math inline">0</span> si no. Queda <span class="math inline">z(t) = \sum_k c_k d_k\, e^{jk\omega_0 t}</span>. El <span class="math inline">1/T_0</span> de la definición es el que hace que salga el producto limpio.</li>
 <li><em>Cambio de período</em>: con período <span class="math inline">mT_0</span> la fundamental es <span class="math inline">\omega_0/m</span> y <span class="math inline">e^{jn\omega_0 t} = e^{j(mn)(\omega_0/m)t}</span>: el armónico <span class="math inline">n</span> ocupa el índice <span class="math inline">l = mn</span> de la serie nueva, y los índices que no son múltiplos de <span class="math inline">m</span> no reciben nada. La señal, el espectro contra <span class="math inline">\omega</span> y Parseval no cambian; solo la indexación [DB E0377]. Es la semilla de “rellenar con ceros” en la DFT.</li>
 <li><em>Parseval</em>: demostrada en la <a href="#sec-bessel-parseval" class="quarto-xref"><span>Sección 3.2.12</span></a>; aquí solo cambia el nombre de los ejes.</li>
@@ -694,7 +696,7 @@ window.Quarto = {
 <li><strong>Onda cuadrada</strong> (discontinua — tiene <em>saltos</em>): <span class="math inline">|c_n| = \frac{2}{\pi n}</span> en los impares — decae como <span class="math inline">1/n</span>.</li>
 <li><strong>Onda triangular</strong> par de amplitud <span class="math inline">\pm 1</span> (continua, pero con <em>puntas</em>: derivada discontinua): <span class="math inline">c_n = \frac{4}{\pi^2 n^2}</span> en los impares — decae como <span class="math inline">1/n^2</span>.</li>
 </ul>
-<div id="09cf3b66" class="cell" data-execution_count="2">
+<div id="e41b65e7" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -710,7 +712,7 @@ window.Quarto = {
 <section id="sec-gibbs" class="level3" data-number="3.4.4">
 <h3 data-number="3.4.4" class="anchored" data-anchor-id="sec-gibbs"><span class="header-section-number">3.4.4</span> Truncar la serie: el fenómeno de Gibbs</h3>
 <p>En la práctica nadie suma infinitos armónicos: se <strong>trunca</strong> la serie en <span class="math inline">N</span> términos. Ya viste en la figura de la cuadrada que junto al salto asoma una “oreja”. La pregunta natural — ¿desaparece al subir <span class="math inline">N</span>? — tiene una respuesta sorprendente: <strong>no</strong>.</p>
-<div id="f8a40a1e" class="cell" data-execution_count="3">
+<div id="685c886d" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -726,14 +728,23 @@ window.Quarto = {
 <section id="sec-tf" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="sec-tf"><span class="header-section-number">3.5</span> La transformada de Fourier</h2>
 <section id="sec-serie-a-tf" class="level3" data-number="3.5.1">
-<h3 data-number="3.5.1" class="anchored" data-anchor-id="sec-serie-a-tf"><span class="header-section-number">3.5.1</span> El período se va a infinito</h3>
-<p>La serie exige señales periódicas. Pero una palmada, una palabra, una nota que no se repite… no lo son. ¿Perdemos Fourier? No: lo estiramos.</p>
-<p>Toma un pulso <span class="math inline">\operatorname{rect}(t/\tau)</span> y repítelo cada <span class="math inline">T_0</span>. Sus coeficientes salen por cálculo directo (dos líneas, o recicla [DB E0077]): <span class="math display">c_n = \frac{\tau}{T_0}\,\operatorname{sinc}\!\left(\frac{n\tau}{T_0}\right)</span> — y aquí reaparece la <span class="math inline">\operatorname{sinc}</span> presentada en el capítulo 1, de la que dijimos “por ahora, solo recuerda su cara”. Ahora aleja las repeticiones: <span class="math inline">T_0 \uparrow</span> con <span class="math inline">\tau</span> fijo. Dos cosas pasan a la vez:</p>
-<ul>
-<li>Las líneas del espectro (separadas <span class="math inline">\omega_0 = 2\pi/T_0</span>) se <strong>densifican</strong>: el espectro de línea tiende a un continuo.</li>
-<li>Todos los <span class="math inline">c_n</span> se achican como <span class="math inline">1/T_0</span>… pero el producto <span class="math inline">T_0\,c_n</span> se mantiene: es una <strong>envolvente</strong> fija que las líneas van muestreando cada vez más fino.</li>
-</ul>
-<p>Esa envolvente sobreviviente merece nombre propio. Con <span class="math inline">\omega = n\omega_0</span> ahora variable continua:</p>
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="sec-serie-a-tf"><span class="header-section-number">3.5.1</span> De la serie a la transformada: la extensión periódica</h3>
+<p>La serie exige señales periódicas. Pero una palmada, una palabra, una nota que no se repite… no lo son. ¿Perdemos Fourier? No: fabricamos una periódica a partir de la que tenemos.</p>
+<p><strong>La extensión periódica.</strong> Sea <span class="math inline">x(t)</span> no periódica pero de <strong>duración finita</strong>, nula fuera de un intervalo acotado que tomamos centrado en el origen, y sea <span class="math inline">\tilde{x}(t) = \sum_k x(t-kT_0)</span> su repetición cada <span class="math inline">T_0</span>, con <span class="math inline">T_0</span> <strong>mayor que esa duración</strong>: la copia central cabe entera dentro de <span class="math inline">[-T_0/2, T_0/2]</span> y queda silencio a los lados. Como <span class="math inline">\tilde{x}</span> <strong>sí</strong> es periódica, tiene serie, con los coeficientes de siempre (<a href="#sec-base-estrella" class="quarto-xref"><span>Sección 3.3.1</span></a>): <span class="math display">c_n = \frac{1}{T_0}\int_{-T_0/2}^{T_0/2} \tilde{x}(t)\,e^{-jn\omega_0 t}\,dt \;\overset{(a)}{=}\; \frac{1}{T_0}\int_{-T_0/2}^{T_0/2} x(t)\,e^{-jn\omega_0 t}\,dt \;\overset{(b)}{=}\; \frac{1}{T_0}\int_{-\infty}^{\infty} x(t)\,e^{-jn\omega_0 t}\,dt</span> En (a), dentro de la ventana de integración <span class="math inline">\tilde{x} = x</span>: la ventana es justo un período y la copia central es <span class="math inline">x</span> sin tocar. En (b), fuera de la ventana <span class="math inline">x = 0</span>, así que estirar los límites a todo el eje no agrega nada.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esto <strong>no es una aproximación</strong>: es una igualdad exacta, con <span class="math inline">T_0</span> finito y las copias todavía puestas — la integral sobre todo el eje aparece <em>antes</em> de mandar nada al infinito [Alvarado] Lec. 17.</p>
+</div>
+</div>
+<p>Despejando, <span class="math inline">T_0\,c_n = \int_{-\infty}^{\infty} x(t)\,e^{-jn\omega_0 t}\,dt</span>: en el lado derecho <strong>ya no queda <span class="math inline">T_0</span></strong> — solo <span class="math inline">x</span> y la frecuencia <span class="math inline">n\omega_0</span> de esa raya. <span class="math inline">T_0</span> lo elegimos nosotros, no viene con la señal; al multiplicar por <span class="math inline">T_0</span>, el período desaparece del lado derecho y lo que queda es una propiedad de <span class="math inline">x</span> sola. Por eso esa expresión merece nombre propio y los <span class="math inline">c_n</span> no — y si ahí ya no hay <span class="math inline">T_0</span>, nada impide evaluarla en cualquier <span class="math inline">\omega</span>, no solo en los múltiplos de <span class="math inline">\omega_0</span>:</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -747,8 +758,10 @@ window.Quarto = {
 <p><strong>Análisis</strong> (proyectar sobre un continuo de fasores): <span class="math display">X(\omega) = \int_{-\infty}^{\infty} x(t)\,e^{-j\omega t}\,dt</span> <strong>Síntesis</strong> (la suma de armónicos se vuelve integral — ojo con el <span class="math inline">\frac{1}{2\pi}</span>): <span class="math display">x(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} X(\omega)\,e^{j\omega t}\,d\omega</span> Notación de pares: <span class="math inline">x(t) \leftrightarrow X(\omega)</span>, con <span class="math inline">\omega</span> en rad/s.</p>
 </div>
 </div>
-<p>Misma película que la serie: analizar es proyectar sobre <span class="math inline">e^{j\omega t}</span>, sintetizar es sumar fasores — solo que ahora se necesitan <em>todas</em> las frecuencias, no solo los armónicos. Y queda gratis el puente que usaremos siempre: <span class="math display">c_n = \frac{1}{T_0}\,X(n\omega_0), \qquad X = \text{TF de un período}.</span></p>
-<p><span class="math inline">X(\omega)</span> es complejo y se lee en dos gráficos: <span class="math inline">|X(\omega)|</span> dice <strong>cuánto</strong> hay de cada frecuencia (la “receta” de la señal — el timbre, ahora continuo); <span class="math inline">\angle X(\omega)</span> dice cómo están alineados los fasores entre sí. Y aquí se cobra la última promesa pendiente del capítulo 1: si <span class="math inline">x(t)</span> es real, su transformada es <strong>Hermitiana</strong>, <span class="math inline">X(-\omega) = X^*(\omega)</span> — magnitud par, fase impar (conjuga la definición para demostrarlo [DB E0093]). Por eso los espectros de señales reales se dibujan a veces solo para <span class="math inline">\omega \ge 0</span>: la otra mitad es espejo.</p>
+<p>Misma película que la serie: analizar es proyectar sobre <span class="math inline">e^{j\omega t}</span>, sintetizar es sumar fasores — solo que ahora se necesitan <em>todas</em> las frecuencias, no solo los armónicos. Y queda gratis el puente que usaremos siempre: <span class="math display">c_n = \frac{1}{T_0}\,X(n\omega_0), \qquad X = \text{TF de un período}.</span> Los <span class="math inline">c_n</span> son <strong>muestras</strong> de <span class="math inline">X(\omega)</span> cada <span class="math inline">\omega_0</span>, divididas por <span class="math inline">T_0</span>: no es una aproximación, la serie es la transformada muestreada, y coinciden punto a punto.</p>
+<p><strong>Ilustración: el pulso repetido, en cámara lenta.</strong> Toma <span class="math inline">\operatorname{rect}(t/\tau)</span> repetido cada <span class="math inline">T_0</span> — exactamente la extensión periódica de arriba, con <span class="math inline">x = \operatorname{rect}</span>. Sus coeficientes salen por cálculo directo (dos líneas, o recicla [DB E0077]): <span class="math display">c_n = \frac{\tau}{T_0}\,\operatorname{sinc}\!\left(\frac{n\tau}{T_0}\right)</span> — y aquí reaparece la <span class="math inline">\operatorname{sinc}</span> presentada en el capítulo 1, de la que dijimos “por ahora, solo recuerda su cara”. Ahora estira <span class="math inline">T_0</span> con <span class="math inline">\tau</span> fijo, como en el argumento de arriba. Dos cosas pasan a la vez: las líneas del espectro (separadas <span class="math inline">\omega_0 = 2\pi/T_0</span>) se <strong>densifican</strong> — el espectro de línea tiende a un continuo —, y todos los <span class="math inline">c_n</span> se hunden como <span class="math inline">1/T_0</span>… pero el producto <span class="math inline">T_0\,c_n</span> queda quieto sobre una <strong>envolvente</strong> fija, que las líneas van muestreando cada vez más fino. Esa envolvente es <span class="math inline">X(\omega)</span>: el puente <span class="math inline">c_n = X(n\omega_0)/T_0</span>, hecho dibujo.</p>
+<p><strong>Amplitud y densidad.</strong> El factor <span class="math inline">T_0</span> no es solo el que borra el período en la deducción de arriba: la separación entre líneas es <span class="math inline">\Delta\omega = 2\pi/T_0</span>, así que multiplicar por <span class="math inline">T_0</span> es <strong>dividir por el espaciado</strong> — el mismo paso que convierte un histograma en densidad de probabilidad. La serie dice <em>cuánto hay en cada armónico</em>; la transformada, <em>cuánto hay por unidad de frecuencia</em>.</p>
+<p>De paso, de dónde sale el <span class="math inline">\frac{1}{2\pi}</span> de la síntesis: metiendo <span class="math inline">c_n = X(n\omega_0)/T_0</span> de vuelta en la serie, la suma se lee como una <strong>suma de Riemann</strong> de paso <span class="math inline">\Delta\omega = \omega_0</span>, y al hacer <span class="math inline">T_0 \to \infty</span> esa suma tiende a la integral de arriba con su <span class="math inline">1/2\pi</span> (argumento heurístico: la convergencia rigurosa exige condiciones sobre <span class="math inline">X</span>).</p>
 </section>
 <section id="sec-rect-sinc" class="level3" data-number="3.5.2">
 <h3 data-number="3.5.2" class="anchored" data-anchor-id="sec-rect-sinc"><span class="header-section-number">3.5.2</span> El par estrella: rect ↔︎ sinc</h3>
@@ -769,7 +782,7 @@ window.Quarto = {
 = \frac{2\sin(\omega\tau/2)}{\omega}</span> Multiplicando y dividiendo por <span class="math inline">\tau/2</span> para reconocer la sinc normalizada: <span class="math display">\operatorname{rect}\!\left(\frac{t}{\tau}\right) \;\longleftrightarrow\; \tau\,\operatorname{sinc}\!\left(\frac{\omega\tau}{2\pi}\right)</span> Los tres chequeos de rigor (hábito que vale puntos en toda interrogación): (i) <span class="math inline">X(0) = \tau</span> = área del pulso ✓; (ii) primer cero en <span class="math inline">\omega = 2\pi/\tau</span> ✓; (iii) <span class="math inline">X</span> real y par, como corresponde a una señal real y par ✓.</p>
 </div>
 </div>
-<div id="4ebe3335" class="cell" data-execution_count="4">
+<div id="fad4af5a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -781,12 +794,25 @@ window.Quarto = {
 </div>
 <p>La lectura que importa: los ceros están en <span class="math inline">\omega = 2\pi k/\tau</span>. Si <span class="math inline">\tau</span> baja, el primer cero se aleja: <strong>pulso angosto ⇒ espectro ancho</strong>. Es la primera aparición de una ley que gobierna todo el curso (y la mecánica cuántica, dicho al pasar): no se puede ser breve en el tiempo y angosto en frecuencia a la vez.</p>
 </section>
-<section id="sec-pares-canonicos" class="level3" data-number="3.5.3">
-<h3 data-number="3.5.3" class="anchored" data-anchor-id="sec-pares-canonicos"><span class="header-section-number">3.5.3</span> Los pares canónicos</h3>
+<section id="sec-dirichlet" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="sec-dirichlet"><span class="header-section-number">3.5.3</span> ¿Cuándo existe <span class="math inline">X(\omega)</span>? Condiciones de Dirichlet</h3>
+<p>Antes de seguir coleccionando pares, la pregunta honesta: ¿para qué señales existe <span class="math inline">X(\omega)</span>? Bastan tres condiciones sobre <span class="math inline">x(t)</span> (<strong>condiciones de Dirichlet</strong>, [Oppenheim] §4.1):</p>
+<ol type="1">
+<li><strong>Absolutamente integrable</strong>: <span class="math inline">\displaystyle\int_{-\infty}^{\infty} |x(t)|\,dt &lt; \infty</span>.</li>
+<li><strong>Número finito de máximos y mínimos</strong> en todo intervalo finito.</li>
+<li><strong>Número finito de discontinuidades</strong> en todo intervalo finito, todas de <strong>salto finito</strong>.</li>
+</ol>
+<p>Cumplidas las tres, la integral de análisis converge y la síntesis devuelve <span class="math inline">x(t)</span> en todo punto de continuidad; en un salto, entrega el <strong>punto medio</strong> — la inversa del sinc da <span class="math inline">\tfrac12</span> en los bordes <span class="math inline">t=\pm\tau/2</span> del rect, la misma historia que la serie en la <a href="#sec-gibbs" class="quarto-xref"><span>Sección 3.4.4</span></a>.</p>
+<p>Y ahora la letra chica que vale el nombre “condiciones”: son <strong>suficientes, no necesarias</strong>. El rect y <span class="math inline">e^{-at}u(t)</span> las cumplen sin discusión. Pero <span class="math inline">\delta(t)</span>, <span class="math inline">1</span>, <span class="math inline">\cos(\omega_0 t)</span>, <span class="math inline">\operatorname{sgn}(t)</span> y <span class="math inline">u(t)</span> <strong>no</strong> las cumplen — las cuatro últimas no son absolutamente integrables, y <span class="math inline">\delta</span> ni siquiera es una función — y aun así tienen transformada: con <strong>impulsos en <span class="math inline">\omega</span></strong>, es decir, como distribuciones. Se obtienen de dos maneras honestas y nada más: verificando por síntesis (constante, coseno — proponer una respuesta y comprobar que la inversa la reproduce) o amortiguando y soltando (signo, escalón — resolver una versión que sí converge y hacer tender el amortiguamiento a cero); <span class="math inline">\delta</span> es la excepción fácil, sale directo de la propiedad de muestreo. En cada par que sigue se dice cuál de las tres rutas usa.</p>
+<p>Un ejemplo de que son suficientes y no necesarias, sin impulsos de por medio: el propio <span class="math inline">\operatorname{sinc}</span> <strong>no</strong> es absolutamente integrable (decae como <span class="math inline">1/t</span>, y esa cola no se deja integrar en módulo), y sin embargo la síntesis aplicada a él converge y devuelve el rect. Las condiciones son una red de seguridad, no una frontera exacta.</p>
+</section>
+<section id="sec-pares-canonicos" class="level3" data-number="3.5.4">
+<h3 data-number="3.5.4" class="anchored" data-anchor-id="sec-pares-canonicos"><span class="header-section-number">3.5.4</span> Los pares canónicos</h3>
 <p><strong>Exponencial causal</strong> (<span class="math inline">a&gt;0</span>; el ladrillo de los circuitos): <span class="math display">e^{-at}u(t) \;\longleftrightarrow\; \int_0^{\infty} e^{-(a+j\omega)t}\,dt = \frac{1}{a + j\omega}, \qquad |X(\omega)| = \frac{1}{\sqrt{a^2+\omega^2}}</span></p>
 <p><strong>Impulso</strong> (por la propiedad de muestreo de la <a href="cap01.html#sec-sifting" class="quarto-xref"><span>Sección 1.5.2</span></a> — una línea): <span class="math display">\delta(t) \;\longleftrightarrow\; 1</span> El impulso contiene <strong>todas las frecuencias por igual</strong>: lo más breve posible es lo más ancho posible. Por eso una palmada sirve para “sonar” una sala entera — excita todas sus frecuencias de una vez.</p>
-<p><strong>Constante y fasor</strong> (leyendo la síntesis al revés; honestidad de 30 segundos: aquí las transformadas son distribuciones, y la teoría lo respalda): <span class="math display">1 \;\longleftrightarrow\; 2\pi\,\delta(\omega) \qquad\qquad e^{j\omega_0 t} \;\longleftrightarrow\; 2\pi\,\delta(\omega - \omega_0)</span> Una señal eterna de una sola frecuencia es una <strong>línea</strong> infinitamente concentrada: el caso extremo opuesto al impulso.</p>
+<p><strong>Constante y fasor</strong> (leyendo la síntesis al revés — verificación por síntesis, una de las dos rutas de la <a href="#sec-dirichlet" class="quarto-xref"><span>Sección 3.5.3</span></a>: ninguna de las dos es absolutamente integrable, y aun así la teoría respalda la distribución): <span class="math display">1 \;\longleftrightarrow\; 2\pi\,\delta(\omega) \qquad\qquad e^{j\omega_0 t} \;\longleftrightarrow\; 2\pi\,\delta(\omega - \omega_0)</span> Una señal eterna de una sola frecuencia es una <strong>línea</strong> infinitamente concentrada: el caso extremo opuesto al impulso.</p>
 <p><strong>Coseno</strong> (Euler + linealidad, sin integrar — los dos fasores contrarrotantes, ahora en dibujo): <span class="math display">\cos(\omega_0 t) \;\longleftrightarrow\; \pi\big[\delta(\omega-\omega_0) + \delta(\omega+\omega_0)\big]</span></p>
+<p><strong>Signo y escalón</strong> (la otra ruta de la <a href="#sec-dirichlet" class="quarto-xref"><span>Sección 3.5.3</span></a>: amortiguar y soltar). Ninguna de las dos es absolutamente integrable, así que la ruta es fabricar una versión que sí converja y aflojar el amortiguamiento al final. Para el signo, parte de <span class="math inline">e^{-a|t|}\operatorname{sgn}(t)</span> (<span class="math inline">a&gt;0</span>, que sí decae): es <span class="math inline">e^{-at}u(t) - e^{at}u(-t)</span>, así que su transformada es la resta de dos exponenciales causales (una reflejada): <span class="math display">e^{-a|t|}\operatorname{sgn}(t) \;\longleftrightarrow\; \frac{1}{a+j\omega} - \frac{1}{a-j\omega} = \frac{-2j\omega}{a^2+\omega^2}</span> Haciendo <span class="math inline">a \to 0</span> (soltando el amortiguamiento) queda el par: <span class="math display">\operatorname{sgn}(t) \;\longleftrightarrow\; \frac{2}{j\omega}</span> Y el escalón sale gratis por linealidad, escribiéndolo como <span class="math inline">u(t) = \tfrac12\big[1+\operatorname{sgn}(t)\big]</span>: <span class="math display">u(t) \;\longleftrightarrow\; \pi\,\delta(\omega) + \frac{1}{j\omega}</span> Se lee en dos partes: <span class="math inline">\pi\delta(\omega)</span> es el <strong>promedio</strong> <span class="math inline">\tfrac12</span> que el escalón carga para siempre (una media constante distinta de cero siempre dispara DC), y <span class="math inline">1/j\omega</span> es el <strong>salto</strong> — la parte que de verdad cambia. Este truco de amortiguar para forzar la convergencia y luego soltar el amortiguamiento no es un parche cosmético: es exactamente la idea que hace nacer la transformada de Laplace (<a href="cap04.html" class="quarto-xref"><span>Capítulo 4</span></a>); el escalón vive justo en el borde donde Fourier deja de alcanzar sin ayuda, y ese borde tiene nombre propio.</p>
 <p><strong>Gaussiana</strong> (la aristócrata de la tabla — el cálculo completa el cuadrado; vale la pena hacerlo una vez): <span class="math display">e^{-t^2/2} \;\longleftrightarrow\; \sqrt{2\pi}\,e^{-\omega^2/2}</span> La única señal que conserva su forma al transformarse: perfectamente suave, decae más rápido que cualquier <span class="math inline">1/\omega^k</span> — el caso límite de la regla del decaimiento. Desde este capítulo la gaussiana figura en el catálogo de elementales del capítulo 1 con pleno derecho: con la normalización <span class="math inline">e^{-\pi t^2}</span>, y midiendo la frecuencia en hertz (<span class="math inline">f = \omega/2\pi</span>), la simetría es perfecta — se transforma exactamente en sí misma. El ejercicio de visualización de la Ay1 usa justamente esa versión.</p>
 <table class="caption-top table">
 <colgroup>
@@ -838,6 +864,16 @@ window.Quarto = {
 <td>dos líneas, <span class="math inline">\pm\omega_0</span></td>
 </tr>
 <tr class="even">
+<td><span class="math inline">\operatorname{sgn}(t)</span></td>
+<td><span class="math inline">\dfrac{2}{j\omega}</span></td>
+<td>impar, sin DC</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">u(t)</span></td>
+<td><span class="math inline">\pi\delta(\omega) + \dfrac{1}{j\omega}</span></td>
+<td>DC (<span class="math inline">\tfrac12</span>) + salto</td>
+</tr>
+<tr class="even">
 <td><span class="math inline">e^{-t^2/2}</span></td>
 <td><span class="math inline">\sqrt{2\pi}\,e^{-\omega^2/2}</span></td>
 <td>conserva su forma</td>
@@ -845,9 +881,120 @@ window.Quarto = {
 </tbody>
 </table>
 </section>
-<section id="sec-propiedades-tf" class="level3" data-number="3.5.4">
-<h3 data-number="3.5.4" class="anchored" data-anchor-id="sec-propiedades-tf"><span class="header-section-number">3.5.4</span> Las propiedades: el oficio</h3>
-<p><strong>Desplazamiento</strong> (cambio de variable, una línea): <span class="math inline">x(t-t_0) \leftrightarrow e^{-j\omega t_0}\,X(\omega)</span>. Igual que en series: la magnitud no cambia, se agrega fase lineal.</p>
+<section id="sec-simetrias-tf" class="level3" data-number="3.5.5">
+<h3 data-number="3.5.5" class="anchored" data-anchor-id="sec-simetrias-tf"><span class="header-section-number">3.5.5</span> Leer un espectro: simetrías</h3>
+<p><span class="math inline">X(\omega)</span> es complejo y se lee en dos gráficos: <span class="math inline">|X(\omega)|</span> dice <strong>cuánto</strong> hay de cada frecuencia (la “receta” de la señal — el timbre, ahora continuo); <span class="math inline">\angle X(\omega)</span> dice cómo están alineados los fasores entre sí.</p>
+<p><strong>De dónde salen las simetrías: partir la integral.</strong> Corta el análisis en <span class="math inline">t&lt;0</span> y <span class="math inline">t&gt;0</span>, y en el primer tramo cambia <span class="math inline">t \to -t</span>: <span class="math display">X(\omega) = \int_{-\infty}^{0} x(t)e^{-j\omega t}dt + \int_0^{\infty} x(t)e^{-j\omega t}dt = \int_0^{\infty}\big[x(-t)e^{j\omega t} + x(t)e^{-j\omega t}\big]dt</span> Si <span class="math inline">x</span> es <strong>par</strong> (<span class="math inline">x(-t)=x(t)</span>), los dos términos se pegan con Euler y sobrevive el coseno: <span class="math display">X(\omega) = 2\int_0^{\infty} x(t)\cos(\omega t)\,dt</span> y si además <span class="math inline">x</span> es real, esa integral es real y, como <span class="math inline">\cos</span> es par en <span class="math inline">\omega</span>, <span class="math inline">X</span> <strong>es real y par</strong>. Si <span class="math inline">x</span> es <strong>impar</strong> (<span class="math inline">x(-t)=-x(t)</span>), los términos se restan y sobrevive el seno: <span class="math display">X(\omega) = -2j\int_0^{\infty} x(t)\sin(\omega t)\,dt</span> y si <span class="math inline">x</span> es real, <span class="math inline">X</span> <strong>es imaginaria pura e impar</strong>. Mismo argumento par×impar de siempre, ahora sobre la integral de análisis en vez de sobre la de los <span class="math inline">c_n</span>.</p>
+<p><strong>Las reglas de paridad de siempre, para no tener que rederivarlas</strong>: suma de pares es par, suma de impares es impar; producto par×par e impar×impar es par; producto par×impar es impar; la derivada de una función par es impar, y la de una impar es par.</p>
+<p><strong>La descomposición del capítulo 1, vista en frecuencia.</strong> Toda <span class="math inline">x = x_e + x_o</span> (parte par más parte impar, <a href="cap01.html#sec-par-impar" class="quarto-xref"><span>Sección 1.2.4</span></a>). Si <span class="math inline">x</span> es real, los dos cálculos de arriba dicen que <span class="math inline">\operatorname{Re}\{X\}</span> viene íntegro de <span class="math inline">x_e</span> y <span class="math inline">j\,\operatorname{Im}\{X\}</span> íntegro de <span class="math inline">x_o</span>. Ejemplo con un par que ya conoces: <span class="math inline">e^{-at}u(t) = \tfrac12 e^{-a|t|} + \tfrac12 e^{-a|t|}\operatorname{sgn}(t)</span> (par más impar, exactamente la descomposición), y en efecto <span class="math display">\operatorname{Re}\left\{\frac{1}{a+j\omega}\right\} = \frac{a}{a^2+\omega^2} = \frac12\cdot\frac{2a}{a^2+\omega^2}, \qquad j\operatorname{Im}\left\{\frac{1}{a+j\omega}\right\} = \frac{-j\omega}{a^2+\omega^2} = \frac12\cdot\frac{-2j\omega}{a^2+\omega^2}</span> la parte par de <span class="math inline">X</span> es la transformada de la parte par de <span class="math inline">x</span>, la impar la de la impar — con el par <span class="math inline">e^{-a|t|} = e^{-at}u(t) + e^{at}u(-t) \leftrightarrow \frac{1}{a+j\omega} + \frac{1}{a-j\omega} = \frac{2a}{a^2+\omega^2}</span> (la misma cuenta del signo amortiguado, con suma en vez de resta).</p>
+<p><strong>Simetría hermitiana.</strong> Si <span class="math inline">x(t)</span> es real, conjugar la definición de análisis da <span class="math inline">X(-\omega) = X^*(\omega)</span> — la relación general de la que las dos de arriba son casos particulares (par y real es un caso; impar y real, otro). De ahí: <span class="math inline">|X(\omega)|</span> es <strong>par</strong> y <span class="math inline">\angle X(\omega)</span> es <strong>impar</strong>, y por eso los espectros de señales reales se dibujan a veces solo para <span class="math inline">\omega \ge 0</span>: la otra mitad es espejo (conjuga la definición para demostrarlo [DB E0093]).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Si <span class="math inline">x(t)</span> es…</th>
+<th>entonces…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>real</td>
+<td><span class="math inline">X(-\omega) = X^*(\omega)</span> (magnitud par, fase impar)</td>
+</tr>
+<tr class="even">
+<td>real y par</td>
+<td><span class="math inline">X</span> real y par</td>
+</tr>
+<tr class="odd">
+<td>real e impar</td>
+<td><span class="math inline">X</span> imaginaria pura e impar</td>
+</tr>
+<tr class="even">
+<td>parte par <span class="math inline">x_e</span></td>
+<td>aporta <span class="math inline">\operatorname{Re}\{X\}</span></td>
+</tr>
+<tr class="odd">
+<td>parte impar <span class="math inline">x_o</span></td>
+<td>aporta <span class="math inline">j\operatorname{Im}\{X\}</span></td>
+</tr>
+</tbody>
+</table>
+<p>Es el mismo argumento par×impar que ya viste en la tabla de simetrías de la serie (<a href="#sec-simetrias" class="quarto-xref"><span>Sección 3.4.2</span></a>) — ahí con <span class="math inline">c_n</span>, aquí con <span class="math inline">X(\omega)</span>: cambia el nombre del eje, no la geometría.</p>
+</section>
+<section id="sec-propiedades-tf" class="level3" data-number="3.5.6">
+<h3 data-number="3.5.6" class="anchored" data-anchor-id="sec-propiedades-tf"><span class="header-section-number">3.5.6</span> Las propiedades: el oficio</h3>
+<p>Esta es la columna <strong>TF</strong> de la tabla de la <a href="#sec-propiedades-serie" class="quarto-xref"><span>Sección 3.4.1</span></a> — la que quedó pendiente de llenar. Se heredan casi sin cambios porque casi todas salen de la <strong>síntesis</strong> (el desplazamiento, del cambio de variable en el análisis), de proyectar sobre fasores, y eso no distingue entre suma discreta y suma continua.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Propiedad</th>
+<th>Serie (<span class="math inline">c_n</span>)</th>
+<th>Transformada (<span class="math inline">X(\omega)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Linealidad</td>
+<td><span class="math inline">Ac_n+Bd_n</span></td>
+<td><span class="math inline">AX(\omega)+BY(\omega)</span></td>
+</tr>
+<tr class="even">
+<td>Desplazamiento</td>
+<td><span class="math inline">c_n\,e^{-jn\omega_0 t_0}</span></td>
+<td><span class="math inline">e^{-j\omega t_0}\,X(\omega)</span></td>
+</tr>
+<tr class="odd">
+<td>Derivación</td>
+<td><span class="math inline">jn\omega_0\,c_n</span></td>
+<td><span class="math inline">j\omega\,X(\omega)</span></td>
+</tr>
+<tr class="even">
+<td>Integración</td>
+<td><span class="math inline">c_n/(jn\omega_0)</span>, si <span class="math inline">c_0=0</span></td>
+<td><span class="math inline">X(\omega)/(j\omega) + \pi X(0)\delta(\omega)</span></td>
+</tr>
+<tr class="odd">
+<td>Inversión <span class="math inline">x(-t)</span></td>
+<td><span class="math inline">c_{-n}</span></td>
+<td><span class="math inline">X(-\omega)</span></td>
+</tr>
+<tr class="even">
+<td>Conjugación <span class="math inline">x^*(t)</span></td>
+<td><span class="math inline">c_{-n}^{*}</span></td>
+<td><span class="math inline">X^{*}(-\omega)</span></td>
+</tr>
+<tr class="odd">
+<td>Escalamiento <span class="math inline">x(\alpha t)</span></td>
+<td>mismos <span class="math inline">c_n</span>, fundamental <span class="math inline">\alpha\omega_0</span></td>
+<td><span class="math inline">\dfrac{1}{\lvert\alpha\rvert}X\!\big(\tfrac{\omega}{\alpha}\big)</span></td>
+</tr>
+<tr class="even">
+<td>Multiplicación <span class="math inline">x\cdot y</span></td>
+<td><span class="math inline">\sum_k c_k\,d_{n-k}</span></td>
+<td><span class="math inline">\dfrac{1}{2\pi}(X*Y)(\omega)</span></td>
+</tr>
+<tr class="odd">
+<td>Convolución</td>
+<td><span class="math inline">\dfrac{1}{T_0}\!\int_{T_0}\! x(\tau)y(t-\tau)d\tau \leftrightarrow c_n d_n</span></td>
+<td><span class="math inline">x*y \leftrightarrow X(\omega)Y(\omega)</span></td>
+</tr>
+<tr class="even">
+<td>Parseval</td>
+<td><span class="math inline">\dfrac{1}{T_0}\!\int_{T_0}\!\lvert x\rvert^2 = \sum_n\lvert c_n\rvert^2</span></td>
+<td><span class="math inline">\int\lvert x\rvert^2dt = \dfrac{1}{2\pi}\int\lvert X\rvert^2d\omega</span></td>
+</tr>
+<tr class="odd">
+<td>Dualidad</td>
+<td>— (sin análogo en la serie)</td>
+<td><span class="math inline">X(t) \leftrightarrow 2\pi\,x(-\omega)</span></td>
+</tr>
+</tbody>
+</table>
+<p>La columna de la izquierda es la de la <a href="#sec-propiedades-serie" class="quarto-xref"><span>Sección 3.4.1</span></a>; en la de la derecha cambia sobre todo la contabilidad: <span class="math inline">n\omega_0</span> pasa a <span class="math inline">\omega</span>, las sumas pasan a integrales y aparece un <span class="math inline">\frac{1}{2\pi}</span> donde se integra en frecuencia. La fila de integración trae, eso sí, un invitado nuevo: el <span class="math inline">\pi X(0)\delta(\omega)</span> que compensa el promedio cuando <span class="math inline">X(0) \neq 0</span> (en la serie esto se resolvía exigiendo <span class="math inline">c_0 = 0</span>; aquí la fórmula general ya lo incluye). Y la dualidad es la única sin pariente en la serie — la razón es de fondo, no de pereza: la serie tiene índice discreto <span class="math inline">n</span> y la transformada tiene <span class="math inline">\omega</span> continuo, así que “invertir los roles de análisis y síntesis” solo tiene sentido cuando ambos lados viven en el mismo tipo de variable.</p>
 <p><strong>Dualidad.</strong> Análisis y síntesis son casi la misma integral — solo cambian el signo del exponente y el <span class="math inline">2\pi</span>. Consecuencia: si <span class="math inline">x(t) \leftrightarrow X(\omega)</span>, entonces <span class="math inline">X(t) \leftrightarrow 2\pi\,x(-\omega)</span>. Uso estrella: del par rect ↔︎ sinc sale <strong>gratis</strong> que una sinc en el tiempo tiene espectro rectangular, <span class="math inline">\operatorname{sinc}(t) \leftrightarrow \operatorname{rect}(\omega/2\pi)</span> — y de paso, <span class="math inline">\int \operatorname{sinc}(t)\,dt = X(0) = 1</span>, una integral que a mano es un dolor [DB E0091]. Esto convierte a la sinc en <em>el</em> filtro pasa-bajos ideal, como verás en la <a href="#sec-lti-frecuencia" class="quarto-xref"><span>Sección 3.6</span></a>.</p>
 <p><strong>Escalamiento</strong> (cambio de variable cuidando el signo — de ahí el módulo): <span class="math display">x(at) \;\longleftrightarrow\; \frac{1}{|a|}\,X\!\left(\frac{\omega}{a}\right)</span> Es la ley recíproca del rect ↔︎ sinc, ahora como teorema general: <strong>tiempo corto ↔︎ banda ancha</strong>. Una voz reproducida al doble de velocidad es <span class="math inline">x(2t)</span>: su espectro se <em>estira</em> al doble — todo sube una octava, multiplicativo, no aditivo (por eso la “voz de ardilla” suena aguda <em>y</em> con el timbre corrido). Y en comunicaciones: mandar bits más cortos cuesta más ancho de banda — no hay almuerzo gratis, es esta propiedad.</p>
 <p><strong>LA propiedad: convolución ↔︎ multiplicación.</strong> En el capítulo 2 aprendiste que la salida de un LTI es <span class="math inline">y = x * h</span> — y que calcular esa integral es trabajo. El premio de todo este capítulo: <span class="math display">\boxed{\;y(t) = (x*h)(t) \;\longleftrightarrow\; Y(\omega) = X(\omega)\,H(\omega)\;}</span> La demostración es corta y es la más importante del semestre: <span class="math display">Y(\omega) = \int\!\!\left[\int x(\tau)h(t-\tau)\,d\tau\right]\!e^{-j\omega t}\,dt
@@ -862,8 +1009,8 @@ window.Quarto = {
 x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X(\omega+\omega_0)\big]</span> Multiplicar por un coseno <strong>traslada el espectro</strong> a <span class="math inline">\pm\omega_0</span>. Esto <em>es</em> la radio AM en una línea: tu voz (banda base, 0–4 kHz) multiplicada por una portadora se muda a vivir alrededor de la frecuencia de tu emisora; cada emisora, su <span class="math inline">\omega_0</span>; el receptor la trae de vuelta multiplicando otra vez [DB E0096 arma el sistema completo].</p>
 <p><strong>Parseval</strong> (la energía no depende del dominio en que se mire): <span class="math display">\int_{-\infty}^{\infty} |x(t)|^2\,dt = \frac{1}{2\pi}\int_{-\infty}^{\infty} |X(\omega)|^2\,d\omega</span> Uso práctico: la integral difícil se hace en el dominio fácil. Ejemplo: <span class="math inline">\int \operatorname{sinc}^2(t)\,dt = \frac{1}{2\pi}\int \big|\!\operatorname{rect}(\tfrac{\omega}{2\pi})\big|^2 d\omega = 1</span>. (Inténtalo por residuos si quieres sufrir.) A <span class="math inline">|X(\omega)|^2</span> se le llama <strong>densidad espectral de energía</strong>: dónde vive la energía de la señal.</p>
 </section>
-<section id="sec-teorema-autocorrelacion" class="level3" data-number="3.5.5">
-<h3 data-number="3.5.5" class="anchored" data-anchor-id="sec-teorema-autocorrelacion"><span class="header-section-number">3.5.5</span> El teorema de autocorrelación</h3>
+<section id="sec-teorema-autocorrelacion" class="level3" data-number="3.5.7">
+<h3 data-number="3.5.7" class="anchored" data-anchor-id="sec-teorema-autocorrelacion"><span class="header-section-number">3.5.7</span> El teorema de autocorrelación</h3>
 <p>El broche que une la propiedad de convolución con Parseval. En el capítulo 2 (<a href="cap02.html#sec-autocorrelacion" class="quarto-xref"><span>Sección 2.6</span></a>) definimos <span class="math inline">R_x(\tau) = x(\tau) \ast x(-\tau)</span>. Transfórmala: convolución ↔︎ multiplicación, más <span class="math inline">\mathcal{F}\{x(-t)\} = X(-\omega) = X^{*}(\omega)</span> para señal real:</p>
 <p><span class="math display">R_x(\tau) \;\longleftrightarrow\; X(\omega)\,X^{*}(\omega) = |X(\omega)|^2</span></p>
 <p>La autocorrelación y la densidad espectral de energía son <strong>un par de Fourier</strong>: la misma información, mirada desde el tiempo o desde la frecuencia. Y Parseval deja de ser un resultado aparte — es este teorema evaluado en <span class="math inline">\tau = 0</span>: <span class="math display">R_x(0) = E_x = \frac{1}{2\pi}\int_{-\infty}^{\infty} |X(\omega)|^2\,d\omega</span></p>
@@ -897,7 +1044,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-filtros" class="level3" data-number="3.6.2">
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="sec-filtros"><span class="header-section-number">3.6.2</span> Filtros: moldear el espectro</h3>
 <p><strong>Filtrar = multiplicar el espectro por la <span class="math inline">H(\omega)</span> que convenga.</strong> El ejemplo de carne y hueso: el circuito RC con salida en el condensador, <span class="math inline">RC\,\dot{v}_c + v_c = v_{in}</span>. La propiedad de derivación (<span class="math inline">\dot{x} \leftrightarrow j\omega X</span>) convierte la EDO en álgebra: <span class="math display">(1 + j\omega RC)\,V_c(\omega) = V_{in}(\omega) \qquad\Longrightarrow\qquad H(\omega) = \frac{1}{1 + j\omega RC}</span> <span class="math display">|H(\omega)| = \frac{1}{\sqrt{1+(\omega RC)^2}}: \quad \text{deja pasar } \omega \ll \tfrac{1}{RC},\ \text{atenúa } \omega \gg \tfrac{1}{RC}</span> Un <strong>pasa-bajos</strong>: con dos componentes ya estás <em>diseñando</em> qué frecuencias viven y cuáles mueren. (Y nota el gesto: la EDO se volvió álgebra. Ese gesto es media unidad 4.)</p>
-<div id="8b19e1c5" class="cell" data-execution_count="5">
+<div id="2287f877" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -931,7 +1078,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-teaser-muestreo" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="sec-teaser-muestreo"><span class="header-section-number">3.7</span> Cierre: ¿y si multiplicamos por un tren de impulsos?</h2>
 <p>Una última jugada, para dejar el final abierto. En el capítulo 1 definimos el tren de impulsos <span class="math inline">\delta_T(t)</span> (<a href="cap01.html#sec-tren-impulsos" class="quarto-xref"><span>Sección 1.5.5</span></a>) y pedimos guardar una frase: <em>“muestrear una señal es multiplicarla por un tren de impulsos”</em>. Recién ahora tenemos las herramientas para preguntar qué le hace eso al <strong>espectro</strong>: <span class="math display">x_s(t) = x(t)\cdot\delta_T(t) = \sum_n x(nT)\,\delta(t-nT)</span> — de la señal solo sobreviven sus <em>muestras</em> cada <span class="math inline">T</span> segundos. Multiplicar en el tiempo ⇒ convolucionar los espectros (la propiedad espejo). Y la TF de un tren de impulsos es… ¡otro tren de impulsos!, espaciado <span class="math inline">\omega_s = 2\pi/T</span> (la demostración queda debiéndose para el capítulo 5). Convolucionar con un tren de impulsos <strong>copia y pega</strong>: <span class="math display">X_s(\omega) = \frac{1}{T}\sum_{k=-\infty}^{\infty} X(\omega - k\omega_s)</span></p>
-<div id="5822dcba" class="cell" data-execution_count="6">
+<div id="948c732a" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -951,8 +1098,8 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <li>Serie de Fourier = proyección sobre <span class="math inline">\{e^{jn\omega_0 t}\}</span>: síntesis <span class="math inline">x = \sum c_n e^{jn\omega_0 t}</span>, análisis <span class="math inline">c_n = \frac{1}{T_0}\int_{T_0} x\,e^{-jn\omega_0 t}dt</span>. Diccionario: <span class="math inline">a_0 = c_0</span>, <span class="math inline">a_n = 2\Re\{c_n\}</span>, <span class="math inline">b_n = -2\Im\{c_n\}</span>; reales ⇒ <span class="math inline">c_{-n} = c_n^*</span>.</li>
 <li>Cuadrada impar: <span class="math inline">c_n = \frac{2}{j\pi n}</span> (<span class="math inline">n</span> impar), <span class="math inline">b_n = \frac{4}{\pi n}</span>; 81 % de la potencia en la fundamental. El timbre es <span class="math inline">|c_n|</span>.</li>
 <li>Leer sin integrar: par ⇒ solo cosenos; impar ⇒ solo senos; media onda ⇒ solo armónicos impares. Saltos ⇒ <span class="math inline">1/n</span>; puntas ⇒ <span class="math inline">1/n^2</span>; más suavidad, más rápido decae. Gibbs: el sobrepaso (≈ 9 %) se angosta pero no baja.</li>
-<li>TF: <span class="math inline">X(\omega) = \int x e^{-j\omega t}dt</span>, <span class="math inline">x = \frac{1}{2\pi}\int X e^{j\omega t}d\omega</span>; puente <span class="math inline">c_n = X(n\omega_0)/T_0</span>. Real ⇒ Hermitiana (<span class="math inline">|X|</span> par, fase impar).</li>
-<li>Pares: rect ↔︎ <span class="math inline">\tau\,</span>sinc (ceros en <span class="math inline">2\pi k/\tau</span>); sinc ↔︎ rect (dualidad); <span class="math inline">e^{-at}u \leftrightarrow \frac{1}{a+j\omega}</span>; <span class="math inline">\delta \leftrightarrow 1</span>; <span class="math inline">1 \leftrightarrow 2\pi\delta</span>; coseno ↔︎ dos líneas; gaussiana ↔︎ gaussiana.</li>
+<li>TF: <span class="math inline">X(\omega) = \int x e^{-j\omega t}dt</span>, <span class="math inline">x = \frac{1}{2\pi}\int X e^{j\omega t}d\omega</span>, deducida por extensión periódica (nace de <span class="math inline">T_0 c_n</span>, que ya no depende de <span class="math inline">T_0</span>); puente <span class="math inline">c_n = X(n\omega_0)/T_0</span>. Dirichlet (absolutamente integrable, máximos/mínimos y saltos finitos en todo intervalo) son suficientes, no necesarias — <span class="math inline">\delta</span>, <span class="math inline">1</span>, <span class="math inline">\cos</span>, <span class="math inline">\operatorname{sgn}</span>, <span class="math inline">u</span> no las cumplen y aun así transforman, con impulsos en <span class="math inline">\omega</span>. Simetrías: par y real ⇒ <span class="math inline">X</span> real y par; impar y real ⇒ <span class="math inline">X</span> imaginaria pura e impar; real ⇒ Hermitiana (<span class="math inline">X(-\omega)=X^*(\omega)</span>, <span class="math inline">|X|</span> par, fase impar).</li>
+<li>Pares: rect ↔︎ <span class="math inline">\tau\,</span>sinc (ceros en <span class="math inline">2\pi k/\tau</span>); sinc ↔︎ rect (dualidad); <span class="math inline">e^{-at}u \leftrightarrow \frac{1}{a+j\omega}</span>; <span class="math inline">\delta \leftrightarrow 1</span>; <span class="math inline">1 \leftrightarrow 2\pi\delta</span>; coseno ↔︎ dos líneas; <span class="math inline">\operatorname{sgn} \leftrightarrow 2/(j\omega)</span>; <span class="math inline">u \leftrightarrow \pi\delta(\omega) + 1/(j\omega)</span>; gaussiana ↔︎ gaussiana.</li>
 <li>Propiedades: desplazamiento (fase lineal), escalamiento (tiempo corto ↔︎ banda ancha), dualidad, <strong>convolución ↔︎ multiplicación</strong>, modulación (AM), Parseval y el teorema de autocorrelación (<span class="math inline">R_x \leftrightarrow |X|^2</span>).</li>
 <li>LTI en frecuencia: <span class="math inline">e^{j\omega t}</span> es función propia, <span class="math inline">y = H(\omega)e^{j\omega t}</span>; ante coseno: <span class="math inline">|H|</span> escala, <span class="math inline">\angle H</span> desfasa; periódicas: <span class="math inline">d_n = c_n H(n\omega_0)</span>; filtro ideal = sinc no causal.</li>
 <li>Muestrear = multiplicar por <span class="math inline">\delta_T</span> ⇒ espectro replicado cada <span class="math inline">\omega_s = 2\pi/T</span> — continuará (capítulo 5).</li>

@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio de la Serie de Fourier — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --acc:#6042a6; --recon:#2d70b3; --mute:#c9822e; --gray:#c3ccd8; --panel:#f7f9fc; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:6px 11px;cursor:pointer;white-space:nowrap}
+  button:hover{background:#e7edf5}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  button.btnSound.on{background:var(--acc);border-color:var(--acc);color:#fff}
+  select{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:5px 7px}
+  label.sl{display:flex;align-items:center;gap:5px;color:var(--dim);font-size:12.5px}
+  input[type=range]{accent-color:var(--acc)}
+  input[type=number]{font:inherit;border:1px solid var(--line);border-radius:6px;padding:2px 4px}
+
+  /* ===== Vista 1: modo clase (cabe en 1050x530) ===== */
+  #viewClase{height:100%;display:flex;flex-direction:column;padding:8px 12px;gap:6px;min-height:0}
+  body.lab #viewClase{display:none}
+
+  header{display:flex;align-items:center;gap:7px;flex-wrap:nowrap}
+  .brand{font-weight:700;font-size:14.5px;white-space:nowrap}
+  .brand span{font-weight:400;color:var(--dim);font-size:12px;margin-left:6px}
+  .ctrls{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:nowrap}
+  #selSignal{max-width:172px;font-size:12.5px}
+  #viewClase button{font-size:12.5px;padding:6px 9px}
+  #viewClase input[type=range]{width:80px}
+
+  .lect{display:flex;gap:20px;align-items:baseline;padding:0 2px;font-size:12.5px}
+  .cel{display:flex;align-items:baseline;gap:6px}
+  .cel .k{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+  .cel .v{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+
+  .wrap{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;gap:6px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}
+  #figTop{flex:1.55;min-height:0}
+  .bottomRow{flex:1;min-height:0;display:flex;gap:6px}
+  .bottomRow figure{flex:1}
+  figcaption{position:absolute;top:5px;left:8px;z-index:2;color:var(--dim);font-size:11px;
+             background:rgba(255,255,255,.9);padding:1px 6px;border-radius:5px;pointer-events:none}
+  canvas{display:block;width:100%;height:100%;touch-action:none}
+
+  .hint{color:var(--dim);font-size:11.5px;text-align:center}
+  .hint b{color:var(--ink)}
+
+  /* ===== Vista 2: laboratorio completo (con scroll) ===== */
+  #viewLab{display:none;min-height:100%;padding:14px 18px 40px}
+  body.lab #viewLab{display:block}
+  #viewLab header{margin-bottom:10px}
+  .labGrid{display:grid;grid-template-columns:340px 1fr;gap:18px;align-items:start}
+  @media (max-width:900px){ .labGrid{grid-template-columns:1fr} }
+
+  .panelSignal{margin-bottom:10px}
+  .panelSignal label{display:block;font-size:12.5px;color:var(--dim);margin-bottom:4px}
+  .panelSignal select{width:100%}
+  .expr{white-space:pre-line;font-size:12px;color:var(--dim);background:var(--panel);
+        border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-top:8px}
+
+  .tabbar{display:flex;gap:4px;margin-bottom:8px}
+  .tabbtn{font-size:12.5px;padding:5px 10px}
+  .tabbtn.active{background:var(--acc);border-color:var(--acc);color:#fff}
+  .dcRow{margin-bottom:8px;font-size:12.5px;color:var(--dim);display:flex;align-items:center;gap:6px}
+  .dcRow input{width:80px}
+
+  .tabPanel{max-height:660px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;padding:4px 8px}
+  .rowHead{display:grid;grid-template-columns:38px 1fr 68px 1fr 68px;gap:5px;align-items:center;
+           font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.03em;padding:4px 2px}
+  .row{display:grid;grid-template-columns:38px 1fr 68px 1fr 68px;gap:5px;align-items:center;padding:2px 2px}
+  .row input[type=range]{width:100%}
+  .row input[type=number]{width:100%}
+  .rn{font-size:12px;color:var(--dim)}
+
+  .plots{display:flex;flex-direction:column;gap:10px}
+  .plots figure{height:220px}
+  #figCompLab{height:150px}
+  .bottomRowLab{display:flex;gap:10px}
+  .bottomRowLab figure{flex:1;height:190px}
+</style>
+</head>
+<body>
+
+<!-- ========================= VISTA 1: MODO CLASE ========================= -->
+<div id="viewClase">
+  <header>
+    <div class="brand">Serie de Fourier <span>IEE2103</span></div>
+    <div class="ctrls">
+      <select id="selSignal" title="Señal de referencia"></select>
+      <button id="btnSol" title="Cargar coeficientes teóricos">Solución</button>
+      <button id="btnSound" class="btnSound" title="Sonido (espacio)">🔊</button>
+      <label class="sl">N <input type="range" id="slN" min="0" max="20" step="1" value="20"><span id="nVal">20</span></label>
+      <button id="btnFase0" title="Deja las magnitudes, pone todas las fases en 0">Fases→0</button>
+      <button id="btnFaseAz" title="Deja las magnitudes, sortea las fases">Fases az.</button>
+      <button id="btnZoom" title="Acerca la vista a la discontinuidad">Zoom salto</button>
+      <button id="btnLab" class="primary" title="Abre las tres pestañas cₙ / aₙ,bₙ / Aₙ,φₙ">Laboratorio →</button>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">N</span><span class="v" id="rN">20</span></div>
+    <div class="cel"><span class="k">sobrepaso (% del salto)</span><span class="v" id="rGibbs">—</span></div>
+    <div class="cel"><span class="k">energía capturada</span><span class="v" id="rEnergia">—</span></div>
+  </div>
+
+  <div class="wrap">
+    <figure id="figTop"><figcaption>Señal original (negro) y reconstrucción (azul)</figcaption><canvas id="cTop"></canvas></figure>
+    <div class="bottomRow">
+      <figure id="figMagFig"><figcaption>|cₙ| — arrastra para editar, clic para silenciar</figcaption><canvas id="cMag"></canvas></figure>
+      <figure id="figPhaseFig"><figcaption>∠cₙ (°) — arrastra para editar</figcaption><canvas id="cPhase"></canvas></figure>
+    </div>
+  </div>
+
+  <div class="hint">Teclas: <b>espacio</b> sonido · <b>S</b> solución · <b>Z</b> zoom al salto · <b>R</b> reinicia · <b>←/→</b> baja/sube N</div>
+</div>
+
+<!-- ========================= VISTA 2: LABORATORIO COMPLETO ========================= -->
+<div id="viewLab">
+  <header>
+    <div class="brand">Laboratorio completo <span>Serie de Fourier · IEE2103</span></div>
+    <div class="ctrls">
+      <button id="btnBack" class="primary">← Modo clase</button>
+      <button id="btnSolLab">Mostrar solución</button>
+      <button id="btnResetLab">Reset</button>
+      <button id="btnSoundLab" class="btnSound">🔊 Activar sonido</button>
+    </div>
+  </header>
+
+  <div class="labGrid">
+    <div>
+      <div class="panelSignal">
+        <label for="selSignalLab">Señal de referencia</label>
+        <select id="selSignalLab"></select>
+        <div class="expr" id="exprLab"></div>
+      </div>
+
+      <div class="tabbar">
+        <button class="tabbtn active" data-tab="cn">cₙ</button>
+        <button class="tabbtn" data-tab="ab">aₙ, bₙ</button>
+        <button class="tabbtn" data-tab="Aphi">Aₙ, φₙ</button>
+      </div>
+      <div class="dcRow"><span id="dcLabel">DC (c₀)</span> <input type="number" id="dcInput" step="0.01" value="0"></div>
+
+      <div class="tabPanel" id="tabCn" data-tab="cn"></div>
+      <div class="tabPanel" id="tabAB" data-tab="ab" hidden></div>
+      <div class="tabPanel" id="tabAphi" data-tab="Aphi" hidden></div>
+    </div>
+
+    <div class="plots">
+      <figure id="figTopLab"><figcaption>Reconstrucción — original (negro), reconstrucción (azul)</figcaption><canvas id="cTopLab"></canvas></figure>
+      <figure id="figCompLab"><figcaption>Componentes armónicas por separado (no sumadas)</figcaption><canvas id="cCompLab"></canvas></figure>
+      <div class="bottomRowLab">
+        <figure id="figMagLabFig"><figcaption id="capMagLab">|cₙ|</figcaption><canvas id="cMagLab"></canvas></figure>
+        <figure id="figPhaseLabFig"><figcaption id="capPhaseLab">∠cₙ (°)</figcaption><canvas id="cPhaseLab"></canvas></figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+
+// ============================================================
+// Señales de referencia (porteadas de get_reference_signal)
+// ============================================================
+const SIGNALS = [
+  {id:'cuadrada',     label:'Onda Cuadrada'},
+  {id:'triangular',   label:'Onda Triangular'},
+  {id:'sierra-desc',  label:'Diente de Sierra (Desc)'},
+  {id:'sierra-asc',   label:'Diente de Sierra (Asc)'},
+  {id:'pulso50',      label:'Pulso Rectangular 50%'},
+  {id:'pulso25',      label:'Pulso Rectangular 25%'},
+  {id:'seno',         label:'Onda Senoidal'},
+  {id:'coseno',       label:'Onda Cosenoidal'},
+  {id:'rectsin',      label:'Seno Rectificado Completo |sin|'},
+  {id:'rectmedia',    label:'Seno Rectificado Media Onda'},
+];
+
+const deg2rad = d => d*Math.PI/180;
+const rad2deg = r => r*180/Math.PI;
+function mod2pi(x){ const m = x % (2*Math.PI); return m<0 ? m+2*Math.PI : m; }
+
+// scipy.signal.square(x, duty) portado literal
+function squareWave(x, duty){ return mod2pi(x) < duty*2*Math.PI ? 1 : -1; }
+
+// scipy.signal.sawtooth(x, width) portado literal
+function sawtoothWave(x, width){
+  const m = mod2pi(x);
+  if(m < width*2*Math.PI) return m/(Math.PI*width) - 1;
+  return (Math.PI*(width+1) - m) / (Math.PI*(1-width));
+}
+
+function referenceSignal(id, t){
+  switch(id){
+    case 'cuadrada':    return squareWave(t, 0.5);
+    case 'triangular':  return sawtoothWave(t, 0.5);
+    case 'sierra-desc': return sawtoothWave(t, 0);
+    case 'sierra-asc':  return sawtoothWave(t, 1);
+    case 'pulso50':     return mod2pi(t) < 0.5*2*Math.PI ? 1 : 0;
+    case 'pulso25':     return mod2pi(t) < 0.25*2*Math.PI ? 1 : 0;
+    case 'seno':        return Math.sin(t);
+    case 'coseno':      return Math.cos(t);
+    case 'rectsin':     return Math.abs(Math.sin(t));
+    case 'rectmedia':   { const s=Math.sin(t); return s>0?s:0; }
+    default: return 0;
+  }
+}
+
+// discontinuidades conocidas en t=0 (antes/después), para medir el sobrepaso de Gibbs
+const JUMPS = {
+  'cuadrada':     {before:-1, after: 1},
+  'sierra-desc':  {before:-1, after: 1},
+  'sierra-asc':   {before: 1, after:-1},
+  'pulso50':      {before: 0, after: 1},
+  'pulso25':      {before: 0, after: 1},
+};
+
+// expresiones analíticas (porteadas de update_expression_label), T = 2π
+function exprText(id){
+  switch(id){
+    case 'seno':        return 'f(t) = sin(t)\nPeriodo T = 2π.';
+    case 'coseno':       return 'f(t) = cos(t)\nPeriodo T = 2π.';
+    case 'cuadrada':     return 'f(t) = sgn(sin t) = {+1 si sin t ≥ 0; −1 si sin t < 0}\nEn (−π, π]: +1 para t∈(0, π], −1 para t∈(−π, 0].\nPeriodo T = 2π.';
+    case 'triangular':   return 'Triangular simétrica con mínimo en t=0. En (0, 2π):\n  f(t) = −1 + (2/π) t   (0<t<π)\n  f(t) =  3 − (2/π) t   (π<t<2π)\nPeríodo 2π. (También f(t) = (2/π)·arcsin(sin t)).';
+    case 'sierra-desc':  return 'Diente de sierra descendente: f(t) = 1 − t/π en (0,2π), 2π-periódica.';
+    case 'sierra-asc':   return 'Diente de sierra ascendente: f(t) = t/π − 1 en (0,2π), 2π-periódica.';
+    case 'pulso50':      return 'Pulso 0/1 con duty 50%: f=1 en (0,π), 0 en (π,2π), 2π-periódica.';
+    case 'pulso25':      return 'Pulso 0/1 con duty 25%: f=1 en (0,π/2), 0 en (π/2,2π), 2π-periódica.';
+    case 'rectsin':       return '|sin t|, 2π-periódica. Media 2/π. Sólo cosenos pares: a_{2n} = -4/(π(4n²-1)).';
+    case 'rectmedia':     return 'max(0, sin t), 2π-periódica. Media 1/π. Contiene DC y armónicos senoidales.';
+    default: return '';
+  }
+}
+
+// coeficientes teóricos (porteados de show_solution), n=1..20
+function computeSolution(id){
+  const c = {}; let c0 = 0;
+  const setAll = fn => { for(let n=1;n<=20;n++) c[n]=fn(n); };
+  switch(id){
+    case 'cuadrada':
+      setAll(n => n%2!==0 ? {mag:2/(Math.PI*n), phase:-90} : {mag:0, phase:0});
+      break;
+    case 'triangular':
+      setAll(n => n%2!==0 ? {mag:4/(Math.PI*Math.PI*n*n), phase:180} : {mag:0, phase:0});
+      break;
+    case 'sierra-desc':
+      setAll(n => ({mag:1/(Math.PI*n), phase:-90}));
+      break;
+    case 'sierra-asc':
+      setAll(n => ({mag:1/(Math.PI*n), phase:90}));
+      break;
+    case 'pulso50':
+      c0 = 0.5;
+      setAll(n => n%2!==0 ? {mag:1/(Math.PI*n), phase:-90} : {mag:0, phase:0});
+      break;
+    case 'pulso25':
+      c0 = 0.25;
+      { const d=0.25;
+        setAll(n => {
+          const s = Math.sin(Math.PI*n*d);
+          const mag = Math.abs(s)/(Math.PI*n);
+          let phRad = -Math.PI*n*d;
+          if(s<0) phRad += Math.PI;
+          return {mag, phase: rad2deg(phRad)};
+        });
+      }
+      break;
+    case 'seno':
+      setAll(n => n===1 ? {mag:0.5, phase:-90} : {mag:0, phase:0});
+      break;
+    case 'coseno':
+      setAll(n => n===1 ? {mag:0.5, phase:0} : {mag:0, phase:0});
+      break;
+    case 'rectsin':
+      c0 = 2/Math.PI;
+      setAll(n => {
+        if(n%2===0){
+          const k=n/2;
+          const an = -(4/Math.PI)*(1/(4*k*k-1));
+          return {mag: Math.abs(an)/2, phase: an>=0?0:180};
+        }
+        return {mag:0, phase:0};
+      });
+      break;
+    case 'rectmedia':
+      c0 = 1/Math.PI;
+      setAll(n => {
+        if(n===1) return {mag:0.25, phase:-90};
+        if(n%2===0){
+          const k=n/2;
+          return {mag: 1/(Math.PI*(4*k*k-1)), phase:180};
+        }
+        return {mag:0, phase:0};
+      });
+      break;
+  }
+  return {c0, coeffs:c};
+}
+
+// ============================================================
+// Estado
+// ============================================================
+const state = {
+  view:'clase', labTab:'cn',
+  signal:'cuadrada', c0:0,
+  n: (()=>{ const o={}; for(let i=1;i<=20;i++) o[i]={mag:0,phase:0}; return o; })(),
+  muted: new Set(),
+  N:20, zoom:false, sound:false,
+};
+
+function getMag(n){ return state.n[n].mag; }
+function getPhase(n){ return state.n[n].phase; }
+function setMag(n,v){ state.n[n].mag=v; }
+function setPhase(n,v){ state.n[n].phase=v; }
+function aOf(n){ const {mag,phase}=state.n[n]; return 2*mag*Math.cos(deg2rad(phase)); }
+function bOf(n){ const {mag,phase}=state.n[n]; return -2*mag*Math.sin(deg2rad(phase)); }
+function setFromAB(n,a,b){ state.n[n] = {mag:0.5*Math.hypot(a,b), phase:rad2deg(Math.atan2(-b,a))}; }
+function setFromAphi(n,A,phi){ state.n[n] = {mag:A/2, phase:phi}; }
+
+// Vista clase: sólo entran n<=N y no silenciados. Vista laboratorio: todos, sin recorte
+// (el laboratorio es la réplica fiel de la app Python original, que no tenía concepto de N ni de mute).
+function effMag(n){
+  if(state.view==='lab') return state.n[n].mag;
+  if(state.muted.has(n) || n>state.N) return 0;
+  return state.n[n].mag;
+}
+
+function reconstruct(t){
+  let x = state.c0;
+  for(let n=1;n<=20;n++){
+    const m = effMag(n);
+    if(m===0) continue;
+    x += 2*m*Math.cos(n*t + deg2rad(getPhase(n)));
+  }
+  return x;
+}
+
+function toggleMute(n){ state.muted.has(n) ? state.muted.delete(n) : state.muted.add(n); }
+
+function applySolution(){
+  const sol = computeSolution(state.signal);
+  state.c0 = sol.c0;
+  for(let n=1;n<=20;n++) state.n[n] = {...sol.coeffs[n]};
+  state.muted.clear();
+  updateAll();
+}
+function resetAll(){
+  state.c0 = 0;
+  for(let n=1;n<=20;n++) state.n[n] = {mag:0, phase:0};
+  state.muted.clear();
+  updateAll();
+}
+function fasesZero(){ for(let n=1;n<=20;n++) state.n[n].phase = 0; updateAll(); }
+function fasesAleatorio(){ for(let n=1;n<=20;n++) state.n[n].phase = Math.random()*360-180; updateAll(); }
+function toggleZoom(){ state.zoom = !state.zoom; updateAll(); }
+function setN(v){ state.N = Math.max(0, Math.min(20, v)); updateAll(); }
+
+// ============================================================
+// Lecturas en vivo (sólo vista clase)
+// ============================================================
+const energyCache = {};
+function totalEnergyOf(id){
+  if(energyCache[id]!=null) return energyCache[id];
+  const M=2000, T=2*Math.PI; let sum=0;
+  for(let i=0;i<M;i++){ const t=T*(i+0.5)/M; const v=referenceSignal(id,t); sum+=v*v; }
+  return (energyCache[id] = sum/M);
+}
+function medirEnergia(){
+  const total = totalEnergyOf(state.signal);
+  if(total<1e-9) return null;
+  let captured = state.c0*state.c0;
+  for(let n=1;n<=state.N;n++){
+    if(state.muted.has(n)) continue;
+    const m = state.n[n].mag;
+    captured += 2*m*m;
+  }
+  return captured/total*100;
+}
+function medirSobrepaso(){
+  const info = JUMPS[state.signal];
+  if(!info) return null;
+  let activo = Math.abs(state.c0)>1e-9;
+  for(let n=1;n<=state.N && !activo;n++){
+    if(!state.muted.has(n) && Math.abs(state.n[n].mag)>1e-9) activo=true;
+  }
+  if(!activo) return null;
+  const {before,after} = info;
+  const H = after-before, dir = Math.sign(H);
+  let extreme = after;
+  const steps=1500, tEnd=Math.PI*0.999;
+  for(let i=1;i<=steps;i++){
+    const t = tEnd*i/steps;
+    const v = reconstruct(t);
+    if(dir>0){ if(v>extreme) extreme=v; } else { if(v<extreme) extreme=v; }
+  }
+  const overshoot = dir>0 ? (extreme-after) : (after-extreme);
+  return overshoot/Math.abs(H)*100;
+}
+
+// ============================================================
+// Canvas: helpers de dibujo (patrón fit()/mapa() de los demos hermanos)
+// ============================================================
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx, w:r.width, h:r.height};
+}
+function mapaLinear(w,h,xmin,xmax,ymin,ymax,pad){
+  const L=pad.l,R=pad.r,T=pad.t,B=pad.b;
+  const sx=(w-L-R)/(xmax-xmin), sy=(h-T-B)/(ymax-ymin);
+  return {
+    X:x=>L+(x-xmin)*sx, Y:y=>h-B-(y-ymin)*sy,
+    invX:px=>xmin+(px-L)/sx, invY:py=>ymin+(h-B-py)/sy,
+    left:L, right:w-R, top:T, bottom:h-B
+  };
+}
+
+function drawTop(canvas, zoomFlag){
+  if(!canvas || canvas.clientWidth===0) return;
+  const {ctx,w,h}=fit(canvas);
+  const T=2*Math.PI;
+  const tMin = zoomFlag? -0.75 : -3*T, tMax = zoomFlag? 0.75 : 3*T;
+  const NP=560;
+  const ts=new Array(NP+1), refs=new Array(NP+1), rec=new Array(NP+1);
+  let vmin=Infinity, vmax=-Infinity;
+  for(let i=0;i<=NP;i++){
+    const t = tMin + (tMax-tMin)*i/NP;
+    const rv = referenceSignal(state.signal, t);
+    const cv = reconstruct(t);
+    ts[i]=t; refs[i]=rv; rec[i]=cv;
+    if(rv<vmin)vmin=rv; if(rv>vmax)vmax=rv;
+    if(cv<vmin)vmin=cv; if(cv>vmax)vmax=cv;
+  }
+  if(!isFinite(vmin) || vmax-vmin<0.4){ vmin=-1.2; vmax=1.2; }
+  else { const p=(vmax-vmin)*0.18; vmin-=p; vmax+=p; }
+  const pad={l:30,r:8,t:8,b:18};
+  const M = mapaLinear(w,h,tMin,tMax,vmin,vmax,pad);
+  const y0 = M.Y(0);
+  ctx.strokeStyle='#d9e0ea'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(M.left,y0); ctx.lineTo(M.right,y0); ctx.stroke();
+
+  ctx.beginPath();
+  for(let i=0;i<=NP;i++){ const x=M.X(ts[i]), y=M.Y(refs[i]); i?ctx.lineTo(x,y):ctx.moveTo(x,y); }
+  ctx.strokeStyle='#16202e'; ctx.lineWidth=2.4; ctx.lineJoin='round'; ctx.stroke();
+
+  ctx.setLineDash([5,4]);
+  ctx.beginPath();
+  for(let i=0;i<=NP;i++){ const x=M.X(ts[i]), y=M.Y(rec[i]); i?ctx.lineTo(x,y):ctx.moveTo(x,y); }
+  ctx.strokeStyle='#2d70b3'; ctx.lineWidth=2.2; ctx.lineJoin='round'; ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawComponents(canvas){
+  if(!canvas || canvas.clientWidth===0) return;
+  const {ctx,w,h}=fit(canvas);
+  const T=2*Math.PI, tMin=-3*T, tMax=3*T, NP=500;
+  let vmax=0.2;
+  const activos=[];
+  for(let n=1;n<=20;n++){ const m=effMag(n); if(Math.abs(m)>1e-9){ activos.push(n); if(2*m>vmax) vmax=2*m; } }
+  const pad={l:28,r:8,t:8,b:16};
+  const M = mapaLinear(w,h,tMin,tMax,-1.15*vmax,1.15*vmax,pad);
+  const y0=M.Y(0);
+  ctx.strokeStyle='#d9e0ea'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(M.left,y0); ctx.lineTo(M.right,y0); ctx.stroke();
+  for(const n of activos){
+    const m=effMag(n), ph=deg2rad(getPhase(n));
+    ctx.beginPath();
+    for(let i=0;i<=NP;i++){
+      const t = tMin+(tMax-tMin)*i/NP;
+      const v = 2*m*Math.cos(n*t+ph);
+      const x=M.X(t), y=M.Y(v);
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    ctx.strokeStyle = harmColor(n); ctx.lineWidth=1.3; ctx.stroke();
+  }
+  if(activos.length===0){
+    ctx.fillStyle='#8a97a8'; ctx.font='12px system-ui'; ctx.textAlign='center';
+    ctx.fillText('(sin armónicos activos)', (M.left+M.right)/2, (M.top+M.bottom)/2);
+  }
+}
+function harmColor(n){
+  const hues=[210,140,0,270,40,190,320,90,250,10,160,300,60,220,340,120,20,260,180,80];
+  return `hsl(${hues[(n-1)%hues.length]},60%,45%)`;
+}
+
+// rangos fijos = los rangos de los sliders del Python original
+const RANGES = {
+  cn:   { v1:[0,1.5],   v2:[-180,180] },
+  ab:   { v1:[-1.5,1.5],v2:[-1.5,1.5] },
+  Aphi: { v1:[0,3],     v2:[-180,180] },
+};
+function getVal(kind,which,n){
+  if(kind==='cn')  return which===1 ? getMag(n) : getPhase(n);
+  if(kind==='ab')  return which===1 ? aOf(n) : bOf(n);
+  return which===1 ? 2*getMag(n) : getPhase(n); // Aphi
+}
+function setVal(kind,which,n,v){
+  if(kind==='cn'){ which===1 ? setMag(n,v) : setPhase(n,v); return; }
+  if(kind==='ab'){ const a=which===1?v:aOf(n), b=which===2?v:bOf(n); setFromAB(n,a,b); return; }
+  const A=which===1?v:2*getMag(n), phi=which===2?v:getPhase(n); setFromAphi(n,A,phi);
+}
+
+function drawBars(canvas, kind, which){
+  if(!canvas || canvas.clientWidth===0) return;
+  const {ctx,w,h}=fit(canvas);
+  const [ymin,ymax] = RANGES[kind]['v'+which];
+  const pad={l:42,r:8,t:26,b:16};   // l: cabe «−180.0» · t: el tope no choca con el figcaption
+  const M = mapaLinear(w,h,0.5,20.5,ymin,ymax,pad);
+  canvas._map = {M, kind, which};
+  const y0=M.Y(0);
+  ctx.strokeStyle='#d9e0ea'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(M.left,y0); ctx.lineTo(M.right,y0); ctx.stroke();
+  ctx.strokeStyle='#c9d3e0';
+  ctx.beginPath(); ctx.moveTo(M.left,M.top); ctx.lineTo(M.left,M.bottom); ctx.stroke();
+  ctx.fillStyle='#8a97a8'; ctx.font='9.5px system-ui'; ctx.textAlign='right';
+  ctx.fillText(ymax.toFixed(1), M.left-3, M.top+8);
+  ctx.fillText(ymin.toFixed(1), M.left-3, M.bottom);
+
+  const barW = Math.max(2,(M.X(2)-M.X(1))*0.6);
+  for(let n=1;n<=20;n++){
+    const v = getVal(kind,which,n);
+    const x = M.X(n), y = M.Y(v);
+    let color = '#6042a6';
+    if(state.view==='clase' && kind==='cn'){
+      if(state.muted.has(n)) color='#c9822e';
+      else if(n>state.N) color='#c3ccd8';
+    }
+    ctx.fillStyle=color;
+    ctx.fillRect(x-barW/2, Math.min(y,y0), barW, Math.max(1,Math.abs(y0-y)));
+  }
+}
+
+// ---- interacción: arrastrar edita, clic simple sobre |cn| silencia/restaura ----
+function attachBarInteraction(canvas){
+  if(!canvas) return;
+  let dragging=false, startX=0, startY=0, activeN=null, moved=false;
+  const getPos = e => { const r=canvas.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; };
+  canvas.addEventListener('pointerdown', e=>{
+    if(!canvas._map) return;
+    const {M} = canvas._map;
+    const {x,y} = getPos(e);
+    let n = Math.round(M.invX(x)); n = Math.max(1,Math.min(20,n));
+    activeN=n; startX=x; startY=y; moved=false; dragging=true;
+    try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
+    e.preventDefault();
+  });
+  canvas.addEventListener('pointermove', e=>{
+    if(!dragging || !canvas._map) return;
+    const {M,kind,which} = canvas._map;
+    const {x,y} = getPos(e);
+    if(Math.hypot(x-startX,y-startY)>3) moved=true;
+    if(moved){
+      const [mn,mx] = RANGES[kind]['v'+which];
+      const val = Math.max(mn, Math.min(mx, M.invY(y)));
+      setVal(kind,which,activeN,val);
+      updateAll();
+    }
+  });
+  function endDrag(){
+    if(!dragging) return;
+    dragging=false;
+    const info = canvas._map;
+    if(!moved && info && info.kind==='cn' && info.which===1 && state.view==='clase'){
+      toggleMute(activeN);
+      updateAll();
+    }
+    activeN=null;
+  }
+  canvas.addEventListener('pointerup', endDrag);
+  canvas.addEventListener('pointercancel', ()=>{ dragging=false; activeN=null; });
+}
+
+// ============================================================
+// Audio (Web Audio API — PeriodicWave)
+// ============================================================
+let audioCtx=null, osc=null, masterGain=null, audioAvailable=true;
+function ensureAudio(){
+  if(audioCtx) return true;
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0;
+    masterGain.connect(audioCtx.destination);
+    osc = audioCtx.createOscillator();
+    osc.frequency.value = 220; // A3, igual que el original
+    osc.connect(masterGain);
+    osc.start();
+    return true;
+  }catch(e){
+    audioAvailable = false;
+    return false;
+  }
+}
+function computeAudioPeak(real, imag){
+  let peak=0; const M=800;
+  for(let i=0;i<M;i++){
+    const ft = i/M; let v=0;
+    for(let n=1;n<=20;n++) v += real[n]*Math.cos(2*Math.PI*n*ft) + imag[n]*Math.sin(2*Math.PI*n*ft);
+    const av=Math.abs(v); if(av>peak) peak=av;
+  }
+  return peak;
+}
+function updateAudioWave(){
+  if(!audioAvailable || !audioCtx || !osc) return;
+  try{
+    const real=new Float32Array(21), imag=new Float32Array(21);
+    for(let n=1;n<=20;n++){
+      const m = effMag(n);
+      const ph = deg2rad(getPhase(n));
+      real[n] = 2*m*Math.cos(ph);
+      imag[n] = -2*m*Math.sin(ph);
+    }
+    const wave = audioCtx.createPeriodicWave(real, imag, {disableNormalization:true});
+    osc.setPeriodicWave(wave);
+    const peak = computeAudioPeak(real, imag);
+    const target = state.sound ? (peak>1e-6 ? 0.3/peak : 0) : 0;
+    const now = audioCtx.currentTime;
+    masterGain.gain.cancelScheduledValues(now);
+    masterGain.gain.setTargetAtTime(target, now, 0.02);
+  }catch(e){ /* el visual sigue funcionando aunque falle el audio */ }
+}
+function toggleSound(){
+  if(!audioAvailable) return;
+  if(!ensureAudio()){ disableSoundUI(); return; }
+  try{ if(audioCtx.state==='suspended') audioCtx.resume(); }catch(e){}
+  state.sound = !state.sound;
+  updateAll();
+}
+function disableSoundUI(){
+  audioAvailable=false;
+  [$('btnSound'), $('btnSoundLab')].forEach(b=>{ if(b){ b.disabled=true; b.title='Audio no disponible en este navegador'; } });
+  $('btnSound').textContent='🔇';
+  $('btnSoundLab').textContent='🔇 Audio no disponible';
+}
+
+// ============================================================
+// Orquestación de vistas
+// ============================================================
+function setView(v){
+  state.view=v;
+  document.body.classList.toggle('lab', v==='lab');
+  requestAnimationFrame(updateAll);
+}
+
+function updateHeaderControls(){
+  const selC=$('selSignal'), selL=$('selSignalLab');
+  if(selC.value!==state.signal) selC.value=state.signal;
+  if(selL.value!==state.signal) selL.value=state.signal;
+  $('nVal').textContent = state.N;
+  if(document.activeElement!==$('slN')) $('slN').value = state.N;
+  $('btnZoom').textContent = state.zoom ? 'Vista completa' : 'Zoom salto';
+  if(audioAvailable){
+    $('btnSound').classList.toggle('on', state.sound);
+    $('btnSoundLab').classList.toggle('on', state.sound);
+    $('btnSound').textContent = state.sound ? '🔈' : '🔊';
+    $('btnSoundLab').textContent = state.sound ? '🔈 Detener sonido' : '🔊 Activar sonido';
+  }
+  const el = $('exprLab'); if(el) el.textContent = exprText(state.signal);
+  document.querySelectorAll('.tabbtn').forEach(b=> b.classList.toggle('active', b.dataset.tab===state.labTab));
+  document.querySelectorAll('.tabPanel').forEach(p=> p.hidden = p.dataset.tab!==state.labTab);
+  const capLbl = state.labTab==='cn' ? ['|cₙ|','∠cₙ (°)'] : (state.labTab==='ab' ? ['aₙ','bₙ'] : ['Aₙ','φₙ (°)']);
+  $('capMagLab').textContent = capLbl[0];
+  $('capPhaseLab').textContent = capLbl[1];
+}
+
+function updateLect(){
+  $('rN').textContent = state.N;
+  const g = medirSobrepaso();
+  $('rGibbs').textContent = g===null ? '—' : g.toFixed(1)+'%';
+  const e = medirEnergia();
+  $('rEnergia').textContent = e===null ? '—' : e.toFixed(1)+'%';
+}
+
+function refreshLabUI(){
+  for(const kind of ['cn','ab','Aphi']){
+    for(let n=1;n<=20;n++){
+      const r = labRefs[kind][n];
+      const v1 = getVal(kind,1,n), v2 = getVal(kind,2,n);
+      if(document.activeElement!==r.s1) r.s1.value = v1;
+      if(document.activeElement!==r.n1) r.n1.value = v1.toFixed(3);
+      if(document.activeElement!==r.s2) r.s2.value = v2;
+      if(document.activeElement!==r.n2) r.n2.value = v2.toFixed(2);
+    }
+  }
+  const dcEl = $('dcInput');
+  if(document.activeElement!==dcEl){
+    dcEl.value = (state.labTab==='cn' ? state.c0 : 2*state.c0).toFixed(3);
+  }
+  $('dcLabel').textContent = state.labTab==='cn' ? 'DC (c₀)' : 'DC (a₀)';
+}
+
+function updateAll(){
+  updateHeaderControls();
+  if(state.view==='clase'){
+    drawTop($('cTop'), state.zoom);
+    drawBars($('cMag'),'cn',1);
+    drawBars($('cPhase'),'cn',2);
+    updateLect();
+  } else {
+    drawTop($('cTopLab'), false);
+    drawComponents($('cCompLab'));
+    drawBars($('cMagLab'), state.labTab, 1);
+    drawBars($('cPhaseLab'), state.labTab, 2);
+    refreshLabUI();
+  }
+  updateAudioWave();
+}
+
+// ============================================================
+// Construcción de la UI del laboratorio (filas editables)
+// ============================================================
+const labRefs = {cn:{}, ab:{}, Aphi:{}};
+function commitRow(kind,n,which,val){
+  const [mn,mx] = RANGES[kind]['v'+which];
+  val = Math.max(mn, Math.min(mx, val));
+  setVal(kind,which,n,val);
+  updateAll();
+}
+function buildTab(containerId, kind, headers){
+  const cont = $(containerId);
+  const head = document.createElement('div');
+  head.className='rowHead';
+  head.innerHTML = `<span>n</span><span>${headers[0]}</span><span></span><span>${headers[1]}</span><span></span>`;
+  cont.appendChild(head);
+  const ranges = RANGES[kind];
+  for(let n=1;n<=20;n++){
+    const row = document.createElement('div'); row.className='row';
+    const lbl = document.createElement('span'); lbl.className='rn'; lbl.textContent='n='+n;
+    const s1 = document.createElement('input'); s1.type='range'; s1.min=ranges.v1[0]; s1.max=ranges.v1[1]; s1.step=0.01;
+    const n1 = document.createElement('input'); n1.type='number'; n1.step=0.01;
+    const s2 = document.createElement('input'); s2.type='range'; s2.min=ranges.v2[0]; s2.max=ranges.v2[1]; s2.step=0.1;
+    const n2 = document.createElement('input'); n2.type='number'; n2.step=0.1;
+    row.append(lbl,s1,n1,s2,n2);
+    cont.appendChild(row);
+    labRefs[kind][n] = {s1,n1,s2,n2};
+    s1.addEventListener('input', ()=> commitRow(kind,n,1,+s1.value));
+    n1.addEventListener('input', ()=>{ const v=parseFloat(n1.value); if(!isNaN(v)) commitRow(kind,n,1,v); });
+    s2.addEventListener('input', ()=> commitRow(kind,n,2,+s2.value));
+    n2.addEventListener('input', ()=>{ const v=parseFloat(n2.value); if(!isNaN(v)) commitRow(kind,n,2,v); });
+  }
+}
+
+function populateSelect(sel){
+  SIGNALS.forEach(s=>{
+    const o=document.createElement('option'); o.value=s.id; o.textContent=s.label; sel.appendChild(o);
+  });
+  sel.value = state.signal;
+  sel.addEventListener('change', ()=>{ state.signal=sel.value; updateAll(); });
+}
+
+// ============================================================
+// Init
+// ============================================================
+populateSelect($('selSignal'));
+populateSelect($('selSignalLab'));
+buildTab('tabCn','cn',['|cₙ|','∠cₙ (°)']);
+buildTab('tabAB','ab',['aₙ','bₙ']);
+buildTab('tabAphi','Aphi',['Aₙ','φₙ (°)']);
+[$('cMag'),$('cPhase'),$('cMagLab'),$('cPhaseLab')].forEach(attachBarInteraction);
+
+$('btnSol').onclick = applySolution;
+$('btnSolLab').onclick = applySolution;
+$('btnResetLab').onclick = resetAll;
+$('btnFase0').onclick = fasesZero;
+$('btnFaseAz').onclick = fasesAleatorio;
+$('btnZoom').onclick = toggleZoom;
+$('btnLab').onclick = ()=> setView('lab');
+$('btnBack').onclick = ()=> setView('clase');
+$('btnSound').onclick = toggleSound;
+$('btnSoundLab').onclick = toggleSound;
+$('slN').addEventListener('input', ()=> setN(+$('slN').value));
+$('dcInput').addEventListener('input', ()=>{
+  const v=parseFloat($('dcInput').value);
+  if(isNaN(v)) return;
+  state.c0 = state.labTab==='cn' ? v : v/2;
+  updateAll();
+});
+document.querySelectorAll('.tabbtn').forEach(b=>{
+  b.addEventListener('click', ()=>{ state.labTab=b.dataset.tab; updateAll(); });
+});
+
+addEventListener('keydown', e=>{
+  if(e.target.tagName==='INPUT' || e.target.tagName==='SELECT') return;
+  if(state.view!=='clase') return;
+  if(e.code==='Space'){ e.preventDefault(); toggleSound(); }
+  else if(e.key==='s'||e.key==='S'){ applySolution(); }
+  else if(e.key==='z'||e.key==='Z'){ toggleZoom(); }
+  else if(e.key==='r'||e.key==='R'){ resetAll(); }
+  else if(e.key==='ArrowLeft'){ setN(state.N-1); }
+  else if(e.key==='ArrowRight'){ setN(state.N+1); }
+});
+
+new ResizeObserver(()=>updateAll()).observe($('viewClase'));
+new ResizeObserver(()=>updateAll()).observe($('viewLab'));
+
+resetAll();
+</script>
+</body>
+</html>

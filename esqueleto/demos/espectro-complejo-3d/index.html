@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El espectro es complejo — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --pul:#2d70b3; --env:#c74440; --acc:#6042a6; --ghost:#c3ccd8; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:10px 14px;gap:8px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0;max-width:100%}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:7px 11px;cursor:pointer;white-space:nowrap}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  label.sl{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:13px}
+  input[type=range]{width:120px;max-width:32vw}
+
+  .lect{display:flex;gap:22px;flex-wrap:wrap;align-items:baseline;padding:0 2px}
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;letter-spacing:.02em}
+  .cel .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .cel.viva .v{color:var(--env)}
+  .cel.fija .v{color:var(--acc)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px}
+  .hint b{color:var(--acc)}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-width:0;min-height:0}
+  #fig3d{flex:3 1 0;min-width:0}
+  #figT{flex:2 1 0;min-width:0}
+  figcaption{position:absolute;top:6px;left:10px;z-index:2;color:var(--dim);font-size:12px;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none;max-width:90%}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0}
+  #c3d{cursor:grab;touch-action:none}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">El espectro es complejo <span>IEE2103 · C11</span></div>
+    <div class="ctrls">
+      <button id="btnPlay" class="primary">▶ Animar t₀</button>
+      <button id="btnReset">↺</button>
+      <label class="sl">t₀ <input type="range" id="slT0"></label>
+      <button id="btnT0_0">t₀ = 0</button>
+      <button id="btnT0_h">t₀ = π/2 (par)</button>
+      <label class="sl">N <input type="range" id="slN"></label>
+      <button id="btnVista">vista inicial</button>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">t₀</span><span class="v" id="rT0">—</span></div>
+    <div class="cel viva"><span class="k">c₁'</span><span class="v" id="rC1">—</span></div>
+    <div class="cel fija"><span class="k">|c₁'|</span><span class="v" id="rMagC1">—</span></div>
+  </div>
+
+  <div class="wrap">
+    <figure id="fig3d"><figcaption>cₙ' en 3D — cada barra sale del eje n y llega a (Re, Im); arrastra para rotar</figcaption><canvas id="c3d"></canvas></figure>
+    <figure id="figT"><figcaption>x(t − t₀) — gris punteado: la cuadrada original (t₀ = 0)</figcaption><canvas id="cT"></canvas></figure>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const c3d = $('c3d'), cT = $('cT');
+const btnPlay=$('btnPlay'), btnReset=$('btnReset'), btnVista=$('btnVista');
+const btnT0_0=$('btnT0_0'), btnT0_h=$('btnT0_h');
+const slT0=$('slT0'), slN=$('slN');
+
+// ── el montaje: cuadrada impar x(t) = sgn(sin t), T0 = 2π, ω0 = 1 ─────
+// c_n = 2/(jπn) para n impar, 0 para n par.
+// Desplazada x(t-t0): c_n' = c_n e^{-jn t0}
+//   Re c_n' = -(2/(πn))·sin(n t0)     Im c_n' = -(2/(πn))·cos(n t0)
+//   |c_n'| = 2/(π|n|)  (no cambia con t0)
+function reIm(n, t0){
+  const mag = 2/(Math.PI*n);
+  return { re: -mag*Math.sin(n*t0), im: -mag*Math.cos(n*t0) };
+}
+function magC(n){ return 2/(Math.PI*Math.abs(n)); }
+function oddNs(N){
+  const arr=[];
+  for(let n=-N;n<=N;n++){ if(n!==0 && Math.abs(n)%2===1) arr.push(n); }
+  return arr;
+}
+
+let N = 9, t0 = 0;
+let animando=false, raf=0, animStart=0;
+const INIT_YAW = -0.55, INIT_PITCH = 0.32;
+let yaw=INIT_YAW, pitch=INIT_PITCH;
+const RI_RANGE = 0.8;                     // "cubo" de Desmos: (Re,Im) ∈ [-0.8,0.8], eje n independiente
+let dragging=false, lastX=0, lastY=0;
+
+// parámetros de prueba: ?t0=1.5708 y ?N=21
+{
+  const p = new URLSearchParams(location.search);
+  if(p.has('t0')){ const v=parseFloat(p.get('t0')); if(isFinite(v)) t0=v; }
+  if(p.has('N')){ const v=parseInt(p.get('N'),10); if(isFinite(v) && v>=1 && v<=21) N=v; }
+}
+
+// ── canvas helpers ─────────────────────────────────────────────────
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx, w:r.width, h:r.height};
+}
+function mapa(w,h,xmin,xmax,ymin,ymax,pad){
+  const L=pad.l,R=pad.r,T=pad.t,B=pad.b;
+  return {
+    X: x => L + (x-xmin)/(xmax-xmin)*(w-L-R),
+    Y: y => h-B - (y-ymin)/(ymax-ymin)*(h-T-B)
+  };
+}
+function arrow2(ctx,p1,p2){
+  ctx.beginPath(); ctx.moveTo(p1.sx,p1.sy); ctx.lineTo(p2.sx,p2.sy); ctx.stroke();
+  const ang=Math.atan2(p2.sy-p1.sy,p2.sx-p1.sx), s=6;
+  ctx.beginPath();
+  ctx.moveTo(p2.sx,p2.sy);
+  ctx.lineTo(p2.sx-s*Math.cos(ang-0.4), p2.sy-s*Math.sin(ang-0.4));
+  ctx.lineTo(p2.sx-s*Math.cos(ang+0.4), p2.sy-s*Math.sin(ang+0.4));
+  ctx.closePath(); ctx.fill();
+}
+function fmtInt(n){ return n<0 ? '−'+Math.abs(n) : String(n); }
+function fmtNum(x){ const s=Math.abs(x).toFixed(3); return (x<0?'−':'')+s; }
+function fmtComplex(re,im){
+  const sign = im<-5e-4 ? '−' : '+';   // evita el "-0.000j" por ruido de punto flotante
+  return fmtNum(re)+' '+sign+' '+Math.abs(im).toFixed(3)+'j';
+}
+
+// ── proyección 3D: X=n (eje largo), Y=Im (arriba), Z=Re (hacia el observador) ──
+function rot(x,y,z){
+  const cy=Math.cos(yaw), sy=Math.sin(yaw);
+  const x1 = x*cy + z*sy, z1 = -x*sy + z*cy, y1 = y;
+  const cp=Math.cos(pitch), sp=Math.sin(pitch);
+  const y2 = y1*cp - z1*sp, z2 = y1*sp + z1*cp;
+  return {x:x1, y:y2, z:z2};
+}
+function proj(x,y,z,cx,cy0,u){
+  const p=rot(x,y,z);
+  return { sx: cx+p.x*u, sy: cy0-p.y*u, depth:p.z };
+}
+
+// ── panel 1: el espectro en 3D ─────────────────────────────────────
+// Escala NO uniforme (como el Desmos original): el eje n usa sus propias
+// unidades; (Re,Im) se reescalan por scaleRI para que |c_1|=2/π ocupe
+// ~1/3 del semieje n. Auto-ajuste: se calcula la caja que ocupan los datos
+// YA rotados y se elige u (px/unidad) para que llene ~85% del panel.
+function draw3D(){
+  const {ctx,w,h}=fit(c3d);
+  const ns = oddNs(N);
+  const axHalf = N+1.3;
+  const scaleRI = N/(3*magC(1));           // |c_1|·scaleRI = N/3
+  const gizLen = RI_RANGE*scaleRI;         // flechas Re/Im: 0.8 en unidades de amplitud
+
+  // caja (post-rotación, sin escala de píxeles todavía) de todo lo que se dibuja
+  const boundPts = [ rot(-axHalf,0,0), rot(axHalf,0,0), rot(0,gizLen,0), rot(0,0,gizLen) ];
+  for(const n of ns){
+    const mag = magC(n)*scaleRI;
+    boundPts.push(rot(n,mag,0), rot(n,-mag,0), rot(n,0,mag), rot(n,0,-mag));
+  }
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  for(const p of boundPts){
+    if(p.x<minX)minX=p.x; if(p.x>maxX)maxX=p.x;
+    if(p.y<minY)minY=p.y; if(p.y>maxY)maxY=p.y;
+  }
+  const padSide=w*0.07, padTop=h*0.19, padBottom=h*0.24;  // arriba: la etiqueta "Im cₙ"; abajo: los números del eje n
+  const availW=Math.max(40,w-2*padSide), availH=Math.max(40,h-padTop-padBottom);
+  const u = Math.min(availW/((maxX-minX)||1), availH/((maxY-minY)||1));
+  const cx = padSide + availW/2 - u*(minX+maxX)/2;
+  const cy0 = padTop + availH/2 - u*(minY+maxY)/2;
+
+  // grilla tenue en el plano Im=0 (el "piso" n–Re): ayuda a leer que con
+  // t0=π/2 todas las barras caen coplanares, sobre este piso
+  ctx.strokeStyle='rgba(180,190,205,0.45)'; ctx.lineWidth=1;
+  for(const reV of [-RI_RANGE, -RI_RANGE/2, RI_RANGE/2, RI_RANGE]){
+    const a=proj(-axHalf,0,reV*scaleRI,cx,cy0,u), b=proj(axHalf,0,reV*scaleRI,cx,cy0,u);
+    ctx.beginPath(); ctx.moveTo(a.sx,a.sy); ctx.lineTo(b.sx,b.sy); ctx.stroke();
+  }
+
+  // eje n
+  const axA=proj(-axHalf,0,0,cx,cy0,u), axB=proj(axHalf,0,0,cx,cy0,u);
+  ctx.strokeStyle='#16202e'; ctx.lineWidth=1.8;
+  ctx.beginPath(); ctx.moveTo(axA.sx,axA.sy); ctx.lineTo(axB.sx,axB.sy); ctx.stroke();
+
+  // ejes Re/Im: pasan por el origen (n=0, Re=0, Im=0)
+  const O=proj(0,0,0,cx,cy0,u), ReP=proj(0,0,gizLen,cx,cy0,u), ImP=proj(0,gizLen,0,cx,cy0,u);
+  ctx.strokeStyle='#6042a6'; ctx.fillStyle='#6042a6'; ctx.lineWidth=1.8;
+  arrow2(ctx,O,ReP); arrow2(ctx,O,ImP);
+
+  // barras + anillos, ordenados por profundidad (pintor: atrás primero)
+  const items = ns.map(n=>{
+    const {re,im}=reIm(n,t0);
+    const tipR = rot(n, im*scaleRI, re*scaleRI);
+    return {n,re,im,depth:tipR.z};
+  });
+  items.sort((a,b)=>a.depth-b.depth);
+  const ds = items.map(it=>it.depth);
+  const dmin=Math.min(...ds), dmax=Math.max(...ds);
+  const alphaOf = d => dmax>dmin ? 0.35+0.65*((d-dmin)/(dmax-dmin)) : 1;
+
+  for(const it of items){
+    const {n,re,im}=it, mag=magC(n)*scaleRI, a=alphaOf(it.depth);
+    // anillo gris: radio |c_n| (ya reescalado) en el plano (Im,Re) de este n
+    ctx.beginPath();
+    for(let k=0;k<=40;k++){
+      const th=2*Math.PI*k/40;
+      const p=proj(n, mag*Math.sin(th), mag*Math.cos(th), cx,cy0,u);
+      k? ctx.lineTo(p.sx,p.sy) : ctx.moveTo(p.sx,p.sy);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=`rgba(154,167,184,${(0.30*a+0.18).toFixed(3)})`; ctx.lineWidth=1;
+    ctx.stroke();
+    // barra: de (n,0,0) a (n, Im·scaleRI, Re·scaleRI)
+    const base=proj(n,0,0,cx,cy0,u), tip=proj(n, im*scaleRI, re*scaleRI, cx,cy0,u);
+    ctx.strokeStyle=`rgba(45,112,179,${a.toFixed(3)})`; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(base.sx,base.sy); ctx.lineTo(tip.sx,tip.sy); ctx.stroke();
+    ctx.fillStyle=`rgba(45,112,179,${a.toFixed(3)})`;
+    ctx.beginPath(); ctx.arc(tip.sx,tip.sy,3.8,0,7); ctx.fill();
+  }
+
+  // ── etiquetas: siempre al final, para que ninguna quede tapada ──
+  const stepUnit = N<=9?2:(N<=15?4:8);
+  const ringPx = magC(1)*scaleRI*u;          // el anillo más grande (n=±1), en píxeles
+  const dropPx = ringPx*0.5 + 20;
+  ctx.font='11px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top';
+  for(const n of ns){
+    if((Math.abs(n)-1)%stepUnit!==0) continue;
+    const tA=proj(n,0,0,cx,cy0,u);
+    ctx.strokeStyle='#9aa7b8'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(tA.sx,tA.sy); ctx.lineTo(tA.sx,tA.sy+dropPx*0.5); ctx.stroke();
+    ctx.fillStyle='#65758b';
+    ctx.fillText(fmtInt(n), tA.sx, tA.sy+dropPx);
+  }
+  const nLbl=proj(axHalf+0.5,0,0,cx,cy0,u);
+  ctx.fillStyle='#16202e'; ctx.font='bold 13px system-ui';
+  ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText('n', nLbl.sx, nLbl.sy);
+
+  ctx.font='bold 12px system-ui'; ctx.fillStyle='#6042a6';
+  ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText('Re cₙ', ReP.sx+6, ReP.sy);
+  ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText('Im cₙ', ImP.sx, ImP.sy-6);
+}
+
+// ── panel 2: x(t-t0) contra el tiempo ──────────────────────────────
+function drawSquare(ctx,M,shift,color,lw,dashed){
+  const domainMin=-2*Math.PI, domainMax=2*Math.PI;
+  const bks=[domainMin];
+  let k = Math.floor((domainMin-shift)/Math.PI);
+  for(;;k++){
+    const bp = shift + k*Math.PI;
+    if(bp<=domainMin+1e-9) continue;
+    if(bp>=domainMax-1e-9) break;
+    bks.push(bp);
+  }
+  bks.push(domainMax);
+  ctx.strokeStyle=color; ctx.lineWidth=lw;
+  ctx.setLineDash(dashed?[5,4]:[]);
+  ctx.beginPath();
+  let prevVal=null;
+  for(let i=0;i<bks.length-1;i++){
+    const a=bks[i], b=bks[i+1], mid=(a+b)/2;
+    const val = Math.sin(mid-shift)>=0 ? 1 : -1;
+    const xa=M.X(a), xb=M.X(b), y=M.Y(val);
+    if(prevVal!==null && prevVal!==val){ ctx.moveTo(xa,M.Y(prevVal)); ctx.lineTo(xa,y); }
+    ctx.moveTo(xa,y); ctx.lineTo(xb,y);
+    prevVal=val;
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+}
+function drawTime(){
+  const {ctx,w,h}=fit(cT);
+  const M=mapa(w,h,-2*Math.PI,2*Math.PI,-1.55,1.75,{l:28,r:28,t:24,b:26});
+  const y0=M.Y(0);
+
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(0,y0); ctx.lineTo(w,y0); ctx.stroke();
+
+  ctx.font='11px system-ui'; ctx.textAlign='center';
+  for(let k=-4;k<=4;k++){
+    const tv=k*Math.PI/2, x=M.X(tv), major=(k%2===0);
+    ctx.strokeStyle= major ? '#8a97a8' : '#c9d3e0';
+    ctx.beginPath(); ctx.moveTo(x,y0-(major?5:3)); ctx.lineTo(x,y0+(major?5:3)); ctx.stroke();
+    if(major){
+      ctx.fillStyle='#8a97a8';
+      ctx.textAlign = k===-4 ? 'left' : (k===4 ? 'right' : 'center');
+      const lbl = k===0?'0': k===2?'π': k===-2?'−π': k===4?'2π': k===-4?'−2π':'';
+      ctx.fillText(lbl, x, y0+16);
+      ctx.textAlign='center';
+    }
+  }
+  ctx.textAlign='right'; ctx.fillStyle='#8a97a8'; ctx.fillText('t', w-4, y0-6);
+  ctx.textAlign='left'; ctx.fillText('x(t − t₀)', 6, M.Y(1.62));
+
+  // rótulos del eje vertical, en la franja de margen izquierdo (no pisan la curva)
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(0,M.Y(1)); ctx.lineTo(8,M.Y(1)); ctx.moveTo(0,M.Y(-1)); ctx.lineTo(8,M.Y(-1)); ctx.stroke();
+  ctx.textAlign='left'; ctx.fillStyle='#8a97a8'; ctx.font='11px system-ui';
+  ctx.fillText('+1', 2, M.Y(1)-4);
+  ctx.fillText('−1', 2, M.Y(-1)+13);
+
+  // línea vertical en t=0 (para juzgar paridad)
+  ctx.strokeStyle='#b9c4d2'; ctx.setLineDash([3,3]); ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(M.X(0),M.Y(1.4)); ctx.lineTo(M.X(0),M.Y(-1.25)); ctx.stroke();
+  ctx.setLineDash([]);
+
+  drawSquare(ctx,M,0,'#c3ccd8',1.6,true);      // original, referencia
+  drawSquare(ctx,M,t0,'#2d70b3',2.8,false);    // desplazada
+
+  if(Math.abs(t0)>1e-6){
+    const yArr=M.Y(1.45);
+    ctx.strokeStyle='#6042a6'; ctx.fillStyle='#6042a6'; ctx.lineWidth=1.4;
+    arrow2(ctx,{sx:M.X(0),sy:yArr},{sx:M.X(t0),sy:yArr});
+    ctx.font='bold 12px system-ui'; ctx.textAlign='center';
+    ctx.fillText('t₀', M.X(t0/2), yArr-7);
+  }
+}
+
+// ── lecturas y pie ──────────────────────────────────────────────────
+function hintText(){
+  const near=(a,b,eps=0.02)=>Math.abs(a-b)<eps;
+  if(near(t0,Math.PI/2)||near(t0,3*Math.PI/2))
+    return 't₀ = π/2: la cuadrada quedó par ⇒ todas las cₙ son reales (caen al plano Im = 0).';
+  if(near(t0,0)||near(t0,Math.PI)||near(t0,2*Math.PI))
+    return 'Señal impar ⇒ cₙ imaginarios puros.';
+  return 'Cada barra gira n·t₀; ninguna cambia de largo: la punta nunca se sale de su anillo.';
+}
+function lectura(){
+  $('rT0').textContent = (t0/Math.PI).toFixed(2)+' π';
+  const {re,im}=reIm(1,t0);
+  $('rC1').textContent = fmtComplex(re,im);
+  $('rMagC1').textContent = (2/Math.PI).toFixed(3);
+  $('hint').innerHTML = hintText();
+}
+function pinta(){ draw3D(); drawTime(); lectura(); }
+
+// ── animación: t0 en bucle, ~8 s por vuelta ───────────────────────
+function animFrame(ts){
+  if(!animando) return;
+  const elapsed=(ts-animStart)%8000;
+  t0 = elapsed/8000*2*Math.PI;
+  slT0.value=t0;
+  pinta();
+  raf=requestAnimationFrame(animFrame);
+}
+function detener(){ animando=false; cancelAnimationFrame(raf); btnPlay.textContent='▶ Animar t₀'; }
+function toggle(){
+  animando=!animando;
+  btnPlay.textContent = animando ? '⏸ Pausa' : '▶ Animar t₀';
+  if(animando){
+    animStart = performance.now() - (t0/(2*Math.PI))*8000;
+    raf=requestAnimationFrame(animFrame);
+  } else cancelAnimationFrame(raf);
+}
+function irA(v){ detener(); t0=v; slT0.value=t0; pinta(); }
+function resetAll(){ detener(); t0=0; slT0.value=0; yaw=INIT_YAW; pitch=INIT_PITCH; pinta(); }
+function vistaInicial(){ yaw=INIT_YAW; pitch=INIT_PITCH; draw3D(); }
+
+// ── controles ──────────────────────────────────────────────────────
+slT0.min=0; slT0.max=String(2*Math.PI); slT0.step=String(Math.PI/48); slT0.value=t0;
+slN.min=1; slN.max=21; slN.step=2; slN.value=N;
+
+btnPlay.onclick=toggle;
+btnReset.onclick=resetAll;
+btnVista.onclick=vistaInicial;
+btnT0_0.onclick=()=>irA(0);
+btnT0_h.onclick=()=>irA(Math.PI/2);
+slT0.oninput=e=>{ detener(); t0=+e.target.value; pinta(); };
+slN.oninput=e=>{ N=+e.target.value; draw3D(); lectura(); };
+
+// dentro de reveal.js: cualquier toque en la demo le da el foco al iframe,
+// para que espacio/P/R lleguen aquí y no cambien de lámina
+document.addEventListener('pointerdown', ()=>window.focus(), true);
+
+// arrastre (ratón y táctil) para rotar el panel 3D
+c3d.addEventListener('pointerdown', e=>{
+  dragging=true; lastX=e.clientX; lastY=e.clientY;
+  c3d.setPointerCapture(e.pointerId); c3d.style.cursor='grabbing';
+});
+c3d.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  const dx=e.clientX-lastX, dy=e.clientY-lastY; lastX=e.clientX; lastY=e.clientY;
+  yaw += dx*0.008;
+  pitch = Math.max(-1.4, Math.min(1.4, pitch - dy*0.008));
+  draw3D();
+});
+c3d.addEventListener('pointerup', ()=>{ dragging=false; c3d.style.cursor='grab'; });
+c3d.addEventListener('pointercancel', ()=>{ dragging=false; c3d.style.cursor='grab'; });
+
+// teclado propio del iframe: no debe interferir con reveal.js del padre
+document.addEventListener('keydown', e=>{
+  if(e.target && e.target.tagName==='INPUT') return;
+  if(e.code==='Space'){ e.preventDefault(); e.stopPropagation(); toggle(); }
+  else if(e.key==='r'||e.key==='R'){ e.stopPropagation(); resetAll(); }
+  else if(e.key==='p'||e.key==='P'){ e.stopPropagation(); irA(Math.PI/2); }
+});
+
+new ResizeObserver(()=>pinta()).observe(document.body);
+pinta();   // primer cuadro sin depender de requestAnimationFrame
+</script>
+</body>
+</html>

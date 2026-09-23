@@ -409,8 +409,8 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#de-la-serie-a-la-transformada-el-período-se-va-a-infinito" id="toc-de-la-serie-a-la-transformada-el-período-se-va-a-infinito" class="nav-link active" data-scroll-target="#de-la-serie-a-la-transformada-el-período-se-va-a-infinito">1. De la serie a la transformada: el período se va a infinito</a></li>
-  <li><a href="#el-par-estrella-rect-sinc" id="toc-el-par-estrella-rect-sinc" class="nav-link" data-scroll-target="#el-par-estrella-rect-sinc">2. El par estrella: rect ↔︎ sinc</a></li>
+  <li><a href="#de-la-serie-a-la-transformada-la-extensión-periódica" id="toc-de-la-serie-a-la-transformada-la-extensión-periódica" class="nav-link active" data-scroll-target="#de-la-serie-a-la-transformada-la-extensión-periódica">1. De la serie a la transformada: la extensión periódica</a></li>
+  <li><a href="#el-par-estrella-rect-sinc-y-el-puente-en-movimiento" id="toc-el-par-estrella-rect-sinc-y-el-puente-en-movimiento" class="nav-link" data-scroll-target="#el-par-estrella-rect-sinc-y-el-puente-en-movimiento">2. El par estrella: rect ↔︎ sinc, y el puente en movimiento</a></li>
   <li><a href="#más-pares-fundamentales" id="toc-más-pares-fundamentales" class="nav-link" data-scroll-target="#más-pares-fundamentales">3. Más pares fundamentales</a></li>
   <li><a href="#leer-un-espectro" id="toc-leer-un-espectro" class="nav-link" data-scroll-target="#leer-un-espectro">4. Leer un espectro</a></li>
   </ul>
@@ -439,13 +439,18 @@ window.Quarto = {
 </header>
 
 
-<section id="de-la-serie-a-la-transformada-el-período-se-va-a-infinito" class="level1">
-<h1>1. De la serie a la transformada: el período se va a infinito</h1>
-<p><strong>El experimento mental</strong> (pulso repetido cada <span class="math inline">T_0</span>, con <span class="math inline">T_0</span> creciendo — dibujar el espectro de línea en los tres casos):</p>
+<section id="de-la-serie-a-la-transformada-la-extensión-periódica" class="level1">
+<h1>1. De la serie a la transformada: la extensión periódica</h1>
+<p><strong>La extensión periódica</strong> (dibujar <span class="math inline">x(t)</span> de duración finita y su repetición <span class="math inline">\tilde{x}(t)</span> cada <span class="math inline">T_0</span>):</p>
 <div class="hueco-grande">
 
 </div>
-<p><strong>¿Qué se densifica y qué sobrevive cuando <span class="math inline">T_0 \to \infty</span>?</strong></p>
+<p><strong>Los dos pasos que sueltan a los <span class="math inline">c_n</span> del período</strong> — ¿por qué vale cada igualdad?</p>
+<p><span class="math display">c_n = \frac{1}{T_0}\int_{-T_0/2}^{T_0/2} \tilde{x}(t)e^{-jn\omega_0 t}dt = \hspace{3cm} = \hspace{3cm}</span></p>
+<div class="hueco">
+
+</div>
+<p><strong>¿Por qué <span class="math inline">T_0 c_n</span> (y no <span class="math inline">c_n</span>) merece nombre propio? ¿Qué desapareció del lado derecho?</strong></p>
 <div class="hueco">
 
 </div>
@@ -456,13 +461,13 @@ window.Quarto = {
 <div class="hueco">
 
 </div>
-</section>
-<section id="el-par-estrella-rect-sinc" class="level1">
-<h1>2. El par estrella: rect ↔︎ sinc</h1>
-<p><strong>Mi predicción</strong> (pulso más angosto ⇒ ¿espectro más ancho o más angosto?):</p>
-<div class="hueco">
+<p><strong>(Si alcanza) De dónde sale el <span class="math inline">\frac{1}{2\pi}</span></strong> — meter el puente en la serie y reconocer una suma de Riemann:</p>
+<div class="hueco-grande">
 
 </div>
+</section>
+<section id="el-par-estrella-rect-sinc-y-el-puente-en-movimiento" class="level1">
+<h1>2. El par estrella: rect ↔︎ sinc, y el puente en movimiento</h1>
 <p><strong>Desarrollo completo de la TF de <span class="math inline">\operatorname{rect}(t/\tau)</span>:</strong></p>
 <div class="hueco-grande">
 
@@ -472,9 +477,21 @@ window.Quarto = {
 <div class="hueco">
 
 </div>
+<p><strong>Mi predicción antes de la demo</strong> — al estirar <span class="math inline">T_0</span> con <span class="math inline">\tau</span> fijo: ¿qué pasa con las <strong>rayas</strong>? ¿y con la <strong>envolvente</strong>?</p>
+<div class="hueco">
+
+</div>
+<p><strong>Mi predicción</strong> (pulso más angosto ⇒ ¿espectro más ancho o más angosto?):</p>
+<div class="hueco">
+
+</div>
 </section>
 <section id="más-pares-fundamentales" class="level1">
 <h1>3. Más pares fundamentales</h1>
+<p><strong>Condiciones de Dirichlet</strong> (las tres, y qué pasa en un salto). ¿Son necesarias o suficientes? ¿Cuáles de los pares de hoy <strong>no</strong> las cumplen?</p>
+<div class="hueco">
+
+</div>
 <p><strong>Exponencial causal</strong> (desarrollo de <span class="math inline">\mathcal{F}\{e^{-at}u(t)\}</span> y módulo del espectro):</p>
 <div class="hueco-grande">
 
@@ -526,6 +543,10 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+<p><strong>La demo 3D de la exponencial</strong>: ¿qué sombra es par y cuál impar? En el modo <span class="math inline">e^{-a|t|}\operatorname{sgn}(t)</span>, ¿por qué <span class="math inline">\operatorname{Re}X = 0</span>, y a qué curva se pega <span class="math inline">X</span> cuando <span class="math inline">a \to 0</span>?</p>
+<div class="hueco">
+
+</div>
 <p><strong>La TF del escalón, leída en dos partes</strong> (¿qué representa cada término?):</p>
 <div class="hueco">
 

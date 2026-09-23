@@ -522,8 +522,6 @@ window.Quarto = {
 <li>C7 · <a href="https://www.desmos.com/3d/psmpaiz8ti">La superficie de la convolución: el corte y su área</a></li>
 <li>C9 · <a href="https://www.desmos.com/3d/ra9vhjayke">Proyección ortogonal sobre un plano: nadie le gana a la proyección</a></li>
 <li>C10 · <a href="https://www.desmos.com/3d/icumarhroy">Serie de Fourier: tiempo, armónicos y espectro a la vez</a></li>
-<li>C11 · <a href="https://www.desmos.com/3d/kqvtxmebt3">El espectro es complejo: <span class="math inline">c_n</span> en 3D y el desplazamiento que lo gira</a></li>
-<li>C12 · <a href="https://www.desmos.com/3d/lzkr3qcpjf"><span class="math inline">X(\omega)</span> como una sola curva: Re par, Im impar, módulo y fase</a></li>
 <li>C13 · <a href="https://www.desmos.com/3d/7w8fj96cg0">Desplazar es enroscar: fase lineal</a></li>
 <li>C15 · <a href="https://www.desmos.com/3d/l0td54z1k0">La ROC como superficie y la costa de Fourier</a></li>
 <li>C17 · <a href="https://www.desmos.com/3d/ftb7axttio">Plano <span class="math inline">s</span>: la superficie <span class="math inline">|X(s)|</span> y el corte <span class="math inline">j\omega</span></a></li>
@@ -652,19 +650,79 @@ window.Quarto = {
 <p><a href="https://www.falstad.com/circuit/circuitjs.html?running=true&amp;cct=$+1+0.00005+10.2+50+5+43%0Av+112+304+112+128+0+2+5+2.5+2.5+0+0.5%0Ar+112+128+336+128+0+1000%0Ac+336+128+336+304+0+0.00001+0%0Aw+112+304+336+304+0%0Ao+0+16+0+34+5+9.765625E-5+0+-1%0Ao+2+16+0+34+5+9.765625E-5+1+-1%0A38+0+6+1+400+Frecuencia%0A38+1+0+100+10000+Resistencia">Abrir el RC en circuitjs</a> · Simulador de Paul Falstad (falstad.com), usado en línea</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="C10–C11 · Series de Fourier (con sonido)">
+<div class="callout callout-style-default callout-tip callout-titled" title="C10–C11 · Serie de Fourier, en vivo (demo web)">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>C10–C11 · Series de Fourier (con sonido)
+<span class="screen-reader-only">Tip</span>C10–C11 · Serie de Fourier, en vivo (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: la serie armándose delante tuyo, con sonido. Eliges una señal (cuadrada, triangular, diente de sierra, pulsos, rectificadas…), aprietas <strong>«Solución»</strong> para cargar sus coeficientes teóricos y subes <span class="math inline">N</span> de a poco: la reconstrucción persigue a la original. Con <strong>«Zoom salto»</strong> te acercas a la discontinuidad y ves el <strong>fenómeno de Gibbs</strong> medido — el sobrepaso marca ~9% del salto y <strong>no baja</strong> al subir <span class="math inline">N</span>, solo se angosta.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/series-fourier/index.html">ábrela en el navegador</a> — no requiere instalar nada ni tener internet. El sonido necesita un clic en el botón del parlante (los navegadores no dejan arrancar audio solos). Teclas: <strong>espacio</strong> sonido, <strong>S</strong> solución, <strong>Z</strong> zoom, <strong>R</strong> reinicia, <strong>←/→</strong> bajan y suben <span class="math inline">N</span>.</p>
+<p><strong>Lo que conviene probar</strong>: <em>clic</em> sobre la primera barra de <span class="math inline">|c_n|</span> apaga la fundamental — la forma de onda se desarma y la nota se sigue oyendo. <strong>«Fases az.»</strong> sortea todas las fases dejando las magnitudes: la onda queda irreconocible y el timbre casi no cambia (el oído oye <span class="math inline">|c_n|</span>). Y arrastrando las barras de magnitud se escucha el timbre moverse.</p>
+<p><strong>El botón «Laboratorio»</strong> abre la versión completa: las tres parametrizaciones sincronizadas (<span class="math inline">c_n</span> · <span class="math inline">a_n,b_n</span> · <span class="math inline">A_n,\varphi_n</span>), los 20 armónicos con campo numérico, el término DC y las componentes dibujadas por separado. Es el port web de la app de Python de más abajo, que sigue disponible.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C10–C11 · Series de Fourier (app de escritorio, con sonido)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C10–C11 · Series de Fourier (app de escritorio, con sonido)
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p><strong>Qué ilustra</strong>: sliders de magnitud y fase para los primeros 20 armónicos de una onda cuadrada, triangular o diente de sierra — y se <em>escucha</em> el efecto de apagar armónicos o de mover solo las fases (el timbre cambia, la nota casi no).</p>
 <p><strong>Cómo correr</strong>: <code>python3 Series_fourier.py</code> <strong>Dependencias</strong>: numpy, matplotlib, scipy, sounddevice (para el audio)</p>
 <p><a href="demos/series-fourier/Series_fourier.py">Descargar Series_fourier.py</a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C11 · El espectro es complejo: los c_n en 3D y la señal en el tiempo (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C11 · El espectro es complejo: los c_n en 3D y la señal en el tiempo (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: la onda cuadrada de C10 y sus coeficientes <span class="math inline">c_n</span> lado a lado. A la izquierda, cada <span class="math inline">c_n</span> es una barra en el plano complejo (eje largo <span class="math inline">n</span>; plano transversal Re, Im), con un anillo gris de radio <span class="math inline">|c_n|</span>; a la derecha, la señal <span class="math inline">x(t-t_0)</span> con la original punteada. Un solo <span class="math inline">t_0</span> mueve las dos: la señal se corre y cada barra gira <span class="math inline">n\,t_0</span> sin cambiar de largo (propiedad de desplazamiento). En <span class="math inline">t_0=\pi/2</span> la cuadrada queda par y todas las barras caen al plano real.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/espectro-complejo-3d/index.html">ábrela en el navegador</a> — no requiere instalar nada ni tener internet. Arrastra el panel 3D para girarlo; ▶ anima <span class="math inline">t_0</span>. Teclas: <strong>espacio</strong> anima, <strong>P</strong> va a <span class="math inline">t_0=\pi/2</span>, <strong>R</strong> reinicia.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C12 · La serie es la transformada muestreada (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C12 · La serie es la transformada muestreada (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: el puente <span class="math inline">c_n = X(n\omega_0)/T_0</span> en movimiento. Un pulso de ancho <span class="math inline">\tau</span> <strong>fijo</strong>, repetido cada <span class="math inline">T_0</span>, y su espectro de línea abajo. Al estirar <span class="math inline">T_0</span> pasan dos cosas a la vez: las rayas se juntan (<span class="math inline">\Delta\omega = 2\pi/T_0</span>) y todas se hunden como <span class="math inline">1/T_0</span> — la envolvente se muere. El botón <code>×T₀</code> la rescata, y entonces se ve lo importante: <span class="math inline">T_0 c_n</span> no depende de <span class="math inline">T_0</span>, y las rayas caen <strong>exactamente</strong> sobre <span class="math inline">X(\omega) = \tau\,\mathrm{sinc}(\omega\tau/2\pi)</span>, la transformada del pulso aislado.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/serie-a-transformada/index.html">ábrela en el navegador</a> — no requiere instalar nada ni tener internet. Parte con la predicción tapada: respóndela antes de apretar el botón. Teclas: <strong>espacio</strong> anima, <strong>T</strong> alterna <span class="math inline">\times T_0</span>, <strong>R</strong> reinicia.</p>
+<p><strong>La pregunta que siempre sale</strong>: si <span class="math inline">T_0</span> está dentro del sinc, ¿cómo puede la envolvente no cambiar? El botón <strong>«eje: n»</strong> la contesta mostrándola: cambia el eje horizontal de <span class="math inline">\omega</span> al índice del armónico, dejando todo lo demás igual — y ahí la misma curva sí se estira, y las rayas dejan de densificarse. El botón <strong>«¿por qué?»</strong> despliega el argumento escrito: <span class="math inline">T_0</span> aparece dos veces, y en el argumento solo traduce el contador <span class="math inline">n</span> a la frecuencia física (<span class="math inline">n\tau/T_0 = \omega_n\tau/2\pi</span>), así que no deforma la curva — solo decide dónde caen las rayas. Los ceros lo zanjan: en el índice se corren (<span class="math inline">n = k\,T_0/\tau</span>), en frecuencia están clavados en <span class="math inline">2\pi k/\tau</span>.</p>
+<p><strong>Lo que conviene mirar</strong>: por qué el factor de rescate es <span class="math inline">T_0</span> y no otro. Multiplicar por <span class="math inline">T_0</span> es dividir por el espaciado entre líneas, o sea pasar de <strong>amplitud</strong> a <strong>densidad</strong> — lo mismo que hace un histograma al volverse densidad de probabilidad. La serie dice cuánto hay <em>en cada armónico</em>; la transformada, cuánto hay <em>por unidad de frecuencia</em>. Y de yapa queda el puente <span class="math inline">c_n = X(n\omega_0)/T_0</span>: la serie es la transformada muestreada, sin aproximación.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C12 · Una sola curva: la exponencial y su X(ω) en 3D (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C12 · Una sola curva: la exponencial y su X(ω) en 3D (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: a la derecha la señal <span class="math inline">e^{-at}u(t)</span>; a la izquierda su transformada <span class="math inline">X(\omega) = 1/(a+j\omega)</span> como <strong>una</strong> curva en <span class="math inline">(\omega, \mathrm{Re}, \mathrm{Im})</span>, con Re X en el piso (par), Im X en la pared (impar) y el módulo como distancia al eje. Segundo modo: <span class="math inline">e^{-a|t|}\operatorname{sgn}(t) \leftrightarrow -2j\omega/(a^2+\omega^2)</span>, imaginaria pura; al bajar <span class="math inline">a</span> la curva se pega a <span class="math inline">2/(j\omega)</span>, la transformada del signo.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/una-sola-curva/index.html">ábrela en el navegador</a> — sin instalar nada ni internet. Arrastra el 3D para girarlo; mueve <span class="math inline">a</span> y <span class="math inline">\omega_0</span>. Teclas: <strong>M</strong> cambia de señal, <strong>R</strong> reinicia.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="C17 · Visualizador de Laplace">

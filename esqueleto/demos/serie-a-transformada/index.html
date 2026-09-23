@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De la serie a la transformada: T₀ → ∞ — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --pul:#2d70b3; --env:#c74440; --acc:#6042a6; --ghost:#c3ccd8; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;display:flex;flex-direction:column;padding:10px 14px;gap:8px}
+
+  header{display:flex;align-items:center;gap:9px;flex-wrap:nowrap}  /* nowrap: seis controles en UNA fila, o la lámina crece */
+  .brand{font-weight:700;font-size:16px;white-space:nowrap}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:7px 11px;cursor:pointer;white-space:nowrap}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  button.esc{border-color:var(--env);color:var(--env);font-weight:600}
+  button.esc:hover{background:#fdeceb}
+  label.sl{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:13px}
+  input[type=range]{width:120px}
+
+  #velo{position:absolute;inset:0;background:rgba(255,255,255,.97);z-index:5;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:20px}
+  #velo h2{margin:0;font-size:26px}
+  #velo p{margin:0;color:var(--dim);font-size:17px;max-width:700px}
+  #velo .par{display:flex;gap:34px;margin-top:6px;font-size:19px}
+  #velo .par b{color:var(--acc)}
+
+  .wrap{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+  #fig1{flex:1;min-height:110px}
+  #fig2{flex:1.45;min-height:150px}
+  figcaption{position:absolute;top:6px;left:10px;z-index:2;color:var(--dim);font-size:12.5px;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none}
+  canvas{display:block;width:100%;height:100%}
+
+  .lect{display:flex;gap:20px;flex-wrap:wrap;align-items:baseline;padding:0 2px}
+  body:not(.revelado) .lect{visibility:hidden}
+  body:not(.revelado) .ctrls{visibility:hidden}
+  body:not(.revelado) .hint{visibility:hidden}   /* el pie delata la respuesta: se tapa hasta votar */
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  .cel .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .cel.viva .v{color:var(--env)}
+  .cel.fija .v{color:var(--acc)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px}
+
+  /* el "¿por qué?" va superpuesto: no le quita alto a la lámina */
+  #porque{position:absolute;inset:0;background:rgba(255,255,255,.985);z-index:6;
+          display:none;flex-direction:column;padding:9px 16px;gap:6px;overflow:auto}
+  body:has(#porque.on) .hint{visibility:hidden}   /* con el panel abierto el pie sobra */
+  #porque.on{display:flex}
+  #porque h3{margin:0;font-size:16.5px}
+  #porque p{margin:0;font-size:12.5px;line-height:1.42}
+  #porque code{font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f2f5f9;
+               border-radius:4px;padding:1px 5px}
+  #porque .eq{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center;
+              background:#f6f8fb;border:1px solid var(--line);border-radius:8px;padding:5px}
+  #porque .cierre{margin-left:auto}
+  .mov{color:var(--env);font-weight:600}
+  .fij{color:var(--acc);font-weight:600}
+  .hint b{color:var(--acc)}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">De la serie a la transformada <span>IEE2103 · C12</span></div>
+    <div class="ctrls">
+      <button id="btnPlay" class="primary">▶ Estirar T₀</button>
+      <button id="btnReset">↺</button>
+      <label class="sl">T₀ <input type="range" id="sl" min="2" max="32" step="0.01" value="2"></label>
+      <button id="btnEsc" class="esc">× T₀</button>
+      <button id="btnEje">eje: ω</button>
+      <button id="btnPq">¿por qué?</button>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">T₀</span><span class="v" id="rT">—</span></div>
+    <div class="cel"><span class="k">Δω = 2π/T₀</span><span class="v" id="rDw">—</span></div>
+    <div class="cel"><span class="k">líneas en el lóbulo</span><span class="v" id="rN">—</span></div>
+    <div class="cel viva"><span class="k">c₀ = τ/T₀</span><span class="v" id="rC0">—</span></div>
+    <div class="cel fija"><span class="k">T₀·c₀</span><span class="v" id="rTC0">—</span></div>
+  </div>
+
+  <div class="wrap">
+    <div id="velo">
+      <h2>Antes de mirar nada</h2>
+      <p>La <b>extensión periódica</b> de un pulso rect: el pulso de ancho τ <b>fijo</b>, repetido cada T₀. Abajo, sus coeficientes c<sub>n</sub>
+         dibujados como rayas contra la frecuencia. Ahora alejamos las copias: T₀ crece, τ no se toca.</p>
+      <div class="par"><span>¿qué pasa con las <b>RAYAS</b>?</span><span>¿y con la <b>ENVOLVENTE</b>?</span></div>
+      <p style="font-size:14px">Voten primero. Después apreten el botón.</p>
+      <button id="btnGo" class="primary">Ya votamos — mostrar</button>
+    </div>
+
+    <div id="porque">
+      <div style="display:flex;align-items:baseline;gap:14px">
+        <h3>¿Por qué la envolvente no cambia, si T₀ está dentro del sinc?</h3>
+        <button class="cierre" id="btnPqX">cerrar</button>
+      </div>
+
+      <p><b>Tienes razón a medias</b>, y conviene ver en qué mitad.</p>
+
+      <p>Una envolvente es una curva que pasa por las puntas de las rayas. Pero para dibujar una curva hay que
+         decidir <b>qué va en el eje horizontal</b>, y aquí hay dos candidatos: el <i>número</i> de la raya, n,
+         o su <i>frecuencia</i>, ω<sub>n</sub> = 2πn/T₀.</p>
+
+      <p><b>Aprieta «eje: n».</b> Ahí sí: al crecer T₀ la envolvente <span class="mov">se estira</span> —sus ceros
+         están en n = T₀/τ, 2T₀/τ, …— y las rayas se quedan quietas, una por cada entero. Ese es el T₀ de adentro
+         del sinc, trabajando. Tu objeción es correcta en ese eje.</p>
+
+      <p><b>Pero n no es una frecuencia: es un contador.</b> La raya número n vibra a ω<sub>n</sub> = 2πn/T₀ —la
+         raya 10 son 10 Hz si T₀ = 1 s, y 1 Hz si T₀ = 10 s. Escribe entonces la altura de la raya en función de
+         <b>dónde está</b>, no de su número:</p>
+
+      <div class="eq">n·τ/T₀ &nbsp;=&nbsp; (2πn/T₀) · (τ/2π) &nbsp;=&nbsp; ω<sub>n</sub>·τ/(2π)
+         &nbsp;&nbsp;⟹&nbsp;&nbsp; c<sub>n</sub> = (τ/T₀) · sinc(ω<sub>n</sub>·τ/2π)</div>
+
+      <p><b>El T₀ de adentro se gastó en convertir n en ω<sub>n</sub>.</b> En la forma de la curva no queda ninguno:
+         sinc(ω·τ/2π) solo sabe de ω y de τ. El único T₀ que sobrevive es el <span class="fij">τ/T₀ de adelante</span>,
+         que no deforma nada — solo hunde. Y es justo el que cancelamos al definir T₀·c<sub>n</sub>: recién ahí las
+         rayas de todos los T₀ caen sobre <b>una sola</b> curva, X(ω).</p>
+
+      <p>Chequeo físico, por si queda duda: al estirar T₀, ¿qué cambió en la señal? El pulso no — solo cada cuánto
+         se repite. Y la curva solo tiene τ adentro: <b>no tiene con qué cambiar</b>. El T₀ de adentro decide qué
+         puntos de la curva vemos; el de afuera, qué tan hundidos los vemos.</p>
+    </div>
+
+    <figure id="fig1"><figcaption>x̃(t): el rect repetido cada T₀ — el mismo pulso, cada vez más solo</figcaption><canvas id="c1"></canvas></figure>
+    <figure id="fig2"><canvas id="c2"></canvas></figure>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const c1=$('c1'), c2=$('c2');
+
+// ── el montaje: tau FIJO, T0 variable ────────────────────────────────
+const TAU = 1;                       // ancho del pulso: nunca cambia
+const T_MIN = 2, T_MAX_ = 32;
+let T0 = T_MIN, animando = false, raf = 0, revelado = false;
+let escalado = false;                // false: c_n · true: T0·c_n = X(omega)
+let ejeIndice = false;               // false: eje ω (físico) · true: eje n (el contador)
+
+// sinc normalizado: sinc(0)=1, ceros en los enteros
+const sinc = th => Math.abs(th) < 1e-9 ? 1 : Math.sin(Math.PI*th)/(Math.PI*th);
+
+// c_n del tren de pulsos y su envolvente
+const cn  = n => (TAU/T0)*sinc(n*TAU/T0);
+const Xw  = w => TAU*sinc(w*TAU/(2*Math.PI));   // TF del pulso AISLADO: no depende de T0
+// puente: c_n = X(n·omega_0)/T0  →  T0·c_n = X(n·omega_0), exacto punto a punto
+
+// ── ventanas de dibujo (fijas: lo que se mueve tiene que moverse de verdad) ──
+const T_VIS = 18;                         // eje temporal: |t| <= 18
+const W_LIM = 6*Math.PI/TAU;              // hasta el tercer cero por lado (los ticks)
+const W_VIS = 6.45*Math.PI/TAU;           // un poco más, para que la etiqueta del borde no se corte
+const N_VIS = 43;                         // eje del índice: rango FIJO de armónicos, para que el estiramiento se vea
+
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx, w:r.width, h:r.height};
+}
+function mapa(w,h,xmin,xmax,ymin,ymax,pad){
+  const L=pad.l,R=pad.r,T=pad.t,B=pad.b;
+  return {
+    X: x => L + (x-xmin)/(xmax-xmin)*(w-L-R),
+    Y: y => h-B - (y-ymin)/(ymax-ymin)*(h-T-B)
+  };
+}
+function flecha(ctx,x1,y,x2,cabezas){
+  ctx.beginPath(); ctx.moveTo(x1,y); ctx.lineTo(x2,y); ctx.stroke();
+  const d = x2>x1 ? 1 : -1, s = 5;
+  if(cabezas!=='solo-derecha'){
+    ctx.beginPath(); ctx.moveTo(x1,y); ctx.lineTo(x1+d*s,y-4); ctx.lineTo(x1+d*s,y+4); ctx.closePath(); ctx.fill();
+  }
+  ctx.beginPath(); ctx.moveTo(x2,y); ctx.lineTo(x2-d*s,y-4); ctx.lineTo(x2-d*s,y+4); ctx.closePath(); ctx.fill();
+}
+
+// ── panel 1: el tren de pulsos ───────────────────────────────────────
+function dibujaTiempo(){
+  const {ctx,w,h}=fit(c1);
+  const M=mapa(w,h,-T_VIS,T_VIS,-0.30,1.55,{l:8,r:8,t:8,b:20});
+  const y0=M.Y(0);
+
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(0,y0); ctx.lineTo(w,y0); ctx.stroke();
+  ctx.fillStyle='#8a97a8'; ctx.font='11px system-ui'; ctx.textAlign='center';
+  for(let t=-15;t<=15;t+=5){
+    const x=M.X(t);
+    ctx.beginPath(); ctx.moveTo(x,y0-3); ctx.lineTo(x,y0+3); ctx.stroke();
+    ctx.fillText(t===0?'0':String(t), x, y0+14);
+  }
+  ctx.textAlign='right'; ctx.fillText('t', w-4, y0-6);
+
+  // las copias: la central marcada, las demás más suaves
+  const kmax = Math.ceil((T_VIS+TAU)/T0);
+  for(let k=-kmax;k<=kmax;k++){
+    const c0=k*T0, xa=M.X(c0-TAU/2), xb=M.X(c0+TAU/2), y1=M.Y(1);
+    if(xb<0||xa>w) continue;
+    ctx.fillStyle = k===0 ? 'rgba(45,112,179,.30)' : 'rgba(45,112,179,.16)';
+    ctx.fillRect(xa, y1, xb-xa, y0-y1);
+    ctx.strokeStyle='var(--pul)'; ctx.strokeStyle='#2d70b3';
+    ctx.lineWidth = k===0 ? 2.4 : 1.6;
+    ctx.beginPath();
+    ctx.moveTo(xa,y0); ctx.lineTo(xa,y1); ctx.lineTo(xb,y1); ctx.lineTo(xb,y0);
+    ctx.stroke();
+  }
+
+  // tau: no se mueve nunca
+  ctx.strokeStyle='#6042a6'; ctx.fillStyle='#6042a6'; ctx.lineWidth=1.4;
+  const yTau=M.Y(1.30);
+  flecha(ctx, M.X(-TAU/2), yTau, M.X(TAU/2));
+  ctx.font='bold 13px system-ui'; ctx.textAlign='center';
+  ctx.fillText('τ fijo', M.X(0), yTau-7);
+
+  // T0: crece hasta salirse de la lámina
+  const yT=M.Y(0.52), xIni=M.X(0), xFinReal=M.X(T0), xFin=Math.min(xFinReal, w-6);
+  ctx.strokeStyle='#6042a6'; ctx.lineWidth=1.4;
+  flecha(ctx, xIni, yT, xFin, xFinReal>w-6 ? 'solo-derecha' : '');
+  ctx.font='bold 13px system-ui'; ctx.textAlign='left';
+  ctx.fillText('T₀ = '+T0.toFixed(1)+' τ', xIni+8, yT-8);
+}
+
+// ── panel 2: el espectro de línea y su envolvente ────────────────────
+function dibujaFrec(){
+  const {ctx,w,h}=fit(c2);
+  const esc = escalado || ejeIndice;   // contra el índice siempre se mira T₀·cₙ: la misma
+                                       // cantidad que no se movía contra ω, para que lo único
+                                       // distinto sea la variable del eje horizontal
+  const yTop = esc ? 1.15*TAU : 0.60*TAU;
+  const yBot = esc ? -0.32*TAU : -0.17*TAU;
+  const XMAX = ejeIndice ? N_VIS : W_VIS;              // la variable del eje horizontal
+  const M=mapa(w,h,-XMAX,XMAX,yBot,yTop,{l:8,r:8,t:26,b:22});
+  const y0=M.Y(0);
+  const k = esc ? T0 : 1;               // el factor que se está aplicando
+  const w0 = 2*Math.PI/T0;
+
+  // el mismo dibujo en dos variables: ω (la física) o n (el contador)
+  const uDeOmega = wv => ejeIndice ? wv/w0 : wv;
+  const envolvente = u => (ejeIndice ? Xw(u*w0) : Xw(u)) * k/T0;
+
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(0,y0); ctx.lineTo(w,y0); ctx.stroke();
+  ctx.fillStyle='#8a97a8'; ctx.font='11px system-ui'; ctx.textAlign='center';
+  if(ejeIndice){
+    // ticks del contador: el espaciado entre rayas es SIEMPRE 1, pase lo que pase con T₀
+    for(let q=-4;q<=4;q++){
+      const x=M.X(q*10);
+      ctx.beginPath(); ctx.moveTo(x,y0-3); ctx.lineTo(x,y0+3); ctx.stroke();
+      ctx.fillText(String(q*10), x, y0+14);
+    }
+    ctx.textAlign='right'; ctx.fillText('n', w-4, y0-6);
+  }else{
+    // ticks en múltiplos de 2π/τ: los ceros de la envolvente, que NO se mueven
+    for(let q=-3;q<=3;q++){
+      const x=M.X(q*2*Math.PI/TAU);
+      ctx.beginPath(); ctx.moveTo(x,y0-3); ctx.lineTo(x,y0+3); ctx.stroke();
+      const et = q===0 ? '0' : (q===1?'2π/τ': q===-1?'−2π/τ' : (q>0? q*2+'π/τ' : '−'+(-q*2)+'π/τ'));
+      ctx.fillText(et, x, y0+14);
+    }
+    ctx.textAlign='right'; ctx.fillText('ω', w-4, y0-6);
+  }
+
+  // la huella (dónde estaba con T0 = 2τ) solo tiene sentido en el eje ω:
+  // en el eje del índice compararía dos formas distintas y confunde.
+  if(!escalado && !ejeIndice){
+    ctx.beginPath();
+    for(let i=0;i<=700;i++){
+      const wv=-W_VIS+2*W_VIS*i/700, v=Xw(wv)/T_MIN;
+      const x=M.X(wv), y=M.Y(v); i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    ctx.strokeStyle='#c3ccd8'; ctx.lineWidth=1.4; ctx.setLineDash([3,4]); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#9aa7b8'; ctx.font='11.5px system-ui'; ctx.textAlign='left';
+    ctx.fillText('dónde estaba con T₀ = 2τ', M.X(0.45*W_VIS), M.Y(Xw(0)/T_MIN)-6);
+  }
+
+  // la envolvente actual: X(ω)/T₀ en modo c_n, X(ω) en modo ×T₀
+  ctx.beginPath();
+  for(let i=0;i<=900;i++){
+    const u=-XMAX+2*XMAX*i/900, v=envolvente(u);
+    const x=M.X(u), y=M.Y(v); i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+  }
+  ctx.strokeStyle='#c74440';
+  ctx.lineWidth = esc ? 3 : 1.8;
+  if(!esc){ ctx.setLineDash([6,4]); }
+  ctx.stroke(); ctx.setLineDash([]);
+
+  // las rayas: una por armónico. Contra ω van en n·ω₀ y se densifican;
+  // contra el índice van en n, espaciadas 1, y NO se densifican nunca.
+  const nmax = ejeIndice ? N_VIS : Math.floor(W_VIS/w0);
+  ctx.strokeStyle='#2d70b3'; ctx.fillStyle='#2d70b3';
+  ctx.lineWidth = nmax>70 ? 1 : (nmax>25 ? 1.3 : 2);
+  const r = nmax>70 ? 1.3 : (nmax>25 ? 1.8 : 2.6);
+  for(let n=-nmax;n<=nmax;n++){
+    const v=cn(n)*k, x=M.X(uDeOmega(n*w0)), y=M.Y(v);
+    ctx.beginPath(); ctx.moveTo(x,y0); ctx.lineTo(x,y); ctx.stroke();
+    ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill();
+  }
+
+  // el peak, con su número: al multiplicar por T₀ el eje vertical cambia, y eso no se esconde
+  const pk = Xw(0)*k/T0, yPk = M.Y(pk);
+  ctx.strokeStyle='#b9c4d2'; ctx.lineWidth=1; ctx.setLineDash([2,3]);
+  ctx.beginPath(); ctx.moveTo(M.X(-XMAX), yPk); ctx.lineTo(M.X(0), yPk); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#8a97a8'; ctx.font='11.5px system-ui'; ctx.textAlign='left';
+  ctx.fillText((esc?'τ = ':'c₀ = ')+pk.toFixed(3), M.X(-XMAX)+4, yPk-5);
+
+  // etiquetas del panel
+  ctx.font='bold 13px system-ui'; ctx.textAlign='left';
+  if(ejeIndice){
+    ctx.fillStyle='#c74440';
+    ctx.fillText('T₀·cₙ contra el índice n — la MISMA cantidad que contra ω no se movía: aquí SÍ se estira', 12, 18);
+    ctx.fillStyle='#2d70b3';
+    ctx.textAlign='right'; ctx.fillText('y las rayas nunca se juntan: siempre espaciadas 1', w-12, 18);
+  }else if(escalado){
+    ctx.fillStyle='#c74440';
+    ctx.fillText('T₀·cₙ contra ω — la envolvente es X(ω) = τ·sinc(ωτ/2π): no depende de T₀', 12, 18);
+    ctx.fillStyle='#2d70b3';
+    ctx.textAlign='right'; ctx.fillText('T₀·c'+'ₙ'+' — las rayas la muestrean cada Δω', w-12, 18);
+  }else{
+    ctx.fillStyle='#c74440';
+    ctx.fillText('cₙ contra ω — la envolvente es X(ω)/T₀: se hunde como 1/T₀', 12, 18);
+    ctx.fillStyle='#2d70b3';
+    ctx.textAlign='right'; ctx.fillText('c'+'ₙ'+' — se juntan y se achican', w-12, 18);
+  }
+}
+
+// ── lecturas y pie ───────────────────────────────────────────────────
+function lectura(){
+  const w0=2*Math.PI/T0;
+  const nLob = 2*Math.ceil(T0/TAU) - 1;    // rayas dentro del lóbulo central
+  $('rT').textContent  = T0.toFixed(1)+' τ';
+  $('rDw').textContent = w0.toFixed(3);
+  $('rN').textContent  = String(nLob);
+  $('rC0').textContent = (TAU/T0).toFixed(3);
+  $('rTC0').textContent= (T0*(TAU/T0)).toFixed(3);
+  $('hint').innerHTML = ejeIndice
+    ? 'Misma cantidad, misma escala vertical: lo único que cambió es la variable del eje. Contra n las rayas <b>nunca se juntan</b> y la envolvente <b>sí se estira</b> — la invariancia es del eje ω, no del contador.'
+    : (escalado
+        ? 'La envolvente <b>no se mueve</b>. La serie es la transformada muestreada: T₀·c<sub>n</sub> = X(nω₀), punto a punto.'
+        : (T0 < 8
+            ? 'Las rayas se juntan (Δω = 2π/T₀)… y la envolvente se hunde.'
+            : '<b>¿Qué habría que hacer para que la envolvente no se muera?</b>'));
+  $('btnEsc').textContent = escalado ? '÷ T₀' : '× T₀';
+  $('btnEje').textContent = ejeIndice ? 'eje: n' : 'eje: ω';
+}
+function pinta(){ dibujaTiempo(); dibujaFrec(); lectura(); }
+
+// ── animación: T₀ crece geométricamente ──────────────────────────────
+function paso(){
+  if(!animando) return;
+  raf = requestAnimationFrame(paso);
+  T0 *= 1.012;
+  if(T0 >= T_MAX_){ T0 = T_MAX_; animando=false; $('btnPlay').textContent='▶ Estirar T₀'; }
+  $('sl').value = T0;
+  pinta();
+}
+function toggle(){
+  if(T0 >= T_MAX_ - 1e-9) reset();
+  animando = !animando;
+  $('btnPlay').textContent = animando ? '⏸ Pausa' : '▶ Estirar T₀';
+  if(animando){ cancelAnimationFrame(raf); raf=requestAnimationFrame(paso); }
+}
+function reset(){
+  animando=false; cancelAnimationFrame(raf);
+  T0=T_MIN; escalado=false; ejeIndice=false; $('sl').value=T0; $('btnPlay').textContent='▶ Estirar T₀'; pinta();
+}
+
+$('btnPlay').onclick = toggle;
+$('btnReset').onclick = reset;
+$('btnEsc').onclick = () => { escalado=!escalado; pinta(); };
+$('btnEje').onclick = () => { ejeIndice=!ejeIndice; pinta(); };
+$('btnPq').onclick  = () => $('porque').classList.add('on');
+$('btnPqX').onclick = () => $('porque').classList.remove('on');
+$('sl').oninput = e => { animando=false; $('btnPlay').textContent='▶ Estirar T₀'; T0=+e.target.value; pinta(); };
+$('btnGo').onclick = () => { $('velo').style.display='none'; revelado=true; document.body.classList.add('revelado'); pinta(); };
+addEventListener('keydown', e=>{
+  if(e.target.tagName==='INPUT') return;
+  if(e.code==='Space'){ e.preventDefault(); if(revelado) toggle(); else $('btnGo').click(); }
+  else if(e.key==='r'||e.key==='R') reset();
+  else if(e.key==='t'||e.key==='T'){ if(revelado){ escalado=!escalado; pinta(); } }
+  else if(e.key==='e'||e.key==='E'){ if(revelado){ ejeIndice=!ejeIndice; pinta(); } }
+  else if(e.key==='p'||e.key==='P'){ if(revelado) $('porque').classList.toggle('on'); }
+  else if(e.key==='Escape'){ $('porque').classList.remove('on'); }
+});
+new ResizeObserver(()=>pinta()).observe(document.body);
+pinta();
+</script>
+</body>
+</html>
