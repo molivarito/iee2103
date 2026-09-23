@@ -101,34 +101,34 @@
   {
     "objectID": "curso/semana-06/ay06.html",
     "href": "curso/semana-06/ay06.html",
-    "title": "Ay6 · Ejercicios de series de Fourier · CV2",
+    "title": "Ay6 · De la serie a la transformada · CV2",
     "section": "",
-    "text": "[DB E0074] Coeficientes a_k, b_k de x(t) = 1 + e^{jt}.\n[DB E0071] Series por inspección. (a) 1 + e^{jx}. (b) \\cos(x) + \\cos(\\sqrt{2}\\,x).\nParejas — onda cuadrada desplazada. Enunciado para dictar:\n\nSea f(t) la onda cuadrada 2\\pi-periódica con f(t) = 1 en 0&lt;t&lt;\\pi y f(t) = -1 en -\\pi&lt;t&lt;0. (a) Calcule su serie de Fourier (forma trigonométrica). (b) Usando la propiedad de desplazamiento, escriba la serie de g(t) = f(t - \\pi/2). (c) ¿Cambió el espectro de magnitud? ¿Y la forma de onda? Grafique g.",
+    "text": "¿Serie, transformada o ninguna? Para cada señal, decida si tiene serie de Fourier, transformada de Fourier, ambas o ninguna, y calcule lo que exista.\n\n[DB E0074] x(t) = 1 + e^{jt}: coeficientes c_n y también a_n, b_n.\n[DB E0071] x(t) = \\cos t + \\cos\\sqrt{2}\\,t.\n\n[DB E0098] Transformadas con propiedades. Encuentre la transformada de Fourier de:\n\nx_1(t) = e^{|-t|}\\cos(2t)\nx_2(t) = \\dfrac{\\sin(2\\pi t)}{\\pi(t-1)}\n\nParejas — [DB E0094] Simetría sin integrar. Sin calcular ninguna integral, diga si X(\\omega) es real, imaginaria pura o ninguna de las dos, y si es par, impar o sin simetría:\n\nx(t) = \\operatorname{rect}(t)\\,\\operatorname{sgn}(t)\nx(t) = 1 + e^{jt}\nx(t) = e^{-t^2}\\,(t^4 + 2t^2 + 1)",
     "crumbs": [
       "Semana 6 · Series y espectros",
-      "Ay6 · Ejercicios de series de Fourier · CV2"
+      "Ay6 · De la serie a la transformada · CV2"
     ]
   },
   {
     "objectID": "curso/semana-06/ay06.html#ejercicios-de-la-sesión",
     "href": "curso/semana-06/ay06.html#ejercicios-de-la-sesión",
-    "title": "Ay6 · Ejercicios de series de Fourier · CV2",
+    "title": "Ay6 · De la serie a la transformada · CV2",
     "section": "",
-    "text": "[DB E0074] Coeficientes a_k, b_k de x(t) = 1 + e^{jt}.\n[DB E0071] Series por inspección. (a) 1 + e^{jx}. (b) \\cos(x) + \\cos(\\sqrt{2}\\,x).\nParejas — onda cuadrada desplazada. Enunciado para dictar:\n\nSea f(t) la onda cuadrada 2\\pi-periódica con f(t) = 1 en 0&lt;t&lt;\\pi y f(t) = -1 en -\\pi&lt;t&lt;0. (a) Calcule su serie de Fourier (forma trigonométrica). (b) Usando la propiedad de desplazamiento, escriba la serie de g(t) = f(t - \\pi/2). (c) ¿Cambió el espectro de magnitud? ¿Y la forma de onda? Grafique g.",
+    "text": "¿Serie, transformada o ninguna? Para cada señal, decida si tiene serie de Fourier, transformada de Fourier, ambas o ninguna, y calcule lo que exista.\n\n[DB E0074] x(t) = 1 + e^{jt}: coeficientes c_n y también a_n, b_n.\n[DB E0071] x(t) = \\cos t + \\cos\\sqrt{2}\\,t.\n\n[DB E0098] Transformadas con propiedades. Encuentre la transformada de Fourier de:\n\nx_1(t) = e^{|-t|}\\cos(2t)\nx_2(t) = \\dfrac{\\sin(2\\pi t)}{\\pi(t-1)}\n\nParejas — [DB E0094] Simetría sin integrar. Sin calcular ninguna integral, diga si X(\\omega) es real, imaginaria pura o ninguna de las dos, y si es par, impar o sin simetría:\n\nx(t) = \\operatorname{rect}(t)\\,\\operatorname{sgn}(t)\nx(t) = 1 + e^{jt}\nx(t) = e^{-t^2}\\,(t^4 + 2t^2 + 1)",
     "crumbs": [
       "Semana 6 · Series y espectros",
-      "Ay6 · Ejercicios de series de Fourier · CV2"
+      "Ay6 · De la serie a la transformada · CV2"
     ]
   },
   {
-    "objectID": "curso/semana-06/ay06.html#cierre-6570-min",
-    "href": "curso/semana-06/ay06.html#cierre-6570-min",
-    "title": "Ay6 · Ejercicios de series de Fourier · CV2",
-    "section": "Cierre (65–70 min)",
-    "text": "Cierre (65–70 min)\n\nI2 en dos semanas (semana 8): unidad 3 completa. La Ay7 de la próxima semana es integración pre-I2 — llegar con las Listas 5 y 6 trabajadas.\nPortafolio al día a esta altura: Listas 3, 4 y 5 con desarrollo; la Lista 6 se publica hoy.\nQuiz Canvas de la semana: variantes de coeficientes por inspección y simetrías — ensayo directo del próximo control y de la I2.",
+    "objectID": "curso/semana-06/ay06.html#cierre-6370-min",
+    "href": "curso/semana-06/ay06.html#cierre-6370-min",
+    "title": "Ay6 · De la serie a la transformada · CV2",
+    "section": "Cierre (63–70 min)",
+    "text": "Cierre (63–70 min)\n\nI2 en dos semanas (semana 8): unidad 3 completa. La Ay7 de la próxima semana es integración pre-I2 — llegar con las Listas 5 y 6 trabajadas.\nPortafolio al día a esta altura: Listas 3, 4 y 5 con desarrollo; la Lista 6 se publica hoy.\nQuiz Canvas de la semana: el ensayo cronometrado de lo que viene.",
     "crumbs": [
       "Semana 6 · Series y espectros",
-      "Ay6 · Ejercicios de series de Fourier · CV2"
+      "Ay6 · De la serie a la transformada · CV2"
     ]
   },
   {

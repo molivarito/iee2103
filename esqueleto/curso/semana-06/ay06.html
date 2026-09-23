@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ay6 · Ejercicios de series de Fourier · CV2 – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Ay6 · De la serie a la transformada · CV2 – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-06/c11.html">Semana 6 · Series y espectros</a></li><li class="breadcrumb-item"><a href="../../curso/semana-06/ay06.html">Ay6 · Ejercicios de series de Fourier · CV2</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-06/c11.html">Semana 6 · Series y espectros</a></li><li class="breadcrumb-item"><a href="../../curso/semana-06/ay06.html">Ay6 · De la serie a la transformada · CV2</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -347,7 +347,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../curso/semana-06/ay06.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Ay6 · Ejercicios de series de Fourier · CV2</span></a>
+ <span class="menu-text">Ay6 · De la serie a la transformada · CV2</span></a>
   </div>
 </li>
       </ul>
@@ -445,16 +445,16 @@ window.Quarto = {
    
   <ul>
   <li><a href="#ejercicios-de-la-sesión" id="toc-ejercicios-de-la-sesión" class="nav-link active" data-scroll-target="#ejercicios-de-la-sesión">Ejercicios de la sesión</a></li>
-  <li><a href="#cierre-6570-min" id="toc-cierre-6570-min" class="nav-link" data-scroll-target="#cierre-6570-min">Cierre (65–70 min)</a></li>
+  <li><a href="#cierre-6370-min" id="toc-cierre-6370-min" class="nav-link" data-scroll-target="#cierre-6370-min">Cierre (63–70 min)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-06/c11.html">Semana 6 · Series y espectros</a></li><li class="breadcrumb-item"><a href="../../curso/semana-06/ay06.html">Ay6 · Ejercicios de series de Fourier · CV2</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-06/c11.html">Semana 6 · Series y espectros</a></li><li class="breadcrumb-item"><a href="../../curso/semana-06/ay06.html">Ay6 · De la serie a la transformada · CV2</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Ay6 · Ejercicios de series de Fourier · CV2</h1>
+<h1 class="title">Ay6 · De la serie a la transformada · CV2</h1>
 <p class="subtitle lead">Semana 6 · 70 min</p>
 </div>
 
@@ -474,19 +474,29 @@ window.Quarto = {
 
 <section id="ejercicios-de-la-sesión" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios-de-la-sesión">Ejercicios de la sesión</h2>
-<p><strong>[DB E0074] Coeficientes <span class="math inline">a_k, b_k</span> de <span class="math inline">x(t) = 1 + e^{jt}</span>.</strong></p>
-<p><strong>[DB E0071] Series por inspección.</strong> (a) <span class="math inline">1 + e^{jx}</span>. (b) <span class="math inline">\cos(x) + \cos(\sqrt{2}\,x)</span>.</p>
-<p><strong>Parejas — onda cuadrada desplazada.</strong> Enunciado para dictar:</p>
-<blockquote class="blockquote">
-<p>Sea <span class="math inline">f(t)</span> la onda cuadrada <span class="math inline">2\pi</span>-periódica con <span class="math inline">f(t) = 1</span> en <span class="math inline">0&lt;t&lt;\pi</span> y <span class="math inline">f(t) = -1</span> en <span class="math inline">-\pi&lt;t&lt;0</span>. (a) Calcule su serie de Fourier (forma trigonométrica). (b) Usando la propiedad de desplazamiento, escriba la serie de <span class="math inline">g(t) = f(t - \pi/2)</span>. (c) ¿Cambió el espectro de magnitud? ¿Y la forma de onda? Grafique <span class="math inline">g</span>.</p>
-</blockquote>
+<p><strong>¿Serie, transformada o ninguna?</strong> Para cada señal, decida si tiene serie de Fourier, transformada de Fourier, ambas o ninguna, y calcule lo que exista.</p>
+<ol type="1">
+<li>[DB E0074] <span class="math inline">x(t) = 1 + e^{jt}</span>: coeficientes <span class="math inline">c_n</span> y también <span class="math inline">a_n</span>, <span class="math inline">b_n</span>.</li>
+<li>[DB E0071] <span class="math inline">x(t) = \cos t + \cos\sqrt{2}\,t</span>.</li>
+</ol>
+<p><strong>[DB E0098] Transformadas con propiedades.</strong> Encuentre la transformada de Fourier de:</p>
+<ol type="1">
+<li><span class="math inline">x_1(t) = e^{|-t|}\cos(2t)</span></li>
+<li><span class="math inline">x_2(t) = \dfrac{\sin(2\pi t)}{\pi(t-1)}</span></li>
+</ol>
+<p><strong>Parejas — [DB E0094] Simetría sin integrar.</strong> Sin calcular ninguna integral, diga si <span class="math inline">X(\omega)</span> es real, imaginaria pura o ninguna de las dos, y si es par, impar o sin simetría:</p>
+<ol type="1">
+<li><span class="math inline">x(t) = \operatorname{rect}(t)\,\operatorname{sgn}(t)</span></li>
+<li><span class="math inline">x(t) = 1 + e^{jt}</span></li>
+<li><span class="math inline">x(t) = e^{-t^2}\,(t^4 + 2t^2 + 1)</span></li>
+</ol>
 </section>
-<section id="cierre-6570-min" class="level2">
-<h2 class="anchored" data-anchor-id="cierre-6570-min">Cierre (65–70 min)</h2>
+<section id="cierre-6370-min" class="level2">
+<h2 class="anchored" data-anchor-id="cierre-6370-min">Cierre (63–70 min)</h2>
 <ul>
 <li><strong>I2 en dos semanas</strong> (semana 8): unidad 3 completa. La Ay7 de la próxima semana es integración pre-I2 — llegar con las Listas 5 y 6 trabajadas.</li>
 <li>Portafolio al día a esta altura: Listas 3, 4 y 5 con desarrollo; la Lista 6 se publica hoy.</li>
-<li>Quiz Canvas de la semana: variantes de coeficientes por inspección y simetrías — ensayo directo del próximo control y de la I2.</li>
+<li>Quiz Canvas de la semana: el ensayo cronometrado de lo que viene.</li>
 </ul>
 
 
