@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lista 4 · Convolución, EDOs y la respuesta al impulso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Lista 7 · Propiedades de la TF y sistemas en frecuencia – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/listas/lista-05.html" rel="next">
-<link href="../../curso/listas/lista-03.html" rel="prev">
+<link href="../../curso/listas/lista-06.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +128,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-04.html">Lista 4 · Convolución, EDOs y la respuesta al impulso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-07.html">Lista 7 · Propiedades de la TF y sistemas en frecuencia</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -410,7 +409,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/listas/lista-04.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/listas/lista-04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 4 · Convolución, EDOs y la respuesta al impulso</span></a>
   </div>
 </li>
@@ -428,7 +427,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/listas/lista-07.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-07.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lista 7 · Propiedades de la TF y sistemas en frecuencia</span></a>
   </div>
 </li>
@@ -451,10 +450,10 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-04.html">Lista 4 · Convolución, EDOs y la respuesta al impulso</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-07.html">Lista 7 · Propiedades de la TF y sistemas en frecuencia</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Lista 4 · Convolución, EDOs y la respuesta al impulso</h1>
-<p class="subtitle lead">Se publica al cierre de la semana 4 · Materia: C7–C8 · Al portafolio</p>
+<h1 class="title">Lista 7 · Propiedades de la TF y sistemas en frecuencia</h1>
+<p class="subtitle lead">Se publica al cierre de la semana 7 · Materia: C13–C14 · Al portafolio</p>
 </div>
 
 
@@ -481,36 +480,45 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>La <strong>I1 es esta semana</strong>: materia U1–U2, con el <strong>formulario oficial (U1–U2)</strong>, que se entrega impreso con la prueba. Esta lista es el entrenamiento directo — el ejercicio L4.1 fue, textual, una pregunta de la I1 2025. Después de la I1, esta lista sigue viva: el <strong>CV2</strong> (semana 6) será una de las preguntas <strong>¿Y si…?</strong> de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control, con el portafolio sobre la mesa.</p>
-<p>Hábito no negociable en toda convolución: al terminar, <strong>chequear soporte y área</strong> (C7). Un resultado que no pasa esos chequeos está malo, siempre.</p>
+<p>La <strong>I2 es esta semana</strong>: unidad 3 completa, con el <strong>formulario oficial (U1–U3)</strong>, que se entrega impreso con la prueba, como único material. Esta lista es el mejor ensayo de las preguntas de propiedades y <span class="math inline">H(\omega)</span>; su control asociado es el <strong>CV3</strong> (semana 9, Listas 6–8). El CV3 será una variante numérica de una de las preguntas <strong>¿Y si…?</strong> de las Listas 6–8: resolverlas en tu portafolio ES preparar el control.</p>
 </div>
 </div>
-<p><strong>Referencias de estudio</strong>: [Oppenheim] §2.2–2.3 (convolución y propiedades), §2.4.1 (EDOs), §2.3.5–2.3.7 (causalidad/estabilidad desde <span class="math inline">h</span>); [Alvarado] §3.4.</p>
+<p><strong>Referencias de estudio</strong>: [Oppenheim] §4.3–4.6, §6.1–6.3; [Alvarado] §3.3.</p>
+<p><strong>Convención</strong>: los enunciados usan <span class="math inline">X(\omega) = \int x(t)e^{-j\omega t}dt</span>. Si trabajas con la convención en Hz (<span class="math inline">u</span> o <span class="math inline">f</span>, con <span class="math inline">e^{-j2\pi ut}</span>), di cuál usas y sé consistente — ambas se aceptan en las evaluaciones.</p>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<p><strong>L4.1</strong> <em>(nuevo — I1 2025; incorporar al banco)</em> — Dadas las funciones <span class="math inline">h(t) = 3e^{-3t}u(t)</span> y <span class="math inline">f(t) = 2\big(u(t) - u(t-1)\big)</span>, encuentre la convolución entre <span class="math inline">h(t)</span> y <span class="math inline">f(t)</span> <strong>gráfica y analíticamente</strong>.</p>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">h(t) = 3e^{-3|t|}</span> (dos lados, en vez de causal con <span class="math inline">u(t)</span>)? ¿la convolución sigue siendo cero para <span class="math inline">t&lt;0</span>?</p>
-<p><strong>L4.2</strong> [DB E0038] — Un sistema LTI tiene respuesta al impulso <span class="math inline">h(t) = e^{-t}\operatorname{rect}(t)</span>. ¿Cuál es la salida del sistema si la entrada es <span class="math inline">f(t) = e^{-t}\operatorname{rect}(t)</span>? Encuentre una expresión analítica. <em>Hint: dentro de la integral, las exponenciales conspiran para dejarle una convolución que ya conoce de C7.</em></p>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">f(t) = e^{+t}\operatorname{rect}(t)</span> (signo del exponente cambia) en vez de <span class="math inline">e^{-t}\operatorname{rect}(t)</span>? ¿siguen “conspirando” las exponenciales para dejar <span class="math inline">\operatorname{rect}*\operatorname{rect}</span> puro?</p>
-<p><strong>L4.3</strong> [DB E0044] — Demuestre la “ley de conservación del área” enunciada en C7: <span class="math display">\int_{-\infty}^{\infty} (f * g)(x)\,dx = \int_{-\infty}^{\infty} f(x)\,dx \cdot \int_{-\infty}^{\infty} g(x)\,dx</span></p>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">f</span> o <span class="math inline">g</span> no fueran absolutamente integrables (p.&nbsp;ej. <span class="math inline">f(x)=1</span> para todo <span class="math inline">x</span>)? ¿sigue siendo válido intercambiar el orden de integración?</p>
-<p><strong>L4.4</strong> [DB E0062] — Un sistema LTI presenta una respuesta a la rampa <span class="math inline">f_1(x) = x\,u(x)</span> dada por <span class="math inline">g_1(x) = u(x-1)</span>. ¿Cuál es la respuesta del sistema si la entrada es <span class="math inline">f_2(x) = (e^x - x - 1)\,u(x)</span>? <em>Hint: ¿qué operación convierte la rampa en un impulso? (L3.6 es su amiga).</em></p>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">f_2(x) = (e^x-1)u(x)</span> (sin el término <span class="math inline">-x</span>) en vez de <span class="math inline">(e^x-x-1)u(x)</span>? ¿su segunda derivada sigue siendo <span class="math inline">e^x u(x)</span> sin deltas extra?</p>
-<p><strong>L4.5</strong> [DB E0061] — Sea un sistema cuya respuesta al impulso es <span class="math inline">h(t) = u(t) - u(t-\tau)</span>. Determine un valor de <span class="math inline">\tau</span> de modo que la salida del sistema sea <span class="math inline">0</span> para todo <span class="math inline">t</span> cuando la entrada es <span class="math inline">\cos(2\pi f_0 t)</span>.</p>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">\tau</span> no fuera un múltiplo exacto de <span class="math inline">1/f_0</span>, digamos <span class="math inline">\tau = 1.5/f_0</span>? ¿la salida sigue siendo cero para todo <span class="math inline">t</span>?</p>
-<p><strong>L4.6</strong> [DB E0037] — Se tiene el sistema descrito por <span class="math display">\frac{dy(t)}{dt} + 2\,y(t) = x(t)</span></p>
+<p><strong>L7.1</strong> [DB E0089] — Calcule la transformada de Fourier de las siguientes señales usando propiedades (no la definición):</p>
 <ol type="1">
-<li>Verifique que <span class="math inline">h(t) = e^{-2t}u(t)</span> es la respuesta al impulso del sistema.</li>
-<li>Determine si el sistema tiene memoria, es causal y es estable.</li>
+<li><span class="math inline">y(x) = \operatorname{rect}\!\big(3x - \tfrac{3}{2}\big)</span></li>
+<li><span class="math inline">y(x) = \operatorname{tri}(x)</span></li>
+<li><span class="math inline">y(x) = \sin(\pi x)</span></li>
+<li><span class="math inline">y(x) = \operatorname{rect}(x)\operatorname{sgn}(x)</span></li>
 </ol>
-<p><strong>¿Y si…?</strong> ¿Y si la ecuación fuera <span class="math inline">\frac{dy}{dt} - 2y(t) = x(t)</span> (signo del segundo término cambia)? ¿la respuesta al impulso sigue siendo estable?</p>
-<p><strong>L4.7</strong> [DB E0032] — Un circuito eléctrico se modela como un sistema LTI con respuesta al impulso <span class="math display">h(t) = \frac{1}{RC}\,e^{-t/RC}\,u(t)</span> donde <span class="math inline">R</span> y <span class="math inline">C</span> son parámetros del circuito. El circuito opera sobre entradas de la forma <span class="math inline">x(t) = A\cos(k\omega_0 t)</span>, con <span class="math inline">\omega_0 = \frac{1}{RC}</span> y <span class="math inline">A</span>, <span class="math inline">k</span> constantes. El objetivo es deducir el efecto del sistema sobre una sinusoide a medida que aumenta su frecuencia <span class="math inline">k\omega_0</span>:</p>
+<p><strong>¿Y si…?</strong> ¿Y si en (3) fuera <span class="math inline">\cos(\pi x)</span> en vez de <span class="math inline">\sin(\pi x)</span>? ¿sigue siendo imaginaria e impar la transformada?</p>
+<p><strong>L7.2</strong> [DB E0093] — Demuestre las siguientes simetrías de la transformada de Fourier:</p>
 <ol type="1">
-<li>Indique si el sistema es estable, causal y si tiene memoria. Justifique.</li>
-<li>Encuentre la salida analítica para las entradas: (a) <span class="math inline">x_1(t) = A</span>; (b) <span class="math inline">x_2(t) = A\cos(0.01\,\omega_0 t)</span>; (c) <span class="math inline">x_3(t) = A\cos(100\,\omega_0 t)</span>. <em>Hint: haga el cálculo para la frecuencia genérica <span class="math inline">k\omega_0</span> (con <span class="math inline">\cos\theta = \frac{e^{j\theta}+e^{-j\theta}}{2}</span>, como en la Ay1) y evalúe después.</em></li>
-<li>A partir de los resultados, ¿qué efecto tiene el sistema sobre sinusoides de frecuencia creciente?</li>
+<li>La transformada de una función real es hermitiana (<span class="math inline">X(-\omega) = X^*(\omega)</span>).</li>
+<li>La transformada de una función imaginaria pura es antihermitiana (<span class="math inline">X(-\omega) = -X^*(\omega)</span>).</li>
 </ol>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">h(t) = \frac{1}{RC}e^{-t/RC}u(-t)</span> (anti-causal, con <span class="math inline">u(-t)</span>) en vez de <span class="math inline">u(t)</span>? ¿el sistema sigue siendo estable?</p>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">f(x)</span> además de real fuera par? ¿sigue teniendo parte imaginaria la transformada hermitiana?</p>
+<p><strong>L7.3</strong> [DB E0100] — Encuentre la transformada de Fourier de <span class="math display">x(t) = (1 - |t|)\,u(t+1)\,u(1-t)</span> <em>(Hint: hay una convolución escondida — C13, Bloque 5.)</em></p>
+<p><strong>¿Y si…?</strong> ¿Y si el triángulo estuviera centrado en <span class="math inline">t=1</span> (es decir <span class="math inline">x(t)=\operatorname{tri}(t-1)</span>) en vez de en el origen? ¿su transformada sigue siendo puramente real?</p>
+<p><strong>L7.4</strong> [DB E0096] — Se desea transmitir el mensaje <span class="math inline">m(t) = W\operatorname{sinc}(Wt)</span> por el aire. Un transmisor AM genera <span class="math inline">s(t) = m(t)\cdot k(t)</span> con portadora <span class="math inline">k(t) = A\cos(2\pi f_c t)</span> y <span class="math inline">f_c \gg \tfrac{W}{2}</span>.</p>
+<ol type="1">
+<li>Encuentre <span class="math inline">s(t)</span> y <span class="math inline">S(\omega)</span>, y bosqueje <span class="math inline">S(\omega)</span> indicando magnitudes y frecuencias relevantes.</li>
+<li>En el receptor, la señal recibida se multiplica por <span class="math inline">p(t) = B\cos(2\pi f_c t)</span>: <span class="math inline">v(t) = s(t)\,p(t)</span>. Encuentre <span class="math inline">V(\omega)</span> y bosquéjela.</li>
+<li><span class="math inline">v(t)</span> pasa por un filtro pasa-bajos ideal de frecuencia de corte <span class="math inline">f_T</span>. Determine el rango de <span class="math inline">f_T</span> que permite recuperar el mensaje.</li>
+<li>Con el filtro bien sintonizado, muestre que la salida es <span class="math inline">x(t) = k\,m(t)</span> y exprese <span class="math inline">k</span> en función de <span class="math inline">A</span> y <span class="math inline">B</span>.</li>
+</ol>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">f_c &lt; W/2</span> (la portadora ya no domina el ancho de banda del mensaje)? ¿el filtro pasa-bajos sigue recuperando <span class="math inline">m(t)</span>?</p>
+<p><strong>L7.5</strong> [DB E0103] — Un circuito RC es un sistema LTI modelado por <span class="math display">v_{in}(t) = v_c(t) + RC\,\frac{dv_c(t)}{dt}</span> donde <span class="math inline">v_{in}</span> es la alimentación y <span class="math inline">v_c</span> el voltaje del condensador.</p>
+<ol type="1">
+<li>Use la transformada de Fourier para obtener la función de transferencia <span class="math inline">H(\omega) = \dfrac{V_c(\omega)}{V_{in}(\omega)}</span>.</li>
+<li>¿Qué ocurre con la salida si el espectro de la entrada está concentrado en frecuencias mucho mayores que <span class="math inline">\tfrac{1}{RC}</span>?</li>
+</ol>
+<p><strong>¿Y si…?</strong> ¿Y si la salida fuera el voltaje en la resistencia, <span class="math inline">v_R(t)</span>, en vez de <span class="math inline">v_c(t)</span>? ¿sigue siendo un filtro pasa-bajos?</p>
+<p><strong>L7.6</strong> [DB E0101] — Sea <span class="math inline">x_1(t) = \displaystyle\sum_{k=-\infty}^{\infty} \alpha^{|k|}\,e^{jk\frac{\pi}{4}t}</span> con <span class="math inline">0&lt;\alpha&lt;1</span>, la entrada de un sistema LTI con respuesta en frecuencia <span class="math display">H(\omega) = \begin{cases} 1, &amp; |\omega| &lt; W\\ 0, &amp; \text{e.o.c.} \end{cases}</span> Halle el máximo <span class="math inline">W</span> tal que la potencia de la salida sea <strong>a lo más</strong> el 90% de la potencia de la entrada. <em>(Hint: Parseval para señales periódicas: <span class="math inline">\bar{P} = \sum_k |c_k|^2</span> — Lista 5.)</em></p>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">H(\omega)</span> fuera pasa-altos (deja pasar <span class="math inline">|\omega|&gt;W</span>) en vez de pasa-bajos? ¿sigue siendo posible retener el 90% de la potencia con algún <span class="math inline">W</span>?</p>
 
 
 </section>
@@ -918,14 +926,11 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/listas/lista-03.html" class="pagination-link" aria-label="Lista 3 · Propiedades de sistemas y el nacimiento de la convolución">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</span>
+      <a href="../../curso/listas/lista-06.html" class="pagination-link" aria-label="Lista 6 · Propiedades de la serie y transformada de Fourier básica">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lista 6 · Propiedades de la serie y transformada de Fourier básica</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/listas/lista-05.html" class="pagination-link" aria-label="Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier">
-        <span class="nav-page-text">Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lista 4 · Convolución, EDOs y la respuesta al impulso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>C14 · Sistemas en frecuencia: H(ω) y filtrado – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/listas/lista-05.html" rel="next">
-<link href="../../curso/listas/lista-03.html" rel="prev">
+<link href="../../curso/semana-07/ay07.html" rel="next">
+<link href="../../curso/semana-07/c13.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-04.html">Lista 4 · Convolución, EDOs y la respuesta al impulso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-07/c13.html">Semana 7 · Propiedades de la TF</a></li><li class="breadcrumb-item"><a href="../../curso/semana-07/c14.html">C14 · Sistemas en frecuencia: H(ω) y filtrado</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -369,7 +369,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-07/c14.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-07/c14.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">C14 · Sistemas en frecuencia: H(ω) y filtrado</span></a>
   </div>
 </li>
@@ -410,7 +410,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/listas/lista-04.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/listas/lista-04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 4 · Convolución, EDOs y la respuesta al impulso</span></a>
   </div>
 </li>
@@ -444,17 +444,21 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link active" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  <li><a href="#la-función-propia-por-qué-fourier-y-los-lti-son-almas-gemelas" id="toc-la-función-propia-por-qué-fourier-y-los-lti-son-almas-gemelas" class="nav-link active" data-scroll-target="#la-función-propia-por-qué-fourier-y-los-lti-son-almas-gemelas">1. La función propia: por qué Fourier y los LTI son almas gemelas</a></li>
+  <li><a href="#filtros-moldear-el-espectro" id="toc-filtros-moldear-el-espectro" class="nav-link" data-scroll-target="#filtros-moldear-el-espectro">2. Filtros: moldear el espectro</a></li>
+  <li><a href="#señales-periódicas-a-través-de-un-sistema" id="toc-señales-periódicas-a-través-de-un-sistema" class="nav-link" data-scroll-target="#señales-periódicas-a-través-de-un-sistema">3. Señales periódicas a través de un sistema</a></li>
+  <li><a href="#teaser-y-si-multiplicamos-por-un-tren-de-impulsos" id="toc-teaser-y-si-multiplicamos-por-un-tren-de-impulsos" class="nav-link" data-scroll-target="#teaser-y-si-multiplicamos-por-un-tren-de-impulsos">4. Teaser: ¿y si multiplicamos por un tren de impulsos?</a></li>
+  <li><a href="#conoce-tu-formulario-5-min" id="toc-conoce-tu-formulario-5-min" class="nav-link" data-scroll-target="#conoce-tu-formulario-5-min">5. Conoce tu formulario (5 min)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-04.html">Lista 4 · Convolución, EDOs y la respuesta al impulso</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-07/c13.html">Semana 7 · Propiedades de la TF</a></li><li class="breadcrumb-item"><a href="../../curso/semana-07/c14.html">C14 · Sistemas en frecuencia: H(ω) y filtrado</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Lista 4 · Convolución, EDOs y la respuesta al impulso</h1>
-<p class="subtitle lead">Se publica al cierre de la semana 4 · Materia: C7–C8 · Al portafolio</p>
+<h1 class="title">C14 · Sistemas en frecuencia: H(ω) y filtrado</h1>
+<p class="subtitle lead">Semana 7 · 70 min · U3.5 — cierre de la unidad 3</p>
 </div>
 
 
@@ -471,46 +475,70 @@ window.Quarto = {
 </header>
 
 
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="la-función-propia-por-qué-fourier-y-los-lti-son-almas-gemelas" class="level1">
+<h1>1. La función propia: por qué Fourier y los LTI son almas gemelas</h1>
+<p><strong>Derivación: qué sale de un LTI cuando entra <span class="math inline">e^{j\omega t}</span></strong> (desarrollo completo):</p>
+<div class="hueco-grande">
+
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Recordatorio
+<p><strong>Definición de <span class="math inline">H(\omega)</span> y qué relación tiene con <span class="math inline">h(t)</span>:</strong></p>
+<div class="hueco">
+
 </div>
+<p><strong>Si entra <span class="math inline">\cos(\omega_0 t)</span>, sale:</strong> <span class="math inline">y(t) = \hspace{5cm}</span></p>
+<p><strong>¿Puede un LTI crear frecuencias que no venían en la entrada?</strong></p>
+<div class="hueco">
+
 </div>
-<div class="callout-body-container callout-body">
-<p>La <strong>I1 es esta semana</strong>: materia U1–U2, con el <strong>formulario oficial (U1–U2)</strong>, que se entrega impreso con la prueba. Esta lista es el entrenamiento directo — el ejercicio L4.1 fue, textual, una pregunta de la I1 2025. Después de la I1, esta lista sigue viva: el <strong>CV2</strong> (semana 6) será una de las preguntas <strong>¿Y si…?</strong> de las Listas 3–5, con números concretos — resolverlas en tu portafolio ES preparar el control, con el portafolio sobre la mesa.</p>
-<p>Hábito no negociable en toda convolución: al terminar, <strong>chequear soporte y área</strong> (C7). Un resultado que no pasa esos chequeos está malo, siempre.</p>
+</section>
+<section id="filtros-moldear-el-espectro" class="level1">
+<h1>2. Filtros: moldear el espectro</h1>
+<p><strong><span class="math inline">H(\omega)</span> del circuito RC desde su EDO</strong> (desarrollo, y qué tipo de filtro resulta):</p>
+<div class="hueco-grande">
+
 </div>
+<p><strong>El filtro pasa-bajos ideal: su <span class="math inline">H(\omega)</span>, su <span class="math inline">h(t)</span>, y por qué no se puede construir:</strong></p>
+<div class="hueco">
+
 </div>
-<p><strong>Referencias de estudio</strong>: [Oppenheim] §2.2–2.3 (convolución y propiedades), §2.4.1 (EDOs), §2.3.5–2.3.7 (causalidad/estabilidad desde <span class="math inline">h</span>); [Alvarado] §3.4.</p>
-<section id="ejercicios" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<p><strong>L4.1</strong> <em>(nuevo — I1 2025; incorporar al banco)</em> — Dadas las funciones <span class="math inline">h(t) = 3e^{-3t}u(t)</span> y <span class="math inline">f(t) = 2\big(u(t) - u(t-1)\big)</span>, encuentre la convolución entre <span class="math inline">h(t)</span> y <span class="math inline">f(t)</span> <strong>gráfica y analíticamente</strong>.</p>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">h(t) = 3e^{-3|t|}</span> (dos lados, en vez de causal con <span class="math inline">u(t)</span>)? ¿la convolución sigue siendo cero para <span class="math inline">t&lt;0</span>?</p>
-<p><strong>L4.2</strong> [DB E0038] — Un sistema LTI tiene respuesta al impulso <span class="math inline">h(t) = e^{-t}\operatorname{rect}(t)</span>. ¿Cuál es la salida del sistema si la entrada es <span class="math inline">f(t) = e^{-t}\operatorname{rect}(t)</span>? Encuentre una expresión analítica. <em>Hint: dentro de la integral, las exponenciales conspiran para dejarle una convolución que ya conoce de C7.</em></p>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">f(t) = e^{+t}\operatorname{rect}(t)</span> (signo del exponente cambia) en vez de <span class="math inline">e^{-t}\operatorname{rect}(t)</span>? ¿siguen “conspirando” las exponenciales para dejar <span class="math inline">\operatorname{rect}*\operatorname{rect}</span> puro?</p>
-<p><strong>L4.3</strong> [DB E0044] — Demuestre la “ley de conservación del área” enunciada en C7: <span class="math display">\int_{-\infty}^{\infty} (f * g)(x)\,dx = \int_{-\infty}^{\infty} f(x)\,dx \cdot \int_{-\infty}^{\infty} g(x)\,dx</span></p>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">f</span> o <span class="math inline">g</span> no fueran absolutamente integrables (p.&nbsp;ej. <span class="math inline">f(x)=1</span> para todo <span class="math inline">x</span>)? ¿sigue siendo válido intercambiar el orden de integración?</p>
-<p><strong>L4.4</strong> [DB E0062] — Un sistema LTI presenta una respuesta a la rampa <span class="math inline">f_1(x) = x\,u(x)</span> dada por <span class="math inline">g_1(x) = u(x-1)</span>. ¿Cuál es la respuesta del sistema si la entrada es <span class="math inline">f_2(x) = (e^x - x - 1)\,u(x)</span>? <em>Hint: ¿qué operación convierte la rampa en un impulso? (L3.6 es su amiga).</em></p>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">f_2(x) = (e^x-1)u(x)</span> (sin el término <span class="math inline">-x</span>) en vez de <span class="math inline">(e^x-x-1)u(x)</span>? ¿su segunda derivada sigue siendo <span class="math inline">e^x u(x)</span> sin deltas extra?</p>
-<p><strong>L4.5</strong> [DB E0061] — Sea un sistema cuya respuesta al impulso es <span class="math inline">h(t) = u(t) - u(t-\tau)</span>. Determine un valor de <span class="math inline">\tau</span> de modo que la salida del sistema sea <span class="math inline">0</span> para todo <span class="math inline">t</span> cuando la entrada es <span class="math inline">\cos(2\pi f_0 t)</span>.</p>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">\tau</span> no fuera un múltiplo exacto de <span class="math inline">1/f_0</span>, digamos <span class="math inline">\tau = 1.5/f_0</span>? ¿la salida sigue siendo cero para todo <span class="math inline">t</span>?</p>
-<p><strong>L4.6</strong> [DB E0037] — Se tiene el sistema descrito por <span class="math display">\frac{dy(t)}{dt} + 2\,y(t) = x(t)</span></p>
-<ol type="1">
-<li>Verifique que <span class="math inline">h(t) = e^{-2t}u(t)</span> es la respuesta al impulso del sistema.</li>
-<li>Determine si el sistema tiene memoria, es causal y es estable.</li>
-</ol>
-<p><strong>¿Y si…?</strong> ¿Y si la ecuación fuera <span class="math inline">\frac{dy}{dt} - 2y(t) = x(t)</span> (signo del segundo término cambia)? ¿la respuesta al impulso sigue siendo estable?</p>
-<p><strong>L4.7</strong> [DB E0032] — Un circuito eléctrico se modela como un sistema LTI con respuesta al impulso <span class="math display">h(t) = \frac{1}{RC}\,e^{-t/RC}\,u(t)</span> donde <span class="math inline">R</span> y <span class="math inline">C</span> son parámetros del circuito. El circuito opera sobre entradas de la forma <span class="math inline">x(t) = A\cos(k\omega_0 t)</span>, con <span class="math inline">\omega_0 = \frac{1}{RC}</span> y <span class="math inline">A</span>, <span class="math inline">k</span> constantes. El objetivo es deducir el efecto del sistema sobre una sinusoide a medida que aumenta su frecuencia <span class="math inline">k\omega_0</span>:</p>
-<ol type="1">
-<li>Indique si el sistema es estable, causal y si tiene memoria. Justifique.</li>
-<li>Encuentre la salida analítica para las entradas: (a) <span class="math inline">x_1(t) = A</span>; (b) <span class="math inline">x_2(t) = A\cos(0.01\,\omega_0 t)</span>; (c) <span class="math inline">x_3(t) = A\cos(100\,\omega_0 t)</span>. <em>Hint: haga el cálculo para la frecuencia genérica <span class="math inline">k\omega_0</span> (con <span class="math inline">\cos\theta = \frac{e^{j\theta}+e^{-j\theta}}{2}</span>, como en la Ay1) y evalúe después.</em></li>
-<li>A partir de los resultados, ¿qué efecto tiene el sistema sobre sinusoides de frecuencia creciente?</li>
-</ol>
-<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">h(t) = \frac{1}{RC}e^{-t/RC}u(-t)</span> (anti-causal, con <span class="math inline">u(-t)</span>) en vez de <span class="math inline">u(t)</span>? ¿el sistema sigue siendo estable?</p>
+</section>
+<section id="señales-periódicas-a-través-de-un-sistema" class="level1">
+<h1>3. Señales periódicas a través de un sistema</h1>
+<p><strong>Salida de un LTI ante entrada periódica</strong> (fórmula línea por línea):</p>
+<p><span class="math display">y(t) = \hspace{5cm}</span></p>
+<p><strong>Mi voto y por qué</strong> (cuadrada por pasa-bajos con corte en <span class="math inline">2\omega_0</span> — ¿qué sale?):</p>
+<div class="hueco">
+
+</div>
+<p><strong>Qué salió realmente, y qué saldría con corte en <span class="math inline">6\omega_0</span>:</strong></p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="teaser-y-si-multiplicamos-por-un-tren-de-impulsos" class="level1">
+<h1>4. Teaser: ¿y si multiplicamos por un tren de impulsos?</h1>
+<p><strong>Muestrear = multiplicar por <span class="math inline">\delta_T(t)</span>. En frecuencia, eso produce</strong> (¡el dibujo! espectro original y lo que le pasa):</p>
+<div class="hueco-grande">
+
+</div>
+<p><span class="math display">X_s(\omega) = \hspace{5cm}</span></p>
+<p><strong>Mi respuesta a la pregunta abierta</strong> (¿se podrá recuperar <span class="math inline">x(t)</span> desde sus muestras? ¿cuándo sí, cuándo no?):</p>
+<div class="hueco">
+
+</div>
+<p><em>(La respuesta completa: semana 10. Anota tu predicción — la vamos a cobrar.)</em></p>
+</section>
+<section id="conoce-tu-formulario-5-min" class="level1">
+<h1>5. Conoce tu formulario (5 min)</h1>
+<p><strong>Mi checklist del formulario para la unidad 3</strong> (marcar lo que ya reconozco):</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Producto interno y proyección (C9)</label></li>
+<li><label><input type="checkbox">Serie de Fourier: análisis, síntesis, diccionario trig↔︎exp, cuadrada (C10)</label></li>
+<li><label><input type="checkbox">Tabla de simetrías + regla del decaimiento (C11)</label></li>
+<li><label><input type="checkbox">TF: definición, inversa y tabla de pares (C12)</label></li>
+<li><label><input type="checkbox">Propiedades TF, en especial convolución↔︎multiplicación (C13)</label></li>
+<li><label><input type="checkbox"><span class="math inline">H(\omega)</span> y respuesta a periódicas (C14)</label></li>
+</ul>
 
 
 </section>
@@ -918,13 +946,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/listas/lista-03.html" class="pagination-link" aria-label="Lista 3 · Propiedades de sistemas y el nacimiento de la convolución">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lista 3 · Propiedades de sistemas y el nacimiento de la convolución</span>
+      <a href="../../curso/semana-07/c13.html" class="pagination-link" aria-label="C13 · Propiedades de la transformada de Fourier">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C13 · Propiedades de la transformada de Fourier</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/listas/lista-05.html" class="pagination-link" aria-label="Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier">
-        <span class="nav-page-text">Lista 5 · Ortogonalidad, proyección y coeficientes de Fourier</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/semana-07/ay07.html" class="pagination-link" aria-label="Ay7 · Integración pre-I2: unidad 3 completa">
+        <span class="nav-page-text">Ay7 · Integración pre-I2: unidad 3 completa</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
