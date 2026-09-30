@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ay2 · Ejercicios U1: señales, simetrías, impulso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>C16 · La transformada inversa: fracciones parciales guiadas por la ROC – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-03/c05.html" rel="next">
-<link href="../../curso/semana-02/c04.html" rel="prev">
+<link href="../../curso/semana-08/ay08.html" rel="next">
+<link href="../../curso/semana-08/c15.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -73,6 +73,49 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -86,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/ay02.html">Ay2 · Ejercicios U1: señales, simetrías, impulso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-08/c15.html">Semana 8 · El plano s</a></li><li class="breadcrumb-item"><a href="../../curso/semana-08/c16.html">C16 · La transformada inversa: fracciones parciales guiadas por la ROC</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -187,7 +230,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ay2 · Ejercicios U1: señales, simetrías, impulso</span></a>
   </div>
 </li>
@@ -355,7 +398,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-08/c16.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-08/c16.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">C16 · La transformada inversa: fracciones parciales guiadas por la ROC</span></a>
   </div>
 </li>
@@ -436,17 +479,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#cierre-instalación-del-cv1-6070-min" id="toc-cierre-instalación-del-cv1-6070-min" class="nav-link active" data-scroll-target="#cierre-instalación-del-cv1-6070-min">Cierre: instalación del CV1 (60–70 min)</a></li>
+  <li><a href="#repaso-y-honesto-de-fracciones-parciales" id="toc-repaso-y-honesto-de-fracciones-parciales" class="nav-link active" data-scroll-target="#repaso-y-honesto-de-fracciones-parciales">1. Repaso (y honesto) de fracciones parciales</a></li>
+  <li><a href="#el-diccionario-de-inversión-cada-término-tiene-dos-traducciones" id="toc-el-diccionario-de-inversión-cada-término-tiene-dos-traducciones" class="nav-link" data-scroll-target="#el-diccionario-de-inversión-cada-término-tiene-dos-traducciones">2. El diccionario de inversión: cada término tiene dos traducciones</a></li>
+  <li><a href="#ejemplo-completo-calibre-i3-literal" id="toc-ejemplo-completo-calibre-i3-literal" class="nav-link" data-scroll-target="#ejemplo-completo-calibre-i3-literal">3. Ejemplo completo, calibre I3 (literal)</a></li>
+  <li><a href="#la-receta-general-la-secuencia-hay-que-traerla-aprendida" id="toc-la-receta-general-la-secuencia-hay-que-traerla-aprendida" class="nav-link" data-scroll-target="#la-receta-general-la-secuencia-hay-que-traerla-aprendida">4. La receta general (la secuencia hay que traerla aprendida)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/ay02.html">Ay2 · Ejercicios U1: señales, simetrías, impulso</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-08/c15.html">Semana 8 · El plano s</a></li><li class="breadcrumb-item"><a href="../../curso/semana-08/c16.html">C16 · La transformada inversa: fracciones parciales guiadas por la ROC</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Ay2 · Ejercicios U1: señales, simetrías, impulso</h1>
-<p class="subtitle lead">Semana 2 · 70 min</p>
+<h1 class="title">C16 · La transformada inversa: fracciones parciales guiadas por la ROC</h1>
+<p class="subtitle lead">Semana 8 · 70 min · U4.2</p>
 </div>
 
 
@@ -463,14 +509,93 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="cierre-instalación-del-cv1-6070-min" class="level2">
-<h2 class="anchored" data-anchor-id="cierre-instalación-del-cv1-6070-min">Cierre: instalación del CV1 (60–70 min)</h2>
-<p>Explicar con total claridad (primera vez que lo viven):</p>
+<section id="repaso-y-honesto-de-fracciones-parciales" class="level1">
+<h1>1. Repaso (y honesto) de fracciones parciales</h1>
+<p><strong>Caso 1 — polos simples, método de la tapadita</strong> (desarrolla <span class="math inline">\frac{1}{(s+1)(s+2)}</span> y anota cómo se calcula cada coeficiente):</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>El truco de verificación de 2 segundos:</strong></p>
+<div class="hueco">
+
+</div>
+<p><strong>Caso 2 — polo doble</strong> (¿cuántos términos necesita <span class="math inline">\frac{s+2}{(s+1)^2}</span> y cómo se obtiene cada coeficiente?):</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>Caso 3 — polos complejos: completar el cuadrado.</strong> Desarrolla <span class="math inline">\frac{s+3}{s^2+2s+5}</span> y los dos pares que hay que reconocer:</p>
+<p><span class="math display">e^{-at}\cos(\omega_0 t)u(t) \longleftrightarrow \hspace{3cm} \qquad e^{-at}\sin(\omega_0 t)u(t) \longleftrightarrow \hspace{3cm}</span></p>
+<div class="hueco-grande">
+
+</div>
+</section>
+<section id="el-diccionario-de-inversión-cada-término-tiene-dos-traducciones" class="level1">
+<h1>2. El diccionario de inversión: cada término tiene dos traducciones</h1>
+<p><strong>El diccionario</strong> (complétalo):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">X(s)</span></th>
+<th>ROC a la derecha del polo</th>
+<th>ROC a la izquierda del polo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\dfrac{1}{s+a}</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\dfrac{1}{(s+a)^2}</span></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>La regla de oro para decidir, término a término:</strong></p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="ejemplo-completo-calibre-i3-literal" class="level1">
+<h1>3. Ejemplo completo, calibre I3 (literal)</h1>
+<p><strong>El problema</strong> (calibre I3 real): <span class="math inline">X(s) = \dfrac{1}{(s+1)(s+2)}</span>, invertir para (a) señal derecha, (b) izquierda, (c) bilateral.</p>
+<p><strong>Paso 0 — fracciones parciales:</strong></p>
+<p><span class="math display">X(s) = \hspace{5cm}</span></p>
+<p><strong>Paso 1 — las tres ROCs posibles</strong> (dibuja el plano <span class="math inline">s</span> con los polos y las tres franjas):</p>
+<div class="hueco">
+
+</div>
+<p><strong>(a) ROC y desarrollo:</strong></p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>(b) ROC y desarrollo:</strong></p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>Mi voto en la votación y por qué:</strong></p>
+<div class="hueco">
+
+</div>
+<p><strong>(c) ROC y desarrollo:</strong></p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>¿Cuál de las tres señales tiene transformada de Fourier y por qué?</strong></p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="la-receta-general-la-secuencia-hay-que-traerla-aprendida" class="level1">
+<h1>4. La receta general (la secuencia hay que traerla aprendida)</h1>
+<p><strong>La receta de 4 pasos</strong> (escríbela con tus palabras — el formulario trae la regla clave del paso 4, polo↔︎ROC, pero la secuencia completa hay que traerla aprendida):</p>
 <ol type="1">
-<li>En dos semanas, en la Ay4, primeros 20 min de la ayudantía: <strong>CV1</strong>. Una variante (números/contexto cambiados) de un ejercicio de las Listas 1–2.</li>
-<li>Único material permitido: <strong>tu portafolio manuscrito</strong>. Sin portafolio se puede rendir igual, pero sin red.</li>
-<li>Qué debería tener el portafolio a esta altura: Listas 1 y 2 resueltas <em>con desarrollo</em>, y los ejemplos de clase que cada uno quiera sumar.</li>
-<li>Recordar el quiz Canvas de la semana (ensayo directo del CV1).</li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
 </ol>
 
 
@@ -879,13 +1004,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/semana-02/c04.html" class="pagination-link" aria-label="C4 · El impulso">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C4 · El impulso</span>
+      <a href="../../curso/semana-08/c15.html" class="pagination-link" aria-label="C15 · Del eje jω al plano s: la transformada de Laplace">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C15 · Del eje jω al plano s: la transformada de Laplace</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-03/c05.html" class="pagination-link" aria-label="C5 · Propiedades de sistemas">
-        <span class="nav-page-text">C5 · Propiedades de sistemas</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/semana-08/ay08.html" class="pagination-link" aria-label="Ay8 · Interrogación 2 (I2)">
+        <span class="nav-page-text">Ay8 · Interrogación 2 (I2)</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

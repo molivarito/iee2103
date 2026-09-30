@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ay2 · Ejercicios U1: señales, simetrías, impulso – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>C15 · Del eje jω al plano s: la transformada de Laplace – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-03/c05.html" rel="next">
-<link href="../../curso/semana-02/c04.html" rel="prev">
+<link href="../../curso/semana-08/c16.html" rel="next">
+<link href="../../curso/semana-07/ay07.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -73,6 +73,49 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -86,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/ay02.html">Ay2 · Ejercicios U1: señales, simetrías, impulso</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-08/c15.html">Semana 8 · El plano s</a></li><li class="breadcrumb-item"><a href="../../curso/semana-08/c15.html">C15 · Del eje jω al plano s: la transformada de Laplace</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -187,7 +230,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-02/ay02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ay2 · Ejercicios U1: señales, simetrías, impulso</span></a>
   </div>
 </li>
@@ -349,7 +392,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-08/c15.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-08/c15.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">C15 · Del eje jω al plano s: la transformada de Laplace</span></a>
   </div>
 </li>
@@ -436,17 +479,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#cierre-instalación-del-cv1-6070-min" id="toc-cierre-instalación-del-cv1-6070-min" class="nav-link active" data-scroll-target="#cierre-instalación-del-cv1-6070-min">Cierre: instalación del CV1 (60–70 min)</a></li>
+  <li><a href="#la-señal-que-fourier-no-puede-ver" id="toc-la-señal-que-fourier-no-puede-ver" class="nav-link active" data-scroll-target="#la-señal-que-fourier-no-puede-ver">1. La señal que Fourier no puede ver</a></li>
+  <li><a href="#la-definición-bilateral" id="toc-la-definición-bilateral" class="nav-link" data-scroll-target="#la-definición-bilateral">2. La definición bilateral</a></li>
+  <li><a href="#los-tres-ejemplos-canónicos-la-moraleja-de-la-unidad" id="toc-los-tres-ejemplos-canónicos-la-moraleja-de-la-unidad" class="nav-link" data-scroll-target="#los-tres-ejemplos-canónicos-la-moraleja-de-la-unidad">3. Los tres ejemplos canónicos (la moraleja de la unidad)</a></li>
+  <li><a href="#propiedades-de-la-roc-las-reglas-del-juego" id="toc-propiedades-de-la-roc-las-reglas-del-juego" class="nav-link" data-scroll-target="#propiedades-de-la-roc-las-reglas-del-juego">4. Propiedades de la ROC (las reglas del juego)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/ay02.html">Ay2 · Ejercicios U1: señales, simetrías, impulso</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-08/c15.html">Semana 8 · El plano s</a></li><li class="breadcrumb-item"><a href="../../curso/semana-08/c15.html">C15 · Del eje jω al plano s: la transformada de Laplace</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Ay2 · Ejercicios U1: señales, simetrías, impulso</h1>
-<p class="subtitle lead">Semana 2 · 70 min</p>
+<h1 class="title">C15 · Del eje jω al plano s: la transformada de Laplace</h1>
+<p class="subtitle lead">Semana 8 · 70 min · U4.1</p>
 </div>
 
 
@@ -463,15 +509,103 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="cierre-instalación-del-cv1-6070-min" class="level2">
-<h2 class="anchored" data-anchor-id="cierre-instalación-del-cv1-6070-min">Cierre: instalación del CV1 (60–70 min)</h2>
-<p>Explicar con total claridad (primera vez que lo viven):</p>
-<ol type="1">
-<li>En dos semanas, en la Ay4, primeros 20 min de la ayudantía: <strong>CV1</strong>. Una variante (números/contexto cambiados) de un ejercicio de las Listas 1–2.</li>
-<li>Único material permitido: <strong>tu portafolio manuscrito</strong>. Sin portafolio se puede rendir igual, pero sin red.</li>
-<li>Qué debería tener el portafolio a esta altura: Listas 1 y 2 resueltas <em>con desarrollo</em>, y los ejemplos de clase que cada uno quiera sumar.</li>
-<li>Recordar el quiz Canvas de la semana (ensayo directo del CV1).</li>
-</ol>
+<section id="la-señal-que-fourier-no-puede-ver" class="level1">
+<h1>1. La señal que Fourier no puede ver</h1>
+<p><strong>Tres señales razonables cuya transformada de Fourier no converge:</strong></p>
+<div class="hueco">
+
+</div>
+<p><strong>La idea central de Laplace</strong> (¿qué se le hace a <span class="math inline">x(t)</span> antes de tomar Fourier, y qué número aparece en el exponente?):</p>
+<p><span class="math display">\mathcal{F}\{x(t)\,e^{-\sigma t}\} = \int_{-\infty}^{\infty} x(t)\,e^{-(\hspace{1.5cm})t}\,dt</span></p>
+<p><strong>Para <span class="math inline">x(t) = e^{2t}u(t)</span>: ¿qué valores de <span class="math inline">\sigma</span> logran que <span class="math inline">x(t)e^{-\sigma t}</span> decaiga?</strong></p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="la-definición-bilateral" class="level1">
+<h1>2. La definición bilateral</h1>
+<p><strong>Definición (bilateral) y qué es la ROC:</strong></p>
+<p><span class="math display">X(s) = \hspace{6cm}</span></p>
+<div class="hueco">
+<p>(¿qué es la ROC y por qué es parte de la respuesta?)</p>
+</div>
+<p><strong>Las dos lecturas de <span class="math inline">X(s)</span></strong> (familia de Fourier amortiguadas / parecido con espirales):</p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="los-tres-ejemplos-canónicos-la-moraleja-de-la-unidad" class="level1">
+<h1>3. Los tres ejemplos canónicos (la moraleja de la unidad)</h1>
+<p><strong>Ejemplo 1 — <span class="math inline">x(t) = e^{-at}u(t)</span></strong> (desarrollo completo por definición, con la condición de convergencia):</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>Ejemplo 2 — <span class="math inline">x(t) = -e^{-at}u(-t)</span></strong> (desarrollo y ROC):</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>La moraleja central de la unidad</strong> (¿qué distingue a los ejemplos 1 y 2, y qué concluimos?):</p>
+<div class="hueco">
+
+</div>
+<p><strong>Ejemplo 3 — <span class="math inline">x(t) = e^{-a|t|}</span></strong> (partir en dos mitades, transformar cada una, intersectar ROCs):</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>Mi voto en la votación y por qué:</strong></p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="propiedades-de-la-roc-las-reglas-del-juego" class="level1">
+<h1>4. Propiedades de la ROC (las reglas del juego)</h1>
+<p><strong>Las 7 reglas de la ROC</strong> (complétalas a medida que se destilan en clase):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Regla</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>La ROC son franjas ________ porque la convergencia solo depende de ____</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>La ROC nunca contiene ______</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Señal derecha →</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Señal izquierda →</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Señal bilateral →</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Duración finita →</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Existe TF ⟺</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Una señal que NO tiene transformada de Laplace (y por qué):</strong></p>
+<div class="hueco">
+
+</div>
 
 
 </section>
@@ -879,13 +1013,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/semana-02/c04.html" class="pagination-link" aria-label="C4 · El impulso">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C4 · El impulso</span>
+      <a href="../../curso/semana-07/ay07.html" class="pagination-link" aria-label="Ay7 · Integración pre-I2: unidad 3 completa">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Ay7 · Integración pre-I2: unidad 3 completa</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-03/c05.html" class="pagination-link" aria-label="C5 · Propiedades de sistemas">
-        <span class="nav-page-text">C5 · Propiedades de sistemas</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/semana-08/c16.html" class="pagination-link" aria-label="C16 · La transformada inversa: fracciones parciales guiadas por la ROC">
+        <span class="nav-page-text">C16 · La transformada inversa: fracciones parciales guiadas por la ROC</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
