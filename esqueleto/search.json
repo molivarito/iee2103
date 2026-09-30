@@ -680,22 +680,22 @@
     ]
   },
   {
-    "objectID": "curso/semana-07/ay07.html#p2-20-min-función-de-transferencia-calibre-i2-2025-p2",
-    "href": "curso/semana-07/ay07.html#p2-20-min-función-de-transferencia-calibre-i2-2025-p2",
+    "objectID": "curso/semana-07/ay07.html#p2-20-min-función-de-transferencia",
+    "href": "curso/semana-07/ay07.html#p2-20-min-función-de-transferencia",
     "title": "Ay7 · Integración pre-I2: unidad 3 completa",
-    "section": "P2 (20 min) — Función de transferencia (calibre I2 2025 P2)",
-    "text": "P2 (20 min) — Función de transferencia (calibre I2 2025 P2)\n\nUn sistema LTI tiene H(\\omega) = \\dfrac{j\\omega}{b + j\\omega}, con b&gt;0. (a) Encuentre la respuesta al impulso h(t). (b) Encuentre la salida si la entrada es x(t) = e^{-at}u(t), a&gt;0, a\\neq b. (c) ¿Qué tipo de filtro es? Justifique mirando |H(0)| y |H(\\infty)|.",
+    "section": "P2 (20 min) — Función de transferencia",
+    "text": "P2 (20 min) — Función de transferencia\n\nUn sistema LTI tiene H(\\omega) = \\dfrac{j\\omega}{b + j\\omega}, con b&gt;0. (a) Encuentre la respuesta al impulso h(t). (b) Encuentre la salida si la entrada es x(t) = \\cos(\\omega_0 t). ¿Para qué \\omega_0 la salida tiene amplitud 1/\\sqrt{2}? (c) ¿Qué tipo de filtro es? Justifique mirando |H(0)| y |H(\\infty)|.",
     "crumbs": [
       "Semana 7 · Propiedades de la TF",
       "Ay7 · Integración pre-I2: unidad 3 completa"
     ]
   },
   {
-    "objectID": "curso/semana-07/ay07.html#p3-17-min-del-espectro-a-la-forma-de-onda-calibre-i2-2025-p9",
-    "href": "curso/semana-07/ay07.html#p3-17-min-del-espectro-a-la-forma-de-onda-calibre-i2-2025-p9",
+    "objectID": "curso/semana-07/ay07.html#p3-17-min-del-espectro-a-la-forma-de-onda",
+    "href": "curso/semana-07/ay07.html#p3-17-min-del-espectro-a-la-forma-de-onda",
     "title": "Ay7 · Integración pre-I2: unidad 3 completa",
-    "section": "P3 (17 min) — Del espectro a la forma de onda (calibre I2 2025 P9)",
-    "text": "P3 (17 min) — Del espectro a la forma de onda (calibre I2 2025 P9)\n\nDe una señal T-periódica x(t) se conoce solo el tramo 0&lt;t&lt;T/4: una rampa que sube de 0 a 1. Dibuje x(t) en 0&lt;t&lt;T si: (a) x(t) es par y su serie tiene solo armónicos impares. (b) x(t) es impar y su serie tiene solo armónicos impares.",
+    "section": "P3 (17 min) — Del espectro a la forma de onda",
+    "text": "P3 (17 min) — Del espectro a la forma de onda\n\nDe una señal T-periódica x(t) se conoce solo el tramo 0&lt;t&lt;T/4: una rampa que sube de 0 a 1. Dibuje x(t) en 0&lt;t&lt;T si: (a) x(t) es par y su serie tiene solo armónicos impares. (b) x(t) es impar y su serie tiene solo armónicos impares.",
     "crumbs": [
       "Semana 7 · Propiedades de la TF",
       "Ay7 · Integración pre-I2: unidad 3 completa"
@@ -706,7 +706,7 @@
     "href": "curso/semana-07/ay07.html#cierre-6270-min",
     "title": "Ay7 · Integración pre-I2: unidad 3 completa",
     "section": "Cierre (62–70 min)",
-    "text": "Cierre (62–70 min)\nLos cinco errores que más puntos costaron en I2 pasadas (anotarlos en pizarra):\n\nIntegrar sin mirar simetrías (o sin identificar T_0 y \\omega_0 primero).\nOlvidar el \\delta(t) al derivar señales con salto.\nPerder el \\frac{1}{2\\pi} de la inversa / la convención \\omega vs f.\nAplicar c_{-n} = c_n^* a señales complejas.\nFracciones parciales con coeficientes sin verificar.\n\nChecklist final: formulario oficial (U1–U3) repasado, sabiendo qué trae y qué hay que aplicar solo (la guía concreta quedó en C14); Listas 5–6 rehechas del portafolio; quiz Canvas de la semana como ensayo cronometrado. La I2 es la próxima semana — se llega descansado, no trasnochado.\n\n\n\n\n\n\nNotaPara estudiantes\n\n\n\nLos tres problemas de esta sesión son de interrogaciones reales recientes. Si puedes resolverlos solo, con el formulario oficial al lado y en ~20 minutos cada uno, estás donde hay que estar.",
+    "text": "Cierre (62–70 min)\nLos cinco errores que más puntos cuestan en esta materia (anotarlos en pizarra):\n\nIntegrar sin mirar simetrías (o sin identificar T_0 y \\omega_0 primero).\nOlvidar el \\delta(t) al derivar señales con salto.\nPerder el \\frac{1}{2\\pi} de la inversa / la convención \\omega vs f.\nAplicar c_{-n} = c_n^* a señales complejas.\nOlvidar la fase de H(\\omega_0) al pasar una sinusoide por un LTI.\n\nChecklist final: formulario oficial (U1–U3) repasado, sabiendo qué trae y qué hay que aplicar solo (la guía concreta quedó en C14); Listas 5–7 rehechas del portafolio, contra el reloj. La I2 es la próxima semana — se llega descansado, no trasnochado.\n\n\n\n\n\n\nNotaPara estudiantes\n\n\n\nLos tres problemas de esta sesión son del calibre de la I2. Si puedes resolverlos solo, con el formulario oficial al lado y en ~20 minutos cada uno, estás donde hay que estar.",
     "crumbs": [
       "Semana 7 · Propiedades de la TF",
       "Ay7 · Integración pre-I2: unidad 3 completa"
