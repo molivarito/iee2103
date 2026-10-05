@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La costa y el continente: la ROC como superficie — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --roc:#2f7d3c; --div:#c0560f; --polo:#c74440; --costa:#2d70b3; --acc:#6042a6; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:10px 14px;gap:8px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0;max-width:100%}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:7px 11px;cursor:pointer;white-space:nowrap}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  .modos{display:flex;gap:4px}
+  label.sl{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:13px}
+  input[type=range]{width:105px;max-width:28vw}
+
+  .lect{display:flex;gap:22px;flex-wrap:wrap;align-items:baseline;padding:0 2px}
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;letter-spacing:.02em}
+  .cel .v{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .cel.polo .v{color:var(--polo)}
+  .v.si{color:var(--roc)} .v.no{color:var(--div)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-width:0;min-height:0}
+  #fig3d{flex:3 1 0;min-width:0}
+  .rightcol{flex:2 1 0;min-width:0;min-height:0;display:flex;flex-direction:column;gap:8px}
+  .rightcol figure{flex:1 1 0}
+  figcaption{position:absolute;top:5px;left:9px;z-index:2;color:var(--dim);font-size:12px;line-height:1.35;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none;max-width:95%}
+  figcaption sup{font-size:0.75em}
+  figcaption b{color:var(--ink)}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0}
+  #c3d{cursor:grab;touch-action:none}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">La costa y el continente <span>IEE2103 · C15</span></div>
+    <div class="ctrls">
+      <div class="modos">
+        <button id="btnDer">señal derecha</button>
+        <button id="btnIzq">señal izquierda</button>
+      </div>
+      <label class="sl">a <input type="range" id="slA"></label>
+      <label class="sl">σ₀ <input type="range" id="slS0"></label>
+      <button id="btnVista">vista inicial</button>
+      <button id="btnReset">↺</button>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">a</span><span class="v" id="rA">—</span></div>
+    <div class="cel polo"><span class="k">polo en σ =</span><span class="v" id="rPolo">—</span></div>
+    <div class="cel"><span class="k">corte σ₀</span><span class="v" id="rS0">—</span></div>
+    <div class="cel"><span class="k" id="kArea">área bajo el corte</span><span class="v" id="rArea">—</span></div>
+    <div class="cel"><span class="k">costa σ = 0</span><span class="v" id="rCosta">—</span></div>
+  </div>
+
+  <div class="wrap">
+    <figure id="fig3d">
+      <figcaption><b>|x(t)·e<sup>−σt</sup>|</b> sobre (σ, t) ·
+        <span style="color:#2f7d3c">verde = ROC</span> ·
+        <span style="color:#c74440">muro = polo</span> ·
+        <span style="color:#2d70b3">azul = costa σ = 0</span> ·
+        <span style="color:#16202e">negro = corte en σ₀</span> · arrastra para girar</figcaption>
+      <canvas id="c3d"></canvas>
+    </figure>
+    <div class="rightcol">
+      <figure><figcaption id="capX">—</figcaption><canvas id="cX"></canvas></figure>
+      <figure><figcaption id="capP">—</figcaption><canvas id="cP"></canvas></figure>
+    </div>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const c3d = $('c3d'), cX = $('cX'), cP = $('cP');
+const slA = $('slA'), slS0 = $('slS0');
+
+// ── el montaje ───────────────────────────────────────────────────────
+// Laplace = Fourier de x(t)·e^{-σt}. Dos señales con la MISMA fórmula 1/(s+a):
+//   modo +1, señal derecha:    x(t) =  e^{-at}u(t)     vive en t ≥ 0
+//   modo −1, señal izquierda:  x(t) = −e^{-at}u(−t)    vive en t ≤ 0
+// En ambas |x(t)e^{-σt}| = e^{-(a+σ)t} donde la señal vive. Alejándose de t = 0 una
+// distancia τ hacia donde vive, la altura es e^{-kτ} con k = modo·(a+σ):
+// converge si k > 0, y la integral (con su signo) vale 1/(a+σ) en los dos casos.
+//   derecha:   ROC σ > −a        izquierda: ROC σ < −a        polo en σ = −a siempre
+// Comprobación: a=1, derecha, σ₀=0.5 → 0.667; izquierda, σ₀=−2.5 → 1/(−1.5) = −0.667.
+const SIG_MIN=-3, SIG_MAX=3, T_MAX=6, H_MAX=3;
+const SH = 0.85, ST = 1.2;              // unidades 3D por unidad de altura y de tiempo
+const HX = 3, HZ = ST*T_MAX/2, HY = H_MAX*SH;
+const A_INI = 1, DIST_INI = 1.5;        // el corte parte a 1,5 del polo, del lado de la ROC
+const INIT_PITCH = 0.46;
+const yawDe = m => m>0 ? -0.62 : 0.62;  // la cámara mira desde el lado de la ROC
+let modo = 1, modoIni = 1;
+let a = A_INI, s0 = null;
+let yaw = null, pitch = INIT_PITCH, cam = null;
+let dragging=false, lastX=0, lastY=0;
+
+// parámetros: ?modo=izq (parte en la señal izquierda) · de prueba: ?a=-0.5&s0=1&yaw=-0.6&pitch=0.4
+{
+  const p = new URLSearchParams(location.search);
+  const num = (k,lo,hi) => { if(!p.has(k)) return null; const v=parseFloat(p.get(k)); return (isFinite(v)&&v>=lo&&v<=hi)?v:null; };
+  let v;
+  if(p.has('modo') && p.get('modo').toLowerCase().startsWith('iz')) modo = modoIni = -1;
+  if((v=num('a',-1,2))!==null) a=v;
+  if((v=num('s0',SIG_MIN,SIG_MAX))!==null) s0=v;
+  if((v=num('yaw',-7,7))!==null) yaw=v;
+  if((v=num('pitch',0.08,1.45))!==null) pitch=v;
+}
+const recorta = v => Math.max(SIG_MIN,Math.min(SIG_MAX,Math.round(v*20)/20));
+if(s0===null) s0 = recorta(-a + modo*DIST_INI);
+if(yaw===null) yaw = yawDe(modo);
+
+const kde  = sig => modo*(a+sig);                 // tasa de caída hacia donde vive la señal
+const alt  = (sig,tau) => Math.exp(-kde(sig)*tau);
+const converge = sig => kde(sig) > 1e-9;
+// hasta dónde se dibuja la columna σ: si explota, se CORTA al tocar el techo
+function tFin(sig){
+  const k = kde(sig);
+  return k < -1e-9 ? Math.min(T_MAX, Math.log(H_MAX)/(-k)) : T_MAX;
+}
+// profundidad en el mapa: t = 0 queda al frente y la señal se aleja hacia donde vive
+// (derecha: hacia el futuro, t de 0 a 6; izquierda: hacia el pasado, t de 0 a −6).
+// Así el modo izquierdo es la imagen espejo del derecho.
+const dDe = tau => tau;
+
+// ── canvas helpers (igual que la plantilla de una-sola-curva) ─────────
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx, w:r.width, h:r.height};
+}
+function mapa(w,h,xmin,xmax,ymin,ymax,pad){
+  const L=pad.l,R=pad.r,T=pad.t,B=pad.b;
+  return {
+    X: x => L + (x-xmin)/(xmax-xmin)*(w-L-R),
+    Y: y => h-B - (y-ymin)/(ymax-ymin)*(h-T-B)
+  };
+}
+function arrow2(ctx,p1,p2){
+  ctx.beginPath(); ctx.moveTo(p1.sx,p1.sy); ctx.lineTo(p2.sx,p2.sy); ctx.stroke();
+  const ang=Math.atan2(p2.sy-p1.sy,p2.sx-p1.sx), s=7;
+  ctx.beginPath();
+  ctx.moveTo(p2.sx,p2.sy);
+  ctx.lineTo(p2.sx-s*Math.cos(ang-0.4), p2.sy-s*Math.sin(ang-0.4));
+  ctx.lineTo(p2.sx-s*Math.cos(ang+0.4), p2.sy-s*Math.sin(ang+0.4));
+  ctx.closePath(); ctx.fill();
+}
+function fmt(x,d){ const s=Math.abs(x).toFixed(d); return (x<0 && +s!==0 ? '−' : '')+s; }
+
+// ── proyección 3D: X=σ (derecha), Y=altura (arriba), Z=t (se aleja) ───
+function rot(x,y,z){
+  const cy=Math.cos(yaw), sy=Math.sin(yaw);
+  const x1 = x*cy + z*sy, z1 = -x*sy + z*cy, y1 = y;
+  const cp=Math.cos(pitch), sp=Math.sin(pitch);
+  const y2 = y1*cp - z1*sp, z2 = y1*sp + z1*cp;
+  return {x:x1, y:y2, z:z2};
+}
+
+// ── panel 1: la superficie ──────────────────────────────────────────
+function draw3D(){
+  const {ctx,w,h}=fit(c3d);
+
+  // caja fija → el encuadre solo reacciona a la rotación
+  const bp=[];
+  for(const x of [-HX-0.5, HX+0.8]) for(const y of [-HY/2-0.1, HY/2+0.5]) for(const z of [-HZ-0.6, HZ+0.2])
+    bp.push(rot(x,y,z));
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  for(const p of bp){
+    if(p.x<minX)minX=p.x; if(p.x>maxX)maxX=p.x;
+    if(p.y<minY)minY=p.y; if(p.y>maxY)maxY=p.y;
+  }
+  const padSide=w*0.03, padTop=Math.max(44,h*0.11), padBottom=Math.max(44,h*0.11);
+  const availW=Math.max(40,w-2*padSide), availH=Math.max(40,h-padTop-padBottom);
+  const u = Math.min(availW/((maxX-minX)||1), availH/((maxY-minY)||1));
+  const cx = padSide + availW/2 - u*(minX+maxX)/2;
+  const cy0 = padTop + availH/2 - u*(minY+maxY)/2;
+  // (σ, profundidad, altura) → pantalla; la profundidad 0 es el borde del frente
+  const P = (sig,d,hh) => {
+    const p=rot(sig, hh*SH-HY/2, HZ-d*ST);
+    return { sx: cx+p.x*u, sy: cy0-p.y*u, depth:p.z };
+  };
+
+  const poly = (pts, fill, stroke, lw) => {
+    ctx.beginPath();
+    pts.forEach((p,i)=> i ? ctx.lineTo(p.sx,p.sy) : ctx.moveTo(p.sx,p.sy));
+    ctx.closePath();
+    if(fill){ ctx.fillStyle=fill; ctx.fill(); }
+    if(stroke){ ctx.strokeStyle=stroke; ctx.lineWidth=lw||1; ctx.stroke(); }
+  };
+  const line = (p,q,style,lw,dash) => {
+    ctx.strokeStyle=style; ctx.lineWidth=lw; ctx.setLineDash(dash||[]);
+    ctx.beginPath(); ctx.moveTo(p.sx,p.sy); ctx.lineTo(q.sx,q.sy); ctx.stroke(); ctx.setLineDash([]);
+  };
+  const rotulo = (txt,x,y,color) => {
+    ctx.lineJoin='round'; ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.lineWidth=4; ctx.strokeText(txt,x,y);
+    ctx.fillStyle=color; ctx.fillText(txt,x,y);
+  };
+
+  const sPolo = Math.max(SIG_MIN, Math.min(SIG_MAX, -a));
+  // la ROC [r0, r1] y lo que no converge [n0, n1], según de qué lado vive la señal
+  const [r0,r1] = modo>0 ? [sPolo,SIG_MAX] : [SIG_MIN,sPolo];
+  const [n0,n1] = modo>0 ? [SIG_MIN,sPolo] : [sPolo,SIG_MAX];
+  // el eje t va por el borde del lado de la ROC (el más cercano); el de altura, por el otro
+  const sT = modo>0 ? SIG_MAX : SIG_MIN, sH = modo>0 ? SIG_MIN : SIG_MAX, dir = modo>0 ? 1 : -1;
+
+  // ── piso: todo el rectángulo (σ, t), con la ROC en verde ─────────
+  poly([P(SIG_MIN,0,0),P(SIG_MAX,0,0),P(SIG_MAX,T_MAX,0),P(SIG_MIN,T_MAX,0)], '#f6f8fb', 'rgba(150,162,180,0.75)', 1);
+  poly([P(r0,0,0),P(r1,0,0),P(r1,T_MAX,0),P(r0,T_MAX,0)], 'rgba(56,140,70,0.30)', null);
+  for(let s=SIG_MIN+1;s<SIG_MAX;s++) line(P(s,0,0),P(s,T_MAX,0),'rgba(150,162,180,0.35)',1);
+  for(let d=1;d<T_MAX;d++) line(P(SIG_MIN,d,0),P(SIG_MAX,d,0),'rgba(150,162,180,0.35)',1);
+  // la costa y el corte, marcados sobre el mapa
+  line(P(0,0,0),P(0,T_MAX,0),'rgba(45,112,179,0.9)',1.6);
+  line(P(s0,0,0),P(s0,T_MAX,0),'rgba(22,32,46,0.75)',1.4);
+  // caja tenue (aristas verticales y techo): el techo es donde se recorta lo que explota
+  for(const [s,d] of [[sH,0],[sH,T_MAX],[sT,T_MAX]]) line(P(s,d,0),P(s,d,H_MAX),'rgba(150,162,180,0.55)',1,[3,4]);
+  line(P(sH,0,H_MAX),P(sH,T_MAX,H_MAX),'rgba(150,162,180,0.55)',1,[3,4]);
+  line(P(sH,T_MAX,H_MAX),P(sT,T_MAX,H_MAX),'rgba(150,162,180,0.55)',1,[3,4]);
+
+  // ── primitivas con profundidad (algoritmo del pintor) ────────────
+  const prims=[];
+  const addQuad=(q,fill,stroke,lw,bias)=>
+    prims.push({d:(q[0].depth+q[1].depth+q[2].depth+q[3].depth)/4+(bias||0), q, fill, stroke, lw});
+  const addSeg=(p,q,stroke,lw,bias)=>
+    prims.push({d:(p.depth+q.depth)/2+(bias||0), p, p2:q, stroke, lw});
+
+  // superficie: columnas en σ (incluida la del polo, para que el color parta justo ahí)
+  const NS=36, NT=28;
+  const sg=[];
+  for(let i=0;i<=NS;i++) sg.push(SIG_MIN+(SIG_MAX-SIG_MIN)*i/NS);
+  if(-a>SIG_MIN+1e-6 && -a<SIG_MAX-1e-6 && !sg.some(v=>Math.abs(v+a)<1e-6)){ sg.push(-a); sg.sort((p,q)=>p-q); }
+  const cols = sg.map(sig=>{
+    const te=tFin(sig), col=[];
+    for(let j=0;j<=NT;j++){
+      const tau=te*j/NT, d=dDe(tau), hh=Math.min(H_MAX,alt(sig,tau));
+      col.push({sig,d,hh,p:P(sig,d,hh)});
+    }
+    return col;
+  });
+  const LX=0.35, LY=0.85, LZ=0.40;       // luz fija a la escena
+  for(let i=0;i<sg.length-1;i++){
+    const enROC = modo*((sg[i]+sg[i+1])/2 + a) > 0;
+    const base = enROC ? [56,140,70] : [226,128,40];
+    for(let j=0;j<NT;j++){
+      const A=cols[i][j], B=cols[i+1][j], C=cols[i+1][j+1], D=cols[i][j+1];
+      const ux=C.sig-A.sig, uy=(C.hh-A.hh)*SH, uz=-(C.d-A.d)*ST;
+      const vx=D.sig-B.sig, vy=(D.hh-B.hh)*SH, vz=-(D.d-B.d)*ST;
+      const nx=uy*vz-uz*vy, ny=uz*vx-ux*vz, nz=ux*vy-uy*vx, nl=Math.hypot(nx,ny,nz)||1;
+      const I = 0.55+0.45*Math.abs((nx*LX+ny*LY+nz*LZ)/nl);
+      const c = base.map(v=>Math.round(255-(255-v)*I));
+      addQuad([A.p,B.p,C.p,D.p], `rgba(${c[0]},${c[1]},${c[2]},0.62)`,
+              enROC ? 'rgba(40,105,52,0.45)' : 'rgba(170,90,20,0.45)', 0.6);
+    }
+  }
+
+  // muro del polo: plano σ = −a
+  if(-a>=SIG_MIN && -a<=SIG_MAX){
+    const NW=12;
+    for(let j=0;j<NW;j++){
+      const d0=T_MAX*j/NW, d1=T_MAX*(j+1)/NW;
+      addQuad([P(-a,d0,0),P(-a,d1,0),P(-a,d1,H_MAX),P(-a,d0,H_MAX)], 'rgba(199,68,64,0.20)', null, 0, 0.01);
+      addSeg(P(-a,d0,H_MAX),P(-a,d1,H_MAX),'rgba(199,68,64,0.85)',1.5,0.02);
+    }
+    addSeg(P(-a,0,0),P(-a,0,H_MAX),'rgba(199,68,64,0.85)',1.5,0.02);
+    addSeg(P(-a,T_MAX,0),P(-a,T_MAX,H_MAX),'rgba(199,68,64,0.85)',1.5,0.02);
+  }
+
+  // una curva en el tiempo a σ fijo, opcionalmente con su cortina hasta el piso
+  function curva(sig, style, lw, cortina){
+    const te=tFin(sig), n=64; let prev=null;
+    // el salto en t = 0: del piso a 1
+    addSeg(P(sig,dDe(0),0),P(sig,dDe(0),1),style,lw,0.08);
+    for(let j=0;j<=n;j++){
+      const tau=te*j/n, d=dDe(tau), hh=Math.min(H_MAX,alt(sig,tau));
+      const p=P(sig,d,hh), f=P(sig,d,0);
+      if(prev){
+        if(cortina) addQuad([prev.f,f,p,prev.p],cortina,null,0,0.04);
+        addSeg(prev.p,p,style,lw,0.08);
+      }
+      prev={p,f};
+    }
+  }
+  curva(0,  '#2d70b3', 3, null);
+  curva(s0, '#16202e', 3.2, converge(s0) ? 'rgba(22,32,46,0.20)' : 'rgba(22,32,46,0.12)');
+
+  prims.sort((p,q)=>p.d-q.d);
+  ctx.lineJoin='round';
+  for(const pr of prims){
+    if(pr.q) poly(pr.q, pr.fill, pr.stroke, pr.lw);
+    else { ctx.lineCap='round'; line(pr.p, pr.p2, pr.stroke, pr.lw); ctx.lineCap='butt'; }
+  }
+
+  // ── ejes y rótulos, siempre encima ───────────────────────────────
+  // ROC marcada sobre el eje σ
+  line(P(r0,0,0),P(r1,0,0),'rgba(47,125,60,0.95)',5);
+  // eje σ (borde del frente)
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.8;
+  arrow2(ctx,P(SIG_MIN,0,0),P(SIG_MAX+0.75,0,0));
+  ctx.font='11px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top';
+  for(let s=SIG_MIN;s<=SIG_MAX;s++){
+    const q=P(s,0,0);
+    ctx.strokeStyle='#65758b'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(q.sx,q.sy); ctx.lineTo(q.sx,q.sy+6); ctx.stroke();
+    if(s===0){ ctx.fillStyle='#2d70b3'; ctx.font='bold 12px system-ui'; }
+    else { ctx.fillStyle='#65758b'; ctx.font='11px system-ui'; }
+    ctx.fillText(fmt(s,0), q.sx, q.sy+8);
+  }
+  let q=P(SIG_MAX+0.95,0,0);
+  ctx.fillStyle='#16202e'; ctx.font='bold 15px system-ui'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText('σ', q.sx+2, q.sy);
+
+  // eje t (borde del lado de la ROC). Derecha: flecha hacia el futuro.
+  // Izquierda: se aleja hacia el pasado, así que va sin flecha y con valores negativos.
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.8;
+  if(modo>0) arrow2(ctx,P(sT,0,0),P(sT,T_MAX+0.7,0));
+  else line(P(sT,0,0),P(sT,T_MAX+0.4,0),'#16202e',1.8);
+  ctx.font='11px system-ui'; ctx.textAlign = dir>0 ? 'left' : 'right'; ctx.textBaseline='middle';
+  for(const d of [2,4,6]){
+    q=P(sT,d,0);
+    ctx.strokeStyle='#65758b'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(q.sx,q.sy); ctx.lineTo(q.sx+6*dir,q.sy); ctx.stroke();
+    ctx.fillStyle='#65758b'; ctx.fillText(fmt(modo*d,0), q.sx+9*dir, q.sy+1);
+  }
+  q=P(sT,T_MAX+(modo>0?0.85:0.55),0);
+  ctx.fillStyle='#16202e'; ctx.font='bold 15px system-ui';
+  if(modo>0) ctx.fillText('t', q.sx+5, q.sy);
+  else { ctx.textBaseline='bottom'; ctx.fillText('t  (pasado)', q.sx+18, q.sy-2); }
+
+  // eje de altura (la otra esquina del frente)
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.8;
+  arrow2(ctx,P(sH,0,0),P(sH,0,H_MAX+0.35));
+  ctx.font='11px system-ui'; ctx.textAlign = dir>0 ? 'right' : 'left'; ctx.textBaseline='middle';
+  for(const hh of [1,2,3]){
+    q=P(sH,0,hh);
+    ctx.strokeStyle='#65758b'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(q.sx,q.sy); ctx.lineTo(q.sx-6*dir,q.sy); ctx.stroke();
+    ctx.fillStyle='#65758b'; ctx.fillText(String(hh), q.sx-9*dir, q.sy);
+  }
+  q=P(sH,0,H_MAX+0.35);
+  ctx.font='bold 12px system-ui'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+  rotulo('|x(t)·e^(−σt)|', q.sx+14*dir, q.sy-4, '#16202e');
+
+  // rótulos sobre el mapa
+  ctx.font='bold 14px system-ui'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  if(r1-r0>0.9){
+    q=P((r0+r1)/2+0.2*dir, modo>0 ? 4.4 : 1.6, 0);
+    rotulo(modo>0 ? 'ROC: σ > −a' : 'ROC: σ < −a', q.sx, q.sy, '#1d5a29');
+  }
+  if(n1-n0>0.9){
+    q=P((n0+n1)/2, modo>0 ? 2.6 : 3.4, H_MAX);
+    rotulo('no converge', q.sx, q.sy-12, '#a8480a');
+  }
+  q=P(0,T_MAX,0);
+  ctx.font='bold 12px system-ui'; ctx.textAlign = dir>0 ? 'left' : 'right'; ctx.textBaseline='bottom';
+  rotulo('costa σ = 0 (Fourier)', q.sx+5*dir, q.sy-4, '#2d70b3');
+
+  // el polo (×) y el corte (▲) sobre el eje σ
+  q=P(-a,0,0);
+  ctx.strokeStyle='#c74440'; ctx.lineWidth=2.8; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(q.sx-6,q.sy-6); ctx.lineTo(q.sx+6,q.sy+6);
+  ctx.moveTo(q.sx+6,q.sy-6); ctx.lineTo(q.sx-6,q.sy+6); ctx.stroke(); ctx.lineCap='butt';
+  ctx.fillStyle='#c74440'; ctx.font='bold 12px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top';
+  ctx.fillText('polo', q.sx, q.sy+22);
+  const q0=P(s0,0,0), cerca=Math.abs(q0.sx-q.sx)<40;
+  ctx.fillStyle='#16202e';
+  ctx.beginPath(); ctx.moveTo(q0.sx,q0.sy+2); ctx.lineTo(q0.sx-5,q0.sy+11); ctx.lineTo(q0.sx+5,q0.sy+11); ctx.closePath(); ctx.fill();
+  ctx.fillText('σ₀', q0.sx, q0.sy+(cerca?35:22));
+}
+
+// ── paneles 2 y 3: lo mismo, en el tiempo ───────────────────────────
+const YT_MAX=2.3;
+function panelTiempo(c, ymin, ymax){
+  const {ctx,w,h}=fit(c);
+  const pad={l:26,r:16,t:30,b:20};
+  const ta = modo>0 ? -1 : -T_MAX, tb = modo>0 ? T_MAX : 1;   // la ventana sigue a la señal
+  const M=mapa(w,h,ta,tb,ymin,ymax,pad);
+  const y0=M.Y(0), yB=h-pad.b;
+  // ejes
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(pad.l-8,y0); ctx.lineTo(w-6,y0); ctx.stroke();
+  ctx.strokeStyle='#b9c4d2'; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(M.X(0),pad.t-4); ctx.lineTo(M.X(0),yB); ctx.stroke(); ctx.setLineDash([]);
+  ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textBaseline='alphabetic';
+  for(let k=Math.ceil(ta)+(modo>0?1:0); k<=Math.floor(tb)-(modo>0?0:1); k++){
+    const x=M.X(k), major=(k%2===0);
+    ctx.strokeStyle= major ? '#8a97a8' : '#c9d3e0';
+    ctx.beginPath(); ctx.moveTo(x,y0); ctx.lineTo(x,y0+(major?5:3)); ctx.stroke();
+    if(major){ ctx.textAlign='center'; ctx.fillText(fmt(k,0), x, yB+16); }
+  }
+  ctx.textAlign='right'; ctx.fillText('t', w-5, yB+16);
+  for(const yy of [-2,-1,1,2]){
+    if(yy<=ymin || yy>=ymax) continue;
+    ctx.strokeStyle='#c9d3e0';
+    ctx.beginPath(); ctx.moveTo(pad.l-8,M.Y(yy)); ctx.lineTo(pad.l-2,M.Y(yy)); ctx.stroke();
+    ctx.textAlign='right'; ctx.fillText(fmt(yy,0), pad.l-10, M.Y(yy)+4);
+  }
+  // todo lo que se dibuje después queda recortado al área del gráfico
+  ctx.save();
+  ctx.beginPath(); ctx.rect(pad.l-9, pad.t-5, w-pad.l-pad.r+18, h-pad.t-pad.b+7); ctx.clip();
+  return {ctx,w,h,M,pad,ta,tb};
+}
+const tope = v => Math.min(v, 40);     // evita coordenadas absurdas; el clip hace el resto
+// modo·e^{−κt} donde vive la señal y 0 en el resto, con el salto en t = 0;
+// queda con el lápiz en el extremo lejano, listo para cerrar el área contra el eje
+function trazo(ctx,M,kap,ta,tb){
+  const N=220;
+  ctx.beginPath();
+  ctx.moveTo(M.X(modo>0 ? ta : tb),M.Y(0)); ctx.lineTo(M.X(0),M.Y(0)); ctx.lineTo(M.X(0),M.Y(modo));
+  for(let i=1;i<=N;i++){
+    const t=modo*T_MAX*i/N;
+    ctx.lineTo(M.X(t), M.Y(modo*tope(Math.exp(-kap*t))));
+  }
+}
+function drawX(){
+  const {ctx,M,ta,tb}=panelTiempo(cX, modo>0 ? 0 : -YT_MAX, YT_MAX);
+  // el factor e^{-σ₀t}, definido para todo t
+  ctx.strokeStyle='#8a97a8'; ctx.lineWidth=2; ctx.setLineDash([6,4]);
+  ctx.beginPath();
+  const N=240;
+  for(let i=0;i<=N;i++){
+    const t=ta+(tb-ta)*i/N, y=M.Y(tope(Math.exp(-s0*t)));
+    i ? ctx.lineTo(M.X(t),y) : ctx.moveTo(M.X(t),y);
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+  // x(t)
+  ctx.strokeStyle='#2d70b3'; ctx.lineWidth=2.8; ctx.lineJoin='round';
+  trazo(ctx,M,a,ta,tb); ctx.stroke();
+  ctx.restore();
+}
+function drawP(){
+  const {ctx,w,h,M,pad,ta,tb}=panelTiempo(cP, modo>0 ? 0 : -YT_MAX, modo>0 ? YT_MAX : 0.35);
+  const kap=a+s0, ok=converge(s0);
+  // el área: lo que la integral tiene que sumar (negativa en la señal izquierda)
+  trazo(ctx,M,kap,ta,tb);
+  ctx.lineTo(M.X(modo*T_MAX),M.Y(0)); ctx.closePath();
+  ctx.fillStyle = ok ? 'rgba(56,140,70,0.30)' : 'rgba(226,128,40,0.30)'; ctx.fill();
+  ctx.strokeStyle='#16202e'; ctx.lineWidth=2.8; ctx.lineJoin='round';
+  trazo(ctx,M,kap,ta,tb); ctx.stroke();
+  ctx.restore();
+  const txt = ok ? (modo>0 ? 'área' : 'área, con su signo')+' = 1/(a+σ₀) = '+fmt(1/kap,2)
+                 : 'área = '+(modo>0?'':'−')+'∞ : aquí no hay transformada';
+  ctx.font='bold 13px system-ui'; ctx.textBaseline='middle';
+  const tw=ctx.measureText(txt).width;
+  // el texto va donde la curva convergente deja espacio: arriba a la derecha, o abajo a la izquierda
+  const tx = modo>0 ? w-pad.r-2-tw : pad.l+6, ty = modo>0 ? pad.t+12 : h-pad.b-16;
+  ctx.fillStyle='rgba(255,255,255,0.88)'; ctx.fillRect(tx-5, ty-10, tw+10, 20);
+  ctx.textAlign='left'; ctx.fillStyle = ok ? '#22632e' : '#a8480a'; ctx.fillText(txt, tx, ty);
+}
+
+// ── lecturas y pie ──────────────────────────────────────────────────
+function hintText(){
+  if(modo>0){
+    if(!converge(s0)) return 'σ₀ no está a la derecha del polo: x(t)·e^(−σ₀t) ya no decae y el área es infinita. Ahí no hay transformada.';
+    if(a>1e-9) return 'σ₀ está a la derecha del polo: x(t)·e^(−σ₀t) decae y su área es finita. Eso es estar en la ROC.';
+    return 'σ₀ está en la ROC, pero la costa σ = 0 quedó fuera: la integral de Fourier no converge; la de Laplace sí, para σ > −a.';
+  }
+  if(!converge(s0)) return 'σ₀ no está a la izquierda del polo: hacia el pasado x(t)·e^(−σ₀t) no se apaga. Ahí no hay transformada.';
+  return 'Mismo muro, la ROC al otro lado: hacia el pasado x(t)·e^(−σ₀t) se apaga solo si σ₀ está a la izquierda del polo.';
+}
+function lectura(){
+  $('rA').textContent = fmt(a,2);
+  $('rPolo').textContent = fmt(-a,2);
+  $('rS0').textContent = fmt(s0,2);
+  const ok=converge(s0), rArea=$('rArea'), rCosta=$('rCosta'), costa=modo*a>1e-9;
+  $('kArea').textContent = modo>0 ? 'área bajo el corte' : 'área, con su signo';
+  rArea.textContent = ok ? fmt(1/(a+s0),3) : (modo>0 ? '∞' : '−∞');
+  rArea.className = 'v '+(ok?'si':'no');
+  rCosta.textContent = costa ? 'en la ROC' : 'fuera de la ROC';
+  rCosta.className = 'v '+(costa?'si':'no');
+  $('capX').innerHTML = '<span style="color:#2d70b3"><b style="color:inherit">x(t) = '
+    + (modo>0 ? 'e<sup>−at</sup>u(t)' : '−e<sup>−at</sup>u(−t)')
+    + '</b></span> y el factor <span style="color:#7a8798"><b style="color:inherit">e<sup>−σ₀t</sup></b></span>';
+  $('capP').innerHTML = '<b>x(t)·e<sup>−σ₀t</sup></b> — '
+    + (modo>0 ? 'el corte negro: lo que integra Fourier en σ₀' : 'negativa; su tamaño es el corte negro');
+  $('btnDer').classList.toggle('primary', modo>0);
+  $('btnIzq').classList.toggle('primary', modo<0);
+  $('hint').textContent = hintText();
+}
+function pinta(){ draw3D(); drawX(); drawP(); lectura(); }
+
+// ── cámara: los cambios de vista se animan (si no hay cuadros, el salto es directo) ──
+let raf=0, last=0;
+function tick(ts){
+  raf=0;
+  const dt=Math.max(0,Math.min(0.05,(ts-last)/1000)); last=ts;
+  if(cam){
+    const k=Math.min(1,dt*6);
+    yaw+=(cam.yaw-yaw)*k; pitch+=(cam.pitch-pitch)*k;
+    if(Math.abs(cam.yaw-yaw)<0.004 && Math.abs(cam.pitch-pitch)<0.004){ yaw=cam.yaw; pitch=cam.pitch; cam=null; }
+  }
+  draw3D();
+  if(cam) pide();
+}
+function pide(){ if(!raf){ last=performance.now(); raf=requestAnimationFrame(tick); } }
+function camara(y,p){
+  yaw = ((yaw+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;    // el camino corto
+  cam={yaw:y, pitch:p}; pide();
+}
+
+// ── controles ──────────────────────────────────────────────────────
+function vistaInicial(){ camara(yawDe(modo), INIT_PITCH); }
+function setS0(v){ s0=recorta(v); slS0.value=s0; pinta(); }
+// cambiar de señal: el polo no se mueve; el corte se refleja al otro lado del muro
+// (misma distancia al polo → la misma área, con el signo cambiado) y la cámara cruza
+function setModo(m){
+  if(m===modo) return;
+  modo=m; s0=recorta(-2*a-s0); slS0.value=s0;
+  pinta(); camara(yawDe(modo), INIT_PITCH);
+}
+function resetAll(){
+  modo=modoIni; a=A_INI; s0=recorta(-a+modo*DIST_INI); cam=null;
+  yaw=yawDe(modo); pitch=INIT_PITCH; slA.value=a; slS0.value=s0; pinta();
+}
+
+slA.min=-1; slA.max=2; slA.step=0.05; slA.value=a;
+slS0.min=SIG_MIN; slS0.max=SIG_MAX; slS0.step=0.05; slS0.value=s0;
+
+const boton=(id,fn)=>{ $(id).onclick=e=>{ fn(); e.currentTarget.blur(); }; };
+boton('btnDer', ()=>setModo(1));
+boton('btnIzq', ()=>setModo(-1));
+boton('btnVista', vistaInicial);
+boton('btnReset', resetAll);
+slA.oninput=e=>{ a=+e.target.value; pinta(); };
+slS0.oninput=e=>{ s0=+e.target.value; pinta(); };
+
+// dentro de reveal.js: cualquier toque en la demo le da el foco al iframe,
+// para que las teclas lleguen aquí y no cambien de lámina
+document.addEventListener('pointerdown', ()=>window.focus(), true);
+
+// arrastre (ratón y táctil) para girar el panel 3D
+c3d.addEventListener('pointerdown', e=>{
+  dragging=true; cam=null; lastX=e.clientX; lastY=e.clientY;
+  c3d.setPointerCapture(e.pointerId); c3d.style.cursor='grabbing';
+});
+c3d.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  const dx=e.clientX-lastX, dy=e.clientY-lastY; lastX=e.clientX; lastY=e.clientY;
+  yaw += dx*0.008;
+  pitch = Math.max(0.08, Math.min(1.45, pitch + dy*0.008));
+  draw3D();
+});
+c3d.addEventListener('pointerup', ()=>{ dragging=false; c3d.style.cursor='grab'; });
+c3d.addEventListener('pointercancel', ()=>{ dragging=false; c3d.style.cursor='grab'; });
+
+// teclado propio del iframe: ←/→ mueven el corte σ₀, M cambia de señal, R reinicia
+document.addEventListener('keydown', e=>{
+  if(e.target && e.target.tagName==='INPUT') return;
+  if(e.key==='ArrowLeft'){ e.preventDefault(); e.stopPropagation(); setS0(s0-0.05); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); e.stopPropagation(); setS0(s0+0.05); }
+  else if(e.key==='m'||e.key==='M'){ e.stopPropagation(); setModo(-modo); }
+  else if(e.key==='r'||e.key==='R'){ e.stopPropagation(); resetAll(); }
+});
+
+new ResizeObserver(()=>pinta()).observe(document.body);
+pinta();   // primer cuadro sin depender de requestAnimationFrame
+</script>
+</body>
+</html>

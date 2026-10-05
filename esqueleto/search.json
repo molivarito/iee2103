@@ -662,18 +662,29 @@
     "href": "curso/semana-07/ay07.html",
     "title": "Ay7 · Integración pre-I2: unidad 3 completa",
     "section": "",
-    "text": "La función 2\\pi-periódica f(x) vale 1 en 0&lt;x&lt;\\pi y -1 en -\\pi&lt;x&lt;0. (a) Calcule su serie de Fourier. (b) Escriba la serie de g(x) = f(x-\\pi/2) usando la propiedad de desplazamiento. (c) En dos frases: ¿por qué |c_n| no cambió?",
+    "text": "Responde cada ítem en una sola frase con la respuesta y la razón (así viene una de las preguntas de la I2: un punto entero por ítem, sin razón no hay punto).\n\n\nSin integrar: ¿cuál es la potencia media de x(t) = 3 + 2\\cos(\\omega_0 t)?\nAproximas una señal periódica con sus primeros N armónicos. Al agregar el armónico N+1, ¿el error cuadrático puede subir? ¿Por qué?\nUna onda triangular y una cuadrada del mismo período: ¿cuál tiene coeficientes que decaen más rápido, y a qué se debe?\nAl sumar cada vez más armónicos de la cuadrada, ¿desaparece el sobreimpulso junto al salto?\nx(t) es real y c_3 = 2e^{j\\pi/4}. ¿Cuánto vale c_{-3}, y cómo se ve el tercer armónico en la forma trigonométrica?\nUn sistema LTI recibe \\cos(\\omega_0 t) y entrega \\cos(2\\omega_0 t). ¿Es posible? ¿Por qué?",
     "crumbs": [
       "Semana 7 · Propiedades de la TF",
       "Ay7 · Integración pre-I2: unidad 3 completa"
     ]
   },
   {
-    "objectID": "curso/semana-07/ay07.html#p1-20-min-serie-de-fourier-y-desplazamiento",
-    "href": "curso/semana-07/ay07.html#p1-20-min-serie-de-fourier-y-desplazamiento",
+    "objectID": "curso/semana-07/ay07.html#calentamiento-10-min-seis-frases",
+    "href": "curso/semana-07/ay07.html#calentamiento-10-min-seis-frases",
     "title": "Ay7 · Integración pre-I2: unidad 3 completa",
     "section": "",
-    "text": "La función 2\\pi-periódica f(x) vale 1 en 0&lt;x&lt;\\pi y -1 en -\\pi&lt;x&lt;0. (a) Calcule su serie de Fourier. (b) Escriba la serie de g(x) = f(x-\\pi/2) usando la propiedad de desplazamiento. (c) En dos frases: ¿por qué |c_n| no cambió?",
+    "text": "Responde cada ítem en una sola frase con la respuesta y la razón (así viene una de las preguntas de la I2: un punto entero por ítem, sin razón no hay punto).\n\n\nSin integrar: ¿cuál es la potencia media de x(t) = 3 + 2\\cos(\\omega_0 t)?\nAproximas una señal periódica con sus primeros N armónicos. Al agregar el armónico N+1, ¿el error cuadrático puede subir? ¿Por qué?\nUna onda triangular y una cuadrada del mismo período: ¿cuál tiene coeficientes que decaen más rápido, y a qué se debe?\nAl sumar cada vez más armónicos de la cuadrada, ¿desaparece el sobreimpulso junto al salto?\nx(t) es real y c_3 = 2e^{j\\pi/4}. ¿Cuánto vale c_{-3}, y cómo se ve el tercer armónico en la forma trigonométrica?\nUn sistema LTI recibe \\cos(\\omega_0 t) y entrega \\cos(2\\omega_0 t). ¿Es posible? ¿Por qué?",
+    "crumbs": [
+      "Semana 7 · Propiedades de la TF",
+      "Ay7 · Integración pre-I2: unidad 3 completa"
+    ]
+  },
+  {
+    "objectID": "curso/semana-07/ay07.html#p1-12-min-serie-de-fourier-y-desplazamiento",
+    "href": "curso/semana-07/ay07.html#p1-12-min-serie-de-fourier-y-desplazamiento",
+    "title": "Ay7 · Integración pre-I2: unidad 3 completa",
+    "section": "P1 (12 min) — Serie de Fourier y desplazamiento",
+    "text": "P1 (12 min) — Serie de Fourier y desplazamiento\n\nLa función 2\\pi-periódica f(x) vale 1 en 0&lt;x&lt;\\pi y -1 en -\\pi&lt;x&lt;0. (a) Escriba su serie de Fourier (es la cuadrada de clase: no integre; diga qué simetría la justifica). (b) Escriba la serie de g(x) = f(x-\\pi/2) usando la propiedad de desplazamiento. (c) En dos frases: ¿por qué |c_n| no cambió?",
     "crumbs": [
       "Semana 7 · Propiedades de la TF",
       "Ay7 · Integración pre-I2: unidad 3 completa"
@@ -706,7 +717,7 @@
     "href": "curso/semana-07/ay07.html#cierre-6270-min",
     "title": "Ay7 · Integración pre-I2: unidad 3 completa",
     "section": "Cierre (62–70 min)",
-    "text": "Cierre (62–70 min)\nLos cinco errores que más puntos cuestan en esta materia (anotarlos en pizarra):\n\nIntegrar sin mirar simetrías (o sin identificar T_0 y \\omega_0 primero).\nOlvidar el \\delta(t) al derivar señales con salto.\nPerder el \\frac{1}{2\\pi} de la inversa / la convención \\omega vs f.\nAplicar c_{-n} = c_n^* a señales complejas.\nOlvidar la fase de H(\\omega_0) al pasar una sinusoide por un LTI.\n\nChecklist final: formulario oficial (U1–U3) repasado, sabiendo qué trae y qué hay que aplicar solo (la guía concreta quedó en C14); Listas 5–7 rehechas del portafolio, contra el reloj. La I2 es la próxima semana — se llega descansado, no trasnochado.\n\n\n\n\n\n\nNotaPara estudiantes\n\n\n\nLos tres problemas de esta sesión son del calibre de la I2. Si puedes resolverlos solo, con el formulario oficial al lado y en ~20 minutos cada uno, estás donde hay que estar.",
+    "text": "Cierre (62–70 min)\nLos cinco errores que más puntos cuestan en esta materia (anotarlos en pizarra):\n\nIntegrar sin mirar simetrías (o sin identificar T_0 y \\omega_0 primero).\nOlvidar el \\delta(t) al derivar señales con salto.\nPerder el \\frac{1}{2\\pi} de la inversa / la convención \\omega vs f.\nAplicar c_{-n} = c_n^* a señales complejas.\nOlvidar la fase de H(\\omega_0) al pasar una sinusoide por un LTI.\n\nChecklist final: formulario oficial (U1–U3) repasado, sabiendo qué trae y qué hay que aplicar solo (la guía concreta quedó en C14); Listas 5–7 rehechas del portafolio, contra el reloj; el ensayo I2 que se reparte hoy, resuelto de corrido en 80 minutos (cuatro preguntas del mismo formato que la prueba; la pauta se publica después del fin de semana). La I2 es la próxima semana — se llega descansado, no trasnochado.\n\n\n\n\n\n\nNotaPara estudiantes\n\n\n\nLos tres problemas de esta sesión son del calibre de la I2. Si puedes resolverlos solo, con el formulario oficial al lado y en ~20 minutos cada uno, estás donde hay que estar. Además hoy recibes un ensayo completo de la I2 para la casa: mismo formato, 80 minutos, con pauta la próxima semana.",
     "crumbs": [
       "Semana 7 · Propiedades de la TF",
       "Ay7 · Integración pre-I2: unidad 3 completa"

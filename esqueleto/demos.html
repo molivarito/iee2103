@@ -593,7 +593,6 @@ window.Quarto = {
 <li>C9 · <a href="https://www.desmos.com/3d/ra9vhjayke">Proyección ortogonal sobre un plano: nadie le gana a la proyección</a></li>
 <li>C10 · <a href="https://www.desmos.com/3d/icumarhroy">Serie de Fourier: tiempo, armónicos y espectro a la vez</a></li>
 <li>C13 · <a href="https://www.desmos.com/3d/7w8fj96cg0">Desplazar es enroscar: fase lineal</a></li>
-<li>C15 · <a href="https://www.desmos.com/3d/l0td54z1k0">La ROC como superficie y la costa de Fourier</a></li>
 <li>C17 · <a href="https://www.desmos.com/3d/ftb7axttio">Plano <span class="math inline">s</span>: la superficie <span class="math inline">|X(s)|</span> y el corte <span class="math inline">j\omega</span></a></li>
 <li>C20 · <a href="https://www.desmos.com/3d/e8qdpourdf">Sinusoides discretas: la hélice muestreada y su alias</a></li>
 <li>C23 · <a href="https://www.desmos.com/3d/wgjy1ajrgc">La ROC en el plano <span class="math inline">z</span>: el anillo entre las montañas</a></li>
@@ -793,6 +792,35 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p><strong>Qué ilustra</strong>: a la derecha la señal <span class="math inline">e^{-at}u(t)</span>; a la izquierda su transformada <span class="math inline">X(\omega) = 1/(a+j\omega)</span> como <strong>una</strong> curva en <span class="math inline">(\omega, \mathrm{Re}, \mathrm{Im})</span>, con Re X en el piso (par), Im X en la pared (impar) y el módulo como distancia al eje. Segundo modo: <span class="math inline">e^{-a|t|}\operatorname{sgn}(t) \leftrightarrow -2j\omega/(a^2+\omega^2)</span>, imaginaria pura; al bajar <span class="math inline">a</span> la curva se pega a <span class="math inline">2/(j\omega)</span>, la transformada del signo.</p>
 <p><strong>Cómo usarla</strong>: <a href="demos/una-sola-curva/index.html">ábrela en el navegador</a> — sin instalar nada ni internet. Arrastra el 3D para girarlo; mueve <span class="math inline">a</span> y <span class="math inline">\omega_0</span>. Teclas: <strong>M</strong> cambia de señal, <strong>R</strong> reinicia.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C15 · La costa y el continente: la ROC como superficie (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C15 · La costa y el continente: la ROC como superficie (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: por qué la transformada de Laplace de <span class="math inline">x(t)=e^{-at}u(t)</span> existe solo a la derecha del polo. A la izquierda, la superficie <span class="math inline">|x(t)e^{-\sigma t}| = e^{-(a+\sigma)t}</span> sobre el mapa <span class="math inline">(\sigma, t)</span>: cada línea de <span class="math inline">\sigma</span> constante es la señal amortiguada con ese <span class="math inline">\sigma</span>. A la derecha, lo mismo en el tiempo: <span class="math inline">x(t)</span> con el factor <span class="math inline">e^{-\sigma_0 t}</span>, y abajo su producto con el área pintada — <span class="math inline">1/(a+\sigma_0)</span> si <span class="math inline">\sigma_0</span> está en la ROC, infinita si no. El muro rojo es el polo (<span class="math inline">\sigma=-a</span>); la curva azul es la costa <span class="math inline">\sigma=0</span>, donde vive Fourier.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/roc-superficie/index.html">ábrela en el navegador</a> — sin instalar nada ni internet. Arrastra el 3D para girarlo; mueve <span class="math inline">\sigma_0</span> hasta cruzar el muro y mira qué le pasa al área; baja <span class="math inline">a</span> a valores negativos y mira qué le pasa a la costa. Teclas: <strong>←/→</strong> mueven <span class="math inline">\sigma_0</span>, <strong>M</strong> cambia de señal, <strong>R</strong> reinicia.</p>
+<p><strong>La misma fórmula, otra señal</strong>: el botón «señal izquierda» cambia a <span class="math inline">x(t) = -e^{-at}u(-t)</span>. El muro no se mueve y el área sigue valiendo <span class="math inline">1/(a+\sigma_0)</span>, pero ahora la región de convergencia queda al otro lado: la fórmula <span class="math inline">1/(s+a)</span> sola no dice cuál de las dos señales es.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C15 · Cada punto del plano s es una espiral (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C15 · Cada punto del plano s es una espiral (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: qué señal es <span class="math inline">e^{st}</span> para cada <span class="math inline">s = \sigma + j\omega</span>. A la izquierda, el plano <span class="math inline">s</span> con un punto que se arrastra; a la derecha, la espiral de ese punto dibujada en el tiempo, en 3D y animada: gira a <span class="math inline">\omega</span> y su radio es <span class="math inline">e^{\sigma t}</span>. A la izquierda del eje <span class="math inline">j\omega</span> la espiral se apaga, sobre el eje es el fasor de Fourier (radio constante) y a la derecha crece. La sombra en el piso es la parte real, <span class="math inline">e^{\sigma t}\cos(\omega t)</span>: la sinusoide amortiguada de siempre.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/espirales-plano-s/index.html">ábrela en el navegador</a> — sin instalar nada ni internet. Arrastra el punto en el plano <span class="math inline">s</span> y el 3D para girarlo; «de frente» muestra la espiral en el plano complejo y «de lado» la sinusoide amortiguada. Teclas: <strong>espacio</strong> anima, <strong>flechas</strong> mueven <span class="math inline">s</span>, <strong>F</strong> de frente, <strong>R</strong> reinicia.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="C17 · Visualizador de Laplace">

@@ -479,7 +479,8 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#p1-20-min-serie-de-fourier-y-desplazamiento" id="toc-p1-20-min-serie-de-fourier-y-desplazamiento" class="nav-link active" data-scroll-target="#p1-20-min-serie-de-fourier-y-desplazamiento">P1 (20 min) — Serie de Fourier y desplazamiento</a></li>
+  <li><a href="#calentamiento-10-min-seis-frases" id="toc-calentamiento-10-min-seis-frases" class="nav-link active" data-scroll-target="#calentamiento-10-min-seis-frases">Calentamiento (10 min) — Seis frases</a></li>
+  <li><a href="#p1-12-min-serie-de-fourier-y-desplazamiento" id="toc-p1-12-min-serie-de-fourier-y-desplazamiento" class="nav-link" data-scroll-target="#p1-12-min-serie-de-fourier-y-desplazamiento">P1 (12 min) — Serie de Fourier y desplazamiento</a></li>
   <li><a href="#p2-20-min-función-de-transferencia" id="toc-p2-20-min-función-de-transferencia" class="nav-link" data-scroll-target="#p2-20-min-función-de-transferencia">P2 (20 min) — Función de transferencia</a></li>
   <li><a href="#p3-17-min-del-espectro-a-la-forma-de-onda" id="toc-p3-17-min-del-espectro-a-la-forma-de-onda" class="nav-link" data-scroll-target="#p3-17-min-del-espectro-a-la-forma-de-onda">P3 (17 min) — Del espectro a la forma de onda</a></li>
   <li><a href="#cierre-6270-min" id="toc-cierre-6270-min" class="nav-link" data-scroll-target="#cierre-6270-min">Cierre (62–70 min)</a></li>
@@ -509,10 +510,24 @@ window.Quarto = {
 </header>
 
 
-<section id="p1-20-min-serie-de-fourier-y-desplazamiento" class="level2">
-<h2 class="anchored" data-anchor-id="p1-20-min-serie-de-fourier-y-desplazamiento">P1 (20 min) — Serie de Fourier y desplazamiento</h2>
+<section id="calentamiento-10-min-seis-frases" class="level2">
+<h2 class="anchored" data-anchor-id="calentamiento-10-min-seis-frases">Calentamiento (10 min) — Seis frases</h2>
+<p>Responde cada ítem en <strong>una sola frase</strong> con la respuesta y la razón (así viene una de las preguntas de la I2: un punto entero por ítem, sin razón no hay punto).</p>
 <blockquote class="blockquote">
-<p>La función <span class="math inline">2\pi</span>-periódica <span class="math inline">f(x)</span> vale <span class="math inline">1</span> en <span class="math inline">0&lt;x&lt;\pi</span> y <span class="math inline">-1</span> en <span class="math inline">-\pi&lt;x&lt;0</span>. (a) Calcule su serie de Fourier. (b) Escriba la serie de <span class="math inline">g(x) = f(x-\pi/2)</span> usando la propiedad de desplazamiento. (c) En dos frases: ¿por qué <span class="math inline">|c_n|</span> no cambió?</p>
+<ol type="a">
+<li>Sin integrar: ¿cuál es la potencia media de <span class="math inline">x(t) = 3 + 2\cos(\omega_0 t)</span>?</li>
+<li>Aproximas una señal periódica con sus primeros <span class="math inline">N</span> armónicos. Al agregar el armónico <span class="math inline">N+1</span>, ¿el error cuadrático puede subir? ¿Por qué?</li>
+<li>Una onda triangular y una cuadrada del mismo período: ¿cuál tiene coeficientes que decaen más rápido, y a qué se debe?</li>
+<li>Al sumar cada vez más armónicos de la cuadrada, ¿desaparece el sobreimpulso junto al salto?</li>
+<li><span class="math inline">x(t)</span> es real y <span class="math inline">c_3 = 2e^{j\pi/4}</span>. ¿Cuánto vale <span class="math inline">c_{-3}</span>, y cómo se ve el tercer armónico en la forma trigonométrica?</li>
+<li>Un sistema LTI recibe <span class="math inline">\cos(\omega_0 t)</span> y entrega <span class="math inline">\cos(2\omega_0 t)</span>. ¿Es posible? ¿Por qué?</li>
+</ol>
+</blockquote>
+</section>
+<section id="p1-12-min-serie-de-fourier-y-desplazamiento" class="level2">
+<h2 class="anchored" data-anchor-id="p1-12-min-serie-de-fourier-y-desplazamiento">P1 (12 min) — Serie de Fourier y desplazamiento</h2>
+<blockquote class="blockquote">
+<p>La función <span class="math inline">2\pi</span>-periódica <span class="math inline">f(x)</span> vale <span class="math inline">1</span> en <span class="math inline">0&lt;x&lt;\pi</span> y <span class="math inline">-1</span> en <span class="math inline">-\pi&lt;x&lt;0</span>. (a) Escriba su serie de Fourier (es la cuadrada de clase: no integre; diga qué simetría la justifica). (b) Escriba la serie de <span class="math inline">g(x) = f(x-\pi/2)</span> usando la propiedad de desplazamiento. (c) En dos frases: ¿por qué <span class="math inline">|c_n|</span> no cambió?</p>
 </blockquote>
 </section>
 <section id="p2-20-min-función-de-transferencia" class="level2">
@@ -537,7 +552,7 @@ window.Quarto = {
 <li>Aplicar <span class="math inline">c_{-n} = c_n^*</span> a señales complejas.</li>
 <li>Olvidar la fase de <span class="math inline">H(\omega_0)</span> al pasar una sinusoide por un LTI.</li>
 </ol>
-<p><strong>Checklist final</strong>: formulario oficial (U1–U3) repasado, sabiendo qué trae y qué hay que aplicar solo (la guía concreta quedó en C14); Listas 5–7 rehechas del portafolio, contra el reloj. La I2 es la próxima semana — se llega descansado, no trasnochado.</p>
+<p><strong>Checklist final</strong>: formulario oficial (U1–U3) repasado, sabiendo qué trae y qué hay que aplicar solo (la guía concreta quedó en C14); Listas 5–7 rehechas del portafolio, contra el reloj; el <strong>ensayo I2</strong> que se reparte hoy, resuelto de corrido en 80 minutos (cuatro preguntas del mismo formato que la prueba; la pauta se publica después del fin de semana). La I2 es la próxima semana — se llega descansado, no trasnochado.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -548,7 +563,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Los tres problemas de esta sesión son del calibre de la I2. Si puedes resolverlos solo, con el formulario oficial al lado y en ~20 minutos cada uno, estás donde hay que estar.</p>
+<p>Los tres problemas de esta sesión son del calibre de la I2. Si puedes resolverlos solo, con el formulario oficial al lado y en ~20 minutos cada uno, estás donde hay que estar. Además hoy recibes un <strong>ensayo completo de la I2</strong> para la casa: mismo formato, 80 minutos, con pauta la próxima semana.</p>
 </div>
 </div>
 

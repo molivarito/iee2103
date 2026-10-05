@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cada punto del plano s es una espiral — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --dec:#2f7d3c; --cre:#c0560f; --costa:#2d70b3; --re:#c74440; --im:#2d70b3; --acc:#6042a6; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:10px 14px;gap:8px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0;max-width:100%}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:7px 11px;cursor:pointer;white-space:nowrap}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600;min-width:104px}
+  button.primary:hover{background:#7355c0}
+  label.sl{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:13px}
+  input[type=range]{width:120px;max-width:28vw}
+
+  .lect{display:flex;gap:22px;flex-wrap:wrap;align-items:baseline;padding:0 2px}
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;letter-spacing:.02em}
+  .cel .v{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .v.dec{color:var(--dec)} .v.cre{color:var(--cre)} .v.cos{color:var(--costa)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-width:0;min-height:0}
+  #figS{flex:4 1 0}
+  #fig3d{flex:9 1 0}
+  figcaption{position:absolute;top:5px;left:9px;z-index:2;color:var(--dim);font-size:12px;line-height:1.35;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none;max-width:95%}
+  figcaption sup{font-size:0.75em}
+  figcaption b{color:var(--ink)}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0}
+  #c3d{cursor:grab;touch-action:none}
+  #cS{cursor:crosshair;touch-action:none}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">Cada punto, una espiral <span>IEE2103 · C15</span></div>
+    <div class="ctrls">
+      <button id="btnPlay" class="primary">▶ animar</button>
+      <label class="sl">t <input type="range" id="slT"></label>
+      <button id="btnFrente">de frente</button>
+      <button id="btnLado">de lado</button>
+      <button id="btnVista">vista inicial</button>
+      <button id="btnReset">↺</button>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">s =</span><span class="v" id="rS">—</span></div>
+    <div class="cel"><span class="k">la espiral</span><span class="v" id="rEnv">—</span></div>
+    <div class="cel"><span class="k">cae a 37 % cada 1/|σ| =</span><span class="v" id="rTau">—</span></div>
+    <div class="cel"><span class="k">una vuelta cada 2π/|ω| =</span><span class="v" id="rPer">—</span></div>
+  </div>
+
+  <div class="wrap">
+    <figure id="figS">
+      <figcaption><b>plano s</b> — arrastra el punto</figcaption>
+      <canvas id="cS"></canvas>
+    </figure>
+    <figure id="fig3d">
+      <figcaption><b>e<sup>st</sup></b> en el tiempo ·
+        <span style="color:#c74440">sombra roja = parte real (piso)</span> ·
+        <span style="color:#2d70b3">sombra azul = parte imaginaria (pared)</span> ·
+        gris = envolvente ±e<sup>σt</sup> · arrastra para girar</figcaption>
+      <canvas id="c3d"></canvas>
+    </figure>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const c3d = $('c3d'), cS = $('cS');
+const btnPlay=$('btnPlay'), slT=$('slT');
+
+// ── el montaje ───────────────────────────────────────────────────────
+// s = σ + jω.  e^{st} = e^{σt}·(cos ωt + j sin ωt): gira a ω y su radio es e^{σt}.
+//   σ < 0 → espiral que se apaga;  σ = 0 → hélice de radio 1 (fasor de Fourier);
+//   σ > 0 → espiral que crece.  ω = 0 → exponencial real, no gira.
+// Comprobación: s = −0.3 + j3, t = 2 → radio e^{−0.6} = 0.549, ángulo 6 rad.
+const T = 8;                          // eje t ∈ [0, 8]
+const RBOX = 1.8;                     // radio visible: lo que crece más se CORTA, no se aplana
+const K = 1.3;                        // unidades 3D por unidad de amplitud
+const G = RBOX*K;
+const SIG_MIN=-1, SIG_MAX=0.5, OM_MAX=6;
+const SIG_INI=-0.3, OM_INI=3;
+const VEL = 1.3;                      // unidades de t por segundo al animar
+let sig=SIG_INI, om=OM_INI, t0=T, playing=false, hold=0;
+const INIT_YAW=0.68, INIT_PITCH=0.28;
+const FRENTE={yaw:Math.PI/2, pitch:0}, LADO={yaw:0, pitch:0};
+let yaw=INIT_YAW, pitch=INIT_PITCH, cam=null;
+let dragging=false, lastX=0, lastY=0, dragS=false;
+
+// parámetros de prueba: ?sig=-0.5&om=4&t0=3&yaw=1.5708&pitch=0
+{
+  const p = new URLSearchParams(location.search);
+  const num = (k,lo,hi) => { if(!p.has(k)) return null; const v=parseFloat(p.get(k)); return (isFinite(v)&&v>=lo&&v<=hi)?v:null; };
+  let v;
+  if((v=num('sig',SIG_MIN,SIG_MAX))!==null) sig=v;
+  if((v=num('om',-OM_MAX,OM_MAX))!==null) om=v;
+  if((v=num('t0',0,T))!==null) t0=v;
+  if((v=num('yaw',-7,7))!==null) yaw=v;
+  if((v=num('pitch',0,1.45))!==null) pitch=v;
+}
+
+// ── canvas helpers (igual que la plantilla de una-sola-curva) ─────────
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx, w:r.width, h:r.height};
+}
+function arrow2(ctx,p1,p2){
+  ctx.beginPath(); ctx.moveTo(p1.sx,p1.sy); ctx.lineTo(p2.sx,p2.sy); ctx.stroke();
+  const d=Math.hypot(p2.sx-p1.sx,p2.sy-p1.sy);
+  if(d<10) return;                    // eje visto de punta: sin flecha
+  const ang=Math.atan2(p2.sy-p1.sy,p2.sx-p1.sx), s=7;
+  ctx.beginPath();
+  ctx.moveTo(p2.sx,p2.sy);
+  ctx.lineTo(p2.sx-s*Math.cos(ang-0.4), p2.sy-s*Math.sin(ang-0.4));
+  ctx.lineTo(p2.sx-s*Math.cos(ang+0.4), p2.sy-s*Math.sin(ang+0.4));
+  ctx.closePath(); ctx.fill();
+}
+function fmt(x,d){ const s=Math.abs(x).toFixed(d); return (x<0 && +s!==0 ? '−' : '')+s; }
+
+// ── proyección 3D: X=t (eje largo), Y=Im (arriba), Z=Re (hacia el observador) ──
+function rot(x,y,z){
+  const cy=Math.cos(yaw), sy=Math.sin(yaw);
+  const x1 = x*cy + z*sy, z1 = -x*sy + z*cy, y1 = y;
+  const cp=Math.cos(pitch), sp=Math.sin(pitch);
+  const y2 = y1*cp - z1*sp, z2 = y1*sp + z1*cp;
+  return {x:x1, y:y2, z:z2};
+}
+
+// ── panel 2: la espiral ─────────────────────────────────────────────
+function draw3D(){
+  const {ctx,w,h}=fit(c3d);
+
+  // caja fija → el encuadre solo reacciona a la rotación
+  const bp=[];
+  for(const x of [-T/2-0.4, T/2+0.9]) for(const y of [-G, G+0.35]) for(const z of [-G, G+0.35])
+    bp.push(rot(x,y,z));
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  for(const p of bp){
+    if(p.x<minX)minX=p.x; if(p.x>maxX)maxX=p.x;
+    if(p.y<minY)minY=p.y; if(p.y>maxY)maxY=p.y;
+  }
+  const padSide=w*0.04, padTop=Math.max(46,h*0.12), padBottom=Math.max(26,h*0.07);
+  const availW=Math.max(40,w-2*padSide), availH=Math.max(40,h-padTop-padBottom);
+  const u = Math.min(availW/((maxX-minX)||1), availH/((maxY-minY)||1));
+  const cx = padSide + availW/2 - u*(minX+maxX)/2;
+  const cy0 = padTop + availH/2 - u*(minY+maxY)/2;
+  // (t, Re, Im) → pantalla
+  const P = (t,re,im) => {
+    const p=rot(t-T/2, im*K, re*K);
+    return { sx: cx+p.x*u, sy: cy0-p.y*u, depth:p.z };
+  };
+  const line = (p,q,style,lw,dash) => {
+    ctx.strokeStyle=style; ctx.lineWidth=lw; ctx.setLineDash(dash||[]);
+    ctx.beginPath(); ctx.moveTo(p.sx,p.sy); ctx.lineTo(q.sx,q.sy); ctx.stroke(); ctx.setLineDash([]);
+  };
+  const strokePath = (pts, style, lw, dash) => {
+    ctx.strokeStyle=style; ctx.lineWidth=lw; ctx.setLineDash(dash||[]);
+    ctx.beginPath(); let started=false;
+    for(const p of pts){
+      if(!p){ started=false; continue; }
+      if(!started){ ctx.moveTo(p.sx,p.sy); started=true; } else ctx.lineTo(p.sx,p.sy);
+    }
+    ctx.stroke(); ctx.setLineDash([]);
+  };
+  const rect3 = pts => { ctx.beginPath(); pts.forEach((p,i)=> i?ctx.lineTo(p.sx,p.sy):ctx.moveTo(p.sx,p.sy)); ctx.closePath(); };
+  const R=RBOX;
+
+  // ── piso (Im = −R: ahí cae la parte real) y pared (Re = −R: la imaginaria) ──
+  rect3([P(0,-R,-R),P(T,-R,-R),P(T,R,-R),P(0,R,-R)]);
+  ctx.fillStyle='rgba(199,68,64,0.045)'; ctx.fill(); ctx.strokeStyle='rgba(180,190,205,0.6)'; ctx.lineWidth=1; ctx.stroke();
+  rect3([P(0,-R,-R),P(T,-R,-R),P(T,-R,R),P(0,-R,R)]);
+  ctx.fillStyle='rgba(45,112,179,0.045)'; ctx.fill(); ctx.strokeStyle='rgba(180,190,205,0.6)'; ctx.stroke();
+  for(const v of [-1,0,1]){
+    line(P(0,v,-R),P(T,v,-R), v===0?'rgba(150,162,180,0.6)':'rgba(180,190,205,0.35)',1);
+    line(P(0,-R,v),P(T,-R,v), v===0?'rgba(150,162,180,0.6)':'rgba(180,190,205,0.35)',1);
+  }
+  for(let t=2;t<T;t+=2){
+    line(P(t,-R,-R),P(t,R,-R),'rgba(180,190,205,0.3)',1);
+    line(P(t,-R,-R),P(t,-R,R),'rgba(180,190,205,0.3)',1);
+  }
+
+  // ── muestreo ────────────────────────────────────────────────────
+  const N=640, i0=Math.round(N*t0/T);
+  const pts=[], sRe=[], sIm=[], eRe1=[], eRe2=[], eIm1=[], eIm2=[];
+  for(let i=0;i<=N;i++){
+    const t=T*i/N, r=Math.exp(sig*t), re=r*Math.cos(om*t), im=r*Math.sin(om*t);
+    const dentro = r<=R;
+    pts.push(dentro ? P(t,re,im) : null);
+    sRe.push(dentro ? P(t,re,-R) : null);      // las sombras se cortan junto con la espiral
+    sIm.push(dentro ? P(t,-R,im) : null);
+    eRe1.push(dentro ? P(t, r,-R) : null); eRe2.push(dentro ? P(t,-r,-R) : null);
+    eIm1.push(dentro ? P(t,-R, r) : null); eIm2.push(dentro ? P(t,-R,-r) : null);
+  }
+  // envolventes ±e^{σt} sobre las dos sombras
+  for(const e of [eRe1,eRe2,eIm1,eIm2]) strokePath(e,'rgba(120,132,150,0.75)',1.2,[5,4]);
+  // sombras: tenues en todo el recorrido, firmes hasta t0
+  strokePath(sRe,'rgba(199,68,64,0.28)',1.6);
+  strokePath(sIm,'rgba(45,112,179,0.28)',1.6);
+  strokePath(sRe.slice(0,i0+1),'rgba(199,68,64,0.95)',2.2);
+  strokePath(sIm.slice(0,i0+1),'rgba(45,112,179,0.95)',2.2);
+
+  // ── ejes ────────────────────────────────────────────────────────
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.6;
+  arrow2(ctx,P(0,0,0),P(T+0.7,0,0));
+  ctx.font='11px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top';
+  for(let t=2;t<=T;t+=2){
+    const q=P(t,0,0);
+    ctx.strokeStyle='#9aa7b8'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(q.sx,q.sy); ctx.lineTo(q.sx,q.sy+6); ctx.stroke();
+    ctx.fillStyle='#65758b'; ctx.fillText(String(t), q.sx, q.sy+8);
+  }
+  let q=P(T+0.9,0,0);
+  ctx.fillStyle='#16202e'; ctx.font='bold 15px system-ui'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText('t', q.sx+2, q.sy);
+  // plano complejo en t = 0: ejes Re, Im y círculo unitario
+  const O=P(0,0,0), ReP=P(0,R+0.2,0), ImP=P(0,0,R+0.2);
+  ctx.strokeStyle=ctx.fillStyle='#6042a6'; ctx.lineWidth=1.6;
+  arrow2(ctx,P(0,-R,0),ReP); arrow2(ctx,P(0,0,-R),ImP);
+  ctx.font='bold 12px system-ui';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  { const dx=ReP.sx-O.sx, dy=ReP.sy-O.sy, d=Math.hypot(dx,dy)||1;
+    if(d>12) ctx.fillText('Re', ReP.sx+dx/d*14, ReP.sy+dy/d*12); }
+  ctx.textBaseline='bottom'; ctx.fillText('Im', ImP.sx, ImP.sy-5);
+  const circ=[]; for(let i=0;i<=72;i++){ const a=2*Math.PI*i/72; circ.push(P(0,Math.cos(a),Math.sin(a))); }
+  strokePath(circ,'rgba(96,66,166,0.45)',1.1);
+
+  // ── la espiral: tenue lo que falta, firme (y con profundidad) lo recorrido ──
+  strokePath(pts,'rgba(22,32,46,0.16)',1.6);
+  let dmin=Infinity,dmax=-Infinity;
+  for(const p of bp){ if(p.z<dmin)dmin=p.z; if(p.z>dmax)dmax=p.z; }
+  ctx.lineCap='round';
+  for(let i=1;i<=i0;i++){
+    const a=pts[i-1], b=pts[i]; if(!a||!b) continue;
+    const f=Math.max(0,Math.min(1,((a.depth+b.depth)/2-dmin)/((dmax-dmin)||1)));   // 1 = cerca
+    ctx.strokeStyle=`rgba(22,32,46,${(0.42+0.58*f).toFixed(3)})`; ctx.lineWidth=1.9+1.5*f;
+    ctx.beginPath(); ctx.moveTo(a.sx,a.sy); ctx.lineTo(b.sx,b.sy); ctx.stroke();
+  }
+  ctx.lineCap='butt';
+
+  // ── el punto en t0: radio desde el eje, y sus dos sombras ────────
+  const r0=Math.exp(sig*t0), re0=r0*Math.cos(om*t0), im0=r0*Math.sin(om*t0);
+  if(r0<=R){
+    const pm=P(t0,re0,im0), pa=P(t0,0,0), pf=P(t0,re0,-R), pw=P(t0,-R,im0);
+    // el círculo de radio e^{σt0}: el tamaño de la espiral en ese instante
+    const c2=[]; for(let i=0;i<=72;i++){ const a=2*Math.PI*i/72; c2.push(P(t0,r0*Math.cos(a),r0*Math.sin(a))); }
+    strokePath(c2,'rgba(96,66,166,0.55)',1.2);
+    line(pm,pf,'rgba(22,32,46,0.35)',1); line(pm,pw,'rgba(22,32,46,0.35)',1);
+    ctx.fillStyle='#c74440'; ctx.beginPath(); ctx.arc(pf.sx,pf.sy,3.6,0,7); ctx.fill();
+    ctx.fillStyle='#2d70b3'; ctx.beginPath(); ctx.arc(pw.sx,pw.sy,3.6,0,7); ctx.fill();
+    line(pa,pm,'#6042a6',2.6);
+    ctx.fillStyle='#6042a6'; ctx.beginPath(); ctx.arc(pa.sx,pa.sy,2.6,0,7); ctx.fill();
+    ctx.fillStyle='#16202e'; ctx.beginPath(); ctx.arc(pm.sx,pm.sy,5,0,7); ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
+  }
+}
+
+// ── panel 1: el plano s, con el punto arrastrable ───────────────────
+const PADS={l:34,r:16,t:52,b:22};
+const S0=SIG_MIN-0.12, S1=SIG_MAX+0.14, W0=-OM_MAX-0.7, W1=OM_MAX+0.7;
+let dimS={w:1,h:1};
+const SX = s => PADS.l + (s-S0)/(S1-S0)*(dimS.w-PADS.l-PADS.r);
+const SY = o => dimS.h-PADS.b - (o-W0)/(W1-W0)*(dimS.h-PADS.t-PADS.b);
+function drawS(){
+  const {ctx,w,h}=fit(cS); dimS={w,h};
+  const xL=SX(S0), xR=SX(S1), x0=SX(0), yT=SY(W1), yB=SY(W0), y0=SY(0);
+  // el mapa: a la izquierda de la costa decaen, a la derecha crecen
+  ctx.fillStyle='rgba(56,140,70,0.14)'; ctx.fillRect(xL,yT,x0-xL,yB-yT);
+  ctx.fillStyle='rgba(226,128,40,0.16)'; ctx.fillRect(x0,yT,xR-x0,yB-yT);
+  ctx.strokeStyle='rgba(150,162,180,0.35)'; ctx.lineWidth=1;
+  for(const s of [-1,-0.5,0.5]){ ctx.beginPath(); ctx.moveTo(SX(s),yT); ctx.lineTo(SX(s),yB); ctx.stroke(); }
+  for(let o=-OM_MAX;o<=OM_MAX;o+=2){ if(!o) continue; ctx.beginPath(); ctx.moveTo(xL,SY(o)); ctx.lineTo(xR,SY(o)); ctx.stroke(); }
+  // eje σ
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.5;
+  arrow2(ctx,{sx:xL,sy:y0},{sx:xR+8,sy:y0});
+  ctx.font='11px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillStyle='#65758b';
+  for(const s of [-1,-0.5,0.5]) ctx.fillText(fmt(s,1), SX(s), y0+5);
+  ctx.fillStyle='#16202e'; ctx.font='bold 14px system-ui'; ctx.textAlign='right'; ctx.textBaseline='bottom';
+  ctx.fillText('σ', xR+9, y0-5);
+  // la costa: el eje jω
+  ctx.strokeStyle='#2d70b3'; ctx.lineWidth=3.2;
+  ctx.beginPath(); ctx.moveTo(x0,yB); ctx.lineTo(x0,yT-2); ctx.stroke();
+  ctx.fillStyle='#2d70b3'; ctx.font='bold 12px system-ui'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+  ctx.fillText('jω · la costa', x0, yT-5);
+  ctx.font='11px system-ui'; ctx.textAlign='right'; ctx.textBaseline='middle'; ctx.fillStyle='#65758b';
+  for(let o=-OM_MAX;o<=OM_MAX;o+=2){ if(!o) continue; ctx.fillText(fmt(o,0), xL-5, SY(o)); }
+  // rótulos de las dos regiones
+  ctx.font='bold 13px system-ui'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+  ctx.fillStyle='#22632e'; ctx.fillText('se apagan', (xL+x0)/2, yB-6);
+  ctx.fillStyle='#a8480a'; ctx.fillText('crecen', (x0+xR)/2, yB-6);
+  // el punto s, con sus proyecciones
+  const px=SX(sig), py=SY(om);
+  ctx.strokeStyle='rgba(22,32,46,0.45)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(px,y0); ctx.moveTo(px,py); ctx.lineTo(x0,py); ctx.stroke(); ctx.setLineDash([]);
+  const col = sig<-1e-9 ? '#2f7d3c' : (sig>1e-9 ? '#c0560f' : '#2d70b3');
+  ctx.fillStyle=col; ctx.beginPath(); ctx.arc(px,py,8,0,7); ctx.fill();
+  ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='#16202e'; ctx.font='bold 14px system-ui'; ctx.textAlign='left'; ctx.textBaseline='bottom';
+  ctx.fillText('s', px+10, py-6);
+}
+function setSdesde(e){
+  const r=cS.getBoundingClientRect();
+  const x=e.clientX-r.left, y=e.clientY-r.top;
+  const s = S0 + (x-PADS.l)/(dimS.w-PADS.l-PADS.r)*(S1-S0);
+  const o = W0 + (dimS.h-PADS.b-y)/(dimS.h-PADS.t-PADS.b)*(W1-W0);
+  setS(s,o);
+}
+function setS(s,o){
+  sig = Math.max(SIG_MIN,Math.min(SIG_MAX,Math.round(s*20)/20));      // pasos de 0,05: σ = 0 cae exacto
+  om  = Math.max(-OM_MAX,Math.min(OM_MAX,Math.round(o*4)/4));         // pasos de 0,25
+  pinta();
+}
+
+// ── lecturas y pie ──────────────────────────────────────────────────
+function hintText(){
+  const gira = Math.abs(om)<1e-9 ? ' Sobre el eje real (ω = 0) no gira: es la exponencial real e^(σt).'
+             : (om<0 ? ' Con ω negativo gira en el otro sentido.' : '');
+  if(sig<-1e-9) return 'A la izquierda de la costa la espiral se apaga; más a la izquierda, más rápido.'+gira;
+  if(sig>1e-9)  return 'A la derecha de la costa la espiral crece y se sale de la caja.'+gira;
+  return 'Sobre la costa (σ = 0) el radio no cambia: es el fasor e^(jωt) de Fourier.'+gira;
+}
+function lectura(){
+  $('rS').textContent = fmt(sig,2)+(om<0?' − j':' + j')+Math.abs(om).toFixed(2);
+  const e=$('rEnv');
+  if(sig<-1e-9){ e.textContent='se apaga'; e.className='v dec'; }
+  else if(sig>1e-9){ e.textContent='crece'; e.className='v cre'; }
+  else { e.textContent='no cambia'; e.className='v cos'; }
+  $('rTau').textContent = sig<-1e-9 ? fmt(1/Math.abs(sig),2) : '—';
+  $('rPer').textContent = Math.abs(om)>1e-9 ? fmt(2*Math.PI/Math.abs(om),2) : 'no gira';
+  $('hint').textContent = hintText();
+  btnPlay.textContent = playing ? '⏸ pausa' : '▶ animar';
+}
+function pinta(){ drawS(); draw3D(); lectura(); }
+
+// ── animación: el recorrido en t y los cambios de cámara ────────────
+let raf=0, last=0;
+function tick(ts){
+  raf=0;
+  const dt=Math.max(0,Math.min(0.05,(ts-last)/1000)); last=ts;
+  let sigue=false;
+  if(cam){
+    const k=Math.min(1,dt*6);
+    yaw+=(cam.yaw-yaw)*k; pitch+=(cam.pitch-pitch)*k;
+    if(Math.abs(cam.yaw-yaw)<0.004 && Math.abs(cam.pitch-pitch)<0.004){ yaw=cam.yaw; pitch=cam.pitch; cam=null; }
+    else sigue=true;
+  }
+  if(playing){
+    if(hold>0){ hold-=dt; if(hold<=0) t0=0; }
+    else { t0+=dt*VEL; if(t0>=T){ t0=T; hold=1.0; } }
+    slT.value=t0; sigue=true;
+  }
+  draw3D();
+  if(sigue) pide();
+}
+function pide(){ if(!raf){ last=performance.now(); raf=requestAnimationFrame(tick); } }
+function play(on){
+  playing=on; hold=0;
+  if(on && t0>=T-1e-6) t0=0;
+  lectura(); if(on) pide();
+}
+function camara(c){
+  yaw = ((yaw+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;    // el camino corto
+  cam={yaw:c.yaw, pitch:c.pitch}; pide();
+}
+function resetAll(){
+  sig=SIG_INI; om=OM_INI; t0=T; playing=false; hold=0; cam=null;
+  yaw=INIT_YAW; pitch=INIT_PITCH; slT.value=t0; pinta();
+}
+
+// ── controles ──────────────────────────────────────────────────────
+slT.min=0; slT.max=T; slT.step=0.02; slT.value=t0;
+slT.oninput=e=>{ t0=+e.target.value; if(playing) play(false); draw3D(); };
+const boton=(id,fn)=>{ $(id).onclick=e=>{ fn(); e.currentTarget.blur(); }; };   // sin foco: el espacio no lo repite
+boton('btnPlay', ()=>play(!playing));
+boton('btnFrente', ()=>camara(FRENTE));
+boton('btnLado', ()=>camara(LADO));
+boton('btnVista', ()=>camara({yaw:INIT_YAW,pitch:INIT_PITCH}));
+boton('btnReset', resetAll);
+
+// dentro de reveal.js: cualquier toque en la demo le da el foco al iframe,
+// para que las teclas lleguen aquí y no cambien de lámina
+document.addEventListener('pointerdown', ()=>window.focus(), true);
+
+// arrastre en el plano s: mueve el punto
+cS.addEventListener('pointerdown', e=>{ dragS=true; cS.setPointerCapture(e.pointerId); setSdesde(e); });
+cS.addEventListener('pointermove', e=>{ if(dragS) setSdesde(e); });
+cS.addEventListener('pointerup', ()=>{ dragS=false; });
+cS.addEventListener('pointercancel', ()=>{ dragS=false; });
+
+// arrastre en el 3D: gira la vista
+c3d.addEventListener('pointerdown', e=>{
+  dragging=true; cam=null; lastX=e.clientX; lastY=e.clientY;
+  c3d.setPointerCapture(e.pointerId); c3d.style.cursor='grabbing';
+});
+c3d.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  const dx=e.clientX-lastX, dy=e.clientY-lastY; lastX=e.clientX; lastY=e.clientY;
+  yaw += dx*0.008;
+  pitch = Math.max(0, Math.min(1.45, pitch + dy*0.008));
+  draw3D();
+});
+c3d.addEventListener('pointerup', ()=>{ dragging=false; c3d.style.cursor='grab'; });
+c3d.addEventListener('pointercancel', ()=>{ dragging=false; c3d.style.cursor='grab'; });
+
+// teclado propio del iframe: espacio anima, flechas mueven s, F de frente, R reinicia
+document.addEventListener('keydown', e=>{
+  if(e.target && e.target.tagName==='INPUT') return;
+  const k=e.key;
+  if(k===' '){ e.preventDefault(); e.stopPropagation(); play(!playing); }
+  else if(k==='ArrowLeft'){ e.preventDefault(); e.stopPropagation(); setS(sig-0.05,om); }
+  else if(k==='ArrowRight'){ e.preventDefault(); e.stopPropagation(); setS(sig+0.05,om); }
+  else if(k==='ArrowUp'){ e.preventDefault(); e.stopPropagation(); setS(sig,om+0.25); }
+  else if(k==='ArrowDown'){ e.preventDefault(); e.stopPropagation(); setS(sig,om-0.25); }
+  else if(k==='f'||k==='F'){ e.stopPropagation(); camara(FRENTE); }
+  else if(k==='r'||k==='R'){ e.stopPropagation(); resetAll(); }
+});
+
+new ResizeObserver(()=>pinta()).observe(document.body);
+pinta();   // primer cuadro sin depender de requestAnimationFrame
+</script>
+</body>
+</html>
