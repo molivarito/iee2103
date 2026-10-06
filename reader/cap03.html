@@ -531,7 +531,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Mira la reconstrucción en acción — la suma parcial con <span class="math inline">N</span> términos es la <em>proyección</em> de la cuadrada sobre los primeros <span class="math inline">N</span> armónicos, es decir, la mejor aproximación posible con ese presupuesto:</p>
-<div id="b423d5a3" class="cell" data-execution_count="1">
+<div id="da2354dd" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -696,7 +696,7 @@ window.Quarto = {
 <li><strong>Onda cuadrada</strong> (discontinua — tiene <em>saltos</em>): <span class="math inline">|c_n| = \frac{2}{\pi n}</span> en los impares — decae como <span class="math inline">1/n</span>.</li>
 <li><strong>Onda triangular</strong> par de amplitud <span class="math inline">\pm 1</span> (continua, pero con <em>puntas</em>: derivada discontinua): <span class="math inline">c_n = \frac{4}{\pi^2 n^2}</span> en los impares — decae como <span class="math inline">1/n^2</span>.</li>
 </ul>
-<div id="e41b65e7" class="cell" data-execution_count="2">
+<div id="7ec37122" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -712,7 +712,7 @@ window.Quarto = {
 <section id="sec-gibbs" class="level3" data-number="3.4.4">
 <h3 data-number="3.4.4" class="anchored" data-anchor-id="sec-gibbs"><span class="header-section-number">3.4.4</span> Truncar la serie: el fenómeno de Gibbs</h3>
 <p>En la práctica nadie suma infinitos armónicos: se <strong>trunca</strong> la serie en <span class="math inline">N</span> términos. Ya viste en la figura de la cuadrada que junto al salto asoma una “oreja”. La pregunta natural — ¿desaparece al subir <span class="math inline">N</span>? — tiene una respuesta sorprendente: <strong>no</strong>.</p>
-<div id="685c886d" class="cell" data-execution_count="3">
+<div id="12c0f5c2" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -782,7 +782,7 @@ Importante
 = \frac{2\sin(\omega\tau/2)}{\omega}</span> Multiplicando y dividiendo por <span class="math inline">\tau/2</span> para reconocer la sinc normalizada: <span class="math display">\operatorname{rect}\!\left(\frac{t}{\tau}\right) \;\longleftrightarrow\; \tau\,\operatorname{sinc}\!\left(\frac{\omega\tau}{2\pi}\right)</span> Los tres chequeos de rigor (hábito que vale puntos en toda interrogación): (i) <span class="math inline">X(0) = \tau</span> = área del pulso ✓; (ii) primer cero en <span class="math inline">\omega = 2\pi/\tau</span> ✓; (iii) <span class="math inline">X</span> real y par, como corresponde a una señal real y par ✓.</p>
 </div>
 </div>
-<div id="fad4af5a" class="cell" data-execution_count="4">
+<div id="8be77b2d" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -954,8 +954,8 @@ Importante
 </tr>
 <tr class="even">
 <td>Integración</td>
-<td><span class="math inline">c_n/(jn\omega_0)</span>, si <span class="math inline">c_0=0</span></td>
-<td><span class="math inline">X(\omega)/(j\omega) + \pi X(0)\delta(\omega)</span></td>
+<td><span class="math inline">\int_{0}^{t}x(\tau)\,d\tau \leftrightarrow c_n/(jn\omega_0)</span>, <span class="math inline">n\neq0</span>, si <span class="math inline">c_0=0</span></td>
+<td><span class="math inline">\int_{-\infty}^{t}x(\tau)\,d\tau \leftrightarrow X(\omega)/(j\omega) + \pi X(0)\delta(\omega)</span></td>
 </tr>
 <tr class="odd">
 <td>Inversión <span class="math inline">x(-t)</span></td>
@@ -970,7 +970,7 @@ Importante
 <tr class="odd">
 <td>Escalamiento <span class="math inline">x(\alpha t)</span></td>
 <td>mismos <span class="math inline">c_n</span>, fundamental <span class="math inline">\alpha\omega_0</span></td>
-<td><span class="math inline">\dfrac{1}{\lvert\alpha\rvert}X\!\big(\tfrac{\omega}{\alpha}\big)</span></td>
+<td><span class="math inline">\dfrac{1}{\lvert\alpha\rvert}\,X(\omega/\alpha)</span></td>
 </tr>
 <tr class="even">
 <td>Multiplicación <span class="math inline">x\cdot y</span></td>
@@ -994,7 +994,7 @@ Importante
 </tr>
 </tbody>
 </table>
-<p>La columna de la izquierda es la de la <a href="#sec-propiedades-serie" class="quarto-xref"><span>Sección 3.4.1</span></a>; en la de la derecha cambia sobre todo la contabilidad: <span class="math inline">n\omega_0</span> pasa a <span class="math inline">\omega</span>, las sumas pasan a integrales y aparece un <span class="math inline">\frac{1}{2\pi}</span> donde se integra en frecuencia. La fila de integración trae, eso sí, un invitado nuevo: el <span class="math inline">\pi X(0)\delta(\omega)</span> que compensa el promedio cuando <span class="math inline">X(0) \neq 0</span> (en la serie esto se resolvía exigiendo <span class="math inline">c_0 = 0</span>; aquí la fórmula general ya lo incluye). Y la dualidad es la única sin pariente en la serie — la razón es de fondo, no de pereza: la serie tiene índice discreto <span class="math inline">n</span> y la transformada tiene <span class="math inline">\omega</span> continuo, así que “invertir los roles de análisis y síntesis” solo tiene sentido cuando ambos lados viven en el mismo tipo de variable.</p>
+<p>La columna de la izquierda es la de la <a href="#sec-propiedades-serie" class="quarto-xref"><span>Sección 3.4.1</span></a>; en la de la derecha cambia sobre todo la contabilidad: <span class="math inline">n\omega_0</span> pasa a <span class="math inline">\omega</span>, las sumas pasan a integrales y aparece un <span class="math inline">\frac{1}{2\pi}</span> donde se integra en frecuencia. La fila de integración trae, eso sí, un invitado nuevo: el <span class="math inline">\pi X(0)\delta(\omega)</span> que compensa el promedio cuando <span class="math inline">X(0) \neq 0</span> (en la serie esto se resolvía exigiendo <span class="math inline">c_0 = 0</span>; aquí la fórmula general ya lo incluye). Los límites tampoco son los mismos: en la transformada la integral corre desde <span class="math inline">-\infty</span> hasta <span class="math inline">t</span>; en la serie parte de un punto fijo (aquí <span class="math inline">0</span>), porque una señal periódica no se puede integrar desde <span class="math inline">-\infty</span>, y mover ese punto de partida solo cambia la constante <span class="math inline">d_0</span>. Y la dualidad es la única sin pariente en la serie — la razón es de fondo, no de pereza: la serie tiene índice discreto <span class="math inline">n</span> y la transformada tiene <span class="math inline">\omega</span> continuo, así que “invertir los roles de análisis y síntesis” solo tiene sentido cuando ambos lados viven en el mismo tipo de variable.</p>
 <p><strong>Dualidad.</strong> Análisis y síntesis son casi la misma integral — solo cambian el signo del exponente y el <span class="math inline">2\pi</span>. Consecuencia: si <span class="math inline">x(t) \leftrightarrow X(\omega)</span>, entonces <span class="math inline">X(t) \leftrightarrow 2\pi\,x(-\omega)</span>. Uso estrella: del par rect ↔︎ sinc sale <strong>gratis</strong> que una sinc en el tiempo tiene espectro rectangular, <span class="math inline">\operatorname{sinc}(t) \leftrightarrow \operatorname{rect}(\omega/2\pi)</span> — y de paso, <span class="math inline">\int \operatorname{sinc}(t)\,dt = X(0) = 1</span>, una integral que a mano es un dolor [DB E0091]. Esto convierte a la sinc en <em>el</em> filtro pasa-bajos ideal, como verás en la <a href="#sec-lti-frecuencia" class="quarto-xref"><span>Sección 3.6</span></a>.</p>
 <p><strong>Escalamiento</strong> (cambio de variable cuidando el signo — de ahí el módulo): <span class="math display">x(at) \;\longleftrightarrow\; \frac{1}{|a|}\,X\!\left(\frac{\omega}{a}\right)</span> Es la ley recíproca del rect ↔︎ sinc, ahora como teorema general: <strong>tiempo corto ↔︎ banda ancha</strong>. Una voz reproducida al doble de velocidad es <span class="math inline">x(2t)</span>: su espectro se <em>estira</em> al doble — todo sube una octava, multiplicativo, no aditivo (por eso la “voz de ardilla” suena aguda <em>y</em> con el timbre corrido). Y en comunicaciones: mandar bits más cortos cuesta más ancho de banda — no hay almuerzo gratis, es esta propiedad.</p>
 <p><strong>LA propiedad: convolución ↔︎ multiplicación.</strong> En el capítulo 2 aprendiste que la salida de un LTI es <span class="math inline">y = x * h</span> — y que calcular esa integral es trabajo. El premio de todo este capítulo: <span class="math display">\boxed{\;y(t) = (x*h)(t) \;\longleftrightarrow\; Y(\omega) = X(\omega)\,H(\omega)\;}</span> La demostración es corta y es la más importante del semestre: <span class="math display">Y(\omega) = \int\!\!\left[\int x(\tau)h(t-\tau)\,d\tau\right]\!e^{-j\omega t}\,dt
@@ -1044,7 +1044,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-filtros" class="level3" data-number="3.6.2">
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="sec-filtros"><span class="header-section-number">3.6.2</span> Filtros: moldear el espectro</h3>
 <p><strong>Filtrar = multiplicar el espectro por la <span class="math inline">H(\omega)</span> que convenga.</strong> El ejemplo de carne y hueso: el circuito RC con salida en el condensador, <span class="math inline">RC\,\dot{v}_c + v_c = v_{in}</span>. La propiedad de derivación (<span class="math inline">\dot{x} \leftrightarrow j\omega X</span>) convierte la EDO en álgebra: <span class="math display">(1 + j\omega RC)\,V_c(\omega) = V_{in}(\omega) \qquad\Longrightarrow\qquad H(\omega) = \frac{1}{1 + j\omega RC}</span> <span class="math display">|H(\omega)| = \frac{1}{\sqrt{1+(\omega RC)^2}}: \quad \text{deja pasar } \omega \ll \tfrac{1}{RC},\ \text{atenúa } \omega \gg \tfrac{1}{RC}</span> Un <strong>pasa-bajos</strong>: con dos componentes ya estás <em>diseñando</em> qué frecuencias viven y cuáles mueren. (Y nota el gesto: la EDO se volvió álgebra. Ese gesto es media unidad 4.)</p>
-<div id="2287f877" class="cell" data-execution_count="5">
+<div id="95f28149" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1078,7 +1078,7 @@ x(t)\cos(\omega_0 t) \;\longleftrightarrow\; \tfrac12\big[X(\omega-\omega_0) + X
 <section id="sec-teaser-muestreo" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="sec-teaser-muestreo"><span class="header-section-number">3.7</span> Cierre: ¿y si multiplicamos por un tren de impulsos?</h2>
 <p>Una última jugada, para dejar el final abierto. En el capítulo 1 definimos el tren de impulsos <span class="math inline">\delta_T(t)</span> (<a href="cap01.html#sec-tren-impulsos" class="quarto-xref"><span>Sección 1.5.5</span></a>) y pedimos guardar una frase: <em>“muestrear una señal es multiplicarla por un tren de impulsos”</em>. Recién ahora tenemos las herramientas para preguntar qué le hace eso al <strong>espectro</strong>: <span class="math display">x_s(t) = x(t)\cdot\delta_T(t) = \sum_n x(nT)\,\delta(t-nT)</span> — de la señal solo sobreviven sus <em>muestras</em> cada <span class="math inline">T</span> segundos. Multiplicar en el tiempo ⇒ convolucionar los espectros (la propiedad espejo). Y la TF de un tren de impulsos es… ¡otro tren de impulsos!, espaciado <span class="math inline">\omega_s = 2\pi/T</span> (la demostración queda debiéndose para el capítulo 5). Convolucionar con un tren de impulsos <strong>copia y pega</strong>: <span class="math display">X_s(\omega) = \frac{1}{T}\sum_{k=-\infty}^{\infty} X(\omega - k\omega_s)</span></p>
-<div id="948c732a" class="cell" data-execution_count="6">
+<div id="71689f68" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

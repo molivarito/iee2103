@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La costa y el terreno — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --dec:#2f7d3c; --cre:#c0560f; --costa:#2d70b3; --re:#c74440; --acc:#6042a6; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:10px 14px;gap:8px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0;max-width:100%}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:7px 11px;cursor:pointer;white-space:nowrap}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600;min-width:112px}
+  button.primary:hover{background:#7355c0}
+  label.sl{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:13px}
+  input[type=range]{width:120px;max-width:24vw}
+
+  .lect{display:flex;gap:22px;flex-wrap:wrap;align-items:baseline;padding:0 2px}
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;letter-spacing:.02em}
+  .cel .v{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .v.dec{color:var(--dec)} .v.cre{color:var(--cre)} .v.cos{color:var(--costa)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;
+         min-width:0;min-height:0;flex:1 1 0}
+  figcaption{position:absolute;top:5px;left:9px;z-index:2;color:var(--dim);font-size:12px;line-height:1.35;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none;max-width:95%}
+  figcaption b{color:var(--ink)}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0;cursor:grab;touch-action:none}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">La costa y el terreno <span>IEE2103 · plano s</span></div>
+    <div class="ctrls">
+      <button id="btnPlay" class="primary">▶ barrer σ₀</button>
+      <label class="sl">σ₀ <input type="range" id="slS"></label>
+      <label class="sl">a <input type="range" id="slA"></label>
+      <button id="btnSenal">señal: oscila</button>
+      <button id="btnReset">↺</button>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">x(t) =</span><span class="v" id="rX" style="font-size:17px">—</span></div>
+    <div class="cel"><span class="k">corte en σ₀ =</span><span class="v" id="rS">—</span></div>
+    <div class="cel"><span class="k">decaimiento que queda, a + σ₀ =</span><span class="v" id="rA">—</span></div>
+    <div class="cel"><span class="k">cumbre de |X(σ₀ + jω)| =</span><span class="v" id="rH">—</span></div>
+  </div>
+
+  <div class="wrap">
+    <figure>
+      <figcaption><b>en el tiempo</b> — x(t)·e^(−σt) sobre (σ, t) ·
+        negro: la señal amortiguada con σ₀ · <span style="color:#2d70b3">azul: σ = 0</span></figcaption>
+      <canvas id="cL"></canvas>
+    </figure>
+    <figure>
+      <figcaption><b>en frecuencia</b> — |X(σ + jω)| sobre el plano s ·
+        negro: la transformada de Fourier de esa señal · <span style="color:#2d70b3">azul: Fourier (σ = 0)</span></figcaption>
+      <canvas id="cR"></canvas>
+    </figure>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const cL=$('cL'), cR=$('cR'), slS=$('slS'), slA=$('slA'), btnPlay=$('btnPlay'), btnSenal=$('btnSenal');
+
+// ── el montaje ───────────────────────────────────────────────────────
+// Dos superficies sobre el MISMO eje σ, cortadas por el mismo plano σ = σ₀:
+//   izquierda (tiempo):      x(t)·e^{−σt}    sobre (σ, t)   — la de «La costa y el continente» (C15)
+//   derecha (frecuencia):    |X(σ + jω)|     sobre (σ, ω)   — el terreno del plano s
+// El corte de la derecha es la transformada de Fourier del corte de la izquierda.
+//   señal «oscila»:  x(t) = e^{−at} sin(ω₀t) u(t),  X(s) = ω₀/((s+a)² + ω₀²),  polos en −a ± jω₀
+//   señal «decae»:   x(t) = e^{−at} u(t),           X(s) = 1/(s+a),            polo en −a     (la de la C15)
+// ROC en ambas: σ > −a. Fuera de la ROC la fórmula de X(s) sigue existiendo (gris), la integral no.
+// Comprobación: oscila, a = 0.5, σ₀ = 0, ω = 3 → 3/|0.25 + j3| = 0.9965;  decae, a = 0.5, σ₀ = 0.5, ω = 0 → 1.
+const W0=3;
+const SIG_MIN=-3, SIG_MAX=3, T_MAX=6, OM_MAX=6;
+const HL=3, HR=2.5;                    // techos: lo que sube más se CORTA
+const HX=3, HZ=3, HY=3.4;              // media caja 3D (σ, profundidad) y alto total
+const ST=2*HZ/T_MAX, SW=HZ/OM_MAX, SHL=HY/HL, SHR=HY/HR;
+const A_INI=0.5, S0_INI=2, YAW_INI=-0.62, PITCH_INI=0.46, EPS=0.02;
+let osc=true, a=A_INI, s0=S0_INI, yaw=YAW_INI, pitch=PITCH_INI;
+let playing=false, dir=-1, hold=0, drag=null;
+
+{ // parámetros de prueba: ?s0=0.3&a=0.5&senal=decae&yaw=-0.6&pitch=0.4
+  const p=new URLSearchParams(location.search);
+  const num=(k,lo,hi)=>{ if(!p.has(k)) return null; const v=parseFloat(p.get(k)); return (isFinite(v)&&v>=lo&&v<=hi)?v:null; };
+  let v;
+  if((p.get('senal')||'').startsWith('dec')) osc=false;
+  if((v=num('a',-1,1.5))!==null) a=v;
+  if((v=num('s0',SIG_MIN,SIG_MAX))!==null) s0=v;
+  if((v=num('yaw',-7,7))!==null) yaw=v;
+  if((v=num('pitch',0.08,1.45))!==null) pitch=v;
+}
+
+const converge = sig => a+sig > 1e-9;
+// con la señal que oscila se dibuja x(t)e^{−σt} CON SIGNO (piso al medio, recorte en ±HLO);
+// con la que solo decae es positiva y el piso va abajo, como en la C15
+const HLO=2;
+const xval = (sig,t) => { const v=Math.exp(-(a+sig)*t) * (osc ? Math.sin(W0*t) : 1);
+  return osc ? Math.max(-HLO,Math.min(HLO,v)) : Math.min(HL,v); };
+const yL = hh => osc ? hh*HY/(2*HLO) : hh*SHL-HY/2;
+const tFin = sig => { const k=a+sig; return (!osc && k < -1e-9) ? Math.min(T_MAX, Math.log(HL)/(-k)) : T_MAX; };
+function magX(sig,om){
+  const al=a+sig;
+  return osc ? W0/Math.hypot(al*al-om*om+W0*W0, 2*al*om) : 1/Math.hypot(al,om);
+}
+function fmt(x,d){ const s=Math.abs(x).toFixed(d); return (x<0 && +s!==0 ? '−' : '')+s; }
+
+// ── escena 3D común: X = σ, Y = altura, Z = profundidad ───────────────
+function rot(x,y,z){
+  const cy=Math.cos(yaw), sy=Math.sin(yaw);
+  const x1=x*cy+z*sy, z1=-x*sy+z*cy;
+  const cp=Math.cos(pitch), sp=Math.sin(pitch);
+  return {x:x1, y:y*cp-z1*sp, z:y*sp+z1*cp};
+}
+function escena(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=r.width, h=r.height;
+  const W=Math.max(1,Math.round(w*dpr)), H=Math.max(1,Math.round(h*dpr));
+  if(c.width!==W||c.height!==H){ c.width=W; c.height=H; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h);
+  let minX=1e9,maxX=-1e9,minY=1e9,maxY=-1e9;
+  for(const x of [-HX-0.5,HX+0.9]) for(const y of [-HY/2-0.1,HY/2+0.45]) for(const z of [-HZ-0.7,HZ+0.2]){
+    const p=rot(x,y,z);
+    minX=Math.min(minX,p.x); maxX=Math.max(maxX,p.x); minY=Math.min(minY,p.y); maxY=Math.max(maxY,p.y);
+  }
+  const padS=w*0.03, padT=Math.max(40,h*0.1), padB=Math.max(34,h*0.08);
+  const aw=Math.max(40,w-2*padS), ah=Math.max(40,h-padT-padB);
+  const u=Math.min(aw/(maxX-minX), ah/(maxY-minY));
+  const cx=padS+aw/2-u*(minX+maxX)/2, cy=padT+ah/2-u*(minY+maxY)/2;
+  const P3=(x,y,z)=>{ const p=rot(x,y,z); return {sx:cx+p.x*u, sy:cy-p.y*u, depth:p.z}; };
+  const prims=[];
+  const S={ctx,w,h,P3,
+    poly(pts,fill,stroke,lw){ ctx.beginPath(); pts.forEach((p,i)=> i?ctx.lineTo(p.sx,p.sy):ctx.moveTo(p.sx,p.sy)); ctx.closePath();
+      if(fill){ ctx.fillStyle=fill; ctx.fill(); } if(stroke){ ctx.strokeStyle=stroke; ctx.lineWidth=lw||1; ctx.stroke(); } },
+    line(p,q,style,lw,dash){ ctx.strokeStyle=style; ctx.lineWidth=lw; ctx.setLineDash(dash||[]);
+      ctx.beginPath(); ctx.moveTo(p.sx,p.sy); ctx.lineTo(q.sx,q.sy); ctx.stroke(); ctx.setLineDash([]); },
+    arrow(p1,p2){ ctx.beginPath(); ctx.moveTo(p1.sx,p1.sy); ctx.lineTo(p2.sx,p2.sy); ctx.stroke();
+      const ang=Math.atan2(p2.sy-p1.sy,p2.sx-p1.sx), s=7; ctx.beginPath(); ctx.moveTo(p2.sx,p2.sy);
+      ctx.lineTo(p2.sx-s*Math.cos(ang-0.4),p2.sy-s*Math.sin(ang-0.4)); ctx.lineTo(p2.sx-s*Math.cos(ang+0.4),p2.sy-s*Math.sin(ang+0.4));
+      ctx.closePath(); ctx.fill(); },
+    rotulo(txt,x,y,color){ ctx.lineJoin='round'; ctx.strokeStyle='rgba(255,255,255,0.92)'; ctx.lineWidth=4; ctx.strokeText(txt,x,y);
+      ctx.fillStyle=color; ctx.fillText(txt,x,y); },
+    quad(q,fill,stroke,lw,bias){ prims.push({d:(q[0].depth+q[1].depth+q[2].depth+q[3].depth)/4+(bias||0),q,fill,stroke,lw}); },
+    seg(p,q,stroke,lw,bias){ prims.push({d:(p.depth+q.depth)/2+(bias||0),p,p2:q,stroke,lw}); },
+    pintar(){ prims.sort((p,q)=>p.d-q.d); ctx.lineJoin='round';
+      for(const pr of prims){ if(pr.q) S.poly(pr.q,pr.fill,pr.stroke,pr.lw);
+        else { ctx.lineCap='round'; S.line(pr.p,pr.p2,pr.stroke,pr.lw); ctx.lineCap='butt'; } } }
+  };
+  return S;
+}
+// malla sombreada: pts[i][j] = {x,y,z (3D), p (pantalla)}; color según la columna i
+function malla(S, pts, colorDe){
+  const LX=0.35, LY=0.85, LZ=0.40;
+  for(let i=0;i<pts.length-1;i++){
+    const {base,borde,alfa}=colorDe(i);
+    for(let j=0;j<pts[i].length-1;j++){
+      const A=pts[i][j], B=pts[i+1][j], C=pts[i+1][j+1], D=pts[i][j+1];
+      const ux=C.x-A.x, uy=C.y-A.y, uz=C.z-A.z, vx=D.x-B.x, vy=D.y-B.y, vz=D.z-B.z;
+      const nx=uy*vz-uz*vy, ny=uz*vx-ux*vz, nz=ux*vy-uy*vx, nl=Math.hypot(nx,ny,nz)||1;
+      const I=0.55+0.45*Math.abs((nx*LX+ny*LY+nz*LZ)/nl);
+      const c=base.map(v=>Math.round(255-(255-v)*I));
+      S.quad([A.p,B.p,C.p,D.p], `rgba(${c[0]},${c[1]},${c[2]},${alfa})`, borde, 0.5);
+    }
+  }
+}
+function columnasSigma(n){
+  const sg=[]; for(let i=0;i<=n;i++) sg.push(SIG_MIN+(SIG_MAX-SIG_MIN)*i/n);
+  if(-a>SIG_MIN+1e-6 && -a<SIG_MAX-1e-6 && !sg.some(v=>Math.abs(v+a)<1e-6)){ sg.push(-a); sg.sort((p,q)=>p-q); }
+  return sg;
+}
+const VERDE=[56,140,70], NARANJA=[226,128,40], GRISC=[150,160,175];
+
+// lo común a los dos pisos: rectángulo, ROC en verde, costa, corte, eje σ con el polo y σ₀
+function piso(S, F, zMax, rotCosta){
+  const sP=Math.max(SIG_MIN,Math.min(SIG_MAX,-a));
+  S.poly([F(SIG_MIN,0),F(SIG_MAX,0),F(SIG_MAX,1),F(SIG_MIN,1)],'#f6f8fb','rgba(150,162,180,0.75)',1);
+  S.poly([F(sP,0),F(SIG_MAX,0),F(SIG_MAX,1),F(sP,1)],'rgba(56,140,70,0.26)',null);
+  for(let s=SIG_MIN+1;s<SIG_MAX;s++) S.line(F(s,0),F(s,1),'rgba(150,162,180,0.35)',1);
+  S.line(F(0,0),F(0,1),'rgba(45,112,179,0.9)',1.6);
+  S.line(F(s0,0),F(s0,1),'rgba(22,32,46,0.75)',1.4);
+}
+function ejeSigma(S, F){
+  const ctx=S.ctx, sP=Math.max(SIG_MIN,Math.min(SIG_MAX,-a));
+  S.line(F(sP,0),F(SIG_MAX,0),'rgba(47,125,60,0.95)',5);
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.8; S.arrow(F(SIG_MIN,0),F(SIG_MAX+0.75,0));
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  for(let s=SIG_MIN;s<=SIG_MAX;s++){ const q=F(s,0);
+    ctx.strokeStyle='#65758b'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(q.sx,q.sy); ctx.lineTo(q.sx,q.sy+6); ctx.stroke();
+    if(s===0){ ctx.fillStyle='#2d70b3'; ctx.font='bold 12px system-ui'; } else { ctx.fillStyle='#65758b'; ctx.font='11px system-ui'; }
+    ctx.fillText(fmt(s,0),q.sx,q.sy+8); }
+  let q=F(SIG_MAX+0.95,0); ctx.fillStyle='#16202e'; ctx.font='bold 15px system-ui'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText('σ',q.sx+2,q.sy);
+  // el corte (▲)
+  const q0=F(s0,0); ctx.fillStyle='#16202e'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.font='bold 12px system-ui';
+  ctx.beginPath(); ctx.moveTo(q0.sx,q0.sy+2); ctx.lineTo(q0.sx-5,q0.sy+11); ctx.lineTo(q0.sx+5,q0.sy+11); ctx.closePath(); ctx.fill();
+  ctx.fillText('σ₀',q0.sx,q0.sy+22);
+}
+function cruz(ctx,q,col){ ctx.strokeStyle=col; ctx.lineWidth=2.8; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(q.sx-6,q.sy-6); ctx.lineTo(q.sx+6,q.sy+6); ctx.moveTo(q.sx+6,q.sy-6); ctx.lineTo(q.sx-6,q.sy+6); ctx.stroke(); ctx.lineCap='butt'; }
+
+// ── izquierda: |x(t) e^{−σt}| sobre (σ, t) ───────────────────────────
+function drawL(){
+  const S=escena(cL), ctx=S.ctx;
+  const P=(sig,t,hh)=>S.P3(sig, yL(hh), HZ-t*ST);
+  const lo = osc ? -HLO : 0, hi = osc ? HLO : HL;
+  const F=(sig,f)=>P(sig,f*T_MAX,0);
+  piso(S,F);
+  const NT = osc ? 84 : 28;
+  const sg=columnasSigma(30);
+  const pts=sg.map(sig=>{ const te=tFin(sig), col=[];
+    for(let j=0;j<=NT;j++){ const t=te*j/NT, hh=xval(sig,t);
+      col.push({x:sig,y:yL(hh),z:-t*ST,p:P(sig,t,hh)}); }
+    return col; });
+  malla(S,pts,i=>{ const en=(sg[i]+sg[i+1])/2+a>0;
+    return {base:en?VERDE:NARANJA, alfa:0.62, borde: osc ? null : (en?'rgba(40,105,52,0.45)':'rgba(170,90,20,0.45)')}; });
+  // muro del polo: σ = −a
+  if(-a>=SIG_MIN && -a<=SIG_MAX){
+    for(let j=0;j<12;j++){ const t0=T_MAX*j/12, t1=T_MAX*(j+1)/12;
+      S.quad([P(-a,t0,lo),P(-a,t1,lo),P(-a,t1,hi),P(-a,t0,hi)],'rgba(199,68,64,0.18)',null,0,0.01);
+      S.seg(P(-a,t0,hi),P(-a,t1,hi),'rgba(199,68,64,0.85)',1.5,0.02);
+      if(osc) S.seg(P(-a,t0,lo),P(-a,t1,lo),'rgba(199,68,64,0.85)',1.5,0.02); }
+    S.seg(P(-a,0,lo),P(-a,0,hi),'rgba(199,68,64,0.85)',1.5,0.02);
+    S.seg(P(-a,T_MAX,lo),P(-a,T_MAX,hi),'rgba(199,68,64,0.85)',1.5,0.02);
+  }
+  const curva=(sig,style,lw,cortina)=>{ const te=tFin(sig), n=osc?200:64; let prev=null;
+    if(!osc) S.seg(P(sig,0,0),P(sig,0,1),style,lw,0.08);
+    for(let j=0;j<=n;j++){ const t=te*j/n, p=P(sig,t,xval(sig,t)), f=P(sig,t,0);
+      if(prev){ if(cortina) S.quad([prev.f,f,p,prev.p],cortina,null,0,0.04); S.seg(prev.p,p,style,lw,0.08); }
+      prev={p,f}; } };
+  curva(0,'#2d70b3',2.6,null);
+  curva(s0,'#16202e',3,'rgba(22,32,46,0.22)');
+  S.pintar();
+  ejeSigma(S,F);
+  // eje t y eje de altura
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.8; S.arrow(P(SIG_MAX,0,0),P(SIG_MAX,T_MAX+0.7,0));
+  ctx.font='11px system-ui'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  for(const t of [2,4,6]){ const q=P(SIG_MAX,t,0); ctx.fillStyle='#65758b'; ctx.fillText(String(t),q.sx+9,q.sy+1); }
+  let q=P(SIG_MAX,T_MAX+0.85,0); ctx.fillStyle='#16202e'; ctx.font='bold 15px system-ui'; ctx.fillText('t',q.sx+5,q.sy);
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; S.arrow(P(SIG_MIN,0,lo),P(SIG_MIN,0,hi+0.3));
+  ctx.font='11px system-ui'; ctx.textAlign='right';
+  for(const hh of (osc?[-2,-1,1,2]:[1,2,3])){ q=P(SIG_MIN,0,hh); ctx.fillStyle='#65758b'; ctx.fillText(fmt(hh,0),q.sx-8,q.sy); }
+  ctx.font='bold 14px system-ui'; ctx.textAlign='center';
+  if(SIG_MAX+a>0.9){ q=P((Math.max(SIG_MIN,-a)+SIG_MAX)/2+0.2,4.6,0); S.rotulo('ROC: σ > −a',q.sx,q.sy,'#1d5a29'); }
+  if(-a-SIG_MIN>0.9){ q=P((SIG_MIN-a)/2,2.6,hi); S.rotulo('no converge',q.sx,q.sy-12,'#a8480a'); }
+  q=P(0,T_MAX,0); ctx.font='bold 12px system-ui'; ctx.textAlign='left'; ctx.textBaseline='bottom';
+  S.rotulo('costa σ = 0',q.sx+5,q.sy-4,'#2d70b3');
+  q=P(-a,0,0); cruz(ctx,q,'#c74440');
+  ctx.fillStyle='#c74440'; ctx.font='bold 12px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top';
+  ctx.fillText('muro', q.sx, q.sy+(Math.abs(q.sx-P(s0,0,0).sx)<34?36:22));
+}
+
+// ── derecha: |X(σ + jω)| sobre (σ, ω) ────────────────────────────────
+function drawR(){
+  const S=escena(cR), ctx=S.ctx;
+  const P=(sig,om,hh)=>S.P3(sig, hh*SHR-HY/2, -om*SW);
+  const F=(sig,f)=>P(sig,-OM_MAX+2*OM_MAX*f,0);
+  piso(S,F);
+  S.line(P(SIG_MIN,0,0),P(SIG_MAX,0,0),'rgba(150,162,180,0.6)',1);
+  const NW=56, sg=columnasSigma(40);
+  const pts=sg.map(sig=>{ const col=[];
+    for(let j=0;j<=NW;j++){ const om=-OM_MAX+2*OM_MAX*j/NW, hh=Math.min(HR,magX(sig,om));
+      col.push({x:sig,y:hh*SHR,z:-om*SW,p:P(sig,om,hh)}); }
+    return col; });
+  malla(S,pts,i=>{ const en=(sg[i]+sg[i+1])/2+a>0;
+    return {base:en?VERDE:GRISC, alfa:en?0.55:0.38, borde:en?'rgba(40,105,52,0.28)':'rgba(120,130,145,0.25)'}; });
+  // postes de los polos
+  const oms = osc ? [W0,-W0] : [0];
+  for(const o of oms) S.seg(P(-a,o,0),P(-a,o,HR),'rgba(96,66,166,0.9)',1.6,0.03);
+  const curva=(sig,style,lw,cortina)=>{ const n=260; let prev=null;
+    for(let j=0;j<=n;j++){ const om=-OM_MAX+2*OM_MAX*j/n, p=P(sig,om,Math.min(HR,magX(sig,om))), f=P(sig,om,0);
+      if(prev){ if(cortina) S.quad([prev.f,f,p,prev.p],cortina,null,0,0.04); S.seg(prev.p,p,style,lw,0.08); }
+      prev={p,f}; } };
+  if(converge(0)) curva(0,'#2d70b3',2.6,null);
+  if(converge(s0)) curva(s0,'#16202e',3,'rgba(22,32,46,0.22)');
+  S.pintar();
+  ejeSigma(S,F);
+  // eje ω (a lo largo de la costa, sobre el piso) y eje de altura
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.8; S.arrow(P(SIG_MAX,-OM_MAX,0),P(SIG_MAX,OM_MAX+0.9,0));
+  ctx.font='11px system-ui'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  for(const o of (osc?[-W0,0,W0]:[-3,0,3])){ const q=P(SIG_MAX,o,0); ctx.fillStyle='#65758b';
+    ctx.fillText(osc ? (o===0?'0':(o>0?'ω₀':'−ω₀')) : fmt(o,0), q.sx+9, q.sy+1); }
+  let q=P(SIG_MAX,OM_MAX+1.1,0); ctx.fillStyle='#16202e'; ctx.font='bold 15px system-ui'; ctx.fillText('ω',q.sx+5,q.sy);
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; S.arrow(P(SIG_MIN,-OM_MAX,0),P(SIG_MIN,-OM_MAX,HR+0.25));
+  ctx.font='11px system-ui'; ctx.textAlign='right';
+  for(const hh of [1,2]){ q=P(SIG_MIN,-OM_MAX,hh); ctx.fillStyle='#65758b'; ctx.fillText(String(hh),q.sx-8,q.sy); }
+  q=P(0,OM_MAX,0); ctx.font='bold 12px system-ui'; ctx.textAlign='left'; ctx.textBaseline='bottom';
+  S.rotulo('eje jω',q.sx+5,q.sy-4,'#2d70b3');
+  for(const o of oms){ q=P(-a,o,HR); cruz(ctx,q,'#6042a6'); }
+  q=P(-a,oms[0],HR); ctx.font='bold 12px system-ui'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+  S.rotulo(osc?'polos':'polo', q.sx, q.sy-10, '#6042a6');
+  ctx.font='bold 14px system-ui'; ctx.textBaseline='middle';
+  if(!converge(s0)){ q=P(s0,0,HR*0.55); S.rotulo(Math.abs(a+s0)<EPS ? 'sobre el polo: un delta' : 'aquí no hay integral', q.sx, q.sy, '#a8480a'); }
+}
+
+// ── lecturas ─────────────────────────────────────────────────────────
+function lecturas(){
+  const al=a+s0, ok=al>EPS, cls= ok ? (Math.abs(s0)<0.025?'cos':'dec') : 'cre';
+  const set=(id,t)=>{ const e=$(id); e.textContent=t; e.className='v '+cls; };
+  $('rX').textContent = osc ? `e^(−${fmt(a,2)}·t)·sin(${W0}t)·u(t)` : `e^(−${fmt(a,2)}·t)·u(t)`;
+  $('rX').textContent = $('rX').textContent.replace('−−','+');
+  set('rS',fmt(s0,2)); set('rA',fmt(al,2));
+  let cumbre='—';
+  if(ok){ const om = osc ? Math.sqrt(Math.max(0,W0*W0-al*al)) : 0; cumbre=fmt(magX(s0,om), 2); }
+  else if(al>=-EPS) cumbre='∞';
+  set('rH',cumbre);
+  let hint;
+  if(al<-EPS) hint='El corte quedó al otro lado del muro: la señal amortiguada crece y no tiene transformada. La superficie gris es la fórmula de X(s), no la integral.';
+  else if(!ok) hint='El corte está sobre el muro: lo que queda no se apaga, y en frecuencia la cumbre se va a infinito. Los dos dibujos muestran el mismo polo.';
+  else if(Math.abs(s0)<0.025) hint='σ₀ = 0: el corte negro calza con el azul. A la izquierda la señal sin amortiguar; a la derecha, su transformada de Fourier.';
+  else if(al<0.3) hint='Cerca del muro: en el tiempo casi no decae; en frecuencia la cumbre sube y se angosta.';
+  else hint='Un mismo σ₀ corta las dos superficies: la curva negra de la derecha es la transformada de Fourier de la curva negra de la izquierda.';
+  $('hint').textContent=hint;
+  btnSenal.textContent = osc ? 'señal: oscila' : 'señal: solo decae';
+  btnPlay.textContent = playing ? '❚❚ pausar' : '▶ barrer σ₀';
+  slS.value=s0; slA.value=a;
+}
+function draw(){ drawL(); drawR(); lecturas(); }
+
+// ── animación: σ₀ baja hasta el muro, espera y vuelve ─────────────────
+let last=0;
+function tick(ts){
+  if(!playing) return;
+  const dt=Math.min(0.05,(ts-last)/1000); last=ts;
+  if(hold>0) hold-=dt;
+  else{
+    const al=a+s0, v=0.10+0.6*Math.min(1,Math.max(0,al));
+    s0+=dir*v*dt;
+    if(dir<0 && s0<=-a){ s0=-a; dir=1; hold=2.2; }
+    if(dir>0 && s0>=SIG_MAX-0.5){ s0=SIG_MAX-0.5; dir=-1; hold=0.8; }
+  }
+  draw(); requestAnimationFrame(tick);
+}
+function toggle(){ playing=!playing; if(playing){ last=performance.now(); requestAnimationFrame(tick); } lecturas(); }
+function setS0(v){ s0=Math.max(SIG_MIN,Math.min(SIG_MAX,v)); if(Math.abs(s0)<0.03) s0=0; if(Math.abs(a+s0)<0.03) s0=-a; draw(); }
+function reset(){ playing=false; osc=true; a=A_INI; s0=S0_INI; yaw=YAW_INI; pitch=PITCH_INI; dir=-1; hold=0; draw(); }
+
+slS.min=SIG_MIN; slS.max=SIG_MAX; slS.step=0.01; slA.min=-1; slA.max=1.5; slA.step=0.05;
+slS.addEventListener('input',()=>{ playing=false; setS0(parseFloat(slS.value)); });
+slA.addEventListener('input',()=>{ a=parseFloat(slA.value); draw(); });
+btnPlay.addEventListener('click',toggle);
+btnSenal.addEventListener('click',()=>{ osc=!osc; draw(); });
+$('btnReset').addEventListener('click',reset);
+for(const c of [cL,cR]){                      // arrastrar cualquiera de las dos gira ambas
+  c.addEventListener('pointerdown',e=>{ drag={x:e.clientX,y:e.clientY}; c.setPointerCapture(e.pointerId); c.style.cursor='grabbing'; });
+  c.addEventListener('pointermove',e=>{ if(!drag) return;
+    yaw+=(e.clientX-drag.x)*0.008; pitch=Math.max(0.08,Math.min(1.45,pitch+(e.clientY-drag.y)*0.006));
+    drag={x:e.clientX,y:e.clientY}; if(!playing) draw(); });
+  const fin=()=>{ drag=null; c.style.cursor='grab'; };
+  c.addEventListener('pointerup',fin); c.addEventListener('pointercancel',fin);
+}
+addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT') return;
+  if(e.key===' '){ e.preventDefault(); toggle(); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); playing=false; setS0(s0-0.05); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); playing=false; setS0(s0+0.05); }
+  else if(e.key==='m'||e.key==='M'){ osc=!osc; draw(); }
+  else if(e.key==='r'||e.key==='R'){ reset(); }
+});
+addEventListener('resize',draw);
+draw();                                 // primer cuadro sin rAF (Chrome sin ventana no vuelve a dispararlo)
+</script>
+</body>
+</html>

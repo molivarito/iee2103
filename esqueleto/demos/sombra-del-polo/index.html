@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La sombra del polo — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --dec:#2f7d3c; --cre:#c0560f; --costa:#2d70b3; --re:#c74440; --im:#2d70b3; --acc:#6042a6; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:10px 14px;gap:8px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0;max-width:100%}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:7px 11px;cursor:pointer;white-space:nowrap}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600;min-width:104px}
+  button.primary:hover{background:#7355c0}
+
+  .lect{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:baseline;padding:0 2px}
+  .cel{display:flex;align-items:baseline;gap:5px}
+  .cel .k{color:var(--dim);font-size:11px;letter-spacing:.02em}
+  .cel .v{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1;white-space:nowrap}
+  .v.dec{color:var(--dec)} .v.cre{color:var(--cre)} .v.cos{color:var(--costa)} .v.acc{color:var(--acc)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-width:0;min-height:0}
+  #figS{flex:30 1 0}
+  #figH{flex:23 1 0}
+  #figT{flex:47 1 0}
+  figcaption{position:absolute;top:5px;left:9px;z-index:2;color:var(--dim);font-size:12px;line-height:1.35;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none;max-width:95%}
+  figcaption b{color:var(--ink)}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0;touch-action:none}
+  #cS{cursor:crosshair} #cH{cursor:ns-resize}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">La sombra del polo <span>IEE2103 · plano s</span></div>
+    <div class="ctrls">
+      <button id="btnSweep" class="primary">▶ barrer ω</button>
+      <button id="btnCosta">polo a la costa</button>
+      <button id="btnReset">↺</button>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">polos p =</span><span class="v acc" id="rP">—</span></div>
+    <div class="cel"><span class="k" id="kTau">el modo cae a 37 % cada 1/|σ| =</span><span class="v" id="rTau">—</span></div>
+    <div class="cel"><span class="k">oscila con período 2π/ω₀ =</span><span class="v" id="rPer">—</span></div>
+    <div class="cel"><span class="k">|H(jω)| en la sonda = 1/(d₁·d₂) =</span><span class="v cos" id="rH">—</span></div>
+    <div class="cel"><span class="k">ancho del cerro ≈ |σ| =</span><span class="v" id="rAn">—</span></div>
+  </div>
+
+  <div class="wrap">
+    <figure id="figS">
+      <figcaption><b>plano s</b> — arrastra los polos × o la sonda ●</figcaption>
+      <canvas id="cS"></canvas>
+    </figure>
+    <figure id="figH">
+      <figcaption><b>|H(jω)| = 1/(d₁·d₂)</b> — lo que ve Fourier</figcaption>
+      <canvas id="cH"></canvas>
+    </figure>
+    <figure id="figT">
+      <figcaption><b>h(t): el modo</b> — σ fija la envolvente, ω₀ el giro</figcaption>
+      <canvas id="cT"></canvas>
+    </figure>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const cS=$('cS'), cH=$('cH'), cT=$('cT');
+const btnSweep=$('btnSweep');
+
+// ── el montaje ───────────────────────────────────────────────────────
+// H(s) = 1/((s−p)(s−p̄)), p = σ + jω₀.  En s = jω: |H| = 1/(d₁·d₂),
+//   d₁ = |jω − p| = √(σ² + (ω−ω₀)²),  d₂ = |jω − p̄| = √(σ² + (ω+ω₀)²).
+// h(t) = e^{σt}·sin(ω₀t)/ω₀  (t ≥ 0);  ω₀ → 0: t·e^{σt} (polo doble).
+// Comprobación: σ = −0.5, ω₀ = 4, ω = 4 → d₁ = 0.5, d₂ = 8.0156, |H| = 0.2495.
+const SIG_MIN=-2, SIG_MAX=0.8, SIG_AX1=1, OM_MAX=7;
+const SIG_INI=-0.5, OM_INI=4, W_INI=2;
+const EPS=0.02;                       // |σ| < EPS: «sobre la costa»
+const TMAX=10;
+let sig=SIG_INI, om=OM_INI, w=W_INI;
+let sweeping=false, dirW=1, costa=null;   // costa = {from, t}
+
+// parámetros de prueba: ?sig=-0.5&om=4&w=4
+{
+  const p = new URLSearchParams(location.search);
+  const num = (k,lo,hi) => { if(!p.has(k)) return null; const v=parseFloat(p.get(k)); return (isFinite(v)&&v>=lo&&v<=hi)?v:null; };
+  let v;
+  if((v=num('sig',SIG_MIN,SIG_MAX))!==null) sig=v;
+  if((v=num('om',0,OM_MAX))!==null) om=v;
+  if((v=num('w',-OM_MAX,OM_MAX))!==null) w=v;
+}
+
+// ── matemática ──────────────────────────────────────────────────────
+function Hmag(wv,s,o){
+  const d1=Math.hypot(s,wv-o), d2=Math.hypot(s,wv+o);
+  const v=1/(d1*d2);
+  return isFinite(v)?Math.min(v,1e9):1e9;
+}
+function hval(t,s,o){
+  const e=Math.exp(s*t);
+  return o<1e-6 ? t*e : e*Math.sin(o*t)/o;
+}
+function henv(t,s,o){                 // cota de |h|: e^{σt}·min(t, 1/ω₀)
+  return Math.exp(s*t)*(o<1e-6 ? t : Math.min(t,1/o));
+}
+
+// ── canvas helpers ──────────────────────────────────────────────────
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const ww=Math.max(1,Math.round(r.width*dpr)), hh=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==ww||c.height!==hh){ c.width=ww; c.height=hh; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx, w:r.width, h:r.height};
+}
+function fmt(x,d){ const s=Math.abs(x).toFixed(d); return (x<0 && +s!==0 ? '−' : '')+s; }
+function arrowHead(ctx,x,y,ang,s){
+  ctx.beginPath(); ctx.moveTo(x,y);
+  ctx.lineTo(x-s*Math.cos(ang-0.4), y-s*Math.sin(ang-0.4));
+  ctx.lineTo(x-s*Math.cos(ang+0.4), y-s*Math.sin(ang+0.4));
+  ctx.closePath(); ctx.fill();
+}
+function label(ctx,txt,x,y,color,font,align,base,bg){
+  ctx.font=font; ctx.textAlign=align; ctx.textBaseline=base;
+  if(bg){
+    const tw=ctx.measureText(txt).width, hh=parseInt(font.match(/(\d+)px/)[1],10)+2;
+    let x0=align==='center'?x-tw/2:(align==='right'?x-tw:x);
+    let y0=base==='middle'?y-hh/2:(base==='bottom'?y-hh:y);
+    ctx.fillStyle='rgba(255,255,255,0.85)'; ctx.fillRect(x0-2,y0,tw+4,hh);
+  }
+  ctx.fillStyle=color; ctx.fillText(txt,x,y);
+}
+
+// ── geometría compartida: el MISMO eje vertical ω en el plano s y en el perfil ──
+const PV={t:48,b:26};                 // márgenes verticales idénticos en ambos paneles
+const SY = (o,h) => h-PV.b - (o+OM_MAX)/(2*OM_MAX)*(h-PV.t-PV.b);
+const SYinv = (y,h) => (h-PV.b-y)/(h-PV.t-PV.b)*(2*OM_MAX)-OM_MAX;
+
+const PS={l:32,r:12,s0:-2.0,s1:SIG_AX1};
+let dimS={w:1,h:1}, dimH={w:1,h:1};
+const SXs = s => PS.l + (s-PS.s0)/(PS.s1-PS.s0)*(dimS.w-PS.l-PS.r);
+const SXinv = x => PS.s0 + (x-PS.l)/(dimS.w-PS.l-PS.r)*(PS.s1-PS.s0);
+
+function caso(){ return sig<-EPS ? 'dec' : (sig>EPS ? 'cre' : 'cos'); }
+const COL={dec:'#2f7d3c', cre:'#c0560f', cos:'#2d70b3'};
+
+// ── panel 1: el plano s ─────────────────────────────────────────────
+function drawS(){
+  const {ctx,w:W,h:H}=fit(cS); dimS={w:W,h:H};
+  const xL=SXs(PS.s0), xR=SXs(PS.s1), x0=SXs(0), yT=SY(OM_MAX,H), yB=SY(-OM_MAX,H), y0=SY(0,H);
+  ctx.fillStyle='rgba(226,128,40,0.10)'; ctx.fillRect(x0,yT,xR-x0,yB-yT);
+  ctx.strokeStyle='rgba(150,162,180,0.35)'; ctx.lineWidth=1;
+  for(const s of [-1.5,-1,-0.5,0.5]){ ctx.beginPath(); ctx.moveTo(SXs(s),yT); ctx.lineTo(SXs(s),yB); ctx.stroke(); }
+  for(let o=-6;o<=6;o+=2){ if(!o) continue; ctx.beginPath(); ctx.moveTo(xL,SY(o,H)); ctx.lineTo(xR,SY(o,H)); ctx.stroke(); }
+  // eje σ
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.3;
+  ctx.beginPath(); ctx.moveTo(xL,y0); ctx.lineTo(xR,y0); ctx.stroke();
+  arrowHead(ctx,xR+3,y0,0,6);
+  ctx.font='11px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillStyle='#65758b';
+  for(const s of [-1.5,-1,-0.5,0.5]) ctx.fillText(fmt(s,1), SXs(s), y0+4);
+  ctx.fillStyle='#16202e'; ctx.font='bold 13px system-ui'; ctx.textAlign='right'; ctx.textBaseline='bottom';
+  ctx.fillText('σ', xR+1, y0-4);
+  // ticks de ω
+  ctx.font='11px system-ui'; ctx.textAlign='right'; ctx.textBaseline='middle'; ctx.fillStyle='#65758b';
+  for(let o=-6;o<=6;o+=2){ if(!o) continue; ctx.fillText(fmt(o,0), xL-4, SY(o,H)); }
+  ctx.fillText('ω',xL-4,yT-8);
+  // la costa: el eje jω, grueso
+  ctx.strokeStyle='#2d70b3'; ctx.lineWidth=4;
+  ctx.beginPath(); ctx.moveTo(x0,yB); ctx.lineTo(x0,yT); ctx.stroke();
+  label(ctx,'eje jω (Fourier)',x0,yB+5,'#2d70b3','bold 12px system-ui','center','top');
+  // regiones
+  label(ctx,'se apaga',(xL+x0)/2,yT+4,'#22632e','bold 11px system-ui','center','top');
+  label(ctx,'crece',(x0+xR)/2,yT+4,'#a8480a','bold 11px system-ui','center','top');
+
+  const px=SXs(sig), p1y=SY(om,H), p2y=SY(-om,H), wy=SY(w,H);
+  // la altura de los polos se prolonga hacia el perfil (la sombra)
+  ctx.strokeStyle='rgba(96,66,166,0.35)'; ctx.lineWidth=1; ctx.setLineDash([4,4]);
+  for(const yy of (om>1e-9?[p1y,p2y]:[p1y])){ ctx.beginPath(); ctx.moveTo(px,yy); ctx.lineTo(W,yy); ctx.stroke(); }
+  ctx.setLineDash([]);
+  // segmentos sonda → polos
+  const segs=[[p1y,'d₁',Math.hypot(sig,w-om),-1],[p2y,'d₂',Math.hypot(sig,w+om),1]];
+  for(const [py,nm,dv,sgn] of segs){
+    ctx.strokeStyle='#6042a6'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(x0,wy); ctx.lineTo(px,py); ctx.stroke();
+  }
+  for(const [py,nm0,dv,sgn] of segs){
+    if(om<1e-9 && sgn>0) continue;              // polo doble: d₁ = d₂, una sola etiqueta
+    const nm = om<1e-9 ? 'd₁ = d₂' : nm0;
+    const my=(wy+py)/2;
+    // la etiqueta va a la derecha de la costa, a la altura del punto medio del segmento
+    label(ctx, nm+' = '+fmt(dv,2), x0+9, my, '#4a2f8a','bold 11px system-ui','left','middle',true);
+  }
+  // polos ×
+  const cross=(x,y)=>{
+    ctx.strokeStyle='#6042a6'; ctx.lineWidth=3.2; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(x-7,y-7); ctx.lineTo(x+7,y+7); ctx.moveTo(x-7,y+7); ctx.lineTo(x+7,y-7); ctx.stroke();
+    ctx.lineCap='butt';
+  };
+  cross(px,p1y); if(om>1e-9) cross(px,p2y);
+  label(ctx,'p',px-10,p1y-9,'#6042a6','bold 13px system-ui','right','middle');
+  if(om>1e-9) label(ctx,'p̄',px-10,p2y+9,'#6042a6','bold 13px system-ui','right','middle');
+  // sonda
+  ctx.fillStyle='#2d70b3'; ctx.beginPath(); ctx.arc(x0,wy,8,0,7); ctx.fill();
+  ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+}
+
+// ── panel 2: el perfil |H(jω)| ──────────────────────────────────────
+function drawH(){
+  const {ctx,w:W,h:H}=fit(cH); dimH={w:W,h:H};
+  const yT=SY(OM_MAX,H), yB=SY(-OM_MAX,H), y0=SY(0,H);
+  const xA=10, xMax=W-12, span=(xMax-xA)*0.62;      // |H| ocupa el 62 % del ancho: queda sitio para rótulos
+  const c=caso();
+  // rejilla ω (las mismas alturas que el plano s)
+  ctx.strokeStyle='rgba(150,162,180,0.30)'; ctx.lineWidth=1;
+  for(let o=-6;o<=6;o+=2){ if(!o) continue; ctx.beginPath(); ctx.moveTo(xA,SY(o,H)); ctx.lineTo(xMax,SY(o,H)); ctx.stroke(); }
+  ctx.strokeStyle='rgba(150,162,180,0.55)'; ctx.beginPath(); ctx.moveTo(xA,y0); ctx.lineTo(xMax,y0); ctx.stroke();
+  // alturas de los polos
+  ctx.strokeStyle='rgba(96,66,166,0.35)'; ctx.setLineDash([4,4]);
+  for(const o of (om>1e-9?[om,-om]:[0])){ ctx.beginPath(); ctx.moveTo(xA,SY(o,H)); ctx.lineTo(xMax,SY(o,H)); ctx.stroke(); }
+  ctx.setLineDash([]);
+
+  // muestreo y escala
+  const N=320, vals=[]; let vmax=0, wpk=0;
+  for(let i=0;i<=N;i++){
+    const wv=-OM_MAX+2*OM_MAX*i/N, v=Hmag(wv,sig,om);
+    vals.push([wv,v]);
+    if(v>vmax){ vmax=v; wpk=wv; }
+  }
+  for(const wv of [om,-om]){ const v=Hmag(wv,sig,om); if(v>vmax){ vmax=v; wpk=wv; } }
+  let vsc=vmax;
+  if(c==='cos'){                      // polo sobre la costa: escala fija (el máximo es infinito)
+    let m=0; for(const [wv,v] of vals){ const vv=Hmag(wv,-0.1,om); if(vv>m) m=vv; }
+    vsc=m;
+  }
+  const X = v => xA + Math.min(v/vsc,1.6)*span;
+  const gray = c==='cre', delta = c==='cos';
+
+  ctx.save();
+  ctx.beginPath(); ctx.rect(xA-2,yT-6,W-xA+2,yB-yT+12); ctx.clip();
+  // área + curva
+  ctx.beginPath(); ctx.moveTo(xA,SY(-OM_MAX,H));
+  for(const [wv,v] of vals) ctx.lineTo(X(v),SY(wv,H));
+  ctx.lineTo(xA,SY(OM_MAX,H)); ctx.closePath();
+  ctx.fillStyle = gray ? 'rgba(150,162,180,0.12)' : (delta ? 'rgba(150,162,180,0.16)' : 'rgba(45,112,179,0.17)');
+  ctx.fill();
+  ctx.beginPath();
+  vals.forEach(([wv,v],i)=>{ const x=X(v), y=SY(wv,H); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+  ctx.strokeStyle = gray||delta ? 'rgba(130,142,160,0.75)' : '#2d70b3'; ctx.lineWidth=2.4; ctx.stroke();
+  ctx.restore();
+
+  // eje vertical (ω), azul como la costa
+  ctx.strokeStyle='#2d70b3'; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(xA,yB); ctx.lineTo(xA,yT); ctx.stroke();
+
+  if(delta){
+    // dos deltas en ±ω₀
+    ctx.strokeStyle=ctx.fillStyle='#2d70b3'; ctx.lineWidth=3;
+    const xd=xA+span*1.08;
+    for(const o of (om>1e-9?[om,-om]:[0])){
+      const y=SY(o,H);
+      ctx.beginPath(); ctx.moveTo(xA,y); ctx.lineTo(xd-6,y); ctx.stroke();
+      arrowHead(ctx,xd,y,0,10);
+      label(ctx,'δ',xd+4,y-9,'#2d70b3','bold 13px system-ui','left','middle');
+    }
+    const msg=['polo sobre la costa:','oscilación eterna,','Fourier ve un delta'];
+    msg.forEach((m,i)=>label(ctx,m,xA+span*0.55+ (W-xA-span*0.55-12)/2, yB-52+i*14,'#2d70b3','bold 11px system-ui','center','middle',true));
+  } else if(gray){
+    const cx=xA+(xMax-xA)/2+6, cy=y0-4;
+    label(ctx,'Fourier',cx,cy-12,'#a8480a','bold 22px system-ui','center','middle',true);
+    label(ctx,'no existe',cx,cy+14,'#a8480a','bold 22px system-ui','center','middle',true);
+    label(ctx,'(el modo crece)',cx,cy+36,'#65758b','11px system-ui','center','middle',true);
+  } else {
+    // máximo rotulado
+    const yp=SY(Math.abs(wpk),H), xp=X(vmax);
+    ctx.fillStyle='#2d70b3'; ctx.beginPath(); ctx.arc(xp,yp,3,0,7); ctx.fill();
+    label(ctx,'máx = '+fmt(vmax,vmax<10?2:1),xp+6,yp-1,'#16202e','bold 11px system-ui','left','middle',true);
+  }
+
+  // sonda: línea horizontal y punto sobre la curva
+  const wy=SY(w,H), hv=Hmag(w,sig,om);
+  ctx.strokeStyle='rgba(45,112,179,0.65)'; ctx.lineWidth=1.3; ctx.setLineDash([5,4]);
+  ctx.beginPath(); ctx.moveTo(xA,wy); ctx.lineTo(xMax,wy); ctx.stroke(); ctx.setLineDash([]);
+  const xs=delta?xA:X(hv);
+  ctx.fillStyle = gray||delta ? '#8c98aa' : '#2d70b3';
+  ctx.beginPath(); ctx.arc(xs,wy,6,0,7); ctx.fill();
+  ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+  label(ctx,'ω',xMax,yT-8,'#65758b','11px system-ui','right','middle');
+}
+
+// ── panel 3: el modo en el tiempo ───────────────────────────────────
+function drawT(){
+  const {ctx,w:W,h:H}=fit(cT);
+  const xA=14, xB=W-16, yTop=PV.t-6, yBot=H-PV.b, yMid=(yTop+yBot)/2;
+  const c=caso();
+  // escala vertical: valor inicial de la envolvente; lo que crece más allá de 4× se recorta
+  const tw = c==='dec' ? TMAX : Math.min(TMAX, 2*Math.PI/Math.max(om,0.6), c==='cre'?2/sig:TMAX);
+  let ref=0, mAll=0;
+  for(let i=0;i<=400;i++){
+    const t=TMAX*i/400, a=Math.abs(hval(t,sig,om));
+    if(t<=tw && a>ref) ref=a;
+    if(a>mAll) mAll=a;
+  }
+  ref=Math.max(ref,1e-6);
+  const clipped = mAll>4*ref;
+  const ymax = 1.15*Math.min(4*ref, mAll);
+  const X = t => xA + t/TMAX*(xB-xA);
+  const Y = v => yMid - v/ymax*(yBot-yTop)/2;
+
+  ctx.strokeStyle='rgba(150,162,180,0.3)'; ctx.lineWidth=1;
+  for(let t=2;t<TMAX;t+=2){ ctx.beginPath(); ctx.moveTo(X(t),yTop); ctx.lineTo(X(t),yBot); ctx.stroke(); }
+  ctx.strokeStyle='#16202e'; ctx.lineWidth=1.3;
+  ctx.beginPath(); ctx.moveTo(xA,yMid); ctx.lineTo(xB+4,yMid); ctx.stroke();
+  ctx.fillStyle='#16202e'; arrowHead(ctx,xB+6,yMid,0,6);
+  ctx.font='11px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillStyle='#65758b';
+  for(let t=0;t<=TMAX;t+=2) ctx.fillText(String(t),X(t),yBot+4);
+  label(ctx,'t',xB+2,yMid-10,'#16202e','bold 13px system-ui','right','bottom');
+
+  ctx.save();
+  ctx.beginPath(); ctx.rect(xA-2,yTop,xB-xA+6,yBot-yTop); ctx.clip();
+  // envolvente ±
+  ctx.strokeStyle='rgba(110,122,140,0.85)'; ctx.lineWidth=1.3; ctx.setLineDash([5,4]);
+  for(const sg of [1,-1]){
+    ctx.beginPath();
+    for(let i=0;i<=300;i++){ const t=TMAX*i/300, x=X(t), y=Y(sg*henv(t,sig,om)); i?ctx.lineTo(x,y):ctx.moveTo(x,y); }
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  // h(t)
+  ctx.strokeStyle=COL[c]; ctx.lineWidth=2.4; ctx.lineJoin='round';
+  ctx.beginPath();
+  const N=Math.max(500,Math.round(om*TMAX*14));
+  for(let i=0;i<=N;i++){ const t=TMAX*i/N, x=X(t), y=Y(hval(t,sig,om)); i?ctx.lineTo(x,y):ctx.moveTo(x,y); }
+  ctx.stroke();
+  ctx.restore();
+
+  if(clipped) label(ctx,'crece: se recorta en el borde',xB-2,yTop+8,'#a8480a','bold 11px system-ui','right','middle',true);
+  else if(c==='cos') label(ctx,'no se apaga nunca',xB-2,yTop+8,'#2d70b3','bold 11px system-ui','right','middle',true);
+  else if(om<EPS) label(ctx,'ω₀ = 0: no oscila (polo doble, t·e^(σt))',xB-2,yTop+8,'#65758b','11px system-ui','right','middle',true);
+  label(ctx,'±e^(σt)/ω₀',xB-2,yBot-8,'#65758b','11px system-ui','right','middle',true);
+}
+
+// ── lecturas y pie ──────────────────────────────────────────────────
+function hintText(){
+  const c=caso();
+  if(c==='cos') return 'Polo sobre la costa: oscilación eterna, Fourier ve un delta. Aléjalo a la izquierda y el delta se abre en un cerro de ancho ≈ |σ|.';
+  if(c==='cre') return 'Polo a la derecha de la costa: el modo crece, la integral de Fourier no converge. La fórmula 1/(d₁·d₂) sigue existiendo, pero ya no es la transformada de h.';
+  if(om<EPS) return 'Polo doble sobre el eje real: no hay oscilación (h = t·e^(σt)) y el cerro se junta en ω = 0. Sube ω₀ para separarlo en dos.';
+  return 'Acerca el polo a la costa: el cerro sube como 1/|σ| y se angosta como |σ|. La altura del polo en el plano s es la posición del cerro.';
+}
+function lectura(){
+  const c=caso();
+  $('rP').textContent = fmt(sig,2)+' ± j'+om.toFixed(2);
+  const kt=$('kTau'), vt=$('rTau');
+  if(c==='dec'){ kt.textContent='el modo cae a 37 % cada 1/|σ| ='; vt.textContent=fmt(1/Math.abs(sig),2); vt.className='v dec'; }
+  else if(c==='cre'){ kt.textContent='el modo se multiplica por e cada 1/σ ='; vt.textContent=fmt(1/sig,2); vt.className='v cre'; }
+  else { kt.textContent='el modo cae a 37 % cada 1/|σ| ='; vt.textContent='nunca'; vt.className='v cos'; }
+  $('rPer').textContent = om>=EPS ? fmt(2*Math.PI/om,2) : 'no oscila';
+  const hv=Hmag(w,sig,om);
+  $('rH').textContent = hv>=1e8 ? '∞' : fmt(hv,4);
+  const an=$('rAn');
+  if(c==='dec'){ an.textContent=fmt(Math.abs(sig),2); an.className='v dec'; }
+  else if(c==='cos'){ an.textContent='→ 0'; an.className='v cos'; }
+  else { an.textContent='—'; an.className='v cre'; }
+  $('hint').textContent = hintText();
+  btnSweep.textContent = sweeping ? '⏸ pausa' : '▶ barrer ω';
+}
+function pinta(){
+  drawS(); drawH(); drawT(); lectura();
+  // para pruebas: altura en pantalla (px) del polo en el plano s y en el perfil
+  const rs=cS.getBoundingClientRect(), rh=cH.getBoundingClientRect();
+  document.body.dataset.yS = (rs.top+SY(om,dimS.h)).toFixed(2);
+  document.body.dataset.yH = (rh.top+SY(om,dimH.h)).toFixed(2);
+}
+
+// ── animación ──────────────────────────────────────────────────────
+let raf=0, last=0;
+function tick(ts){
+  raf=0;
+  const dt=Math.max(0,Math.min(0.05,(ts-last)/1000)); last=ts;
+  let sigue=false;
+  if(sweeping){
+    w += dirW*dt*4.2;
+    if(w>=OM_MAX){ w=OM_MAX; dirW=-1; } else if(w<=-OM_MAX){ w=-OM_MAX; dirW=1; }
+    sigue=true;
+  }
+  if(costa){
+    costa.t+=dt/3;
+    const k=Math.min(1,costa.t), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    sig = costa.from + (-EPS-costa.from)*e;
+    if(k>=1){ sig=-EPS; costa=null; } else sigue=true;
+  }
+  pinta();
+  if(sigue) pide();
+}
+function pide(){ if(!raf){ last=performance.now(); raf=requestAnimationFrame(tick); } }
+function sweep(on){
+  sweeping=on;
+  if(on){ w=-OM_MAX; dirW=1; pide(); }
+  pinta();
+}
+function aLaCosta(){ costa={from:sig,t:0}; pide(); }
+function resetAll(){
+  sig=SIG_INI; om=OM_INI; w=W_INI; sweeping=false; costa=null; pinta();
+}
+function setPolo(s,o){
+  costa=null;
+  sig=Math.max(SIG_MIN,Math.min(SIG_MAX,Math.round(s*20)/20));
+  om =Math.max(0,Math.min(OM_MAX,Math.round(o*20)/20));
+  pinta();
+}
+function setW(v){ w=Math.max(-OM_MAX,Math.min(OM_MAX,v)); pinta(); }
+
+// ── controles ──────────────────────────────────────────────────────
+const boton=(id,fn)=>{ $(id).onclick=e=>{ fn(); e.currentTarget.blur(); }; };
+boton('btnSweep', ()=>sweep(!sweeping));
+boton('btnCosta', aLaCosta);
+boton('btnReset', resetAll);
+
+document.addEventListener('pointerdown', ()=>window.focus(), true);
+
+// arrastre en el plano s: sonda (vertical) o polos
+let drag=null;
+function ptr(e,c){ const r=c.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; }
+cS.addEventListener('pointerdown', e=>{
+  const {x,y}=ptr(e,cS), H=dimS.h;
+  const dProbe=Math.hypot(x-SXs(0), y-SY(w,H));
+  const dPole=Math.min(Math.hypot(x-SXs(sig),y-SY(om,H)), Math.hypot(x-SXs(sig),y-SY(-om,H)));
+  drag = (dProbe<=dPole && dProbe<18) ? 'w' : 'p';
+  if(drag==='w') sweeping=false;
+  cS.setPointerCapture(e.pointerId); mueve(e);
+});
+function mueve(e){
+  if(!drag) return;
+  const {x,y}=ptr(e,cS), H=dimS.h, o=SYinv(y,H);
+  if(drag==='w') setW(o); else setPolo(SXinv(x),Math.abs(o));
+}
+cS.addEventListener('pointermove', mueve);
+cS.addEventListener('pointerup', ()=>{ drag=null; });
+cS.addEventListener('pointercancel', ()=>{ drag=null; });
+// arrastre vertical en el perfil: también mueve la sonda
+let dragH=false;
+cH.addEventListener('pointerdown', e=>{ dragH=true; sweeping=false; cH.setPointerCapture(e.pointerId); setW(SYinv(ptr(e,cH).y,dimH.h)); });
+cH.addEventListener('pointermove', e=>{ if(dragH) setW(SYinv(ptr(e,cH).y,dimH.h)); });
+cH.addEventListener('pointerup', ()=>{ dragH=false; });
+cH.addEventListener('pointercancel', ()=>{ dragH=false; });
+
+// teclado: espacio barre, ←/→ mueven σ, ↑/↓ mueven ω₀, R reinicia
+const r2=v=>Math.round(v*100)/100;
+document.addEventListener('keydown', e=>{
+  const k=e.key;
+  const stop=()=>{ e.preventDefault(); e.stopPropagation(); };
+  if(k===' '){ stop(); sweep(!sweeping); }
+  else if(k==='ArrowLeft'){ stop(); costa=null; sig=Math.max(SIG_MIN,r2(sig-0.05)); pinta(); }
+  else if(k==='ArrowRight'){ stop(); costa=null; sig=Math.min(SIG_MAX,r2(sig+0.05)); pinta(); }
+  else if(k==='ArrowUp'){ stop(); om=Math.min(OM_MAX,r2(om+0.1)); pinta(); }
+  else if(k==='ArrowDown'){ stop(); om=Math.max(0,r2(om-0.1)); pinta(); }
+  else if(k==='r'||k==='R'){ e.stopPropagation(); resetAll(); }
+});
+
+new ResizeObserver(()=>pinta()).observe(document.body);
+pinta();   // primer cuadro sin depender de requestAnimationFrame
+</script>
+</body>
+</html>
