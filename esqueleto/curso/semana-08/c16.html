@@ -566,13 +566,69 @@ window.Quarto = {
 </section>
 <section id="el-diccionario-de-inversión-cada-término-tiene-dos-traducciones" class="level1">
 <h1>2. El diccionario de inversión: cada término tiene dos traducciones</h1>
-<p><strong>El diccionario</strong> (complétalo):</p>
+<p><strong>Las propiedades, heredadas de Fourier</strong> (donde Fourier decía <span class="math inline">j\omega</span>, Laplace dice <span class="math inline">s</span>; completa la transformada y qué le pasa a la ROC <span class="math inline">R</span>):</p>
 <table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Propiedad</th>
+<th>En el tiempo</th>
+<th>Laplace</th>
+<th>ROC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Linealidad</td>
+<td><span class="math inline">a\,x_1(t) + b\,x_2(t)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Retardo</td>
+<td><span class="math inline">x(t-t_0)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Modulación</td>
+<td><span class="math inline">e^{s_0 t}\,x(t)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Derivada</td>
+<td><span class="math inline">x'(t)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Multiplicar por <span class="math inline">t</span></td>
+<td><span class="math inline">-t\,x(t)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Convolución</td>
+<td><span class="math inline">x(t) * h(t)</span></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>El diccionario</strong> (complétalo; anota también de qué fila y con qué propiedad sale cada una):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
 <thead>
 <tr class="header">
 <th><span class="math inline">X(s)</span></th>
 <th>ROC a la derecha del polo</th>
 <th>ROC a la izquierda del polo</th>
+<th>de dónde sale</th>
 </tr>
 </thead>
 <tbody>
@@ -580,9 +636,41 @@ window.Quarto = {
 <td><span class="math inline">\dfrac{1}{s+a}</span></td>
 <td></td>
 <td></td>
+<td>definición (C15)</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\dfrac{1}{(s+a)^2}</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\dfrac{s}{s^2+\omega_0^2}</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\dfrac{\omega_0}{s^2+\omega_0^2}</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\dfrac{s+a}{(s+a)^2+\omega_0^2}</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\dfrac{\omega_0}{(s+a)^2+\omega_0^2}</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">1</span></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
