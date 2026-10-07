@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C3 · Señales elementales y transformaciones de la variable – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>C17 · El plano s como mapa – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-02/c04.html" rel="next">
-<link href="../../curso/semana-01/ay01.html" rel="prev">
+<link href="../../curso/semana-09/c18.html" rel="next">
+<link href="../../curso/semana-08/ay08.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">C3 · Señales elementales y transformaciones de la variable</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-09/c17.html">Semana 9 · Laplace en acción</a></li><li class="breadcrumb-item"><a href="../../curso/semana-09/c17.html">C17 · El plano s como mapa</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -218,7 +218,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-02/c03.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-02/c03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C3 · Señales elementales y transformaciones de la variable</span></a>
   </div>
 </li>
@@ -421,7 +421,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-09/c17.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-09/c17.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">C17 · El plano s como mapa</span></a>
   </div>
 </li>
@@ -514,21 +514,22 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#cómo-se-dibujan-las-señales-bloque-de-apertura" id="toc-cómo-se-dibujan-las-señales-bloque-de-apertura" class="nav-link active" data-scroll-target="#cómo-se-dibujan-las-señales-bloque-de-apertura">1. Cómo se dibujan las señales (bloque de apertura)</a></li>
-  <li><a href="#el-vocabulario-señales-elementales" id="toc-el-vocabulario-señales-elementales" class="nav-link" data-scroll-target="#el-vocabulario-señales-elementales">2. El vocabulario: señales elementales</a></li>
-  <li><a href="#los-dos-fasores-del-coseno" id="toc-los-dos-fasores-del-coseno" class="nav-link" data-scroll-target="#los-dos-fasores-del-coseno">3. Los dos fasores del coseno</a></li>
-  <li><a href="#transformaciones-de-la-variable-independiente" id="toc-transformaciones-de-la-variable-independiente" class="nav-link" data-scroll-target="#transformaciones-de-la-variable-independiente">4. Transformaciones de la variable independiente</a></li>
-  <li><a href="#construcción-de-señales-por-tramos" id="toc-construcción-de-señales-por-tramos" class="nav-link" data-scroll-target="#construcción-de-señales-por-tramos">5. Construcción de señales por tramos</a></li>
+  <li><a href="#lo-que-ya-tenemos-laplace-no-cambia-la-base-cambia-la-señal" id="toc-lo-que-ya-tenemos-laplace-no-cambia-la-base-cambia-la-señal" class="nav-link active" data-scroll-target="#lo-que-ya-tenemos-laplace-no-cambia-la-base-cambia-la-señal">0. Lo que ya tenemos: Laplace no cambia la base, cambia la señal</a></li>
+  <li><a href="#el-mapa-de-modos" id="toc-el-mapa-de-modos" class="nav-link" data-scroll-target="#el-mapa-de-modos">1. El mapa de modos</a></li>
+  <li><a href="#el-gancho-musical-la-cuerda-pulsada" id="toc-el-gancho-musical-la-cuerda-pulsada" class="nav-link" data-scroll-target="#el-gancho-musical-la-cuerda-pulsada">2. El gancho musical: la cuerda pulsada</a></li>
+  <li><a href="#fourier-ve-la-sombra-del-polo-predecir-antes-de-mover" id="toc-fourier-ve-la-sombra-del-polo-predecir-antes-de-mover" class="nav-link" data-scroll-target="#fourier-ve-la-sombra-del-polo-predecir-antes-de-mover">3. Fourier ve la sombra del polo: predecir antes de mover</a></li>
+  <li><a href="#estabilidad-la-frontera-es-el-eje-jω" id="toc-estabilidad-la-frontera-es-el-eje-jω" class="nav-link" data-scroll-target="#estabilidad-la-frontera-es-el-eje-jω">4. Estabilidad: la frontera es el eje jω</a></li>
+  <li><a href="#laplace-mira-la-cola-5-min-la-primera-que-se-salta-si-falta-tiempo" id="toc-laplace-mira-la-cola-5-min-la-primera-que-se-salta-si-falta-tiempo" class="nav-link" data-scroll-target="#laplace-mira-la-cola-5-min-la-primera-que-se-salta-si-falta-tiempo">5. Laplace mira la cola (5 min; la primera que se salta si falta tiempo)</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">C3 · Señales elementales y transformaciones de la variable</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-09/c17.html">Semana 9 · Laplace en acción</a></li><li class="breadcrumb-item"><a href="../../curso/semana-09/c17.html">C17 · El plano s como mapa</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">C3 · Señales elementales y transformaciones de la variable</h1>
-<p class="subtitle lead">Semana 2 · 70 min · U1.3</p>
+<h1 class="title">C17 · El plano s como mapa</h1>
+<p class="subtitle lead">Semana 9 · 70 min · U4.3</p>
 </div>
 
 
@@ -545,126 +546,189 @@ window.Quarto = {
 </header>
 
 
-<section id="cómo-se-dibujan-las-señales-bloque-de-apertura" class="level1">
-<h1>1. Cómo se dibujan las señales (bloque de apertura)</h1>
-<p><strong>El mapa: qué se dibuja según argumento y salida</strong> (completa las cuatro casillas):</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th>salida real</th>
-<th>salida compleja</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>argumento real</strong></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>argumento complejo</strong></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>La señal <span class="math inline">e^{st}</span> con <span class="math inline">s = \sigma + j\omega</span></strong> — dibuja los tres casos (<span class="math inline">\sigma&lt;0</span>, <span class="math inline">\sigma=0</span>, <span class="math inline">\sigma&gt;0</span>):</p>
-<div class="hueco-grande">
+<section id="lo-que-ya-tenemos-laplace-no-cambia-la-base-cambia-la-señal" class="level1">
+<h1>0. Lo que ya tenemos: Laplace no cambia la base, cambia la señal</h1>
+<p><strong>Laplace no cambia la base, cambia la señal</strong> — ¿de qué señal es <span class="math inline">X(\sigma+j\omega)</span> la transformada de Fourier?</p>
+<div class="hueco">
 
 </div>
-<p><strong>Los dos retratos de <span class="math inline">e^{st}</span></strong> (cartesiano y polar — ¿cuál es más simple y por qué?):</p>
+<p><strong>¿Qué le pasa al espectro de la señal amortiguada cuando <span class="math inline">\sigma_0</span> llega justo al polo?</strong></p>
 <div class="hueco">
 
 </div>
 </section>
-<section id="el-vocabulario-señales-elementales" class="level1">
-<h1>2. El vocabulario: señales elementales</h1>
-<p><strong>El catálogo</strong> — dibuja cada señal con sus valores clave:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Señal</th>
-<th>Gráfico</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">u(t)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\operatorname{rect}(t)</span></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\operatorname{tri}(t)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\operatorname{sgn}(t)</span></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\operatorname{sinc}(t)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">e^{-t^2/2}</span> (gaussiana)</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">e^{-at}u(t)</span></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Relaciones entre ellas</strong> (rect en términos de escalones; sgn en términos de <span class="math inline">u</span>):</p>
+<section id="el-mapa-de-modos" class="level1">
+<h1>1. El mapa de modos</h1>
+<p><strong>La idea que ordena todo</strong> (¿qué aporta a <span class="math inline">x(t)</span> un polo en <span class="math inline">s=p</span>?):</p>
 <div class="hueco">
 
 </div>
-</section>
-<section id="los-dos-fasores-del-coseno" class="level1">
-<h1>3. Los dos fasores del coseno</h1>
-<p><strong>El coseno como dos fasores:</strong> $(t) = $</p>
-<div class="hueco">
-
-</div>
-</section>
-<section id="transformaciones-de-la-variable-independiente" class="level1">
-<h1>4. Transformaciones de la variable independiente</h1>
-<p><strong>Las tres transformaciones y su efecto</strong> (una frase + mini-gráfico cada una):</p>
+<p><strong>Los dos ejes del mapa:</strong></p>
 <ul>
-<li><span class="math inline">x(t-t_0)</span>:</li>
-<li><span class="math inline">x(at)</span>:</li>
-<li><span class="math inline">x(-t)</span>:</li>
+<li>Eje real <span class="math inline">\sigma</span>: eje del ____________</li>
+<li>Eje imaginario <span class="math inline">\omega</span>: eje de la ____________</li>
 </ul>
-<p><strong>Del quiz de audio</strong> — ¿cuál transformación es inaudible y por qué?</p>
+<p><strong>Un par de polos complejos <span class="math inline">\sigma_0 \pm j\omega_0</span> produce el modo:</strong></p>
+<p><span class="math display">\hspace{6cm}</span></p>
+<p><strong>El catálogo</strong> (dibuja el mini-plano con los polos y al lado la forma de la señal):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Polos</th>
+<th>Dibujo de la señal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>real en <span class="math inline">-2</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>par <span class="math inline">-1 \pm j3</span></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>par <span class="math inline">\pm j3</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>real en <span class="math inline">+0.5</span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mi emparejamiento en la votación (y en qué me equivoqué, si aplica):</strong></p>
 <div class="hueco">
 
 </div>
-<p><strong>La regla para <span class="math inline">x(at-b)</span></strong> (¿por qué el desplazamiento no es <span class="math inline">b</span>?):</p>
-<div class="hueco">
-
-</div>
-<p><strong>Mi voto y el desarrollo de la votación:</strong></p>
-<div class="hueco-grande">
-
-</div>
-<p><strong>Lectura rápida de <span class="math inline">\operatorname{rect}\!\big(\tfrac{t-c}{w}\big)</span></strong>: centro = ____, ancho = ____.</p>
 </section>
-<section id="construcción-de-señales-por-tramos" class="level1">
-<h1>5. Construcción de señales por tramos</h1>
-<p><strong>Estrategia de 3 pasos para escribir una señal por tramos:</strong></p>
-<ol type="1">
-<li></li>
-<li></li>
-<li></li>
-</ol>
-<p><strong>Los dos ejemplos de la pizarra</strong> (señal graficada + expresión):</p>
-<div class="hueco-grande">
+<section id="el-gancho-musical-la-cuerda-pulsada" class="level1">
+<h1>2. El gancho musical: la cuerda pulsada</h1>
+<p><strong>Una cuerda pulsada como polos</strong> — completa:</p>
+<ul>
+<li>El sistema es la cuerda. La entrada es ________ y la salida es ________.</li>
+<li>Al soltar la cuerda la entrada es cero: lo que se oye es la respuesta ________.</li>
+<li>La nota (el pitch) la fija ________ del polo.</li>
+<li>El sustain (cuánto dura) lo fija ________ del polo.</li>
+</ul>
+<p><strong>¿Dónde están los polos de una campana de sustain largo? ¿Y qué sería, físicamente, un “instrumento con polos en el semiplano derecho”?</strong></p>
+<div class="hueco">
 
 </div>
+</section>
+<section id="fourier-ve-la-sombra-del-polo-predecir-antes-de-mover" class="level1">
+<h1>3. Fourier ve la sombra del polo: predecir antes de mover</h1>
+<p><strong>Los 5 experimentos con la demo</strong> — anota tu predicción ANTES de cada uno, y luego qué se observó:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Experimento</th>
+<th>Mi predicción</th>
+<th>Qué se observó</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>la sonda recorre el eje <span class="math inline">j\omega</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>el polo se acerca al eje</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>el polo sube (más <span class="math inline">\omega_0</span>)</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>el polo se posa sobre el eje</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>el polo cruza al semiplano derecho</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>¿Qué ve Fourier de un polo? (¿dónde queda el cerro, qué fija su ancho?)</strong></p>
+<div class="hueco">
+
+</div>
+<p><strong>¿Qué hacen los ceros y qué NO pueden hacer?</strong></p>
+<div class="hueco">
+
+</div>
+</section>
+<section id="estabilidad-la-frontera-es-el-eje-jω" class="level1">
+<h1>4. Estabilidad: la frontera es el eje jω</h1>
+<p><strong>El criterio de estabilidad en términos de la ROC:</strong></p>
+<div class="hueco">
+
+</div>
+<p><strong>Corolario para sistemas causales:</strong></p>
+<div class="hueco">
+
+</div>
+<p><strong>El caso fino</strong>: <span class="math inline">H(s) = \frac{1}{s-2}</span> — completa las dos lecturas:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ROC</th>
+<th><span class="math inline">h(t)</span></th>
+<th>¿causal?</th>
+<th>¿estable?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\Re\{s\} &gt; 2</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\Re\{s\} &lt; 2</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="laplace-mira-la-cola-5-min-la-primera-que-se-salta-si-falta-tiempo" class="level1">
+<h1>5. Laplace mira la cola (5 min; la primera que se salta si falta tiempo)</h1>
+<p><strong>Laplace mira la cola</strong> — para cada señal, ¿qué singularidades deja en el plano <span class="math inline">s</span>?</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>La señal en el tiempo</th>
+<th>Ejemplos</th>
+<th>Su firma en el plano <span class="math inline">s</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>exponenciales y parientes</td>
+<td><span class="math inline">u(t)</span>, rampa, seno amortiguado</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>duración finita</td>
+<td>rect, un pulso</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>periódica desde <span class="math inline">t=0</span></td>
+<td>cuadrada<span class="math inline">\,\cdot\,u(t)</span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 
 </section>
@@ -1072,13 +1136,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/semana-01/ay01.html" class="pagination-link" aria-label="Ay1 · Nivelación: números complejos">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Ay1 · Nivelación: números complejos</span>
+      <a href="../../curso/semana-08/ay08.html" class="pagination-link" aria-label="Ay8 · Interrogación 2 (I2)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Ay8 · Interrogación 2 (I2)</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-02/c04.html" class="pagination-link" aria-label="C4 · El impulso">
-        <span class="nav-page-text">C4 · El impulso</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/semana-09/c18.html" class="pagination-link" aria-label="C18 · Laplace en acción: EDOs, H(s) y Fourier↔Laplace">
+        <span class="nav-page-text">C18 · Laplace en acción: EDOs, H(s) y Fourier↔︎Laplace</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

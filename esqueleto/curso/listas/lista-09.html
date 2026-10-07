@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C3 · Señales elementales y transformaciones de la variable – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Lista 9 · Laplace: inversa según ROC, plano s y EDOs – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-02/c04.html" rel="next">
-<link href="../../curso/semana-01/ay01.html" rel="prev">
+<link href="../../curso/listas/lista-08.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +128,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">C3 · Señales elementales y transformaciones de la variable</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-09.html">Lista 9 · Laplace: inversa según ROC, plano s y EDOs</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -218,7 +217,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-02/c03.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-02/c03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C3 · Señales elementales y transformaciones de la variable</span></a>
   </div>
 </li>
@@ -498,7 +497,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/listas/lista-09.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/listas/lista-09.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lista 9 · Laplace: inversa según ROC, plano s y EDOs</span></a>
   </div>
 </li>
@@ -514,21 +513,17 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#cómo-se-dibujan-las-señales-bloque-de-apertura" id="toc-cómo-se-dibujan-las-señales-bloque-de-apertura" class="nav-link active" data-scroll-target="#cómo-se-dibujan-las-señales-bloque-de-apertura">1. Cómo se dibujan las señales (bloque de apertura)</a></li>
-  <li><a href="#el-vocabulario-señales-elementales" id="toc-el-vocabulario-señales-elementales" class="nav-link" data-scroll-target="#el-vocabulario-señales-elementales">2. El vocabulario: señales elementales</a></li>
-  <li><a href="#los-dos-fasores-del-coseno" id="toc-los-dos-fasores-del-coseno" class="nav-link" data-scroll-target="#los-dos-fasores-del-coseno">3. Los dos fasores del coseno</a></li>
-  <li><a href="#transformaciones-de-la-variable-independiente" id="toc-transformaciones-de-la-variable-independiente" class="nav-link" data-scroll-target="#transformaciones-de-la-variable-independiente">4. Transformaciones de la variable independiente</a></li>
-  <li><a href="#construcción-de-señales-por-tramos" id="toc-construcción-de-señales-por-tramos" class="nav-link" data-scroll-target="#construcción-de-señales-por-tramos">5. Construcción de señales por tramos</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link active" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">C3 · Señales elementales y transformaciones de la variable</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/listas/lista-01.html">Listas de ejercicios</a></li><li class="breadcrumb-item"><a href="../../curso/listas/lista-09.html">Lista 9 · Laplace: inversa según ROC, plano s y EDOs</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">C3 · Señales elementales y transformaciones de la variable</h1>
-<p class="subtitle lead">Semana 2 · 70 min · U1.3</p>
+<h1 class="title">Lista 9 · Laplace: inversa según ROC, plano s y EDOs</h1>
+<p class="subtitle lead">Se publica al cierre de la semana 9 · Materia: C16–C18 · Al portafolio</p>
 </div>
 
 
@@ -545,126 +540,42 @@ window.Quarto = {
 </header>
 
 
-<section id="cómo-se-dibujan-las-señales-bloque-de-apertura" class="level1">
-<h1>1. Cómo se dibujan las señales (bloque de apertura)</h1>
-<p><strong>El mapa: qué se dibuja según argumento y salida</strong> (completa las cuatro casillas):</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th>salida real</th>
-<th>salida compleja</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>argumento real</strong></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>argumento complejo</strong></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>La señal <span class="math inline">e^{st}</span> con <span class="math inline">s = \sigma + j\omega</span></strong> — dibuja los tres casos (<span class="math inline">\sigma&lt;0</span>, <span class="math inline">\sigma=0</span>, <span class="math inline">\sigma&gt;0</span>):</p>
-<div class="hueco-grande">
-
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p><strong>Los dos retratos de <span class="math inline">e^{st}</span></strong> (cartesiano y polar — ¿cuál es más simple y por qué?):</p>
-<div class="hueco">
-
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Recordatorio
 </div>
-</section>
-<section id="el-vocabulario-señales-elementales" class="level1">
-<h1>2. El vocabulario: señales elementales</h1>
-<p><strong>El catálogo</strong> — dibuja cada señal con sus valores clave:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Señal</th>
-<th>Gráfico</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">u(t)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\operatorname{rect}(t)</span></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\operatorname{tri}(t)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\operatorname{sgn}(t)</span></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\operatorname{sinc}(t)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">e^{-t^2/2}</span> (gaussiana)</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">e^{-at}u(t)</span></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Relaciones entre ellas</strong> (rect en términos de escalones; sgn en términos de <span class="math inline">u</span>):</p>
-<div class="hueco">
-
 </div>
-</section>
-<section id="los-dos-fasores-del-coseno" class="level1">
-<h1>3. Los dos fasores del coseno</h1>
-<p><strong>El coseno como dos fasores:</strong> $(t) = $</p>
-<div class="hueco">
-
+<div class="callout-body-container callout-body">
+<p>El <strong>CV4 es en la semana 11</strong> (Ay11): variante numérica de una de las preguntas <strong>¿Y si…?</strong> de las <strong>Listas 9–10</strong>, portafolio manuscrito como único material — resolverlas en tu portafolio ES preparar el control, y sirve de ensayo directo para la <strong>I3</strong> (semana 12, U4+U5). Esta lista es el corazón Laplace de esa interrogación: ROCs finas, causal/anticausal/bilateral, y EDOs con condiciones iniciales.</p>
 </div>
-</section>
-<section id="transformaciones-de-la-variable-independiente" class="level1">
-<h1>4. Transformaciones de la variable independiente</h1>
-<p><strong>Las tres transformaciones y su efecto</strong> (una frase + mini-gráfico cada una):</p>
-<ul>
-<li><span class="math inline">x(t-t_0)</span>:</li>
-<li><span class="math inline">x(at)</span>:</li>
-<li><span class="math inline">x(-t)</span>:</li>
-</ul>
-<p><strong>Del quiz de audio</strong> — ¿cuál transformación es inaudible y por qué?</p>
-<div class="hueco">
-
 </div>
-<p><strong>La regla para <span class="math inline">x(at-b)</span></strong> (¿por qué el desplazamiento no es <span class="math inline">b</span>?):</p>
-<div class="hueco">
-
-</div>
-<p><strong>Mi voto y el desarrollo de la votación:</strong></p>
-<div class="hueco-grande">
-
-</div>
-<p><strong>Lectura rápida de <span class="math inline">\operatorname{rect}\!\big(\tfrac{t-c}{w}\big)</span></strong>: centro = ____, ancho = ____.</p>
-</section>
-<section id="construcción-de-señales-por-tramos" class="level1">
-<h1>5. Construcción de señales por tramos</h1>
-<p><strong>Estrategia de 3 pasos para escribir una señal por tramos:</strong></p>
+<p><strong>Referencias de estudio</strong>: [Oppenheim] §9.3–9.7, §9.9; [Alvarado] cap. 4; apuntes C16–C18.</p>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<p><strong>L9.1</strong> [DB E0114] — Encuentre las funciones <strong>causales</strong> que tienen las siguientes transformadas de Laplace. Indique en cada caso la región de convergencia: <span class="math display">\text{(a) } F(s) = \frac{1}{s(s+1)} \qquad \text{(b) } F(s) = \frac{s+1}{(s+2)(s+3)} \qquad \text{(c) } F(s) = \frac{e^{-s}}{s-1}</span></p>
+<p><strong>¿Y si…?</strong> ¿Y si en (c) fuera <span class="math inline">F(s)=\dfrac{e^{+s}}{s-1}</span> (adelanto en vez de atraso)? ¿existe una función causal con esa transformada?</p>
+<p><strong>L9.2</strong> [DB E0112] — Encuentre <strong>dos funciones diferentes</strong> que tengan la transformada de Laplace <span class="math display">F(s) = \frac{s+2}{(s+1)^2}</span> Para cada función, determine su región de convergencia. ¿Cuál de ellas tiene transformada de Fourier?</p>
+<p><strong>¿Y si…?</strong> ¿Y si pidiéramos una tercera función con ROC en una franja intermedia, como en L9.3? ¿existe tal franja para este <span class="math inline">F(s)</span>?</p>
+<p><strong>L9.3</strong> [DB E0113] — Encuentre <strong>tres funciones</strong> <span class="math inline">f(t)</span> diferentes cuya transformada de Laplace sea <span class="math display">F(s) = \frac{1}{s^2(s-1)}</span> Para cada función, determine su región de convergencia. ¿Por qué existen tres posibles <span class="math inline">f(t)</span> asociadas a esta <span class="math inline">F(s)</span>?</p>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">F(s)</span> tuviera en cambio un solo polo triple (p.ej. <span class="math inline">\frac{1}{(s-1)^3}</span>) en vez de dos polos distintos? ¿cuántas <span class="math inline">f(t)</span> distintas admite ahora?</p>
+<p><strong>L9.4</strong> [DB E0134] — Encuentre la transformada inversa de Laplace de <span class="math display">F(s) = \frac{2s^2 + 10s + 13}{s^3 + 7s^2 + 16s + 12}, \qquad \sigma &gt; -2</span> <em>Sugerencia: verifique que <span class="math inline">s=-2</span> es raíz del denominador — y no es una raíz cualquiera.</em></p>
+<p><strong>¿Y si…?</strong> ¿Y si en vez de <span class="math inline">\sigma&gt;-2</span> se pidiera la ROC <span class="math inline">-3&lt;\sigma&lt;-2</span>? ¿sigue siendo causal la señal resultante?</p>
+<p><strong>L9.5</strong> [DB E0120] — Sea <span class="math inline">F(s)</span> la transformada de Laplace de <span class="math inline">f(t)</span>, con un polo en <span class="math inline">s = a</span>. Encuentre la transformada de Laplace de <span class="math display">g(t) = e^{bt}\, f\!\left(\frac{t-c}{p}\right)</span> ¿Qué se puede decir de la ubicación de los polos de <span class="math inline">G(s)</span>?</p>
+<p><strong>¿Y si…?</strong> ¿Y si <span class="math inline">p&lt;0</span> (el escalamiento invierte el tiempo) en vez de <span class="math inline">p&gt;0</span>? ¿la ROC de <span class="math inline">G(s)</span> queda del mismo lado que la de <span class="math inline">F(s)</span>?</p>
+<p><strong>L9.6</strong> [DB E0132] — El sistema de la figura representa un proceso <span class="math inline">H(s)</span> controlado por un controlador <span class="math inline">H_c(s)</span>, en realimentación negativa (<span class="math inline">e(t) = r(t) - y(t)</span>). La respuesta al impulso del controlador es <span class="math inline">h_c(t) = k\,\delta(t)</span> y la del proceso es <span class="math inline">h(t) = e^{2t}u(t)</span>.</p>
+<p><img src="../../assets/img/laplace/E0132_fig.png" class="img-fluid" style="width:70.0%"></p>
 <ol type="1">
-<li></li>
-<li></li>
-<li></li>
+<li>Determine si el sistema <span class="math inline">H(s)</span> (entrada <span class="math inline">x(t)</span>, salida <span class="math inline">y(t)</span>) es estable. Justifique.</li>
+<li>Calcule la función de transferencia del sistema completo (entrada <span class="math inline">r(t)</span>, salida <span class="math inline">y(t)</span>) en función de <span class="math inline">k</span>.</li>
+<li>¿Qué valores puede tomar <span class="math inline">k</span> para que el sistema completo sea estable?</li>
 </ol>
-<p><strong>Los dos ejemplos de la pizarra</strong> (señal graficada + expresión):</p>
-<div class="hueco-grande">
-
-</div>
+<p><strong>¿Y si…?</strong> ¿Y si el proceso fuera <span class="math inline">h(t)=e^{-2t}u(t)</span> (ya estable) en vez de <span class="math inline">e^{2t}u(t)</span>? ¿sigue necesitándose <span class="math inline">k&gt;2</span> para estabilizar el lazo cerrado?</p>
+<p><strong>L9.7</strong> [DB E0125] — Un sistema LTI está descrito por la ecuación diferencial de segundo orden <span class="math display">a\,x''(t) + b\,x'(t) + c\,x(t) = u(t)</span> donde <span class="math inline">u(t)</span> es la entrada. Encuentre las condiciones iniciales <span class="math inline">x(0^+)</span> y <span class="math inline">x'(0^+)</span> de manera que la salida sea <span class="math inline">x(t) = \mu(t)\big(A\,e^{-t} + \tfrac{3}{4}\,t\,e^{-3t}\big)</span> cuando la entrada es <span class="math inline">u(t) = \mu(t)\,e^{-t}</span>. Encuentre también el valor del coeficiente <span class="math inline">A</span>. <em>(Aquí <span class="math inline">\mu(t)</span> denota el escalón unitario, para no confundirlo con la entrada <span class="math inline">u(t)</span>.)</em></p>
+<p><strong>¿Y si…?</strong> ¿Y si la salida fuera <span class="math inline">x(t)=\mu(t)(Ae^{-t}+Be^{-3t})</span>, sin el factor <span class="math inline">t</span> en el segundo modo? ¿el polinomio característico sigue exigiendo una raíz doble en <span class="math inline">-3</span>?</p>
 
 
 </section>
@@ -1072,14 +983,11 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/semana-01/ay01.html" class="pagination-link" aria-label="Ay1 · Nivelación: números complejos">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Ay1 · Nivelación: números complejos</span>
+      <a href="../../curso/listas/lista-08.html" class="pagination-link" aria-label="Lista 8 · Transformada de Laplace directa y ROC">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lista 8 · Transformada de Laplace directa y ROC</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-02/c04.html" class="pagination-link" aria-label="C4 · El impulso">
-        <span class="nav-page-text">C4 · El impulso</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

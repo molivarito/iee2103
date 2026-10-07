@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>C3 · Señales elementales y transformaciones de la variable – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>C18 · Laplace en acción: EDOs, H(s) y Fourier↔︎Laplace – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/semana-02/c04.html" rel="next">
-<link href="../../curso/semana-01/ay01.html" rel="prev">
+<link href="../../curso/semana-09/ay09.html" rel="next">
+<link href="../../curso/semana-09/c17.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">C3 · Señales elementales y transformaciones de la variable</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-09/c17.html">Semana 9 · Laplace en acción</a></li><li class="breadcrumb-item"><a href="../../curso/semana-09/c18.html">C18 · Laplace en acción: EDOs, H(s) y Fourier↔︎Laplace</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -218,7 +218,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-02/c03.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../curso/semana-02/c03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">C3 · Señales elementales y transformaciones de la variable</span></a>
   </div>
 </li>
@@ -427,7 +427,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../curso/semana-09/c18.html" class="sidebar-item-text sidebar-link">
+  <a href="../../curso/semana-09/c18.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">C18 · Laplace en acción: EDOs, H(s) y Fourier↔︎Laplace</span></a>
   </div>
 </li>
@@ -514,21 +514,22 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#cómo-se-dibujan-las-señales-bloque-de-apertura" id="toc-cómo-se-dibujan-las-señales-bloque-de-apertura" class="nav-link active" data-scroll-target="#cómo-se-dibujan-las-señales-bloque-de-apertura">1. Cómo se dibujan las señales (bloque de apertura)</a></li>
-  <li><a href="#el-vocabulario-señales-elementales" id="toc-el-vocabulario-señales-elementales" class="nav-link" data-scroll-target="#el-vocabulario-señales-elementales">2. El vocabulario: señales elementales</a></li>
-  <li><a href="#los-dos-fasores-del-coseno" id="toc-los-dos-fasores-del-coseno" class="nav-link" data-scroll-target="#los-dos-fasores-del-coseno">3. Los dos fasores del coseno</a></li>
-  <li><a href="#transformaciones-de-la-variable-independiente" id="toc-transformaciones-de-la-variable-independiente" class="nav-link" data-scroll-target="#transformaciones-de-la-variable-independiente">4. Transformaciones de la variable independiente</a></li>
-  <li><a href="#construcción-de-señales-por-tramos" id="toc-construcción-de-señales-por-tramos" class="nav-link" data-scroll-target="#construcción-de-señales-por-tramos">5. Construcción de señales por tramos</a></li>
+  <li><a href="#la-transformada-unilateral-y-la-propiedad-de-la-derivada" id="toc-la-transformada-unilateral-y-la-propiedad-de-la-derivada" class="nav-link active" data-scroll-target="#la-transformada-unilateral-y-la-propiedad-de-la-derivada">1. La transformada unilateral y la propiedad de la derivada</a></li>
+  <li><a href="#hs-el-sistema-entero-en-una-fórmula-y-la-salida-y-hx" id="toc-hs-el-sistema-entero-en-una-fórmula-y-la-salida-y-hx" class="nav-link" data-scroll-target="#hs-el-sistema-entero-en-una-fórmula-y-la-salida-y-hx">2. H(s): el sistema entero en una fórmula, y la salida <span class="math inline">Y = HX</span></a></li>
+  <li><a href="#una-edo-con-condiciones-iniciales-de-principio-a-fin" id="toc-una-edo-con-condiciones-iniciales-de-principio-a-fin" class="nav-link" data-scroll-target="#una-edo-con-condiciones-iniciales-de-principio-a-fin">3. Una EDO con condiciones iniciales, de principio a fin</a></li>
+  <li><a href="#dos-atajos-de-regalo-valor-inicial-y-valor-final" id="toc-dos-atajos-de-regalo-valor-inicial-y-valor-final" class="nav-link" data-scroll-target="#dos-atajos-de-regalo-valor-inicial-y-valor-final">4. Dos atajos de regalo: valor inicial y valor final</a></li>
+  <li><a href="#fourier-laplace-la-regla-7-afinada" id="toc-fourier-laplace-la-regla-7-afinada" class="nav-link" data-scroll-target="#fourier-laplace-la-regla-7-afinada">5. Fourier ↔︎ Laplace: la regla 7, afinada</a></li>
+  <li><a href="#resumen-de-la-unidad-y-conoce-tu-formulario-cierre-de-la-unidad-4" id="toc-resumen-de-la-unidad-y-conoce-tu-formulario-cierre-de-la-unidad-4" class="nav-link" data-scroll-target="#resumen-de-la-unidad-y-conoce-tu-formulario-cierre-de-la-unidad-4">6. Resumen de la unidad y conoce tu formulario — cierre de la Unidad 4</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">Semana 2 · Elementales e impulso</a></li><li class="breadcrumb-item"><a href="../../curso/semana-02/c03.html">C3 · Señales elementales y transformaciones de la variable</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-09/c17.html">Semana 9 · Laplace en acción</a></li><li class="breadcrumb-item"><a href="../../curso/semana-09/c18.html">C18 · Laplace en acción: EDOs, H(s) y Fourier↔︎Laplace</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">C3 · Señales elementales y transformaciones de la variable</h1>
-<p class="subtitle lead">Semana 2 · 70 min · U1.3</p>
+<h1 class="title">C18 · Laplace en acción: EDOs, H(s) y Fourier↔︎Laplace</h1>
+<p class="subtitle lead">Semana 9 · 70 min · U4.4, U4.5 · Cierre de la Unidad 4</p>
 </div>
 
 
@@ -545,124 +546,120 @@ window.Quarto = {
 </header>
 
 
-<section id="cómo-se-dibujan-las-señales-bloque-de-apertura" class="level1">
-<h1>1. Cómo se dibujan las señales (bloque de apertura)</h1>
-<p><strong>El mapa: qué se dibuja según argumento y salida</strong> (completa las cuatro casillas):</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th>salida real</th>
-<th>salida compleja</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>argumento real</strong></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>argumento complejo</strong></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>La señal <span class="math inline">e^{st}</span> con <span class="math inline">s = \sigma + j\omega</span></strong> — dibuja los tres casos (<span class="math inline">\sigma&lt;0</span>, <span class="math inline">\sigma=0</span>, <span class="math inline">\sigma&gt;0</span>):</p>
+<section id="la-transformada-unilateral-y-la-propiedad-de-la-derivada" class="level1">
+<h1>1. La transformada unilateral y la propiedad de la derivada</h1>
+<p><strong>Definición de la unilateral y en qué se diferencia de la bilateral</strong> (¿por qué en EDO nunca oyeron hablar de la ROC? ¿por qué el límite es <span class="math inline">0^-</span>?):</p>
+<div class="hueco">
+
+</div>
+<p><strong>La propiedad de la derivada</strong> (con su deducción por partes):</p>
+<p><span class="math display">\mathcal{L}\{x'(t)\} = \hspace{4cm} \qquad \mathcal{L}\{x''(t)\} = \hspace{4cm}</span></p>
 <div class="hueco-grande">
 
 </div>
-<p><strong>Los dos retratos de <span class="math inline">e^{st}</span></strong> (cartesiano y polar — ¿cuál es más simple y por qué?):</p>
+</section>
+<section id="hs-el-sistema-entero-en-una-fórmula-y-la-salida-y-hx" class="level1">
+<h1>2. H(s): el sistema entero en una fórmula, y la salida <span class="math inline">Y = HX</span></h1>
+<p><strong>De la EDO a <span class="math inline">H(s)</span></strong> (¿qué condición hace falta para hablar de <span class="math inline">H(s)</span>?). <span class="math inline">y' + 2y = x</span>: su <span class="math inline">H(s)</span>, su polo, su <span class="math inline">h(t)</span>:</p>
+<div class="hueco">
+
+</div>
+<p><strong>La salida <span class="math inline">Y(s) = H(s)X(s)</span> y su ROC</strong> (¿de dónde sale la propiedad? ¿cuál es la ROC del producto?). Con <span class="math inline">x(t) = e^{-t}u(t)</span>:</p>
+<div class="hueco-grande">
+
+</div>
+</section>
+<section id="una-edo-con-condiciones-iniciales-de-principio-a-fin" class="level1">
+<h1>3. Una EDO con condiciones iniciales, de principio a fin</h1>
+<p><strong>Problema</strong>: <span class="math inline">y' + 2y = e^{-t}u(t)</span>, con <span class="math inline">y(0^-) = 3</span>.</p>
+<p><strong>Paso 1 — transformar</strong> (¿dónde entra la condición inicial?):</p>
+<div class="hueco">
+
+</div>
+<p><strong>Paso 2 — despejar <span class="math inline">Y(s)</span>, separando entrada cero / estado cero</strong> (¿cuál término es la «mochila del pasado»? ¿cuál es <span class="math inline">H(s)X(s)</span>?):</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>Pasos 3 y 4 — fracciones parciales e inversión; verificación</strong> (<span class="math inline">y(0)</span> y la EDO):</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>Lectura en modos, con los ojos de la C17</strong> (¿qué modo es del polo del sistema y qué modo es del polo de la entrada? ¿cuál sobrevive con entrada cero?):</p>
+<div class="hueco">
+
+</div>
+<p><strong>Segundo orden con polo doble</strong>: <span class="math inline">y'' + 2y' + y = 0</span>, <span class="math inline">y(0^-)=1</span>, <span class="math inline">y'(0^-)=0</span>. (Si no alcanzó en clase, resolverlo antes de la ayudantía. Respuesta para autochequeo: <span class="math inline">y(t) = (1+t)e^{-t}u(t)</span> — el <span class="math inline">t\,e^{-t}</span> del caso 2 de la C16, amortiguamiento crítico.)</p>
+<div class="hueco-grande">
+
+</div>
+<p><strong>Propuesto</strong> (resolver antes de la ayudantía): <span class="math inline">y'' + 3y' + 2y = 0</span>, <span class="math inline">y(0^-)=2</span>, <span class="math inline">y'(0^-)=-3</span>. [Respuesta para autochequeo: <span class="math inline">y(t) = (e^{-t}+e^{-2t})u(t)</span>.]</p>
+<div class="hueco-grande">
+
+</div>
+</section>
+<section id="dos-atajos-de-regalo-valor-inicial-y-valor-final" class="level1">
+<h1>4. Dos atajos de regalo: valor inicial y valor final</h1>
+<p><strong>Valor inicial y valor final</strong> (los dos atajos, y la letra chica de cada uno):</p>
+<p><span class="math display">y(0^+) = \hspace{4cm} \qquad \lim_{t\to\infty} y(t) = \hspace{4cm}</span></p>
+<div class="hueco">
+
+</div>
+<p><strong>¿Por qué falla el valor final con <span class="math inline">y(t)=\sin t\,u(t)</span>?</strong> (calcular la fórmula, y explicar qué tienen de especial sus polos):</p>
 <div class="hueco">
 
 </div>
 </section>
-<section id="el-vocabulario-señales-elementales" class="level1">
-<h1>2. El vocabulario: señales elementales</h1>
-<p><strong>El catálogo</strong> — dibuja cada señal con sus valores clave:</p>
+<section id="fourier-laplace-la-regla-7-afinada" class="level1">
+<h1>5. Fourier ↔︎ Laplace: la regla 7, afinada</h1>
+<p><strong>La regla exacta</strong> (¿de qué transformada de Fourier habla: la ordinaria o la generalizada con <span class="math inline">\delta(\omega)</span>?):</p>
+<p><span class="math display">X(\omega) = X(s)\Big|_{s=j\omega} \iff \hspace{6cm}</span></p>
+<p><strong>Los tres escenarios con su ejemplo:</strong></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Señal</th>
-<th>Gráfico</th>
+<th>Escenario</th>
+<th>Ejemplo</th>
+<th>¿Qué pasa en el eje <span class="math inline">j\omega</span>?</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">u(t)</span></td>
+<td>vale evaluar</td>
+<td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\operatorname{rect}(t)</span></td>
+<td>no vale (TF solo generalizada)</td>
+<td></td>
 <td></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\operatorname{tri}(t)</span></td>
+<td>ni siquiera hay TF</td>
 <td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\operatorname{sgn}(t)</span></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\operatorname{sinc}(t)</span></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">e^{-t^2/2}</span> (gaussiana)</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">e^{-at}u(t)</span></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Relaciones entre ellas</strong> (rect en términos de escalones; sgn en términos de <span class="math inline">u</span>):</p>
+<p><strong>Mi voto en la votación (las 4 señales) y la trampa:</strong></p>
 <div class="hueco">
 
 </div>
 </section>
-<section id="los-dos-fasores-del-coseno" class="level1">
-<h1>3. Los dos fasores del coseno</h1>
-<p><strong>El coseno como dos fasores:</strong> $(t) = $</p>
-<div class="hueco">
-
-</div>
-</section>
-<section id="transformaciones-de-la-variable-independiente" class="level1">
-<h1>4. Transformaciones de la variable independiente</h1>
-<p><strong>Las tres transformaciones y su efecto</strong> (una frase + mini-gráfico cada una):</p>
-<ul>
-<li><span class="math inline">x(t-t_0)</span>:</li>
-<li><span class="math inline">x(at)</span>:</li>
-<li><span class="math inline">x(-t)</span>:</li>
+<section id="resumen-de-la-unidad-y-conoce-tu-formulario-cierre-de-la-unidad-4" class="level1">
+<h1>6. Resumen de la unidad y conoce tu formulario — cierre de la Unidad 4</h1>
+<p><strong>Mi checklist del formulario para la U4</strong> (marca lo que ya reconozco en el formulario oficial):</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Definición bilateral «siempre con su ROC»</label></li>
+<li><label><input type="checkbox">Tabla de pares con su ROC (incluido el par anticausal <span class="math inline">-e^{-at}u(-t)</span>)</label></li>
+<li><label><input type="checkbox">ROC: derecha / izquierda / franja; nunca contiene polos</label></li>
+<li><label><input type="checkbox">Propiedades (retardo, modulación, derivada bilateral, convolución ↔︎ producto)</label></li>
+<li><label><input type="checkbox">Inversa: fracciones parciales + polo↔︎ROC</label></li>
+<li><label><input type="checkbox">Unilateral: <span class="math inline">\mathcal{L}\{x'\}</span>, <span class="math inline">\mathcal{L}\{x''\}</span> con condiciones iniciales</label></li>
+<li><label><input type="checkbox">Valor inicial y valor final, con su condición</label></li>
+<li><label><input type="checkbox">Mapa de modos (en una línea), estabilidad y Fourier↔︎Laplace</label></li>
 </ul>
-<p><strong>Del quiz de audio</strong> — ¿cuál transformación es inaudible y por qué?</p>
+<p><strong>Lo que el formulario NO trae y tengo que saber</strong> (receta de inversión y tapadita; el mapa del plano <span class="math inline">s</span> dibujado; por qué <span class="math inline">0^-</span>; el <span class="math inline">\pi\delta(\omega)</span> de <span class="math inline">u(t)</span>):</p>
 <div class="hueco">
-
-</div>
-<p><strong>La regla para <span class="math inline">x(at-b)</span></strong> (¿por qué el desplazamiento no es <span class="math inline">b</span>?):</p>
-<div class="hueco">
-
-</div>
-<p><strong>Mi voto y el desarrollo de la votación:</strong></p>
-<div class="hueco-grande">
-
-</div>
-<p><strong>Lectura rápida de <span class="math inline">\operatorname{rect}\!\big(\tfrac{t-c}{w}\big)</span></strong>: centro = ____, ancho = ____.</p>
-</section>
-<section id="construcción-de-señales-por-tramos" class="level1">
-<h1>5. Construcción de señales por tramos</h1>
-<p><strong>Estrategia de 3 pasos para escribir una señal por tramos:</strong></p>
-<ol type="1">
-<li></li>
-<li></li>
-<li></li>
-</ol>
-<p><strong>Los dos ejemplos de la pizarra</strong> (señal graficada + expresión):</p>
-<div class="hueco-grande">
 
 </div>
 
@@ -1072,13 +1069,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../curso/semana-01/ay01.html" class="pagination-link" aria-label="Ay1 · Nivelación: números complejos">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Ay1 · Nivelación: números complejos</span>
+      <a href="../../curso/semana-09/c17.html" class="pagination-link" aria-label="C17 · El plano s como mapa">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">C17 · El plano s como mapa</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/semana-02/c04.html" class="pagination-link" aria-label="C4 · El impulso">
-        <span class="nav-page-text">C4 · El impulso</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/semana-09/ay09.html" class="pagination-link" aria-label="Ay9 · Ejercicios Laplace + CV3">
+        <span class="nav-page-text">Ay9 · Ejercicios Laplace + CV3</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
