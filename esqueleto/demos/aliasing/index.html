@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El aliasing, en vivo — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --azul:#0072B2; --rojo:#D55E00; --acc:#6042a6; --ghost:#b9c4d2; --alias:#E69F00; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:8px 14px;gap:6px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:12px;margin-left:7px}
+  .ctrls{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:nowrap;min-width:0}
+  .g{display:none;gap:6px;align-items:center;flex-wrap:nowrap}
+  body.m-cruzar .g-cruzar, body.m-alias .g-alias, body.m-rueda .g-rueda{display:flex}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:5px 9px;cursor:pointer;white-space:nowrap;font-size:13px}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  button.on{background:#fff3dc;border-color:var(--alias);color:#8a5a00;font-weight:600}
+  .modos{display:flex;gap:0}
+  .modos button{border-radius:0;margin-left:-1px}
+  .modos button:first-child{border-radius:8px 0 0 8px;margin-left:0}
+  .modos button:last-child{border-radius:0 8px 8px 0}
+  label.sl{display:flex;align-items:center;gap:5px;color:var(--dim);font-size:13px}
+  input[type=range]{width:96px}
+
+  .lect{display:flex;gap:22px;flex-wrap:nowrap;align-items:baseline;padding:0 2px;white-space:nowrap}
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;letter-spacing:.02em}
+  .cel .v{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .cel.az .v{color:var(--azul)}
+  .cel.na .v{color:#b07400}
+  .cel.fija .v{color:var(--acc)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px;line-height:1.3}
+  .hint b{color:var(--acc)}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-width:0;min-height:0}
+  #figT{flex:7 1 0} #figF{flex:3 1 0}
+  #figW{flex:1 1 0} #figP{flex:1 1 0} #figS{flex:2 1 0}
+  body.m-rueda #figT, body.m-rueda #figF{display:none}
+  body:not(.m-rueda) #figW, body:not(.m-rueda) #figP, body:not(.m-rueda) #figS{display:none}
+  figcaption{position:absolute;top:6px;left:10px;z-index:2;color:var(--dim);font-size:12px;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none;max-width:92%}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0}
+</style>
+</head>
+<body class="m-cruzar">
+<div id="app">
+
+  <header>
+    <div class="brand">El aliasing, en vivo <span>IEE2103 · C19</span></div>
+    <div class="ctrls">
+      <div class="modos">
+        <button id="mCruzar">cruzar</button><button id="mAlias">alias</button><button id="mRueda">rueda</button>
+      </div>
+      <button id="btnPlay" class="primary">▶</button>
+      <div class="g g-cruzar">
+        <label class="sl">f <input type="range" id="slF"></label>
+        <button id="btnNy">f = fs/2</button>
+        <button id="btnFs">f = fs</button>
+      </div>
+      <div class="g g-alias">
+        <label class="sl">k <input type="range" id="slK"></label>
+      </div>
+      <div class="g g-rueda">
+        <label class="sl">f <input type="range" id="slRf"></label>
+        <label class="sl">fs <input type="range" id="slRs"></label>
+        <button id="btn24">fs = 24</button>
+        <button id="btnEqF">fs = f</button>
+        <button id="btn2F">fs = 2f</button>
+      </div>
+      <button id="btnReset">↺</button>
+    </div>
+  </header>
+
+  <div class="lect" id="lect"></div>
+
+  <div class="wrap">
+    <figure id="figT"><figcaption id="capT"></figcaption><canvas id="cT"></canvas></figure>
+    <figure id="figF"><figcaption id="capF"></figcaption><canvas id="cF"></canvas></figure>
+    <figure id="figW"><figcaption>la rueda real</figcaption><canvas id="cW"></canvas></figure>
+    <figure id="figP"><figcaption id="capP">la película</figcaption><canvas id="cP"></canvas></figure>
+    <figure id="figS"><figcaption>las últimas 8 fotos (la más nueva a la derecha)</figcaption><canvas id="cS"></canvas></figure>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const TAU = 2*Math.PI;
+const cT=$('cT'), cF=$('cF'), cW=$('cW'), cP=$('cP'), cS=$('cS');
+const slF=$('slF'), slK=$('slK'), slRf=$('slRf'), slRs=$('slRs'), btnPlay=$('btnPlay');
+
+// ── estado ──────────────────────────────────────────────────────────
+let modo='cruzar';
+let fsC=24, fC=3;                 // modo cruzar
+const FS_A=6; let f0=1, kA=0;     // modo alias
+let rf=1, rs=24, phi0=0;          // modo rueda
+let tAcc=0, tStart=0, marcha=false;   // reloj propio de la rueda
+let animando=false, raf=0, animStart=0, animK0=0;
+const SWEEP_MS=16000, K_MS=1200;
+const K_SEQ=[0,1,2,3,4,5,6,7,-1,-2,-3,-4];
+
+// parámetros de URL: ?modo=cruzar|alias|rueda · ?fs= · ?f= · ?f0= · ?k= · ?marcha=1
+const P=new URLSearchParams(location.search);
+const num=(k,lo,hi)=>{ if(!P.has(k)) return null; const v=parseFloat(P.get(k)); return isFinite(v)?Math.max(lo,Math.min(hi,v)):null; };
+{
+  if(['cruzar','alias','rueda'].includes(P.get('modo'))) modo=P.get('modo');
+  let v;
+  if(modo==='rueda'){
+    if((v=num('fs',1,30))!==null) rs=v;
+    if((v=num('f',0.2,3))!==null) rf=v;
+  } else {
+    if((v=num('fs',2,60))!==null) fsC=v;
+    if((v=num('f',0,2*fsC))!==null) fC=Math.round(v*10)/10;
+  }
+  if((v=num('f0',0,3))!==null) f0=v;
+  if((v=num('k',-4,7))!==null) kA=Math.round(v);
+}
+
+// ── matemática ──────────────────────────────────────────────────────
+const mod=(a,b)=>((a%b)+b)%b;
+function fAparente(f,fs){ const r=mod(f,fs); return r<=fs/2 ? r : fs-r; }   // = min(f mod fs, fs − f mod fs)
+function fmt(x,d=1){ let s=(Math.abs(x)<5*Math.pow(10,-d-1)?0:x).toFixed(d); if(d>0 && /\.0+$/.test(s)) s=s.replace(/\.0+$/,''); return s.replace('.',',').replace('-','−'); }
+const near=(a,b,e=1e-6)=>Math.abs(a-b)<e;
+
+// ── canvas ──────────────────────────────────────────────────────────
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx,w:r.width,h:r.height};
+}
+function curva(ctx,X,Y,freq,color,lw,alpha){
+  ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=lw; ctx.globalAlpha=alpha||1; ctx.lineJoin='round'; ctx.beginPath();
+  const S=1600;
+  for(let i=0;i<=S;i++){ const t=i/S, x=X(t), y=Y(Math.cos(TAU*freq*t)); i? ctx.lineTo(x,y):ctx.moveTo(x,y); }
+  ctx.stroke(); ctx.restore();
+}
+function arrow(ctx,x1,y1,x2,y2,s=6){
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  const a=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath(); ctx.moveTo(x2,y2); ctx.lineTo(x2-s*Math.cos(a-0.4),y2-s*Math.sin(a-0.4)); ctx.lineTo(x2-s*Math.cos(a+0.4),y2-s*Math.sin(a+0.4)); ctx.closePath(); ctx.fill();
+}
+
+// ── panel de tiempo (cruzar y alias): 1 s, muestras a fs ───────────
+function drawTiempo(fs,fBlue,fOrange){
+  const {ctx,w,h}=fit(cT);
+  const L=38,R=14,T=30,B=26;
+  const X=t=>L+t*(w-L-R), Y=y=>T+(1.3-y)/2.6*(h-T-B);
+  const y0=Y(0);
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(X(0),y0); ctx.lineTo(X(1),y0); ctx.stroke();
+  ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='right'; ctx.textBaseline='middle';
+  ctx.fillText('1',L-6,Y(1)); ctx.fillText('0',L-6,y0); ctx.fillText('−1',L-6,Y(-1));
+  ctx.beginPath(); ctx.moveTo(X(0),Y(1)); ctx.lineTo(X(1),Y(1)); ctx.moveTo(X(0),Y(-1)); ctx.lineTo(X(1),Y(-1));
+  ctx.setLineDash([2,4]); ctx.strokeStyle='#e3e9f1'; ctx.stroke(); ctx.setLineDash([]);
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  for(const t of [0,0.25,0.5,0.75,1]) ctx.fillText(fmt(t,2)+(t===1?' s':''),X(t),h-B+6);
+  // naranja (debajo, gruesa) y azul (encima)
+  curva(ctx,X,Y,fOrange,'#E69F00',5,0.75);
+  curva(ctx,X,Y,fBlue,'#0072B2',1.7,1);
+  // muestras
+  const nmax=Math.floor(fs+1e-9);
+  for(let n=0;n<=nmax;n++){
+    const x=X(n/fs), y=Y(Math.cos(TAU*fBlue*n/fs));
+    ctx.strokeStyle='#16202e'; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(x,y0); ctx.lineTo(x,y); ctx.stroke();
+    ctx.fillStyle='#16202e'; ctx.beginPath(); ctx.arc(x,y,3.4,0,7); ctx.fill();
+  }
+}
+
+// ── modo cruzar ─────────────────────────────────────────────────────
+function pintaCruzar(){
+  const fa=fAparente(fC,fsC);
+  $('capT').textContent='azul: cos(2πft) · negro: muestras (fs por segundo) · naranja: la más lenta con las mismas muestras';
+  $('capF').textContent='f aparente en función de f';
+  drawTiempo(fsC,fC,fa);
+  // panel de frecuencias: eje horizontal f de 0 a 2fs, curva = acordeón
+  const {ctx,w,h}=fit(cF);
+  const L=34,R=14,T=36,B=40, top=fsC/2*1.22;
+  const X=f=>L+f/(2*fsC)*(w-L-R), Y=a=>h-B-a/top*(h-T-B);
+  const yb=Y(0);
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(L,yb); ctx.lineTo(w-R,yb); ctx.moveTo(L,yb); ctx.lineTo(L,T-4); ctx.stroke();
+  // espejos
+  ctx.setLineDash([3,4]); ctx.strokeStyle='#cfd7e3';
+  for(const f of [fsC/2,fsC,1.5*fsC]){ ctx.beginPath(); ctx.moveTo(X(f),yb); ctx.lineTo(X(f),T-4); ctx.stroke(); }
+  ctx.beginPath(); ctx.moveTo(L,Y(fsC/2)); ctx.lineTo(w-R,Y(fsC/2)); ctx.stroke(); ctx.setLineDash([]);
+  // acordeón
+  ctx.strokeStyle='#9aa7b8'; ctx.lineWidth=2; ctx.beginPath();
+  [[0,0],[fsC/2,fsC/2],[fsC,0],[1.5*fsC,fsC/2],[2*fsC,0]].forEach((p,i)=>{ i? ctx.lineTo(X(p[0]),Y(p[1])):ctx.moveTo(X(p[0]),Y(p[1])); });
+  ctx.stroke();
+  // rótulos
+  ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='center'; ctx.textBaseline='top';
+  [[0,'0'],[fsC/2,fmt(fsC/2)],[fsC,fmt(fsC)],[1.5*fsC,fmt(1.5*fsC)],[2*fsC,fmt(2*fsC)]].forEach(([f,s])=>ctx.fillText(s,X(f),yb+5));
+  ctx.fillText('f (Hz)',(L+w-R)/2,yb+22);
+  ctx.textAlign='right'; ctx.textBaseline='middle'; ctx.fillText('0',L-5,yb); ctx.fillText(fmt(fsC/2),L-5,Y(fsC/2));
+  ctx.font='bold 11px system-ui'; ctx.fillStyle='#6042a6'; ctx.textBaseline='bottom'; ctx.textAlign='center';
+  ctx.fillText('Nyquist = fs/2',Math.max(X(fsC/2),L+44),T+6);
+  ctx.textAlign='left'; ctx.fillText('fs',X(fsC)+4,T+6);
+  // puntos
+  ctx.setLineDash([3,3]); ctx.strokeStyle='rgba(224,140,0,0.9)'; ctx.lineWidth=1.3;
+  ctx.beginPath(); ctx.moveTo(X(fC),yb); ctx.lineTo(X(fC),Y(fa)); ctx.moveTo(X(fC),Y(fa)); ctx.lineTo(X(fa),Y(fa)); ctx.lineTo(X(fa),yb); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#E69F00'; ctx.beginPath(); ctx.arc(X(fC),Y(fa),5,0,7); ctx.fill();
+  ctx.beginPath(); ctx.arc(X(fa),yb,5.5,0,7); ctx.fill();
+  ctx.fillStyle='#0072B2'; ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(X(fC),yb,5.5,0,7); ctx.fill(); ctx.stroke();
+}
+function hintCruzar(){
+  const f=fC, fs=fsC;
+  if(f>=fs-1e-6) return '<b>Pasó fs</b>: las muestras son las de f − fs = '+fmt(f-fs)+' Hz.';
+  if(near(f,fs/2,0.05)) return '<b>Justo en Nyquist</b>: las muestras ya no fijan la amplitud (aquí caen siempre en ±1 o en 0, según la fase).';
+  if(f<fs/2) return 'Las muestras <b>determinan</b> la senoidal: la naranja coincide con la azul.';
+  return 'Las mismas muestras pertenecen también a una senoidal <b>más lenta</b>, de fs − f = '+fmt(fs-f)+' Hz, que <b>BAJA mientras f sube</b>.';
+}
+function lectCruzar(){
+  return [['f',fmt(fC)+' Hz','az'],['fs',fmt(fsC)+' /s',''],['Nyquist = fs/2',fmt(fsC/2)+' Hz','fija'],['f aparente',fmt(fAparente(fC,fsC))+' Hz','na']];
+}
+
+// ── modo alias ──────────────────────────────────────────────────────
+function pintaAlias(){
+  const f=f0+kA*FS_A, fo=Math.abs(f);
+  $('capT').textContent='azul: cos(2π f₀ t) · negro: sus muestras · naranja: cos(2π (f₀ + k·fs) t)';
+  $('capF').textContent='la familia f₀ + k·fs';
+  drawTiempo(FS_A,f0,fo);
+  const {ctx,w,h}=fit(cF);
+  const L=14,R=14, lim=3*FS_A, X=f=>L+(f+lim)/(2*lim)*(w-L-R), yb=h*0.58;
+  // banda base [−fs/2, fs/2]
+  ctx.fillStyle='rgba(96,66,166,0.09)'; ctx.fillRect(X(-FS_A/2),yb-70,X(FS_A/2)-X(-FS_A/2),140);
+  ctx.font='bold 10px system-ui'; ctx.fillStyle='#6042a6'; ctx.textAlign='center'; ctx.textBaseline='top';
+  ctx.fillText('[−fs/2, fs/2]',X(0),yb-66);
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(L,yb); ctx.lineTo(w-R,yb); ctx.stroke();
+  ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8';
+  for(let m=-3;m<=3;m++){
+    ctx.strokeStyle='#c9d3e0'; ctx.beginPath(); ctx.moveTo(X(m*FS_A),yb-4); ctx.lineTo(X(m*FS_A),yb+4); ctx.stroke();
+    ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillText(m===0?'0':(m<0?'−':'')+(Math.abs(m)===1?'':Math.abs(m))+'fs',X(m*FS_A),yb+8);
+  }
+  // familia visible
+  for(let k=-4;k<=7;k++){
+    const ff=f0+k*FS_A; if(ff<-lim||ff>lim) continue;
+    const cur=k===kA;
+    ctx.fillStyle=cur?'#E69F00':'#c7cfda'; ctx.beginPath(); ctx.arc(X(ff),yb,cur?7:4.2,0,7); ctx.fill();
+    ctx.font='10px system-ui'; ctx.fillStyle=cur?'#b07400':'#8a97a8'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillText('k='+(k<0?'−'+(-k):k),X(ff),yb-(cur?11:8));
+  }
+  ctx.fillStyle='#0072B2'; ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(X(f0),yb,5,0,7); ctx.fill(); ctx.stroke();
+  ctx.font='bold 11px system-ui'; ctx.fillStyle='#0072B2'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillText('f₀',X(f0),yb+24);
+  if(f>lim||f<-lim){
+    ctx.font='bold 12px system-ui'; ctx.fillStyle='#b07400'; ctx.textAlign=f>0?'right':'left'; ctx.textBaseline='middle';
+    ctx.fillText(f>0?'f = '+fmt(f)+' ▶':'◀ f = '+fmt(f), f>0?w-R:L, yb-30);
+  }
+  ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText('f (Hz)',w/2,h-8);
+}
+function lectAlias(){
+  const f=f0+kA*FS_A;
+  let fv=fmt(f)+' Hz'; if(f<-1e-9) fv+=' = cos(2π·'+fmt(-f)+'t)';
+  return [['f₀',fmt(f0)+' Hz','az'],['fs',fmt(FS_A)+' /s',''],['k',String(kA).replace('-','−'),'fija'],['f = f₀ + k·fs',fv,'na']];
+}
+const hintAlias=()=>'Todas pasan por las mismas muestras: <b>cualquiera pudo ser la original</b>. Frecuencia aparente = |f − k·fs| con el k que la deje en [0, fs/2].';
+
+// ── modo rueda ──────────────────────────────────────────────────────
+const getT=()=> marcha ? tAcc+(performance.now()-tStart)/1000 : tAcc;
+function rueda(ctx,cx,cy,R,th,color){
+  ctx.strokeStyle='#8795a8'; ctx.lineWidth=Math.max(1.2,R*0.05);
+  ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+  ctx.lineWidth=Math.max(1,R*0.04);
+  for(let i=0;i<8;i++){
+    const a=th+i*Math.PI/4, rojo=(i===0);
+    ctx.strokeStyle=rojo?'#D55E00':'#8795a8'; ctx.lineWidth=rojo?Math.max(2,R*0.07):Math.max(1,R*0.04);
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(a),cy-R*Math.sin(a)); ctx.stroke();
+  }
+  ctx.fillStyle='#D55E00'; ctx.beginPath(); ctx.arc(cx+R*Math.cos(th),cy-R*Math.sin(th),Math.max(2.5,R*0.1),0,7); ctx.fill();
+  ctx.fillStyle='#16202e'; ctx.beginPath(); ctx.arc(cx,cy,Math.max(1.5,R*0.05),0,7); ctx.fill();
+}
+function pintaRueda(){
+  const t=getT(), th=TAU*rf*t+phi0, nF=Math.floor(t*rs+1e-9), tp=nF/rs, thP=TAU*rf*tp+phi0;
+  $('capP').textContent='la película: 1 foto cada '+fmt(1/rs,2)+' s';
+  {
+    const {ctx,w,h}=fit(cW); const R=Math.min(w,h)*0.36; rueda(ctx,w/2,h*0.55,R,th);
+    ctx.font='12px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText('t = '+fmt(t,2)+' s · f = '+fmt(rf,2)+' v/s',w/2,h-6);
+  }
+  {
+    const {ctx,w,h}=fit(cP); const R=Math.min(w,h)*0.36; rueda(ctx,w/2,h*0.55,R,thP);
+    ctx.font='12px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText('foto n = '+nF+' · tomada en t = '+fmt(tp,2)+' s',w/2,h-6);
+  }
+  {
+    const {ctx,w,h}=fit(cS); const cw=(w-12)/8, R=Math.min(cw*0.42,h*0.3);
+    for(let i=0;i<8;i++){
+      const j=nF-7+i, cx=6+cw*(i+0.5), cy=h*0.5;
+      if(j<0){ ctx.strokeStyle='#e3e9f1'; ctx.setLineDash([2,3]); ctx.lineWidth=1; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke(); ctx.setLineDash([]); continue; }
+      rueda(ctx,cx,cy,R,TAU*rf*(j/rs)+phi0);
+      ctx.font='10px system-ui'; ctx.fillStyle=i===7?'#6042a6':'#8a97a8'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillText(i===7?'ahora':String(j),cx,cy+R+8);
+    }
+    ctx.strokeStyle='#c9d3e0'; ctx.fillStyle='#c9d3e0'; ctx.lineWidth=1; arrow(ctx,10,h-18,w-10,h-18,5);
+    ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='right'; ctx.textBaseline='bottom'; ctx.fillText('tiempo',w-12,h-22);
+  }
+}
+function giro(){ return rf - Math.round(rf/rs)*rs; }
+function palabra(){
+  const g=giro();
+  if(near(rs,2*rf,1e-6)) return 'ambiguo';
+  if(Math.abs(g)<1e-6) return 'quieta';
+  if(g<0) return 'al revés';
+  return rs>2*rf ? 'correcto' : 'más lenta';
+}
+function lectRueda(){
+  const g=giro(), p=palabra();
+  return [['f (vueltas/s)',fmt(rf,2),'az'],['fs (cuadros/s)',fmt(rs),''],['giro aparente (vueltas/s)',fmt(g,2),'na'],['se ve',p,'fija']];
+}
+function hintRueda(){
+  const g=giro(), p=palabra();
+  if(p==='ambiguo') return '<b>fs = 2f</b>: dos fotos por vuelta; el sentido es ambiguo (media vuelta hacia un lado o hacia el otro).';
+  if(p==='quieta') return '<b>Una foto por vuelta</b>: la rueda parece quieta.';
+  if(rs>2*rf) return 'Más de dos fotos por vuelta: <b>el sentido se conserva</b>.';
+  if(g<0) return 'Menos de dos fotos por vuelta: <b>parece girar al revés</b> y más lento. El cine muestrea a 24 cuadros por segundo: es el mismo teorema con el tiempo en cuadros.';
+  return 'Menos de dos fotos por vuelta: <b>parece girar más lento</b> (aliasing). El cine muestrea a 24 cuadros por segundo: es el mismo teorema con el tiempo en cuadros.';
+}
+
+// ── despacho ────────────────────────────────────────────────────────
+function pinta(){
+  let cels, hint;
+  if(modo==='cruzar'){ pintaCruzar(); cels=lectCruzar(); hint=hintCruzar(); }
+  else if(modo==='alias'){ pintaAlias(); cels=lectAlias(); hint=hintAlias(); }
+  else { pintaRueda(); cels=lectRueda(); hint=hintRueda(); }
+  $('lect').innerHTML=cels.map(c=>'<div class="cel '+c[2]+'"><span class="k">'+c[0]+'</span><span class="v">'+c[1]+'</span></div>').join('');
+  $('hint').innerHTML=hint;
+  btnPlay.textContent= (modo==='rueda'?marcha:animando) ? '⏸' : '▶';
+}
+
+// ── animación ───────────────────────────────────────────────────────
+function frame(ts){
+  if(modo==='rueda'){ if(!marcha) return; pinta(); raf=requestAnimationFrame(frame); return; }
+  if(!animando) return;
+  if(modo==='cruzar'){
+    fC=Math.round(((ts-animStart)%SWEEP_MS)/SWEEP_MS*2*fsC*10)/10; slF.value=fC;
+  } else {
+    const i=(animK0+Math.floor((ts-animStart)/K_MS))%K_SEQ.length; kA=K_SEQ[i]; slK.value=kA;
+  }
+  pinta(); raf=requestAnimationFrame(frame);
+}
+function detener(){
+  animando=false;
+  if(marcha){ tAcc=getT(); marcha=false; }
+  cancelAnimationFrame(raf);
+}
+function toggle(){
+  if(modo==='rueda'){
+    if(marcha){ detener(); pinta(); return; }
+    detener(); marcha=true; tStart=performance.now(); raf=requestAnimationFrame(frame); pinta(); return;
+  }
+  if(animando){ detener(); pinta(); return; }
+  animando=true; const now=performance.now();
+  if(modo==='cruzar') animStart=now-(fC/(2*fsC))*SWEEP_MS;
+  else { animK0=Math.max(0,K_SEQ.indexOf(kA)); animStart=now; }
+  raf=requestAnimationFrame(frame); pinta();
+}
+function setF(v){ detener(); fC=Math.round(Math.max(0,Math.min(2*fsC,v))*10)/10; slF.value=fC; pinta(); }
+function setK(v){ detener(); kA=Math.max(-4,Math.min(7,Math.round(v))); slK.value=kA; pinta(); }
+function setRf(v){ const t=getT(), nv=Math.max(0.2,Math.min(3,v)); phi0+=TAU*(rf-nv)*t; rf=nv; slRf.value=rf; pinta(); }
+function setRs(v){ rs=Math.max(1,Math.min(30,v)); slRs.value=rs; pinta(); }
+function setModo(m){
+  detener(); modo=m; document.body.className='m-'+m;
+  for(const [id,mm] of [['mCruzar','cruzar'],['mAlias','alias'],['mRueda','rueda']]) $(id).classList.toggle('on',mm===m);
+  pinta();
+}
+function resetAll(){
+  detener();
+  if(modo==='cruzar'){ fC=3; slF.value=fC; }
+  else if(modo==='alias'){ kA=0; slK.value=0; }
+  else { rf=1; rs=24; phi0=0; tAcc=0; slRf.value=rf; slRs.value=rs; }
+  pinta();
+}
+
+// ── controles ───────────────────────────────────────────────────────
+slF.min=0; slF.max=2*fsC; slF.step=0.1; slF.value=fC;
+slK.min=-4; slK.max=7; slK.step=1; slK.value=kA;
+slRf.min=0.2; slRf.max=3; slRf.step=0.05; slRf.value=rf;
+slRs.min=1; slRs.max=30; slRs.step=0.5; slRs.value=rs;
+$('mCruzar').onclick=()=>setModo('cruzar'); $('mAlias').onclick=()=>setModo('alias'); $('mRueda').onclick=()=>setModo('rueda');
+btnPlay.onclick=toggle; $('btnReset').onclick=resetAll;
+$('btnNy').onclick=()=>setF(fsC/2); $('btnFs').onclick=()=>setF(fsC);
+$('btn24').onclick=()=>setRs(24); $('btnEqF').onclick=()=>setRs(rf); $('btn2F').onclick=()=>setRs(2*rf);
+slF.oninput=e=>setF(+e.target.value);
+slK.oninput=e=>setK(+e.target.value);
+slRf.oninput=e=>setRf(+e.target.value);
+slRs.oninput=e=>setRs(+e.target.value);
+
+// dentro de reveal.js: cualquier toque en la demo le da el foco al iframe
+document.addEventListener('pointerdown', ()=>window.focus(), true);
+
+document.addEventListener('keydown', e=>{
+  if(e.target && e.target.tagName==='INPUT') return;
+  const k=e.key;
+  if(e.code==='Space'){ e.preventDefault(); e.stopPropagation(); toggle(); }
+  else if(k==='ArrowRight'||k==='ArrowLeft'){
+    e.preventDefault(); e.stopPropagation(); const d=k==='ArrowRight'?1:-1;
+    if(modo==='cruzar') setF(fC+0.5*d); else if(modo==='alias') setK(kA+d); else setRf(rf+0.1*d);
+  }
+  else if(k==='r'||k==='R'){ e.stopPropagation(); resetAll(); }
+  else if(k==='1'){ e.stopPropagation(); setModo('cruzar'); }
+  else if(k==='2'){ e.stopPropagation(); setModo('alias'); }
+  else if(k==='3'){ e.stopPropagation(); setModo('rueda'); }
+});
+
+{ const ro=new ResizeObserver(()=>pinta()); for(const f of document.querySelectorAll('figure')) ro.observe(f); ro.observe(document.body); }
+setModo(modo);   // primer cuadro sin depender de requestAnimationFrame
+if(P.get('marcha')==='1' && modo==='rueda') toggle();
+</script>
+</body>
+</html>

@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cambiar la tasa — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --azul:#0072B2; --rojo:#D55E00; --acc:#6042a6; --ghost:#b9c4d2; --alias:#E69F00; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:8px 14px;gap:6px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:12px;margin-left:7px}
+  .ctrls{margin-left:auto;display:flex;gap:5px;align-items:center;flex-wrap:nowrap;min-width:0}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:5px 8px;cursor:pointer;white-space:nowrap;font-size:13px}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  button.on{background:#fff3dc;border-color:var(--alias);color:#8a5a00;font-weight:600}
+  .modos{display:flex;gap:0;flex:0 0 auto}
+  .modos button{border-radius:0;margin-left:-1px}
+  .modos button:first-child{border-radius:8px 0 0 8px;margin-left:0}
+  .modos button:last-child{border-radius:0 8px 8px 0}
+  label.sl{display:flex;align-items:center;gap:5px;color:var(--dim);font-size:13px;white-space:nowrap}
+  input[type=range]{width:84px}
+
+  #app .md, #app .mi, #app .mr{display:none}
+  #app.m-diezmar .md, #app.m-interpolar .mi, #app.m-racional .mr{display:inline-flex}
+
+  .lect{display:flex;gap:20px;flex-wrap:nowrap;align-items:baseline;padding:0 2px;white-space:nowrap;min-height:24px}
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;letter-spacing:.02em}
+  .cel .v{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .cel.az .v{color:var(--azul)}
+  .cel.na .v{color:var(--rojo)}
+  .cel.fija .v{color:var(--acc)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px;line-height:1.3}
+  .hint b{color:var(--acc)}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  .colL{flex:3 1 0;min-width:0;min-height:0;display:flex;flex-direction:column;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-width:0;min-height:0}
+  #figA{flex:1 1 0} #figB{flex:1 1 0} #figC{flex:2 1 0} #figR{flex:1 1 0;display:none}
+  #app.m-racional .colL, #app.m-racional #figC{display:none}
+  #app.m-racional #figR{display:block}
+  figcaption{position:absolute;top:6px;left:10px;z-index:2;color:var(--dim);font-size:12px;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none;max-width:94%}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0}
+</style>
+</head>
+<body>
+<div id="app" class="m-diezmar">
+
+  <header>
+    <div class="brand">Cambiar la tasa <span>IEE2103 · C20</span></div>
+    <div class="modos">
+      <button id="mdDiezmar">diezmar</button>
+      <button id="mdInterpolar">interpolar</button>
+      <button id="mdRacional">racional</button>
+    </div>
+    <div class="ctrls">
+      <!-- diezmar -->
+      <label class="sl md">Ω0 <input type="range" id="slOmD"></label>
+      <button class="md" id="bM2">M = 2</button><button class="md" id="bM3">M = 3</button>
+      <button class="md" id="bM4">M = 4</button><button class="md" id="bM6">M = 6</button>
+      <button class="md" id="bFiltro">filtrar antes</button>
+      <button class="md primary" id="bOirD">♪ oír</button>
+      <button class="md" id="bNota">♪ nota</button>
+      <!-- interpolar -->
+      <label class="sl mi">Ω0 <input type="range" id="slOmI"></label>
+      <button class="mi" id="bL2">L = 2</button><button class="mi" id="bL3">L = 3</button><button class="mi" id="bL4">L = 4</button>
+      <button class="mi primary" id="bPaso">▶ paso 1</button>
+      <button class="mi" id="bOirI">♪ oír</button>
+      <!-- racional -->
+      <button class="mr" id="bP0">48 → 44,1</button><button class="mr" id="bP1">44,1 → 48</button>
+      <button class="mr" id="bP2">48 → 8</button><button class="mr" id="bP3">8 → 16</button>
+      <button class="mr" id="bP4">44,1 → 8</button>
+    </div>
+  </header>
+
+  <div class="lect" id="lect"></div>
+
+  <div class="wrap">
+    <div class="colL">
+      <figure id="figA"><figcaption id="capA">—</figcaption><canvas id="cA"></canvas></figure>
+      <figure id="figB"><figcaption id="capB">—</figcaption><canvas id="cB"></canvas></figure>
+    </div>
+    <figure id="figC"><figcaption id="capC">—</figcaption><canvas id="cC"></canvas></figure>
+    <figure id="figR"><figcaption>un solo filtro, entre subir y bajar</figcaption><canvas id="cR"></canvas></figure>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const cA=$('cA'), cB=$('cB'), cC=$('cC'), cR=$('cR');
+const TAU=2*Math.PI, PI=Math.PI;
+const FS=8000;                                   // tasa de la señal "de aula": Ω = π  ↔  4000 Hz
+
+// ── estado ──────────────────────────────────────────────────────────
+let modo='diezmar';
+let omD=0.15*PI, omI=0.5*PI;
+let M=3, filtro=false, notaVista=false;
+let L=2, paso=0;
+let preset=0;
+const PRESETS=[
+  {t:'48 → 44,1', fin:48000, fout:44100},
+  {t:'44,1 → 48', fin:44100, fout:48000},
+  {t:'48 → 8',    fin:48000, fout:8000},
+  {t:'8 → 16',    fin:8000,  fout:16000},
+  {t:'44,1 → 8',  fin:44100, fout:8000}
+];
+const NTAP_AA=127, NTAP_IN=95;
+
+// parámetros de URL: ?modo=diezmar|interpolar|racional · ?om= (en π) · ?M= · ?filtro=1 · ?L= · ?paso=0|1|2 · ?preset=0..4 · ?nota=1
+{
+  const p=new URLSearchParams(location.search);
+  if(['diezmar','interpolar','racional'].includes(p.get('modo'))) modo=p.get('modo');
+  if(p.has('om')){ const v=parseFloat(p.get('om')); if(isFinite(v)){ const o=Math.max(0,Math.min(1,v))*PI; omD=o; omI=o; } }
+  if(p.has('M')){ const v=parseInt(p.get('M'),10); if([2,3,4,6].includes(v)) M=v; }
+  if(p.has('L')){ const v=parseInt(p.get('L'),10); if([2,3,4].includes(v)) L=v; }
+  if(p.has('filtro')) filtro = p.get('filtro')==='1';
+  if(p.has('paso')){ const v=parseInt(p.get('paso'),10); if([0,1,2].includes(v)) paso=v; }
+  if(p.has('preset')){ const v=parseInt(p.get('preset'),10); if(v>=0&&v<PRESETS.length) preset=v; }
+  if(p.get('nota')==='1') notaVista=true;
+}
+
+// ── formato (coma decimal) ──────────────────────────────────────────
+function fmtDec(x,maxd){
+  let s=x.toFixed(maxd);
+  if(s.indexOf('.')>=0) s=s.replace(/0+$/,'').replace(/\.$/,'');
+  let [e,d]=s.split('.');
+  if(e.replace('-','').length>=5) e=e.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  return (e+(d?','+d:'')).replace('-','−');
+}
+function fmtPi(w){
+  const r=w/PI;
+  if(Math.abs(r)<5e-4) return '0';
+  if(Math.abs(r-1)<5e-4) return 'π';
+  return fmtDec(r,3)+' π';
+}
+function fmtHz(f){ return fmtDec(f,f<100?1:0)+' Hz'; }
+function fmtKHz(f){ return fmtDec(f/1000,3)+' kHz'; }
+function gcd(a,b){ while(b){ [a,b]=[b,a%b]; } return a; }
+
+// ── matemática ──────────────────────────────────────────────────────
+function wrapPi(w){                        // lleva una frecuencia a [0, π] (envolver y reflejar)
+  let m=((w%TAU)+TAU)%TAU;
+  return m<=PI+1e-12 ? m : TAU-m;
+}
+function sincLP(N,wc,gain){                // FIR pasabajos: sinc ventaneada (Hann), suma = ganancia en Ω = 0
+  const c=(N-1)/2, h=new Array(N);
+  let s=0;
+  for(let k=0;k<N;k++){
+    const t=k-c, ideal= t===0 ? wc/PI : Math.sin(wc*t)/(PI*t);
+    h[k]=ideal*(0.5-0.5*Math.cos(TAU*k/(N-1))); s+=h[k];
+  }
+  for(let k=0;k<N;k++) h[k]*=gain/s;
+  return h;
+}
+function respuesta(h,w){                   // |H(e^{jw})| del FIR
+  const c=(h.length-1)/2; let s=0;
+  for(let k=0;k<h.length;k++) s+=h[k]*Math.cos(w*(k-c));
+  return Math.abs(s);
+}
+const cacheAA={};
+function firAA(m){ return cacheAA[m]||(cacheAA[m]=sincLP(NTAP_AA,PI/m,1)); }
+const cacheIN={};
+function firIN(l){ return cacheIN[l]||(cacheIN[l]=sincLP(NTAP_IN,PI/l,l)); }
+
+// interpolación: v = x con L−1 ceros, y = v * h con el retardo compensado (se evalúa la cos infinita)
+function interpolada(om,l){
+  const h=firIN(l), c=(NTAP_IN-1)/2, n=16*l, y=new Array(n);
+  for(let m=0;m<n;m++){
+    let s=0;
+    for(let k=0;k<NTAP_IN;k++){
+      const j=m+c-k;
+      if(((j%l)+l)%l===0) s+=h[k]*Math.cos(om*(j/l));
+    }
+    y[m]=s;
+  }
+  return y;
+}
+
+// ── canvas helpers ──────────────────────────────────────────────────
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx,w:r.width,h:r.height};
+}
+function arrow2(ctx,x1,y1,x2,y2,s=6){
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  const ang=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath(); ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-s*Math.cos(ang-0.4),y2-s*Math.sin(ang-0.4));
+  ctx.lineTo(x2-s*Math.cos(ang+0.4),y2-s*Math.sin(ang+0.4));
+  ctx.closePath(); ctx.fill();
+}
+function txt(ctx,s,x,y,font,color,al,bl){ ctx.font=font; ctx.fillStyle=color; ctx.textAlign=al||'center'; ctx.textBaseline=bl||'alphabetic'; ctx.fillText(s,x,y); }
+
+// panel de barras (stem). o: {nMax, count, posOf(i), val(i), style(i), curve(t), curveColor, r, tickStep, nLabel}
+function stemPanel(cv,o){
+  const {ctx,w,h}=fit(cv);
+  if(w<20||h<20) return;
+  const padL=30, padR=12, padT=28, padB=22, ymax=1.35;
+  const X=t=>padL+(t+0.6)/(o.nMax+0.2)*(w-padL-padR);
+  const Y=v=>padT+(1-(v+ymax)/(2*ymax))*(h-padT-padB);
+  const y0=Y(0);
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(X(-0.6),y0); ctx.lineTo(X(o.nMax+0.2),y0);
+  ctx.moveTo(X(-0.6),Y(1)); ctx.lineTo(X(-0.3),Y(1)); ctx.moveTo(X(-0.6),Y(-1)); ctx.lineTo(X(-0.3),Y(-1)); ctx.stroke();
+  ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='right'; ctx.textBaseline='middle';
+  ctx.fillText('1',X(-0.6)-3,Y(1)); ctx.fillText('−1',X(-0.6)-3,Y(-1));
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  for(let n=0;n<=o.nMax;n+=o.tickStep) ctx.fillText(String(n),X(n),h-padB+4);
+  ctx.textAlign='right'; ctx.fillText(o.nLabel||'n',w-4,h-padB+4);
+  if(o.curve){
+    ctx.strokeStyle=o.curveColor||'rgba(150,160,175,0.9)'; ctx.lineWidth=1.3; ctx.setLineDash([4,3]); ctx.beginPath();
+    const t0=-0.6, t1=o.nMax+0.2;
+    for(let t=t0;t<=t1+1e-9;t+=0.02){ const px=X(t), py=Y(o.curve(t)); t===t0? ctx.moveTo(px,py):ctx.lineTo(px,py); }
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  for(let i=0;i<o.count;i++){
+    const st=o.style(i), x=X(o.posOf(i)), y=Y(o.val(i)), r=o.r||3.4;
+    ctx.strokeStyle=st.line; ctx.lineWidth=st.lw||2;
+    ctx.beginPath(); ctx.moveTo(x,y0); ctx.lineTo(x,y); ctx.stroke();
+    if(st.hollow){ ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill(); ctx.lineWidth=1.4; ctx.stroke(); }
+    else { ctx.fillStyle=st.fill||st.line; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill(); }
+    if(st.ring){ ctx.strokeStyle='#16202e'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(x,y,r+3.6,0,7); ctx.stroke(); }
+  }
+}
+
+// eje de frecuencias [0, π], con Hz en dos tasas
+function ejeFrec(ctx,w,h,fsA,fsB,labA,labB){
+  const xl=34, xr=w-34, yAx=Math.round(h*0.56);
+  const X=om=>xl+om/PI*(xr-xl);
+  ctx.strokeStyle='#16202e'; ctx.lineWidth=1.6;
+  ctx.beginPath(); ctx.moveTo(xl-6,yAx); ctx.lineTo(xr+6,yAx); ctx.stroke();
+  const names=['0','π/4','π/2','3π/4','π'];
+  for(let i=0;i<=4;i++){
+    const om=i*PI/4, x=X(om);
+    ctx.strokeStyle='#16202e'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(x,yAx-4); ctx.lineTo(x,yAx+4); ctx.stroke();
+    txt(ctx,names[i],x,yAx+19,'12px system-ui','#16202e','center','alphabetic');
+    txt(ctx,fmtDec(om/PI*fsA/2,0),x,yAx+36,'11px system-ui','#65758b');
+    txt(ctx,fmtDec(om/PI*fsB/2,0),x,yAx+51,'11px system-ui','#b07400');
+  }
+  txt(ctx,'Ω',xr+6,yAx-8,'italic 13px system-ui','#16202e','right');
+  txt(ctx,labA,xl,yAx+66,'11px system-ui','#65758b','left');
+  txt(ctx,labB,xr,yAx+66,'11px system-ui','#b07400','right');
+  return {X,yAx,xl,xr};
+}
+function punto(ctx,x,y,color,r){ ctx.fillStyle=color; ctx.beginPath(); ctx.arc(x,y,r||6,0,7); ctx.fill(); ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke(); }
+
+// ── FFT radix-2 a mano (solo para el analizador de «lo que se oye») ──
+function fft(re,im){
+  const n=re.length;
+  for(let i=1,j=0;i<n;i++){
+    let bit=n>>1;
+    for(;j&bit;bit>>=1) j^=bit;
+    j^=bit;
+    if(i<j){ let t=re[i]; re[i]=re[j]; re[j]=t; t=im[i]; im[i]=im[j]; im[j]=t; }
+  }
+  for(let len=2;len<=n;len<<=1){
+    const ang=-TAU/len, wr=Math.cos(ang), wi=Math.sin(ang);
+    for(let i=0;i<n;i+=len){
+      let cr=1, ci=0;
+      for(let k=0;k<len/2;k++){
+        const a=i+k, b=i+k+len/2;
+        const xr=re[b]*cr-im[b]*ci, xi=re[b]*ci+im[b]*cr;
+        re[b]=re[a]-xr; im[b]=im[a]-xi; re[a]+=xr; im[a]+=xi;
+        const t=cr*wr-ci*wi; ci=cr*wi+ci*wr; cr=t;
+      }
+    }
+  }
+}
+function espectroDB(sig,start){            // 1024 valores en dB (re. 0 dB = armónico de amplitud 1), ventana Hann de 2048
+  const n=2048, re=new Float64Array(n), im=new Float64Array(n);
+  let sw=0;
+  for(let i=0;i<n;i++){ const wv=0.5-0.5*Math.cos(TAU*i/n); re[i]=(sig[start+i]||0)*wv; sw+=wv; }
+  fft(re,im);
+  const out=new Float64Array(n/2);
+  for(let k=0;k<n/2;k++) out[k]=20*Math.log10(Math.max(1e-6, 2*Math.hypot(re[k],im[k])/sw));
+  return out;
+}
+
+// ── la nota sintética: 220 Hz, 20 armónicos 1/k, decaimiento de 1,2 s, fs = 32 000 ──
+const NOTA_FS=32000, NOTA_DUR=1.2, NOTA_N0=2000;
+let notaX=null, notaSpec0=null;
+function notaOriginal(){
+  if(notaX) return notaX;
+  const n=Math.round(NOTA_FS*NOTA_DUR), x=new Float64Array(n);
+  for(let i=0;i<n;i++){
+    const t=i/NOTA_FS, env=Math.exp(-t/1.2); let s=0;
+    for(let k=1;k<=20;k++) s+=Math.sin(TAU*220*k*t)/k;
+    x[i]=env*s;
+  }
+  let pk=0; for(let i=0;i<n;i++) pk=Math.max(pk,Math.abs(x[i]));
+  for(let i=0;i<n;i++) x[i]/=pk;                     // pico 1 (el espectro se mide con el mismo factor)
+  notaX=x; notaSpec0=espectroDB(x,NOTA_N0);
+  NOTA_PK=pk; return x;
+}
+let NOTA_PK=1;
+const cacheNota={};
+function notaDiezmada(m,fil){                         // devuelve {y, spec}
+  const key=m+'_'+fil;
+  if(cacheNota[key]) return cacheNota[key];
+  const x=notaOriginal(); let xf=x;
+  if(fil){
+    const h=firAA(m), c=(NTAP_AA-1)/2; xf=new Float64Array(x.length);
+    for(let i=0;i<x.length;i++){ let s=0; for(let k=0;k<NTAP_AA;k++){ const j=i+c-k; if(j>=0&&j<x.length) s+=h[k]*x[j]; } xf[i]=s; }
+  }
+  const ny=Math.floor((x.length-1)/m)+1, y=new Float64Array(ny);
+  for(let i=0;i<ny;i++) y[i]=xf[i*m];
+  return cacheNota[key]={y, spec:espectroDB(y,Math.round(NOTA_N0/m))};
+}
+
+// ── paneles del modo diezmar ────────────────────────────────────────
+function datosDiezmar(){
+  const om=omD, g= filtro ? respuesta(firAA(M),om) : 1;
+  return {om, g, mw:M*om, ap:wrapPi(M*om), cut:PI/M};
+}
+function pintaDiezmar(){
+  const d=datosDiezmar(), om=d.om, g=d.g;
+  $('capA').textContent='x[n] = cos(Ω0 n)'+(filtro?', tras el filtro':'')+' · anillo: sobreviven (n múltiplo de M) · gris: se botan';
+  $('capB').textContent='y[n] = x[Mn] · gris: cos(Ω ap · n)';
+  $('capC').textContent= notaVista ? 'lo que se oye: magnitud en dB de una nota de 220 Hz' : 'frecuencias: Ω en π, y en Hz';
+  stemPanel(cA,{nMax:47,count:48,posOf:i=>i,val:i=>g*Math.cos(om*i),tickStep:6,r:3.2,
+    curve: filtro ? (t=>Math.cos(om*t)) : null, curveColor:'rgba(150,160,175,0.7)',
+    style:i=> i%M===0 ? {line:'#0072B2',ring:true,lw:2} : {line:'#cdd5e0',hollow:true,lw:1.5}});
+  stemPanel(cB,{nMax:15,count:16,posOf:i=>i,val:i=>g*Math.cos(om*M*i),tickStep:2,r:3.6,
+    curve:t=>g*Math.cos(d.ap*t), curveColor:'rgba(120,130,145,0.9)',
+    style:()=>({line:'#D55E00',lw:2.2})});
+  if(notaVista) pintaNota(); else pintaEjeD(d);
+}
+function pintaEjeD(d){
+  const {ctx,w,h}=fit(cC);
+  if(w<20) return;
+  const e=ejeFrec(ctx,w,h,FS,FS/M,'Hz con fs = 8000','Hz con fs/M = '+fmtDec(FS/M,0));
+  const {X,yAx}=e;
+  // banda que cabe sin aliasing
+  ctx.fillStyle='rgba(0,114,178,0.10)'; ctx.fillRect(X(0),yAx-96,X(PI/M)-X(0),96);
+  ctx.strokeStyle='rgba(0,114,178,0.35)'; ctx.lineWidth=1; ctx.strokeRect(X(0),yAx-96,X(PI/M)-X(0),96);
+  txt(ctx,'cabe sin aliasing  [0, π/M]',X(0),yAx-102,'11px system-ui','#0072B2','left');
+  // corte del filtro
+  if(filtro){
+    const xc=X(PI/M);
+    ctx.strokeStyle='#6042a6'; ctx.lineWidth=2; ctx.setLineDash([5,3]);
+    ctx.beginPath(); ctx.moveTo(xc,yAx-122); ctx.lineTo(xc,yAx+6); ctx.stroke(); ctx.setLineDash([]);
+    txt(ctx,'corte del filtro π/M',xc+4,yAx-124,'bold 11px system-ui','#6042a6','left');
+  }
+  // Ω0 y M·Ω0
+  const om=d.om, mw=d.mw, ap=d.ap, y1=yAx-62, y2=yAx-30;
+  ctx.strokeStyle='rgba(0,114,178,0.5)'; ctx.lineWidth=1; ctx.setLineDash([2,3]);
+  ctx.beginPath(); ctx.moveTo(X(om),yAx); ctx.lineTo(X(om),y1); ctx.stroke(); ctx.setLineDash([]);
+  const salePi = mw>PI+1e-9;
+  ctx.strokeStyle='#6042a6'; ctx.fillStyle='#6042a6'; ctx.lineWidth=2;
+  const tgt = salePi ? PI : mw;
+  if(Math.abs(X(tgt)-X(om))>3) arrow2(ctx,X(om),y1,X(tgt),y1,8);
+  txt(ctx,'M·Ω0',X(tgt),y1-6,'bold 11px system-ui','#6042a6', salePi?'right':'center');
+  if(salePi){
+    // rebote en π: la flecha llega a π y vuelve hasta Ω ap
+    ctx.strokeStyle='#D55E00'; ctx.fillStyle='#D55E00';
+    ctx.beginPath(); ctx.moveTo(X(PI),y1); ctx.lineTo(X(PI),y2); ctx.stroke();
+    if(Math.abs(X(PI)-X(ap))>3) arrow2(ctx,X(PI),y2,X(ap),y2,8);
+    txt(ctx,'rebota en π (M·Ω0 = '+fmtPi(mw)+')',X(PI),y2-8,'11px system-ui','#b24a00','right');
+    ctx.setLineDash([2,3]); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(X(ap),y2); ctx.lineTo(X(ap),yAx); ctx.stroke(); ctx.setLineDash([]);
+  } else {
+    ctx.strokeStyle='rgba(213,94,0,0.5)'; ctx.lineWidth=1; ctx.setLineDash([2,3]);
+    ctx.beginPath(); ctx.moveTo(X(ap),y1); ctx.lineTo(X(ap),yAx); ctx.stroke(); ctx.setLineDash([]);
+  }
+  punto(ctx,X(om),yAx,'#0072B2',6.5);
+  punto(ctx,X(ap),yAx,'#D55E00',5.5);
+  txt(ctx,'Ω0',X(om),yAx-11,'bold 12px system-ui','#0072B2','center');
+  if(Math.abs(X(ap)-X(om))>36 || true) txt(ctx,'Ω ap',X(ap),yAx+84,'bold 12px system-ui','#b24a00','center');
+  // apoyo: leyenda
+  txt(ctx,'azul: Ω0 · violeta: M·Ω0 · naranja: Ω aparente',w/2,h-12,'11px system-ui','#65758b','center');
+}
+function pintaNota(){
+  const {ctx,w,h}=fit(cC);
+  if(w<20) return;
+  notaOriginal();
+  const nd=notaDiezmada(M,filtro);
+  const padL=40, padR=12, padT=30, padB=44, FMAX=6000, dbMin=-80, dbMax=6;
+  const X=f=>padL+f/FMAX*(w-padL-padR), Y=db=>padT+(1-(Math.max(dbMin,Math.min(dbMax,db))-dbMin)/(dbMax-dbMin))*(h-padT-padB);
+  ctx.strokeStyle='#e3e8ef'; ctx.lineWidth=1;
+  for(const db of [0,-20,-40,-60]){ ctx.beginPath(); ctx.moveTo(padL,Y(db)); ctx.lineTo(w-padR,Y(db)); ctx.stroke(); txt(ctx,db+' dB',padL-4,Y(db)+4,'10px system-ui','#8a97a8','right'); }
+  for(const f of [0,1000,2000,3000,4000,5000,6000]){ const x=X(f); ctx.strokeStyle='#16202e'; ctx.beginPath(); ctx.moveTo(x,h-padB); ctx.lineTo(x,h-padB+4); ctx.stroke(); txt(ctx,fmtDec(f,0),x,h-padB+17,'11px system-ui','#65758b'); }
+  ctx.strokeStyle='#16202e'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.moveTo(padL,h-padB); ctx.lineTo(w-padR,h-padB); ctx.stroke();
+  txt(ctx,'Hz',w-padR,h-padB+30,'11px system-ui','#65758b','right');
+  // original (gris) y diezmada (naranja)
+  const dfo=NOTA_FS/2048, dfd=(NOTA_FS/M)/2048;
+  ctx.strokeStyle='rgba(120,132,148,0.9)'; ctx.lineWidth=1.4; ctx.beginPath();
+  for(let k=0;k*dfo<=FMAX;k++){ const px=X(k*dfo), py=Y(notaSpec0[k]); k? ctx.lineTo(px,py):ctx.moveTo(px,py); }
+  ctx.stroke();
+  ctx.strokeStyle='#D55E00'; ctx.lineWidth=1.8; ctx.beginPath();
+  for(let k=0;k<1024&&k*dfd<=FMAX;k++){ const px=X(k*dfd), py=Y(nd.spec[k]); k? ctx.lineTo(px,py):ctx.moveTo(px,py); }
+  ctx.stroke();
+  // nueva Nyquist
+  const ny=16000/M;
+  if(ny<=FMAX){
+    const xn=X(ny);
+    ctx.strokeStyle='#6042a6'; ctx.lineWidth=2; ctx.setLineDash([5,3]); ctx.beginPath(); ctx.moveTo(xn,padT-4); ctx.lineTo(xn,h-padB); ctx.stroke(); ctx.setLineDash([]);
+    txt(ctx,'nueva Nyquist '+fmtDec(ny,0)+' Hz',xn+5,padT+10,'bold 11px system-ui','#6042a6','left');
+  } else txt(ctx,'nueva Nyquist '+fmtDec(ny,0)+' Hz (fuera del eje: todo cabe)',w-padR,padT+10,'bold 11px system-ui','#6042a6','right');
+  txt(ctx,'gris: original · naranja: diezmada por '+M+(filtro?' con filtro':' sin filtro'),w/2,h-8,'11px system-ui','#65758b','center');
+}
+
+// ── paneles del modo interpolar ─────────────────────────────────────
+function pintaInterpolar(){
+  const om=omI;
+  $('capA').textContent='x[n] = cos(Ω0 n) · 16 muestras';
+  stemPanel(cA,{nMax:15,count:16,posOf:i=>i,val:i=>Math.cos(om*i),tickStep:2,r:3.6,
+    curve:t=>Math.cos(om*t), curveColor:'rgba(150,160,175,0.7)', style:()=>({line:'#0072B2',lw:2})});
+  if(paso===0){
+    $('capB').textContent='resultado';
+    const {ctx,w,h}=fit(cB);
+    txt(ctx,'▶ (o espacio): primero se insertan los ceros, después se filtra',w/2,h/2,'14px system-ui','#8a97a8','center','middle');
+  } else if(paso===1){
+    $('capB').textContent='paso 1: '+(L-1)+' cero'+(L>2?'s':'')+' entre cada par de muestras · '+(16*L)+' muestras';
+    stemPanel(cB,{nMax:15,count:16*L,posOf:i=>i/L,val:i=>i%L===0?Math.cos(om*(i/L)):0,tickStep:2,r:L>=4?2.6:3.2,
+      
+      style:i=> i%L===0 ? {line:'#0072B2',lw:L>=4?1.6:2} : {line:'#cdd5e0',hollow:true,lw:1}});
+  } else {
+    const y=interpolada(om,L);
+    $('capB').textContent='paso 2: pasabajos de corte π/L, ganancia L · gris: cos(Ω0/L · n)';
+    stemPanel(cB,{nMax:15,count:16*L,posOf:i=>i/L,val:i=>y[i],tickStep:2,r:L>=4?2.4:3.2,
+      
+      curve:t=>Math.cos(om*t), curveColor:'rgba(120,130,145,0.9)',
+      style:()=>({line:'#D55E00',lw:L>=4?1.6:2})});
+  }
+  pintaEjeI();
+}
+function pintaEjeI(){
+  $('capC').textContent='frecuencias: Ω en π, y en Hz';
+  const {ctx,w,h}=fit(cC);
+  if(w<20) return;
+  const om=omI, e=ejeFrec(ctx,w,h,FS,FS*L,'Hz con fs = 8000','Hz con L·fs = '+fmtDec(FS*L,0));
+  const {X,yAx}=e;
+  ctx.fillStyle='rgba(213,94,0,0.10)'; ctx.fillRect(X(0),yAx-96,X(PI/L)-X(0),96);
+  ctx.strokeStyle='rgba(213,94,0,0.4)'; ctx.lineWidth=1; ctx.strokeRect(X(0),yAx-96,X(PI/L)-X(0),96);
+  txt(ctx,'pasabajos  [0, π/L]',X(0),yAx-102,'11px system-ui','#b24a00','left');
+  const y1=yAx-50, nu=om/L;
+  // réplicas (frecuencias de las copias que aparecen al intercalar ceros)
+  if(paso>=1){
+    for(let k=1;k<L;k++){
+      const a=wrapPi((om+TAU*k)/L);
+      const x=X(a);
+      ctx.strokeStyle='#9aa7b8'; ctx.fillStyle='#fff'; ctx.lineWidth=1.8;
+      ctx.beginPath(); ctx.arc(x,yAx,5.5,0,7); ctx.fill(); ctx.stroke();
+      if(paso===2){ ctx.beginPath(); ctx.moveTo(x-4,yAx-4); ctx.lineTo(x+4,yAx+4); ctx.moveTo(x+4,yAx-4); ctx.lineTo(x-4,yAx+4); ctx.stroke(); }
+    }
+    // la que también está en (Ω0 + 2πk)/L con k = L − 1 … pueden coincidir; solo es ilustrativo
+    txt(ctx, paso===1 ? 'réplicas (círculos huecos): hay que borrarlas' : 'réplicas borradas por el filtro', w/2, yAx-130, '11px system-ui','#65758b','center');
+  }
+  ctx.strokeStyle='rgba(0,114,178,0.5)'; ctx.lineWidth=1; ctx.setLineDash([2,3]);
+  ctx.beginPath(); ctx.moveTo(X(om),yAx); ctx.lineTo(X(om),y1); ctx.stroke();
+  ctx.strokeStyle='rgba(213,94,0,0.6)'; ctx.beginPath(); ctx.moveTo(X(nu),yAx); ctx.lineTo(X(nu),y1); ctx.stroke(); ctx.setLineDash([]);
+  ctx.strokeStyle='#6042a6'; ctx.fillStyle='#6042a6'; ctx.lineWidth=2;
+  if(Math.abs(X(om)-X(nu))>6) arrow2(ctx,X(om),y1,X(nu),y1,8);
+  txt(ctx,'÷ L',(X(om)+X(nu))/2,y1-6,'bold 11px system-ui','#6042a6','center');
+  punto(ctx,X(om),yAx,'#0072B2',6.5);
+  punto(ctx,X(nu),yAx,'#D55E00',5.5);
+  txt(ctx,'Ω0',X(om),yAx-11,'bold 12px system-ui','#0072B2','center');
+  txt(ctx,'Ω0/L',X(nu),yAx+84,'bold 12px system-ui','#b24a00','center');
+  txt(ctx,'azul: Ω0 · naranja: Ω0/L (el mismo tono en la tasa nueva)',w/2,h-12,'11px system-ui','#65758b','center');
+}
+
+// ── modo racional ───────────────────────────────────────────────────
+function datosRac(){
+  const p=PRESETS[preset], g=gcd(p.fin,p.fout), l=p.fout/g, m=p.fin/g;
+  const mx=Math.max(l,m), fInt=l*p.fin;
+  return {p, L:l, M:m, mx, fInt, cutHz: fInt/mx/2};
+}
+function caja(ctx,x,y,w,h,col,fill,lw,dash){
+  ctx.fillStyle=fill; ctx.strokeStyle=col; ctx.lineWidth=lw||2; ctx.setLineDash(dash||[]);
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x,y,w,h,10) : ctx.rect(x,y,w,h); ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
+}
+function pintaRacional(){
+  const {ctx,w,h}=fit(cR);
+  if(w<40) return;
+  const d=datosRac();
+  const wn=60, wu=130, wf=250, wd=130, gap=(w-40-(2*wn+wu+wf+wd))/5;
+  const cy=Math.round(h*0.36), bh=104, ytop=cy-bh/2;
+  let x=20;
+  const xs={};
+  xs.x=x; x+=wn+gap; xs.u=x; x+=wu+gap; xs.f=x; x+=wf+gap; xs.d=x; x+=wd+gap; xs.y=x;
+  // nodos extremos
+  txt(ctx,'x[n]',xs.x+wn/2,cy+6,'bold 20px system-ui','#0072B2','center');
+  txt(ctx,'y[m]',xs.y+wn/2,cy+6,'bold 20px system-ui','#D55E00','center');
+  // cajas
+  const uno=(v)=>v===1;
+  caja(ctx,xs.u,ytop,wu,bh, uno(d.L)?'#c9d3e0':'#0072B2', uno(d.L)?'#f6f8fb':'#eaf4fb', 2, uno(d.L)?[5,4]:null);
+  caja(ctx,xs.f,ytop,wf,bh,'#6042a6','#f0ecfa',2);
+  caja(ctx,xs.d,ytop,wd,bh, uno(d.M)?'#c9d3e0':'#D55E00', uno(d.M)?'#f6f8fb':'#fdf0e6', 2, uno(d.M)?[5,4]:null);
+  txt(ctx,'↑ '+d.L,xs.u+wu/2,cy+4,'bold 30px system-ui', uno(d.L)?'#a5b0bf':'#0072B2','center');
+  txt(ctx,uno(d.L)?'L = 1: no hace nada':'insertar '+(d.L-1)+' ceros',xs.u+wu/2,cy+34,'11px system-ui','#65758b','center');
+  txt(ctx,'pasabajos',xs.f+wf/2,cy-18,'bold 18px system-ui','#6042a6','center');
+  txt(ctx,'corte  π/'+d.mx+'   ·   ganancia '+d.L,xs.f+wf/2,cy+8,'bold 14px system-ui','#16202e','center');
+  txt(ctx,'= min(π/L, π/M)',xs.f+wf/2,cy+32,'12px system-ui','#65758b','center');
+  txt(ctx,'↓ '+d.M,xs.d+wd/2,cy+4,'bold 30px system-ui', uno(d.M)?'#a5b0bf':'#D55E00','center');
+  txt(ctx,uno(d.M)?'M = 1: no hace nada':'se queda con 1 de cada '+d.M,xs.d+wd/2,cy+34,'11px system-ui','#65758b','center');
+  // flechas con tasas
+  ctx.strokeStyle='#16202e'; ctx.fillStyle='#16202e'; ctx.lineWidth=2;
+  const segs=[[xs.x+wn,xs.u,d.p.fin,'#0072B2'],[xs.u+wu,xs.f,d.fInt,'#16202e'],[xs.f+wf,xs.d,d.fInt,'#16202e'],[xs.d+wd,xs.y,d.p.fout,'#D55E00']];
+  for(const [a,b,f,col] of segs){
+    ctx.strokeStyle=col; ctx.fillStyle=col; arrow2(ctx,a+4,cy,b-3,cy,8);
+    txt(ctx,fmtKHz(f),(a+b)/2,cy-12,'bold 13px system-ui',col,'center');
+  }
+  // franja inferior: lo que dicen los números
+  const y0=ytop+bh+34, lh=26;
+  ctx.textAlign='left';
+  const filas=[
+    ['entrada', fmtKHz(d.p.fin)+'   →   salida '+fmtKHz(d.p.fout)+'   =   razón '+d.L+' / '+d.M+'   (fracción reducida; mcd = '+fmtDec(gcd(d.p.fin,d.p.fout),0)+')'],
+    ['tasa intermedia', 'L · fs de entrada = '+fmtKHz(d.fInt)+': ahí vive el filtro, y su corte es π/'+d.mx+' = '+fmtKHz(d.cutHz)+'  (la Nyquist de la señal menor)'],
+    ['por qué en ese orden', 'subir primero no pierde nada; bajar primero tiraría contenido que la salida sí podía tener']
+  ];
+  filas.forEach((f,i)=>{
+    txt(ctx,f[0],20,y0+i*lh,'12px system-ui','#65758b','left');
+    txt(ctx,f[1],150,y0+i*lh,'14px system-ui','#16202e','left');
+  });
+  txt(ctx,'(los dos filtros, anti-imágenes del ↑ y anti-aliasing del ↓, se fusionan en uno solo)',20,h-12,'12px system-ui','#65758b','left');
+}
+
+// ── lecturas y pie ──────────────────────────────────────────────────
+function celdas(arr){
+  $('lect').innerHTML=arr.map(c=>'<div class="cel '+(c[2]||'')+'"><span class="k">'+c[0]+'</span><span class="v">'+c[1]+'</span></div>').join('');
+}
+function lectura(){
+  let hint='';
+  if(modo==='diezmar'){
+    const d=datosDiezmar(), enBanda=d.om<=PI/M+1e-9;
+    const quedo = !(filtro && !enBanda);
+    celdas([['Ω0',fmtPi(d.om),'az'],['M',String(M)],['M·Ω0',fmtPi(d.mw),'fija'],
+      ['Ω aparente',fmtPi(d.ap),'na'],['f0 (a 8 kHz)',fmtHz(d.om/PI*FS/2),'az'],
+      ['f de salida (a 8/M kHz)', quedo ? fmtHz(d.ap/PI*FS/M/2) : '≈ 0 (silencio)','na']]);
+    if(notaVista){
+      hint = filtro ? '<b>Con filtro</b>: los armónicos sobre la nueva Nyquist se borran antes de botar muestras, y lo que queda sigue siendo armónico.'
+                    : (M>=4 ? '<b>Sin filtro</b>: los armónicos sobre '+fmtDec(16000/M,0)+' Hz se reflejan y suenan inarmónicos (la nota se ensucia).'
+                            : '<b>Sin filtro</b>, pero con M = '+M+' todos los armónicos de la nota (hasta 4400 Hz) caben: prueba M = 4 o M = 6.');
+    } else if(filtro && !enBanda) hint='El filtro bajo π/M la eliminó antes de botar muestras: <b>se pierde a sabiendas, no se corrompe</b>.';
+    else if(d.mw<=PI+1e-9) hint='La frecuencia se multiplica por M y <b>sigue cabiendo</b>.';
+    else hint='M·Ω0 pasó π: <b>se envuelve, aliasing puramente digital</b>.';
+  } else if(modo==='interpolar'){
+    celdas([['Ω0',fmtPi(omI),'az'],['L',String(L)],['Ω0/L',fmtPi(omI/L),'na'],
+      ['fs → L·fs',fmtDec(FS,0)+' → '+fmtDec(FS*L,0)+' Hz','fija']]);
+    hint = paso===0 ? 'Pulsa <b>▶</b> (o espacio): primero se insertan los ceros, después se filtra.'
+         : paso===1 ? 'Con ceros intercalados la secuencia tiene <b>L − 1 copias</b> del espectro que hay que borrar.'
+         : 'El pasabajos de ganancia L <b>rellena los ceros</b>: es el pariente discreto de la interpolación con sinc';
+  } else {
+    const d=datosRac();
+    celdas([['fs entrada',fmtKHz(d.p.fin),'az'],['fs salida',fmtKHz(d.p.fout),'na'],['L',String(d.L)],['M',String(d.M)],
+      ['corte',d.mx===1?'π':'π/'+d.mx,'fija'],['corte en Hz (a L·fs)',fmtKHz(d.cutHz),'fija']]);
+    hint='Siempre primero <b>subir</b> y después <b>bajar</b>: así el filtro único hace de anti-imágenes y de anti-aliasing a la vez.';
+  }
+  $('hint').innerHTML=hint;
+}
+function botones(){
+  const all=[['mdDiezmar','diezmar'],['mdInterpolar','interpolar'],['mdRacional','racional']];
+  for(const [id,m] of all) $(id).classList.toggle('on',modo===m);
+  for(const m of [2,3,4,6]) $('bM'+m).classList.toggle('on',M===m);
+  for(const l of [2,3,4]) $('bL'+l).classList.toggle('on',L===l);
+  for(let i=0;i<PRESETS.length;i++) $('bP'+i).classList.toggle('on',preset===i);
+  $('bFiltro').classList.toggle('on',filtro);
+  $('bFiltro').textContent= filtro ? 'filtro bajo π/M ✓' : 'filtrar antes';
+  $('bNota').classList.toggle('on',notaVista);
+  $('bPaso').textContent= paso===0 ? '▶ paso 1' : paso===1 ? '▶ paso 2' : '↺ de nuevo';
+  $('app').className='m-'+modo;
+}
+function pinta(){
+  botones();
+  if(modo==='diezmar') pintaDiezmar();
+  else if(modo==='interpolar') pintaInterpolar();
+  else pintaRacional();
+  lectura();
+}
+
+// ── sonido (el AudioContext nace en el primer clic) ─────────────────
+let actx=null, fuentes=[];
+function audio(){
+  if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)();
+  if(actx.state==='suspended') actx.resume();
+  return actx;
+}
+function parar(){ for(const s of fuentes){ try{ s.stop(); }catch(e){} } fuentes=[]; }
+// reproduce una secuencia a su tasa; el navegador exige ≥ 3–8 kHz, así que se sube por interpolación lineal (k veces)
+function tocar(sig,rate,k,cuando){
+  const ac=audio(), n=sig.length*k, buf=ac.createBuffer(1,n,rate*k), d=buf.getChannelData(0);
+  for(let i=0;i<n;i++){
+    const p=i/k, i0=Math.floor(p), f=p-i0, a=sig[i0]||0, b=sig[Math.min(i0+1,sig.length-1)]||0;
+    d[i]=a+(b-a)*f;
+  }
+  const src=ac.createBufferSource(); src.buffer=buf; src.connect(ac.destination); src.start(ac.currentTime+0.05+cuando);
+  fuentes.push(src);
+}
+function tonoSeq(wnorm,amp,rate,dur){
+  const n=Math.round(rate*dur), s=new Float32Array(n), r=Math.max(1,Math.round(0.01*rate));
+  for(let i=0;i<n;i++) s[i]=0.5*amp*Math.min(1,i/r,(n-i)/r)*Math.cos(wnorm*i);
+  return s;
+}
+function kFor(rate){ return Math.max(1,Math.ceil(24000/rate-1e-6)); }
+function oirDiezmar(){
+  parar(); notaVista=false;
+  const d=datosDiezmar(), r2=FS/M;
+  tocar(tonoSeq(d.om,1,FS,0.6),FS,kFor(FS),0);
+  tocar(tonoSeq(d.ap,d.g,r2,0.6),r2,kFor(r2),0.8);
+  pinta();
+}
+function oirNota(){
+  parar(); notaVista=true;
+  const x=notaOriginal(), nd=notaDiezmada(M,filtro), r2=NOTA_FS/M;
+  const a=new Float32Array(x.length), b=new Float32Array(nd.y.length);
+  for(let i=0;i<a.length;i++) a[i]=0.5*x[i];
+  for(let i=0;i<b.length;i++) b[i]=Math.max(-1,Math.min(1,0.5*nd.y[i]));
+  tocar(a,NOTA_FS,1,0);
+  tocar(b,r2,kFor(r2),NOTA_DUR+0.25);
+  pinta();
+}
+function oirInterpolar(){
+  parar();
+  const r2=FS*L;
+  tocar(tonoSeq(omI,1,FS,0.6),FS,kFor(FS),0);
+  tocar(tonoSeq(omI/L,1,r2,0.6),r2,kFor(r2),0.8);
+}
+function oir(){ if(modo==='diezmar') oirDiezmar(); else if(modo==='interpolar') oirInterpolar(); }
+
+// ── acciones ────────────────────────────────────────────────────────
+function setModo(m){ parar(); modo=m; notaVista=false; pinta(); }
+function setOm(v){
+  v=Math.max(0,Math.min(PI,v));
+  if(modo==='diezmar'){ omD=v; notaVista=false; $('slOmD').value=omD; }
+  else if(modo==='interpolar'){ omI=v; $('slOmI').value=omI; }
+  pinta();
+}
+function setM(m){ M=m; pinta(); }
+function setL(l){ L=l; pinta(); }
+function setFiltro(f){ filtro=f; pinta(); }
+function avanza(){
+  if(modo==='interpolar'){ paso=(paso+1)%3; pinta(); }
+  else if(modo==='diezmar'){ setFiltro(!filtro); }
+  else { preset=(preset+1)%PRESETS.length; pinta(); }
+}
+function reinicia(){
+  parar(); notaVista=false;
+  if(modo==='diezmar'){ omD=0.15*PI; M=3; filtro=false; }
+  else if(modo==='interpolar'){ omI=0.5*PI; L=2; paso=0; }
+  else preset=0;
+  $('slOmD').value=omD; $('slOmI').value=omI; pinta();
+}
+
+// ── controles ───────────────────────────────────────────────────────
+for(const id of ['slOmD','slOmI']){ const s=$(id); s.min=0; s.max=String(PI); s.step=String(PI/60); }
+$('slOmD').value=omD; $('slOmI').value=omI;
+$('slOmD').oninput=e=>{ omD=+e.target.value; notaVista=false; pinta(); };
+$('slOmI').oninput=e=>{ omI=+e.target.value; pinta(); };
+$('mdDiezmar').onclick=()=>setModo('diezmar');
+$('mdInterpolar').onclick=()=>setModo('interpolar');
+$('mdRacional').onclick=()=>setModo('racional');
+for(const m of [2,3,4,6]) $('bM'+m).onclick=()=>setM(m);
+for(const l of [2,3,4]) $('bL'+l).onclick=()=>setL(l);
+for(let i=0;i<PRESETS.length;i++) $('bP'+i).onclick=()=>{ preset=i; pinta(); };
+$('bFiltro').onclick=()=>setFiltro(!filtro);
+$('bOirD').onclick=oirDiezmar; $('bOirI').onclick=oirInterpolar;
+$('bNota').onclick=oirNota;
+$('bPaso').onclick=()=>{ paso=(paso+1)%3; pinta(); };
+
+// dentro de reveal.js: cualquier toque en la demo le da el foco al iframe,
+// para que las teclas lleguen aquí y no cambien de lámina
+document.addEventListener('pointerdown', ()=>window.focus(), true);
+
+document.addEventListener('keydown', e=>{
+  if(e.target && e.target.tagName==='INPUT') return;
+  const st=()=>e.stopPropagation();
+  if(e.code==='Space'){ e.preventDefault(); st(); avanza(); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); st(); if(modo==='racional'){ preset=(preset+1)%PRESETS.length; pinta(); } else setOm((modo==='diezmar'?omD:omI)+PI/60); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); st(); if(modo==='racional'){ preset=(preset+PRESETS.length-1)%PRESETS.length; pinta(); } else setOm((modo==='diezmar'?omD:omI)-PI/60); }
+  else if(e.key==='1'){ st(); setModo('diezmar'); }
+  else if(e.key==='2'){ st(); setModo('interpolar'); }
+  else if(e.key==='3'){ st(); setModo('racional'); }
+  else if(e.key==='s'||e.key==='S'){ st(); oir(); }
+  else if(e.key==='n'||e.key==='N'){ st(); if(modo==='diezmar') oirNota(); }
+  else if(e.key==='r'||e.key==='R'){ st(); reinicia(); }
+});
+
+{ const ro=new ResizeObserver(()=>pinta()); for(const f of document.querySelectorAll('figure')) ro.observe(f); ro.observe(document.body); }
+pinta();   // primer cuadro sin depender de requestAnimationFrame
+</script>
+</body>
+</html>

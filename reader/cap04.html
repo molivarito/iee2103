@@ -246,7 +246,8 @@ window.Quarto = {
   <li><a href="#sec-inversa" id="toc-sec-inversa" class="nav-link" data-scroll-target="#sec-inversa"><span class="header-section-number">4.3</span> El camino de vuelta: la ROC elige la señal</a>
   <ul class="collapse">
   <li><a href="#sec-fracciones-parciales" id="toc-sec-fracciones-parciales" class="nav-link" data-scroll-target="#sec-fracciones-parciales"><span class="header-section-number">4.3.1</span> Repaso honesto de fracciones parciales</a></li>
-  <li><a href="#sec-diccionario" id="toc-sec-diccionario" class="nav-link" data-scroll-target="#sec-diccionario"><span class="header-section-number">4.3.2</span> El diccionario de inversión</a></li>
+  <li><a href="#sec-propiedades-laplace" id="toc-sec-propiedades-laplace" class="nav-link" data-scroll-target="#sec-propiedades-laplace"><span class="header-section-number">4.3.2</span> Las propiedades, heredadas de Fourier</a></li>
+  <li><a href="#sec-diccionario" id="toc-sec-diccionario" class="nav-link" data-scroll-target="#sec-diccionario"><span class="header-section-number">4.3.3</span> El diccionario de inversión</a></li>
   </ul></li>
   <li><a href="#sec-mapa" id="toc-sec-mapa" class="nav-link" data-scroll-target="#sec-mapa"><span class="header-section-number">4.4</span> El plano s como mapa</a>
   <ul class="collapse">
@@ -316,7 +317,7 @@ window.Quarto = {
 <p><strong>La idea brillante</strong> — y es <em>una sola</em> idea: si <span class="math inline">x(t)</span> crece demasiado, multiplícala por una exponencial que decae <strong>más rápido</strong>, <span class="math inline">e^{-\sigma t}</span>, y toma Fourier de eso:</p>
 <p><span class="math display">\mathcal{F}\{x(t)\,e^{-\sigma t}\} = \int_{-\infty}^{\infty} x(t)\,e^{-\sigma t}e^{-j\omega t}\,dt = \int_{-\infty}^{\infty} x(t)\,e^{-(\sigma + j\omega)t}\,dt</span></p>
 <p>El exponente que aparece solo es… <span class="math inline">s = \sigma + j\omega</span>. Amortiguar y transformar es lo mismo que <strong>transformar contra la espiral <span class="math inline">e^{st}</span> completa</strong>, no solo contra el fasor <span class="math inline">e^{j\omega t}</span>. El parámetro <span class="math inline">\sigma</span> es el <em>factor de convergencia</em>: el precio que pagamos por poder ver señales que crecen.</p>
-<div id="b11a6d41" class="cell" data-execution_count="1">
+<div id="d516fb5c" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -379,7 +380,7 @@ window.Quarto = {
 <p>La suma converge donde <strong>ambas</strong> convergen — la intersección:</p>
 <p><span class="math display">e^{-a|t|} \;\longleftrightarrow\; \frac{1}{s+a} - \frac{1}{s-a} = \frac{2a}{a^2 - s^2}, \qquad \text{ROC: } -a &lt; \Re\{s\} &lt; a</span></p>
 <p>La ROC es una <strong>franja vertical</strong> entre los polos <span class="math inline">\pm a</span>. Contiene al eje <span class="math inline">j\omega</span>, y por eso <span class="math inline">e^{-a|t|}</span> sí tiene transformada de Fourier: evaluando <span class="math inline">s = j\omega</span> sale <span class="math inline">\frac{2a}{a^2+\omega^2}</span>, un par que ya conociste en la unidad 3.</p>
-<div id="2d134db5" class="cell" data-execution_count="2">
+<div id="8e93043f" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -422,20 +423,96 @@ window.Quarto = {
 <p><span class="math display">e^{-at}\cos(\omega_0 t)\,u(t) \longleftrightarrow \frac{s+a}{(s+a)^2+\omega_0^2}, \qquad e^{-at}\sin(\omega_0 t)\,u(t) \longleftrightarrow \frac{\omega_0}{(s+a)^2+\omega_0^2}</span></p>
 <p>de donde <span class="math inline">x(t) = e^{-t}\big[\cos(2t) + \sin(2t)\big]u(t)</span>. Guarda este resultado en la retina: las raíces del denominador eran <span class="math inline">-1 \pm j2</span>, y la señal es una oscilación de <span class="math inline">2</span> rad/s con envolvente <span class="math inline">e^{-t}</span>. No es coincidencia — es la <a href="#sec-mapa" class="quarto-xref"><span>Sección 4.4</span></a> asomándose.</p>
 </section>
-<section id="sec-diccionario" class="level3" data-number="4.3.2">
-<h3 data-number="4.3.2" class="anchored" data-anchor-id="sec-diccionario"><span class="header-section-number">4.3.2</span> El diccionario de inversión</h3>
-<p>Cada término elemental tiene <strong>dos</strong> inversas posibles, y la ROC decide cuál:</p>
+<section id="sec-propiedades-laplace" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="sec-propiedades-laplace"><span class="header-section-number">4.3.2</span> Las propiedades, heredadas de Fourier</h3>
+<p>Antes de armar el diccionario conviene una buena noticia: las propiedades de Laplace no hay que aprenderlas de nuevo. <span class="math inline">X(s)</span> es la transformada de Fourier de la señal amortiguada, así que todo lo que valía con <span class="math inline">j\omega</span> (<a href="cap03.html#sec-propiedades-tf" class="quarto-xref"><span>Sección 3.5.6</span></a>) vale con <span class="math inline">s</span>, y cada demostración es la misma cambiando la letra. Lo único que Fourier no tenía es la última columna: qué le pasa a la ROC.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Propiedad</th>
+<th>En el tiempo</th>
+<th>Fourier</th>
+<th>Laplace</th>
+<th>ROC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Linealidad</td>
+<td><span class="math inline">a\,x_1(t) + b\,x_2(t)</span></td>
+<td><span class="math inline">aX_1 + bX_2</span></td>
+<td><span class="math inline">aX_1 + bX_2</span></td>
+<td><span class="math inline">\supseteq R_1 \cap R_2</span></td>
+</tr>
+<tr class="even">
+<td>Retardo</td>
+<td><span class="math inline">x(t-t_0)</span></td>
+<td><span class="math inline">e^{-j\omega t_0}X(\omega)</span></td>
+<td><span class="math inline">e^{-st_0}X(s)</span></td>
+<td><span class="math inline">R</span></td>
+</tr>
+<tr class="odd">
+<td>Modulación</td>
+<td><span class="math inline">e^{s_0 t}x(t)</span></td>
+<td><span class="math inline">X(\omega-\omega_0)</span>, con <span class="math inline">s_0 = j\omega_0</span></td>
+<td><span class="math inline">X(s-s_0)</span></td>
+<td><span class="math inline">R + \Re\{s_0\}</span></td>
+</tr>
+<tr class="even">
+<td>Derivada</td>
+<td><span class="math inline">x'(t)</span></td>
+<td><span class="math inline">j\omega\,X(\omega)</span></td>
+<td><span class="math inline">s\,X(s)</span></td>
+<td><span class="math inline">\supseteq R</span></td>
+</tr>
+<tr class="odd">
+<td>Multiplicar por <span class="math inline">t</span></td>
+<td><span class="math inline">-t\,x(t)</span></td>
+<td><span class="math inline">\dfrac{1}{j}\dfrac{dX}{d\omega}</span></td>
+<td><span class="math inline">\dfrac{dX}{ds}</span></td>
+<td><span class="math inline">R</span></td>
+</tr>
+<tr class="even">
+<td>Convolución</td>
+<td><span class="math inline">x(t) * h(t)</span></td>
+<td><span class="math inline">X(\omega)H(\omega)</span></td>
+<td><span class="math inline">X(s)H(s)</span></td>
+<td><span class="math inline">\supseteq R_X \cap R_H</span></td>
+</tr>
+</tbody>
+</table>
+<p>Cómo leer la columna de la ROC: <span class="math inline">R</span> quiere decir que no cambia, y <span class="math inline">R + \Re\{s_0\}</span>, que es la misma región corrida esa cantidad. El símbolo <span class="math inline">\supseteq</span> («contiene a») aparece en tres filas porque ahí la ROC del resultado contiene <em>al menos</em> la región indicada y puede ser más grande: pasa cuando algo cancela un polo.</p>
+<ul>
+<li><strong>Linealidad</strong>: la suma converge donde convergen las dos partes, pero puede cancelar un polo. El pulso <span class="math inline">u(t) - u(t-1)</span>: cada escalón pide <span class="math inline">\Re\{s\} &gt; 0</span>, la resta es <span class="math inline">\frac{1 - e^{-s}}{s}</span>, el cero en <span class="math inline">s = 0</span> cancela el polo y la ROC es todo el plano.</li>
+<li><strong>Derivada</strong>: el factor <span class="math inline">s</span> puede cancelar un polo en el origen. Derivar el escalón lleva <span class="math inline">\frac1s</span>, con <span class="math inline">\Re\{s\} &gt; 0</span>, a <span class="math inline">1</span>, que es <span class="math inline">\delta(t)</span>, con ROC todo el plano.</li>
+<li><strong>Convolución</strong>: un cero de un factor puede cancelar un polo del otro. <span class="math inline">H(s) = \frac{s+1}{s+2}</span> con <span class="math inline">X(s) = \frac{1}{s+1}</span> da <span class="math inline">Y(s) = \frac{1}{s+2}</span>: el polo en <span class="math inline">-1</span> desaparece y la ROC crece de <span class="math inline">\Re\{s\} &gt; -1</span> a <span class="math inline">\Re\{s\} &gt; -2</span>.</li>
+</ul>
+<p>En retardo, modulación y multiplicar por <span class="math inline">t</span> no hay factor que pueda cancelar nada, y la ROC es exactamente <span class="math inline">R</span> (o <span class="math inline">R</span> corrida). Las cancelaciones son raras en el curso; basta con saber que existen.</p>
+<p>Un detalle de la modulación: en Fourier se escribía con <span class="math inline">e^{j\omega_0 t}</span> y corría el espectro. Aquí <span class="math inline">s_0</span> puede ser cualquier complejo, y su parte real corre la ROC: multiplicar por <span class="math inline">e^{-at}</span> mueve todo, polos y ROC, <span class="math inline">a</span> unidades hacia la izquierda.</p>
+</section>
+<section id="sec-diccionario" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="sec-diccionario"><span class="header-section-number">4.3.3</span> El diccionario de inversión</h3>
+<p>Cada término elemental tiene <strong>dos</strong> inversas posibles, y la ROC decide cuál. Y no hay que memorizar la tabla: con un solo par, el de la definición, y las propiedades de recién, cada fila se fabrica de la primera.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
 </colgroup>
 <thead>
 <tr class="header">
 <th><span class="math inline">X(s)</span></th>
 <th>ROC a la <strong>derecha</strong> del polo</th>
 <th>ROC a la <strong>izquierda</strong> del polo</th>
+<th>De dónde sale</th>
 </tr>
 </thead>
 <tbody>
@@ -443,24 +520,55 @@ window.Quarto = {
 <td><span class="math inline">\dfrac{1}{s+a}</span></td>
 <td><span class="math inline">e^{-at}u(t)</span></td>
 <td><span class="math inline">-e^{-at}u(-t)</span></td>
+<td>definición (<a href="#sec-roc-parte-respuesta" class="quarto-xref"><span>Sección 4.2</span></a>)</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\dfrac{1}{(s+a)^2}</span></td>
 <td><span class="math inline">t\,e^{-at}u(t)</span></td>
 <td><span class="math inline">-t\,e^{-at}u(-t)</span></td>
+<td>fila 1, multiplicar por <span class="math inline">t</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\dfrac{s}{s^2+\omega_0^2}</span></td>
+<td><span class="math inline">\cos(\omega_0 t)\,u(t)</span></td>
+<td><span class="math inline">-\cos(\omega_0 t)\,u(-t)</span></td>
+<td>fila 1 dos veces (Euler)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\dfrac{\omega_0}{s^2+\omega_0^2}</span></td>
+<td><span class="math inline">\sin(\omega_0 t)\,u(t)</span></td>
+<td><span class="math inline">-\sin(\omega_0 t)\,u(-t)</span></td>
+<td>fila 1 dos veces (Euler)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\dfrac{s+a}{(s+a)^2+\omega_0^2}</span></td>
+<td><span class="math inline">e^{-at}\cos(\omega_0 t)\,u(t)</span></td>
+<td><span class="math inline">-e^{-at}\cos(\omega_0 t)\,u(-t)</span></td>
+<td>fila 3, modulación</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\dfrac{\omega_0}{(s+a)^2+\omega_0^2}</span></td>
+<td><span class="math inline">e^{-at}\sin(\omega_0 t)\,u(t)</span></td>
+<td><span class="math inline">-e^{-at}\sin(\omega_0 t)\,u(-t)</span></td>
+<td>fila 4, modulación</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">1</span></td>
-<td><span class="math inline">\delta(t)</span> (ROC: todo el plano)</td>
-<td>—</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">e^{-st_0}X(s)</span></td>
-<td>retardo: <span class="math inline">x(t-t_0)</span></td>
-<td>(igual)</td>
+<td><span class="math inline">\delta(t)</span></td>
+<td><span class="math inline">\delta(t)</span></td>
+<td>sin polos: ROC todo el plano</td>
 </tr>
 </tbody>
 </table>
+<p>Cómo sale cada fila:</p>
+<ul>
+<li><strong>Polo doble.</strong> <span class="math inline">x(t) = e^{-at}u(t)</span> tiene <span class="math inline">X(s) = \frac{1}{s+a}</span>; su derivada respecto de <span class="math inline">s</span> es <span class="math inline">-\frac{1}{(s+a)^2}</span>, y por la propiedad eso es la transformada de <span class="math inline">-t\,x(t)</span>. Los dos signos se cancelan: <span class="math inline">t\,e^{-at}u(t) \leftrightarrow \frac{1}{(s+a)^2}</span>, con la misma ROC.</li>
+<li><strong>Coseno y seno puros.</strong> Por Euler, <span class="math inline">\cos(\omega_0 t) = \tfrac12 e^{j\omega_0 t} + \tfrac12 e^{-j\omega_0 t}</span>, y cada sumando es un <span class="math inline">e^{-at}u(t)</span> con <span class="math inline">a = \mp j\omega_0</span>. La primera fila, dos veces: <span class="math inline">\frac{1/2}{s - j\omega_0} + \frac{1/2}{s + j\omega_0} = \frac{s}{s^2+\omega_0^2}</span>, con los dos polos en <span class="math inline">\pm j\omega_0</span> y ROC <span class="math inline">\Re\{s\} &gt; 0</span>. El seno lleva <span class="math inline">\frac{1}{2j}</span> en vez de <span class="math inline">\frac12</span>.</li>
+<li><strong>Amortiguados.</strong> Modulación con <span class="math inline">s_0 = -a</span>: multiplicar por <span class="math inline">e^{-at}</span> es cambiar <span class="math inline">s</span> por <span class="math inline">s + a</span> en todas partes. Los polos pasan de <span class="math inline">\pm j\omega_0</span> a <span class="math inline">-a \pm j\omega_0</span> y la ROC a <span class="math inline">\Re\{s\} &gt; -a</span>. Son los pares del caso 3.</li>
+<li><strong>La columna izquierda</strong> sale igual, partiendo del par anticausal. Los dos polos de un par conjugado tienen la misma parte real, así que la ROC queda del mismo lado de ambos y el par se decide como un solo polo: nunca hay ROC «entre» los dos.</li>
+<li><strong>La constante.</strong> No tiene polos: la traducción es una sola y la ROC es todo el plano. Aparece cuando el numerador tiene el mismo grado que el denominador y hay que dividir antes de separar: <span class="math inline">\frac{s+3}{s+1} = 1 + \frac{2}{s+1}</span>, que con ROC a la derecha es <span class="math inline">\delta(t) + 2e^{-t}u(t)</span>.</li>
+</ul>
+<p>Un factor <span class="math inline">e^{-st_0}</span> no está en la tabla porque no es un par: es el retardo de las propiedades, <span class="math inline">x(t - t_0)</span>.</p>
 <p><strong>La regla de oro, término a término</strong>: se mira dónde está la ROC global <strong>respecto de cada polo</strong>. Polo a la izquierda de la ROC → término causal. Polo a la derecha de la ROC → término anticausal. Cada polo se decide <strong>por separado</strong> — por eso una franja mezcla términos de ambos tipos. Y ojo con el <strong>signo menos</strong> de la versión anticausal: es el error de signo más frecuente de la I3, y no es un capricho — viene de la cuenta del Ejemplo 2.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -481,7 +589,7 @@ window.Quarto = {
 <p><strong>Mirarlas juntas</strong> (la figura siguiente): tres señales completamente distintas, <strong>una sola fórmula</strong>. Y una pregunta más, de regalo: ¿cuál de las tres tiene transformada de Fourier? Solo (a) — su ROC es la única que contiene al eje <span class="math inline">j\omega</span>.</p>
 </div>
 </div>
-<div id="02c5049e" class="cell" data-execution_count="3">
+<div id="20ef6eb9" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -508,7 +616,7 @@ window.Quarto = {
 <li><strong>Eje real (<span class="math inline">\sigma</span>) = eje del amortiguamiento.</strong> Polo real en <span class="math inline">-2</span>: modo <span class="math inline">e^{-2t}</span>, decae. Más a la izquierda = muere más rápido. Polo en <span class="math inline">+0.5</span>: <span class="math inline">e^{0.5t}</span>, crece sin freno.</li>
 <li><strong>Eje imaginario (<span class="math inline">\omega</span>) = eje de la oscilación.</strong> Para señales reales, los polos complejos vienen <strong>siempre en pares conjugados</strong> <span class="math inline">\sigma_0 \pm j\omega_0</span>, y el par completo aporta <span class="math display">\frac{A}{s-(\sigma_0+j\omega_0)} + \frac{A^*}{s-(\sigma_0-j\omega_0)} \;\longrightarrow\; 2|A|\,e^{\sigma_0 t}\cos(\omega_0 t + \angle A)\,u(t)</span> una <strong>oscilación de frecuencia <span class="math inline">\omega_0</span> con envolvente <span class="math inline">e^{\sigma_0 t}</span></strong>. La altura del polo fija el tono; su posición horizontal, cuánto dura. Los dos ejes son independientes.</li>
 </ul>
-<div id="86ac2273" class="cell" data-execution_count="4">
+<div id="1fe9cf80" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -555,7 +663,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="be5c50c7" class="cell" data-execution_count="5">
+<div id="1cf09ce5" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -621,6 +729,56 @@ window.Quarto = {
 <p><span class="math display">\mathcal{L}\{x'(t)\} = \Big[x(t)\,e^{-st}\Big]_{0^-}^{\infty} + s\int_{0^-}^{\infty} x(t)\,e^{-st}\,dt = s\,\mathcal{X}(s) - x(0^-)</span></p>
 <p><strong>Derivar en el tiempo = multiplicar por <span class="math inline">s</span>… y el pasado entra como <span class="math inline">-x(0^-)</span>.</strong> Iterando:</p>
 <p><span class="math display">\mathcal{L}\{x''(t)\} = s^2\mathcal{X}(s) - s\,x(0^-) - x'(0^-)</span></p>
+<p>¿Y el resto de las propiedades de la <a href="#sec-propiedades-laplace" class="quarto-xref"><span>Sección 4.3.2</span></a>? Valen con una sola lectura: lo que no toca el borde inferior de la integral queda igual, y lo que lo toca, cambia.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Propiedad</th>
+<th>Bilateral</th>
+<th>Unilateral</th>
+<th>Qué cambia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Linealidad, modulación, multiplicar por <span class="math inline">t</span></td>
+<td>igual</td>
+<td>igual</td>
+<td>nada</td>
+</tr>
+<tr class="even">
+<td>Convolución</td>
+<td><span class="math inline">X(s)H(s)</span></td>
+<td><span class="math inline">\mathcal{X}(s)\mathcal{H}(s)</span></td>
+<td>vale si <span class="math inline">x</span> y <span class="math inline">h</span> son <strong>causales</strong></td>
+</tr>
+<tr class="odd">
+<td>Retardo</td>
+<td><span class="math inline">e^{-st_0}X(s)</span></td>
+<td><span class="math inline">e^{-st_0}\mathcal{X}(s)</span></td>
+<td>vale con <span class="math inline">t_0 &gt; 0</span> y <span class="math inline">x</span> causal: un adelanto pierde lo que cruza el 0</td>
+</tr>
+<tr class="even">
+<td>Derivada</td>
+<td><span class="math inline">s\,X(s)</span></td>
+<td><span class="math inline">s\,\mathcal{X}(s) - x(0^-)</span></td>
+<td>el pasado entra como condición inicial</td>
+</tr>
+<tr class="odd">
+<td>Integral</td>
+<td><span class="math inline">\int_{-\infty}^{t} \leftrightarrow X(s)/s</span></td>
+<td><span class="math inline">\int_{0^-}^{t} \leftrightarrow \mathcal{X}(s)/s</span></td>
+<td>nada si <span class="math inline">x</span> es causal</td>
+</tr>
+</tbody>
+</table>
+<p>La ROC no aparece en la tabla porque dejó de ser noticia. De todas, la única propiedad nueva de verdad es la derivada.</p>
 <p>Esto convierte cualquier EDO lineal con coeficientes constantes en <strong>álgebra</strong>: transformar, despejar, fracciones parciales, invertir (todo causal). Es exactamente la receta que usaste en EDO — ahora cada pieza tiene nombre y sentido.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -641,7 +799,7 @@ window.Quarto = {
 <p><strong>Leer el resultado con los ojos del mapa</strong> (esto es lo nuevo respecto de EDO): el modo <span class="math inline">e^{-t/\tau}</span> vive en el <strong>polo del sistema</strong> (<span class="math inline">s = -1/\tau</span>: su respuesta natural — más pequeño el <span class="math inline">\tau</span>, más a la izquierda el polo, más rápida la carga); el término constante vive en el <strong>polo de la entrada</strong> (<span class="math inline">s = 0</span>: el escalón). Lo que en EDO llamabas “homogénea + particular” es esto mismo, visto desde el mapa.</p>
 </div>
 </div>
-<div id="af8474bd" class="cell" data-execution_count="6">
+<div id="49effcc9" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -748,7 +906,7 @@ x(\infty) = \lim_{s\to 0} \frac{3s^2+6s+2}{(s+1)(s+2)} = \frac{2}{2} = 1 \checkm
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Si puedes resolver de corrido el ejemplo de las tres ROCs (<a href="#sec-diccionario" class="quarto-xref"><span>Sección 4.3.2</span></a>) sin mirar, y del catálogo de polos predices la forma de <span class="math inline">h(t)</span> en menos de diez segundos, la unidad está madura — y la I3 (U4+U5) te encontrará con el mapa en la mano. Si las fracciones parciales todavía trastabillan, resuelve los ejercicios 6–9 antes que cualquier otro: son el cuello de botella real.</p>
+<p>Si puedes resolver de corrido el ejemplo de las tres ROCs (<a href="#sec-diccionario" class="quarto-xref"><span>Sección 4.3.3</span></a>) sin mirar, y del catálogo de polos predices la forma de <span class="math inline">h(t)</span> en menos de diez segundos, la unidad está madura — y la I3 (U4+U5) te encontrará con el mapa en la mano. Si las fracciones parciales todavía trastabillan, resuelve los ejercicios 6–9 antes que cualquier otro: son el cuello de botella real.</p>
 </div>
 </div>
 </section>

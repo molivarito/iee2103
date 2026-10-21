@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ay9 · Ejercicios Laplace + CV3 – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Ay9 · Ejercicios Laplace (sesión online, grabada) – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,7 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../curso/listas/lista-01.html" rel="next">
+<link href="../../curso/semana-10/c19.html" rel="next">
 <link href="../../curso/semana-09/c18.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-09/c17.html">Semana 9 · Laplace en acción</a></li><li class="breadcrumb-item"><a href="../../curso/semana-09/ay09.html">Ay9 · Ejercicios Laplace + CV3</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-09/c17.html">Semana 9 · Laplace en acción</a></li><li class="breadcrumb-item"><a href="../../curso/semana-09/ay09.html">Ay9 · Ejercicios Laplace (sesión online, grabada)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -434,7 +434,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../curso/semana-09/ay09.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Ay9 · Ejercicios Laplace + CV3</span></a>
+ <span class="menu-text">Ay9 · Ejercicios Laplace (sesión online, grabada)</span></a>
   </div>
 </li>
       </ul>
@@ -442,12 +442,41 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
- <span class="menu-text">Listas de ejercicios</span></a>
+ <span class="menu-text">Semana 10 · Muestreo</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-10/c19.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C19 · El teorema del muestreo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-10/c20.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C20 · Sinusoides discretas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-10/ay10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay10 · CV3 + Ejercicios: muestreo y sinusoides discretas</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+ <span class="menu-text">Listas de ejercicios</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
@@ -502,6 +531,12 @@ window.Quarto = {
  <span class="menu-text">Lista 9 · Laplace: inversa según ROC, plano s y EDOs</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 10 · Muestreo y sinusoides discretas</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -515,17 +550,18 @@ window.Quarto = {
    
   <ul>
   <li><a href="#ejercicios-de-la-sesión" id="toc-ejercicios-de-la-sesión" class="nav-link active" data-scroll-target="#ejercicios-de-la-sesión">Ejercicios de la sesión</a></li>
-  <li><a href="#cierre-6570-min" id="toc-cierre-6570-min" class="nav-link" data-scroll-target="#cierre-6570-min">Cierre (65–70 min)</a></li>
+  <li><a href="#cierre-4045-min" id="toc-cierre-4045-min" class="nav-link" data-scroll-target="#cierre-4045-min">Cierre (40–45 min)</a></li>
+  <li><a href="#respuestas-finales" id="toc-respuestas-finales" class="nav-link" data-scroll-target="#respuestas-finales">Respuestas finales</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-09/c17.html">Semana 9 · Laplace en acción</a></li><li class="breadcrumb-item"><a href="../../curso/semana-09/ay09.html">Ay9 · Ejercicios Laplace + CV3</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-09/c17.html">Semana 9 · Laplace en acción</a></li><li class="breadcrumb-item"><a href="../../curso/semana-09/ay09.html">Ay9 · Ejercicios Laplace (sesión online, grabada)</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Ay9 · Ejercicios Laplace + CV3</h1>
-<p class="subtitle lead">Semana 9 · 70 min · CV3: Listas 6–8</p>
+<h1 class="title">Ay9 · Ejercicios Laplace (sesión online, grabada)</h1>
+<p class="subtitle lead">Semana 9 · 45 min online · el CV3 (Listas 6–8) pasa a la Ay10</p>
 </div>
 
 
@@ -542,18 +578,40 @@ window.Quarto = {
 </header>
 
 
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Esta ayudantía se recupera online, en una sesión grabada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La I2 se reprogramó a la sesión del miércoles de esta semana (la UC suspendió las evaluaciones del viernes de la semana 8 por el aluvión), y la clase C18 ocupó el viernes. Para no perder los ejercicios de Laplace, que están al calibre de la I3, la sesión se dicta <strong>online, en 45 minutos, y queda grabada en Canvas</strong> (fecha y enlace en el anuncio). Se resuelven en pizarra E0127 y E0128; E0116 queda propuesto, con su respuesta al pie de esta página. El <strong>CV3 (Listas 6–8) se rinde en la Ay10</strong>, en la semana 10.</p>
+</div>
+</div>
 <section id="ejercicios-de-la-sesión" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios-de-la-sesión">Ejercicios de la sesión</h2>
 <p><strong>[DB E0127] Inversa unilateral derecha / izquierda / bilateral.</strong> Dado <span class="math inline">X(s) = \frac{1}{(s+1)(s+2)}</span>, determine <span class="math inline">x(t)</span> para los tres casos de ROC (causal, anticausal, bilateral).</p>
 <p><strong>[DB E0128] Salida de un sistema LTI.</strong> <span class="math inline">H(s) = \frac{1}{s+1}</span> (<span class="math inline">\Re\{s\}&gt;-1</span>), entrada <span class="math inline">x(t) = e^{-t/2}u(t) + 2e^{-t/3}u(t)</span>. Determine <span class="math inline">y(t)</span> y su ROC.</p>
 <p><strong>[DB E0116] ROC de sumas (selección: casos 2, 3 y 8).</strong> Tres sumas de <span class="math inline">e^{-t}, e^{-2t}, e^{-3t}</span> con distintos <span class="math inline">u(\pm t)</span> (enunciado completo en la Lista 8): determine la ROC de cada caso, si existe.</p>
 </section>
-<section id="cierre-6570-min" class="level2">
-<h2 class="anchored" data-anchor-id="cierre-6570-min">Cierre (65–70 min)</h2>
+<section id="cierre-4045-min" class="level2">
+<h2 class="anchored" data-anchor-id="cierre-4045-min">Cierre (40–45 min)</h2>
 <ol start="2" type="1">
 <li><strong>Anuncios</strong>: Lista 9 ya publicada (inversa + plano <span class="math inline">s</span> + EDOs — materia directa de la I3); CV4 en la semana 11 cubre Listas 9–10 y sirve de ensayo pre-I3; la I3 (semana 12) evalúa U4+U5 con el formulario oficial (U1–U5), impreso con la prueba.</li>
 <li>Recordar el quiz Canvas de la semana (ensayo del CV4).</li>
 </ol>
+</section>
+<section id="respuestas-finales" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-finales">Respuestas finales</h2>
+<p>Solo el resultado, para verificar el trabajo propio.</p>
+<ul>
+<li><strong>E0127</strong>: (a) causal, <span class="math inline">\Re\{s\} &gt; -1</span>: <span class="math inline">x(t) = (e^{-t} - e^{-2t})\,u(t)</span>; (b) anticausal, <span class="math inline">\Re\{s\} &lt; -2</span>: <span class="math inline">x(t) = (-e^{-t} + e^{-2t})\,u(-t)</span>; (c) bilateral, <span class="math inline">-2 &lt; \Re\{s\} &lt; -1</span>: <span class="math inline">x(t) = -e^{-t}u(-t) - e^{-2t}u(t)</span>.</li>
+<li><strong>E0128</strong>: <span class="math inline">y(t) = \big(2e^{-t/2} + 3e^{-t/3} - 5e^{-t}\big)\,u(t)</span>, ROC <span class="math inline">\Re\{s\} &gt; -1/3</span>.</li>
+<li><strong>E0116</strong> (casos 2, 3 y 8): caso 2, existe, <span class="math inline">-2 &lt; \Re\{s\} &lt; -1</span>; caso 3, <strong>no existe</strong> (intersección vacía); caso 8, existe, <span class="math inline">\Re\{s\} &lt; -3</span>.</li>
+</ul>
 
 
 </section>
@@ -966,8 +1024,8 @@ window.Quarto = {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../curso/listas/lista-01.html" class="pagination-link" aria-label="Lista 1 · Señales: clasificación, periodicidad, energía, simetrías">
-        <span class="nav-page-text">Lista 1 · Señales: clasificación, periodicidad, energía, simetrías</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../curso/semana-10/c19.html" class="pagination-link" aria-label="C19 · El teorema del muestreo">
+        <span class="nav-page-text">C19 · El teorema del muestreo</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

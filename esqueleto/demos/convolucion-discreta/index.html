@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La cinta y el reloj — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --azul:#0072B2; --rojo:#D55E00; --acc:#6042a6; --ghost:#b9c4d2; --alias:#E69F00; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:8px 14px;gap:6px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:9px;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:6px;align-items:center;min-width:0;max-width:100%}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:5px 9px;cursor:pointer;white-space:nowrap;font-size:14px}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  button.on{background:#fff3dc;border-color:var(--alias);color:#8a5a00;font-weight:600}
+  label.sl{display:flex;align-items:center;gap:5px;color:var(--dim);font-size:13px;white-space:nowrap}
+  input[type=range]{width:64px}
+  input[type=text]{font:inherit;font-size:14px;padding:4px 6px;border:1px solid var(--line);border-radius:7px;color:var(--ink);background:#fff;min-width:0}
+  input[type=text].mal{border-color:var(--rojo);background:#fff4ee}
+  #inX{width:92px;color:var(--azul)} #inH{width:78px;color:var(--rojo)}
+  label.sl.x{color:var(--azul);font-weight:600} label.sl.h{color:var(--rojo);font-weight:600}
+  .sep{width:1px;height:20px;background:var(--line);flex:0 0 auto}
+
+  .lect{display:flex;gap:20px;align-items:baseline;padding:0 2px;white-space:nowrap;min-width:0;overflow:hidden}
+  .cel{display:flex;align-items:baseline;gap:7px;min-width:0}
+  .cel .k{color:var(--dim);font-size:12px;letter-spacing:.02em;white-space:nowrap}
+  .cel .v{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1;overflow:hidden;text-overflow:ellipsis}
+  .cel .v.lista{font-size:15px}
+  .cel.viva .v{color:var(--rojo)} .cel.fija .v{color:var(--acc)} .cel.az .v{color:var(--azul)}
+  .cel.shr{flex:0 1 auto}
+  .lect .nsel{margin-left:auto}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hint b{color:var(--acc)}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-width:0;min-height:0}
+  .col{flex:1 1 0;min-width:0;min-height:0;display:flex;flex-direction:column;gap:6px}
+  .col figure{flex:1 1 0}
+  #figT{flex:2.5 1 0} #figCinta{flex:1.35 1 0} #figReloj{flex:1 1 0}
+  figcaption{position:absolute;top:5px;left:10px;z-index:2;color:var(--dim);font-size:12px;
+             background:rgba(255,255,255,.9);padding:1px 7px;border-radius:5px;pointer-events:none;max-width:94%}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0}
+
+  #app.m-lin .only-cic, #app.m-lin #figCinta, #app.m-lin #figReloj{display:none}
+  #app.m-cic .only-lin, #app.m-cic .col, #app.m-cic #figT{display:none}
+</style>
+</head>
+<body>
+<div id="app" class="m-lin">
+
+  <header>
+    <div class="brand">La cinta y el reloj <span>IEE2103 · C21</span></div>
+    <div class="ctrls">
+      <button id="btnLin">Lineal</button>
+      <button id="btnCic">Cíclica</button>
+      <span class="sep"></span>
+      <label class="sl x">x <input type="text" id="inX" spellcheck="false" autocomplete="off"></label>
+      <label class="sl h">h <input type="text" id="inH" spellcheck="false" autocomplete="off"></label>
+      <button id="btnPlay" class="primary">▶</button>
+      <button id="btnReset">↺</button>
+      <span class="sep only-cic"></span>
+      <button id="btnN4" class="only-cic">N=4</button>
+      <button id="btnN5" class="only-cic">N=5</button>
+      <button id="btnN8" class="only-cic">N=8</button>
+      <input type="range" id="slN" class="only-cic" min="2" max="10" step="1" title="N">
+    </div>
+  </header>
+
+  <div class="lect" id="lect"></div>
+
+  <div class="wrap">
+    <div class="col">
+      <figure><figcaption>x[n]</figcaption><canvas id="cX"></canvas></figure>
+      <figure><figcaption>h[n]</figcaption><canvas id="cH"></canvas></figure>
+      <figure><figcaption>y[n] = x[n] * h[n]</figcaption><canvas id="cY"></canvas></figure>
+    </div>
+    <figure id="figT"><figcaption>método tabular: la fila k es h desplazada k posiciones y escalada por x[k]</figcaption><canvas id="cT"></canvas></figure>
+    <figure id="figCinta"><figcaption>la cinta: la lineal completa, enrollada en N posiciones</figcaption><canvas id="cCinta"></canvas></figure>
+    <figure id="figReloj"><figcaption>el reloj: h dada vuelta, girando sobre N horas</figcaption><canvas id="cReloj"></canvas></figure>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const cX=$('cX'), cH=$('cH'), cY=$('cY'), cT=$('cT'), cCinta=$('cCinta'), cReloj=$('cReloj');
+const AZUL='#0072B2', ROJO='#D55E00', ALIAS='#E69F00', ACC='#6042a6', INK='#16202e', DIM='#65758b';
+const MAXL=8, MAXN=10;
+const DEF={ lineal:{x:[1,2,0,-1],h:[2,1,1]}, ciclica:{x:[1,2,3,4],h:[1,1,0,0]} };
+
+// ── estado ──────────────────────────────────────────────────────────
+let mode='lineal';
+let xs=DEF.lineal.x.slice(), hs=DEF.lineal.h.slice();
+let N=4, nSel=0;
+let rev=0;              // lineal: filas reveladas (L1+1 = también la fila de sumas)
+let prog=0;             // cíclica: avance del enrollado, 0..1
+let timer=0, playing=false;
+
+// ── matemática (global: la usa también la prueba) ───────────────────
+function convLin(x,h){
+  const y=new Array(x.length+h.length-1).fill(0);
+  for(let k=0;k<x.length;k++) for(let j=0;j<h.length;j++) y[k+j]+=x[k]*h[j];
+  return y;
+}
+function at(a,k){ return k>=0&&k<a.length ? a[k] : 0; }
+function convCyc(x,h,N){
+  const y=[];
+  for(let n=0;n<N;n++){ let s=0; for(let k=0;k<N;k++) s+=at(x,k)*at(h,(((n-k)%N)+N)%N); y.push(s); }
+  return y;
+}
+function enrolla(yl,N){   // y_c[j] = Σ_m y_l[j + mN], dando la lista de aportes (para la cinta)
+  const yc=new Array(N).fill(0);
+  for(let n=0;n<yl.length;n++) yc[n%N]+=yl[n];
+  return yc;
+}
+function fmt(v){
+  const r=Math.round(v*1000)/1000; const s=String(Math.abs(r));
+  return (r<0?'−':'')+s;
+}
+function fmtp(v){ return v<0 ? '('+fmt(v)+')' : fmt(v); }
+function plain(a){ return a.map(v=>String(Math.round(v*1000)/1000)).join(','); }
+function parseLista(s,max){
+  const t=String(s).replace(/−/g,'-').trim();
+  if(!t) return null;
+  const parts=t.split(',');
+  if(parts.length>max) return null;
+  const out=[];
+  for(const p of parts){ const q=p.trim(); if(q===''||!isFinite(Number(q))) return null; out.push(Number(q)); }
+  return out;
+}
+function eq(a,b){ return a.length===b.length && a.every((v,i)=>v===b[i]); }
+
+function efectivas(){
+  if(mode==='lineal') return {x:xs, h:hs, trunc:false};
+  const trunc = xs.length>N || hs.length>N;
+  return {x:xs.slice(0,N), h:hs.slice(0,N), trunc};
+}
+
+// ── parámetros de URL ───────────────────────────────────────────────
+{
+  const p=new URLSearchParams(location.search);
+  if(p.get('modo')==='ciclica'){ mode='ciclica'; xs=DEF.ciclica.x.slice(); hs=DEF.ciclica.h.slice(); }
+  if(p.has('N')){ const v=parseInt(p.get('N'),10); if(isFinite(v)&&v>=2&&v<=MAXN) N=v; }
+  if(p.has('x')){ const v=parseLista(p.get('x'),MAXN); if(v) xs=v; }
+  if(p.has('h')){ const v=parseLista(p.get('h'),MAXN); if(v) hs=v; }
+  if(mode==='lineal' && (xs.length>MAXL||hs.length>MAXL)){ xs=DEF.lineal.x.slice(); hs=DEF.lineal.h.slice(); }
+  if(p.has('n')){ const v=parseInt(p.get('n'),10); if(isFinite(v)&&v>=0) nSel=v; }
+  if(p.has('paso')){ const v=parseInt(p.get('paso'),10); if(isFinite(v)&&v>=0) rev=v; }
+  if(p.has('p')){ const v=parseFloat(p.get('p')); if(isFinite(v)) prog=Math.max(0,Math.min(1,v)); }
+  nSel=((nSel%N)+N)%N;
+  rev=Math.min(rev, xs.length+1);
+}
+
+// ── canvas helpers ──────────────────────────────────────────────────
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx,w:r.width,h:r.height};
+}
+function txt(ctx,s,x,y,font,color,al,bl){
+  ctx.font=font; ctx.fillStyle=color; ctx.textAlign=al||'center'; ctx.textBaseline=bl||'middle'; ctx.fillText(s,x,y);
+}
+function line(ctx,x1,y1,x2,y2,color,lw,dash){
+  ctx.strokeStyle=color; ctx.lineWidth=lw||1; ctx.setLineDash(dash||[]);
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); ctx.setLineDash([]);
+}
+function dot(ctx,x,y,r,color){ ctx.fillStyle=color; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill(); }
+
+// ── paneles de stems pequeños (x, h, y) ─────────────────────────────
+function stemPanel(c,vals,color,hi,visible){
+  const {ctx,w,h}=fit(c);
+  const n=Math.max(vals.length,3);
+  const L=34,R=12,T=24,B=15;
+  const amp=Math.max(1,...vals.map(Math.abs));
+  const hasNeg=vals.some(v=>v<0);
+  const ymax=amp*1.45, ymin=hasNeg?-amp*1.45:-amp*0.15;
+  const X=k=>L+(k+0.5)/n*(w-L-R), Y=v=>h-B-(v-ymin)/(ymax-ymin)*(h-T-B);
+  const y0=Y(0);
+  line(ctx,L-4,y0,w-R,y0,'#c9d3e0',1);
+  for(let k=0;k<vals.length;k++) txt(ctx,String(k),X(k),h-6,'10px system-ui','#8a97a8');
+  txt(ctx,'n',w-R+2,y0-7,'11px system-ui','#8a97a8','right');
+  if(!visible) { txt(ctx,'se completa al final',w/2,T+(h-T-B)*0.3,'12px system-ui','#9aa7b8'); return; }
+  for(let k=0;k<vals.length;k++){
+    const v=vals[k], x=X(k), y=Y(v), esHi=(hi===k);
+    if(esHi){ ctx.fillStyle='rgba(96,66,166,0.13)'; ctx.fillRect(x-Math.min(18,(w-L-R)/n/2),T-4,Math.min(36,(w-L-R)/n),h-T-B+6); }
+    line(ctx,x,y0,x,y,color,esHi?3:2);
+    dot(ctx,x,y,esHi?5:3.6,color);
+    txt(ctx,fmt(v),x,v>=0?y-9:y+10,(esHi?'bold ':'')+'12px system-ui',color);
+  }
+}
+
+// ── tabla del método tabular ────────────────────────────────────────
+function drawTabla(){
+  const {ctx,w,h}=fit(cT);
+  const L1=xs.length, L2=hs.length, M=L1+L2-1;
+  const left=8, top=28, LW=Math.min(112,w*0.19);
+  const x0=left+LW, cw=(w-x0-10)/M, rows=L1+2;
+  const rh=Math.min(50,(h-top-8)/rows);
+  const yl=convLin(xs,hs);
+  const Rw=i=>top+i*rh, Cl=n=>x0+n*cw;
+  const done=rev>=L1+1;
+  const actual = (rev>=1 && rev<=L1) ? rev-1 : -1;
+
+  // fondos: fila activa, celdas de h desplazada, columna de sumas
+  for(let k=0;k<L1;k++){
+    if(k>=rev) continue;
+    if(k===actual){ ctx.fillStyle='rgba(96,66,166,0.10)'; ctx.fillRect(left,Rw(k+1),w-left-4,rh); }
+    ctx.fillStyle='rgba(213,94,0,0.09)'; ctx.fillRect(Cl(k),Rw(k+1),cw*L2,rh);
+  }
+  if(done){ ctx.fillStyle='rgba(96,66,166,0.09)'; ctx.fillRect(x0,Rw(L1+1),cw*M,rh); }
+  // rejilla
+  for(let i=0;i<=rows;i++){
+    const thick=(i===1||i===L1+1);
+    line(ctx,left,Rw(i),w-4,Rw(i),thick?'#8a97a8':'#e3e8ef',thick?1.6:1);
+  }
+  for(let n=0;n<=M;n++) line(ctx,Cl(n),Rw(0),Cl(n),Rw(rows),'#eef1f6',1);
+  line(ctx,x0,Rw(0),x0,Rw(rows),'#c9d3e0',1.2);
+
+  // encabezado
+  txt(ctx,'n',x0-10,Rw(0)+rh*0.5,'bold 14px system-ui',DIM,'right');
+  for(let n=0;n<M;n++) txt(ctx,String(n),Cl(n)+cw/2,Rw(0)+rh*0.5,'bold 15px system-ui',DIM);
+
+  const fsBig = cw>=44 ? 17 : 15;
+  for(let k=0;k<L1;k++){
+    const yc=Rw(k+1)+rh/2, vis=k<rev;
+    txt(ctx,'x['+k+'] = ',left+6,yc,(vis?'':'')+'13px system-ui',vis?DIM:'#b3bdca','left');
+    txt(ctx,fmt(xs[k]),x0-10,yc,'bold 17px system-ui',vis?AZUL:'#c5ced9','right');
+    if(!vis) continue;
+    for(let j=0;j<L2;j++){
+      const v=xs[k]*hs[j], cx=Cl(k+j)+cw/2;
+      const dosL = cw>=50 && rh>=36;
+      txt(ctx,fmt(v),cx,dosL?yc-6:yc,'bold '+fsBig+'px system-ui',INK);
+      if(dosL) txt(ctx,fmtp(xs[k])+'·'+fmtp(hs[j]),cx,yc+11,'10px system-ui','#9a6a40');
+    }
+  }
+  const ys=Rw(L1+1)+rh/2;
+  txt(ctx,'y[n] = Σ',x0-10,ys,'bold 14px system-ui',ACC,'right');
+  if(done) for(let n=0;n<M;n++) txt(ctx,fmt(yl[n]),Cl(n)+cw/2,ys,'bold 18px system-ui',ACC);
+  else txt(ctx,'sigue: sumar cada columna',x0+cw*M/2,ys,'12px system-ui','#b3bdca');
+  // estado de la animación
+  if(rev===0) txt(ctx,'▶ o → : revela la fila 0',x0+cw*M/2,Rw(1)+(rh*L1)/2,'14px system-ui','#9aa7b8');
+}
+
+// ── la cinta ────────────────────────────────────────────────────────
+function drawCinta(){
+  const {ctx,w,h}=fit(cCinta);
+  const {x,h:hh}=efectivas();
+  const yl=convLin(x,hh), M=yl.length, yc=enrolla(yl,N);
+  const wrap = N<M;
+  const P = wrap ? prog : 1;
+  const span=Math.max(M,N);
+  const L=26,R=12;
+  const X=k=>L+(k+0.5)/span*(w-L-R), cwid=(w-L-R)/span;
+
+  // pilas por posición j<N: valor base + aportes que llegan de n=j+mN
+  const base=[]; for(let j=0;j<N;j++) base.push(at(yl,j));
+  const stack={};   // n -> cum antes de este segmento (en su posición destino)
+  const cum=new Array(N).fill(0);
+  for(let j=0;j<N;j++) cum[j]=base[j];
+  for(let n=N;n<M;n++){ const j=n%N; stack[n]=cum[j]; cum[j]+=yl[n]; }
+  // escala vertical del panel superior (incluye las pilas)
+  let vmax=0,vmin=0;
+  for(let n=0;n<M;n++){ const a=yl[n]; vmax=Math.max(vmax,a); vmin=Math.min(vmin,a); }
+  for(let n=N;n<M;n++){ const a=stack[n]+yl[n]; vmax=Math.max(vmax,a,stack[n]); vmin=Math.min(vmin,a,stack[n]); }
+  for(let j=0;j<N;j++){ vmax=Math.max(vmax,cum[j]); vmin=Math.min(vmin,cum[j]); }
+  const amp=Math.max(1,vmax,-vmin);
+  const topA=44, botA=h*0.52;                 // panel superior
+  const topB=h*0.60, botB=h-17;               // panel inferior
+  const ymaxA=amp*1.35, yminA=vmin<0?-amp*1.35:-amp*0.12;
+  const YA=v=>botA-(v-yminA)/(ymaxA-yminA)*(botA-topA);
+  const yc_amp=Math.max(1,...yc.map(Math.abs)), hasNegC=yc.some(v=>v<0);
+  const ymaxB=yc_amp*1.45, yminB=hasNegC?-yc_amp*1.45:-yc_amp*0.15;
+  const YB=v=>botB-(v-yminB)/(ymaxB-yminB)*(botB-topB);
+
+  // banda de la cinta (posiciones 0..N-1) y zona que no cabe (n ≥ N)
+  ctx.fillStyle='rgba(0,114,178,0.06)'; ctx.fillRect(X(0)-cwid/2,topA-12,cwid*N,botB-topA+14);
+  if(wrap){ ctx.fillStyle='rgba(230,159,0,0.10)'; ctx.fillRect(X(N)-cwid/2,topA-12,cwid*(M-N),botA-topA+12); }
+  line(ctx,X(N)-cwid/2,topA-12,X(N)-cwid/2,botB+2,'#c9d3e0',1.2,[4,3]);
+  txt(ctx,'cinta de N = '+N,X(0)-cwid/2+4,topA-3,'11px system-ui',AZUL,'left');
+  if(wrap) txt(ctx,'no cabe: n ≥ N',X(N)-cwid/2+4,topA-3,'11px system-ui','#a8730a','left');
+  // ejes
+  const yA0=YA(0), yB0=YB(0);
+  line(ctx,L-4,yA0,w-R,yA0,'#c9d3e0',1);
+  line(ctx,L-4,yB0,w-R,yB0,'#c9d3e0',1);
+  txt(ctx,'y_ℓ[n]',4,topA+12,'bold 11px system-ui',DIM,'left');
+  txt(ctx,'y_c[n]',4,topB+10,'bold 11px system-ui',ACC,'left');
+  for(let k=0;k<span;k++){
+    txt(ctx,String(k),X(k),botA+8,'10px system-ui',k>=N?'#a8730a':'#8a97a8');
+  }
+  for(let k=0;k<N;k++) txt(ctx,String(k),X(k),botB+9,'10px system-ui','#8a97a8');
+
+  // aportes que se quedan (base) y los que se enrollan (naranja)
+  for(let n=0;n<Math.min(N,M);n++){
+    const xx=X(n), v=yl[n];
+    line(ctx,xx,yA0,xx,YA(v),AZUL,2.4); dot(ctx,xx,YA(v),3.8,AZUL);
+    if(P===0 || !wrap) txt(ctx,fmt(v),xx,v>=0?YA(v)-9:YA(v)+10,'bold 12px system-ui',AZUL);
+  }
+  for(let n=N;n<M;n++){
+    const m=Math.floor(n/N), px=n-m*N*P;
+    const xx=X(px), lo=P*stack[n], v=yl[n];
+    if(P>0){ // fantasma en el origen
+      line(ctx,X(n),yA0,X(n),YA(v),'rgba(230,159,0,0.35)',1.6,[3,3]); dot(ctx,X(n),YA(v),3,'rgba(230,159,0,0.35)');
+    }
+    line(ctx,xx,YA(lo),xx,YA(lo+v),ALIAS,P>0?3.4:2.4); dot(ctx,xx,YA(lo+v),P>0?4.2:3.8,ALIAS);
+    if(P===0) txt(ctx,fmt(v),xx,v>=0?YA(v)-9:YA(v)+10,'bold 12px system-ui','#a8730a');
+  }
+  if(wrap && P>0 && P<1) txt(ctx,'← se enrolla N = '+N+' posiciones',w-R-4,topA+12,'bold 12px system-ui','#a8730a','right');
+  // y_c
+  if(P>=1){
+    for(let j=0;j<N;j++){
+      const xx=X(j), v=yc[j];
+      line(ctx,xx,yB0,xx,YB(v),ACC,2.6); dot(ctx,xx,YB(v),4,ACC);
+      txt(ctx,fmt(v),xx,v>=0?YB(v)-9:YB(v)+10,'bold 13px system-ui',ACC);
+    }
+    if(wrap) txt(ctx,'se suman por posición n mod N',w-R-4,topB+10,'11px system-ui',DIM,'right');
+  } else {
+    txt(ctx,'aparece al terminar de enrollar',X(0)-cwid/2+8,(topB+botB)/2,'12px system-ui','#9aa7b8','left');
+  }
+}
+
+// ── el reloj ────────────────────────────────────────────────────────
+function drawReloj(){
+  const {ctx,w,h}=fit(cReloj);
+  const {x,h:hh}=efectivas();
+  const yc=convCyc(x,hh,N);
+  const n=nSel;
+  const AV=h-84, cx=w/2, cy=26+AV/2;
+  const R=Math.min(AV/2-38, w*0.5-52);
+  const ang=k=>2*Math.PI*k/N;
+  const px=(k,rad)=>cx+rad*Math.cos(ang(k)), py=(k,rad)=>cy-rad*Math.sin(ang(k));
+  ctx.strokeStyle='#9aa7b8'; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+  ctx.strokeStyle='#e3e8ef'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(cx,cy,R*0.40,0,7); ctx.stroke();
+  txt(ctx,'n = '+n,cx,cy-9,'bold 16px system-ui',ACC);
+  txt(ctx,'y_c = '+fmt(yc[n]),cx,cy+10,'bold 14px system-ui',ACC);
+  for(let k=0;k<N;k++){
+    const xx=px(k,R), yy=py(k,R);
+    line(ctx,px(k,R*0.9),py(k,R*0.9),xx,yy,'#c9d3e0',1);
+    dot(ctx,xx,yy,3,'#9aa7b8');
+    txt(ctx,String(k),px(k,R*0.84),py(k,R*0.84),'10px system-ui','#8a97a8');
+    txt(ctx,fmt(at(x,k)),px(k,R*0.62),py(k,R*0.62),'bold 17px system-ui',AZUL);
+    const j=(((n-k)%N)+N)%N, hv=at(hh,j);
+    const ox=px(k,R+22), oy=py(k,R+22);
+    if(k===n){ ctx.strokeStyle=ROJO; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(ox,oy,13,0,7); ctx.stroke(); }
+    txt(ctx,fmt(hv),ox,oy,'bold 17px system-ui',ROJO);
+  }
+  // leyenda
+  { let xl=10; const seg=(t,f,c)=>{ ctx.font=f; txt(ctx,t,xl,h-47,f,c,'left'); xl+=ctx.measureText(t).width; };
+    seg('x[k]','bold 12px system-ui',AZUL); seg(' dentro · ','12px system-ui',DIM);
+    seg('h[(n−k) mod N]','bold 12px system-ui',ROJO); seg(' fuera (h[0] en la hora n)','12px system-ui',DIM); }
+  // la suma término a término
+  const terms=[]; for(let k=0;k<N;k++) terms.push(fmtp(at(x,k))+'·'+fmtp(at(hh,(((n-k)%N)+N)%N)));
+  const head='y_c['+n+'] = ', tail=' = '+fmt(yc[n]);
+  let fs=13, s=head+terms.join(' + ')+tail;
+  ctx.font='bold '+fs+'px system-ui';
+  while(ctx.measureText(s).width>w-16 && fs>10){ fs--; ctx.font='bold '+fs+'px system-ui'; }
+  if(ctx.measureText(s).width>w-16){
+    const mid=Math.ceil(N/2);
+    txt(ctx,head+terms.slice(0,mid).join(' + ')+' +',w/2,h-27,'bold 11px system-ui',INK);
+    txt(ctx,terms.slice(mid).join(' + ')+tail,w/2,h-12,'bold 11px system-ui',INK);
+  } else txt(ctx,s,w/2,h-14,'bold '+fs+'px system-ui',INK);
+}
+
+// ── lecturas y pie ──────────────────────────────────────────────────
+function celda(k,id,clase,lista){ return '<div class="cel '+clase+'"><span class="k">'+k+'</span><span class="v'+(lista?' lista':'')+'" id="'+id+'">—</span></div>'; }
+function armaLecturas(){
+  if(mode==='lineal')
+    $('lect').innerHTML = celda('L1 (largo de x)','rL1','az')+celda('L2 (largo de h)','rL2','viva')+
+      celda('largo de y = L1 + L2 − 1','rLy','fija')+celda('suma de y','rSum','')+'';
+  else
+    $('lect').innerHTML = celda('N','rN','')+celda('L1 + L2 − 1','rLy','fija')+
+      celda('y_ℓ','rYl','az',true)+celda('y_c','rYc','fija',true)+
+      '<label class="sl nsel">n <input type="range" id="slNsel" min="0" step="1"> <b id="rNsel" style="color:var(--acc);min-width:14px"></b></label>';
+  const s=$('slNsel');
+  if(s){ s.oninput=e=>{ stop(); nSel=+e.target.value; pinta(); }; }
+}
+function lectura(){
+  const {x,h:hh,trunc}=efectivas();
+  if(mode==='lineal'){
+    const yl=convLin(xs,hs), sy=yl.reduce((a,b)=>a+b,0);
+    const sx=xs.reduce((a,b)=>a+b,0), sh=hs.reduce((a,b)=>a+b,0);
+    $('rL1').textContent=xs.length; $('rL2').textContent=hs.length; $('rLy').textContent=yl.length;
+    $('rSum').textContent=fmt(sy)+'  = '+fmt(sx)+' · '+fmt(sh);
+    $('hint').innerHTML='Cada fila es h desplazada k posiciones y escalada por x[k]; y es la suma por columnas. <b>Verificar el largo antes de calcular: L1 + L2 − 1</b>';
+  } else {
+    const yl=convLin(x,hh), yc=enrolla(yl,N);
+    $('rN').textContent=N; $('rLy').textContent=yl.length;
+    $('rYl').textContent='('+yl.map(fmt).join(', ')+')'; $('rYc').textContent='('+yc.map(fmt).join(', ')+')';
+    const s=$('slNsel'); s.max=N-1; s.value=nSel; $('rNsel').textContent=nSel;
+    let t;
+    if(N>=yl.length) t='<b>Con zero-padding hasta L1 + L2 − 1 la cíclica coincide con la lineal</b> (aquí N ≥ '+yl.length+': nada que enrollar).';
+    else t='La lineal desliza h sobre una recta; la cíclica la hace girar sobre un reloj de N horas: <b>lo que no cabe en la cinta se enrolla a la posición n mod N</b>.';
+    if(trunc) t='<b>x o h más largas que N: se truncan a N.</b> '+t;
+    $('hint').innerHTML=t;
+  }
+}
+function sync(){
+  $('inX').value=plain(xs); $('inH').value=plain(hs);
+  $('btnLin').classList.toggle('on',mode==='lineal'); $('btnCic').classList.toggle('on',mode==='ciclica');
+  for(const k of [4,5,8]) $('btnN'+k).classList.toggle('on',N===k);
+  $('slN').value=N;
+  $('btnPlay').textContent = playing ? '⏸' : '▶';
+}
+function pinta(){
+  if(mode==='lineal'){
+    const L1=xs.length;
+    const yl=convLin(xs,hs), done=rev>=L1+1;
+    const hiK=(rev>=1&&rev<=L1)?rev-1:-1;
+    stemPanel(cX,xs,AZUL,hiK,true);
+    stemPanel(cH,hs,ROJO,-1,true);
+    stemPanel(cY,yl,ACC,-1,done);
+    drawTabla();
+  } else { drawCinta(); drawReloj(); }
+  lectura(); sync();
+}
+
+// ── animación (setInterval: sin requestAnimationFrame) ──────────────
+function stop(){ playing=false; clearInterval(timer); timer=0; $('btnPlay').textContent='▶'; }
+function play(){
+  if(playing){ stop(); return; }
+  playing=true; $('btnPlay').textContent='⏸';
+  if(mode==='lineal'){
+    if(rev>=xs.length+1) rev=0;
+    pinta();
+    timer=setInterval(()=>{ rev++; if(rev>=xs.length+1) stop(); pinta(); },1200);
+  } else {
+    const {x,h:hh}=efectivas();
+    if(N<x.length+hh.length-1){
+      if(prog>=1) prog=0;
+      pinta();
+      timer=setInterval(()=>{ prog=Math.min(1,prog+30/3600); if(prog>=1) stop(); pinta(); },30);
+    } else {
+      timer=setInterval(()=>{ nSel=(nSel+1)%N; pinta(); },1000);
+    }
+  }
+}
+function paso(d){
+  stop();
+  if(mode==='lineal') rev=Math.max(0,Math.min(xs.length+1,rev+d));
+  else nSel=((nSel+d)%N+N)%N;
+  pinta();
+}
+function reinicia(){
+  stop(); rev=0; prog=0; nSel=0; pinta();
+}
+function ponModo(m){
+  if(m===mode) return;
+  stop();
+  const dejaDef = eq(xs,DEF[mode].x) && eq(hs,DEF[mode].h);
+  mode=m;
+  if(dejaDef){ xs=DEF[m].x.slice(); hs=DEF[m].h.slice(); }
+  else if(m==='lineal'){ xs=xs.slice(0,MAXL); hs=hs.slice(0,MAXL); }
+  rev=0; prog=0; nSel=nSel%N;
+  $('app').className = m==='lineal'?'m-lin':'m-cic';
+  armaLecturas(); pinta();
+}
+function ponN(v){ stop(); N=v; nSel=nSel%N; prog=0; pinta(); }
+function leeEntrada(){
+  const max = mode==='lineal' ? MAXL : MAXN;
+  const a=parseLista($('inX').value,max), b=parseLista($('inH').value,max);
+  $('inX').classList.toggle('mal',!a); $('inH').classList.toggle('mal',!b);
+  if(a) xs=a; if(b) hs=b;
+  stop(); rev=0; prog=0; nSel=nSel%N;
+  pinta();
+  if(a) $('inX').classList.remove('mal'); if(b) $('inH').classList.remove('mal');
+}
+
+// ── controles ───────────────────────────────────────────────────────
+$('btnLin').onclick=()=>ponModo('lineal'); $('btnCic').onclick=()=>ponModo('ciclica');
+$('btnPlay').onclick=play; $('btnReset').onclick=reinicia;
+$('btnN4').onclick=()=>ponN(4); $('btnN5').onclick=()=>ponN(5); $('btnN8').onclick=()=>ponN(8);
+$('slN').oninput=e=>ponN(+e.target.value);
+for(const id of ['inX','inH']){
+  $(id).addEventListener('change',leeEntrada);
+  $(id).addEventListener('keydown',e=>{ e.stopPropagation(); if(e.key==='Enter'){ leeEntrada(); e.target.blur(); } });
+}
+// dentro de reveal.js: cualquier toque en la demo le da el foco al iframe,
+// para que las teclas lleguen aquí y no cambien de lámina
+document.addEventListener('pointerdown', ()=>window.focus(), true);
+document.addEventListener('keydown', e=>{
+  if(e.target && e.target.tagName==='INPUT') return;
+  if(e.code==='Space'){ e.preventDefault(); e.stopPropagation(); play(); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); e.stopPropagation(); paso(1); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); e.stopPropagation(); paso(-1); }
+  else if(e.key==='l'||e.key==='L'){ e.stopPropagation(); ponModo('lineal'); }
+  else if(e.key==='c'||e.key==='C'){ e.stopPropagation(); ponModo('ciclica'); }
+  else if(e.key==='r'||e.key==='R'){ e.stopPropagation(); reinicia(); }
+});
+
+$('app').className = mode==='lineal'?'m-lin':'m-cic';
+armaLecturas();
+{ const ro=new ResizeObserver(()=>pinta()); for(const f of document.querySelectorAll('figure')) ro.observe(f); ro.observe(document.body); }
+pinta();   // primer cuadro sin depender de requestAnimationFrame
+</script>
+</body>
+</html>

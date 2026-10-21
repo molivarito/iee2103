@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La hélice muestreada — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --azul:#0072B2; --rojo:#D55E00; --acc:#6042a6; --ghost:#b9c4d2; --alias:#E69F00; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:8px 14px;gap:6px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:7px;align-items:center;flex-wrap:wrap;min-width:0;max-width:100%}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:6px 10px;cursor:pointer;white-space:nowrap;font-size:14px}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  button.on{background:#fff3dc;border-color:var(--alias);color:#8a5a00;font-weight:600}
+  label.sl{display:flex;align-items:center;gap:6px;color:var(--dim);font-size:13px}
+  input[type=range]{width:120px;max-width:30vw}
+  #slPhi,#slN{width:70px}
+
+  .lect{display:flex;gap:22px;flex-wrap:wrap;align-items:baseline;padding:0 2px}
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;letter-spacing:.02em}
+  .cel .v{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .cel.viva .v{color:var(--rojo)}
+  .cel.fija .v{color:var(--acc)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px}
+  .hint b{color:var(--acc)}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-width:0;min-height:0}
+  #fig3d{flex:3 1 0;min-width:0}
+  .col{flex:2 1 0;min-width:0;min-height:0;display:flex;flex-direction:column;gap:8px}
+  #figStem{flex:1 1 0}
+  #figCirc{flex:1 1 0}
+  figcaption{position:absolute;top:6px;left:10px;z-index:2;color:var(--dim);font-size:12px;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none;max-width:92%}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0}
+  #c3d{cursor:grab;touch-action:none}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">La hélice muestreada <span>IEE2103 · C20</span></div>
+    <div class="ctrls">
+      <button id="btnPlay" class="primary">▶ Ω: 0 → 2π</button>
+      <button id="btnReset">↺</button>
+      <label class="sl">Ω <input type="range" id="slOm"></label>
+      <button id="btnP5">Ω = 2π/5</button>
+      <button id="btnUno">Ω = 1</button>
+      <button id="btnPi">Ω = π</button>
+      <button id="btnAlias">alias</button>
+      <label class="sl">φ <input type="range" id="slPhi"></label>
+      <label class="sl">N <input type="range" id="slN"></label>
+      <button id="btnTono">♪ tono</button>
+      <button id="btnBarrido">♪ barrido</button>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">Ω</span><span class="v" id="rOm">—</span></div>
+    <div class="cel fija"><span class="k">Ω/2π</span><span class="v" id="rFrac">—</span></div>
+    <div class="cel viva"><span class="k">período</span><span class="v" id="rPer">—</span></div>
+    <div class="cel"><span class="k">equivalente en [−π, π)</span><span class="v" id="rEq">—</span></div>
+  </div>
+
+  <div class="wrap">
+    <figure id="fig3d"><figcaption>gris: e^{j(Ωt+φ)} · negro: sus muestras e^{j(Ωn+φ)} · naranja: la hélice alias Ω − 2π · piso: cos(Ωn+φ) · arrastra para girar</figcaption><canvas id="c3d"></canvas></figure>
+    <div class="col">
+      <figure id="figStem"><figcaption>cos(Ωn + φ): lo que se ve en un gráfico de barras</figcaption><canvas id="cS"></canvas></figure>
+      <figure id="figCirc"><figcaption>el fasor salta Ω radianes por muestra</figcaption><canvas id="cC"></canvas></figure>
+    </div>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const c3d=$('c3d'), cS=$('cS'), cC=$('cC');
+const btnPlay=$('btnPlay'), btnReset=$('btnReset'), btnAlias=$('btnAlias');
+const btnP5=$('btnP5'), btnUno=$('btnUno'), btnPi=$('btnPi'), btnTono=$('btnTono'), btnBarrido=$('btnBarrido');
+const slOm=$('slOm'), slPhi=$('slPhi'), slN=$('slN');
+const TAU=2*Math.PI;
+
+// ── estado ──────────────────────────────────────────────────────────
+let om=0.3*Math.PI, phi=0, N=24, alias=true;
+let animando=false, raf=0, animStart=0;
+const SWEEP_MS=16000;                       // 0 → 2π en 16 s
+const INIT_YAW=-0.62, INIT_PITCH=0.30;
+let yaw=INIT_YAW, pitch=INIT_PITCH;
+let dragging=false, lastX=0, lastY=0;
+const FLOOR=1.75;                           // el piso de las barras, bajo la hélice (en unidades de amplitud)
+
+// parámetros de prueba: ?om=0.4 (en unidades de π) · ?phi=0.25 (ídem) · ?N=16 · ?alias=0
+{
+  const p=new URLSearchParams(location.search);
+  if(p.has('om')){ const v=parseFloat(p.get('om')); if(isFinite(v)) om=Math.max(0,Math.min(2,v))*Math.PI; }
+  if(p.has('phi')){ const v=parseFloat(p.get('phi')); if(isFinite(v)) phi=v*Math.PI; }
+  if(p.has('N')){ const v=parseInt(p.get('N'),10); if(isFinite(v)&&v>=6&&v<=48) N=v; }
+  if(p.has('alias')) alias = p.get('alias')!=='0';
+}
+
+// ── matemática ──────────────────────────────────────────────────────
+function periodo(w){
+  // menor N tal que w·N/2π es entero (tolerancia fina): la condición racional
+  const r=w/TAU;
+  for(let n=1;n<=240;n++){
+    const m=r*n;
+    if(Math.abs(m-Math.round(m))<1e-7) return {N:n, m:Math.round(m)};
+  }
+  return null;
+}
+function equivalente(w){ let e=w; while(e>=Math.PI-1e-12) e-=TAU; while(e<-Math.PI) e+=TAU; return e; }
+function fmtPi(w){
+  const r=w/Math.PI;
+  if(Math.abs(r)<5e-4) return '0';
+  if(Math.abs(r-1)<5e-4) return 'π';
+  if(Math.abs(r+1)<5e-4) return '−π';
+  if(Math.abs(r-2)<5e-4) return '2π';
+  return (r<0?'−':'')+Math.abs(r).toFixed(3)+' π';
+}
+function near(a,b,eps=1e-6){ return Math.abs(a-b)<eps; }
+
+// ── canvas helpers ──────────────────────────────────────────────────
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx,w:r.width,h:r.height};
+}
+function mapa(w,h,xmin,xmax,ymin,ymax,pad){
+  const L=pad.l,R=pad.r,T=pad.t,B=pad.b;
+  return { X:x=>L+(x-xmin)/(xmax-xmin)*(w-L-R), Y:y=>h-B-(y-ymin)/(ymax-ymin)*(h-T-B) };
+}
+function arrow2(ctx,x1,y1,x2,y2,s=6){
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  const ang=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath(); ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-s*Math.cos(ang-0.4),y2-s*Math.sin(ang-0.4));
+  ctx.lineTo(x2-s*Math.cos(ang+0.4),y2-s*Math.sin(ang+0.4));
+  ctx.closePath(); ctx.fill();
+}
+
+// ── proyección 3D: X=n (eje largo), Y=Im (arriba), Z=Re (hacia el observador) ──
+function rot(x,y,z){
+  const cy=Math.cos(yaw), sy=Math.sin(yaw);
+  const x1=x*cy+z*sy, z1=-x*sy+z*cy, y1=y;
+  const cp=Math.cos(pitch), sp=Math.sin(pitch);
+  return {x:x1, y:y1*cp-z1*sp, z:y1*sp+z1*cp};
+}
+
+// ── panel 1: la hélice y sus muestras ───────────────────────────────
+function draw3D(){
+  const {ctx,w,h}=fit(c3d);
+  const L=N-1;                               // largo del eje n
+  const sRI=L/4.2;                           // radio 1 ocupa ~1/4 del eje n
+  const axHalf=L+1.2;
+  const pts=[rot(-0.8,0,0),rot(axHalf,0,0),rot(0,1.25*sRI,0),rot(0,-FLOOR*sRI,0),rot(0,0,1.25*sRI),rot(0,0,-1.25*sRI),
+             rot(L,1.1*sRI,1.1*sRI),rot(L,-FLOOR*sRI,-1.1*sRI),rot(0,1.1*sRI,-1.1*sRI),rot(L,-FLOOR*sRI,1.1*sRI)];
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  for(const p of pts){ if(p.x<minX)minX=p.x; if(p.x>maxX)maxX=p.x; if(p.y<minY)minY=p.y; if(p.y>maxY)maxY=p.y; }
+  const padSide=w*0.05, padTop=h*0.17, padBottom=h*0.05;
+  const availW=Math.max(40,w-2*padSide), availH=Math.max(40,h-padTop-padBottom);
+  const u=Math.min(availW/((maxX-minX)||1), availH/((maxY-minY)||1));
+  const cx=padSide+availW/2-u*(minX+maxX)/2, cy0=padTop+availH/2+u*(minY+maxY)/2;
+  const P=(x,y,z)=>{ const p=rot(x,y,z); return {sx:cx+p.x*u, sy:cy0-p.y*u}; };
+  const yF=-FLOOR*sRI;
+
+  // piso: grilla tenue en Im = −FLOOR, con las rayas Re = 0, ±1
+  ctx.lineWidth=1;
+  for(const reV of [-1,-0.5,0,0.5,1]){
+    const a=P(-0.8,yF,reV*sRI), b=P(axHalf,yF,reV*sRI);
+    ctx.strokeStyle= reV===0 ? 'rgba(120,135,155,0.7)' : 'rgba(180,190,205,0.45)';
+    ctx.beginPath(); ctx.moveTo(a.sx,a.sy); ctx.lineTo(b.sx,b.sy); ctx.stroke();
+  }
+  // barras del piso: cos(Ωn+φ)
+  for(let n=0;n<N;n++){
+    const v=Math.cos(om*n+phi);
+    const a=P(n,yF,0), b=P(n,yF,v*sRI);
+    ctx.strokeStyle='#D55E00'; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(a.sx,a.sy); ctx.lineTo(b.sx,b.sy); ctx.stroke();
+    ctx.fillStyle='#D55E00'; ctx.beginPath(); ctx.arc(b.sx,b.sy,2.6,0,7); ctx.fill();
+  }
+  // eje n (en Im = 0, Re = 0) y ejes Re / Im en n = 0
+  const axA=P(-0.8,0,0), axB=P(axHalf,0,0);
+  ctx.strokeStyle='#16202e'; ctx.lineWidth=1.6;
+  ctx.beginPath(); ctx.moveTo(axA.sx,axA.sy); ctx.lineTo(axB.sx,axB.sy); ctx.stroke();
+  const O=P(0,0,0), ReP=P(0,0,1.25*sRI), ImP=P(0,1.25*sRI,0);
+  ctx.strokeStyle='#6042a6'; ctx.fillStyle='#6042a6'; ctx.lineWidth=1.6;
+  arrow2(ctx,O.sx,O.sy,ReP.sx,ReP.sy); arrow2(ctx,O.sx,O.sy,ImP.sx,ImP.sy);
+
+  // hélices: continua (gris) y alias (naranja), paso fino
+  function helix(w,color,lw,dash){
+    ctx.strokeStyle=color; ctx.lineWidth=lw; ctx.setLineDash(dash||[]);
+    ctx.beginPath();
+    const dt=0.015;
+    for(let t=0;t<=L+1e-9;t+=dt){
+      const th=w*t+phi, p=P(t,Math.sin(th)*sRI,Math.cos(th)*sRI);
+      t===0? ctx.moveTo(p.sx,p.sy) : ctx.lineTo(p.sx,p.sy);
+    }
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  if(alias) helix(om-TAU,'rgba(230,159,0,0.85)',1.4,[]);
+  helix(om,'rgba(110,122,140,0.85)',2.0,[]);
+
+  // líneas de caída (muy tenues) de cada muestra a su barra del piso
+  ctx.strokeStyle='rgba(120,135,155,0.28)'; ctx.lineWidth=1; ctx.setLineDash([2,3]);
+  for(let n=0;n<N;n++){
+    const th=om*n+phi, a=P(n,Math.sin(th)*sRI,Math.cos(th)*sRI), b=P(n,yF,Math.cos(th)*sRI);
+    ctx.beginPath(); ctx.moveTo(a.sx,a.sy); ctx.lineTo(b.sx,b.sy); ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  // las muestras
+  for(let n=0;n<N;n++){
+    const th=om*n+phi, p=P(n,Math.sin(th)*sRI,Math.cos(th)*sRI);
+    ctx.fillStyle='#16202e'; ctx.beginPath(); ctx.arc(p.sx,p.sy,3.6,0,7); ctx.fill();
+    ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.stroke();
+  }
+
+  // rótulos
+  ctx.font='11px system-ui'; ctx.fillStyle='#65758b'; ctx.textAlign='center'; ctx.textBaseline='top';
+  const step= N<=16?2:(N<=32?4:8);
+  for(let n=0;n<N;n+=step){ const t=P(n,yF,-1.25*sRI); ctx.fillText(String(n),t.sx,t.sy+4); }
+  const nL=P(axHalf+0.4,0,0);
+  ctx.font='bold 13px system-ui'; ctx.fillStyle='#16202e'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText('n',nL.sx,nL.sy);
+  ctx.font='bold 12px system-ui'; ctx.fillStyle='#6042a6';
+  ctx.textAlign='left'; ctx.fillText('Re',ReP.sx+6,ReP.sy);
+  ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText('Im',ImP.sx,ImP.sy-6);
+}
+
+// ── panel 2: el stem ────────────────────────────────────────────────
+function drawStem(){
+  const {ctx,w,h}=fit(cS);
+  const M=mapa(w,h,-0.6,N-0.4,-1.35,1.35,{l:30,r:14,t:26,b:22});
+  const y0=M.Y(0);
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(M.X(-0.6),y0); ctx.lineTo(M.X(N-0.4),y0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(M.X(-0.6),M.Y(1)); ctx.lineTo(M.X(-0.3),M.Y(1)); ctx.moveTo(M.X(-0.6),M.Y(-1)); ctx.lineTo(M.X(-0.3),M.Y(-1)); ctx.stroke();
+  ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='right'; ctx.textBaseline='middle';
+  ctx.fillText('1',M.X(-0.6)-3,M.Y(1)); ctx.fillText('−1',M.X(-0.6)-3,M.Y(-1));
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  const step= N<=16?2:(N<=32?4:8);
+  for(let n=0;n<N;n+=step) ctx.fillText(String(n),M.X(n),y0+5);
+  ctx.textAlign='right'; ctx.fillText('n',M.X(N-0.4),y0+5);
+
+  // curvas continuas: la de Ω (gris) y, si se pide, la alias (naranja)
+  function curva(wv,color,lw){
+    ctx.strokeStyle=color; ctx.lineWidth=lw; ctx.setLineDash([4,3]); ctx.beginPath();
+    for(let t=-0.6;t<=N-0.4;t+=0.01){ const p={x:M.X(t),y:M.Y(Math.cos(wv*t+phi))}; t<=-0.6? ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y); }
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  if(alias) curva(om-TAU,'rgba(230,159,0,0.55)',1.1);
+  curva(om,'rgba(150,160,175,0.9)',1.2);
+  // stems
+  for(let n=0;n<N;n++){
+    const v=Math.cos(om*n+phi), x=M.X(n), y=M.Y(v);
+    ctx.strokeStyle='#0072B2'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x,y0); ctx.lineTo(x,y); ctx.stroke();
+    ctx.fillStyle='#0072B2'; ctx.beginPath(); ctx.arc(x,y,3.4,0,7); ctx.fill();
+  }
+  // período, si lo hay y cabe
+  const per=periodo(om);
+  if(per && per.N>1 && per.N<N){
+    const xa=M.X(0), xb=M.X(per.N), yA=M.Y(-1.2);
+    ctx.strokeStyle='#D55E00'; ctx.fillStyle='#D55E00'; ctx.lineWidth=1.3;
+    arrow2(ctx,xa,yA,xb,yA,5); arrow2(ctx,xb,yA,xa,yA,5);
+    ctx.font='bold 11px system-ui'; ctx.textAlign='left'; ctx.textBaseline='middle';
+    ctx.fillText('N = '+per.N, xb+6, yA);
+  }
+}
+
+// ── panel 3: el fasor en el círculo ─────────────────────────────────
+function drawCirc(){
+  const {ctx,w,h}=fit(cC);
+  const R=Math.min(w,h)*0.36, cx=w*0.42, cy=h*0.55;
+  const X=a=>cx+R*Math.cos(a), Y=a=>cy-R*Math.sin(a);
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(cx-R*1.2,cy); ctx.lineTo(cx+R*1.2,cy); ctx.moveTo(cx,cy+R*1.2); ctx.lineTo(cx,cy-R*1.2); ctx.stroke();
+  ctx.strokeStyle='#9aa7b8'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+  ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.textBaseline='top'; ctx.fillText('Re',cx+R*1.2-4,cy+4); ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText('Im',cx,cy-R*1.2-3);
+
+  // el arco del salto Ω (azul) y, si se pide, el del alias Ω − 2π (naranja, al revés)
+  const a0=phi, a1=phi+om;
+  if(alias && om>1e-6 && om<TAU-1e-6){
+    ctx.strokeStyle='rgba(230,159,0,0.9)'; ctx.lineWidth=5;
+    ctx.beginPath(); ctx.arc(cx,cy,R*0.58,-a0,-(a0+om-TAU),false); ctx.stroke();
+  }
+  ctx.strokeStyle='rgba(0,114,178,0.9)'; ctx.lineWidth=5;
+  ctx.beginPath(); ctx.arc(cx,cy,R*0.72,-a0,-a1,true); ctx.stroke();
+
+  // las muestras en el círculo: n = 0 destacada, las siguientes se van apagando
+  const K=Math.min(N,12);
+  for(let n=K-1;n>=0;n--){
+    const a=om*n+phi, al=n===0?1:Math.max(0.18,1-n*0.085);
+    ctx.fillStyle=`rgba(22,32,46,${al.toFixed(3)})`;
+    ctx.beginPath(); ctx.arc(X(a),Y(a),n===0?5:3.6,0,7); ctx.fill();
+    if(n<=2){ ctx.font='10px system-ui'; ctx.fillStyle=`rgba(101,117,139,${al})`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('n='+n, cx+(R+15)*Math.cos(a), cy-(R+15)*Math.sin(a)); }
+  }
+  // flechas de los tres primeros saltos (cuerdas)
+  ctx.strokeStyle='#0072B2'; ctx.fillStyle='#0072B2';
+  for(let n=0;n<Math.min(3,N-1);n++){
+    const a=om*n+phi, b=om*(n+1)+phi; ctx.lineWidth=n===0?2:1.2; ctx.globalAlpha=n===0?1:0.55;
+    arrow2(ctx,X(a),Y(a),X(b),Y(b),7);
+  }
+  ctx.globalAlpha=1;
+  // leyenda
+  ctx.font='12px system-ui'; ctx.textAlign='left'; ctx.textBaseline='top';
+  ctx.fillStyle='#0072B2'; ctx.fillText('salto de Ω = '+fmtPi(om), 10, h-34);
+  if(alias){ ctx.fillStyle='#b07400'; ctx.fillText('o de Ω − 2π = '+fmtPi(om-TAU)+': mismo punto', 10, h-18); }
+}
+
+// ── lecturas y pie ──────────────────────────────────────────────────
+function hintText(){
+  if(near(om,0,1e-3)) return 'Ω = 0: la constante. Cada salto es nulo.';
+  if(near(om,TAU,1e-3)) return 'Ω = 2π: cada salto es una vuelta entera ⇒ las muestras no se mueven. <b>Es la misma señal que Ω = 0.</b>';
+  if(near(om,Math.PI,1e-3)) return 'Ω = π: media vuelta por muestra, cos(πn) = (−1)ⁿ. <b>La oscilación más rápida posible.</b>';
+  if(om<Math.PI) return 'Entre muestras no hay nadie que distinga la hélice gris de la naranja: <b>Ω y Ω − 2π son la misma señal</b>.';
+  return 'Pasado π, el salto de Ω es el mismo que un salto corto hacia atrás, Ω − 2π: <b>la secuencia se ve cada vez más lenta</b>.';
+}
+function lectura(){
+  $('rOm').textContent=fmtPi(om)+(near(om,1,1e-9)?' (1 rad)':'');
+  const per=periodo(om);
+  if(near(om,0,1e-9)) { $('rFrac').textContent='0'; $('rPer').textContent='constante'; }
+  else if(per){ $('rFrac').textContent=per.m+'/'+per.N; $('rPer').textContent='N = '+per.N; }
+  else { $('rFrac').textContent='irracional'; $('rPer').textContent='no periódica'; }
+  $('rEq').textContent=fmtPi(equivalente(om));
+  $('hint').innerHTML=hintText();
+}
+function pinta(){ draw3D(); drawStem(); drawCirc(); lectura(); }
+
+// ── animación: Ω de 0 a 2π en bucle ─────────────────────────────────
+function animFrame(ts){
+  if(!animando) return;
+  const el=(ts-animStart)%SWEEP_MS;
+  om=el/SWEEP_MS*TAU; slOm.value=om; pinta();
+  raf=requestAnimationFrame(animFrame);
+}
+function detener(){ animando=false; cancelAnimationFrame(raf); btnPlay.textContent='▶ Ω: 0 → 2π'; }
+function toggle(){
+  animando=!animando;
+  btnPlay.textContent= animando ? '⏸ Pausa' : '▶ Ω: 0 → 2π';
+  if(animando){ animStart=performance.now()-(om/TAU)*SWEEP_MS; raf=requestAnimationFrame(animFrame); }
+  else cancelAnimationFrame(raf);
+}
+function irA(v){ detener(); om=v; slOm.value=om; pinta(); }
+function resetAll(){ detener(); om=0.3*Math.PI; phi=0; N=24; alias=true; slOm.value=om; slPhi.value=0; slN.value=N;
+  btnAlias.classList.toggle('on',alias); yaw=INIT_YAW; pitch=INIT_PITCH; pinta(); }
+
+// ── sonido: la secuencia cos(Ωn) reproducida a 8000 muestras por segundo ──
+let actx=null;
+function audio(){ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); return actx; }
+function sonar(gen,dur){
+  const ac=audio(), fs=8000, L=Math.round(fs*dur), buf=ac.createBuffer(1,L,fs), d=buf.getChannelData(0);
+  let ph=0;
+  for(let n=0;n<L;n++){
+    ph+=gen(n/L);                                  // gen entrega Ω en el instante relativo
+    const env=Math.min(1, n/(0.01*fs), (L-n)/(0.01*fs));
+    d[n]=0.5*env*Math.cos(ph);
+  }
+  const src=ac.createBufferSource(); src.buffer=buf; src.connect(ac.destination); src.start();
+}
+function tono(){ sonar(()=>om, 0.8); }
+function barrido(){ sonar(u=>u*TAU, 4.0); }   // Ω sube de 0 a 2π: a 8 kHz se oye subir hasta 4 kHz y bajar
+
+// ── controles ───────────────────────────────────────────────────────
+slOm.min=0; slOm.max=String(TAU); slOm.step=String(Math.PI/60); slOm.value=om;
+slPhi.min=0; slPhi.max=String(TAU); slPhi.step=String(Math.PI/24); slPhi.value=phi;
+slN.min=6; slN.max=48; slN.step=1; slN.value=N;
+btnAlias.classList.toggle('on',alias);
+
+btnPlay.onclick=toggle; btnReset.onclick=resetAll;
+btnP5.onclick=()=>irA(TAU/5); btnUno.onclick=()=>irA(1); btnPi.onclick=()=>irA(Math.PI);
+btnAlias.onclick=()=>{ alias=!alias; btnAlias.classList.toggle('on',alias); pinta(); };
+btnTono.onclick=tono; btnBarrido.onclick=barrido;
+slOm.oninput=e=>{ detener(); om=+e.target.value; pinta(); };
+slPhi.oninput=e=>{ phi=+e.target.value; pinta(); };
+slN.oninput=e=>{ N=+e.target.value; pinta(); };
+
+// dentro de reveal.js: cualquier toque en la demo le da el foco al iframe,
+// para que las teclas lleguen aquí y no cambien de lámina
+document.addEventListener('pointerdown', ()=>window.focus(), true);
+
+c3d.addEventListener('pointerdown', e=>{ dragging=true; lastX=e.clientX; lastY=e.clientY; c3d.setPointerCapture(e.pointerId); c3d.style.cursor='grabbing'; });
+c3d.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  const dx=e.clientX-lastX, dy=e.clientY-lastY; lastX=e.clientX; lastY=e.clientY;
+  yaw+=dx*0.008; pitch=Math.max(-1.4,Math.min(1.4,pitch-dy*0.008)); draw3D();
+});
+c3d.addEventListener('pointerup', ()=>{ dragging=false; c3d.style.cursor='grab'; });
+c3d.addEventListener('pointercancel', ()=>{ dragging=false; c3d.style.cursor='grab'; });
+
+document.addEventListener('keydown', e=>{
+  if(e.target && e.target.tagName==='INPUT') return;
+  if(e.code==='Space'){ e.preventDefault(); e.stopPropagation(); toggle(); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); e.stopPropagation(); irA(Math.min(TAU,om+Math.PI/60)); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); e.stopPropagation(); irA(Math.max(0,om-Math.PI/60)); }
+  else if(e.key==='a'||e.key==='A'){ e.stopPropagation(); btnAlias.onclick(); }
+  else if(e.key==='s'||e.key==='S'){ e.stopPropagation(); tono(); }
+  else if(e.key==='r'||e.key==='R'){ e.stopPropagation(); resetAll(); }
+});
+
+{ const ro=new ResizeObserver(()=>pinta()); for(const f of document.querySelectorAll('figure')) ro.observe(f); ro.observe(document.body); }
+pinta();   // primer cuadro sin depender de requestAnimationFrame
+</script>
+</body>
+</html>
