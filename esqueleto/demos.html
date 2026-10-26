@@ -977,6 +977,34 @@ window.Quarto = {
 <p><strong>Cómo usarla</strong>: <a href="demos/sinusoides-discretas/index.html">ábrela en el navegador</a> — sin instalar nada ni internet (los botones ♪ necesitan parlantes). Arrastra el 3D para girarlo; botones <span class="math inline">\Omega = 2\pi/5</span>, <span class="math inline">\Omega = 1</span>, <span class="math inline">\Omega = \pi</span>; deslizadores de <span class="math inline">\phi</span> y <span class="math inline">N</span>. Teclas: <strong>espacio</strong> sube <span class="math inline">\Omega</span> en bucle, <strong>←/→</strong> lo mueven, <strong>A</strong> alias, <strong>S</strong> tono, <strong>R</strong> reinicia.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C20 · Tres cosenos muestreados: ¿cuál es la más aguda? (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C20 · Tres cosenos muestreados: ¿cuál es la más aguda? (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: <span class="math inline">\cos(3000t)</span>, <span class="math inline">\cos(4000t)</span> y <span class="math inline">\cos(5000t)</span> muestreados a la vez con <span class="math inline">T = 1</span> ms, muestra a muestra. En continuo suben de frecuencia; muestreadas, <span class="math inline">\Omega = 3, 4, 5</span> rad/muestra, y el orden sale al revés: la de 3000 rad/s es la que más alterna y la de 5000 la que ondula más lento. «aparente» dibuja el coseno más lento que pasa por las mismas muestras (<span class="math inline">4 \equiv -2{,}28</span> y <span class="math inline">5 \equiv -1{,}28</span>), y el fasor de cada fila muestra el salto <span class="math inline">\Omega</span> hacia adelante y el salto equivalente por el otro lado. Con <span class="math inline">T = 0{,}5</span> ms las tres caen bajo <span class="math inline">\pi</span> y el orden continuo se conserva.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/tres-cosenos/index.html">ábrela en el navegador</a> — sin instalar nada ni internet. Teclas: <strong>espacio</strong> muestrea, <strong>A</strong> aparente, <strong>O</strong> original, <strong>C</strong> círculo, <strong>←/→</strong> mueven <span class="math inline">T</span>, <strong>R</strong> reinicia.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C20 · ¿Cuál es periódica? (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C20 · ¿Cuál es periódica? (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: <span class="math inline">\cos(\pi n/4)</span>, <span class="math inline">\cos(3\pi n/4)</span> y <span class="math inline">\cos(n)</span> muestra a muestra, con el fasor de cada una saltando en el círculo. La primera vuelve a pisar el punto de partida en <span class="math inline">n = 8</span>; la segunda también, después de tres vueltas, aunque la continua <span class="math inline">\cos(\Omega t)</span> se repita cada <span class="math inline">2{,}67</span>; la tercera salta 1 radián y nunca vuelve: no es periódica. «envolvente» muestra la continua con su <span class="math inline">2\pi/\Omega</span> marcado, y «lectura» escribe <span class="math inline">\Omega/2\pi</span> como fracción o irracional. Se puede cambiar la lista de frecuencias en la URL (<code>?om=2pi/5,1.2pi,0.5</code>).</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/cual-es-periodica/index.html">ábrela en el navegador</a> — sin instalar nada ni internet. Teclas: <strong>espacio</strong> muestrea, <strong>E</strong> envolvente, <strong>C</strong> círculo, <strong>L</strong> lectura, <strong>R</strong> reinicia.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled" title="C20 · Sinusoides discretas interactivas">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1003,6 +1031,7 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <p><strong>Qué ilustra</strong>: cómo se cambia la frecuencia de muestreo de una señal ya digital, sin volver al mundo continuo. <strong>Diezmar</strong> por <span class="math inline">M</span>: qué muestras sobreviven, cómo la frecuencia se multiplica por <span class="math inline">M</span> y se envuelve al pasar <span class="math inline">\pi</span> (aliasing puramente digital), y qué hace el filtro previo bajo <span class="math inline">\pi/M</span>; con ♪ se oye una senoidal y una nota de 220 Hz original y diezmada, con su analizador. <strong>Interpolar</strong> por <span class="math inline">L</span>: insertar ceros y después el pasabajos de corte <span class="math inline">\pi/L</span> y ganancia <span class="math inline">L</span> que los rellena. <strong>Racional</strong>: el esquema <span class="math inline">\uparrow L \to</span> pasabajos <span class="math inline">\to \downarrow M</span> para 48 → 44,1 kHz y otros casos.</p>
+<p>En el paso 1 de «interpolar», <strong>♪ oír</strong> toca el original y después la secuencia con ceros a la tasa nueva: las réplicas se oyen antes de filtrarlas.</p>
 <p><strong>Cómo usarla</strong>: <a href="demos/cambiar-la-tasa/index.html">ábrela en el navegador</a> — sin instalar nada ni internet (♪ necesita parlantes). Teclas: <strong>espacio</strong> (filtro, paso o preset según el modo), <strong>←/→</strong> mueven <span class="math inline">\Omega_0</span>, <strong>1/2/3</strong> cambian de modo, <strong>S</strong> oír, <strong>N</strong> nota, <strong>R</strong> reinicia.</p>
 </div>
 </div>

@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Cuál es periódica? — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --azul:#0072B2; --rojo:#D55E00; --acc:#6042a6; --ghost:#b9c4d2; --alias:#E69F00; --verde:#2a9d5c; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:8px 14px;gap:6px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:7px;align-items:center;flex-wrap:wrap;min-width:0;max-width:100%}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:6px 10px;cursor:pointer;white-space:nowrap;font-size:14px}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  button.on{background:#fff3dc;border-color:var(--alias);color:#8a5a00;font-weight:600}
+  .hint{color:var(--dim);font-size:13.5px;text-align:center;min-height:20px}
+  .hint b{color:var(--acc)}
+  .hint .si{color:var(--verde);font-weight:700}
+  .hint .no{color:var(--rojo);font-weight:700}
+
+  .rows{flex:1;min-height:0;display:flex;flex-direction:column;gap:6px}
+  figure{margin:0;position:relative;flex:1 1 0;min-height:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+  figcaption{position:absolute;top:5px;left:10px;z-index:2;font-size:13px;color:var(--ink);
+             background:rgba(255,255,255,.92);padding:1px 7px;border-radius:5px;pointer-events:none;font-variant-numeric:tabular-nums}
+  figcaption .k{color:var(--dim)}
+  figcaption .si{color:var(--verde);font-weight:700}
+  figcaption .no{color:var(--rojo);font-weight:700}
+  canvas{display:block;width:100%;height:100%}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">¿Cuál es periódica? <span>IEE2103 · C20</span></div>
+    <div class="ctrls">
+      <button id="btnPlay" class="primary">▶ muestra a muestra</button>
+      <button id="btnReset">↺</button>
+      <button id="btnEnv">envolvente</button>
+      <button id="btnCirc" class="on">círculo</button>
+      <button id="btnLect">lectura</button>
+    </div>
+  </header>
+
+  <div class="hint" id="hint"></div>
+
+  <div class="rows" id="rows"></div>
+
+</div>
+
+<script>
+(function(){
+'use strict';
+const TAU = 2*Math.PI, PI = Math.PI;
+const NW = 32;                     // muestras en la ventana (n = 0 … NW)
+const DUR_MS = 4000;
+const C = { azul:'#0072B2', rojo:'#D55E00', alias:'#E69F00', ghost:'#b9c4d2', ink:'#16202e', dim:'#65758b', line:'#d9e0ea', verde:'#2a9d5c' };
+const LETRA = ['A','B','C','D','E','F'];
+
+const p = new URLSearchParams(location.search);
+// Ω de cada fila: tokens tipo  pi/4 · 3pi/4 · 1 · 0.5 · 2pi/5
+const tokens = (p.get('om') || 'pi/4,3pi/4,1').split(',').map(s => s.trim()).filter(Boolean).slice(0, 6);
+function parseOm(tok){
+  const [num, den] = tok.split('/');
+  const n = num.includes('pi') ? (num.replace('pi','') === '' ? 1 : parseFloat(num.replace('pi',''))) * PI : parseFloat(num);
+  const d = den ? parseFloat(den) : 1;
+  return n / d;
+}
+function etiqueta(tok){
+  const [num, den] = tok.split('/');
+  const nn = num.includes('pi') ? (num.replace('pi','') === '' ? 'π' : num.replace('pi','') + 'π') : (num === '1' && !den ? '' : num.replace('.', ','));
+  return 'cos(' + (nn ? nn + '·n' : 'n') + (den ? '/' + den : '') + ')';
+}
+const OM = tokens.map(parseOm);
+const LAB = tokens.map(etiqueta);
+const R = OM.length;
+
+let verEnv = p.get('env') === '1';
+let verCirc = p.get('circ') !== '0';
+let verLect = p.get('lect') === '1';
+let k = p.has('k') ? Math.min(+p.get('k'), NW + 1) : 0;    // muestras reveladas
+let timer = null;
+
+// ¿periódica? busca N ≤ 400 con Ω·N múltiplo de 2π
+function periodo(om){
+  for (let N = 1; N <= 400; N++){
+    const m = om*N/TAU, r = Math.round(m);
+    if (Math.abs(m - r) < 1e-9) return { N, m: r };
+  }
+  return null;
+}
+const PER = OM.map(periodo);
+
+const rows = document.getElementById('rows');
+const cv = [], cap = [];
+for (let i=0;i<R;i++){
+  const f = document.createElement('figure');
+  const c = document.createElement('figcaption'); c.id = 'cap'+i;
+  const cvs = document.createElement('canvas');
+  f.appendChild(c); f.appendChild(cvs); rows.appendChild(f);
+  cv.push(cvs); cap.push(c);
+}
+const hint = document.getElementById('hint');
+const btnPlay = document.getElementById('btnPlay'), btnReset = document.getElementById('btnReset');
+const btnEnv = document.getElementById('btnEnv'), btnCirc = document.getElementById('btnCirc'), btnLect = document.getElementById('btnLect');
+
+const f2 = x => x.toFixed(2).replace('.', ',');
+const listo = () => k >= NW + 1;
+
+function lectura(i){
+  const per = PER[i];
+  if (per) return `<span class="k">Ω/2π = ${per.m}/${per.N} →</span> <span class="si">se repite cada ${per.N}</span><span class="k"> (${per.m} ${per.m === 1 ? 'vuelta' : 'vueltas'} del fasor)</span>`;
+  return `<span class="k">Ω/2π = ${f2(OM[i]/TAU)}… irracional →</span> <span class="no">nunca se repite</span>`;
+}
+
+function captions(){
+  for (let i=0;i<R;i++){
+    let s = `<b>${LETRA[i]}</b>: ${LAB[i]} <span class="k">· Ω = ${f2(OM[i])} rad/muestra</span>`;
+    if (verLect || listo()) s += ' · ' + lectura(i);
+    if (verEnv) s += ` <span class="k">· la continua cos(Ωt) se repite cada 2π/Ω = ${f2(TAU/OM[i])}</span>`;
+    cap[i].innerHTML = s;
+  }
+  if (k === 0){
+    hint.innerHTML = `¿Cuáles se repiten? <b>▶</b> muestrea las ${R} a la vez; mira cuándo el fasor vuelve a pisar un punto ya pisado.`;
+  } else if (!listo()){
+    hint.innerHTML = `Muestreando… n = ${k - 1}`;
+  } else {
+    hint.innerHTML = OM.map((om, i) => `${LETRA[i]}: ` + (PER[i] ? `<span class="si">cada ${PER[i].N}</span>` : `<span class="no">nunca</span> (${NW + 1} muestras, ${NW + 1} puntos distintos)`)).join(' &nbsp;·&nbsp; ');
+  }
+  btnEnv.classList.toggle('on', verEnv);
+  btnCirc.classList.toggle('on', verCirc);
+  btnLect.classList.toggle('on', verLect);
+  btnPlay.textContent = timer ? '❚❚ pausa' : (listo() ? '▶ de nuevo' : '▶ muestra a muestra');
+}
+
+function fitCanvas(c){
+  const r = c.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  const w = Math.max(10, Math.round(r.width*dpr)), h = Math.max(10, Math.round(r.height*dpr));
+  if (c.width !== w || c.height !== h){ c.width = w; c.height = h; }
+  const g = c.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0);
+  return [g, r.width, r.height];
+}
+
+function pintaFila(i){
+  const [g, W, H] = fitCanvas(cv[i]);
+  g.clearRect(0,0,W,H);
+  const om = OM[i], per = PER[i];
+  const circD = verCirc ? Math.min(H - 10, 150) : 0;
+  const padL = 30, padR = 12 + (verCirc ? circD + 16 : 0), padT = 26, padB = 18;
+  const x0 = padL, x1 = W - padR, ymid = padT + (H - padT - padB)/2, A = (H - padT - padB)/2 * 0.9;
+  const X = n => x0 + (x1 - x0) * n / NW;
+  const Y = v => ymid - A*v;
+  const n1 = Math.min(k, NW + 1);
+
+  g.strokeStyle = C.line; g.lineWidth = 1;
+  g.beginPath(); g.moveTo(x0, ymid); g.lineTo(x1, ymid); g.stroke();
+  g.fillStyle = C.dim; g.font = '11px system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'top';
+  for (let n=0; n<=NW; n++){
+    g.beginPath(); g.moveTo(X(n), ymid-3); g.lineTo(X(n), ymid+3); g.stroke();
+    if (n % 4 === 0) g.fillText(n === NW ? `n = ${n}` : `${n}`, X(n), ymid + A + 4);
+  }
+  g.textAlign = 'right'; g.textBaseline = 'middle'; g.fillText('1', x0 - 5, Y(1)); g.fillText('−1', x0 - 5, Y(-1));
+
+  // envolvente continua cos(Ωt) y las marcas de su período 2π/Ω
+  if (verEnv){
+    g.strokeStyle = C.ghost; g.lineWidth = 1.6; g.beginPath();
+    const NP = 800;
+    for (let j=0;j<=NP;j++){ const t = NW*j/NP; const v = Math.cos(om*t); j ? g.lineTo(X(t), Y(v)) : g.moveTo(X(t), Y(v)); }
+    g.stroke();
+    const Tc = TAU/om;
+    g.strokeStyle = C.alias; g.lineWidth = 1.5; g.setLineDash([3,3]);
+    for (let q=1; q*Tc <= NW + 1e-9; q++){ g.beginPath(); g.moveTo(X(q*Tc), Y(1)); g.lineTo(X(q*Tc), Y(-1)); g.stroke(); }
+    g.setLineDash([]);
+  }
+
+  // muestras
+  for (let n=0; n<n1; n++){
+    const v = Math.cos(om*n);
+    g.strokeStyle = C.azul; g.lineWidth = 2;
+    g.beginPath(); g.moveTo(X(n), ymid); g.lineTo(X(n), Y(v)); g.stroke();
+    g.fillStyle = C.azul; g.beginPath(); g.arc(X(n), Y(v), 4, 0, TAU); g.fill();
+  }
+  // flecha del período, cuando ya se vio la vuelta completa
+  if (per && per.N <= NW && n1 > per.N){
+    const y = Y(1) + 2 + 0;
+    const yy = padT - 8 + 4;
+    g.strokeStyle = C.verde; g.fillStyle = C.verde; g.lineWidth = 2;
+    g.beginPath(); g.moveTo(X(0), yy); g.lineTo(X(per.N), yy); g.stroke();
+    g.beginPath(); g.moveTo(X(0), yy-4); g.lineTo(X(0), yy+4); g.moveTo(X(per.N), yy-4); g.lineTo(X(per.N), yy+4); g.stroke();
+    g.font = 'bold 12px system-ui, sans-serif'; g.textAlign = 'left'; g.textBaseline = 'middle';
+    g.fillText(`N = ${per.N}`, X(per.N) + 6, yy);
+    // anillos en las muestras que repiten la primera
+    for (let n=per.N; n<n1; n+=per.N){
+      g.strokeStyle = C.verde; g.lineWidth = 2; g.beginPath(); g.arc(X(n), Y(Math.cos(om*n)), 7, 0, TAU); g.stroke();
+    }
+  }
+
+  // círculo: dónde cae el fasor
+  if (verCirc){
+    const r = circD/2 - 14, cx = W - 12 - circD/2, cy = padT - 8 + (H - padT - padB + 8)/2;
+    const P = th => [cx + r*Math.cos(th), cy - r*Math.sin(th)];
+    g.strokeStyle = C.line; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, r, 0, TAU); g.stroke();
+    g.beginPath(); g.moveTo(cx - r - 4, cy); g.lineTo(cx + r + 4, cy); g.moveTo(cx, cy - r - 4); g.lineTo(cx, cy + r + 4); g.stroke();
+    for (let n=0; n<n1; n++){
+      const [px, py] = P(om*n);
+      g.fillStyle = n === n1-1 ? C.azul : '#8fb8d8';
+      g.beginPath(); g.arc(px, py, n === n1-1 ? 4.5 : 3, 0, TAU); g.fill();
+    }
+    // ¿el último cayó sobre uno anterior?
+    let repite = -1;
+    if (n1 >= 2){
+      const thN = om*(n1-1);
+      for (let m=0; m<n1-1; m++){ const d = ((thN - om*m) % TAU + TAU) % TAU; if (d < 1e-7 || TAU - d < 1e-7){ repite = m; break; } }
+      const [px, py] = P(thN);
+      g.strokeStyle = C.azul; g.lineWidth = 1.2; g.beginPath(); g.moveTo(cx, cy); g.lineTo(px, py); g.stroke();
+      if (repite >= 0){ g.strokeStyle = C.verde; g.lineWidth = 2.5; g.beginPath(); g.arc(px, py, 8, 0, TAU); g.stroke(); }
+    }
+    g.font = 'bold 12px system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'top';
+    if (repite >= 0){ g.fillStyle = C.verde; g.fillText(`n = ${n1-1} pisa el n = ${repite}`, cx, cy + r + 6); }
+    else { g.fillStyle = C.dim; g.fillText(n1 > 0 ? `${n1} puntos distintos` : 'salta Ω por muestra', cx, cy + r + 6); }
+  }
+}
+
+function pinta(){ captions(); for (let i=0;i<R;i++) pintaFila(i); }
+
+function play(){
+  if (timer){ clearInterval(timer); timer = null; captions(); return; }
+  if (listo()) k = 0;
+  const paso = Math.max(60, DUR_MS / (NW + 1));
+  timer = setInterval(() => {
+    k++; if (listo()){ k = NW + 1; clearInterval(timer); timer = null; }
+    pinta();
+  }, paso);
+  pinta();
+}
+function reset(){ if (timer){ clearInterval(timer); timer = null; } k = 0; pinta(); }
+
+btnPlay.addEventListener('click', play);
+btnReset.addEventListener('click', reset);
+btnEnv.addEventListener('click', () => { verEnv = !verEnv; pinta(); });
+btnCirc.addEventListener('click', () => { verCirc = !verCirc; pinta(); });
+btnLect.addEventListener('click', () => { verLect = !verLect; pinta(); });
+
+document.addEventListener('keydown', e => {
+  const key = e.key;
+  if (key === ' '){ e.preventDefault(); play(); }
+  else if (key === 'e' || key === 'E'){ verEnv = !verEnv; pinta(); }
+  else if (key === 'c' || key === 'C'){ verCirc = !verCirc; pinta(); }
+  else if (key === 'l' || key === 'L'){ verLect = !verLect; pinta(); }
+  else if (key === 'r' || key === 'R'){ reset(); }
+  else return;
+  e.stopPropagation();
+});
+
+window.addEventListener('resize', pinta);
+if (window.ResizeObserver){ const ro = new ResizeObserver(() => pinta()); cv.forEach(c => ro.observe(c.parentElement)); }
+pinta();   // primer cuadro sin depender de requestAnimationFrame
+if (p.get('auto') === '1') play();
+})();
+</script>
+</body>
+</html>

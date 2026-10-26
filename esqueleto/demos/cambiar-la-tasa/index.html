@@ -556,7 +556,7 @@ function lectura(){
     celdas([['Ω0',fmtPi(omI),'az'],['L',String(L)],['Ω0/L',fmtPi(omI/L),'na'],
       ['fs → L·fs',fmtDec(FS,0)+' → '+fmtDec(FS*L,0)+' Hz','fija']]);
     hint = paso===0 ? 'Pulsa <b>▶</b> (o espacio): primero se insertan los ceros, después se filtra.'
-         : paso===1 ? 'Con ceros intercalados la secuencia tiene <b>L − 1 copias</b> del espectro que hay que borrar.'
+         : paso===1 ? 'Con ceros intercalados la secuencia tiene <b>L − 1 copias</b> del espectro que hay que borrar. <b>♪ oír</b>: el original y, después, la secuencia con ceros a la tasa nueva: las copias se oyen.'
          : 'El pasabajos de ganancia L <b>rellena los ceros</b>: es el pariente discreto de la interpolación con sinc';
   } else {
     const d=datosRac();
@@ -631,7 +631,14 @@ function oirInterpolar(){
   parar();
   const r2=FS*L;
   tocar(tonoSeq(omI,1,FS,0.6),FS,kFor(FS),0);
-  tocar(tonoSeq(omI/L,1,r2,0.6),r2,kFor(r2),0.8);
+  if(paso===1){
+    // en el paso 1 se oye la secuencia CON los ceros, a la tasa nueva: el tono útil más sus réplicas
+    const x=tonoSeq(omI,1,FS,0.6), z=new Float32Array(x.length*L), g=Math.min(L,2);
+    for(let i=0;i<x.length;i++) z[i*L]=g*x[i];
+    tocar(z,r2,kFor(r2),0.8);
+  } else {
+    tocar(tonoSeq(omI/L,1,r2,0.6),r2,kFor(r2),0.8);
+  }
 }
 function oir(){ if(modo==='diezmar') oirDiezmar(); else if(modo==='interpolar') oirInterpolar(); }
 
