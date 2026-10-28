@@ -471,12 +471,41 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
- <span class="menu-text">Listas de ejercicios</span></a>
+ <span class="menu-text">Semana 11 · Sistemas discretos</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-11/c21.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C21 · Convolución discreta: lineal y cíclica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-11/c22.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C22 · Sistemas discretos y cadenas híbridas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/semana-11/ay11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay11 · Integración pre-I3 + CV4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true">
+ <span class="menu-text">Listas de ejercicios</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
@@ -537,6 +566,12 @@ window.Quarto = {
  <span class="menu-text">Lista 10 · Muestreo y sinusoides discretas</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../curso/listas/lista-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 11 · Convolución discreta, ecuaciones de diferencias y cadenas híbridas</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -552,8 +587,7 @@ window.Quarto = {
   <li><a href="#qué-es-la-frecuencia-de-una-secuencia" id="toc-qué-es-la-frecuencia-de-una-secuencia" class="nav-link active" data-scroll-target="#qué-es-la-frecuencia-de-una-secuencia">1. ¿Qué es la frecuencia de una secuencia?</a></li>
   <li><a href="#la-no-unicidad-omega-y-omega-2pi-son-la-misma-señal" id="toc-la-no-unicidad-omega-y-omega-2pi-son-la-misma-señal" class="nav-link" data-scroll-target="#la-no-unicidad-omega-y-omega-2pi-son-la-misma-señal">2. La no-unicidad: <span class="math inline">\Omega</span> y <span class="math inline">\Omega + 2\pi</span> son la misma señal</a></li>
   <li><a href="#periodicidad-la-condición-racional" id="toc-periodicidad-la-condición-racional" class="nav-link" data-scroll-target="#periodicidad-la-condición-racional">3. Periodicidad: la condición racional</a></li>
-  <li><a href="#demo-con-predicción-la-app-de-sinusoides" id="toc-demo-con-predicción-la-app-de-sinusoides" class="nav-link" data-scroll-target="#demo-con-predicción-la-app-de-sinusoides">4. Demo con predicción: la app de sinusoides</a></li>
-  <li><a href="#coda-cambiar-la-tasa-de-muestreo-el-pago-de-esta-clase" id="toc-coda-cambiar-la-tasa-de-muestreo-el-pago-de-esta-clase" class="nav-link" data-scroll-target="#coda-cambiar-la-tasa-de-muestreo-el-pago-de-esta-clase">5. Coda: cambiar la tasa de muestreo (el pago de esta clase)</a></li>
+  <li><a href="#coda-cambiar-la-tasa-de-muestreo-el-pago-de-esta-clase" id="toc-coda-cambiar-la-tasa-de-muestreo-el-pago-de-esta-clase" class="nav-link" data-scroll-target="#coda-cambiar-la-tasa-de-muestreo-el-pago-de-esta-clase">4. Coda: cambiar la tasa de muestreo (el pago de esta clase)</a></li>
   </ul>
 </nav>
     </div>
@@ -610,6 +644,10 @@ window.Quarto = {
 <div class="hueco">
 
 </div>
+<p><strong>Mi predicción</strong> (al subir <span class="math inline">\Omega</span> de <span class="math inline">0</span> a <span class="math inline">2\pi</span>, la secuencia…) <strong>y lo que se observó:</strong></p>
+<div class="hueco">
+
+</div>
 <p><strong>¿Dónde viven las frecuencias “agudas” en el mundo discreto? ¿Qué secuencia es la más rápida posible?</strong></p>
 <div class="hueco">
 
@@ -635,21 +673,10 @@ window.Quarto = {
 <div class="hueco">
 
 </div>
-</section>
-<section id="demo-con-predicción-la-app-de-sinusoides" class="level1">
-<h1>4. Demo con predicción: la app de sinusoides</h1>
-<p><strong>Ronda 1 — mi predicción</strong> (al subir <span class="math inline">\Omega</span> de <span class="math inline">0</span> a <span class="math inline">2\pi</span>, la secuencia…):</p>
-<div class="hueco">
-
-</div>
-<p><strong>Lo que se observó y su explicación:</strong></p>
-<div class="hueco">
-
-</div>
-<p><strong>Ronda 2 — con <span class="math inline">\Omega = 2\pi/5</span> el período es</strong> _____ ; <strong>con <span class="math inline">\Omega = 1</span> rad/muestra la secuencia</strong> ____________ .</p>
+<p><strong>En la app — con <span class="math inline">\Omega = 2\pi/5</span> el período es</strong> _____ ; <strong>con <span class="math inline">\Omega = 1</span> rad/muestra la secuencia</strong> ____________ .</p>
 </section>
 <section id="coda-cambiar-la-tasa-de-muestreo-el-pago-de-esta-clase" class="level1">
-<h1>5. Coda: cambiar la tasa de muestreo (el pago de esta clase)</h1>
+<h1>4. Coda: cambiar la tasa de muestreo (el pago de esta clase)</h1>
 <p><strong>Diezmar por <span class="math inline">M</span>: qué le pasa a la frecuencia de muestreo, qué le pasa a <span class="math inline">\Omega_0</span>, y la condición para no perder información:</strong></p>
 <p><span class="math display">y[n] = x[Mn] \;\Rightarrow\; f_s' = \hspace{1.5cm} \qquad \Omega' = \hspace{2cm} \qquad \text{condición: } \hspace{2.5cm}</span></p>
 <p><strong>¿Por qué hay que filtrar ANTES de botar muestras?</strong></p>

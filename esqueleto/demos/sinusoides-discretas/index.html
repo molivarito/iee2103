@@ -77,7 +77,7 @@
   </div>
 
   <div class="wrap">
-    <figure id="fig3d"><figcaption>gris: e^{j(Ωt+φ)} · negro: sus muestras e^{j(Ωn+φ)} · naranja: la hélice alias Ω − 2π · piso: cos(Ωn+φ) · arrastra para girar</figcaption><canvas id="c3d"></canvas></figure>
+    <figure id="fig3d"><figcaption id="cap3d">gris: e^{j(Ωt+φ)}, la señal que se muestrea · negro: sus muestras e^{j(Ωn+φ)} · piso: cos(Ωn+φ) · A: hélice alias · arrastra para girar</figcaption><canvas id="c3d"></canvas></figure>
     <div class="col">
       <figure id="figStem"><figcaption>cos(Ωn + φ): lo que se ve en un gráfico de barras</figcaption><canvas id="cS"></canvas></figure>
       <figure id="figCirc"><figcaption>el fasor salta Ω radianes por muestra</figcaption><canvas id="cC"></canvas></figure>
@@ -97,7 +97,7 @@ const slOm=$('slOm'), slPhi=$('slPhi'), slN=$('slN');
 const TAU=2*Math.PI;
 
 // ── estado ──────────────────────────────────────────────────────────
-let om=0.3*Math.PI, phi=0, N=24, alias=true;
+let om=0.3*Math.PI, phi=0, N=16, alias=false;   // la alias se revela con A (o ?alias=1)
 let animando=false, raf=0, animStart=0;
 const SWEEP_MS=16000;                       // 0 → 2π en 16 s
 const INIT_YAW=-0.62, INIT_PITCH=0.30;
@@ -105,7 +105,7 @@ let yaw=INIT_YAW, pitch=INIT_PITCH;
 let dragging=false, lastX=0, lastY=0;
 const FLOOR=1.75;                           // el piso de las barras, bajo la hélice (en unidades de amplitud)
 
-// parámetros de prueba: ?om=0.4 (en unidades de π) · ?phi=0.25 (ídem) · ?N=16 · ?alias=0
+// parámetros: ?om=0.4 (en unidades de π) · ?phi=0.25 (ídem) · ?N=16 · ?alias=1 (hélice alias visible desde el inicio)
 {
   const p=new URLSearchParams(location.search);
   if(p.has('om')){ const v=parseFloat(p.get('om')); if(isFinite(v)) om=Math.max(0,Math.min(2,v))*Math.PI; }
@@ -169,7 +169,7 @@ function rot(x,y,z){
 function draw3D(){
   const {ctx,w,h}=fit(c3d);
   const L=N-1;                               // largo del eje n
-  const sRI=L/4.2;                           // radio 1 ocupa ~1/4 del eje n
+  const sRI=L/3.0;                           // radio 1 ocupa ~1/3 del eje n: la hélice se lee como hélice
   const axHalf=L+1.2;
   const pts=[rot(-0.8,0,0),rot(axHalf,0,0),rot(0,1.25*sRI,0),rot(0,-FLOOR*sRI,0),rot(0,0,1.25*sRI),rot(0,0,-1.25*sRI),
              rot(L,1.1*sRI,1.1*sRI),rot(L,-FLOOR*sRI,-1.1*sRI),rot(0,1.1*sRI,-1.1*sRI),rot(L,-FLOOR*sRI,1.1*sRI)];
@@ -216,7 +216,7 @@ function draw3D(){
     }
     ctx.stroke(); ctx.setLineDash([]);
   }
-  if(alias) helix(om-TAU,'rgba(230,159,0,0.85)',1.4,[]);
+  if(alias) helix(om-TAU,'rgba(230,159,0,0.6)',1.1,[]);
   helix(om,'rgba(110,122,140,0.85)',2.0,[]);
 
   // líneas de caída (muy tenues) de cada muestra a su barra del piso
@@ -329,6 +329,13 @@ function drawCirc(){
 
 // ── lecturas y pie ──────────────────────────────────────────────────
 function hintText(){
+  if(!alias){
+    if(near(om,0,1e-3)) return 'Ω = 0: la constante. Cada salto es nulo.';
+    if(near(om,TAU,1e-3)) return 'Ω = 2π: una vuelta entera por muestra ⇒ las muestras no se mueven. <b>Es la misma señal que Ω = 0.</b>';
+    if(near(om,Math.PI,1e-3)) return 'Ω = π: media vuelta por muestra, cos(πn) = (−1)ⁿ. <b>La oscilación más rápida posible.</b>';
+    if(om<Math.PI) return 'La hélice gris se aprieta con Ω; sus muestras (negro) son la secuencia. <b>Tecla A</b>: otra hélice por los mismos puntos.';
+    return 'Pasado π la hélice gira más de media vuelta por muestra y <b>la secuencia se ve más lenta</b>. <b>Tecla A</b>: la hélice que el ojo sigue.';
+  }
   if(near(om,0,1e-3)) return 'Ω = 0: la constante. Cada salto es nulo.';
   if(near(om,TAU,1e-3)) return 'Ω = 2π: cada salto es una vuelta entera ⇒ las muestras no se mueven. <b>Es la misma señal que Ω = 0.</b>';
   if(near(om,Math.PI,1e-3)) return 'Ω = π: media vuelta por muestra, cos(πn) = (−1)ⁿ. <b>La oscilación más rápida posible.</b>';
@@ -343,6 +350,9 @@ function lectura(){
   else { $('rFrac').textContent='irracional'; $('rPer').textContent='no periódica'; }
   $('rEq').textContent=fmtPi(equivalente(om));
   $('hint').innerHTML=hintText();
+  $('cap3d').textContent= alias
+    ? 'gris: e^{j(Ωt+φ)}, la señal que se muestrea · negro: sus muestras · naranja: la hélice alias Ω − 2π, por los mismos puntos · piso: cos(Ωn+φ)'
+    : 'gris: e^{j(Ωt+φ)}, la señal que se muestrea · negro: sus muestras e^{j(Ωn+φ)} · piso: cos(Ωn+φ) · A: hélice alias · arrastra para girar';
 }
 function pinta(){ draw3D(); drawStem(); drawCirc(); lectura(); }
 
@@ -361,7 +371,7 @@ function toggle(){
   else cancelAnimationFrame(raf);
 }
 function irA(v){ detener(); om=v; slOm.value=om; pinta(); }
-function resetAll(){ detener(); om=0.3*Math.PI; phi=0; N=24; alias=true; slOm.value=om; slPhi.value=0; slN.value=N;
+function resetAll(){ detener(); om=0.3*Math.PI; phi=0; N=16; alias=false; slOm.value=om; slPhi.value=0; slN.value=N;
   btnAlias.classList.toggle('on',alias); yaw=INIT_YAW; pitch=INIT_PITCH; pinta(); }
 
 // ── sonido: la secuencia cos(Ωn) reproducida a 8000 muestras por segundo ──
