@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El anillo: la ROC en el plano z — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --roc:#2f7d3c; --div:#c0560f; --polo:#c74440; --circ:#2d70b3; --acc:#6042a6; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:10px 14px;gap:8px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0;max-width:100%}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:7px 11px;cursor:pointer;white-space:nowrap}
+  button:hover{background:#e7edf5}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.primary:hover{background:#7355c0}
+  .modos{display:flex;gap:4px}
+  label.sl{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:13px}
+  input[type=range]{width:120px;max-width:28vw}
+
+  .lect{display:flex;gap:22px;flex-wrap:wrap;align-items:baseline;padding:0 2px}
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;letter-spacing:.02em}
+  .cel .v{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+  .cel.polo .v{color:var(--polo)}
+  .v.si{color:var(--roc)} .v.no{color:var(--div)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-width:0;min-height:0}
+  #fig3d{flex:3 1 0;min-width:0}
+  .rightcol{flex:2 1 0;min-width:0;min-height:0;display:flex;flex-direction:column;gap:8px}
+  .rightcol figure{flex:1 1 0}
+  figcaption{position:absolute;top:5px;left:9px;z-index:2;color:var(--dim);font-size:12px;line-height:1.35;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none;max-width:95%}
+  figcaption sup,figcaption sub{font-size:0.75em}
+  figcaption b{color:var(--ink)}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0}
+  #c3d{cursor:grab;touch-action:none}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">El anillo <span>IEE2103 · C23 · la ROC en el plano z</span></div>
+    <div class="ctrls">
+      <div class="modos">
+        <button id="btnCau">aⁿu[n]</button>
+        <button id="btnAnt">−aⁿu[−n−1]</button>
+        <button id="btnBil">a^|n|</button>
+      </div>
+      <label class="sl">a <input type="range" id="slA"></label>
+      <button id="btnVista">vista inicial</button>
+      <button id="btnReset">↺</button>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">a</span><span class="v" id="rA">—</span></div>
+    <div class="cel polo"><span class="k">polos en z =</span><span class="v" id="rPolo">—</span></div>
+    <div class="cel"><span class="k">ROC</span><span class="v" id="rRoc">—</span></div>
+    <div class="cel"><span class="k">círculo unitario</span><span class="v" id="rCirc">—</span></div>
+  </div>
+
+  <div class="wrap">
+    <figure id="fig3d">
+      <figcaption><b>|X(z)|</b> sobre el plano z, recortada en 4 ·
+        <span style="color:#2f7d3c">verde = ROC</span> ·
+        <span style="color:#c74440">× = polo</span> ·
+        <span style="color:#2d70b3">azul = círculo unitario</span> ·
+        <span style="color:#c74440">rojo = |X| sobre el círculo (la DTFT)</span> · arrastra para girar</figcaption>
+      <canvas id="c3d"></canvas>
+    </figure>
+    <div class="rightcol">
+      <figure><figcaption id="capX">—</figcaption><canvas id="cX"></canvas></figure>
+      <figure><figcaption id="capF">—</figcaption><canvas id="cF"></canvas></figure>
+    </div>
+  </div>
+
+  <div class="hint" id="hint">—</div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const c3d = $('c3d'), cX = $('cX'), cF = $('cF');
+const slA = $('slA');
+
+// ── el montaje ───────────────────────────────────────────────────────
+// Tres señales con fórmulas parientes (C23, ejemplos 1, votación y bilateral):
+//   cau:  x[n] =  a^n u[n]        X(z) = z/(z−a)                     ROC |z| > a
+//   ant:  x[n] = −a^n u[−n−1]     X(z) = z/(z−a)  (la MISMA)         ROC |z| < a
+//   bil:  x[n] =  a^|n|           X(z) = z/(z−a) − z/(z−1/a)         ROC a < |z| < 1/a  (solo si a < 1)
+// La superficie es |X(z)|: las montañas son los polos (recortadas en H_MAX).
+// Sobre el círculo unitario, |X| es la DTFT, y existe solo si el círculo cae en la ROC.
+// Comprobación: bilateral, a = 0,5 → |X(e^{j0})| = (1−a²)/(1−a)² = 3; causal, a = 0,5 → |X(1)| = 2.
+const R_MAX = 2.2, H_MAX = 4;
+const SH = 0.72, SR = 1.0;              // unidades 3D por unidad de altura y de radio
+const HX = R_MAX*SR, HY = H_MAX*SH;
+const A_MIN = 0.3, A_MAX = 1.3, A_INI = 0.6;
+const INIT_YAW = -0.75, INIT_PITCH = 0.62;
+const MODOS = ['cau','ant','bil'];
+let modo = 'bil', modoIni = 'bil';
+let a = A_INI;
+let yaw = null, pitch = INIT_PITCH, cam = null;
+let dragging=false, lastX=0, lastY=0;
+
+// parámetros: ?modo=cau|ant|bil · ?a=0.6 · de prueba: ?yaw=-0.7&pitch=0.6
+{
+  const p = new URLSearchParams(location.search);
+  const num = (k,lo,hi) => { if(!p.has(k)) return null; const v=parseFloat(p.get(k)); return (isFinite(v)&&v>=lo&&v<=hi)?v:null; };
+  let v;
+  if(p.has('modo')){ const m=p.get('modo').toLowerCase().slice(0,3); if(MODOS.includes(m)) modo=modoIni=m; }
+  if((v=num('a',A_MIN,A_MAX))!==null) a=v;
+  if((v=num('yaw',-7,7))!==null) yaw=v;
+  if((v=num('pitch',0.08,1.45))!==null) pitch=v;
+}
+if(yaw===null) yaw = INIT_YAW;
+const recortaA = v => Math.max(A_MIN,Math.min(A_MAX,Math.round(v*20)/20));
+
+// ── la matemática ────────────────────────────────────────────────────
+const existe = () => modo!=='bil' || a < 1-1e-9;          // ¿hay algún z donde converja?
+function polos(){ return modo==='bil' ? [a, 1/a] : [a]; }
+// radios de la ROC [r0, r1] (r1 = Infinity si es exterior); null si no existe
+function roc(){
+  if(modo==='cau') return [a, Infinity];
+  if(modo==='ant') return [0, a];
+  return existe() ? [a, 1/a] : null;
+}
+const enROC = r => { const R=roc(); return !!R && r>R[0]+1e-9 && r<R[1]-1e-9; };
+const circuloEnROC = () => enROC(1);
+// |X(z)| para z = r e^{jθ}
+function magX(r,th){
+  const zx=r*Math.cos(th), zy=r*Math.sin(th);
+  const d1=Math.hypot(zx-a,zy);
+  if(modo!=='bil') return d1<1e-9 ? Infinity : r/d1;
+  const d2=Math.hypot(zx-1/a,zy), k=Math.abs(1/a-a);
+  return (d1<1e-9||d2<1e-9) ? Infinity : k*r/(d1*d2);
+}
+// la secuencia
+function xn(n){
+  if(modo==='cau') return n>=0 ? Math.pow(a,n) : 0;
+  if(modo==='ant') return n<=-1 ? -Math.pow(a,n) : 0;
+  return Math.pow(a,Math.abs(n));
+}
+// las dos condiciones de convergencia, para el pie
+function condiciones(){
+  if(modo==='cau') return ['la suma hacia n → +∞ pide |z| > a'];
+  if(modo==='ant') return ['la suma hacia n → −∞ pide |z| < a'];
+  return ['la mitad derecha pide |z| > a', 'la mitad izquierda pide |z| < 1/a'];
+}
+
+// ── canvas helpers ───────────────────────────────────────────────────
+function fit(c){
+  const r=c.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  const w=Math.max(1,Math.round(r.width*dpr)), h=Math.max(1,Math.round(r.height*dpr));
+  if(c.width!==w||c.height!==h){ c.width=w; c.height=h; }
+  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  return {ctx, w:r.width, h:r.height};
+}
+function mapa(w,h,xmin,xmax,ymin,ymax,pad){
+  const L=pad.l,R=pad.r,T=pad.t,B=pad.b;
+  return {
+    X: x => L + (x-xmin)/(xmax-xmin)*(w-L-R),
+    Y: y => h-B - (y-ymin)/(ymax-ymin)*(h-T-B)
+  };
+}
+function arrow2(ctx,p1,p2){
+  ctx.beginPath(); ctx.moveTo(p1.sx,p1.sy); ctx.lineTo(p2.sx,p2.sy); ctx.stroke();
+  const ang=Math.atan2(p2.sy-p1.sy,p2.sx-p1.sx), s=7;
+  ctx.beginPath();
+  ctx.moveTo(p2.sx,p2.sy);
+  ctx.lineTo(p2.sx-s*Math.cos(ang-0.4), p2.sy-s*Math.sin(ang-0.4));
+  ctx.lineTo(p2.sx-s*Math.cos(ang+0.4), p2.sy-s*Math.sin(ang+0.4));
+  ctx.closePath(); ctx.fill();
+}
+function fmt(x,d){ const s=Math.abs(x).toFixed(d); return (x<0 && +s!==0 ? '−' : '')+s; }
+
+// ── proyección 3D: X = Re z (derecha), Y = altura (arriba), Z = Im z (se aleja) ──
+function rot(x,y,z){
+  const cy=Math.cos(yaw), sy=Math.sin(yaw);
+  const x1 = x*cy + z*sy, z1 = -x*sy + z*cy, y1 = y;
+  const cp=Math.cos(pitch), sp=Math.sin(pitch);
+  const y2 = y1*cp - z1*sp, z2 = y1*sp + z1*cp;
+  return {x:x1, y:y2, z:z2};
+}
+
+// ── panel 1: la superficie ──────────────────────────────────────────
+function draw3D(){
+  const {ctx,w,h}=fit(c3d);
+
+  // caja fija → el encuadre solo reacciona a la rotación
+  const bp=[];
+  for(const x of [-HX-0.7, HX+0.7]) for(const y of [-HY/2-0.1, HY/2+0.4]) for(const z of [-HX-0.5, HX+0.5])
+    bp.push(rot(x,y,z));
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  for(const p of bp){
+    if(p.x<minX)minX=p.x; if(p.x>maxX)maxX=p.x;
+    if(p.y<minY)minY=p.y; if(p.y>maxY)maxY=p.y;
+  }
+  const padSide=w*0.03, padTop=Math.max(44,h*0.11), padBottom=Math.max(30,h*0.07);
+  const availW=Math.max(40,w-2*padSide), availH=Math.max(40,h-padTop-padBottom);
+  const u = Math.min(availW/((maxX-minX)||1), availH/((maxY-minY)||1));
+  const cx = padSide + availW/2 - u*(minX+maxX)/2;
+  const cy0 = padTop + availH/2 - u*(minY+maxY)/2;
+  // (Re z, Im z, altura) → pantalla
+  const P = (re,im,hh) => {
+    const p=rot(re*SR, hh*SH-HY/2, im*SR);
+    return { sx: cx+p.x*u, sy: cy0-p.y*u, depth:p.z };
+  };
+  const Ppol = (r,th,hh) => P(r*Math.cos(th), r*Math.sin(th), hh);
+
+  const poly = (pts, fill, stroke, lw) => {
+    ctx.beginPath();
+    pts.forEach((p,i)=> i ? ctx.lineTo(p.sx,p.sy) : ctx.moveTo(p.sx,p.sy));
+    ctx.closePath();
+    if(fill){ ctx.fillStyle=fill; ctx.fill(); }
+    if(stroke){ ctx.strokeStyle=stroke; ctx.lineWidth=lw||1; ctx.stroke(); }
+  };
+  const line = (p,q,style,lw,dash) => {
+    ctx.strokeStyle=style; ctx.lineWidth=lw; ctx.setLineDash(dash||[]);
+    ctx.beginPath(); ctx.moveTo(p.sx,p.sy); ctx.lineTo(q.sx,q.sy); ctx.stroke(); ctx.setLineDash([]);
+  };
+  const rotulo = (txt,x,y,color) => {
+    ctx.lineJoin='round'; ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.lineWidth=4; ctx.strokeText(txt,x,y);
+    ctx.fillStyle=color; ctx.fillText(txt,x,y);
+  };
+  const anillo = (r0,r1,fill) => {           // corona en el piso
+    const N=72; ctx.beginPath();
+    for(let i=0;i<=N;i++){ const q=Ppol(r1,2*Math.PI*i/N,0); i?ctx.lineTo(q.sx,q.sy):ctx.moveTo(q.sx,q.sy); }
+    if(r0>1e-9){ for(let i=N;i>=0;i--){ const q=Ppol(r0,2*Math.PI*i/N,0); ctx.lineTo(q.sx,q.sy); } }
+    ctx.closePath(); ctx.fillStyle=fill; ctx.fill('evenodd');
+  };
+  const circulo = (r,hh,style,lw,dash) => {
+    const N=96; ctx.strokeStyle=style; ctx.lineWidth=lw; ctx.setLineDash(dash||[]); ctx.beginPath();
+    for(let i=0;i<=N;i++){ const q=Ppol(r,2*Math.PI*i/N,hh); i?ctx.lineTo(q.sx,q.sy):ctx.moveTo(q.sx,q.sy); }
+    ctx.stroke(); ctx.setLineDash([]);
+  };
+
+  const R = roc();
+  // ── piso: el plano z (cuadrado), la ROC en verde, el resto en naranja tenue ──
+  poly([P(-R_MAX,-R_MAX,0),P(R_MAX,-R_MAX,0),P(R_MAX,R_MAX,0),P(-R_MAX,R_MAX,0)], '#f6f8fb', 'rgba(150,162,180,0.75)', 1);
+  if(R){
+    ctx.save();
+    poly([P(-R_MAX,-R_MAX,0),P(R_MAX,-R_MAX,0),P(R_MAX,R_MAX,0),P(-R_MAX,R_MAX,0)], null, null);
+    ctx.clip();
+    anillo(R[0], Math.min(R[1],R_MAX*1.5), 'rgba(56,140,70,0.28)');
+    ctx.restore();
+  }
+  for(let s=-2;s<=2;s++){
+    line(P(s,-R_MAX,0),P(s,R_MAX,0),'rgba(150,162,180,0.35)',1);
+    line(P(-R_MAX,s,0),P(R_MAX,s,0),'rgba(150,162,180,0.35)',1);
+  }
+  // círculo unitario en el piso y los radios de los polos
+  circulo(1,0,'rgba(45,112,179,0.95)',1.8);
+  for(const pz of polos()) if(pz<R_MAX) circulo(pz,0,'rgba(199,68,64,0.7)',1,[4,4]);
+
+  // ── primitivas con profundidad (algoritmo del pintor) ────────────
+  const prims=[];
+  const addQuad=(q,fill,stroke,lw,bias)=>
+    prims.push({d:(q[0].depth+q[1].depth+q[2].depth+q[3].depth)/4+(bias||0), q, fill, stroke, lw});
+  const addSeg=(p,q,stroke,lw,bias)=>
+    prims.push({d:(p.depth+q.depth)/2+(bias||0), p, p2:q, stroke, lw});
+
+  // malla polar: los radios de los polos y de las fronteras de la ROC van en la malla,
+  // para que el color cambie justo ahí
+  const NR=26, NTH=56;
+  const rs=[];
+  for(let i=0;i<=NR;i++) rs.push(R_MAX*i/NR);
+  const extra = polos().filter(v=>v<R_MAX).concat([1]);
+  for(const v of extra) if(!rs.some(q=>Math.abs(q-v)<1e-6)) rs.push(v);
+  rs.sort((p,q)=>p-q);
+  const alt = (r,th) => Math.min(H_MAX, magX(r,th));
+  const grid = rs.map(r => { const col=[]; for(let j=0;j<=NTH;j++){ const th=2*Math.PI*j/NTH; col.push({r,th,hh:alt(r,th),p:Ppol(r,th,alt(r,th))}); } return col; });
+  const LX=0.35, LY=0.85, LZ=0.40;       // luz fija a la escena
+  for(let i=0;i<rs.length-1;i++){
+    const rm=(rs[i]+rs[i+1])/2, dentro=enROC(rm);
+    const base = dentro ? [56,140,70] : [226,128,40];
+    for(let j=0;j<NTH;j++){
+      const A=grid[i][j], B=grid[i+1][j], C=grid[i+1][j+1], D=grid[i][j+1];
+      // normal aproximada en coordenadas 3D (Re, altura, Im)
+      const v3 = o => ({x:o.r*Math.cos(o.th)*SR, y:o.hh*SH, z:o.r*Math.sin(o.th)*SR});
+      const a3=v3(A), b3=v3(B), c3=v3(C), d3=v3(D);
+      const ux=c3.x-a3.x, uy=c3.y-a3.y, uz=c3.z-a3.z, vx=d3.x-b3.x, vy=d3.y-b3.y, vz=d3.z-b3.z;
+      const nx=uy*vz-uz*vy, ny=uz*vx-ux*vz, nz=ux*vy-uy*vx, nl=Math.hypot(nx,ny,nz)||1;
+      const I = 0.55+0.45*Math.abs((nx*LX+ny*LY+nz*LZ)/nl);
+      const c = base.map(v=>Math.round(255-(255-v)*I));
+      addQuad([A.p,B.p,C.p,D.p], `rgba(${c[0]},${c[1]},${c[2]},0.62)`,
+              dentro ? 'rgba(40,105,52,0.40)' : 'rgba(170,90,20,0.40)', 0.5);
+    }
+  }
+
+  // el corte rojo: |X| sobre el círculo unitario (la DTFT), con cortina hasta el piso
+  {
+    const N=120, ok=circuloEnROC();
+    const style = ok ? '#c74440' : 'rgba(199,68,64,0.35)';
+    let prev=null;
+    for(let j=0;j<=N;j++){
+      const th=2*Math.PI*j/N, hh=alt(1,th), p=Ppol(1,th,hh), f=Ppol(1,th,0);
+      if(prev){
+        if(ok) addQuad([prev.f,f,p,prev.p],'rgba(199,68,64,0.16)',null,0,0.04);
+        addSeg(prev.p,p,style,ok?3:1.6,0.08);
+      }
+      prev={p,f};
+    }
+  }
+
+  prims.sort((p,q)=>p.d-q.d);
+  ctx.lineJoin='round';
+  for(const pr of prims){
+    if(pr.q) poly(pr.q, pr.fill, pr.stroke, pr.lw);
+    else { ctx.lineCap='round'; line(pr.p, pr.p2, pr.stroke, pr.lw); ctx.lineCap='butt'; }
+  }
+
+  // ── ejes y rótulos, siempre encima ───────────────────────────────
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.8;
+  arrow2(ctx,P(-R_MAX,0,0),P(R_MAX+0.5,0,0));
+  arrow2(ctx,P(0,-R_MAX,0),P(0,R_MAX+0.5,0));
+  ctx.font='11px system-ui'; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillStyle='#65758b';
+  for(const s of [-2,-1,1,2]){
+    let q=P(s,0,0);
+    ctx.strokeStyle='#65758b'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(q.sx,q.sy); ctx.lineTo(q.sx,q.sy+5); ctx.stroke();
+    ctx.fillText(fmt(s,0), q.sx, q.sy+7);
+  }
+  let q=P(R_MAX+0.7,0,0);
+  ctx.fillStyle='#16202e'; ctx.font='bold 14px system-ui'; ctx.textAlign='left'; ctx.textBaseline='middle';
+  ctx.fillText('Re z', q.sx+2, q.sy);
+  q=P(0,R_MAX+0.7,0);
+  ctx.textAlign='center'; ctx.textBaseline='bottom';
+  ctx.fillText('Im z', q.sx, q.sy-2);
+  // eje de altura, en la esquina del frente
+  ctx.strokeStyle=ctx.fillStyle='#16202e'; ctx.lineWidth=1.8;
+  arrow2(ctx,P(-R_MAX,-R_MAX,0),P(-R_MAX,-R_MAX,H_MAX+0.4));
+  ctx.font='11px system-ui'; ctx.textAlign='right'; ctx.textBaseline='middle';
+  for(const hh of [1,2,3,4]){
+    q=P(-R_MAX,-R_MAX,hh);
+    ctx.strokeStyle='#65758b'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(q.sx,q.sy); ctx.lineTo(q.sx-6,q.sy); ctx.stroke();
+    ctx.fillStyle='#65758b'; ctx.fillText(String(hh), q.sx-9, q.sy);
+  }
+  q=P(-R_MAX,-R_MAX,H_MAX+0.4);
+  ctx.font='bold 12px system-ui'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+  rotulo('|X(z)|', q.sx, q.sy-4, '#16202e');
+
+  // polos (×) sobre el piso
+  for(const pz of polos()){
+    if(pz>R_MAX*1.05) continue;
+    q=P(pz,0,0);
+    ctx.strokeStyle='#c74440'; ctx.lineWidth=2.8; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(q.sx-6,q.sy-6); ctx.lineTo(q.sx+6,q.sy+6);
+    ctx.moveTo(q.sx+6,q.sy-6); ctx.lineTo(q.sx-6,q.sy+6); ctx.stroke(); ctx.lineCap='butt';
+  }
+  // rótulos: la ROC y el círculo
+  ctx.font='bold 13px system-ui'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  if(R){
+    const rtxt = modo==='cau' ? 'ROC: |z| > a' : modo==='ant' ? 'ROC: |z| < a' : 'ROC: a < |z| < 1/a';
+    const rr = modo==='ant' ? a/2 : modo==='cau' ? Math.min(R_MAX-0.25, a+0.7) : (a+Math.min(1/a,R_MAX))/2;
+    q=Ppol(rr, -Math.PI/2-0.35, 0);
+    rotulo(rtxt, q.sx, q.sy, '#1d5a29');
+  } else {
+    rotulo('ROC vacía: a < |z| < 1/a es imposible con a ≥ 1', w/2, h-14, '#a8480a');
+  }
+  q=Ppol(1, Math.PI*0.72, 0);
+  ctx.font='bold 12px system-ui'; ctx.textAlign='right'; ctx.textBaseline='bottom';
+  rotulo('|z| = 1', q.sx-4, q.sy-3, '#2d70b3');
+}
+
+// ── panel 2: la secuencia ───────────────────────────────────────────
+const N_MAX=9;
+function drawX(){
+  const {ctx,w,h}=fit(cX);
+  const pad={l:26,r:14,t:30,b:22};
+  const vals=[]; for(let n=-N_MAX;n<=N_MAX;n++) vals.push(xn(n));
+  const top=Math.min(6, Math.max(1.05, Math.max(...vals.map(Math.abs))*1.08));
+  const neg = vals.some(v=>v<0);
+  const M=mapa(w,h,-N_MAX-0.8,N_MAX+0.8, neg?-top:-0.08*top, top, pad);
+  const y0=M.Y(0), yB=h-pad.b;
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(pad.l-8,y0); ctx.lineTo(w-6,y0); ctx.stroke();
+  ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  for(let n=-N_MAX;n<=N_MAX;n+=3){ ctx.fillText(fmt(n,0), M.X(n), yB+16); }
+  ctx.textAlign='right'; ctx.fillText('n', w-5, yB+16);
+  // marca de 1 en el eje vertical
+  ctx.textAlign='right'; ctx.fillText('1', pad.l-10, M.Y(1)+4);
+  ctx.strokeStyle='#c9d3e0'; ctx.beginPath(); ctx.moveTo(pad.l-8,M.Y(1)); ctx.lineTo(pad.l-2,M.Y(1)); ctx.stroke();
+  // bastones
+  for(let n=-N_MAX;n<=N_MAX;n++){
+    const v=vals[n+N_MAX], x=M.X(n), y=M.Y(Math.max(-top,Math.min(top,v)));
+    const vive = Math.abs(v)>1e-12;
+    ctx.strokeStyle = vive ? '#2d70b3' : '#c9d3e0'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(x,y0); ctx.lineTo(x,y); ctx.stroke();
+    ctx.fillStyle = vive ? '#2d70b3' : '#c9d3e0';
+    ctx.beginPath(); ctx.arc(x,y,3.4,0,2*Math.PI); ctx.fill();
+  }
+  if(Math.max(...vals.map(Math.abs))>top){
+    ctx.font='bold 12px system-ui'; ctx.fillStyle='#a8480a'; ctx.textAlign='right'; ctx.textBaseline='top';
+    ctx.fillText('crece sin límite', w-pad.r, pad.t);
+  }
+}
+
+// ── panel 3: |X| sobre el círculo, desenrollado (la DTFT) ───────────
+function drawF(){
+  const {ctx,w,h}=fit(cF);
+  const pad={l:26,r:14,t:30,b:22};
+  const ok=circuloEnROC();
+  const M=mapa(w,h,-Math.PI,Math.PI,0,H_MAX*1.08,pad);
+  const y0=M.Y(0), yB=h-pad.b;
+  ctx.strokeStyle='#c9d3e0'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(pad.l-8,y0); ctx.lineTo(w-6,y0); ctx.stroke();
+  ctx.font='11px system-ui'; ctx.fillStyle='#8a97a8'; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  for(const [v,t] of [[-Math.PI,'−π'],[-Math.PI/2,'−π/2'],[0,'0'],[Math.PI/2,'π/2'],[Math.PI,'π']]){
+    ctx.fillText(t, M.X(v), yB+16);
+    ctx.strokeStyle='#c9d3e0'; ctx.beginPath(); ctx.moveTo(M.X(v),y0); ctx.lineTo(M.X(v),y0+4); ctx.stroke();
+  }
+  ctx.textAlign='right'; ctx.fillText('Ω', w-5, yB+16);
+  for(const hh of [1,2,3,4]){
+    ctx.textAlign='right'; ctx.fillText(String(hh), pad.l-10, M.Y(hh)+4);
+    ctx.strokeStyle='#c9d3e0'; ctx.beginPath(); ctx.moveTo(pad.l-8,M.Y(hh)); ctx.lineTo(pad.l-2,M.Y(hh)); ctx.stroke();
+  }
+  // la curva
+  const N=240;
+  ctx.save();
+  ctx.beginPath(); ctx.rect(pad.l-9, pad.t-5, w-pad.l-pad.r+18, h-pad.t-pad.b+7); ctx.clip();
+  if(ok){
+    ctx.beginPath();
+    for(let i=0;i<=N;i++){
+      const th=-Math.PI+2*Math.PI*i/N, v=Math.min(H_MAX*1.2, magX(1,th));
+      i ? ctx.lineTo(M.X(th),M.Y(v)) : ctx.moveTo(M.X(th),M.Y(v));
+    }
+    ctx.lineTo(M.X(Math.PI),y0); ctx.lineTo(M.X(-Math.PI),y0); ctx.closePath();
+    ctx.fillStyle='rgba(199,68,64,0.16)'; ctx.fill();
+    ctx.strokeStyle='#c74440'; ctx.lineWidth=2.8; ctx.lineJoin='round';
+    ctx.beginPath();
+    for(let i=0;i<=N;i++){
+      const th=-Math.PI+2*Math.PI*i/N, v=Math.min(H_MAX*1.2, magX(1,th));
+      i ? ctx.lineTo(M.X(th),M.Y(v)) : ctx.moveTo(M.X(th),M.Y(v));
+    }
+    ctx.stroke();
+  } else {
+    // la fórmula evaluada igual, en gris punteado: existe el número, no la suma
+    ctx.strokeStyle='rgba(138,151,168,0.7)'; ctx.lineWidth=1.6; ctx.setLineDash([5,4]);
+    ctx.beginPath();
+    for(let i=0;i<=N;i++){
+      const th=-Math.PI+2*Math.PI*i/N, v=Math.min(H_MAX*1.2, magX(1,th));
+      i ? ctx.lineTo(M.X(th),M.Y(v)) : ctx.moveTo(M.X(th),M.Y(v));
+    }
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  ctx.restore();
+  if(!ok){
+    const txt = existe() ? 'no hay DTFT: el círculo unitario quedó fuera de la ROC' : 'no hay DTFT: no hay transformada Z en ningún z';
+    ctx.font='bold 13px system-ui'; ctx.textBaseline='middle'; ctx.textAlign='center';
+    const tw=ctx.measureText(txt).width, tx=(pad.l+w-pad.r)/2, ty=(pad.t+h-pad.b)/2;
+    ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.fillRect(tx-tw/2-6, ty-11, tw+12, 22);
+    ctx.fillStyle='#a8480a'; ctx.fillText(txt, tx, ty);
+  }
+}
+
+// ── lecturas y pie ──────────────────────────────────────────────────
+function hintText(){
+  const c=condiciones();
+  if(modo==='bil'){
+    if(!existe()) return 'Con a ≥ 1 las dos condiciones ('+c[0]+'; '+c[1]+') no se cumplen a la vez: la suma diverge en todo z. La transformada no existe.';
+    if(a>0.85) return 'El anillo se angosta: las dos montañas se acercan al círculo unitario y el corte rojo se vuelve puntiagudo en z = 1 (la secuencia decae lento, el espectro se concentra en DC).';
+    return 'Dos polos, uno adentro (a) y otro afuera (1/a); la ROC es el anillo entre ellos. El círculo unitario cae adentro: la DTFT existe y es el corte rojo.';
+  }
+  if(modo==='cau'){
+    if(a>=1-1e-9) return 'La misma fórmula z/(z−a), ROC afuera del polo. Con a ≥ 1 el círculo unitario queda fuera de la ROC: la secuencia no decae y no tiene DTFT.';
+    return 'Un polo en a, ROC afuera: la suma hacia el futuro converge si |z| > a. El círculo unitario cae adentro: hay DTFT.';
+  }
+  if(a<=1+1e-9) return 'La MISMA fórmula z/(z−a), pero la señal vive en el pasado: la ROC es adentro del polo. Con a ≤ 1 el círculo unitario queda fuera: la secuencia crece hacia el pasado y no tiene DTFT.';
+  return 'Idéntica fórmula que la causal, ROC adentro del polo. Con a > 1 el círculo unitario cae en la ROC: −aⁿu[−n−1] decae hacia el pasado y sí tiene DTFT.';
+}
+function lectura(){
+  const R=roc(), ok=circuloEnROC();
+  $('rA').textContent = fmt(a,2);
+  $('rPolo').textContent = polos().map(v=>fmt(v,2)).join(' y ');
+  const rRoc=$('rRoc');
+  rRoc.textContent = R ? (modo==='cau' ? '|z| > '+fmt(a,2) : modo==='ant' ? '|z| < '+fmt(a,2) : fmt(a,2)+' < |z| < '+fmt(1/a,2)) : 'vacía';
+  rRoc.className = 'v '+(R?'si':'no');
+  const rC=$('rCirc');
+  rC.textContent = ok ? 'en la ROC: hay DTFT' : 'fuera de la ROC';
+  rC.className = 'v '+(ok?'si':'no');
+  const nombre = modo==='cau' ? 'aⁿu[n]' : modo==='ant' ? '−aⁿu[−n−1]' : 'a<sup>|n|</sup>';
+  const formula = modo==='bil' ? 'z/(z−a) − z/(z−1/a)' : 'z/(z−a)';
+  $('capX').innerHTML = '<b>x[n] = '+nombre+'</b> · X(z) = '+formula;
+  $('capF').innerHTML = '<b style="color:#c74440">|X(e<sup>jΩ</sup>)|</b>: el corte rojo, desenrollado';
+  $('btnCau').classList.toggle('primary', modo==='cau');
+  $('btnAnt').classList.toggle('primary', modo==='ant');
+  $('btnBil').classList.toggle('primary', modo==='bil');
+  $('hint').textContent = hintText();
+}
+function pinta(){ draw3D(); drawX(); drawF(); lectura(); }
+
+// ── cámara: los cambios de vista se animan (si no hay cuadros, el salto es directo) ──
+let raf=0, last=0;
+function tick(ts){
+  raf=0;
+  const dt=Math.max(0,Math.min(0.05,(ts-last)/1000)); last=ts;
+  if(cam){
+    const k=Math.min(1,dt*6);
+    yaw+=(cam.yaw-yaw)*k; pitch+=(cam.pitch-pitch)*k;
+    if(Math.abs(cam.yaw-yaw)<0.004 && Math.abs(cam.pitch-pitch)<0.004){ yaw=cam.yaw; pitch=cam.pitch; cam=null; }
+  }
+  draw3D();
+  if(cam) pide();
+}
+function pide(){ if(!raf){ last=performance.now(); raf=requestAnimationFrame(tick); } }
+function camara(y,p){
+  yaw = ((yaw+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;    // el camino corto
+  cam={yaw:y, pitch:p}; pide();
+}
+
+// ── controles ──────────────────────────────────────────────────────
+function vistaInicial(){ camara(INIT_YAW, INIT_PITCH); }
+function setA(v){ a=recortaA(v); slA.value=a; pinta(); }
+function setModo(m){ if(m===modo) return; modo=m; pinta(); }
+function resetAll(){
+  modo=modoIni; a=A_INI; cam=null; yaw=INIT_YAW; pitch=INIT_PITCH; slA.value=a; pinta();
+}
+
+slA.min=A_MIN; slA.max=A_MAX; slA.step=0.05; slA.value=a;
+
+const boton=(id,fn)=>{ $(id).onclick=e=>{ fn(); e.currentTarget.blur(); }; };
+boton('btnCau', ()=>setModo('cau'));
+boton('btnAnt', ()=>setModo('ant'));
+boton('btnBil', ()=>setModo('bil'));
+boton('btnVista', vistaInicial);
+boton('btnReset', resetAll);
+slA.oninput=e=>{ a=+e.target.value; pinta(); };
+
+// dentro de reveal.js: cualquier toque en la demo le da el foco al iframe,
+// para que las teclas lleguen aquí y no cambien de lámina
+document.addEventListener('pointerdown', ()=>window.focus(), true);
+
+// arrastre (ratón y táctil) para girar el panel 3D
+c3d.addEventListener('pointerdown', e=>{
+  dragging=true; cam=null; lastX=e.clientX; lastY=e.clientY;
+  c3d.setPointerCapture(e.pointerId); c3d.style.cursor='grabbing';
+});
+c3d.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  const dx=e.clientX-lastX, dy=e.clientY-lastY; lastX=e.clientX; lastY=e.clientY;
+  yaw += dx*0.008;
+  pitch = Math.max(0.08, Math.min(1.45, pitch + dy*0.008));
+  draw3D();
+});
+c3d.addEventListener('pointerup', ()=>{ dragging=false; c3d.style.cursor='grab'; });
+c3d.addEventListener('pointercancel', ()=>{ dragging=false; c3d.style.cursor='grab'; });
+
+// teclado propio del iframe: ←/→ mueven a, M cambia de señal, R reinicia
+document.addEventListener('keydown', e=>{
+  if(e.target && e.target.tagName==='INPUT') return;
+  if(e.key==='ArrowLeft'){ e.preventDefault(); e.stopPropagation(); setA(a-0.05); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); e.stopPropagation(); setA(a+0.05); }
+  else if(e.key==='m'||e.key==='M'){ e.stopPropagation(); setModo(MODOS[(MODOS.indexOf(modo)+1)%MODOS.length]); }
+  else if(e.key==='r'||e.key==='R'){ e.stopPropagation(); resetAll(); }
+});
+
+new ResizeObserver(()=>pinta()).observe(document.body);
+pinta();   // primer cuadro sin depender de requestAnimationFrame
+</script>
+</body>
+</html>

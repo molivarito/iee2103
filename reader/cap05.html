@@ -340,7 +340,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Este es <em>el</em> dibujo del capítulo. Míralo con calma, porque contiene el teorema completo:</p>
-<div id="376186a3" class="cell" data-execution_count="1">
+<div id="848eb936" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -374,7 +374,7 @@ window.Quarto = {
 <section id="sec-nyquist-aliasing" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="sec-nyquist-aliasing"><span class="header-section-number">5.2.3</span> Aliasing: frecuencias disfrazadas</h3>
 <p>¿Y si se viola la condición? Una componente con <span class="math inline">f &gt; f_s/2</span> hace que la réplica vecina invada la banda base: esa componente aparece <strong>disfrazada</strong> de una frecuencia más baja. El fenómeno se llama <strong>aliasing</strong> (de <em>alias</em>: otro nombre para la misma cosa). Para sinusoides hay una regla práctica que conviene tatuarse: la frecuencia aparente es <span class="math inline">\lvert f - k f_s\rvert</span>, con el entero <span class="math inline">k</span> que la deje en <span class="math inline">[0, f_s/2]</span>.</p>
-<div id="edd3eb9b" class="cell" data-execution_count="2">
+<div id="53037f64" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -401,6 +401,19 @@ window.Quarto = {
 <p><strong>(b)</strong> Con <span class="math inline">f_s = 1000</span> Hz, la componente de 300 Hz cumple <span class="math inline">300 &lt; 500 = f_s/2</span>: pasa intacta. La de 700 Hz <strong>no</strong>: su frecuencia aparente es <span class="math inline">\lvert 700 - 1000\rvert = 300</span> Hz. En el espectro: las réplicas de <span class="math inline">\pm 700</span> desplazadas en <span class="math inline">\mp 1000</span> caen en <span class="math inline">\mp 300</span>, dentro de la banda base. El filtro entrega <span class="math display">x_r(t) = \cos(600\pi t) + \cos(600\pi t) = 2\cos(600\pi t)</span> Las dos componentes colapsaron en una sola — la de 700 Hz se disfrazó de 300 Hz <em>y se sumó</em> a la que ya estaba ahí. Nota el detalle de calibre: la respuesta no es “sale un tono de 300 Hz”, es la expresión analítica completa, con la amplitud duplicada.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>La regla da la frecuencia, no el signo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La regla <span class="math inline">\lvert f - k f_s\rvert</span> dice <em>dónde</em> aparece la componente, pero no <em>cómo</em>. Hay dos maneras de llegar a la banda base. Si <span class="math inline">f_s/2 &lt; f &lt; f_s</span>, la réplica que entra es la de <span class="math inline">-f</span> desplazada en <span class="math inline">+f_s</span>: la componente llega <strong>reflejada</strong>, con la fase conjugada, y <span class="math inline">A\cos(2\pi f t + \varphi)</span> se reconstruye como <span class="math inline">A\cos(2\pi (f_s - f)t - \varphi)</span>. Si <span class="math inline">f_s &lt; f &lt; 3f_s/2</span>, la réplica entra solo <strong>trasladada</strong> en <span class="math inline">-f_s</span> y la fase no cambia. Un coseno puro (<span class="math inline">\varphi = 0</span>) no nota la reflexión, pero un seno sí: <span class="math inline">\sin(2\pi\cdot 700\,t)</span> muestreado a <span class="math inline">1000</span> Hz se reconstruye como <span class="math inline">-\sin(2\pi\cdot 300\,t)</span>. En tiempo discreto es una línea: <span class="math inline">\Omega = 2\pi\cdot 0{,}7</span> se reduce a <span class="math inline">2\pi(0{,}7 - 1) = -2\pi\cdot 0{,}3</span>, y <span class="math inline">\sin(-\theta) = -\sin\theta</span> mientras <span class="math inline">\cos(-\theta) = \cos\theta</span>. Cuando la señal tenga senos o fases, haz la cuenta completa y no te quedes con la regla.</p>
+</div>
+</div>
 <p>El aliasing <strong>se escucha</strong>. En la demo del curso (C19) se genera un barrido que sube de 200 Hz hasta casi 4000 Hz, calculado a <span class="math inline">f_s = 4000</span> Hz: al cruzar <span class="math inline">f_s/2 = 2000</span> Hz el tono, en lugar de seguir subiendo, <strong>rebota y baja</strong> — las frecuencias se pliegan según la regla <span class="math inline">f_s - f</span>. Es el mismo fenómeno por el que las ruedas de las carretas giran al revés en el cine: la cámara muestrea a 24 cuadros por segundo, y una rueda que gira rápido se disfraza de una que gira lento — o al revés.</p>
 </section>
 <section id="sec-reconstruccion" class="level3" data-number="5.2.4">
@@ -420,7 +433,7 @@ window.Quarto = {
 <p><span class="math display">x_r(t) = \sum_{n=-\infty}^{\infty} x(nT)\,\operatorname{sinc}\!\Big(\frac{t - nT}{T}\Big)</span> Cada muestra iza su sinc; la suma de todas reconstruye la señal — no una aproximación: <strong>la señal</strong>.</p>
 </div>
 </div>
-<div id="6c66f10e" class="cell" data-execution_count="3">
+<div id="5c8d6dda" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -498,7 +511,7 @@ window.Quarto = {
 <p><strong>(d)</strong> <span class="math inline">\cos\big(\tfrac{\pi}{3}n\big) + \sin\big(\tfrac{\pi}{4}n\big)</span>: períodos individuales <span class="math inline">N_1 = 6</span> y <span class="math inline">N_2 = 8</span>; la suma se repite en el mínimo común múltiplo: <span class="math inline">N = 24</span>.</p>
 </div>
 </div>
-<div id="65623e4d" class="cell" data-execution_count="4">
+<div id="2e6d7a2e" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -669,7 +682,7 @@ window.Quarto = {
 </tbody>
 </table>
 <p>Seis muestras, como predice <span class="math inline">4 + 3 - 1</span>. La lectura física de las filas es la deducción hecha tabla: <em>cada muestra de la entrada dispara una copia de <span class="math inline">h</span>, retardada y escalada; la salida es la superposición.</em></p>
-<div id="c77e51eb" class="cell" data-execution_count="5">
+<div id="65ad7883" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -754,7 +767,7 @@ window.Quarto = {
 y_c(t) = 2\sqrt{2}\,\cos\big(500\pi t - \tfrac{\pi}{4}\big)</span></p>
 </div>
 </div>
-<div id="40b6d47d" class="cell" data-execution_count="6">
+<div id="ce01293b" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

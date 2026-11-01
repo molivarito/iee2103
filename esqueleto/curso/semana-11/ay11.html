@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ay11 · Integración pre-I3 + CV4 – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
+<title>Ay11 · CV4 + Integración pre-I3 – IEE2103 · Señales y Sistemas — Apuntes de clase</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -129,7 +129,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-11/c21.html">Semana 11 · Sistemas discretos</a></li><li class="breadcrumb-item"><a href="../../curso/semana-11/ay11.html">Ay11 · Integración pre-I3 + CV4</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-11/c21.html">Semana 11 · Sistemas discretos</a></li><li class="breadcrumb-item"><a href="../../curso/semana-11/ay11.html">Ay11 · CV4 + Integración pre-I3</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -492,7 +492,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../curso/semana-11/ay11.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Ay11 · Integración pre-I3 + CV4</span></a>
+ <span class="menu-text">Ay11 · CV4 + Integración pre-I3</span></a>
   </div>
 </li>
       </ul>
@@ -584,11 +584,11 @@ window.Quarto = {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#encuadre-05-min-cómo-viene-la-i3" id="toc-encuadre-05-min-cómo-viene-la-i3" class="nav-link active" data-scroll-target="#encuadre-05-min-cómo-viene-la-i3">Encuadre (0–5 min): cómo viene la I3</a></li>
-  <li><a href="#integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones" id="toc-integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones" class="nav-link" data-scroll-target="#integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones">Integración 1 (5–20 min): inversa según ROC — el clásico de tres regiones</a></li>
-  <li><a href="#integración-2-2035-min-cadena-híbrida" id="toc-integración-2-2035-min-cadena-híbrida" class="nav-link" data-scroll-target="#integración-2-2035-min-cadena-híbrida">Integración 2 (20–35 min): cadena híbrida</a></li>
-  <li><a href="#cv4-3553-min-mecánica" id="toc-cv4-3553-min-mecánica" class="nav-link" data-scroll-target="#cv4-3553-min-mecánica">CV4 (35–53 min) — mecánica</a></li>
-  <li><a href="#cierre-5370-min" id="toc-cierre-5370-min" class="nav-link" data-scroll-target="#cierre-5370-min">Cierre (53–70 min)</a></li>
+  <li><a href="#resumen-1825-min-seis-cosas-que-no-se-borran-de-la-pizarra" id="toc-resumen-1825-min-seis-cosas-que-no-se-borran-de-la-pizarra" class="nav-link active" data-scroll-target="#resumen-1825-min-seis-cosas-que-no-se-borran-de-la-pizarra">Resumen (18–25 min): seis cosas que no se borran de la pizarra</a></li>
+  <li><a href="#integración-1-2540-min-inversa-según-la-roc-tres-regiones" id="toc-integración-1-2540-min-inversa-según-la-roc-tres-regiones" class="nav-link" data-scroll-target="#integración-1-2540-min-inversa-según-la-roc-tres-regiones">Integración 1 (25–40 min): inversa según la ROC, tres regiones</a></li>
+  <li><a href="#integración-2-4060-min-la-cadena-híbrida-del-taller" id="toc-integración-2-4060-min-la-cadena-híbrida-del-taller" class="nav-link" data-scroll-target="#integración-2-4060-min-la-cadena-híbrida-del-taller">Integración 2 (40–60 min): la cadena híbrida del taller</a></li>
+  <li><a href="#propuestos-para-la-casa" id="toc-propuestos-para-la-casa" class="nav-link" data-scroll-target="#propuestos-para-la-casa">Propuestos para la casa</a></li>
+  <li><a href="#cierre-6070-min" id="toc-cierre-6070-min" class="nav-link" data-scroll-target="#cierre-6070-min">Cierre (60–70 min)</a></li>
   <li><a href="#respuestas-finales" id="toc-respuestas-finales" class="nav-link" data-scroll-target="#respuestas-finales">Respuestas finales</a></li>
   </ul>
 </nav>
@@ -596,10 +596,10 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-11/c21.html">Semana 11 · Sistemas discretos</a></li><li class="breadcrumb-item"><a href="../../curso/semana-11/ay11.html">Ay11 · Integración pre-I3 + CV4</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../curso/semana-11/c21.html">Semana 11 · Sistemas discretos</a></li><li class="breadcrumb-item"><a href="../../curso/semana-11/ay11.html">Ay11 · CV4 + Integración pre-I3</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Ay11 · Integración pre-I3 + CV4</h1>
-<p class="subtitle lead">Semana 11 · 70 min · U4–U5 · CV4 (Listas 9–10)</p>
+<h1 class="title">Ay11 · CV4 + Integración pre-I3</h1>
+<p class="subtitle lead">Semana 11 · 70 min · CV4: Listas 9–10 · U4–U5</p>
 </div>
 
 
@@ -616,30 +616,73 @@ window.Quarto = {
 </header>
 
 
-<section id="encuadre-05-min-cómo-viene-la-i3" class="level2">
-<h2 class="anchored" data-anchor-id="encuadre-05-min-cómo-viene-la-i3">Encuadre (0–5 min): cómo viene la I3</h2>
-<p>Decirlo con el temario a la vista: la I3 evalúa <strong>U4 (Laplace)</strong> — transformadas con ROC, inversión por fracciones parciales <em>según la ROC</em>, plano <span class="math inline">s</span> como mapa, EDOs con condiciones iniciales, relación Fourier↔︎Laplace — y <strong>U5 (muestreo y discretos)</strong> — Nyquist/aliasing/reconstrucción, sinusoides discretas, convolución lineal y cíclica, ecuaciones de diferencias y cadenas C/D→LTI→D/C. Los dos ejercicios de hoy están elegidos porque cruzan lo que históricamente más se pregunta de cada unidad.</p>
+<section id="resumen-1825-min-seis-cosas-que-no-se-borran-de-la-pizarra" class="level2">
+<h2 class="anchored" data-anchor-id="resumen-1825-min-seis-cosas-que-no-se-borran-de-la-pizarra">Resumen (18–25 min): seis cosas que no se borran de la pizarra</h2>
+<p><strong>Cómo viene la I3</strong> (decirlo con el temario a la vista): <strong>U4, Laplace</strong> — transformadas con su ROC, inversión por fracciones parciales <em>según la ROC</em>, plano <span class="math inline">s</span> como mapa, EDOs con condiciones iniciales, relación Fourier↔︎Laplace; <strong>U5, muestreo y discretos</strong> — Nyquist, aliasing y reconstrucción, sinusoides discretas y su periodicidad, convolución discreta lineal, ecuaciones de diferencias y <span class="math inline">h[n]</span>, cadenas C/D → LTI → D/C. La convolución cíclica <strong>no</strong> entra a la I3 (se evalúa en la I4, con la DFT). Los dos ejercicios de hoy cruzan lo que históricamente más se pregunta de cada unidad.</p>
+<p><strong>Laplace (U4), tres reglas</strong>:</p>
+<ol type="1">
+<li>La ROC es una franja vertical sin polos, y <strong>cada franja da una señal distinta</strong> para el mismo <span class="math inline">X(s)</span>. Se invierte por fracciones parciales y, término a término, el lado lo decide la ROC: <span class="math inline">\dfrac{1}{s-a} \to e^{at}u(t)</span> si la ROC está a la derecha del polo, <span class="math inline">\to -e^{at}u(-t)</span> si está a la izquierda.</li>
+<li><strong>Causal</strong> <span class="math inline">\iff</span> la ROC es el semiplano a la derecha del polo más a la derecha. <strong>Estable</strong> <span class="math inline">\iff</span> la ROC contiene el eje <span class="math inline">j\omega</span> (<span class="math inline">\iff</span> existe la transformada de Fourier). Ambas a la vez <span class="math inline">\iff</span> todos los polos tienen parte real negativa.</li>
+<li><span class="math inline">H(s) = Y(s)/X(s)</span> sale de la EDO leyendo <span class="math inline">s^k \leftrightarrow d^k/dt^k</span>; las condiciones iniciales entran con la transformada unilateral.</li>
+</ol>
+<p><strong>Discreto (U5), tres fórmulas</strong>:</p>
+<ol type="1">
+<li>El puente: <span class="math inline">\Omega = \omega T = 2\pi f/f_s</span>, en rad/muestra, reducido a <span class="math inline">[-\pi, \pi)</span>; la sinusoide discreta es periódica <span class="math inline">\iff \Omega/2\pi</span> es racional.</li>
+<li><strong>Nyquist</strong>: sin pérdida <span class="math inline">\iff f &lt; f_s/2</span>. Si falla, la componente aparece en <span class="math inline">f_s - f</span> <strong>con la fase invertida</strong>: un coseno sale igual, un seno cambia de signo (como en el CV4 de hoy).</li>
+<li>La cadena C/D → <span class="math inline">h[n]</span> → D/C es <strong>un filtro continuo</strong>, y se resuelve en <strong>cuatro pasos, en este orden</strong>: (1) chequeo de Nyquist; (2) <span class="math inline">\Omega_0 = 2\pi f_0/f_s</span>; (3) <span class="math inline">|H(e^{j\Omega_0})|</span> y fase; (4) <span class="math inline">y_c(t) = A\,|H|\cos(\omega_0 t + \varphi + \angle H)</span>.</li>
+</ol>
 </section>
-<section id="integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones" class="level2">
-<h2 class="anchored" data-anchor-id="integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones">Integración 1 (5–20 min): inversa según ROC — el clásico de tres regiones</h2>
-<p><strong>Enunciado</strong> (estilo I3): Un sistema LTI tiene función de transferencia <span class="math display">H(s) = \frac{1}{(s+1)(s-2)}</span> (a) Determine <strong>todas</strong> las ROC posibles y, para cada una, la <span class="math inline">h(t)</span> correspondiente. (b) ¿Cuál elige si le dicen que el sistema es <em>estable</em>? ¿Y si le dicen que es <em>causal</em>? ¿Puede ser ambas cosas?</p>
+<section id="integración-1-2540-min-inversa-según-la-roc-tres-regiones" class="level2">
+<h2 class="anchored" data-anchor-id="integración-1-2540-min-inversa-según-la-roc-tres-regiones">Integración 1 (25–40 min): inversa según la ROC, tres regiones</h2>
+<p><strong>Enunciado</strong> (calibre I3): Un sistema LTI tiene función de transferencia <span class="math display">H(s) = \frac{1}{(s+1)(s-2)}</span> (a) Determine <strong>todas</strong> las ROC posibles y, para cada una, la <span class="math inline">h(t)</span> correspondiente. (b) ¿Cuál elige si le dicen que el sistema es <em>estable</em>? ¿Y si le dicen que es <em>causal</em>? ¿Puede ser ambas cosas?</p>
 </section>
-<section id="integración-2-2035-min-cadena-híbrida" class="level2">
-<h2 class="anchored" data-anchor-id="integración-2-2035-min-cadena-híbrida">Integración 2 (20–35 min): cadena híbrida</h2>
-<p><strong>Enunciado</strong> (estilo examen, versión corta): En una cadena C/D → LTI discreto → D/C ideal con <span class="math inline">f_s = 2000</span> Hz, el sistema discreto es la <strong>primera diferencia</strong> <span class="math inline">y[n] = x[n] - x[n-1]</span>. (a) Calcule <span class="math inline">H(e^{j\Omega})</span> y diga qué tipo de filtro es. (b) Determine la salida <span class="math inline">y_c(t)</span> para <span class="math inline">x_c(t) = \cos(1000\pi t)</span>.</p>
+<section id="integración-2-4060-min-la-cadena-híbrida-del-taller" class="level2">
+<h2 class="anchored" data-anchor-id="integración-2-4060-min-la-cadena-híbrida-del-taller">Integración 2 (40–60 min): la cadena híbrida del taller</h2>
+<p><strong>Enunciado</strong> (ronda 3 de la hoja del taller U5; calibre I3): en la cadena <span class="math display">x_c(t) = 4\cos(\omega_0 t) \;\longrightarrow\; \boxed{\text{C/D}} \;\longrightarrow\; \boxed{\;y[n] = \tfrac12 x[n] + \tfrac12 x[n-1]\;} \;\longrightarrow\; \boxed{\text{D/C}} \;\longrightarrow\; y_c(t)</span> el sistema discreto es el promedio móvil, con <span class="math inline">H(e^{j\Omega}) = e^{-j\Omega/2}\cos(\Omega/2)</span>. Determine <span class="math inline">y_c(t)</span> para cada variante:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variante</th>
+<th><span class="math inline">f_s</span></th>
+<th><span class="math inline">f_0</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>V1</td>
+<td>1000 Hz</td>
+<td>250 Hz</td>
+</tr>
+<tr class="even">
+<td>V2</td>
+<td>2000 Hz</td>
+<td>250 Hz</td>
+</tr>
+<tr class="odd">
+<td>V3</td>
+<td>1000 Hz</td>
+<td>400 Hz</td>
+</tr>
+<tr class="even">
+<td>V4</td>
+<td>1000 Hz</td>
+<td>750 Hz</td>
+</tr>
+</tbody>
+</table>
+<p>En pizarra: <strong>V1 completa</strong> en los cuatro pasos, después <strong>V4</strong> y <strong>V2</strong>. V3 queda propuesta.</p>
 </section>
-<section id="cv4-3553-min-mecánica" class="level2">
-<h2 class="anchored" data-anchor-id="cv4-3553-min-mecánica">CV4 (35–53 min) — mecánica</h2>
+<section id="propuestos-para-la-casa" class="level2">
+<h2 class="anchored" data-anchor-id="propuestos-para-la-casa">Propuestos para la casa</h2>
+<p>Van al portafolio esta semana (preparan la I3). Las respuestas finales están al pie de esta página.</p>
+<p><strong>V3 de la hoja del taller</strong> — la misma cadena con <span class="math inline">f_s = 1000</span> Hz y <span class="math inline">f_0 = 400</span> Hz.</p>
+<p><strong>La primera diferencia</strong> (U5.5) — En una cadena C/D → LTI discreto → D/C ideal con <span class="math inline">f_s = 2000</span> Hz, el sistema discreto es <span class="math inline">y[n] = x[n] - x[n-1]</span>. (a) Calcule <span class="math inline">H(e^{j\Omega})</span> y diga qué tipo de filtro es. (b) Determine <span class="math inline">y_c(t)</span> para <span class="math inline">x_c(t) = \cos(1000\pi t)</span>. (c) Determine <span class="math inline">y_c(t)</span> para <span class="math inline">x_c(t) = \cos(3000\pi t)</span>.</p>
+</section>
+<section id="cierre-6070-min" class="level2">
+<h2 class="anchored" data-anchor-id="cierre-6070-min">Cierre (60–70 min)</h2>
 <ul>
-<li><strong>Cobertura</strong>: Listas 9–10 (Laplace; muestreo y sinusoides discretas). Es uno de los “¿Y si…?” de esas listas, números/contexto cambiados: parte (a) resolver la variante, parte (b) qué cambia en su desarrollo y por qué; 1–2 preguntas son variantes del quiz Canvas, como se anunció.</li>
-<li>15 min cronometrados, <strong>portafolio propio sobre la mesa como único material</strong>; al recogerlo se proyecta la pauta — sales de la sala sabiendo cómo te fue, y el registro 1/½/0 queda en Canvas esa misma tarde.</li>
-</ul>
-</section>
-<section id="cierre-5370-min" class="level2">
-<h2 class="anchored" data-anchor-id="cierre-5370-min">Cierre (53–70 min)</h2>
-<ul>
-<li>Preguntas libres orientadas a I3 (priorizar: inversión según ROC, cadenas híbridas, periodicidad discreta — los tres temas donde el CV y las ayudantías muestran más caídas).</li>
-<li>Recordar: I3 la próxima semana (U4–U5), con el formulario oficial (U1–U5), impreso con la prueba; repasarlo <strong>este fin de semana</strong> con las sugerencias de C22. La Lista 11 al portafolio (CV5, semana 13).</li>
+<li><strong>Anuncios</strong> (segunda pasada): <strong>I3 la próxima semana</strong> (Ay12), U4 completa y U5 sin la convolución cíclica, con el formulario oficial (U1–U5) impreso con la prueba: repasarlo <strong>este fin de semana</strong>. La Lista 11 al portafolio: entra a la I3 (salvo L11.3) y cuenta para el CV5 (semana 13).</li>
+<li>Estudio personal: los dos propuestos de arriba y las variantes V2–V4 del taller completas en el portafolio; inversión según ROC, cadenas híbridas y periodicidad discreta son los tres temas donde más se cae.</li>
 </ul>
 </section>
 <section id="respuestas-finales" class="level2">
@@ -647,7 +690,8 @@ window.Quarto = {
 <p>Solo el resultado, para verificar el trabajo propio; el desarrollo es el de la sesión.</p>
 <ul>
 <li><strong>Integración 1</strong>: <span class="math inline">H(s) = \dfrac{-1/3}{s+1} + \dfrac{1/3}{s-2}</span>. (a) <span class="math inline">\Re\{s\} &gt; 2</span>: <span class="math inline">h(t) = \big(-\tfrac13 e^{-t} + \tfrac13 e^{2t}\big)u(t)</span>, causal e inestable; <span class="math inline">-1 &lt; \Re\{s\} &lt; 2</span>: <span class="math inline">h(t) = -\tfrac13 e^{-t}u(t) - \tfrac13 e^{2t}u(-t)</span>, estable; <span class="math inline">\Re\{s\} &lt; -1</span>: <span class="math inline">h(t) = \big(\tfrac13 e^{-t} - \tfrac13 e^{2t}\big)u(-t)</span>, anticausal. (b) Estable: la franja central; causal: el semiplano derecho; <strong>ambas a la vez es imposible</strong> (hay un polo en <span class="math inline">\Re\{s\} = 2 &gt; 0</span>).</li>
-<li><strong>Integración 2</strong>: (a) <span class="math inline">H(e^{j\Omega}) = 1 - e^{-j\Omega}</span>, magnitud <span class="math inline">2|\sin(\Omega/2)|</span>: pasa-altos. (b) <span class="math inline">y_c(t) = \sqrt{2}\,\cos\!\big(1000\pi t + \tfrac{\pi}{4}\big)</span>.</li>
+<li><strong>Integración 2</strong> (promedio móvil): <strong>V1</strong> <span class="math inline">y_c(t) = 2\sqrt2\cos(500\pi t - \pi/4)</span>; <strong>V2</strong> <span class="math inline">y_c(t) = 4\cos(\pi/8)\cos(500\pi t - \pi/8) \approx 3{,}70\cos(500\pi t - \pi/8)</span>; <strong>V3</strong> <span class="math inline">y_c(t) = 4\cos(0{,}4\pi)\cos(800\pi t - 0{,}4\pi) \approx 1{,}24\cos(800\pi t - 0{,}4\pi)</span>; <strong>V4</strong> falla Nyquist: la secuencia muestreada es la misma de V1 y la salida también, <span class="math inline">2\sqrt2\cos(500\pi t - \pi/4)</span>, un tono de 250 Hz.</li>
+<li><strong>Primera diferencia</strong>: (a) <span class="math inline">H(e^{j\Omega}) = 1 - e^{-j\Omega}</span>, magnitud <span class="math inline">2|\sin(\Omega/2)|</span>: pasa-altos. (b) <span class="math inline">y_c(t) = \sqrt2\cos(1000\pi t + \pi/4)</span>. (c) Falla Nyquist (1500 Hz <span class="math inline">&gt; f_s/2</span>): la secuencia es la misma de (b) y la salida también, <span class="math inline">\sqrt2\cos(1000\pi t + \pi/4)</span>.</li>
 </ul>
 
 

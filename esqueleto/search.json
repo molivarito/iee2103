@@ -4,7 +4,7 @@
     "href": "curso/listas/lista-11.html",
     "title": "Lista 11 · Convolución discreta, ecuaciones de diferencias y cadenas híbridas",
     "section": "",
-    "text": "ImportanteRecordatorio\n\n\n\nEsta materia entra a la I3 de esta semana (U4–U5): trabajar la lista este fin de semana es la mejor preparación. El ejercicio para el portafolio cuenta para el CV5 (semana 13, Ay13, sobre las Listas 11–12): la pregunta del control será una de las líneas ¿Y si…? de estas dos listas, con números concretos — resolverlas en tu portafolio ES preparar el control. Como siempre: a mano, con desarrollo completo; IA y compañeros para entender, el razonamiento escrito es tuyo.\nReferencias de estudio: [Oppenheim] §2.1 (suma de convolución), §2.4 (ecuaciones de diferencias), §7.4 (procesamiento discreto de señales continuas); [Alvarado] §5.3.",
+    "text": "ImportanteRecordatorio\n\n\n\nEsta materia entra a la I3 de esta semana (U4–U5), salvo la convolución cíclica (L11.3), que se evalúa en la I4 junto con la DFT: trabajar la lista este fin de semana es la mejor preparación. El ejercicio para el portafolio cuenta para el CV5 (semana 13, Ay13, sobre las Listas 11–12): la pregunta del control será una de las líneas ¿Y si…? de estas dos listas, con números concretos — resolverlas en tu portafolio ES preparar el control. Como siempre: a mano, con desarrollo completo; IA y compañeros para entender, el razonamiento escrito es tuyo.\nReferencias de estudio: [Oppenheim] §2.1 (suma de convolución), §2.4 (ecuaciones de diferencias), §7.4 (procesamiento discreto de señales continuas); [Alvarado] §5.3.",
     "crumbs": [
       "Listas de ejercicios",
       "Lista 11 · Convolución discreta, ecuaciones de diferencias y cadenas híbridas"
@@ -957,78 +957,78 @@
   {
     "objectID": "curso/semana-11/ay11.html",
     "href": "curso/semana-11/ay11.html",
-    "title": "Ay11 · Integración pre-I3 + CV4",
+    "title": "Ay11 · CV4 + Integración pre-I3",
     "section": "",
-    "text": "Decirlo con el temario a la vista: la I3 evalúa U4 (Laplace) — transformadas con ROC, inversión por fracciones parciales según la ROC, plano s como mapa, EDOs con condiciones iniciales, relación Fourier↔︎Laplace — y U5 (muestreo y discretos) — Nyquist/aliasing/reconstrucción, sinusoides discretas, convolución lineal y cíclica, ecuaciones de diferencias y cadenas C/D→LTI→D/C. Los dos ejercicios de hoy están elegidos porque cruzan lo que históricamente más se pregunta de cada unidad.",
+    "text": "Cómo viene la I3 (decirlo con el temario a la vista): U4, Laplace — transformadas con su ROC, inversión por fracciones parciales según la ROC, plano s como mapa, EDOs con condiciones iniciales, relación Fourier↔︎Laplace; U5, muestreo y discretos — Nyquist, aliasing y reconstrucción, sinusoides discretas y su periodicidad, convolución discreta lineal, ecuaciones de diferencias y h[n], cadenas C/D → LTI → D/C. La convolución cíclica no entra a la I3 (se evalúa en la I4, con la DFT). Los dos ejercicios de hoy cruzan lo que históricamente más se pregunta de cada unidad.\nLaplace (U4), tres reglas:\n\nLa ROC es una franja vertical sin polos, y cada franja da una señal distinta para el mismo X(s). Se invierte por fracciones parciales y, término a término, el lado lo decide la ROC: \\dfrac{1}{s-a} \\to e^{at}u(t) si la ROC está a la derecha del polo, \\to -e^{at}u(-t) si está a la izquierda.\nCausal \\iff la ROC es el semiplano a la derecha del polo más a la derecha. Estable \\iff la ROC contiene el eje j\\omega (\\iff existe la transformada de Fourier). Ambas a la vez \\iff todos los polos tienen parte real negativa.\nH(s) = Y(s)/X(s) sale de la EDO leyendo s^k \\leftrightarrow d^k/dt^k; las condiciones iniciales entran con la transformada unilateral.\n\nDiscreto (U5), tres fórmulas:\n\nEl puente: \\Omega = \\omega T = 2\\pi f/f_s, en rad/muestra, reducido a [-\\pi, \\pi); la sinusoide discreta es periódica \\iff \\Omega/2\\pi es racional.\nNyquist: sin pérdida \\iff f &lt; f_s/2. Si falla, la componente aparece en f_s - f con la fase invertida: un coseno sale igual, un seno cambia de signo (como en el CV4 de hoy).\nLa cadena C/D → h[n] → D/C es un filtro continuo, y se resuelve en cuatro pasos, en este orden: (1) chequeo de Nyquist; (2) \\Omega_0 = 2\\pi f_0/f_s; (3) |H(e^{j\\Omega_0})| y fase; (4) y_c(t) = A\\,|H|\\cos(\\omega_0 t + \\varphi + \\angle H).",
     "crumbs": [
       "Semana 11 · Sistemas discretos",
-      "Ay11 · Integración pre-I3 + CV4"
+      "Ay11 · CV4 + Integración pre-I3"
     ]
   },
   {
-    "objectID": "curso/semana-11/ay11.html#encuadre-05-min-cómo-viene-la-i3",
-    "href": "curso/semana-11/ay11.html#encuadre-05-min-cómo-viene-la-i3",
-    "title": "Ay11 · Integración pre-I3 + CV4",
+    "objectID": "curso/semana-11/ay11.html#resumen-1825-min-seis-cosas-que-no-se-borran-de-la-pizarra",
+    "href": "curso/semana-11/ay11.html#resumen-1825-min-seis-cosas-que-no-se-borran-de-la-pizarra",
+    "title": "Ay11 · CV4 + Integración pre-I3",
     "section": "",
-    "text": "Decirlo con el temario a la vista: la I3 evalúa U4 (Laplace) — transformadas con ROC, inversión por fracciones parciales según la ROC, plano s como mapa, EDOs con condiciones iniciales, relación Fourier↔︎Laplace — y U5 (muestreo y discretos) — Nyquist/aliasing/reconstrucción, sinusoides discretas, convolución lineal y cíclica, ecuaciones de diferencias y cadenas C/D→LTI→D/C. Los dos ejercicios de hoy están elegidos porque cruzan lo que históricamente más se pregunta de cada unidad.",
+    "text": "Cómo viene la I3 (decirlo con el temario a la vista): U4, Laplace — transformadas con su ROC, inversión por fracciones parciales según la ROC, plano s como mapa, EDOs con condiciones iniciales, relación Fourier↔︎Laplace; U5, muestreo y discretos — Nyquist, aliasing y reconstrucción, sinusoides discretas y su periodicidad, convolución discreta lineal, ecuaciones de diferencias y h[n], cadenas C/D → LTI → D/C. La convolución cíclica no entra a la I3 (se evalúa en la I4, con la DFT). Los dos ejercicios de hoy cruzan lo que históricamente más se pregunta de cada unidad.\nLaplace (U4), tres reglas:\n\nLa ROC es una franja vertical sin polos, y cada franja da una señal distinta para el mismo X(s). Se invierte por fracciones parciales y, término a término, el lado lo decide la ROC: \\dfrac{1}{s-a} \\to e^{at}u(t) si la ROC está a la derecha del polo, \\to -e^{at}u(-t) si está a la izquierda.\nCausal \\iff la ROC es el semiplano a la derecha del polo más a la derecha. Estable \\iff la ROC contiene el eje j\\omega (\\iff existe la transformada de Fourier). Ambas a la vez \\iff todos los polos tienen parte real negativa.\nH(s) = Y(s)/X(s) sale de la EDO leyendo s^k \\leftrightarrow d^k/dt^k; las condiciones iniciales entran con la transformada unilateral.\n\nDiscreto (U5), tres fórmulas:\n\nEl puente: \\Omega = \\omega T = 2\\pi f/f_s, en rad/muestra, reducido a [-\\pi, \\pi); la sinusoide discreta es periódica \\iff \\Omega/2\\pi es racional.\nNyquist: sin pérdida \\iff f &lt; f_s/2. Si falla, la componente aparece en f_s - f con la fase invertida: un coseno sale igual, un seno cambia de signo (como en el CV4 de hoy).\nLa cadena C/D → h[n] → D/C es un filtro continuo, y se resuelve en cuatro pasos, en este orden: (1) chequeo de Nyquist; (2) \\Omega_0 = 2\\pi f_0/f_s; (3) |H(e^{j\\Omega_0})| y fase; (4) y_c(t) = A\\,|H|\\cos(\\omega_0 t + \\varphi + \\angle H).",
     "crumbs": [
       "Semana 11 · Sistemas discretos",
-      "Ay11 · Integración pre-I3 + CV4"
+      "Ay11 · CV4 + Integración pre-I3"
     ]
   },
   {
-    "objectID": "curso/semana-11/ay11.html#integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones",
-    "href": "curso/semana-11/ay11.html#integración-1-520-min-inversa-según-roc-el-clásico-de-tres-regiones",
-    "title": "Ay11 · Integración pre-I3 + CV4",
-    "section": "Integración 1 (5–20 min): inversa según ROC — el clásico de tres regiones",
-    "text": "Integración 1 (5–20 min): inversa según ROC — el clásico de tres regiones\nEnunciado (estilo I3): Un sistema LTI tiene función de transferencia H(s) = \\frac{1}{(s+1)(s-2)} (a) Determine todas las ROC posibles y, para cada una, la h(t) correspondiente. (b) ¿Cuál elige si le dicen que el sistema es estable? ¿Y si le dicen que es causal? ¿Puede ser ambas cosas?",
+    "objectID": "curso/semana-11/ay11.html#integración-1-2540-min-inversa-según-la-roc-tres-regiones",
+    "href": "curso/semana-11/ay11.html#integración-1-2540-min-inversa-según-la-roc-tres-regiones",
+    "title": "Ay11 · CV4 + Integración pre-I3",
+    "section": "Integración 1 (25–40 min): inversa según la ROC, tres regiones",
+    "text": "Integración 1 (25–40 min): inversa según la ROC, tres regiones\nEnunciado (calibre I3): Un sistema LTI tiene función de transferencia H(s) = \\frac{1}{(s+1)(s-2)} (a) Determine todas las ROC posibles y, para cada una, la h(t) correspondiente. (b) ¿Cuál elige si le dicen que el sistema es estable? ¿Y si le dicen que es causal? ¿Puede ser ambas cosas?",
     "crumbs": [
       "Semana 11 · Sistemas discretos",
-      "Ay11 · Integración pre-I3 + CV4"
+      "Ay11 · CV4 + Integración pre-I3"
     ]
   },
   {
-    "objectID": "curso/semana-11/ay11.html#integración-2-2035-min-cadena-híbrida",
-    "href": "curso/semana-11/ay11.html#integración-2-2035-min-cadena-híbrida",
-    "title": "Ay11 · Integración pre-I3 + CV4",
-    "section": "Integración 2 (20–35 min): cadena híbrida",
-    "text": "Integración 2 (20–35 min): cadena híbrida\nEnunciado (estilo examen, versión corta): En una cadena C/D → LTI discreto → D/C ideal con f_s = 2000 Hz, el sistema discreto es la primera diferencia y[n] = x[n] - x[n-1]. (a) Calcule H(e^{j\\Omega}) y diga qué tipo de filtro es. (b) Determine la salida y_c(t) para x_c(t) = \\cos(1000\\pi t).",
+    "objectID": "curso/semana-11/ay11.html#integración-2-4060-min-la-cadena-híbrida-del-taller",
+    "href": "curso/semana-11/ay11.html#integración-2-4060-min-la-cadena-híbrida-del-taller",
+    "title": "Ay11 · CV4 + Integración pre-I3",
+    "section": "Integración 2 (40–60 min): la cadena híbrida del taller",
+    "text": "Integración 2 (40–60 min): la cadena híbrida del taller\nEnunciado (ronda 3 de la hoja del taller U5; calibre I3): en la cadena x_c(t) = 4\\cos(\\omega_0 t) \\;\\longrightarrow\\; \\boxed{\\text{C/D}} \\;\\longrightarrow\\; \\boxed{\\;y[n] = \\tfrac12 x[n] + \\tfrac12 x[n-1]\\;} \\;\\longrightarrow\\; \\boxed{\\text{D/C}} \\;\\longrightarrow\\; y_c(t) el sistema discreto es el promedio móvil, con H(e^{j\\Omega}) = e^{-j\\Omega/2}\\cos(\\Omega/2). Determine y_c(t) para cada variante:\n\n\n\nVariante\nf_s\nf_0\n\n\n\n\nV1\n1000 Hz\n250 Hz\n\n\nV2\n2000 Hz\n250 Hz\n\n\nV3\n1000 Hz\n400 Hz\n\n\nV4\n1000 Hz\n750 Hz\n\n\n\nEn pizarra: V1 completa en los cuatro pasos, después V4 y V2. V3 queda propuesta.",
     "crumbs": [
       "Semana 11 · Sistemas discretos",
-      "Ay11 · Integración pre-I3 + CV4"
+      "Ay11 · CV4 + Integración pre-I3"
     ]
   },
   {
-    "objectID": "curso/semana-11/ay11.html#cv4-3553-min-mecánica",
-    "href": "curso/semana-11/ay11.html#cv4-3553-min-mecánica",
-    "title": "Ay11 · Integración pre-I3 + CV4",
-    "section": "CV4 (35–53 min) — mecánica",
-    "text": "CV4 (35–53 min) — mecánica\n\nCobertura: Listas 9–10 (Laplace; muestreo y sinusoides discretas). Es uno de los “¿Y si…?” de esas listas, números/contexto cambiados: parte (a) resolver la variante, parte (b) qué cambia en su desarrollo y por qué; 1–2 preguntas son variantes del quiz Canvas, como se anunció.\n15 min cronometrados, portafolio propio sobre la mesa como único material; al recogerlo se proyecta la pauta — sales de la sala sabiendo cómo te fue, y el registro 1/½/0 queda en Canvas esa misma tarde.",
+    "objectID": "curso/semana-11/ay11.html#propuestos-para-la-casa",
+    "href": "curso/semana-11/ay11.html#propuestos-para-la-casa",
+    "title": "Ay11 · CV4 + Integración pre-I3",
+    "section": "Propuestos para la casa",
+    "text": "Propuestos para la casa\nVan al portafolio esta semana (preparan la I3). Las respuestas finales están al pie de esta página.\nV3 de la hoja del taller — la misma cadena con f_s = 1000 Hz y f_0 = 400 Hz.\nLa primera diferencia (U5.5) — En una cadena C/D → LTI discreto → D/C ideal con f_s = 2000 Hz, el sistema discreto es y[n] = x[n] - x[n-1]. (a) Calcule H(e^{j\\Omega}) y diga qué tipo de filtro es. (b) Determine y_c(t) para x_c(t) = \\cos(1000\\pi t). (c) Determine y_c(t) para x_c(t) = \\cos(3000\\pi t).",
     "crumbs": [
       "Semana 11 · Sistemas discretos",
-      "Ay11 · Integración pre-I3 + CV4"
+      "Ay11 · CV4 + Integración pre-I3"
     ]
   },
   {
-    "objectID": "curso/semana-11/ay11.html#cierre-5370-min",
-    "href": "curso/semana-11/ay11.html#cierre-5370-min",
-    "title": "Ay11 · Integración pre-I3 + CV4",
-    "section": "Cierre (53–70 min)",
-    "text": "Cierre (53–70 min)\n\nPreguntas libres orientadas a I3 (priorizar: inversión según ROC, cadenas híbridas, periodicidad discreta — los tres temas donde el CV y las ayudantías muestran más caídas).\nRecordar: I3 la próxima semana (U4–U5), con el formulario oficial (U1–U5), impreso con la prueba; repasarlo este fin de semana con las sugerencias de C22. La Lista 11 al portafolio (CV5, semana 13).",
+    "objectID": "curso/semana-11/ay11.html#cierre-6070-min",
+    "href": "curso/semana-11/ay11.html#cierre-6070-min",
+    "title": "Ay11 · CV4 + Integración pre-I3",
+    "section": "Cierre (60–70 min)",
+    "text": "Cierre (60–70 min)\n\nAnuncios (segunda pasada): I3 la próxima semana (Ay12), U4 completa y U5 sin la convolución cíclica, con el formulario oficial (U1–U5) impreso con la prueba: repasarlo este fin de semana. La Lista 11 al portafolio: entra a la I3 (salvo L11.3) y cuenta para el CV5 (semana 13).\nEstudio personal: los dos propuestos de arriba y las variantes V2–V4 del taller completas en el portafolio; inversión según ROC, cadenas híbridas y periodicidad discreta son los tres temas donde más se cae.",
     "crumbs": [
       "Semana 11 · Sistemas discretos",
-      "Ay11 · Integración pre-I3 + CV4"
+      "Ay11 · CV4 + Integración pre-I3"
     ]
   },
   {
     "objectID": "curso/semana-11/ay11.html#respuestas-finales",
     "href": "curso/semana-11/ay11.html#respuestas-finales",
-    "title": "Ay11 · Integración pre-I3 + CV4",
+    "title": "Ay11 · CV4 + Integración pre-I3",
     "section": "Respuestas finales",
-    "text": "Respuestas finales\nSolo el resultado, para verificar el trabajo propio; el desarrollo es el de la sesión.\n\nIntegración 1: H(s) = \\dfrac{-1/3}{s+1} + \\dfrac{1/3}{s-2}. (a) \\Re\\{s\\} &gt; 2: h(t) = \\big(-\\tfrac13 e^{-t} + \\tfrac13 e^{2t}\\big)u(t), causal e inestable; -1 &lt; \\Re\\{s\\} &lt; 2: h(t) = -\\tfrac13 e^{-t}u(t) - \\tfrac13 e^{2t}u(-t), estable; \\Re\\{s\\} &lt; -1: h(t) = \\big(\\tfrac13 e^{-t} - \\tfrac13 e^{2t}\\big)u(-t), anticausal. (b) Estable: la franja central; causal: el semiplano derecho; ambas a la vez es imposible (hay un polo en \\Re\\{s\\} = 2 &gt; 0).\nIntegración 2: (a) H(e^{j\\Omega}) = 1 - e^{-j\\Omega}, magnitud 2|\\sin(\\Omega/2)|: pasa-altos. (b) y_c(t) = \\sqrt{2}\\,\\cos\\!\\big(1000\\pi t + \\tfrac{\\pi}{4}\\big).",
+    "text": "Respuestas finales\nSolo el resultado, para verificar el trabajo propio; el desarrollo es el de la sesión.\n\nIntegración 1: H(s) = \\dfrac{-1/3}{s+1} + \\dfrac{1/3}{s-2}. (a) \\Re\\{s\\} &gt; 2: h(t) = \\big(-\\tfrac13 e^{-t} + \\tfrac13 e^{2t}\\big)u(t), causal e inestable; -1 &lt; \\Re\\{s\\} &lt; 2: h(t) = -\\tfrac13 e^{-t}u(t) - \\tfrac13 e^{2t}u(-t), estable; \\Re\\{s\\} &lt; -1: h(t) = \\big(\\tfrac13 e^{-t} - \\tfrac13 e^{2t}\\big)u(-t), anticausal. (b) Estable: la franja central; causal: el semiplano derecho; ambas a la vez es imposible (hay un polo en \\Re\\{s\\} = 2 &gt; 0).\nIntegración 2 (promedio móvil): V1 y_c(t) = 2\\sqrt2\\cos(500\\pi t - \\pi/4); V2 y_c(t) = 4\\cos(\\pi/8)\\cos(500\\pi t - \\pi/8) \\approx 3{,}70\\cos(500\\pi t - \\pi/8); V3 y_c(t) = 4\\cos(0{,}4\\pi)\\cos(800\\pi t - 0{,}4\\pi) \\approx 1{,}24\\cos(800\\pi t - 0{,}4\\pi); V4 falla Nyquist: la secuencia muestreada es la misma de V1 y la salida también, 2\\sqrt2\\cos(500\\pi t - \\pi/4), un tono de 250 Hz.\nPrimera diferencia: (a) H(e^{j\\Omega}) = 1 - e^{-j\\Omega}, magnitud 2|\\sin(\\Omega/2)|: pasa-altos. (b) y_c(t) = \\sqrt2\\cos(1000\\pi t + \\pi/4). (c) Falla Nyquist (1500 Hz &gt; f_s/2): la secuencia es la misma de (b) y la salida también, \\sqrt2\\cos(1000\\pi t + \\pi/4).",
     "crumbs": [
       "Semana 11 · Sistemas discretos",
-      "Ay11 · Integración pre-I3 + CV4"
+      "Ay11 · CV4 + Integración pre-I3"
     ]
   },
   {

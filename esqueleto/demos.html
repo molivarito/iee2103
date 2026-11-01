@@ -527,7 +527,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./curso/semana-11/ay11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Ay11 · Integración pre-I3 + CV4</span></a>
+ <span class="menu-text">Ay11 · CV4 + Integración pre-I3</span></a>
   </div>
 </li>
       </ul>
@@ -1096,6 +1096,20 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p><strong>Qué ilustra</strong>: qué filtro continuo es, vista desde afuera, una cadena que muestrea, procesa en discreto y reconstruye. Entrada <span class="math inline">4\cos(2\pi f t)</span> con <span class="math inline">f</span> y <span class="math inline">f_s</span> a elección; a la izquierda la entrada, sus muestras, <span class="math inline">y[n]</span> y la salida reconstruida; a la derecha <span class="math inline">|H(e^{j\Omega})|</span> y su fase, periódicas, con el eje también en Hz y el punto en <span class="math inline">\Omega = \omega T</span>. Cinco sistemas: promedio móvil, diferencia, peine <span class="math inline">x[n]-x[n-5]</span>, primer orden y pasa-bajos ideal. Cuando <span class="math inline">f</span> cruza <span class="math inline">f_s/2</span> se ve el regreso de <span class="math inline">2\pi</span>: la cadena responde a <span class="math inline">f_s - f</span>, no a <span class="math inline">f</span>.</p>
 <p><strong>Cómo usarla</strong>: <a href="demos/cadena-hibrida/index.html">ábrela en el navegador</a> — sin instalar nada ni internet. Botones «ejemplo de clase», «f = fs/2» y «con aliasing». Teclas: <strong>espacio</strong> barre <span class="math inline">f</span>, <strong>←/→</strong> la mueven, <strong>M</strong> cambia de sistema, <strong>R</strong> reinicia.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C23 · El anillo: la ROC en el plano z (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C23 · El anillo: la ROC en el plano z (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: la región de convergencia como superficie. <span class="math inline">|X(z)|</span> sobre el plano <span class="math inline">z</span>, en 3D girable, para tres señales con fórmulas parientes: <span class="math inline">a^n u[n]</span> y <span class="math inline">-a^n u[-n-1]</span> comparten <span class="math inline">X(z) = z/(z-a)</span> y solo cambia qué lado del polo se pinta de verde (afuera o adentro); <span class="math inline">a^{|n|}</span> tiene dos polos, en <span class="math inline">a</span> y en <span class="math inline">1/a</span>, y su ROC es el anillo entre ambos. El círculo unitario va en azul y, levantado sobre la superficie, el corte rojo es <span class="math inline">|X(e^{j\Omega})|</span>, la DTFT, que existe solo si el círculo cae dentro de la ROC; al lado se ve la secuencia y ese corte desenrollado. Al subir <span class="math inline">a</span> el anillo se angosta, y con <span class="math inline">a \ge 1</span> queda vacío: la transformada no existe.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/roc-anillo/index.html">ábrela en el navegador</a> — sin instalar nada ni internet. Tres botones para la señal y el slider de <span class="math inline">a</span> (0,3 a 1,3). Teclas: <strong>←/→</strong> mueven <span class="math inline">a</span>, <strong>M</strong> cambia de señal, <strong>R</strong> reinicia; arrastrar gira la figura.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="C25–C26 · Visualizador Z">
