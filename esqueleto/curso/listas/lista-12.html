@@ -704,6 +704,37 @@ window.Quarto = {
 </ol></li>
 </ol>
 <p><strong>¿Y si…?</strong> ¿Y si se muestreara con <span class="math inline">T=2</span> ms (<span class="math inline">F_s=500</span> Hz) en vez de <span class="math inline">T=1</span> ms? La imagen de <span class="math inline">s_3=j1000\pi</span> ya no cae en el borde de Nyquist: ¿a qué frecuencia física corresponde ahora?</p>
+<p><strong>L12.8</strong> <em>(nuevo — incorporar al banco, U6.2)</em> — <strong>El truco <span class="math inline">X(z)/z</span>.</strong> Sea <span class="math inline">X(z) = \dfrac{z}{(z-1)\left(z-\tfrac12\right)}</span>, con ROC exterior (señal causal). Los pares de tabla tienen la forma <span class="math inline">\dfrac{z}{z-a}</span>, con una <span class="math inline">z</span> arriba.</p>
+<ol type="1">
+<li>Explique en una frase por qué expandir <span class="math inline">X(z)</span> directamente en fracciones <span class="math inline">\dfrac{A}{z-a}</span> deja cada término sin su <span class="math inline">z</span> (y qué secuencia sale si se invierte así).</li>
+<li>Expanda <span class="math inline">\dfrac{X(z)}{z}</span> en fracciones parciales, multiplique de vuelta por <span class="math inline">z</span> e invierta con los pares de tabla.</li>
+<li>Chequeo: calcule <span class="math inline">x[0]</span> desde el límite de <span class="math inline">X(z)</span> cuando <span class="math inline">z \to \infty</span> y compárelo con su resultado.</li>
+</ol>
+<p><strong>¿Y si…?</strong> ¿Y si fuera <span class="math inline">X(z) = \dfrac{z^2}{(z-1)\left(z-\tfrac12\right)}</span>? El truco funciona igual; ¿qué cambia en <span class="math inline">x[0]</span> y por qué?</p>
+<p><strong>L12.9</strong> [DB E0298] — <strong>Condiciones iniciales: la Z unilateral.</strong> Considere <span class="math inline">y[n] - \tfrac12\,y[n-1] = \left(\tfrac14\right)^n u[n]</span> con <span class="math inline">y[-1] = 2</span>.</p>
+<ol type="1">
+<li>Demuestre, desde la definición <span class="math inline">\mathcal{Z}_u\{x[n]\} = \sum_{n \ge 0} x[n] z^{-n}</span>, que <span class="math inline">\mathcal{Z}_u\{y[n-1]\} = z^{-1} Y(z) + y[-1]</span>.</li>
+<li>Obtenga <span class="math inline">Y(z)</span> e invierta para <span class="math inline">n \ge 0</span>.</li>
+<li>Verifique <span class="math inline">y[0]</span> e <span class="math inline">y[1]</span> iterando la ecuación directamente.</li>
+<li>Separe <span class="math inline">y[n]</span> en la parte que viene de la condición inicial (entrada nula) y la que viene de la entrada (estado nulo).</li>
+<li>Obtenga <span class="math inline">y[0]</span> y <span class="math inline">\lim_{n\to\infty} y[n]</span> <strong>sin invertir</strong>, con los teoremas del valor inicial y final discretos, y diga por qué el segundo es válido aquí.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="La receta, en tres minutos">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>La receta, en tres minutos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Este ejercicio reproduce el video de la Z unilateral (la propiedad del retardo, el ejemplo completo, la anatomía entrada nula / estado nulo y los dos atajos). Véalo antes de resolver, o después para corregirse.</p>
+<video controls="" preload="none" poster="lista-12-unilateral-poster.png" width="100%" src="lista-12-unilateral.mp4" title="Condiciones iniciales en discreto: la transformada Z unilateral">
+</video>
+</div>
+</div>
+<p><strong>¿Y si…?</strong> [DB E0299] ¿Y si el sistema fuera una cuenta de ahorro, <span class="math inline">y[n] = 1{,}05\,y[n-1] + x[n]</span> con <span class="math inline">y[-1] = 100</span> y sin depósitos (<span class="math inline">x[n] = 0</span>)? El teorema del valor final da un número: ¿cuál, y por qué no se puede creer?</p>
 
 
 </section>
