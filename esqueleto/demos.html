@@ -564,12 +564,41 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true">
- <span class="menu-text">Listas de ejercicios</span></a>
+ <span class="menu-text">Semana 13 · Diseño de filtros</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./curso/semana-13/c25.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C25 · Leer el círculo: respuesta en frecuencia geométrica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./curso/semana-13/c26.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">C26 · Diseño de filtros por polos y ceros</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./curso/semana-13/ay13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ay13 · Taller de diseño de filtros + CV5</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
+ <span class="menu-text">Listas de ejercicios</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./curso/listas/lista-01.html" class="sidebar-item-text sidebar-link">
@@ -640,6 +669,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./curso/listas/lista-12.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lista 12 · Transformada Z: directa, inversa, ROC y H(z)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./curso/listas/lista-13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lista 13 · Diseño de filtros por polos y ceros</span></a>
   </div>
 </li>
       </ul>
@@ -1145,6 +1180,20 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p><strong>Qué ilustra</strong>: la región de convergencia como superficie. <span class="math inline">|X(z)|</span> sobre el plano <span class="math inline">z</span>, en 3D girable, para tres señales con fórmulas parientes: <span class="math inline">a^n u[n]</span> y <span class="math inline">-a^n u[-n-1]</span> comparten <span class="math inline">X(z) = z/(z-a)</span> y solo cambia qué lado del polo se pinta de verde (afuera o adentro); <span class="math inline">a^{|n|}</span> tiene dos polos, en <span class="math inline">a</span> y en <span class="math inline">1/a</span>, y su ROC es el anillo entre ambos. El círculo unitario va en azul y, levantado sobre la superficie, el corte rojo es <span class="math inline">|X(e^{j\Omega})|</span>, la DTFT, que existe solo si el círculo cae dentro de la ROC; al lado se ve la secuencia y ese corte desenrollado. Al subir <span class="math inline">a</span> el anillo se angosta, y con <span class="math inline">a \ge 1</span> queda vacío: la transformada no existe.</p>
 <p><strong>Cómo usarla</strong>: <a href="demos/roc-anillo/index.html">ábrela en el navegador</a> — sin instalar nada ni internet. Tres botones para la señal y el slider de <span class="math inline">a</span> (0,3 a 1,3). Teclas: <strong>←/→</strong> mueven <span class="math inline">a</span>, <strong>M</strong> cambia de señal, <strong>R</strong> reinicia; arrastrar gira la figura.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="C24–C25 · La regla: distancias a ceros y polos (demo web)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>C24–C25 · La regla: distancias a ceros y polos (demo web)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Qué ilustra</strong>: <span class="math inline">|H(e^{j\Omega})|</span> leída en el mapa. Un punto recorre el círculo unitario y la demo dibuja su distancia a cada cero (azul) y a cada polo (rojo); el cociente de los productos, por <span class="math inline">|K|</span>, es <span class="math inline">|H|</span>, y a la derecha el mismo punto recorre la curva de <span class="math inline">|H|</span> entre <span class="math inline">\Omega = 0</span> (DC) y <span class="math inline">\pi</span> (Nyquist), con la traducción a Hz para la <span class="math inline">F_s</span> que se escriba. Arrastrando un cero hasta el círculo se ve el cero exacto; acercando un polo, el pico que se levanta y se angosta; sacándolo del eje real, el pico que se muda a su ángulo. Parte con el promedio móvil de dos, <span class="math inline">\tfrac12(1 + z^{-1})</span>, el ejemplo de la clase.</p>
+<p><strong>Cómo usarla</strong>: <a href="demos/distancias-polos-ceros/index.html">ábrela en el navegador</a> — sin instalar nada ni internet. Arrastra el punto, los ceros y los polos; clic en vacío y «+ cero» / «+ polo» agrega uno (con «conjugados», su pareja también); «quitar» saca el seleccionado. Teclas: <strong>←/→</strong> mueven <span class="math inline">\Omega</span>, <strong>A</strong> o espacio barren el dial, <strong>F</strong> muestra la fase, <strong>C</strong>/<strong>P</strong> agregan, <strong>Supr</strong> quita, <strong>R</strong> reinicia.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="C25–C26 · Visualizador Z">

@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La regla: distancias a ceros y polos — IEE2103</title>
+<style>
+  :root{ --ink:#16202e; --dim:#65758b; --line:#d9e0ea; --bg:#ffffff;
+         --cero:#2d70b3; --polo:#c74440; --circ:#8a97a8; --pto:#6042a6; --acc:#6042a6; --ok:#2f7d3c; }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
+  body{background:var(--bg);color:var(--ink);
+       font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  #app{height:100%;min-width:0;display:flex;flex-direction:column;padding:10px 14px;gap:8px;overflow:hidden}
+
+  header{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+  .brand{font-weight:700;font-size:16px;white-space:nowrap;flex:0 0 auto}
+  .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+  .ctrls{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0;max-width:100%}
+  button{font:inherit;color:var(--ink);background:#f2f5f9;border:1px solid var(--line);
+         border-radius:8px;padding:6px 10px;cursor:pointer;white-space:nowrap;font-size:14px}
+  button:hover{background:#e7edf5}
+  button.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  button.cero{color:var(--cero)} button.polo{color:var(--polo)}
+  .grupo{display:flex;gap:4px;align-items:center}
+  .grupo .k{color:var(--dim);font-size:12px;margin-right:2px}
+  label.sl{display:flex;align-items:center;gap:6px;color:var(--dim);font-size:13px}
+  input[type=number]{font:inherit;width:70px;padding:4px 6px;border:1px solid var(--line);border-radius:6px}
+  input[type=checkbox]{accent-color:var(--acc)}
+
+  .lect{display:flex;gap:18px;flex-wrap:wrap;align-items:baseline;padding:0 2px;font-variant-numeric:tabular-nums}
+  .cel{display:flex;align-items:baseline;gap:7px}
+  .cel .k{color:var(--dim);font-size:12px;letter-spacing:.02em}
+  .cel .v{font-size:21px;font-weight:700;line-height:1}
+  .cel.c .v{color:var(--cero)} .cel.p .v{color:var(--polo)} .cel.h .v{color:var(--ink);font-size:24px}
+  .formula{color:var(--dim);font-size:13px;margin-left:auto;white-space:nowrap}
+  .formula b{color:var(--ink)}
+  .hint{color:var(--dim);font-size:13px;text-align:center;min-height:19px}
+
+  .wrap{position:relative;flex:1;min-width:0;min-height:0;display:flex;flex-direction:row;gap:8px}
+  figure{margin:0;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;min-width:0;min-height:0}
+  #figZ{flex:0 0 auto;aspect-ratio:1/1}
+  #figH{flex:1 1 0}
+  figcaption{position:absolute;top:5px;left:9px;z-index:2;color:var(--dim);font-size:12px;line-height:1.35;
+             background:rgba(255,255,255,.9);padding:2px 7px;border-radius:5px;pointer-events:none;max-width:95%}
+  figcaption b{color:var(--ink)}
+  canvas{display:block;width:100%;height:100%;min-width:0;min-height:0}
+  #cz{cursor:crosshair;touch-action:none}
+  #ch{cursor:ew-resize;touch-action:none}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="brand">La regla <span>IEE2103 · distancias a ceros y polos</span></div>
+    <div class="ctrls">
+      <div class="grupo" id="presets">
+        <span class="k">ejemplo</span>
+        <button data-p="pm2">½(1 + z⁻¹)</button>
+        <button data-p="cero">un cero</button>
+        <button data-p="polo">un polo</button>
+        <button data-p="par">par de polos</button>
+      </div>
+      <div class="grupo" id="presetsR2" hidden>
+        <span class="k">ronda 2</span>
+        <button data-p="V1">V1</button>
+        <button data-p="V2">V2</button>
+        <button data-p="V3">V3</button>
+        <button data-p="V4">V4</button>
+      </div>
+      <div class="grupo">
+        <button id="btnAddC" class="cero" title="agrega un cero en el último punto donde hiciste clic (tecla C)">+ cero ○</button>
+        <button id="btnAddP" class="polo" title="agrega un polo en el último punto donde hiciste clic (tecla P)">+ polo ×</button>
+        <button id="btnDel" title="quita el cero o polo seleccionado (Supr)">quitar</button>
+      </div>
+      <label class="sl" title="al mover un cero o polo complejo, su conjugado lo acompaña (coeficientes reales)"><input type="checkbox" id="chkConj" checked> conjugados</label>
+      <label class="sl">K <input type="number" id="inK" step="0.1" value="1"></label>
+      <label class="sl">F<sub>s</sub> <input type="number" id="inFs" step="100" value="8000"> Hz</label>
+      <button id="btnAnim" title="barre Ω de 0 a π (tecla A o espacio)">▶ barrer</button>
+      <button id="btnFase" title="muestra también la fase (tecla F)">fase</button>
+      <button id="btnReset" title="vuelve al ejemplo inicial (tecla R)">↺</button>
+    </div>
+  </header>
+
+  <div class="lect">
+    <div class="cel"><span class="k">Ω</span><span class="v" id="vOm">0</span></div>
+    <div class="cel"><span class="k">f</span><span class="v" id="vF">0 Hz</span></div>
+    <div class="cel c"><span class="k">Π dist. a ceros</span><span class="v" id="vDc">—</span></div>
+    <div class="cel p"><span class="k">Π dist. a polos</span><span class="v" id="vDp">—</span></div>
+    <div class="cel h"><span class="k">|H|</span><span class="v" id="vH">—</span></div>
+    <div class="formula" id="vForm"></div>
+  </div>
+
+  <div class="wrap">
+    <figure id="figZ">
+      <figcaption><b>Plano z</b></figcaption>
+      <canvas id="cz"></canvas>
+    </figure>
+    <figure id="figH">
+      <figcaption><b>|H(e<sup>jΩ</sup>)|</b> · la razón de distancias, para cada Ω de 0 a π · clic o arrastre fija Ω</figcaption>
+      <canvas id="ch"></canvas>
+    </figure>
+  </div>
+
+  <div class="hint" id="hint">|H| = |K| · (producto de distancias a los ceros) / (producto de distancias a los polos). Arrastra el punto ● por el círculo, o los ○ y ×; clic en vacío marca dónde agregar uno.</div>
+</div>
+
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const cz = $('cz'), ch = $('ch');
+const gz = cz.getContext('2d'), gh = ch.getContext('2d');
+const COL = { cero:'#2d70b3', polo:'#c74440', circ:'#8a97a8', pto:'#6042a6', ink:'#16202e', dim:'#65758b', line:'#d9e0ea', ok:'#2f7d3c' };
+
+// ---------- estado ----------
+// ceros y polos: {re, im}. Un cero/polo complejo tiene su conjugado como otro elemento;
+// con «conjugados» activo, al arrastrar uno se mueve el que tenga im opuesto.
+const PRESETS = {
+  pm2:  { nombre:'y[n] = ½(x[n] + x[n−1])', H:'H(z) = ½ (z + 1) / z', K:0.5, ceros:[[-1,0]], polos:[[0,0]] },
+  cero: { nombre:'un cero en 0,8', H:'H(z) = (z − 0,8) / z', K:1, ceros:[[0.8,0]], polos:[[0,0]] },
+  polo: { nombre:'un polo en 0,8', H:'H(z) = z / (z − 0,8)', K:1, ceros:[[0,0]], polos:[[0.8,0]] },
+  par:  { nombre:'par de polos en 0,9 e^{±jπ/3}', H:'H(z) = z² / (z² − 0,9z + 0,81)', K:1, ceros:[[0,0],[0,0]], polos:[[0.45,0.7794],[0.45,-0.7794]] },
+  V1:   { nombre:'V1 · y[n] = 0,5 y[n−1] + x[n]', H:'H(z) = z / (z − 0,5)', K:1, ceros:[[0,0]], polos:[[0.5,0]] },
+  V2:   { nombre:'V2 · y[n] = 0,9 y[n−1] + x[n]', H:'H(z) = z / (z − 0,9)', K:1, ceros:[[0,0]], polos:[[0.9,0]] },
+  V3:   { nombre:'V3 · y[n] = −0,81 y[n−2] + x[n]', H:'H(z) = z² / (z² + 0,81)', K:1, ceros:[[0,0],[0,0]], polos:[[0,0.9],[0,-0.9]] },
+  V4:   { nombre:'V4 · y[n] = x[n] + x[n−2] − 0,81 y[n−2]', H:'H(z) = (z² + 1) / (z² + 0,81)', K:1, ceros:[[0,1],[0,-1]], polos:[[0,0.9],[0,-0.9]] },
+  notch:{ nombre:'notch de la clase · r = 0,95, |H(1)| = 1', H:'H(z) = 0,95125 (z² + 1) / (z² + 0,9025)', K:0.95125, ceros:[[0,1],[0,-1]], polos:[[0,0.95],[0,-0.95]] },
+};
+const S = { ceros:[], polos:[], K:1, Fs:8000, om:Math.PI/2, conj:true, fase:false, anim:false,
+            sel:null /* {tipo, i} */, ultimoClic:null, nombre:'', Hz:'', presetKey:'pm2' };
+
+const url = new URLSearchParams(location.search);
+if (url.has('ronda2')) $('presetsR2').hidden = false;
+// modo compacto (iframe bajo): sin marca ni línea de ayuda, menos relleno
+if (url.has('compacto')){ document.querySelector('.brand').style.display = 'none'; $('hint').style.display = 'none'; $('app').style.padding = '6px 10px'; $('app').style.gap = '5px'; }
+
+function cargar(key){
+  const p = PRESETS[key]; if (!p) return;
+  S.presetKey = key;
+  S.ceros = p.ceros.map(([re,im]) => ({re,im}));
+  S.polos = p.polos.map(([re,im]) => ({re,im}));
+  S.K = p.K; $('inK').value = p.K;
+  S.nombre = p.nombre; S.Hz = p.H; S.sel = null;
+  document.querySelectorAll('#presets button,#presetsR2 button').forEach(b => b.classList.toggle('on', b.dataset.p === key));
+  dibujar();
+}
+
+// ---------- matemática ----------
+const dist = (a, b) => Math.hypot(a.re - b.re, a.im - b.im);
+function evalH(om){
+  const e = { re:Math.cos(om), im:Math.sin(om) };
+  let dc = 1, dp = 1, ang = 0;
+  for (const c of S.ceros){ dc *= dist(e,c); ang += Math.atan2(e.im-c.im, e.re-c.re); }
+  for (const p of S.polos){ dp *= dist(e,p); ang -= Math.atan2(e.im-p.im, e.re-p.re); }
+  const mag = dp > 1e-12 ? Math.abs(S.K) * dc / dp : Infinity;
+  if (S.K < 0) ang += Math.PI;
+  ang = Math.atan2(Math.sin(ang), Math.cos(ang));
+  return { dc, dp, mag, ang, e };
+}
+const fmt = (x, d=3) => !isFinite(x) ? '∞' : x.toLocaleString('es-CL', { minimumFractionDigits:d, maximumFractionDigits:d });
+function fmtOm(om){
+  const k = om / Math.PI;
+  const frs = [[0,'0'],[1/6,'π/6'],[1/4,'π/4'],[1/3,'π/3'],[1/2,'π/2'],[2/3,'2π/3'],[3/4,'3π/4'],[5/6,'5π/6'],[1,'π']];
+  for (const [v, t] of frs) if (Math.abs(k - v) < 0.004) return t;
+  return fmt(k, 2) + 'π';
+}
+
+// ---------- tamaño ----------
+function ajustar(){
+  const wrap = document.querySelector('.wrap');
+  const h = wrap.clientHeight;
+  $('figZ').style.width = h + 'px';
+  for (const c of [cz, ch]){
+    const r = c.parentElement.getBoundingClientRect();
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    c.width = Math.max(1, Math.round(r.width * dpr)); c.height = Math.max(1, Math.round(r.height * dpr));
+    c.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+    c._w = r.width; c._h = r.height;
+  }
+}
+
+// ---------- plano z ----------
+function geoZ(){
+  const w = cz._w, h = cz._h, cx = w/2, cy = h/2 + 6;
+  const R = Math.min(w, h) / 2 * 0.70; // radio del círculo unitario en px (deja espacio hasta |z| ≈ 1,4)
+  return { w, h, cx, cy, R, toPx: z => ({ x: cx + z.re*R, y: cy - z.im*R }), toZ: (x, y) => ({ re:(x-cx)/R, im:(cy-y)/R }) };
+}
+function dibujarZ(r){
+  const G = geoZ(), g = gz;
+  g.clearRect(0, 0, G.w, G.h);
+  // ejes y rejilla
+  g.strokeStyle = COL.line; g.lineWidth = 1;
+  for (const k of [-1,-0.5,0.5,1]){ const px = G.toPx({re:k,im:0}), py = G.toPx({re:0,im:k});
+    g.beginPath(); g.moveTo(px.x, 0); g.lineTo(px.x, G.h); g.moveTo(0, py.y); g.lineTo(G.w, py.y); g.stroke(); }
+  g.strokeStyle = '#b9c3d1'; g.beginPath(); g.moveTo(0, G.cy); g.lineTo(G.w, G.cy); g.moveTo(G.cx, 0); g.lineTo(G.cx, G.h); g.stroke();
+  g.fillStyle = COL.dim; g.font = '12px system-ui'; g.textAlign = 'left'; g.textBaseline = 'top';
+  g.fillText('Re', G.w - 20, G.cy - 15); g.fillText('Im', G.cx + 5, 4);
+  // círculo unitario
+  g.strokeStyle = COL.circ; g.lineWidth = 1.6; g.beginPath(); g.arc(G.cx, G.cy, G.R, 0, 2*Math.PI); g.stroke();
+  g.fillStyle = COL.dim; g.font = '11px system-ui'; g.textBaseline = 'top';
+  const p1 = G.toPx({re:1,im:0}), pm1 = G.toPx({re:-1,im:0});
+  g.textAlign = 'right'; g.fillText('DC · Ω = 0', p1.x - 10, p1.y + 6);
+  g.textAlign = 'left'; g.fillText('Nyquist · Ω = π', pm1.x + 10, pm1.y + 6);
+  // arco recorrido 0..Ω
+  g.strokeStyle = COL.pto; g.lineWidth = 3; g.beginPath(); g.arc(G.cx, G.cy, G.R, -S.om, 0); g.stroke();
+  // distancias
+  const pe = G.toPx(r.e);
+  g.setLineDash([]);
+  const seg = (z, col, d, i, tipo) => {
+    const p = G.toPx(z);
+    g.strokeStyle = col; g.lineWidth = 2; g.beginPath(); g.moveTo(pe.x, pe.y); g.lineTo(p.x, p.y); g.stroke();
+    if (d > 0.15){
+      const mx = (pe.x + p.x)/2, my = (pe.y + p.y)/2;
+      const nx = -(p.y - pe.y), ny = (p.x - pe.x); const L = Math.hypot(nx, ny) || 1;
+      const off = (tipo === 'cero' ? 11 : -11);
+      g.fillStyle = col; g.font = 'bold 12px system-ui'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      const t = fmt(d, 2);
+      const tw = g.measureText(t).width + 6;
+      g.save(); g.fillStyle = 'rgba(255,255,255,.85)'; g.fillRect(mx + nx/L*off - tw/2, my + ny/L*off - 8, tw, 16); g.restore();
+      g.fillStyle = col; g.fillText(t, mx + nx/L*off, my + ny/L*off);
+    }
+  };
+  S.ceros.forEach((c, i) => seg(c, COL.cero, dist(r.e, c), i, 'cero'));
+  S.polos.forEach((p, i) => seg(p, COL.polo, dist(r.e, p), i, 'polo'));
+  // ceros y polos (los repetidos se marcan con un número)
+  const cuenta = (lista, i) => lista.filter((q, j) => j <= i && dist(q, lista[i]) < 1e-6).length;
+  S.ceros.forEach((c, i) => {
+    const p = G.toPx(c), selec = S.sel && S.sel.tipo === 'cero' && S.sel.i === i;
+    g.strokeStyle = COL.cero; g.lineWidth = selec ? 3.5 : 2.2; g.fillStyle = '#fff';
+    g.beginPath(); g.arc(p.x, p.y, 7, 0, 2*Math.PI); g.fill(); g.stroke();
+    const n = cuenta(S.ceros, i); if (n > 1){ g.fillStyle = COL.cero; g.font = 'bold 11px system-ui'; g.textAlign = 'left'; g.textBaseline = 'bottom'; g.fillText('' + n, p.x + 8, p.y - 6); }
+  });
+  S.polos.forEach((q, i) => {
+    const p = G.toPx(q), selec = S.sel && S.sel.tipo === 'polo' && S.sel.i === i;
+    g.strokeStyle = COL.polo; g.lineWidth = selec ? 3.5 : 2.4;
+    g.beginPath(); g.moveTo(p.x-7, p.y-7); g.lineTo(p.x+7, p.y+7); g.moveTo(p.x+7, p.y-7); g.lineTo(p.x-7, p.y+7); g.stroke();
+    const n = cuenta(S.polos, i); if (n > 1){ g.fillStyle = COL.polo; g.font = 'bold 11px system-ui'; g.textAlign = 'left'; g.textBaseline = 'top'; g.fillText('' + n, p.x + 8, p.y + 4); }
+  });
+  // punto en el círculo
+  g.fillStyle = COL.pto; g.beginPath(); g.arc(pe.x, pe.y, 7, 0, 2*Math.PI); g.fill();
+  g.fillStyle = COL.pto; g.font = 'bold 12px system-ui'; g.textBaseline = 'middle';
+  const afuera = { x: G.cx + (pe.x - G.cx) * 1.16, y: G.cy + (pe.y - G.cy) * 1.16 };
+  g.textAlign = afuera.x < G.cx ? 'right' : 'left'; g.fillText('e^(jΩ)', afuera.x, Math.max(afuera.y, 26));
+  // último clic (donde se agregaría un cero/polo)
+  if (S.ultimoClic){
+    const p = G.toPx(S.ultimoClic);
+    g.strokeStyle = COL.dim; g.setLineDash([3,3]); g.lineWidth = 1; g.beginPath(); g.arc(p.x, p.y, 6, 0, 2*Math.PI); g.stroke(); g.setLineDash([]);
+  }
+  // nombre del sistema
+  g.fillStyle = COL.ink; g.font = '13px system-ui'; g.textAlign = 'left'; g.textBaseline = 'bottom';
+  g.fillText(S.nombre, 8, G.h - 22); g.fillStyle = COL.dim; g.fillText(S.Hz, 8, G.h - 6);
+}
+
+// ---------- |H| ----------
+const N = 400;
+function dibujarH(r){
+  const w = ch._w, h = ch._h, g = gh;
+  g.clearRect(0, 0, w, h);
+  const mL = 46, mR = 14, mT = 26, mB = 46;
+  const pw = w - mL - mR, ph = h - mT - mB;
+  const curva = []; let ymax = 0;
+  for (let i = 0; i <= N; i++){ const om = Math.PI * i / N; const v = evalH(om); curva.push([om, v.mag, v.ang]); if (isFinite(v.mag)) ymax = Math.max(ymax, v.mag); }
+  const finitos = curva.filter(c => isFinite(c[1])).map(c => c[1]).sort((a,b) => a-b);
+  let top = finitos.length ? finitos[Math.floor(finitos.length * 0.98)] * 1.15 : 1; // recorta picos de polos muy cerca del círculo
+  top = Math.max(top, 1.05, isFinite(r.mag) ? r.mag * 1.1 : 1.05);
+  if (ymax < top * 1.5) top = Math.max(top, ymax * 1.08);
+  const X = om => mL + pw * om / Math.PI, Y = v => mT + ph * (1 - Math.min(v, top*1.3) / top);
+  const faseY = a => mT + ph * (1 - (a + Math.PI) / (2*Math.PI));
+  // rejilla
+  g.strokeStyle = COL.line; g.lineWidth = 1; g.fillStyle = COL.dim; g.font = '11px system-ui'; g.textAlign = 'center'; g.textBaseline = 'top';
+  for (const [k, t] of [[0,'0'],[0.25,'π/4'],[0.5,'π/2'],[0.75,'3π/4'],[1,'π']]){
+    const x = X(k*Math.PI); g.beginPath(); g.moveTo(x, mT); g.lineTo(x, mT+ph); g.stroke(); g.fillText(t, x, mT + ph + 5);
+    g.fillText(fmt(k*S.Fs/2, 0) + ' Hz', x, mT + ph + 19);
+  }
+  g.textAlign = 'right'; g.textBaseline = 'middle';
+  const paso = top > 6 ? Math.ceil(top/6) : top > 2.5 ? 1 : top > 1.2 ? 0.5 : 0.25;
+  for (let v = 0; v <= top + 1e-9; v += paso){ const y = Y(v); g.beginPath(); g.moveTo(mL, y); g.lineTo(mL+pw, y); g.stroke(); g.fillText(fmt(v, paso < 1 ? 2 : 0), mL - 6, y); }
+  // |H| = 1
+  g.strokeStyle = '#b9c3d1'; g.setLineDash([4,4]); g.beginPath(); g.moveTo(mL, Y(1)); g.lineTo(mL+pw, Y(1)); g.stroke(); g.setLineDash([]);
+  // fase
+  if (S.fase){
+    g.strokeStyle = '#c9a227'; g.lineWidth = 1.5; g.beginPath(); let prev = null;
+    for (const [om, , a] of curva){ const x = X(om), y = faseY(a); if (prev !== null && Math.abs(a - prev) > Math.PI) g.moveTo(x, y); else if (prev === null) g.moveTo(x, y); else g.lineTo(x, y); prev = a; }
+    g.stroke();
+    g.fillStyle = '#c9a227'; g.font = '11px system-ui'; g.textAlign = 'left'; g.textBaseline = 'top';
+    g.fillText('∠H (−π a π, eje propio) = Σ ángulos a ceros − Σ ángulos a polos', mL + 4, mT + 2);
+  }
+  // curva
+  g.strokeStyle = COL.ink; g.lineWidth = 2.4; g.beginPath();
+  curva.forEach(([om, v], i) => { const x = X(om), y = Y(isFinite(v) ? v : top*1.3); if (i === 0) g.moveTo(x, y); else g.lineTo(x, y); });
+  g.stroke();
+  // marcador
+  const x = X(S.om);
+  g.strokeStyle = COL.pto; g.lineWidth = 1.5; g.beginPath(); g.moveTo(x, mT); g.lineTo(x, mT+ph); g.stroke();
+  if (isFinite(r.mag)){ g.fillStyle = COL.pto; g.beginPath(); g.arc(x, Y(r.mag), 6, 0, 2*Math.PI); g.fill();
+    g.font = 'bold 13px system-ui'; g.textAlign = x > mL + pw*0.75 ? 'right' : 'left'; g.textBaseline = 'bottom';
+    g.fillText('|H| = ' + fmt(r.mag, 3), x + (x > mL + pw*0.75 ? -10 : 10), Y(r.mag) - 6); }
+  // ejes
+  g.strokeStyle = '#8a97a8'; g.lineWidth = 1; g.beginPath(); g.moveTo(mL, mT); g.lineTo(mL, mT+ph); g.lineTo(mL+pw, mT+ph); g.stroke();
+  g.fillStyle = COL.dim; g.font = '11px system-ui'; g.textAlign = 'right'; g.textBaseline = 'bottom'; g.fillText('Ω en rad/muestra · f en Hz con Fs = ' + fmt(S.Fs,0) + ' Hz', mL + pw, h - 2);
+}
+
+// ---------- lecturas ----------
+function lecturas(r){
+  $('vOm').textContent = fmtOm(S.om);
+  $('vF').textContent = fmt(S.om / (2*Math.PI) * S.Fs, 0) + ' Hz';
+  $('vDc').textContent = S.ceros.length ? fmt(r.dc) : '1';
+  $('vDp').textContent = S.polos.length ? fmt(r.dp) : '1';
+  $('vH').textContent = fmt(r.mag);
+  $('vForm').innerHTML = `|H| = |${fmt(S.K, 2)}| · <b style="color:${COL.cero}">${fmt(r.dc,3)}</b> / <b style="color:${COL.polo}">${fmt(r.dp,3)}</b> = <b>${fmt(r.mag,3)}</b>` + (S.fase ? ` · ∠H = ${fmt(r.ang/Math.PI,2)}π` : '');
+}
+
+function dibujar(){
+  const r = evalH(S.om);
+  dibujarZ(r); dibujarH(r); lecturas(r);
+}
+
+// ---------- interacción en el plano z ----------
+let arrastre = null; // {tipo:'punto'|'cero'|'polo', i}
+function posZ(ev){ const b = cz.getBoundingClientRect(); return { x: ev.clientX - b.left, y: ev.clientY - b.top }; }
+function masCercano(x, y){
+  const G = geoZ(); let mejor = null, dmin = 14;
+  const prueba = (z, tipo, i) => { const p = G.toPx(z); const d = Math.hypot(p.x-x, p.y-y); if (d < dmin){ dmin = d; mejor = {tipo, i}; } };
+  S.ceros.forEach((c, i) => prueba(c, 'cero', i));
+  S.polos.forEach((p, i) => prueba(p, 'polo', i));
+  prueba({re:Math.cos(S.om), im:Math.sin(S.om)}, 'punto', 0);
+  return mejor;
+}
+cz.addEventListener('pointerdown', ev => {
+  const {x, y} = posZ(ev); const G = geoZ();
+  const m = masCercano(x, y);
+  if (m){ arrastre = m; S.sel = m.tipo === 'punto' ? null : m; cz.setPointerCapture(ev.pointerId); }
+  else {
+    const z = G.toZ(x, y);
+    // clic en el círculo (cerca del borde, lejos de un ítem): mover Ω; en vacío: marcar el lugar
+    if (Math.abs(Math.hypot(z.re, z.im) - 1) < 0.08){ S.om = Math.abs(Math.atan2(z.im, z.re)); arrastre = {tipo:'punto'}; cz.setPointerCapture(ev.pointerId); }
+    else { S.ultimoClic = z; S.sel = null; $('hint').textContent = 'Lugar marcado: «+ cero» o «+ polo» lo coloca ahí (teclas C / P). Con «conjugados», fuera del eje real se agrega también el conjugado.'; }
+  }
+  dibujar();
+});
+cz.addEventListener('pointermove', ev => {
+  if (!arrastre) return;
+  const {x, y} = posZ(ev); const G = geoZ(); const z = G.toZ(x, y);
+  if (arrastre.tipo === 'punto'){ S.om = Math.abs(Math.atan2(z.im, z.re)); }
+  else {
+    const lista = arrastre.tipo === 'cero' ? S.ceros : S.polos;
+    const it = lista[arrastre.i];
+    // imán al eje real y al círculo
+    let re = z.re, im = z.im;
+    if (Math.abs(im) < 0.04) im = 0;
+    const rr = Math.hypot(re, im); if (Math.abs(rr - 1) < 0.04 && rr > 0){ re /= rr; im /= rr; }
+    if (Math.hypot(re, im) < 0.05){ re = 0; im = 0; }
+    if (S.conj){
+      // su pareja: el otro elemento con im opuesto (y mismo re), si existe
+      const j = lista.findIndex((q, k) => k !== arrastre.i && Math.abs(q.re - it.re) < 1e-6 && Math.abs(q.im + it.im) < 1e-6 && Math.abs(it.im) > 1e-6);
+      if (j >= 0){ lista[j].re = re; lista[j].im = -im; }
+      else if (im !== 0 && it.im === 0){ /* salió del eje real sin pareja: crearla */ lista.push({re, im:-im}); }
+    }
+    it.re = re; it.im = im;
+  }
+  dibujar();
+});
+const soltar = () => { arrastre = null; };
+cz.addEventListener('pointerup', soltar); cz.addEventListener('pointercancel', soltar);
+
+// ---------- interacción en |H| ----------
+let arrastreH = false;
+function omDe(ev){ const b = ch.getBoundingClientRect(); const x = ev.clientX - b.left; const mL = 46, pw = ch._w - 46 - 14; return Math.min(Math.PI, Math.max(0, (x - mL) / pw * Math.PI)); }
+ch.addEventListener('pointerdown', ev => { arrastreH = true; ch.setPointerCapture(ev.pointerId); S.om = omDe(ev); dibujar(); });
+ch.addEventListener('pointermove', ev => { if (arrastreH){ S.om = omDe(ev); dibujar(); } });
+ch.addEventListener('pointerup', () => arrastreH = false); ch.addEventListener('pointercancel', () => arrastreH = false);
+
+// ---------- botones ----------
+document.querySelectorAll('#presets button,#presetsR2 button').forEach(b => b.addEventListener('click', () => { S.ultimoClic = null; cargar(b.dataset.p); }));
+function agregar(tipo){
+  const z = S.ultimoClic || { re:0, im:0 };
+  const lista = tipo === 'cero' ? S.ceros : S.polos;
+  lista.push({ re:z.re, im:z.im });
+  if (S.conj && Math.abs(z.im) > 1e-6) lista.push({ re:z.re, im:-z.im });
+  S.sel = { tipo, i: lista.length - 1 }; S.ultimoClic = null;
+  S.nombre = 'sistema editado'; S.Hz = ''; document.querySelectorAll('#presets button,#presetsR2 button').forEach(b => b.classList.remove('on'));
+  $('hint').textContent = tipo === 'cero' ? 'Cerca de un cero, |H| baja; sobre el círculo, cero exacto.' : 'Cerca de un polo, |H| sube; cuanto más pegado al círculo, más alto y angosto el pico.';
+  dibujar();
+}
+$('btnAddC').addEventListener('click', () => agregar('cero'));
+$('btnAddP').addEventListener('click', () => agregar('polo'));
+function quitar(){
+  if (!S.sel) { $('hint').textContent = 'Primero selecciona un cero o polo con un clic.'; return; }
+  const lista = S.sel.tipo === 'cero' ? S.ceros : S.polos; const it = lista[S.sel.i];
+  const pareja = S.conj && Math.abs(it.im) > 1e-6 ? lista.findIndex((q, k) => k !== S.sel.i && Math.abs(q.re-it.re) < 1e-6 && Math.abs(q.im+it.im) < 1e-6) : -1;
+  const idx = [S.sel.i, pareja].filter(k => k >= 0).sort((a,b) => b-a);
+  for (const k of idx) lista.splice(k, 1);
+  S.sel = null; S.nombre = 'sistema editado'; S.Hz = '';
+  document.querySelectorAll('#presets button,#presetsR2 button').forEach(b => b.classList.remove('on'));
+  dibujar();
+}
+$('btnDel').addEventListener('click', quitar);
+$('chkConj').addEventListener('change', e => { S.conj = e.target.checked; });
+$('inK').addEventListener('input', e => { const v = parseFloat(e.target.value); if (isFinite(v)) { S.K = v; dibujar(); } });
+$('inFs').addEventListener('input', e => { const v = parseFloat(e.target.value); if (isFinite(v) && v > 0) { S.Fs = v; dibujar(); } });
+$('btnFase').addEventListener('click', () => { S.fase = !S.fase; $('btnFase').classList.toggle('on', S.fase); dibujar(); });
+$('btnReset').addEventListener('click', () => { S.om = Math.PI/2; S.fase = false; $('btnFase').classList.remove('on'); S.ultimoClic = null; cargar('pm2'); });
+
+// barrido animado (solo aquí se usa requestAnimationFrame; el primer cuadro se dibuja sin él)
+let t0 = null;
+function paso(ts){
+  if (!S.anim) return;
+  if (t0 === null) t0 = ts - S.om / Math.PI * 6000;
+  S.om = Math.min(Math.PI, ((ts - t0) / 6000) * Math.PI);
+  dibujar();
+  if (S.om >= Math.PI){ S.anim = false; $('btnAnim').textContent = '▶ barrer'; $('btnAnim').classList.remove('on'); t0 = null; return; }
+  requestAnimationFrame(paso);
+}
+function animar(){
+  S.anim = !S.anim; $('btnAnim').classList.toggle('on', S.anim); $('btnAnim').textContent = S.anim ? '❚❚ pausa' : '▶ barrer';
+  if (S.anim){ if (S.om >= Math.PI - 1e-6) S.om = 0; t0 = null; requestAnimationFrame(paso); }
+}
+$('btnAnim').addEventListener('click', animar);
+
+// ---------- teclado ----------
+document.addEventListener('keydown', e => {
+  if (e.target && (e.target.tagName === 'INPUT')) return;
+  const k = e.key;
+  if (k === 'ArrowLeft'){ S.om = Math.max(0, S.om - Math.PI/90); dibujar(); e.preventDefault(); }
+  else if (k === 'ArrowRight'){ S.om = Math.min(Math.PI, S.om + Math.PI/90); dibujar(); e.preventDefault(); }
+  else if (k === ' ' || k === 'a' || k === 'A'){ animar(); e.preventDefault(); }
+  else if (k === 'f' || k === 'F'){ $('btnFase').click(); }
+  else if (k === 'r' || k === 'R'){ $('btnReset').click(); }
+  else if (k === 'c' || k === 'C'){ agregar('cero'); }
+  else if (k === 'p' || k === 'P'){ agregar('polo'); }
+  else if (k === 'Delete' || k === 'Backspace'){ quitar(); e.preventDefault(); }
+});
+
+// ---------- arranque ----------
+window.addEventListener('resize', () => { ajustar(); dibujar(); });
+ajustar();
+cargar(url.get('preset') && PRESETS[url.get('preset')] ? url.get('preset') : 'pm2');
+if (url.has('om')){ const v = parseFloat(url.get('om')); if (isFinite(v)) { S.om = Math.min(Math.PI, Math.max(0, v)); dibujar(); } }
+// exposición mínima para pruebas automáticas
+window.__regla = { S, evalH, cargar, dibujar };
+})();
+</script>
+</body>
+</html>
